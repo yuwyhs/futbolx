@@ -24,6 +24,10 @@
       "dest": "/stream.json"
     },
     {
+      "src": "/api/stream",
+      "dest": "/stream.json"
+    },
+    {
       "src": "/live/(.*)",
       "dest": "/live.html"
     },
