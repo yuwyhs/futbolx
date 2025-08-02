@@ -1,5 +1,16 @@
 {
-  "name": "futbolx-site",
+  "name": "futbolx",
   "version": "1.0.0",
-  "dependencies": {}
+  "description": "FutbolX - Free PPV and premium sports streaming",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve .",
+    "build": "echo 'No build step required for static site'"
+  },
+  "author": "Futbol-x",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
 }
