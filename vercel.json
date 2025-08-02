@@ -32,19 +32,8 @@
       "dest": "/vip.html"
     },
     {
-      "src": "/(request|vods|auth/login|changelog|contact)",
-      "status": 404,
-      "dest": "/404.html"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/stream.json"
-    },
-    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "cleanUrls": true,
-  "trailingSlash": false
+  ]
 }
