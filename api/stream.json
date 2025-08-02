@@ -15,13 +15,13 @@
           "uri_name": "usyk-vs-dubois",
           "poster": "https://image.discovery.indazn.com/ca/v3/ca/none/1sbp942agrms41pj22yh9kivxj_image-header_pUs_1750423881000/fill/none/top/none/100/1920/1080/webp/image",
           "tag": "Boxing",
-          "starts_at": "2025-07-19T17:00:00",
-          "ends_at": "2025-07-20T02:30:00",
+          "starts_at": "2025-08-03T00:00:00",
+          "ends_at": "2025-08-20T02:30:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://subrugopuciblchlvl6uqa666p23rig.happy-ending.site/hN9eS4rZ1wM7fC3vJ0aX8pG2yQ5bUi.m3u8"
+              "url": "https://subrugopuciblchlvl6uqa666p23rig.happy-ending.site/omni-vaquint/0b94200d80b4f9c6469a901f39ef6e8b.m3u8?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHJlYW1JZCI6IjBiOTQyMDBkODBiNGY5YzY0NjlhOTAxZjM5ZWY2ZThiIiwidHlwZSI6InBsYXlsaXN0X2FjY2VzcyIsImV4cCI6MTc1NDE4MDY0M30.P3VjUnVrbFN0OWdV"
             },
             {
               "title": "Alternate Feed",
