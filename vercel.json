@@ -12,6 +12,10 @@
     {
       "src": "*.json",
       "use": "@vercel/static"
+    },
+    {
+      "src": "api/*.json",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -20,12 +24,12 @@
       "dest": "/assets/$1"
     },
     {
-      "src": "/stream.json",
-      "dest": "/stream.json"
+      "src": "/api/stream.json",
+      "dest": "/api/stream.json"
     },
     {
       "src": "/api/stream",
-      "dest": "/stream.json"
+      "dest": "/api/stream.json"
     },
     {
       "src": "/live/(.*)",
