@@ -4,7 +4,27 @@
     {
       "category": "Football",
       "always_live": 0,
-      "streams": []
+      "streams": [
+        {
+          "name": "Manchester United vs Everton",
+          "uri_name": "manchester-united-vs-everton",
+          "poster": "https://i.postimg.cc/5tcQ6NTk/images-2.jpg",
+          "tag": "Friendly",
+          "starts_at": "2025-08-04T00:00:00",
+          "ends_at": "2025-08-04T01:59:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://example.com/stream/man-utd-vs-everton/main.m3u8"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://example.com/stream/man-utd-vs-everton/alt.php"
+            }
+          ]
+        }
+      ]
     },
     {
       "category": "Fights",
