@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
+  <!-- Removed Video.js CSS -->
+  <!-- JW Player CSS (optional, depending on your setup) -->
   <style>
     .tip-container {
       max-width: 600px;
@@ -76,26 +78,6 @@
       width: 100%;
       height: 100%;
     }
-    .retry-notification {
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      max-width: 300px;
-      padding: 8px 16px;
-      font-size: 0.9rem;
-      text-align: center;
-      border-radius: 20px;
-    }
-    [data-bs-theme="dark"] .retry-notification {
-      background: #ff4d4d;
-      color: #fff;
-    }
-    [data-bs-theme="light"] .retry-notification {
-      background: #e63939;
-      color: #333;
-    }
   </style>
 </head>
 <body>
@@ -146,10 +128,9 @@
             <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
           </div>
           <h2 id="eventTitle" class="mb-3"></h2>
-          <div class="video-container" style="position: relative;">
-            <div id="retryNotification" class="alert alert-danger retry-notification d-none"></div>
+          <div class="video-container">
             <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
-            <div id="videoPlayerContainer" style="width: 100%; height: 100%;"></div>
+            <div id="videoPlayerContainer" style="width: 100%; height: 100%;"></div> <!-- Dynamically managed JW Player container -->
           </div>
           <div id="streamLinks" class="stream-links mt-3"></div>
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
@@ -168,6 +149,8 @@
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <!-- Removed Video.js and videojs-contrib-hls scripts -->
+  <!-- Add JW Player script with provided key -->
   <script src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
   <script src="/assets/js/api.js"></script>
   <script async src="/assets/js/auth.js"></script>
@@ -177,10 +160,6 @@
     let embedPlayer = null;
     let videoPlayerInstance = null;
     let streamData = null;
-    let currentStreamIndex = 0;
-    let streamTimeout = null;
-    let retryTimeout = null;
-    let isStreamPlaying = false;
 
     const originalOpen = window.open;
     window.open = function(url) {
@@ -196,143 +175,6 @@
           errorContainer.className = 'alert alert-danger error-alert mt-3 d-none';
           errorContainer.innerHTML = '';
         }, 500);
-      }
-    }
-
-    function showRetryNotification(seconds) {
-      const retryNotification = document.getElementById('retryNotification');
-      let countdown = seconds;
-      retryNotification.className = 'alert alert-danger retry-notification';
-      retryNotification.innerText = `Retrying in ${countdown} seconds`;
-      retryNotification.classList.remove('d-none');
-
-      clearInterval(retryTimeout);
-      retryTimeout = setInterval(() => {
-        countdown--;
-        retryNotification.innerText = `Retrying in ${countdown} seconds`;
-        if (countdown <= 0) {
-          clearInterval(retryTimeout);
-          retryNotification.classList.add('fade-out');
-          setTimeout(() => {
-            retryNotification.classList.add('d-none');
-            retryNotification.innerText = '';
-          }, 500);
-        }
-      }, 1000);
-    }
-
-    function clearRetryNotification() {
-      const retryNotification = document.getElementById('retryNotification');
-      if (!retryNotification.classList.contains('d-none')) {
-        clearInterval(retryTimeout);
-        retryNotification.classList.add('fade-out');
-        setTimeout(() => {
-          retryNotification.classList.add('d-none');
-          retryNotification.innerText = '';
-        }, 500);
-      }
-    }
-
-    function startStreamTimeout(url, streamType, btn, attempt = 1) {
-      clearTimeout(streamTimeout);
-      isStreamPlaying = false;
-
-      streamTimeout = setTimeout(() => {
-        if (!isStreamPlaying) {
-          console.warn(`Stream ${url} failed to play after 30 seconds (attempt ${attempt})`);
-          if (attempt === 1) {
-            showRetryNotification(5);
-            setTimeout(() => {
-              loadStream(url, streamType, btn, attempt + 1);
-            }, 5000);
-          } else {
-            switchToNextStream();
-          }
-        }
-      }, 30000);
-    }
-
-    function switchToNextStream() {
-      const streamButtons = document.querySelectorAll('#streamLinks .btn.btn-stream');
-      currentStreamIndex = (currentStreamIndex + 1) % streamButtons.length;
-      const nextButton = streamButtons[currentStreamIndex];
-      if (nextButton) {
-        nextButton.click();
-        console.log('Auto-switched to next stream:', nextButton.getAttribute('data-stream-encoded'));
-      } else {
-        console.error('No more streams available');
-        const errorContainer = document.getElementById('errorContainer');
-        errorContainer.className = 'alert alert-danger error-alert mt-3';
-        errorContainer.innerText = 'No streams available. Please try again later.';
-      }
-    }
-
-    function loadStream(url, streamType, btn, attempt = 1) {
-      const errorContainer = document.getElementById('errorContainer');
-      clearError();
-      clearRetryNotification();
-
-      try {
-        console.log(`Loading stream: ${url}, Type: ${streamType}, Attempt: ${attempt}`);
-        if (streamType === 'm3u8') {
-          embedPlayer.style.display = 'none';
-          let videoPlayer = document.getElementById('videoPlayer');
-          if (!videoPlayer) {
-            videoPlayer = recreateVideoElement();
-          }
-          videoPlayer.classList.remove('d-none');
-          document.getElementById('videoPlayerContainer').style.display = 'block';
-          if (videoPlayerInstance) {
-            videoPlayerInstance.remove();
-            videoPlayerInstance = null;
-          }
-          videoPlayerInstance = jwplayer('videoPlayer').setup({
-            file: url,
-            autostart: true,
-            width: '100%',
-            aspectratio: '16:9',
-            mute: false,
-            controls: true
-          });
-          videoPlayerInstance.on('play', () => {
-            console.log('JW Player stream playing');
-            isStreamPlaying = true;
-            clearTimeout(streamTimeout);
-            clearRetryNotification();
-          });
-          videoPlayerInstance.on('error', (e) => {
-            console.error('JW Player error:', e.message);
-            isStreamPlaying = false;
-            if (attempt === 1) {
-              showRetryNotification(5);
-              setTimeout(() => {
-                loadStream(url, streamType, btn, attempt + 1);
-              }, 5000);
-            } else {
-              switchToNextStream();
-            }
-          });
-          videoPlayerInstance.on('buffer', () => {
-            console.log('JW Player buffering');
-          });
-        } else {
-          document.getElementById('videoPlayerContainer').style.display = 'none';
-          embedPlayer.style.display = 'block';
-          if (videoPlayerInstance) {
-            videoPlayerInstance.remove();
-            videoPlayerInstance = null;
-            recreateVideoElement();
-          }
-          embedPlayer.contentWindow.location.replace(url);
-        }
-        streamLinks.querySelectorAll('.btn.btn-stream').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        startStreamTimeout(url, streamType, btn, attempt);
-        console.log('Stream switched successfully');
-      } catch (err) {
-        console.error('Stream switch error:', err);
-        errorContainer.className = 'alert alert-danger error-alert mt-3';
-        errorContainer.innerText = 'Failed to switch stream: ' + (err.message || 'Unknown error');
       }
     }
 
@@ -423,7 +265,9 @@
 
     function recreateVideoElement() {
       const videoContainer = document.getElementById('videoPlayerContainer');
+      // Remove existing video element if present
       videoContainer.innerHTML = '';
+      // Create new div for JW Player
       const videoElement = document.createElement('div');
       videoElement.id = 'videoPlayer';
       videoElement.className = 'jwplayer d-none';
@@ -444,7 +288,47 @@
         }
 
         const isM3U8 = streamUrl.toLowerCase().endsWith('.m3u8');
-        currentStreamIndex = 0;
+
+        if (isM3U8) {
+          embedPlayer.style.display = 'none';
+          let videoPlayer = document.getElementById('videoPlayer');
+          if (!videoPlayer) {
+            videoPlayer = recreateVideoElement();
+          }
+          videoPlayer.classList.remove('d-none');
+          videoContainer.style.display = 'block';
+
+          videoPlayerInstance = jwplayer('videoPlayer').setup({
+            file: streamUrl,
+            autostart: true,
+            width: '100%',
+            aspectratio: '16:9',
+            mute: false,
+            controls: true
+          });
+
+          videoPlayerInstance.on('error', (e) => {
+            console.error('JW Player error:', e.message);
+            errorContainer.className = 'alert alert-danger error-alert mt-3';
+            errorContainer.innerText = 'Failed to load M3U8 stream. Please try another stream.';
+          });
+
+          videoPlayerInstance.on('ready', () => {
+            console.log('JW Player ready');
+            clearError();
+          });
+
+        } else {
+          videoContainer.style.display = 'none';
+          embedPlayer.style.display = 'block';
+          if (videoPlayerInstance) {
+            videoPlayerInstance.remove();
+            videoPlayerInstance = null;
+            recreateVideoElement(); // Prepare for next M3U8 stream
+          }
+          embedPlayer.contentWindow.location.replace(streamUrl);
+          console.log('Embed initialized successfully');
+        }
 
         streamLinks.innerHTML = event.streams.map((stream, index) => `
           <button class="btn btn-stream ${index === 0 ? 'active' : ''}" 
@@ -460,7 +344,6 @@
           if (btn) {
             const encodedUrl = btn.getAttribute('data-stream-encoded');
             const streamType = btn.getAttribute('data-stream-type');
-            const streamIndex = parseInt(btn.getAttribute('data-stream-index'), 10);
             if (!encodedUrl) {
               console.error('No encoded stream URL');
               errorContainer.className = 'alert alert-danger error-alert mt-3';
@@ -474,31 +357,71 @@
               errorContainer.innerText = 'Invalid stream URL. Please try another stream.';
               return;
             }
-            currentStreamIndex = streamIndex;
-            loadStream(url, streamType, btn);
+            clearError();
+            try {
+              console.log('Switching to stream:', url, 'Type:', streamType);
+              if (streamType === 'm3u8') {
+                embedPlayer.style.display = 'none';
+                let videoPlayer = document.getElementById('videoPlayer');
+                if (!videoPlayer) {
+                  videoPlayer = recreateVideoElement();
+                }
+                videoPlayer.classList.remove('d-none');
+                document.getElementById('videoPlayerContainer').style.display = 'block';
+                if (videoPlayerInstance) {
+                  videoPlayerInstance.remove();
+                  videoPlayerInstance = null;
+                }
+                videoPlayerInstance = jwplayer('videoPlayer').setup({
+                  file: url,
+                  autostart: true,
+                  width: '100%',
+                  aspectratio: '16:9',
+                  mute: false,
+                  controls: true
+                });
+                videoPlayerInstance.on('error', (e) => {
+                  console.error('JW Player error:', e.message);
+                  errorContainer.className = 'alert alert-danger error-alert mt-3';
+                  errorContainer.innerText = 'Failed to load M3U8 stream. Please try another stream.';
+                });
+                videoPlayerInstance.on('ready', () => {
+                  console.log('JW Player ready');
+                  clearError();
+                });
+              } else {
+                document.getElementById('videoPlayerContainer').style.display = 'none';
+                embedPlayer.style.display = 'block';
+                if (videoPlayerInstance) {
+                  videoPlayerInstance.remove();
+                  videoPlayerInstance = null;
+                  recreateVideoElement();
+                }
+                embedPlayer.contentWindow.location.replace(url);
+              }
+              streamLinks.querySelectorAll('.btn.btn-stream').forEach(b => b.classList.remove('active'));
+              btn.classList.add('active');
+              console.log('Stream switched successfully');
+            } catch (err) {
+              console.error('Stream switch error:', err);
+              errorContainer.className = 'alert alert-danger error-alert mt-3';
+              errorContainer.innerText = 'Failed to switch stream: ' + (err.message || 'Unknown error');
+            }
           }
         });
 
         if (!isM3U8) {
           embedPlayer.addEventListener('error', () => {
             console.error('Embed load error');
-            isStreamPlaying = false;
-            if (!isStreamPlaying) {
-              showRetryNotification(5);
-              setTimeout(() => {
-                loadStream(streamUrl, 'iframe', streamLinks.querySelector('.btn.btn-stream.active'), 2);
-              }, 5000);
-            }
+            errorContainer.className = 'alert alert-danger error-alert mt-3';
+            errorContainer.innerText = 'Failed to load stream. The stream may be invalid or restricted.';
           });
+
           embedPlayer.addEventListener('load', () => {
             console.log('Embed loaded successfully');
-            isStreamPlaying = true;
-            clearTimeout(streamTimeout);
-            clearRetryNotification();
+            clearError();
           });
         }
-
-        loadStream(streamUrl, isM3U8 ? 'm3u8' : 'iframe', streamLinks.querySelector('.btn.btn-stream.active'));
 
         const fullscreenBtn = document.getElementById('fullscreenBtn');
         if (fullscreenBtn) {
@@ -521,22 +444,20 @@
                 errorContainer.className = 'alert alert-danger error-alert mt-3';
                 errorContainer.innerText = 'Fullscreen is not supported in this browser.';
               }
-            } else {
-              if (embedPlayer.requestFullscreen) {
-                embedPlayer.requestFullscreen().catch(err => {
-                  console.error('Fullscreen request failed:', err);
-                  errorContainer.className = 'alert alert-danger error-alert mt-3';
-                  errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
-                });
-              } else if (embedPlayer.webkitRequestFullscreen) {
-                embedPlayer.webkitRequestFullscreen();
-              } else if (embedPlayer.msRequestFullscreen) {
-                embedPlayer.msRequestFullscreen();
-              } else {
-                console.error('Fullscreen API not supported');
+            } else if (embedPlayer.requestFullscreen) {
+              embedPlayer.requestFullscreen().catch(err => {
+                console.error('Fullscreen request failed:', err);
                 errorContainer.className = 'alert alert-danger error-alert mt-3';
-                errorContainer.innerText = 'Fullscreen is not supported in this browser.';
-              }
+                errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
+              });
+            } else if (embedPlayer.webkitRequestFullscreen) {
+              embedPlayer.webkitRequestFullscreen();
+            } else if (embedPlayer.msRequestFullscreen) {
+              embedPlayer.msRequestFullscreen();
+            } else {
+              console.error('Fullscreen API not supported');
+              errorContainer.className = 'alert alert-danger error-alert mt-3';
+              errorContainer.innerText = 'Fullscreen is not supported in this browser.';
             }
           });
         }
