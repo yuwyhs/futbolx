@@ -16,11 +16,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://epltv1.github.io/f1.m3u8"
+              "url": "https://v5.sportsonline.si/channels/hd/hd5.php"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://example.com/stream/man-utd-vs-everton/alt.php"
+              "url": "https://v5.sportsonline.si/channels/pt/eleven1.php"
             }
           ]
         }
