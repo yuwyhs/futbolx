@@ -401,7 +401,6 @@
               }
               streamLinks.querySelectorAll('.btn.btn-stream').forEach(b => b.classList.remove('active'));
               btn.classList.add('active');
-              btn.removeAttribute('data-stream-encoded');
               console.log('Stream switched successfully');
             } catch (err) {
               console.error('Stream switch error:', err);
