@@ -1,13 +1,15 @@
 // /assets/js/notifications.js
 document.addEventListener('DOMContentLoaded', () => {
+  // Create notification container
   const notificationContainer = document.createElement('div');
   notificationContainer.id = 'notificationContainer';
   notificationContainer.className = 'notification-container';
-  const heroSection = document.querySelector('.hero');
-  if (heroSection) {
-    heroSection.insertAdjacentElement('afterend', notificationContainer);
+  const heroSection = document.querySelector('.hero-background');
+  const mainContent = document.querySelector('.container.pt-2');
+  if (heroSection && mainContent) {
+    mainContent.insertBefore(notificationContainer, mainContent.firstChild);
   } else {
-    console.warn('Hero section not found; appending notification container to main-content');
+    console.warn('Hero section or main content not found; appending notification container to main-content');
     document.querySelector('.main-content').prepend(notificationContainer);
   }
 
@@ -38,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fetch notification (message1.txt for simplicity)
   fetch('/notifications/message1.txt')
     .then(response => {
-      if (!response.ok) throw new Error('Failed to fetch notification');
+      if (!response.ok) throw new Error(`Failed to fetch notification: ${response.statusText}`);
       return response.text();
     })
     .then(message => {
