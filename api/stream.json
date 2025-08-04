@@ -6,21 +6,40 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Manchester United vs Everton",
-          "uri_name": "manchester-united-vs-everton",
-          "poster": "https://i.postimg.cc/5tcQ6NTk/images-2.jpg",
+          "name": "Daegu vs Barcelona",
+          "uri_name": "daegu-vs-barcelona",
+          "poster": "https://www.fcbarcelona.com/photo-resources/2025/06/25/25026a9d-9653-43ff-9c7c-96225a6bc410/web-DAEGU.jpg?width=1200&height=525",
           "tag": "Friendly",
-          "starts_at": "2025-08-04T00:00:00",
-          "ends_at": "2025-08-04T01:59:00",
+          "starts_at": "2025-08-04T14:00:00",
+          "ends_at": "2025-08-04T15:59:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd5.php"
+              "url": "https://v5.sportsonline.si/channels/hd/hd6.php"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/pt/eleven1.php"
+              "url": "https://v5.sportsonline.si/channels/hd/hd7.php"
+            }
+          ]
+        },
+        {
+          "name": "Liverpool vs Athletic Club",
+          "uri_name": "liverpool-vs-athletic-club",
+          "poster": "https://backend.liverpoolfc.com/sites/default/files/styles/xl/public/2025-07/athletic-club-live-promo-29072025_7045a92f68fdb8f03100752f41baf382.jpg?itok=SRUTl3_t",
+          "tag": "Friendly",
+          "starts_at": "2025-08-04T19:00:00",
+          "ends_at": "2025-08-04T20:59:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd8.php"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd9.php"
             }
           ]
         }
@@ -29,65 +48,7 @@
     {
       "category": "Fights",
       "always_live": 0,
-      "streams": [
-        {
-          "name": "Usyk vs Dubois",
-          "uri_name": "usyk-vs-dubois",
-          "poster": "https://image.discovery.indazn.com/ca/v3/ca/none/1sbp942agrms41pj22yh9kivxj_image-header_pUs_1750423881000/fill/none/top/none/100/1920/1080/webp/image",
-          "tag": "Boxing",
-          "starts_at": "2025-07-03T00:00:00",
-          "ends_at": "2025-07-20T02:30:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://qxctbofjmd.loreofeldenring.site/dailymotion/live/playlist/1.m3u8"
-            },
-            {
-              "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd2.php"
-            }
-          ]
-        },
-        {
-          "name": "Pacquiao vs Barrios",
-          "uri_name": "pacquiao-vs-barrios",
-          "poster": "https://www.ppv.com/event-management/www.ppv.com/assets/events/1751372097854_2507_Pac_v_Barrios_WEB_1920x720.jpg",
-          "tag": "Boxing",
-          "starts_at": "2025-07-20T03:00:00",
-          "ends_at": "2025-07-20T06:00:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd3.php"
-            },
-            {
-              "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd4.php"
-            }
-          ]
-        },
-        {
-          "name": "UFC 318: Max Holloway vs Dustin Poirier",
-          "uri_name": "ufc-318-max-holloway-vs-dustin-poirier",
-          "poster": "https://mc-2mhdiicnc6.b-cdn.net/thumbnail/plain/https%3A%2F%2Fi.imgur.com%2FynmfaWE.jpeg@jpg",
-          "tag": "MMA",
-          "starts_at": "2025-07-20T01:15:00",
-          "ends_at": "2025-07-20T07:30:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedstreams.top/embed/alpha/ufc-318-main-feed/1"
-            },
-            {
-              "title": "Alternate Feed",
-              "url": "https://embedstreams.top/embed/alpha/ufc-318-alternate-feed/2"
-            }
-          ]
-        }
-      ]
+      "streams": []
     }
   ]
 }
