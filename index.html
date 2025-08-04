@@ -1,95 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FutbolX - Free PPV and More</title>
-  <meta name="description" content="FutbolX - Free PPV boxing, UFC, Basketball, Football, and more available live and on-demand.">
+  <title>FutbolX - Watch Free PPV Boxing, UFC, Basketball, and More</title>
+  <meta name="description" content="FutbolX - Watch PPV boxing, UFC, Basketball, Football, and more for free. Live and on-demand streams in HD.">
   <meta name="keywords" content="futbolx, ppv, free ppv, boxing, ufc, basketball, football, stream, online, free">
-  <meta property="og:title" content="FutbolX - Free PPV and More" />
-  <meta property="og:url" content="https://your-futbolx-site.vercel.app" />
+  <meta property="og:title" content="FutbolX - Watch Free PPV Boxing, UFC, Basketball, and More" />
+  <meta property="og:url" content="https://your-futbolx-site.vercel.app/" />
   <meta property="og:image" content="/assets/img/og-image.jpg">
-  <meta name="twitter:title" content="FutbolX - Free PPV and More">
-  <meta name="twitter:description" content="Free PPV boxing and other content available live and on-demand.">
+  <meta name="twitter:title" content="FutbolX - Watch Free PPV Boxing, UFC, Basketball, and More">
+  <meta name="twitter:description" content="Watch free PPV boxing, UFC, Basketball, Football, and more on FutbolX.">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="/assets/css/main.css?v=25">
-  <style>
-    .error-alert { max-width: 500px; margin: 20px auto; }
-    .card { 
-      opacity: 0; 
-      transform: translateY(50px); 
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
-    }
-    .card.visible { 
-      opacity: 1; 
-      transform: translateY(0); 
-    }
-    .fade-out { 
-      animation: fadeOut 0.5s ease-out forwards; 
-    }
-    @keyframes fadeOut { 
-      from { opacity: 1; } 
-      to { opacity: 0; } 
-    }
-    .watch-button {
-      animation: pulse 1s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.7; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    /* Flexible grid layout for all screen sizes */
-    .event-grid, #livecards.event-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-      padding: 1rem;
-    }
-    .event-grid a {
-      text-decoration: none;
-    }
-    .card {
-      width: 100%;
-      max-width: 400px;
-      margin: 0 auto;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 2px solid transparent;
-    }
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-      border-color: #ff4d4d;
-    }
-    [data-bs-theme="light"] .card:hover {
-      border-color: #e63939;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    }
-    .card-img-top {
-      height: 220px;
-      object-fit: cover;
-    }
-    .card-body {
-      padding: 1rem;
-    }
-    .card-title {
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-    }
-    .event-tag {
-      font-size: 0.95rem;
-    }
-    .watch-button {
-      font-size: 0.95rem;
-      padding: 0.5rem 1.2rem;
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/css/main.css?v=24">
 </head>
 <body>
   <!-- Top Bar -->
@@ -205,6 +132,7 @@
   <script src="/assets/js/api.js"></script>
   <script async src="/assets/js/auth.js"></script>
   <script defer data-domain="your-futbolx-site.vercel.app" src="https://p.vidembed.re/js/script.js"></script>
+  <script src="/assets/js/notifications.js"></script>
   <script>
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
     
@@ -326,7 +254,7 @@
             retryButton.addEventListener('click', () => loadContent(api));
           }
         }
-      }, 15000); // Increased timeout to 15 seconds
+      }, 15000);
 
       const apiUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream` : `${api.baseUrl}/stream`;
       fetchWithRetry(apiUrl)
