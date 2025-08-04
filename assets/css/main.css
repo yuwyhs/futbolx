@@ -659,6 +659,66 @@ footer {
   display: none;
 }
 
+/* Notification Popup Styles */
+.notification-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  z-index: 1000;
+}
+
+.notification-popup {
+  background: linear-gradient(135deg, #333 0%, #222 100%);
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  margin-bottom: 10px;
+  animation: fadeIn 0.5s ease-in;
+  border: 2px solid transparent;
+  font-family: 'Kanit', sans-serif;
+}
+
+[data-bs-theme="light"] .notification-popup {
+  background: linear-gradient(135deg, #f5f5f5 0%, #e5e5e5 100%);
+  color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.notification-message {
+  flex-grow: 1;
+  font-size: 1rem;
+}
+
+.notification-close {
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-left: 15px;
+  color: #fff;
+  transition: color 0.3s;
+}
+
+[data-bs-theme="light"] .notification-close {
+  color: #333;
+}
+
+.notification-close:hover {
+  color: #ff4d4d;
+}
+
+[data-bs-theme="light"] .notification-close:hover {
+  color: #e63939;
+}
+
+.notification-popup.fade-out {
+  animation: fadeOut 0.5s ease-out forwards;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .futbolx-brand {
