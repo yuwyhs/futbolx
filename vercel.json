@@ -16,14 +16,6 @@
     {
       "src": "api/*.json",
       "use": "@vercel/static"
-    },
-    {
-      "src": "notifications/*.txt",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "notifications/*.json",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -46,10 +38,6 @@
     {
       "src": "/vip",
       "dest": "/vip.html"
-    },
-    {
-      "src": "/notifications/(.*)",
-      "dest": "/notifications/$1"
     },
     {
       "src": "/(.*)",
