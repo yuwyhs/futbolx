@@ -20,6 +20,10 @@
     {
       "src": "notifications/*.txt",
       "use": "@vercel/static"
+    },
+    {
+      "src": "notifications/*.json",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
