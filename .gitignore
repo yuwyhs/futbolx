@@ -22,6 +22,8 @@ yarn.lock
 .env.local
 .env.development
 .env.production
+.env.test
+.env.backup
 
 # Temporary files
 *.tmp
@@ -32,3 +34,8 @@ yarn.lock
 # Build artifacts
 dist/
 build/
+
+# Firebase-specific files
+.firebase/              # Firebase CLI cache and temporary files
+.firebaserc            # Firebase project configuration
+firebase.json          # Firebase hosting configuration (if you add Firebase Hosting later)
