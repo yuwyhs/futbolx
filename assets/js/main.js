@@ -2,39 +2,51 @@
 document.addEventListener('DOMContentLoaded', () => {
   const eventGrid = document.querySelector('.event-grid');
   if (!eventGrid) {
-    console.error('Event grid container not found');
+    console.error('Error: .event-grid container not found in index.html');
     return;
   }
 
+  console.log('Fetching /api/stream.json...');
   fetch('/api/stream.json')
     .then(response => {
+      console.log('Fetch response status:', response.status, response.statusText);
       if (!response.ok) {
         throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
       }
       return response.json();
     })
     .then(data => {
+      console.log('Stream data received:', JSON.stringify(data, null, 2));
       if (!data.success || !data.streams || !data.streams.length) {
         console.warn('No streams available in stream.json');
         eventGrid.innerHTML = '<p>No live events available.</p>';
         return;
       }
 
+      eventGrid.innerHTML = ''; // Clear existing content
       const now = new Date();
+      let eventCount = 0;
+
       data.streams.forEach(category => {
+        if (!category.streams || !category.streams.length) {
+          console.warn('No streams in category:', category.category);
+          return;
+        }
         category.streams.forEach(event => {
+          console.log('Processing event:', event.name);
           // Skip expired events unless always_live
           if (!event.always_live && new Date(event.ends_at) < now) {
             console.log(`Skipping expired event: ${event.name}`);
             return;
           }
 
+          eventCount++;
           const card = document.createElement('div');
           card.className = 'event-card col';
           card.innerHTML = `
             <div class="card">
               <img src="${event.poster}" class="card-img-top event" alt="${event.name}">
-              ${event.always_live || new Date(event.starts_at) <= now && now <= new Date(event.ends_at) ? '<span class="live-badge">LIVE</span>' : ''}
+              ${event.always_live || (new Date(event.starts_at) <= now && now <= new Date(event.ends_at)) ? '<span class="live-badge">LIVE</span>' : ''}
               <div class="card-body">
                 <h5 class="card-title">${event.name}</h5>
                 <div class="card-text">
@@ -50,6 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
           eventGrid.appendChild(card);
         });
       });
+
+      console.log(`Rendered ${eventCount} events`);
+      if (eventCount === 0) {
+        eventGrid.innerHTML = '<p>No live or upcoming events available.</p>';
+      }
 
       // Update countdown timers
       document.querySelectorAll('.countdown').forEach(timer => {
