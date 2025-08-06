@@ -3,35 +3,52 @@
   "streams": [
     {
       "category": "Football",
-      "always_live": 1,
+      "always_live": 0,
       "streams": [
         {
           "name": "Daegu vs Barcelona",
           "uri_name": "daegu-vs-barcelona",
           "poster": "https://www.fcbarcelona.com/photo-resources/2025/06/25/25026a9d-9653-43ff-9c7c-96225a6bc410/web-DAEGU.jpg?width=1200&height=525",
           "tag": "Friendly",
-          "starts_at": "2025-08-06T19:00:00",
-          "ends_at": "2025-08-06T21:00:00",
-          "always_live": 1,
+          "starts_at": "2025-08-04T14:00:00",
+          "ends_at": "2025-08-04T15:59:00",
+          "always_live": 0,
           "streams": [
-            { "title": "Main Feed", "url": "https://kleanplay.shop/embed/697dfd8a6947ac60c47ea3090ce16abb" },
-            { "title": "Alternate Feed", "url": "https://v5.sportsonline.si/channels/hd/hd6.php" }
+            {
+              "title": "Main Feed",
+              "url": "https://kleanplay.shop/embed/697dfd8a6947ac60c47ea3090ce16abb"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd6.php"
+            }
           ]
         },
         {
           "name": "Liverpool vs Athletic Club",
           "uri_name": "liverpool-vs-athletic-club",
-          "poster": "https://i.postimg.cc/8PRrvYw4/IMG-20241226-211229-430.jpg",
+          "poster": "https://backend.liverpoolfc.com/sites/default/files/styles/xl/public/2025-07/athletic-club-live-promo-29072025_7045a92f68fdb8f03100752f41baf382.jpg?itok=SRUTl3_t",
           "tag": "Friendly",
-          "starts_at": "2025-08-06T19:00:00",
-          "ends_at": "2025-08-06T21:00:00",
-          "always_live": 1,
+          "starts_at": "2025-08-04T22:00:00",
+          "ends_at": "2025-08-04T23:59:00",
+          "always_live": 0,
           "streams": [
-            { "title": "Main Feed", "url": "https://kleanplay.shop/embed/697dfd8a6947ac60c47ea3090ce16abb" },
-            { "title": "Alternate Feed", "url": "https://v5.sportsonline.si/channels/hd/hd6.php" }
+            {
+              "title": "Main Feed",
+              "url": "https://kleanplay.shop/embed/01ab9b70d48d4b46bb69de62700454db"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd6.php"
+            }
           ]
         }
       ]
+    },
+    {
+      "category": "Fights",
+      "always_live": 0,
+      "streams": []
     }
   ]
 }
