@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
+  <!-- Removed Video.js CSS -->
+  <!-- JW Player CSS (optional, depending on your setup) -->
   <style>
     .tip-container {
       max-width: 600px;
@@ -128,12 +130,10 @@
           <h2 id="eventTitle" class="mb-3"></h2>
           <div class="video-container">
             <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
-            <div id="videoPlayerContainer" style="width: 100%; height: 100%;"></div>
+            <div id="videoPlayerContainer" style="width: 100%; height: 100%;"></div> <!-- Dynamically managed JW Player container -->
           </div>
           <div id="streamLinks" class="stream-links mt-3"></div>
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
-          <!-- Tawk.to chat container -->
-          <div id="tawkChatContainer" class="chat-container mt-3"></div>
         </div>
       </div>
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
@@ -149,54 +149,11 @@
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <!-- Removed Video.js and videojs-contrib-hls scripts -->
+  <!-- Add JW Player script with provided key -->
   <script src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
   <script src="/assets/js/api.js"></script>
   <script async src="/assets/js/auth.js"></script>
-  <!-- Tawk.to Widget Script -->
-  <script type="text/javascript">
-    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-    (function(){
-      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = 'https://embed.tawk.to/689645b9655b4e1928d1f3aa/1j25g0onr';
-      s1.charset = 'UTF-8';
-      s1.setAttribute('crossorigin','*');
-      s0.parentNode.insertBefore(s1, s0);
-      // Customize Tawk.to settings
-      Tawk_API.onLoad = function() {
-        Tawk_API.setAttributes({
-          name: 'Owner',
-          email: 'your-email@example.com' // Replace with your email
-        }, function(error) {
-          if (error) console.error('Tawk.to setAttributes error:', error);
-        });
-        // Show online user count
-        Tawk_API.onStatusChange = function(status) {
-          console.log('Chat status:', status);
-          Tawk_API.getNumberOfVisitors(function(error, number) {
-            if (!error) {
-              const statusDiv = document.createElement('div');
-              statusDiv.className = 'chat-status';
-              statusDiv.innerHTML = `Online Users: ${number}`;
-              const container = document.getElementById('tawkChatContainer');
-              if (container && !container.querySelector('.chat-status')) {
-                container.insertBefore(statusDiv, container.firstChild);
-              } else if (container && container.querySelector('.chat-status')) {
-                container.querySelector('.chat-status').innerHTML = `Online Users: ${number}`;
-              }
-            }
-          });
-        };
-        // Ensure widget fits container
-        Tawk_API.customStyle = {
-          visibility: {
-            desktop: { position: 'br', xOffset: 0, yOffset: 0 },
-            mobile: { position: 'br', xOffset: 0, yOffset: 0 }
-          }
-        };
-      };
-    })();
-  </script>
   <script>
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
 
@@ -308,7 +265,9 @@
 
     function recreateVideoElement() {
       const videoContainer = document.getElementById('videoPlayerContainer');
+      // Remove existing video element if present
       videoContainer.innerHTML = '';
+      // Create new div for JW Player
       const videoElement = document.createElement('div');
       videoElement.id = 'videoPlayer';
       videoElement.className = 'jwplayer d-none';
@@ -365,7 +324,7 @@
           if (videoPlayerInstance) {
             videoPlayerInstance.remove();
             videoPlayerInstance = null;
-            recreateVideoElement();
+            recreateVideoElement(); // Prepare for next M3U8 stream
           }
           embedPlayer.contentWindow.location.replace(streamUrl);
           console.log('Embed initialized successfully');
