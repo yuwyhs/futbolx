@@ -6,40 +6,59 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Daegu vs Barcelona",
-          "uri_name": "daegu-vs-barcelona",
-          "poster": "https://www.fcbarcelona.com/photo-resources/2025/06/25/25026a9d-9653-43ff-9c7c-96225a6bc410/web-DAEGU.jpg?width=1200&height=525",
+          "name": "Chelsea vs Bayer Leverkusen",
+          "uri_name": "chelsea-vs-bayer-leverkusen",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq7uvdsEDKAYXGrFpoHgGEh1XqyqGST2r1Sg&s",
           "tag": "Friendly",
-          "starts_at": "2025-08-05T14:00:00",
-          "ends_at": "2025-08-05T22:59:00",
+          "starts_at": "2025-08-09T21:00:00",
+          "ends_at": "2025-08-09T22:59:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://kleanplay.shop/embed/697dfd8a6947ac60c47ea3090ce16abb"
+              "url": "https://kleanplay.shop/embed/4cd492ca2b7198e9fd1a19e56e741104"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd6.php"
+              "url": "https://v5.sportsonline.si/channels/hd/hd2.php"
             }
           ]
         },
         {
-          "name": "Liverpool vs Athletic Club",
-          "uri_name": "liverpool-vs-athletic-club",
-          "poster": "https://backend.liverpoolfc.com/sites/default/files/styles/xl/public/2025-07/athletic-club-live-promo-29072025_7045a92f68fdb8f03100752f41baf382.jpg?itok=SRUTl3_t",
+          "name": "Monaco vs Inter",
+          "uri_name": "monaco-vs-inter",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLS9zIxfWMqA07CFgVoY3pcd0iQD1AYpSDLA&s",
           "tag": "Friendly",
-          "starts_at": "2025-08-04T22:00:00",
-          "ends_at": "2025-08-04T23:59:00",
+          "starts_at": "2025-08-09T21:00:00",
+          "ends_at": "2025-08-09T22:59:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://kleanplay.shop/embed/01ab9b70d48d4b46bb69de62700454db"
+              "url": "https://kleanplay.shop/embed/ed2e4feb3324493718af934924315346"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd6.php"
+              "url": "https://v5.sportsonline.si/channels/hd/hd7.php"
+            }
+          ]
+        },
+        {
+          "name": "Newcastle vs Espanyol",
+          "uri_name": "newcastle-vs-espanyol",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK_nAcal3nmwNOK6GSy7vsLX6B3c3Xrx9DHCf3-xbamJyoZEvJfShv9Aax&s=10",
+          "tag": "Friendly",
+          "starts_at": "2025-08-09T21:30:00",
+          "ends_at": "2025-08-09T23:30:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://kleanplay.shop/embed/9e14bc82ddc2c1206ab3378ad8c0de79"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd5.php"
             }
           ]
         }
