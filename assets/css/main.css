@@ -345,7 +345,7 @@ body {
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 10px; /* Space between tag, countdown, and watch button */
 }
 
 .event-timer .countdown {
@@ -659,72 +659,6 @@ footer {
   display: none;
 }
 
-/* Chatango Chat Styles */
-.chat-container {
-  max-width: 100%;
-  margin-top: 20px;
-}
-
-#chatango {
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-[data-bs-theme="dark"] #chatango iframe,
-[data-bs-theme="dark"] #chatango * {
-  font-family: 'Kanit', sans-serif !important;
-  background: #222 !important;
-  color: #fff !important;
-  border-color: #ff4d4d !important;
-}
-
-[data-bs-theme="light"] #chatango iframe,
-[data-bs-theme="light"] #chatango * {
-  font-family: 'Kanit', sans-serif !important;
-  background: #f5f5f5 !important;
-  color: #333 !important;
-  border-color: #e63939 !important;
-}
-
-[data-bs-theme="dark"] #chatango .msg-text,
-[data-bs-theme="dark"] #chatango input,
-[data-bs-theme="dark"] #chatango textarea {
-  color: #fff !important;
-  background: #333 !important;
-  border: 1px solid #ff4d4d !important;
-}
-
-[data-bs-theme="light"] #chatango .msg-text,
-[data-bs-theme="light"] #chatango input,
-[data-bs-theme="light"] #chatango textarea {
-  color: #333 !important;
-  background: #fff !important;
-  border: 1px solid #e63939 !important;
-}
-
-[data-bs-theme="dark"] #chatango button {
-  background: #ff4d4d !important;
-  color: #fff !important;
-  border: none !important;
-  border-radius: 5px !important;
-}
-
-[data-bs-theme="light"] #chatango button {
-  background: #e63939 !important;
-  color: #333 !important;
-  border: none !important;
-  border-radius: 5px !important;
-}
-
-[data-bs-theme="dark"] #chatango button:hover {
-  background: #e63939 !important;
-}
-
-[data-bs-theme="light"] #chatango button:hover {
-  background: #cc3333 !important;
-}
-
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .futbolx-brand {
@@ -774,8 +708,4 @@ footer {
     font-size: 1rem;
     padding: 10px 20px;
   }
-
-  #chatango {
-    height: 300px;
-  }
-}
+    }
