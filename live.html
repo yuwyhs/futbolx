@@ -256,12 +256,22 @@
       }
 
       try {
-        const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
-        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
-          console.log('Offcanvas closed');
+        const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
+          backdrop: true,
+          keyboard: true,
+          scroll: false
         });
 
-        toggler.addEventListener('click', () => {
+        offcanvasElement.addEventListener('shown.bs.offcanvas', () => {
+          console.log('Offcanvas shown');
+        });
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          console.log('Offcanvas hidden');
+        });
+
+        toggler.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
           console.log('Sidebar toggler clicked');
           offcanvas.toggle();
         });
@@ -269,6 +279,7 @@
         const navLinks = offcanvasElement.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
           link.addEventListener('click', (event) => {
+            event.preventDefault();
             event.stopPropagation();
             const href = link.getAttribute('href');
             if (href) {
@@ -282,11 +293,22 @@
         const logoutButton = document.getElementById('logoutButton');
         if (logoutButton) {
           logoutButton.addEventListener('click', (event) => {
+            event.preventDefault();
             event.stopPropagation();
             console.log('Logout button clicked');
-            // Add logout logic here if defined in auth.js
+            offcanvas.hide();
           });
         }
+
+        offcanvasElement.addEventListener('click', (event) => {
+          event.stopPropagation();
+        });
+
+        document.addEventListener('click', (event) => {
+          if (offcanvasElement.classList.contains('show') && !offcanvasElement.contains(event.target) && !toggler.contains(event.target)) {
+            console.log('Backdrop clicked');
+          }
+        });
       } catch (error) {
         console.error('Offcanvas initialization error:', error);
       }
