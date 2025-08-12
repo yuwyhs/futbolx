@@ -6,7 +6,7 @@
   <title>FutbolX - Watch Live</title>
   <meta name="description" content="FutbolX - Watch live PPV boxing, UFC, Basketball, Football, and more.">
   <meta name="keywords" content="futbolx, ppv, free ppv, boxing, ufc, basketball, football, stream, online, free">
-  <meta property="oglyticstitle" content="FutbolX - Watch Live" />
+  <meta property="og:title" content="FutbolX - Watch Live" />
   <meta property="og:url" content="https://your-futbolx-site.vercel.app/live" />
   <meta property="og:image" content="/assets/img/og-image.jpg">
   <meta name="twitter:title" content="FutbolX - Watch Live">
@@ -96,6 +96,16 @@
       height: 100%;
       border: none;
     }
+    .chat-container #chatLoading {
+      background: #222;
+      color: #fff;
+      border-radius: 10px;
+      transition: background 0.3s;
+    }
+    [data-bs-theme="light"] .chat-container #chatLoading {
+      background: #fff;
+      color: #333;
+    }
   </style>
 </head>
 <body>
@@ -152,7 +162,7 @@
           </div>
           <div id="streamLinks" class="stream-links mt-3"></div>
           <div class="chat-container">
-            <iframe src="https://deadsimplechat.com/3_sVwBv4R" title="FutbolX Chat"></iframe>
+            <div id="chatLoading" class="text-center p-3">Loading chat...</div>
           </div>
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
         </div>
@@ -169,10 +179,10 @@
       </footer>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-  <script src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
-  <script src="/assets/js/api.js"></script>
-  <script async src="/assets/js/auth.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script defer src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
+  <script defer src="/assets/js/api.js"></script>
+  <script defer src="/assets/js/auth.js"></script>
   <script>
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
 
@@ -241,7 +251,7 @@
 
       console.log('Initializing offcanvas');
       if (typeof bootstrap === 'undefined') {
-        console.warn('Bootstrap not loaded. Relying on data attributes.');
+        console.error('Bootstrap not loaded. Ensure Bootstrap JS is included.');
         return;
       }
 
@@ -249,6 +259,11 @@
         const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
         offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
           console.log('Offcanvas closed');
+        });
+
+        toggler.addEventListener('click', () => {
+          console.log('Sidebar toggler clicked');
+          offcanvas.toggle();
         });
 
         const navLinks = offcanvasElement.querySelectorAll('.nav-link');
@@ -259,6 +274,7 @@
             if (href) {
               console.log('Nav link clicked:', href);
               window.location.href = href;
+              offcanvas.hide();
             }
           });
         });
@@ -268,17 +284,40 @@
           logoutButton.addEventListener('click', (event) => {
             event.stopPropagation();
             console.log('Logout button clicked');
-          });
-        }
-
-        const themeToggle = document.getElementById('themeToggle');
-        if (themeToggle) {
-          themeToggle.addEventListener('click', (event) => {
-            event.stopPropagation();
+            // Add logout logic here if defined in auth.js
           });
         }
       } catch (error) {
         console.error('Offcanvas initialization error:', error);
+      }
+    }
+
+    function initThemeToggle() {
+      try {
+        const htmlElement = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        if (!themeToggle) {
+          console.error('Theme toggle button not found');
+          return;
+        }
+
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        htmlElement.setAttribute('data-bs-theme', currentTheme);
+        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+
+        themeToggle.addEventListener('click', () => {
+          try {
+            const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+            htmlElement.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            console.log('Theme toggled to:', newTheme);
+          } catch (error) {
+            console.error('Theme toggle error:', error);
+          }
+        });
+      } catch (error) {
+        console.error('Theme toggle initialization error:', error);
       }
     }
 
@@ -447,7 +486,7 @@
             if (isM3U8 && videoPlayerInstance) {
               const playerElement = document.getElementById('videoPlayer');
               if (playerElement.requestFullscreen) {
-                playerElement.requestFullscreen Donnelly().catch(err => {
+                playerElement.requestFullscreen().catch(err => {
                   console.error('JW Player fullscreen failed:', err);
                   errorContainer.className = 'alert alert-danger error-alert mt-3';
                   errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
@@ -491,7 +530,7 @@
         function attempt() {
           attempts++;
           console.log(`Fetching ${url}, attempt ${attempts}`);
-          fetch(url, { signal: AbortSignal.timeout(5000) })
+          fetch(url, { signal: AbortSignal.timeout(10000) })
             .then(res => {
               console.log(`Fetch status: ${res.status} ${res.statusText}`);
               if (!res.ok) {
@@ -510,12 +549,36 @@
               if (attempts < maxRetries) {
                 setTimeout(() => attempt(), delay);
               } else {
+                console.error('All fetch attempts failed:', error);
                 reject(error);
               }
             });
         }
         attempt();
       });
+    }
+
+    function loadChatIframe() {
+      const chatContainer = document.querySelector('.chat-container');
+      const chatLoading = document.getElementById('chatLoading');
+      if (!chatContainer || !chatLoading) {
+        console.error('Chat container or loading element not found');
+        return;
+      }
+
+      const iframe = document.createElement('iframe');
+      iframe.src = 'https://deadsimplechat.com/3_sVwBv4R';
+      iframe.title = 'FutbolX Chat';
+      iframe.style.cssText = 'width: 100%; height: 100%; border: none;';
+      iframe.onload = () => {
+        console.log('Chat iframe loaded successfully');
+        chatLoading.style.display = 'none';
+      };
+      iframe.onerror = () => {
+        console.error('Chat iframe failed to load');
+        chatLoading.innerText = 'Failed to load chat. Please try again later.';
+      };
+      chatContainer.appendChild(iframe);
     }
 
     function initPage() {
@@ -525,19 +588,6 @@
       const eventTitle = document.getElementById('eventTitle');
 
       try {
-        const htmlElement = document.documentElement;
-        const themeToggle = document.getElementById('themeToggle');
-        const currentTheme = localStorage.getItem('theme') || 'dark';
-        htmlElement.setAttribute('data-bs-theme', currentTheme);
-        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-
-        themeToggle.addEventListener('click', () => {
-          const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
-          htmlElement.setAttribute('data-bs-theme', newTheme);
-          localStorage.setItem('theme', newTheme);
-          themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-        });
-
         const uriName = window.location.pathname.split('/').pop();
         const playerContainer = document.querySelector('.video-container');
         const streamLinks = document.getElementById('streamLinks');
@@ -611,9 +661,11 @@
               console.log('Start Livestream clicked');
               playerContainer.classList.add('fade-in');
               streamLinks.classList.add('fade-in');
- cult             startLivestreamBtn.style.display = 'none';
+              startLivestreamBtn.style.display = 'none';
               initPlayer(streamData, errorContainer, streamLinks);
             });
+
+            loadChatIframe();
           })
           .catch(error => {
             console.error('API Fetch Error:', error.message);
@@ -655,6 +707,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       console.log('DOM loaded at', new Date().toISOString());
       initOffcanvas();
+      initThemeToggle();
       startTipCountdown();
       initPage();
     });
