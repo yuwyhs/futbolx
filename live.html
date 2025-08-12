@@ -17,8 +17,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
-  <!-- Removed Video.js CSS -->
-  <!-- JW Player CSS (optional, depending on your setup) -->
   <style>
     .tip-container {
       max-width: 600px;
@@ -78,6 +76,20 @@
       width: 100%;
       height: 100%;
     }
+    .chat-container {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 600px;
+      height: 400px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .chat-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
   </style>
 </head>
 <body>
@@ -130,9 +142,12 @@
           <h2 id="eventTitle" class="mb-3"></h2>
           <div class="video-container">
             <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
-            <div id="videoPlayerContainer" style="width: 100%; height: 100%;"></div> <!-- Dynamically managed JW Player container -->
+            <div id="videoPlayerContainer" style="width: 100%; height: 100%;"></div>
           </div>
           <div id="streamLinks" class="stream-links mt-3"></div>
+          <div class="chat-container">
+            <iframe src="https://kick.com/popout/futbolxtv/chat" title="FutbolXTV Kick Chat"></iframe>
+          </div>
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
         </div>
       </div>
@@ -149,8 +164,6 @@
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-  <!-- Removed Video.js and videojs-contrib-hls scripts -->
-  <!-- Add JW Player script with provided key -->
   <script src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
   <script src="/assets/js/api.js"></script>
   <script async src="/assets/js/auth.js"></script>
@@ -265,9 +278,7 @@
 
     function recreateVideoElement() {
       const videoContainer = document.getElementById('videoPlayerContainer');
-      // Remove existing video element if present
       videoContainer.innerHTML = '';
-      // Create new div for JW Player
       const videoElement = document.createElement('div');
       videoElement.id = 'videoPlayer';
       videoElement.className = 'jwplayer d-none';
@@ -324,7 +335,7 @@
           if (videoPlayerInstance) {
             videoPlayerInstance.remove();
             videoPlayerInstance = null;
-            recreateVideoElement(); // Prepare for next M3U8 stream
+            recreateVideoElement();
           }
           embedPlayer.contentWindow.location.replace(streamUrl);
           console.log('Embed initialized successfully');
@@ -418,7 +429,7 @@
           });
 
           embedPlayer.addEventListener('load', () => {
-            console.log('Embed loaded successfully');
+            console.log('Embed loaded ablaze
             clearError();
           });
         }
@@ -435,15 +446,7 @@
                   errorContainer.className = 'alert alert-danger error-alert mt-3';
                   errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
                 });
-              } else if (playerElement.webkitRequestFullscreen) {
-                playerElement.webkitRequestFullscreen();
-              } else if (playerElement.msRequestFullscreen) {
-                playerElement.msRequestFullscreen();
-              } else {
-                console.error('Fullscreen API not supported');
-                errorContainer.className = 'alert alert-danger error-alert mt-3';
-                errorContainer.innerText = 'Fullscreen is not supported in this browser.';
-              }
+            });
             } else if (embedPlayer.requestFullscreen) {
               embedPlayer.requestFullscreen().catch(err => {
                 console.error('Fullscreen request failed:', err);
