@@ -106,6 +106,13 @@
       background: #fff;
       color: #333;
     }
+    .offcanvas, .offcanvas-backdrop {
+      z-index: 1055;
+      pointer-events: auto;
+    }
+    .offcanvas-backdrop {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
   </style>
 </head>
 <body>
@@ -256,23 +263,33 @@
       }
 
       try {
+        const newToggler = toggler.cloneNode(true);
+        toggler.parentNode.replaceChild(newToggler, toggler);
+
         const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
-          backdrop: true,
+          backdrop: 'static',
           keyboard: true,
           scroll: false
         });
 
         offcanvasElement.addEventListener('shown.bs.offcanvas', () => {
-          console.log('Offcanvas shown');
+          console.log('Offcanvas shown at', new Date().toISOString());
         });
         offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
-          console.log('Offcanvas hidden');
+          console.log('Offcanvas hidden at', new Date().toISOString());
         });
 
-        toggler.addEventListener('click', (event) => {
+        newToggler.addEventListener('click', (event) => {
           event.preventDefault();
           event.stopPropagation();
-          console.log('Sidebar toggler clicked');
+          console.log('Sidebar toggler clicked at', new Date().toISOString());
+          offcanvas.toggle();
+        });
+
+        newToggler.addEventListener('touchstart', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          console.log('Sidebar toggler touched at', new Date().toISOString());
           offcanvas.toggle();
         });
 
@@ -302,11 +319,18 @@
 
         offcanvasElement.addEventListener('click', (event) => {
           event.stopPropagation();
+          console.log('Click inside offcanvas, preventing propagation');
         });
 
         document.addEventListener('click', (event) => {
-          if (offcanvasElement.classList.contains('show') && !offcanvasElement.contains(event.target) && !toggler.contains(event.target)) {
-            console.log('Backdrop clicked');
+          if (offcanvasElement.classList.contains('show') && !offcanvasElement.contains(event.target) && !newToggler.contains(event.target)) {
+            console.log('Click detected outside offcanvas at', new Date().toISOString());
+          }
+        });
+
+        document.addEventListener('touchstart', (event) => {
+          if (offcanvasElement.classList.contains('show') && !offcanvasElement.contains(event.target) && !newToggler.contains(event.target)) {
+            console.log('Touchstart detected outside offcanvas at', new Date().toISOString());
           }
         });
       } catch (error) {
@@ -588,19 +612,21 @@
         return;
       }
 
-      const iframe = document.createElement('iframe');
-      iframe.src = 'https://deadsimplechat.com/3_sVwBv4R';
-      iframe.title = 'FutbolX Chat';
-      iframe.style.cssText = 'width: 100%; height: 100%; border: none;';
-      iframe.onload = () => {
-        console.log('Chat iframe loaded successfully');
-        chatLoading.style.display = 'none';
-      };
-      iframe.onerror = () => {
-        console.error('Chat iframe failed to load');
-        chatLoading.innerText = 'Failed to load chat. Please try again later.';
-      };
-      chatContainer.appendChild(iframe);
+      setTimeout(() => {
+        const iframe = document.createElement('iframe');
+        iframe.src = 'https://deadsimplechat.com/3_sVwBv4R';
+        iframe.title = 'FutbolX Chat';
+        iframe.style.cssText = 'width: 100%; height: 100%; border: none;';
+        iframe.onload = () => {
+          console.log('Chat iframe loaded successfully at', new Date().toISOString());
+          chatLoading.style.display = 'none';
+        };
+        iframe.onerror = () => {
+          console.error('Chat iframe failed to load');
+          chatLoading.innerText = 'Failed to load chat. Please try again later.';
+        };
+        chatContainer.appendChild(iframe);
+      }, 1000);
     }
 
     function initPage() {
