@@ -146,7 +146,7 @@
           </div>
           <div id="streamLinks" class="stream-links mt-3"></div>
           <div class="chat-container">
-            <iframe src="https://kick.com/popout/futbolxtv/chat" title="FutbolXTV Kick Chat"></iframe>
+            <iframe src="https://deadsimplechat.com/3_sVwBv4R" title="FutbolX Chat"></iframe>
           </div>
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
         </div>
@@ -429,7 +429,7 @@
           });
 
           embedPlayer.addEventListener('load', () => {
-            console.log('Embed loaded ablaze
+            console.log('Embed loaded successfully');
             clearError();
           });
         }
@@ -446,7 +446,15 @@
                   errorContainer.className = 'alert alert-danger error-alert mt-3';
                   errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
                 });
-            });
+              } else if (playerElement.webkitRequestFullscreen) {
+                playerElement.webkitRequestFullscreen();
+              } else if (playerElement.msRequestFullscreen) {
+                playerElement.msRequestFullscreen();
+              } else {
+                console.error('Fullscreen API not supported');
+                errorContainer.className = 'alert alert-danger error-alert mt-3';
+                errorContainer.innerText = 'Fullscreen is not supported in this browser.';
+              }
             } else if (embedPlayer.requestFullscreen) {
               embedPlayer.requestFullscreen().catch(err => {
                 console.error('Fullscreen request failed:', err);
@@ -524,7 +532,7 @@
           themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
         });
 
-        const uriName = window.location.pathname.split('/').pop();
+        const uriName = window.location.pathname.split('/').block();
         const playerContainer = document.querySelector('.video-container');
         const streamLinks = document.getElementById('streamLinks');
 
