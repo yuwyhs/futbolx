@@ -256,7 +256,7 @@
         return;
       }
 
-      console.log('Initializing offcanvas');
+      console.log('Initializing offcanvas at', new Date().toISOString());
       if (typeof bootstrap === 'undefined') {
         console.error('Bootstrap not loaded. Ensure Bootstrap JS is included.');
         return;
@@ -327,12 +327,28 @@
             console.log('Click detected outside offcanvas at', new Date().toISOString());
           }
         });
-
         document.addEventListener('touchstart', (event) => {
           if (offcanvasElement.classList.contains('show') && !offcanvasElement.contains(event.target) && !newToggler.contains(event.target)) {
             console.log('Touchstart detected outside offcanvas at', new Date().toISOString());
           }
         });
+
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+              if (!offcanvasElement.classList.contains('show')) {
+                console.warn('Offcanvas "show" class removed unexpectedly at', new Date().toISOString());
+                setTimeout(() => {
+                  if (!offcanvasElement.classList.contains('show')) {
+                    console.log('Attempting to reopen offcanvas');
+                    offcanvas.show();
+                  }
+                }, 100);
+              }
+            }
+          });
+        });
+        observer.observe(offcanvasElement, { attributes: true, attributeFilter: ['class'] });
       } catch (error) {
         console.error('Offcanvas initialization error:', error);
       }
@@ -614,15 +630,15 @@
 
       setTimeout(() => {
         const iframe = document.createElement('iframe');
-        iframe.src = 'https://deadsimplechat.com/3_sVwBv4R';
+        iframe.src = 'https://www5.cbox.ws/box/?boxid=958103&boxtag=ElAMjb';
         iframe.title = 'FutbolX Chat';
         iframe.style.cssText = 'width: 100%; height: 100%; border: none;';
         iframe.onload = () => {
-          console.log('Chat iframe loaded successfully at', new Date().toISOString());
+          console.log('Cbox iframe loaded successfully at', new Date().toISOString());
           chatLoading.style.display = 'none';
         };
         iframe.onerror = () => {
-          console.error('Chat iframe failed to load');
+          console.error('Cbox iframe failed to load');
           chatLoading.innerText = 'Failed to load chat. Please try again later.';
         };
         chatContainer.appendChild(iframe);
