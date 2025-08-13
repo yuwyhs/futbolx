@@ -1,812 +1,773 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FutbolX - Watch Live</title>
-  <meta name="description" content="FutbolX - Watch live PPV boxing, UFC, Basketball, Football, and more.">
-  <meta name="keywords" content="futbolx, ppv, free ppv, boxing, ufc, basketball, football, stream, online, free">
-  <meta property="og:title" content="FutbolX - Watch Live" />
-  <meta property="og:url" content="https://your-futbolx-site.vercel.app/live" />
-  <meta property="og:image" content="/assets/img/og-image.jpg">
-  <meta name="twitter:title" content="FutbolX - Watch Live">
-  <meta name="twitter:description" content="Watch live PPV boxing and other content on FutbolX.">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
-  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="/assets/css/main.css?v=24">
-  <style>
-    .tip-container {
-      max-width: 600px;
-      margin: 20px auto;
-      transition: height 0.3s ease-out;
-      overflow: hidden;
-    }
-    .alert-info {
-      text-align: center;
-      position: relative;
-      padding-right: 50px;
-    }
-    #countdownTimer {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      font-weight: bold;
-      color: #ff4d4d;
-    }
-    [data-bs-theme="light"] #countdownTimer {
-      color: #e63939;
-    }
-    .error-alert {
-      max-width: 500px;
-      margin: 20px auto;
-    }
-    .fade-out {
-      animation: fadeOut 0.5s ease-out forwards;
-    }
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; }
-    }
-    .btn-fullscreen {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: #ff4d4d;
-      color: #fff;
-      border: none;
-      border-radius: 20px;
-      transition: transform 0.3s, background 0.3s;
-    }
-    [data-bs-theme="light"] .btn-fullscreen {
-      background: #e63939;
-      color: #333;
-    }
-    .btn-fullscreen:hover {
-      transform: scale(1.05);
-      background: #e63939;
-    }
-    [data-bs-theme="light"] .btn-fullscreen:hover {
-      background: #cc3333;
-    }
-    .jwplayer {
-      width: 100%;
-      height: 100%;
-    }
-    .chat-container {
-      margin-top: 20px;
-      width: 100%;
-      max-width: 600px;
-      height: 400px;
-      border-radius: 10px;
-      overflow: hidden;
-      background: #222;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-      transition: background 0.3s, box-shadow 0.3s;
-    }
-    [data-bs-theme="light"] .chat-container {
-      background: #fff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-    .chat-container iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    .chat-container #chatLoading {
-      background: #222;
-      color: #fff;
-      border-radius: 10px;
-      transition: background 0.3s;
-    }
-    [data-bs-theme="light"] .chat-container #chatLoading {
-      background: #fff;
-      color: #333;
-    }
-    .offcanvas, .offcanvas-backdrop {
-      z-index: 1055;
-      pointer-events: auto;
-    }
-    .offcanvas-backdrop {
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-  </style>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>FutbolX - Watch Live</title>
+ <meta name="description" content="FutbolX - Watch live PPV boxing, UFC, Basketball, Football, and more.">
+ <meta name="keywords" content="futbolx, ppv, free ppv, boxing, ufc, basketball, football, stream, online, free">
+ <meta property="og:title" content="FutbolX - Watch Live" />
+ <meta property="og:url" content="https://your-futbolx-site.vercel.app/live" />
+ <meta property="og:image" content="/assets/img/og-image.jpg">
+ <meta name="twitter:title" content="FutbolX - Watch Live">
+ <meta name="twitter:description" content="Watch live PPV boxing and other content on FutbolX.">
+ <meta name="twitter:card" content="summary_large_image">
+ <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+ <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+ <link rel="stylesheet" href="/assets/css/main.css?v=24">
+ <style>
+ .tip-container {
+ max-width: 600px;
+ margin: 20px auto;
+ transition: height 0.3s ease-out;
+ overflow: hidden;
+ }
+ .alert-info {
+ text-align: center;
+ position: relative;
+ padding-right: 50px;
+ }
+ #countdownTimer {
+ position: absolute;
+ top: 8px;
+ right: 10px;
+ font-weight: bold;
+ color: #ff4d4d;
+ }
+ [data-bs-theme="light"] #countdownTimer {
+ color: #e63939;
+ }
+ .error-alert {
+ max-width: 500px;
+ margin: 20px auto;
+ }
+ .fade-out {
+ animation: fadeOut 0.5s ease-out forwards;
+ }
+ @keyframes fadeOut {
+ from { opacity: 1; }
+ to { opacity: 0; }
+ }
+ .btn-fullscreen {
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ padding: 8px 16px;
+ background: #ff4d4d;
+ color: #fff;
+ border: none;
+ border-radius: 20px;
+ transition: transform 0.3s, background 0.3s;
+ }
+ [data-bs-theme="light"] .btn-fullscreen {
+ background: #e63939;
+ color: #333;
+ }
+ .btn-fullscreen:hover {
+ transform: scale(1.05);
+ background: #e63939;
+ }
+ [data-bs-theme="light"] .btn-fullscreen:hover {
+ background: #cc3333;
+ }
+ .jwplayer {
+ width: 100%;
+ height: 100%;
+ }
+ .chat-container {
+ margin-top: 20px;
+ width: 100%;
+ max-width: 600px;
+ height: 400px;
+ border-radius: 10px;
+ overflow: hidden;
+ background: #222;
+ box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+ transition: background 0.3s, box-shadow 0.3s;
+ }
+ [data-bs-theme="light"] .chat-container {
+ background: #fff;
+ box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+ }
+ .chat-container iframe {
+ width: 100%;
+ height: 100%;
+ border: none;
+ }
+ .chat-container #chatLoading {
+ background: #222;
+ color: #fff;
+ border-radius: 10px;
+ transition: background 0.3s;
+ }
+ [data-bs-theme="light"] .chat-container #chatLoading {
+ background: #fff;
+ color: #333;
+ }
+ .offcanvas, .offcanvas-backdrop {
+ z-index: 1055;
+ pointer-events: auto !important;
+ }
+ .offcanvas-backdrop {
+ background-color: rgba(0, 0, 0, 0.5);
+ }
+ .offcanvas .nav-link, .offcanvas .btn-link {
+ pointer-events: auto !important;
+ cursor: pointer;
+ }
+ </style>
 </head>
 <body>
-  <nav class="top-bar fixed-top">
-    <div class="container-fluid">
-      <button class="btn btn-dark" type="button" id="sidebarToggler" aria-controls="sidebarMenu">
-        <i class="fas fa-bars"></i>
-      </button>
-      <span class="futbolx-brand">FutbolX</span>
-    </div>
-  </nav>
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
-    <div class="offcanvas-header">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/request">Request</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
-        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
-        <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
-        <li class="nav-item"><button class="nav-link btn btn-link d-none" id="logoutButton">Logout</button></li>
-        <li class="nav-item">
-          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
-            <i class="fas fa-moon"></i>
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="container-fluid main-content">
-    <div class="container mt-4">
-      <div class="row">
-        <div class="col-12">
-          <div class="tip-container">
-            <div class="alert alert-info">
-              <strong>Tip:</strong> For an ad-free experience, consider installing an ad blocker like
-              <a href="https://ublockorigin.com" target="_blank" rel="noopener">uBlock Origin</a> or
-              <a href="https://adguard.com" target="_blank" rel="noopener">AdGuard</a>.
-              <span id="countdownTimer">10s</span>
-            </div>
-          </div>
-          <div class="d-flex align-items-center mb-3">
-            <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
-            <button id="startLivestream" class="btn btn-danger ms-3" disabled>Loading...</button>
-            <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
-          </div>
-          <h2 id="eventTitle" class="mb-3"></h2>
-          <div class="video-container">
-            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
-            <div id="videoPlayerContainer" style="width: 100%; height: 100%;"></div>
-          </div>
-          <div id="streamLinks" class="stream-links mt-3"></div>
-          <div class="chat-container">
-            <div id="chatLoading" class="text-center p-3">Loading chat...</div>
-          </div>
-          <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
-        </div>
-      </div>
-      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
-        <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item"><a href="/api" class="nav-link px-2 text-body-secondary">API</a></li>
-          <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">Discord</a></li>
-          <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
-          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
-          <li class="nav-item"><a href="/contact" class="nav-link px-2 text-body-secondary">Contact us</a></li>
-        </ul>
-      </footer>
-    </div>
-  </div>
-  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-  <script defer src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
-  <script defer src="/assets/js/api.js"></script>
-  <script defer src="/assets/js/auth.js"></script>
-  <script>
-    window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
+ <nav class="top-bar fixed-top">
+ <div class="container-fluid">
+ <button class="btn btn-dark" type="button" id="sidebarToggler" aria-controls="sidebarMenu">
+ <i class="fas fa-bars"></i>
+ </button>
+ <span class="futbolx-brand">FutbolX</span>
+ </div>
+ </nav>
+ <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+ <div class="offcanvas-header">
+ <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+ </div>
+ <div class="offcanvas-body">
+ <ul class="nav flex-column">
+ <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+ <li class="nav-item"><a class="nav-link" href="/request">Request</a></li>
+ <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
+ <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
+ <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
+ <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
+ <li class="nav-item"><button class="nav-link btn btn-link d-none" id="logoutButton">Logout</button></li>
+ <li class="nav-item">
+ <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
+ <i class="fas fa-moon"></i>
+ </button>
+ </li>
+ </ul>
+ </div>
+ </div>
+ <div class="container-fluid main-content">
+ <div class="container mt-4">
+ <div class="row">
+ <div class="col-12">
+ <div class="tip-container">
+ <div class="alert alert-info">
+ <strong>Tip:</strong> For an ad-free experience, consider installing an ad blocker like
+ <a href="https://ublockorigin.com" target="_blank" rel="noopener">uBlock Origin</a> or
+ <a href="https://adguard.com" target="_blank" rel="noopener">AdGuard</a>.
+ <span id="countdownTimer">10s</span>
+ </div>
+ </div>
+ <div class="d-flex align-items-center mb-3">
+ <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
+ <button id="startLivestream" class="btn btn-danger ms-3" disabled>Loading...</button>
+ <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
+ </div>
+ <h2 id="eventTitle" class="mb-3"></h2>
+ <div class="video-container">
+ <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+ <div id="videoPlayerContainer" style="width: 100%; height: 100%;"></div>
+ </div>
+ <div id="streamLinks" class="stream-links mt-3"></div>
+ <div class="chat-container">
+ <div id="chatLoading" class="text-center p-3">Loading chat...</div>
+ </div>
+ <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
+ </div>
+ </div>
+ <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+ <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
+ <ul class="nav justify-content-center justify-content-lg-end mb-0">
+ <li class="nav-item"><a href="/api" class="nav-link px-2 text-body-secondary">API</a></li>
+ <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">Discord</a></li>
+ <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
+ <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
+ <li class="nav-item"><a href="/contact" class="nav-link px-2 text-body-secondary">Contact us</a></li>
+ </ul>
+ </footer>
+ </div>
+ </div>
+ <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+ <script defer src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
+ <script defer src="/assets/js/api.js"></script>
+ <script defer src="/assets/js/auth.js"></script>
+ <script>
+ window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
 
-    let embedPlayer = null;
-    let videoPlayerInstance = null;
-    let streamData = null;
+ let embedPlayer = null;
+ let videoPlayerInstance = null;
+ let streamData = null;
 
-    const originalOpen = window.open;
-    window.open = function(url) {
-      console.log('Blocked popup attempt to:', url);
-      return null;
-    };
+ const originalOpen = window.open;
+ window.open = function(url) {
+ console.log('Blocked popup attempt to:', url);
+ return null;
+ };
 
-    function clearError() {
-      const errorContainer = document.getElementById('errorContainer');
-      if (errorContainer && !errorContainer.classList.contains('d-none')) {
-        errorContainer.classList.add('fade-out');
-        setTimeout(() => {
-          errorContainer.className = 'alert alert-danger error-alert mt-3 d-none';
-          errorContainer.innerHTML = '';
-        }, 500);
-      }
-    }
+ function clearError() {
+ const errorContainer = document.getElementById('errorContainer');
+ if (errorContainer && !errorContainer.classList.contains('d-none')) {
+ errorContainer.classList.add('fade-out');
+ setTimeout(() => {
+ errorContainer.className = 'alert alert-danger error-alert mt-3 d-none';
+ errorContainer.innerHTML = '';
+ }, 500);
+ }
+ }
 
-    function startTipCountdown() {
-      const tipContainer = document.querySelector('.tip-container');
-      const tipAlert = document.querySelector('.alert-info');
-      const countdownTimer = document.getElementById('countdownTimer');
-      let seconds = 10;
+ function startTipCountdown() {
+ const tipContainer = document.querySelector('.tip-container');
+ const tipAlert = document.querySelector('.alert-info');
+ const countdownTimer = document.getElementById('countdownTimer');
+ let seconds = 10;
 
-      if (!tipContainer || !tipAlert || !countdownTimer) {
-        console.warn('Tip container or elements not found');
-        return;
-      }
+ if (!tipContainer || !tipAlert || !countdownTimer) {
+ console.warn('Tip container or elements not found');
+ return;
+ }
 
-      tipContainer.style.height = `${tipAlert.offsetHeight}px`;
+ tipContainer.style.height = `${tipAlert.offsetHeight}px`;
 
-      const interval = setInterval(() => {
-        seconds--;
-        countdownTimer.textContent = `${seconds}s`;
-        if (seconds <= 0) {
-          clearInterval(interval);
-          tipAlert.classList.add('fade-out');
-          setTimeout(() => {
-            tipContainer.style.height = '0';
-            tipAlert.style.display = 'none';
-          }, 500);
-        }
-      }, 1000);
+ const interval = setInterval(() => {
+ seconds--;
+ countdownTimer.textContent = `${seconds}s`;
+ if (seconds <= 0) {
+ clearInterval(interval);
+ tipAlert.classList.add('fade-out');
+ setTimeout(() => {
+ tipContainer.style.height = '0';
+ tipAlert.style.display = 'none';
+ }, 500);
+ }
+ }, 1000);
 
-      setTimeout(() => {
-        tipContainer.style.height = '0';
-        tipAlert.style.display = 'none';
-        clearInterval(interval);
-      }, 10500);
-    }
+ setTimeout(() => {
+ tipContainer.style.height = '0';
+ tipAlert.style.display = 'none';
+ clearInterval(interval);
+ }, 10500);
+ }
 
-    function initOffcanvas() {
-      const offcanvasElement = document.getElementById('sidebarMenu');
-      const toggler = document.getElementById('sidebarToggler');
+ function initOffcanvas() {
+ const offcanvasElement = document.getElementById('sidebarMenu');
+ const toggler = document.getElementById('sidebarToggler');
+ const themeToggle = document.getElementById('themeToggle');
 
-      if (!offcanvasElement || !toggler) {
-        console.error('Offcanvas or toggler not found');
-        return;
-      }
+ if (!offcanvasElement || !toggler || !themeToggle) {
+ console.error('Offcanvas, toggler, or theme toggle not found');
+ return;
+ }
 
-      console.log('Initializing offcanvas at', new Date().toISOString());
-      if (typeof bootstrap === 'undefined') {
-        console.error('Bootstrap not loaded. Ensure Bootstrap JS is included.');
-        return;
-      }
+ console.log('Initializing offcanvas at', new Date().toISOString());
+ if (typeof bootstrap === 'undefined') {
+ console.error('Bootstrap not loaded. Ensure Bootstrap JS is included.');
+ return;
+ }
 
-      try {
-        toggler.removeAttribute('data-bs-toggle');
-        toggler.removeAttribute('data-bs-target');
+ try {
+ toggler.removeAttribute('data-bs-toggle');
+ toggler.removeAttribute('data-bs-target');
 
-        const newToggler = toggler.cloneNode(true);
-        toggler.parentNode.replaceChild(newToggler, toggler);
+ const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
+ backdrop: true,
+ keyboard: true,
+ scroll: false
+ });
 
-        const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
-          backdrop: 'static',
-          keyboard: true,
-          scroll: false
-        });
+ setTimeout(() => {
+ offcanvas.hide();
+ offcanvasElement.classList.remove('show', 'showing');
+ console.log('Offcanvas explicitly hidden on init at', new Date().toISOString());
+ }, 100);
 
-        setTimeout(() => {
-          offcanvas.hide();
-          console.log('Offcanvas explicitly hidden on init at', new Date().toISOString());
-          offcanvasElement.classList.remove('show', 'showing');
-        }, 100);
+ let isToggling = false;
 
-        let isToggling = false;
+ offcanvasElement.addEventListener('shown.bs.offcanvas', () => {
+ console.log('Offcanvas shown at', new Date().toISOString(), 'Intentional:', isToggling);
+ isToggling = false;
+ });
+ offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+ console.log('Offcanvas hidden at', new Date().toISOString());
+ isToggling = false;
+ });
 
-        offcanvasElement.addEventListener('shown.bs.offcanvas', () => {
-          console.log('Offcanvas shown at', new Date().toISOString(), 'Intentional:', isToggling);
-          isToggling = false;
-        });
-        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
-          console.log('Offcanvas hidden at', new Date().toISOString());
-          isToggling = false;
-        });
+ toggler.addEventListener('click', (event) => {
+ event.preventDefault();
+ console.log('Sidebar toggler clicked at', new Date().toISOString());
+ isToggling = true;
+ offcanvas.toggle();
+ });
+ toggler.addEventListener('touchstart', (event) => {
+ event.preventDefault();
+ console.log('Sidebar toggler touched at', new Date().toISOString());
+ isToggling = true;
+ offcanvas.toggle();
+ });
 
-        newToggler.addEventListener('click', (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          console.log('Sidebar toggler clicked at', new Date().toISOString());
-          isToggling = true;
-          offcanvas.toggle();
-        });
+ const navLinks = offcanvasElement.querySelectorAll('.nav-link:not(#themeToggle, #logoutButton)');
+ navLinks.forEach(link => {
+ link.style.pointerEvents = 'auto';
+ link.addEventListener('click', (event) => {
+ event.preventDefault();
+ const href = link.getAttribute('href');
+ if (href) {
+ console.log('Nav link clicked:', href, 'at', new Date().toISOString());
+ window.location.href = href;
+ offcanvas.hide();
+ }
+ });
+ link.addEventListener('touchstart', (event) => {
+ console.log('Nav link touched:', link.getAttribute('href'), 'at', new Date().toISOString());
+ });
+ });
 
-        newToggler.addEventListener('touchstart', (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          console.log('Sidebar toggler touched at', new Date().toISOString());
-          isToggling = true;
-          offcanvas.toggle();
-        });
+ const logoutButton = document.getElementById('logoutButton');
+ if (logoutButton) {
+ logoutButton.style.pointerEvents = 'auto';
+ logoutButton.addEventListener('click', (event) => {
+ event.preventDefault();
+ console.log('Logout button clicked at', new Date().toISOString());
+ offcanvas.hide();
+ });
+ logoutButton.addEventListener('touchstart', (event) => {
+ console.log('Logout button touched at', new Date().toISOString());
+ });
+ }
 
-        const navLinks = offcanvasElement.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-          link.addEventListener('click', (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            const href = link.getAttribute('href');
-            if (href) {
-              console.log('Nav link clicked:', href);
-              window.location.href = href;
-              offcanvas.hide();
-            }
-          });
-        });
+ themeToggle.style.pointerEvents = 'auto';
+ themeToggle.style.display = 'block';
+ const htmlElement = document.documentElement;
+ const currentTheme = localStorage.getItem('theme') || 'dark';
+ htmlElement.setAttribute('data-bs-theme', currentTheme);
+ themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+ console.log('Theme toggle initialized to:', currentTheme, 'at', new Date().toISOString());
 
-        const logoutButton = document.getElementById('logoutButton');
-        if (logoutButton) {
-          logoutButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            console.log('Logout button clicked');
-            offcanvas.hide();
-          });
-        }
+ themeToggle.addEventListener('click', (event) => {
+ event.preventDefault();
+ try {
+ const currentTheme = htmlElement.getAttribute('data-bs-theme');
+ const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+ htmlElement.setAttribute('data-bs-theme', newTheme);
+ try {
+ localStorage.setItem('theme', newTheme);
+ } catch (e) {
+ console.warn('localStorage error:', e);
+ }
+ themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+ console.log('Theme toggled to:', newTheme, 'at', new Date().toISOString());
+ } catch (error) {
+ console.error('Theme toggle click error:', error);
+ }
+ });
+ themeToggle.addEventListener('touchstart', (event) => {
+ console.log('Theme toggle touched at', new Date().toISOString());
+ });
 
-        offcanvasElement.addEventListener('click', (event) => {
-          event.stopPropagation();
-          console.log('Click inside offcanvas, preventing propagation');
-        });
+ offcanvasElement.addEventListener('click', (event) => {
+ console.log('Click in offcanvas, target:', event.target, 'at', new Date().toISOString());
+ });
+ offcanvasElement.addEventListener('touchstart', (event) => {
+ console.log('Touch in offcanvas, target:', event.target, 'at', new Date().toISOString());
+ });
+ } catch (error) {
+ console.error('Offcanvas initialization error:', error);
+ }
+ }
 
-        document.addEventListener('click', (event) => {
-          if (offcanvasElement.classList.contains('show') && !offcanvasElement.contains(event.target) && !newToggler.contains(event.target)) {
-            console.log('Click detected outside offcanvas at', new Date().toISOString(), 'Target:', event.target);
-          }
-        });
-        document.addEventListener('touchstart', (event) => {
-          if (offcanvasElement.classList.contains('show') && !offcanvasElement.contains(event.target) && !newToggler.contains(event.target)) {
-            console.log('Touchstart detected outside offcanvas at', new Date().toISOString(), 'Target:', event.target);
-          }
-        });
+ function recreateVideoElement() {
+ const videoContainer = document.getElementById('videoPlayerContainer');
+ videoContainer.innerHTML = '';
+ const videoElement = document.createElement('div');
+ videoElement.id = 'videoPlayer';
+ videoElement.className = 'jwplayer d-none';
+ videoContainer.appendChild(videoElement);
+ return videoElement;
+ }
 
-        const blockEvents = (event) => {
-          if (event.target !== newToggler && !offcanvasElement.contains(event.target) && !isToggling) {
-            console.log('Blocked event during init:', event.type, 'Target:', event.target);
-            event.preventDefault();
-            event.stopPropagation();
-          }
-        };
-        document.addEventListener('click', blockEvents);
-        document.addEventListener('touchstart', blockEvents);
-        setTimeout(() => {
-          document.removeEventListener('click', blockEvents);
-          document.removeEventListener('touchstart', blockEvents);
-          console.log('Event blocker removed at', new Date().toISOString());
-        }, 2000);
-      } catch (error) {
-        console.error('Offcanvas initialization error:', error);
-      }
-    }
+ function initPlayer(event, errorContainer, streamLinks) {
+ console.log('initPlayer called with event:', event);
+ try {
+ clearError();
+ embedPlayer = document.getElementById('embedPlayer');
+ const videoContainer = document.getElementById('videoPlayerContainer');
+ const streamUrl = event.streams[0]?.url;
 
-    function initThemeToggle() {
-      try {
-        const htmlElement = document.documentElement;
-        const themeToggle = document.getElementById('themeToggle');
-        if (!themeToggle) {
-          console.error('Theme toggle button not found');
-          return;
-        }
+ if (!streamUrl || !/^https?:/.test(streamUrl)) {
+ throw new Error('Invalid or missing stream URL');
+ }
 
-        themeToggle.style.pointerEvents = 'auto';
-        themeToggle.style.display = 'block';
-        console.log('Theme toggle initialized at', new Date().toISOString());
+ const isM3U8 = streamUrl.toLowerCase().endsWith('.m3u8');
 
-        const currentTheme = localStorage.getItem('theme') || 'dark';
-        htmlElement.setAttribute('data-bs-theme', currentTheme);
-        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+ if (isM3U8) {
+ embedPlayer.style.display = 'none';
+ let videoPlayer = document.getElementById('videoPlayer');
+ if (!videoPlayer) {
+ videoPlayer = recreateVideoElement();
+ }
+ videoPlayer.classList.remove('d-none');
+ videoContainer.style.display = 'block';
 
-        const newThemeToggle = themeToggle.cloneNode(true);
-        themeToggle.parentNode.replaceChild(newThemeToggle, themeToggle);
+ videoPlayerInstance = jwplayer('videoPlayer').setup({
+ file: streamUrl,
+ autostart: true,
+ width: '100%',
+ aspectratio: '16:9',
+ mute: false,
+ controls: true
+ });
 
-        newThemeToggle.addEventListener('click', (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          try {
-            const currentTheme = htmlElement.getAttribute('data-bs-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            htmlElement.setAttribute('data-bs-theme', newTheme);
-            try {
-              localStorage.setItem('theme', newTheme);
-            } catch (e) {
-              console.warn('localStorage error:', e);
-            }
-            newThemeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-            console.log('Theme toggled to:', newTheme);
-          } catch (error) {
-            console.error('Theme toggle click error:', error);
-          }
-        });
+ videoPlayerInstance.on('error', (e) => {
+ console.error('JW Player error:', e.message);
+ errorContainer.className = 'alert alert-danger error-alert mt-3';
+ errorContainer.innerText = 'Failed to load M3U8 stream. Please try another stream.';
+ });
 
-        newThemeToggle.addEventListener('touchstart', (event) => {
-          console.log('Theme toggle touched at', new Date().toISOString());
-        });
-      } catch (error) {
-        console.error('Theme toggle initialization error:', error);
-      }
-    }
+ videoPlayerInstance.on('ready', () => {
+ console.log('JW Player ready');
+ clearError();
+ });
 
-    function recreateVideoElement() {
-      const videoContainer = document.getElementById('videoPlayerContainer');
-      videoContainer.innerHTML = '';
-      const videoElement = document.createElement('div');
-      videoElement.id = 'videoPlayer';
-      videoElement.className = 'jwplayer d-none';
-      videoContainer.appendChild(videoElement);
-      return videoElement;
-    }
+ } else {
+ videoContainer.style.display = 'none';
+ embedPlayer.style.display = 'block';
+ if (videoPlayerInstance) {
+ videoPlayerInstance.remove();
+ videoPlayerInstance = null;
+ recreateVideoElement();
+ }
+ embedPlayer.contentWindow.location.replace(streamUrl);
+ console.log('Embed initialized successfully');
+ }
 
-    function initPlayer(event, errorContainer, streamLinks) {
-      console.log('initPlayer called with event:', event);
-      try {
-        clearError();
-        embedPlayer = document.getElementById('embedPlayer');
-        const videoContainer = document.getElementById('videoPlayerContainer');
-        const streamUrl = event.streams[0]?.url;
+ streamLinks.innerHTML = event.streams.map((stream, index) => `
+ <button class="btn btn-stream ${index === 0 ? 'active' : ''}" 
+ data-stream-encoded="${btoa(stream.url)}" 
+ data-stream-index="${index}"
+ data-stream-type="${stream.url.toLowerCase().endsWith('.m3u8') ? 'm3u8' : 'iframe'}">
+ ${stream.title || `Stream ${index + 1}`}
+ </button>
+ `).join('');
 
-        if (!streamUrl || !/^https?:/.test(streamUrl)) {
-          throw new Error('Invalid or missing stream URL');
-        }
+ streamLinks.addEventListener('click', (e) => {
+ const btn = e.target.closest('.btn.btn-stream');
+ if (btn) {
+ const encodedUrl = btn.getAttribute('data-stream-encoded');
+ const streamType = btn.getAttribute('data-stream-type');
+ if (!encodedUrl) {
+ console.error('No encoded stream URL');
+ errorContainer.className = 'alert alert-danger error-alert mt-3';
+ errorContainer.innerText = 'Invalid stream URL. Please try another stream.';
+ return;
+ }
+ const url = atob(encodedUrl);
+ if (!url || !/^https?:/.test(url)) {
+ console.error('Invalid decoded stream URL:', url);
+ errorContainer.className = 'alert alert-danger error-alert mt-3';
+ errorContainer.innerText = 'Invalid stream URL. Please try another stream.';
+ return;
+ }
+ clearError();
+ try {
+ console.log('Switching to stream:', url, 'Type:', streamType);
+ if (streamType === 'm3u8') {
+ embedPlayer.style.display = 'none';
+ let videoPlayer = document.getElementById('videoPlayer');
+ if (!videoPlayer) {
+ videoPlayer = recreateVideoElement();
+ }
+ videoPlayer.classList.remove('d-none');
+ document.getElementById('videoPlayerContainer').style.display = 'block';
+ if (videoPlayerInstance) {
+ videoPlayerInstance.remove();
+ videoPlayerInstance = null;
+ }
+ videoPlayerInstance = jwplayer('videoPlayer').setup({
+ file: url,
+ autostart: true,
+ width: '100%',
+ aspectratio: '16:9',
+ mute: false,
+ controls: true
+ });
+ videoPlayerInstance.on('error', (e) => {
+ console.error('JW Player error:', e.message);
+ errorContainer.className = 'alert alert-danger error-alert mt-3';
+ errorContainer.innerText = 'Failed to load M3U8 stream. Please try another stream.';
+ });
+ videoPlayerInstance.on('ready', () => {
+ console.log('JW Player ready');
+ clearError();
+ });
+ } else {
+ document.getElementById('videoPlayerContainer').style.display = 'none';
+ embedPlayer.style.display = 'block';
+ if (videoPlayerInstance) {
+ videoPlayerInstance.remove();
+ videoPlayerInstance = null;
+ recreateVideoElement();
+ }
+ embedPlayer.contentWindow.location.replace(url);
+ }
+ streamLinks.querySelectorAll('.btn.btn-stream').forEach(b => b.classList.remove('active'));
+ btn.classList.add('active');
+ console.log('Stream switched successfully');
+ } catch (err) {
+ console.error('Stream switch error:', err);
+ errorContainer.className = 'alert alert-danger error-alert mt-3';
+ errorContainer.innerText = 'Failed to switch stream: ' + (err.message || 'Unknown error');
+ }
+ }
+ });
 
-        const isM3U8 = streamUrl.toLowerCase().endsWith('.m3u8');
+ if (!isM3U8) {
+ embedPlayer.addEventListener('error', () => {
+ console.error('Embed load error');
+ errorContainer.className = 'alert alert -danger error-alert mt-3';
+ errorContainer.innerText = 'Failed to load stream. The stream may be invalid or restricted.';
+ });
 
-        if (isM3U8) {
-          embedPlayer.style.display = 'none';
-          let videoPlayer = document.getElementById('videoPlayer');
-          if (!videoPlayer) {
-            videoPlayer = recreateVideoElement();
-          }
-          videoPlayer.classList.remove('d-none');
-          videoContainer.style.display = 'block';
+ embedPlayer.addEventListener('load', () => {
+ console.log('Embed loaded successfully');
+ clearError();
+ });
+ }
 
-          videoPlayerInstance = jwplayer('videoPlayer').setup({
-            file: streamUrl,
-            autostart: true,
-            width: '100%',
-            aspectratio: '16:9',
-            mute: false,
-            controls: true
-          });
+ const fullscreenBtn = document.getElementById('fullscreenBtn');
+ if (fullscreenBtn) {
+ fullscreenBtn.classList.remove('d-none');
+ fullscreenBtn.addEventListener('click', () => {
+ if (isM3U8 && videoPlayerInstance) {
+ const playerElement = document.getElementById('videoPlayer');
+ if (playerElement.requestFullscreen) {
+ playerElement.requestFullscreen().catch(err => {
+ console.error('JW Player fullscreen failed:', err);
+ errorContainer.className = 'alert alert-danger error-alert mt-3';
+ errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
+ });
+ } else if (playerElement.webkitRequestFullscreen) {
+ playerElement.webkitRequestFullscreen();
+ } else if (playerElement.msRequestFullscreen) {
+ playerElement.msRequestFullscreen();
+ } else {
+ console.error('Fullscreen API not supported');
+ errorContainer.className = 'alert alert-danger error-alert mt-3';
+ errorContainer.innerText = 'Fullscreen is not supported in this browser.';
+ }
+ } else if (embedPlayer.requestFullscreen) {
+ embedPlayer.requestFullscreen().catch(err => {
+ console.error('Fullscreen request failed:', err);
+ errorContainer.className = 'alert alert-danger error-alert mt-3';
+ errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
+ });
+ } else if (embedPlayer.webkitRequestFullscreen) {
+ embedPlayer.webkitRequestFullscreen();
+ } else if (embedPlayer.msRequestFullscreen) {
+ embedPlayer.msRequestFullscreen();
+ } else {
+ console.error('Fullscreen API not supported');
+ errorContainer.className = 'alert alert-danger error-alert mt-3';
+ errorContainer.innerText = 'Fullscreen is not supported in this browser.';
+ }
+ });
+ }
+ } catch (err) {
+ console.error('Embed init error:', err);
+ errorContainer.className = 'alert alert-danger error-alert mt-3';
+ errorContainer.innerText = 'Failed to initialize stream: ' + (err.message || 'Unknown error');
+ }
+ }
 
-          videoPlayerInstance.on('error', (e) => {
-            console.error('JW Player error:', e.message);
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = 'Failed to load M3U8 stream. Please try another stream.';
-          });
+ function fetchWithRetry(url, maxRetries = 3, delay = 1000) {
+ return new Promise((resolve, reject) => {
+ let attempts = 0;
+ function attempt() {
+ attempts++;
+ console.log(`Fetching ${url}, attempt ${attempts}`);
+ fetch(url, { signal: AbortSignal.timeout(10000) })
+ .then(res => {
+ console.log(`Fetch status: ${res.status} ${res.statusText}`);
+ if (!res.ok) {
+ return res.text().then(text => {
+ throw new Error(`HTTP error ${res.status}: ${res.statusText} - ${text}`);
+ });
+ }
+ return res.json();
+ })
+ .then(data => {
+ clearError();
+ resolve(data);
+ })
+ .catch(error => {
+ console.error(`Fetch attempt ${attempts} failed:`, error);
+ if (attempts < maxRetries) {
+ setTimeout(() => attempt(), delay);
+ } else {
+ console.error('All fetch attempts failed:', error);
+ reject(error);
+ }
+ });
+ }
+ attempt();
+ });
+ }
 
-          videoPlayerInstance.on('ready', () => {
-            console.log('JW Player ready');
-            clearError();
-          });
+ function loadChatIframe() {
+ const chatContainer = document.querySelector('.chat-container');
+ const chatLoading = document.getElementById('chatLoading');
+ if (!chatContainer || !chatLoading) {
+ console.error('Chat container or loading element not found');
+ return;
+ }
 
-        } else {
-          videoContainer.style.display = 'none';
-          embedPlayer.style.display = 'block';
-          if (videoPlayerInstance) {
-            videoPlayerInstance.remove();
-            videoPlayerInstance = null;
-            recreateVideoElement();
-          }
-          embedPlayer.contentWindow.location.replace(streamUrl);
-          console.log('Embed initialized successfully');
-        }
+ setTimeout(() => {
+ const iframe = document.createElement('iframe');
+ iframe.src = 'https://www5.cbox.ws/box/?boxid=958103&boxtag=ElAMjb';
+ iframe.title = 'FutbolX Chat';
+ iframe.style.cssText = 'width: 100%; height: 100%; border: none;';
+ iframe.onload = () => {
+ console.log('Cbox iframe loaded successfully at', new Date().toISOString());
+ chatLoading.style.display = 'none';
+ };
+ iframe.onerror = () => {
+ console.error('Cbox iframe failed to load');
+ chatLoading.innerText = 'Failed to load chat. Please try again later.';
+ };
+ chatContainer.appendChild(iframe);
+ }, 1000);
+ }
 
-        streamLinks.innerHTML = event.streams.map((stream, index) => `
-          <button class="btn btn-stream ${index === 0 ? 'active' : ''}" 
-                  data-stream-encoded="${btoa(stream.url)}" 
-                  data-stream-index="${index}"
-                  data-stream-type="${stream.url.toLowerCase().endsWith('.m3u8') ? 'm3u8' : 'iframe'}">
-            ${stream.title || `Stream ${index + 1}`}
-          </button>
-        `).join('');
+ function initPage() {
+ console.log('Initializing page at', new Date().toISOString());
+ const errorContainer = document.getElementById('errorContainer');
+ const startLivestreamBtn = document.getElementById('startLivestream');
+ const eventTitle = document.getElementById('eventTitle');
 
-        streamLinks.addEventListener('click', (e) => {
-          const btn = e.target.closest('.btn.btn-stream');
-          if (btn) {
-            const encodedUrl = btn.getAttribute('data-stream-encoded');
-            const streamType = btn.getAttribute('data-stream-type');
-            if (!encodedUrl) {
-              console.error('No encoded stream URL');
-              errorContainer.className = 'alert alert-danger error-alert mt-3';
-              errorContainer.innerText = 'Invalid stream URL. Please try another stream.';
-              return;
-            }
-            const url = atob(encodedUrl);
-            if (!url || !/^https?:/.test(url)) {
-              console.error('Invalid decoded stream URL:', url);
-              errorContainer.className = 'alert alert-danger error-alert mt-3';
-              errorContainer.innerText = 'Invalid stream URL. Please try another stream.';
-              return;
-            }
-            clearError();
-            try {
-              console.log('Switching to stream:', url, 'Type:', streamType);
-              if (streamType === 'm3u8') {
-                embedPlayer.style.display = 'none';
-                let videoPlayer = document.getElementById('videoPlayer');
-                if (!videoPlayer) {
-                  videoPlayer = recreateVideoElement();
-                }
-                videoPlayer.classList.remove('d-none');
-                document.getElementById('videoPlayerContainer').style.display = 'block';
-                if (videoPlayerInstance) {
-                  videoPlayerInstance.remove();
-                  videoPlayerInstance = null;
-                }
-                videoPlayerInstance = jwplayer('videoPlayer').setup({
-                  file: url,
-                  autostart: true,
-                  width: '100%',
-                  aspectratio: '16:9',
-                  mute: false,
-                  controls: true
-                });
-                videoPlayerInstance.on('error', (e) => {
-                  console.error('JW Player error:', e.message);
-                  errorContainer.className = 'alert alert-danger error-alert mt-3';
-                  errorContainer.innerText = 'Failed to load M3U8 stream. Please try another stream.';
-                });
-                videoPlayerInstance.on('ready', () => {
-                  console.log('JW Player ready');
-                  clearError();
-                });
-              } else {
-                document.getElementById('videoPlayerContainer').style.display = 'none';
-                embedPlayer.style.display = 'block';
-                if (videoPlayerInstance) {
-                  videoPlayerInstance.remove();
-                  videoPlayerInstance = null;
-                  recreateVideoElement();
-                }
-                embedPlayer.contentWindow.location.replace(url);
-              }
-              streamLinks.querySelectorAll('.btn.btn-stream').forEach(b => b.classList.remove('active'));
-              btn.classList.add('active');
-              console.log('Stream switched successfully');
-            } catch (err) {
-              console.error('Stream switch error:', err);
-              errorContainer.className = 'alert alert-danger error-alert mt-3';
-              errorContainer.innerText = 'Failed to switch stream: ' + (err.message || 'Unknown error');
-            }
-          }
-        });
+ try {
+ const uriName = window.location.pathname.split('/').pop();
+ const playerContainer = document.querySelector('.video-container');
+ const streamLinks = document.getElementById('streamLinks');
 
-        if (!isM3U8) {
-          embedPlayer.addEventListener('error', () => {
-            console.error('Embed load error');
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = 'Failed to load stream. The stream may be invalid or restricted.';
-          });
+ let api;
+ if (typeof Api === 'undefined') {
+ console.warn('Api class not defined. Using default API path.');
+ api = { baseUrl: window.location.origin + '/api' };
+ } else {
+ api = new Api(`${window.location.origin}/api`);
+ }
 
-          embedPlayer.addEventListener('load', () => {
-            console.log('Embed loaded successfully');
-            clearError();
-          });
-        }
+ const apiUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream` : `${api.baseUrl}/stream`;
+ fetchWithRetry(apiUrl)
+ .then(data => {
+ console.log('Stream API Response:', data);
+ if (!data || !data.success || !Array.isArray(data.streams)) {
+ throw new Error('Invalid stream data');
+ }
+ let event = null;
+ for (const category of data.streams) {
+ if (category.streams && Array.isArray(category.streams)) {
+ event = category.streams.find(s => s.uri_name === uriName);
+ if (event) break;
+ }
+ }
+ if (!event || !event.streams || !Array.isArray(event.streams) || event.streams.length === 0) {
+ throw new Error(`Stream not found for uri_name: ${uriName}`);
+ }
+ if (!event.name || !event.starts_at) {
+ throw new Error('Missing required event fields');
+ }
 
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        if (fullscreenBtn) {
-          fullscreenBtn.classList.remove('d-none');
-          fullscreenBtn.addEventListener('click', () => {
-            if (isM3U8 && videoPlayerInstance) {
-              const playerElement = document.getElementById('videoPlayer');
-              if (playerElement.requestFullscreen) {
-                playerElement.requestFullscreen().catch(err => {
-                  console.error('JW Player fullscreen failed:', err);
-                  errorContainer.className = 'alert alert-danger error-alert mt-3';
-                  errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
-                });
-              } else if (playerElement.webkitRequestFullscreen) {
-                playerElement.webkitRequestFullscreen();
-              } else if (playerElement.msRequestFullscreen) {
-                playerElement.msRequestFullscreen();
-              } else {
-                console.error('Fullscreen API not supported');
-                errorContainer.className = 'alert alert-danger error-alert mt-3';
-                errorContainer.innerText = 'Fullscreen is not supported in this browser.';
-              }
-            } else if (embedPlayer.requestFullscreen) {
-              embedPlayer.requestFullscreen().catch(err => {
-                console.error('Fullscreen request failed:', err);
-                errorContainer.className = 'alert alert-danger error-alert mt-3';
-                errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
-              });
-            } else if (embedPlayer.webkitRequestFullscreen) {
-              embedPlayer.webkitRequestFullscreen();
-            } else if (embedPlayer.msRequestFullscreen) {
-              embedPlayer.msRequestFullscreen();
-            } else {
-              console.error('Fullscreen API not supported');
-              errorContainer.className = 'alert alert-danger error-alert mt-3';
-              errorContainer.innerText = 'Fullscreen is not supported in this browser.';
-            }
-          });
-        }
-      } catch (err) {
-        console.error('Embed init error:', err);
-        errorContainer.className = 'alert alert-danger error-alert mt-3';
-        errorContainer.innerText = 'Failed to initialize stream: ' + (err.message || 'Unknown error');
-      }
-    }
+ const now = Math.floor(Date.now() / 1000);
+ let startTime, endTime;
+ try {
+ startTime = new Date(event.starts_at + '+03:00').getTime() / 1000;
+ if (isNaN(startTime)) {
+ console.warn(`Invalid start time for stream ${event.name}`);
+ startTime = now;
+ }
+ endTime = event.ends_at
+ ? new Date(event.ends_at + '+03:00').getTime() / 1000
+ : startTime + 3 * 3600;
+ if (isNaN(endTime)) {
+ console.warn(`Invalid end time for stream ${event.name}`);
+ endTime = startTime + 3 * 3600;
+ }
+ } catch (e) {
+ console.warn(`Error parsing time for stream ${event.name}: ${e.message}`);
+ startTime = now;
+ endTime = now + 3 * 3600;
+ }
 
-    function fetchWithRetry(url, maxRetries = 3, delay = 1000) {
-      return new Promise((resolve, reject) => {
-        let attempts = 0;
-        function attempt() {
-          attempts++;
-          console.log(`Fetching ${url}, attempt ${attempts}`);
-          fetch(url, { signal: AbortSignal.timeout(10000) })
-            .then(res => {
-              console.log(`Fetch status: ${res.status} ${res.statusText}`);
-              if (!res.ok) {
-                return res.text().then(text => {
-                  throw new Error(`HTTP error ${res.status}: ${res.statusText} - ${text}`);
-                });
-              }
-              return res.json();
-            })
-            .then(data => {
-              clearError();
-              resolve(data);
-            })
-            .catch(error => {
-              console.error(`Fetch attempt ${attempts} failed:`, error);
-              if (attempts < maxRetries) {
-                setTimeout(() => attempt(), delay);
-              } else {
-                console.error('All fetch attempts failed:', error);
-                reject(error);
-              }
-            });
-        }
-        attempt();
-      });
-    }
+ const isLive = (startTime <= now && now <= endTime) || event.always_live === 1;
+ if (!isLive) {
+ eventTitle.innerText = event.name + ' (Not Live)';
+ errorContainer.className = 'alert alert-danger error-alert mt-3';
+ errorContainer.innerText = 'This event is not currently live.';
+ startLivestreamBtn.disabled = true;
+ startLivestreamBtn.innerText = 'Event Not Live';
+ return;
+ }
 
-    function loadChatIframe() {
-      const chatContainer = document.querySelector('.chat-container');
-      const chatLoading = document.getElementById('chatLoading');
-      if (!chatContainer || !chatLoading) {
-        console.error('Chat container or loading element not found');
-        return;
-      }
+ eventTitle.innerText = event.name;
+ streamData = event;
+ startLivestreamBtn.innerText = 'Click to Start Livestream';
+ startLivestreamBtn.disabled = false;
 
-      setTimeout(() => {
-        const iframe = document.createElement('iframe');
-        iframe.src = 'https://www5.cbox.ws/box/?boxid=958103&boxtag=ElAMjb';
-        iframe.title = 'FutbolX Chat';
-        iframe.style.cssText = 'width: 100%; height: 100%; border: none;';
-        iframe.onload = () => {
-          console.log('Cbox iframe loaded successfully at', new Date().toISOString());
-          chatLoading.style.display = 'none';
-        };
-        iframe.onerror = () => {
-          console.error('Cbox iframe failed to load');
-          chatLoading.innerText = 'Failed to load chat. Please try again later.';
-        };
-        chatContainer.appendChild(iframe);
-      }, 1000);
-    }
+ startLivestreamBtn.addEventListener('click', () => {
+ console.log('Start Livestream clicked');
+ playerContainer.classList.add('fade-in');
+ streamLinks.classList.add('fade-in');
+ startLivestreamBtn.style.display = 'none';
+ initPlayer(streamData, errorContainer, streamLinks);
+ });
 
-    function initPage() {
-      console.log('Initializing page at', new Date().toISOString());
-      const errorContainer = document.getElementById('errorContainer');
-      const startLivestreamBtn = document.getElementById('startLivestream');
-      const eventTitle = document.getElementById('eventTitle');
+ loadChatIframe();
+ })
+ .catch(error => {
+ console.error('API Fetch Error:', error.message);
+ eventTitle.innerText = 'Error: Stream Not Found';
+ errorContainer.className = 'alert alert-danger error-alert mt-3';
+ errorContainer.innerText = error.message.includes('Stream not found')
+ ? `The requested stream "${uriName}" was not found. Redirecting to home...`
+ : 'Failed to load stream data. Please try again.';
+ startLivestreamBtn.innerText = 'Retry';
+ startLivestreamBtn.disabled = false;
+ startLivestreamBtn.addEventListener('click', () => {
+ window.location.reload();
+ });
+ if (error.message.includes('Stream not found')) {
+ setTimeout(() => window.location.href = '/', 3000);
+ }
+ });
 
-      try {
-        const uriName = window.location.pathname.split('/').pop();
-        const playerContainer = document.querySelector('.video-container');
-        const streamLinks = document.getElementById('streamLinks');
+ try {
+ checkAuthStatus();
+ } catch (error) {
+ console.warn('Auth status check failed:', error);
+ }
 
-        let api;
-        if (typeof Api === 'undefined') {
-          console.warn('Api class not defined. Using default API path.');
-          api = { baseUrl: window.location.origin + '/api' };
-        } else {
-          api = new Api(`${window.location.origin}/api`);
-        }
+ console.log('Page initialized successfully');
+ } catch (error) {
+ console.error('Init page error:', error);
+ eventTitle.innerText = 'Error: Failed to Initialize';
+ errorContainer.className = 'alert alert-danger error-alert mt-3';
+ errorContainer.innerText = 'An error occurred while initializing the page. Please try again.';
+ startLivestreamBtn.innerText = 'Retry';
+ startLivestreamBtn.disabled = false;
+ startLivestreamBtn.addEventListener('click', () => {
+ window.location.reload();
+ });
+ }
+ }
 
-        const apiUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream` : `${api.baseUrl}/stream`;
-        fetchWithRetry(apiUrl)
-          .then(data => {
-            console.log('Stream API Response:', data);
-            if (!data || !data.success || !Array.isArray(data.streams)) {
-              throw new Error('Invalid stream data');
-            }
-            let event = null;
-            for (const category of data.streams) {
-              if (category.streams && Array.isArray(category.streams)) {
-                event = category.streams.find(s => s.uri_name === uriName);
-                if (event) break;
-              }
-            }
-            if (!event || !event.streams || !Array.isArray(event.streams) || event.streams.length === 0) {
-              throw new Error(`Stream not found for uri_name: ${uriName}`);
-            }
-            if (!event.name || !event.starts_at) {
-              throw new Error('Missing required event fields');
-            }
-
-            const now = Math.floor(Date.now() / 1000);
-            let startTime, endTime;
-            try {
-              startTime = new Date(event.starts_at + '+03:00').getTime() / 1000;
-              if (isNaN(startTime)) {
-                console.warn(`Invalid start time for stream ${event.name}`);
-                startTime = now;
-              }
-              endTime = event.ends_at
-                ? new Date(event.ends_at + '+03:00').getTime() / 1000
-                : startTime + 3 * 3600;
-              if (isNaN(endTime)) {
-                console.warn(`Invalid end time for stream ${event.name}`);
-                endTime = startTime + 3 * 3600;
-              }
-            } catch (e) {
-              console.warn(`Error parsing time for stream ${event.name}: ${e.message}`);
-              startTime = now;
-              endTime = now + 3 * 3600;
-            }
-
-            const isLive = (startTime <= now && now <= endTime) || event.always_live === 1;
-            if (!isLive) {
-              eventTitle.innerText = event.name + ' (Not Live)';
-              errorContainer.className = 'alert alert-danger error-alert mt-3';
-              errorContainer.innerText = 'This event is not currently live.';
-              startLivestreamBtn.disabled = true;
-              startLivestreamBtn.innerText = 'Event Not Live';
-              return;
-            }
-
-            eventTitle.innerText = event.name;
-            streamData = event;
-            startLivestreamBtn.innerText = 'Click to Start Livestream';
-            startLivestreamBtn.disabled = false;
-
-            startLivestreamBtn.addEventListener('click', () => {
-              console.log('Start Livestream clicked');
-              playerContainer.classList.add('fade-in');
-              streamLinks.classList.add('fade-in');
-              startLivestreamBtn.style.display = 'none';
-              initPlayer(streamData, errorContainer, streamLinks);
-            });
-
-            loadChatIframe();
-          })
-          .catch(error => {
-            console.error('API Fetch Error:', error.message);
-            eventTitle.innerText = 'Error: Stream Not Found';
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = error.message.includes('Stream not found')
-              ? `The requested stream "${uriName}" was not found. Redirecting to home...`
-              : 'Failed to load stream data. Please try again.';
-            startLivestreamBtn.innerText = 'Retry';
-            startLivestreamBtn.disabled = false;
-            startLivestreamBtn.addEventListener('click', () => {
-              window.location.reload();
-            });
-            if (error.message.includes('Stream not found')) {
-              setTimeout(() => window.location.href = '/', 3000);
-            }
-          });
-
-        try {
-          checkAuthStatus();
-        } catch (error) {
-          console.warn('Auth status check failed:', error);
-        }
-
-        console.log('Page initialized successfully');
-      } catch (error) {
-        console.error('Init page error:', error);
-        eventTitle.innerText = 'Error: Failed to Initialize';
-        errorContainer.className = 'alert alert-danger error-alert mt-3';
-        errorContainer.innerText = 'An error occurred while initializing the page. Please try again.';
-        startLivestreamBtn.innerText = 'Retry';
-        startLivestreamBtn.disabled = false;
-        startLivestreamBtn.addEventListener('click', () => {
-          window.location.reload();
-        });
-      }
-    }
-
-    // Delay initialization until scripts are loaded
-    window.addEventListener('load', () => {
-      console.log('Window load complete at', new Date().toISOString());
-      initOffcanvas();
-      initThemeToggle();
-      startTipCountdown();
-      initPage();
-    });
-  </script>
+ window.addEventListener('load', () => {
+ console.log('Window load complete at', new Date().toISOString());
+ initOffcanvas();
+ startTipCountdown();
+ initPage();
+ });
+ </script>
 </body>
 </html>
