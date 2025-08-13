@@ -10,17 +10,17 @@
           "uri_name": "wsg-tirol-vs-real-madrid",
           "poster": "https://images2.minutemediacdn.com/image/upload/c_crop,w_1919,h_1079,x_0,y_0/c_fill,w_720,ar_16:9,f_auto,q_auto,g_auto/images/voltaxMediaLibrary/mmsport/si/01k2d2vtf8m9h5gex74k.jpg",
           "tag": "Friendly",
-          "starts_at": "2025-08-12T20:00:00",
-          "ends_at": "2025-08-12T22:20:00",
+          "starts_at": "2025-08-13T01:00:00",
+          "ends_at": "2025-08-13T22:20:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://kleanplay.shop/embed/e97e49d683e2424060b14e661ffce5c6"
+              "url": "http://volokit2.com/games/mlb.php?team=orioles"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://kleanplay.shop/embed/e97e49d683e2424060b14e661ffce5c6"
+              "url": "http://wcs.volokit2.com/stream/367.m3u8"
             }
           ]
         },
