@@ -16,7 +16,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v18.thetvapp.to/hls/NBATV/tracks-v1a1/mono.m3u8?token=gPwBB5JIcT-LK_BwIkXIoQ&expires=1755190294&user_id=NTEuMTk1LjQ0LjE1"
+              "url": "https://tvpass.org/live/NBATV/hd"
             },
             {
               "title": "Alternate Feed",
