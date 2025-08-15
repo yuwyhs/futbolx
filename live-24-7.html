@@ -296,8 +296,16 @@
         clearError();
         embedPlayer = document.getElementById('embedPlayer');
         const videoContainer = document.getElementById('videoPlayerContainer');
+        let streamUrl, drmKey;
         const stream = event.streams[0];
-        const streamUrl = stream.url;
+        if (typeof stream === 'string') {
+          streamUrl = stream;
+        } else if (typeof stream === 'object' && stream.url) {
+          streamUrl = stream.url;
+          drmKey = stream.drm_key;
+        } else {
+          throw new Error('Invalid stream format');
+        }
         if (!streamUrl || !/^https?:/.test(streamUrl)) {
           throw new Error('Invalid or missing stream URL');
         }
@@ -321,8 +329,8 @@
             aspectRatio: '16:9',
             controls: true
           };
-          if (isMPD && stream.drm_key) {
-            const [keyId, key] = stream.drm_key.split(':');
+          if (isMPD && drmKey) {
+            const [keyId, key] = drmKey.split(':');
             playerConfig.drm = {
               widevine: {
                 licenseUrl: 'https://your-correct-widevine-license-server.com', // Replace with actual URL
