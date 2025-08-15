@@ -73,7 +73,7 @@
     [data-bs-theme="light"] .btn-fullscreen:hover {
       background: #cc3333;
     }
-    .plyr {
+    .jwplayer, .plyr {
       width: 100%;
       height: 100%;
     }
@@ -143,7 +143,7 @@
           <div class="video-container">
             <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%;" allow="autoplay; fullscreen; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
             <div id="videoPlayerContainer" style="width: 100%; height: 100%;">
-              <video id="videoPlayer" class="plyr d-none" playsinline controls></video>
+              <div id="videoPlayer" class="d-none"></div>
             </div>
           </div>
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
@@ -161,8 +161,8 @@
       </footer>
     </div>
   </div>
+  <script src="https://cdn.jwplayer.com/libraries/YOUR_JWPLAYER_LICENSE_KEY.js"></script>
   <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script defer src="/assets/js/api.js"></script>
@@ -284,14 +284,12 @@
         console.error('Offcanvas initialization error:', error);
       }
     }
-    function recreateVideoElement() {
+    function recreateVideoElement(isM3U8) {
       const videoContainer = document.getElementById('videoPlayerContainer');
       videoContainer.innerHTML = '';
-      const videoElement = document.createElement('video');
+      const videoElement = document.createElement('div');
       videoElement.id = 'videoPlayer';
-      videoElement.className = 'plyr d-none';
-      videoElement.setAttribute('playsinline', '');
-      videoElement.setAttribute('controls', '');
+      videoElement.className = isM3U8 ? 'jwplayer d-none' : 'plyr d-none';
       videoContainer.appendChild(videoElement);
       return videoElement;
     }
@@ -321,57 +319,61 @@
           embedPlayer.style.display = 'none';
           let videoPlayer = document.getElementById('videoPlayer');
           if (!videoPlayer) {
-            videoPlayer = recreateVideoElement();
+            videoPlayer = recreateVideoElement(isM3U8);
           }
           videoPlayer.classList.remove('d-none');
           videoContainer.style.display = 'block';
-          // Plyr configuration
-          const playerConfig = {
-            controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'fullscreen'],
-            settings: ['captions', 'quality', 'speed'],
-            autoplay: true,
-            ratio: '16:9'
-          };
-          // Initialize Plyr
-          videoPlayerInstance = new Plyr(videoPlayer, playerConfig);
-          if (isM3U8 && Hls.isSupported()) {
-            const hls = new Hls();
-            hls.loadSource(streamUrl);
-            hls.attachMedia(videoPlayer);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-              console.log('HLS manifest parsed');
-              videoPlayerInstance.on('ready', () => {
-                console.log('Plyr ready for HLS');
-                clearError();
-              });
+          if (isM3U8) {
+            if (typeof jwplayer === 'undefined') {
+              console.error('JW Player not loaded');
+              throw new Error('JW Player library not loaded');
+            }
+            videoPlayerInstance = jwplayer('videoPlayer').setup({
+              file: streamUrl,
+              autostart: true,
+              width: '100%',
+              aspectratio: '16:9',
+              controls: true,
+              displaytitle: false,
+              pipIcon: 'enabled',
+              captions: {
+                color: '#ffffff',
+                backgroundOpacity: 50
+              }
             });
-            hls.on(Hls.Events.ERROR, (event, data) => {
-              console.error('HLS error:', data);
+            videoPlayerInstance.on('ready', () => {
+              console.log('JW Player ready for HLS');
+              clearError();
+            });
+            videoPlayerInstance.on('error', (e) => {
+              console.error('JW Player error:', e);
               let errorMessage = 'Failed to load M3U8 stream: ';
-              if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-                if (data.details === Hls.ErrorDetails.MANIFEST_LOAD_ERROR) {
-                  errorMessage += `Failed to load playlist (HTTP ${data.response?.code || 'unknown'}). The stream may be down or blocked.`;
-                } else if (data.details === Hls.ErrorDetails.LEVEL_LOAD_ERROR) {
-                  errorMessage += `Failed to load stream level (HTTP ${data.response?.code || 'unknown'}). Check the stream URL or network.`;
-                } else {
-                  errorMessage += `Network error: ${data.details}`;
-                }
-              } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
-                errorMessage += `Media error: ${data.details}`;
+              if (e.code === 232011 || e.code === 232001) {
+                errorMessage += `Failed to load playlist (Code: ${e.code}). The stream may be down or blocked.`;
+              } else if (e.code === 230001) {
+                errorMessage += `Network error loading stream (Code: ${e.code}). Check your connection or stream URL.`;
               } else {
-                errorMessage += `Unknown error: ${data.details}`;
+                errorMessage += e.message || 'Unknown error';
               }
               errorContainer.className = 'alert alert-danger error-alert mt-3';
               errorContainer.innerText = errorMessage;
-              console.log('HLS error details:', {
-                type: data.type,
-                details: data.details,
-                fatal: data.fatal,
-                url: data.url,
-                response: data.response
+              console.log('JW Player error details:', {
+                code: e.code,
+                message: e.message,
+                sourceError: e.sourceError
               });
             });
           } else if (isMPD && window.dashjs) {
+            videoPlayer.className = 'plyr d-none';
+            videoPlayer = recreateVideoElement(false);
+            videoPlayer.classList.remove('d-none');
+            const playerConfig = {
+              controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'fullscreen'],
+              settings: ['captions', 'quality', 'speed'],
+              autoplay: true,
+              ratio: '16:9'
+            };
+            videoPlayerInstance = new Plyr(videoPlayer, playerConfig);
             if (drmKey) {
               console.warn('DRM key expired for MPD stream. Contact stream provider for a new key.');
               errorContainer.className = 'alert alert-warning error-alert mt-3';
@@ -392,23 +394,27 @@
                 });
               });
             }
+            videoPlayerInstance.on('error', (e) => {
+              console.error('Plyr error:', e);
+              errorContainer.className = 'alert alert-danger error-alert mt-3';
+              errorContainer.innerText = `Failed to load stream: ${e.message || 'Unknown error'}`;
+            });
           } else {
-            console.warn('HLS or DASH not supported in this browser');
+            console.warn('DASH not supported in this browser');
             errorContainer.className = 'alert alert-warning error-alert mt-3';
-            errorContainer.innerText = 'Your browser does not support HLS or DASH playback.';
+            errorContainer.innerText = 'Your browser does not support DASH playback.';
           }
-          videoPlayerInstance.on('error', (e) => {
-            console.error('Plyr error:', e);
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = `Failed to load stream: ${e.message || 'Unknown error'}`;
-          });
         } else {
           videoContainer.style.display = 'none';
           embedPlayer.style.display = 'block';
           if (videoPlayerInstance) {
-            videoPlayerInstance.destroy();
+            if (videoPlayerInstance.remove) {
+              videoPlayerInstance.remove();
+            } else if (videoPlayerInstance.destroy) {
+              videoPlayerInstance.destroy();
+            }
             videoPlayerInstance = null;
-            recreateVideoElement();
+            recreateVideoElement(false);
           }
           embedPlayer.contentWindow.location.replace(streamUrl);
           console.log('Embed initialized successfully');
@@ -429,11 +435,26 @@
           fullscreenBtn.classList.remove('d-none');
           fullscreenBtn.addEventListener('click', () => {
             if ((isM3U8 || isMPD) && videoPlayerInstance) {
-              videoPlayerInstance.fullscreen.enter().catch(err => {
-                console.error('Fullscreen failed:', err);
-                errorContainer.className = 'alert alert-danger error-alert mt-3';
-                errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
-              });
+              if (isM3U8 && videoPlayerInstance.getContainer) {
+                const container = videoPlayerInstance.getContainer();
+                if (container.requestFullscreen) {
+                  container.requestFullscreen().catch(err => {
+                    console.error('Fullscreen failed:', err);
+                    errorContainer.className = 'alert alert-danger error-alert mt-3';
+                    errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
+                  });
+                } else if (container.webkitRequestFullscreen) {
+                  container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) {
+                  container.msRequestFullscreen();
+                }
+              } else if (isMPD && videoPlayerInstance.fullscreen) {
+                videoPlayerInstance.fullscreen.enter().catch(err => {
+                  console.error('Fullscreen failed:', err);
+                  errorContainer.className = 'alert alert-danger error-alert mt-3';
+                  errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
+                });
+              }
             } else if (embedPlayer.requestFullscreen) {
               embedPlayer.requestFullscreen().catch(err => {
                 console.error('Fullscreen request failed:', err);
