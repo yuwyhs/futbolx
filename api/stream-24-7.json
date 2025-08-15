@@ -34,7 +34,7 @@
       "tag": "Cartoons",
       "category": "Kids",
       "poster": "https://example.com/posters/cartoons.jpg",
-      "streams": ["https://stream.example.com/cartoons-247.m3u8"],
+      "streams": ["https://fl5.moveonjoy.com/NICKELODEON/index.m3u8"],
       "always_live": 1
     },
     {
