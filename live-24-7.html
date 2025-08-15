@@ -347,36 +347,51 @@
             });
             hls.on(Hls.Events.ERROR, (event, data) => {
               console.error('HLS error:', data);
+              let errorMessage = 'Failed to load M3U8 stream: ';
+              if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+                if (data.details === Hls.ErrorDetails.MANIFEST_LOAD_ERROR) {
+                  errorMessage += `Failed to load playlist (HTTP ${data.response?.code || 'unknown'}). The stream may be down or blocked.`;
+                } else if (data.details === Hls.ErrorDetails.LEVEL_LOAD_ERROR) {
+                  errorMessage += `Failed to load stream level (HTTP ${data.response?.code || 'unknown'}). Check the stream URL or network.`;
+                } else {
+                  errorMessage += `Network error: ${data.details}`;
+                }
+              } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+                errorMessage += `Media error: ${data.details}`;
+              } else {
+                errorMessage += `Unknown error: ${data.details}`;
+              }
               errorContainer.className = 'alert alert-danger error-alert mt-3';
-              errorContainer.innerText = `Failed to load M3U8 stream: ${data.details || 'Unknown error'}`;
+              errorContainer.innerText = errorMessage;
+              console.log('HLS error details:', {
+                type: data.type,
+                details: data.details,
+                fatal: data.fatal,
+                url: data.url,
+                response: data.response
+              });
             });
           } else if (isMPD && window.dashjs) {
-            const dashPlayer = dashjs.MediaPlayer().create();
-            dashPlayer.initialize(videoPlayer, streamUrl, true);
             if (drmKey) {
-              const [keyId, key] = drmKey.split(':');
-              dashPlayer.setProtectionData({
-                'com.widevine.alpha': {
-                  serverURL: 'https://your-correct-widevine-license-server.com', // Replace with actual URL
-                  httpRequestHeaders: {
-                    'X-EZDRM-KEYID': keyId,
-                    'X-EZDRM-KEY': key
-                  }
-                }
+              console.warn('DRM key expired for MPD stream. Contact stream provider for a new key.');
+              errorContainer.className = 'alert alert-warning error-alert mt-3';
+              errorContainer.innerText = 'The DRM key for this stream has expired. Please contact the stream provider for a new key.';
+            } else {
+              const dashPlayer = dashjs.MediaPlayer().create();
+              dashPlayer.initialize(videoPlayer, streamUrl, true);
+              dashPlayer.on(dashjs.MediaPlayer.events.ERROR, (e) => {
+                console.error('DASH error:', e);
+                errorContainer.className = 'alert alert-danger error-alert mt-3';
+                errorContainer.innerText = `Failed to load MPD stream: ${e.error.message || 'Unknown error'}`;
+              });
+              dashPlayer.on(dashjs.MediaPlayer.events.STREAM_INITIALIZED, () => {
+                console.log('DASH stream initialized');
+                videoPlayerInstance.on('ready', () => {
+                  console.log('Plyr ready for DASH');
+                  clearError();
+                });
               });
             }
-            dashPlayer.on(dashjs.MediaPlayer.events.ERROR, (e) => {
-              console.error('DASH error:', e);
-              errorContainer.className = 'alert alert-danger error-alert mt-3';
-              errorContainer.innerText = `Failed to load MPD stream: ${e.error.message || 'Unknown error'}`;
-            });
-            dashPlayer.on(dashjs.MediaPlayer.events.STREAM_INITIALIZED, () => {
-              console.log('DASH stream initialized');
-              videoPlayerInstance.on('ready', () => {
-                console.log('Plyr ready for DASH');
-                clearError();
-              });
-            });
           } else {
             console.warn('HLS or DASH not supported in this browser');
             errorContainer.className = 'alert alert-warning error-alert mt-3';
