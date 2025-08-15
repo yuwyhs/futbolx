@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=25">
-  <script src="https://cdn.jwplayer.com/libraries/YOUR_JWPLAYER_LIBRARY_ID.js"></script>
+  <script src="https://cdn.jwplayer.com/libraries/5rqp7k1d9pfq.js"></script>
   <style>
     .error-alert { max-width: 500px; margin: 20px auto; }
     .fade-out { 
@@ -178,6 +178,12 @@
           const streamUrl = stream.streams[0]; // Use the first stream URL
 
           if (streamUrl.endsWith('.m3u8')) {
+            // Check if JW Player is available
+            if (typeof jwplayer === 'undefined') {
+              showError('JW Player library failed to load. Please refresh the page or try again later.');
+              streamTitle.innerText = 'Stream Error';
+              return;
+            }
             // Use JW Player for .m3u8 streams
             playerIframe.classList.add('d-none');
             playerDiv.classList.remove('d-none');
@@ -248,6 +254,14 @@
       }
     }
 
+    function waitForJwplayer(callback) {
+      if (typeof jwplayer !== 'undefined') {
+        callback();
+      } else {
+        setTimeout(() => waitForJwplayer(callback), 100);
+      }
+    }
+
     function initPage() {
       console.log('Initializing page at', new Date().toISOString());
       const errorContainer = document.getElementById('errorContainer');
@@ -273,7 +287,7 @@
       // Initialize offcanvas
       initOffcanvas();
 
-      // Load stream
+      // Load stream after JW Player is ready
       try {
         if (typeof Api === 'undefined') {
           console.warn('Api class not defined. Using default API path.');
@@ -281,11 +295,11 @@
         } else {
           apiInstance = new Api(`${window.location.origin}/api`);
         }
-        loadStream(apiInstance);
+        waitForJwplayer(() => loadStream(apiInstance));
       } catch (error) {
         console.error('API initialization error:', error);
         showError('Failed to initialize stream. Please try again.');
-        document.getElementById('streamTitle').innerText = 'Stream Not Found';
+        document.getElementById('streamTitle').innerText = 'Stream Error';
       }
 
       // Auth status
