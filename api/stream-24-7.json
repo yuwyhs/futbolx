@@ -16,7 +16,7 @@
       "tag": "Football",
       "category": "Sports",
       "poster": "https://example.com/posters/football.jpg",
-      "streams": ["https://stream.example.com/football-247.m3u8"],
+      "streams": ["https://fsly.stream.peacocktv.com/Content/CMAF_OL1-CTR-4s/Live/channel(usa-east)/master.m3u8"],
       "always_live": 1
     },
     {
