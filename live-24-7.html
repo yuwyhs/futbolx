@@ -13,9 +13,10 @@
   <meta name="twitter:description" content="Watch 24/7 cartoons and other content on FutbolX.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
-  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  <link href="https://fonts.bunny.net/css?family=kanit:100sideshow,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fontdepart: font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@4.10.6/dist/controls.css" />
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
     .tip-container {
@@ -75,6 +76,12 @@
     .jwplayer, .shaka-player-container {
       width: 100%;
       height: 100%;
+    }
+    .shaka-player-container video {
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      object-fit: contain;
     }
     .offcanvas {
       z-index: 1055 !important;
@@ -161,7 +168,8 @@
     </div>
   </div>
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.7.11/dist/shaka-player.compiled.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.10.6/dist/shaka-player.compiled.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.10.6/dist/shaka-player.ui.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script defer src="/assets/js/api.js"></script>
   <script defer src="/assets/js/auth.js"></script>
@@ -288,6 +296,10 @@
       const videoElement = document.createElement(isM3U8 ? 'div' : 'video');
       videoElement.id = 'videoPlayer';
       videoElement.className = isM3U8 ? 'jwplayer d-none' : 'shaka-player-container d-none';
+      if (!isM3U8) {
+        videoElement.setAttribute('autoplay', '');
+        videoElement.setAttribute('poster', '');
+      }
       videoContainer.appendChild(videoElement);
       return videoElement;
     }
@@ -303,6 +315,7 @@
           streamUrl = stream;
         } else if (typeof stream === 'object' && stream.url) {
           streamUrl = stream.url;
+4
           drmKey = stream.drm_key;
         } else {
           throw new Error('Invalid stream format');
@@ -371,7 +384,30 @@
               errorContainer.innerText = 'Your browser does not support DASH playback with Shaka Player.';
               return;
             }
+            const uiContainer = document.createElement('div');
+            uiContainer.className = 'shaka-player-container';
+            videoPlayer.parentNode.insertBefore(uiContainer, videoPlayer);
+            uiContainer.appendChild(videoPlayer);
             videoPlayerInstance = new shaka.Player(videoPlayer);
+            const ui = new shaka.ui.Overlay(videoPlayerInstance, uiContainer, videoPlayer);
+            ui.configure({
+              controlPanelElements: [
+                'play_pause',
+                'mute',
+                'volume',
+                'time_and_duration',
+                'fullscreen',
+                'overflow_menu'
+              ],
+              overflowMenuButtons: [
+                'captions',
+                'quality',
+                'language',
+                'picture_in_picture'
+              ],
+              addSeekBar: true,
+              enableKeyboardPlaybackControls: true
+            });
             if (drmKey) {
               videoPlayerInstance.configure({
                 drm: {
@@ -386,8 +422,21 @@
               clearError();
             }).catch(e => {
               console.error('Shaka Player error:', e);
+              let errorMessage = 'Failed to load MPD stream: ';
+              if (e.code === shaka.util.Error.Code.LOAD_FAILED) {
+                errorMessage += 'Stream load failed. The stream may be down or inaccessible.';
+              } else if (e.code === shaka.util.Error.Code.DRM_LICENSE_REQUEST_FAILED) {
+                errorMessage += 'DRM license request failed. The provided DRM key may be invalid or expired.';
+              } else {
+                errorMessage += e.message || 'Unknown error';
+              }
               errorContainer.className = 'alert alert-danger error-alert mt-3';
-              errorContainer.innerText = `Failed to load MPD stream: ${e.message || 'Unknown error'}`;
+              errorContainer.innerText = errorMessage;
+            });
+            videoPlayerInstance.addEventListener('error', (e) => {
+              console.error('Shaka Player error event:', e.detail);
+              errorContainer.className = 'alert alert-danger error-alert mt-3';
+              errorContainer.innerText = `Failed to load MPD stream: ${e.detail.message || 'Unknown error'}`;
             });
           } else {
             console.warn('DASH not supported in this browser');
@@ -438,17 +487,18 @@
                 } else if (container.msRequestFullscreen) {
                   container.msRequestFullscreen();
                 }
-              } else if (isMPD && videoPlayer) {
-                if (videoPlayer.requestFullscreen) {
-                  videoPlayer.requestFullscreen().catch(err => {
+              } else if (isMPD) {
+                const uiContainer = videoPlayer.parentNode;
+                if (uiContainer.requestFullscreen) {
+                  uiContainer.requestFullscreen().catch(err => {
                     console.error('Fullscreen failed:', err);
                     errorContainer.className = 'alert alert-danger error-alert mt-3';
                     errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
                   });
-                } else if (videoPlayer.webkitRequestFullscreen) {
-                  videoPlayer.webkitRequestFullscreen();
-                } else if (videoPlayer.msRequestFullscreen) {
-                  videoPlayer.msRequestFullscreen();
+                } else if (uiContainer.webkitRequestFullscreen) {
+                  uiContainer.webkitRequestFullscreen();
+                } else if (uiContainer.msRequestFullscreen) {
+                  uiContainer.msRequestFullscreen();
                 }
               }
             } else if (embedPlayer.requestFullscreen) {
