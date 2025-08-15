@@ -16,7 +16,7 @@
       "tag": "Football",
       "category": "Sports",
       "poster": "https://example.com/posters/football.jpg",
-      "streams": ["https://xfireflix.fun/opflix/stream.php?id=346377&e=.m3u8"],
+      "streams": ["https://xfireflix.fun/opflix/play.php?cid=346377"],
       "always_live": 1
     },
     {
