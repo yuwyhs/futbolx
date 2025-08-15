@@ -61,6 +61,22 @@
               "url": "https://v5.sportsonline.si/channels/hd/hd5.php"
             }
           ]
+        },
+        {
+          "name": "PeacockTV EPL",
+          "uri_name": "peacocktv-epl",
+          "poster": "https://cdn.punchng.com/wp-content/uploads/2023/10/18201131/Premier-League.png",
+          "tag": "Premier League",
+          "starts_at": "2025-08-15T12:00:00",
+          "ends_at": "2025-08-15T23:59:00",
+          "always_live": 1,
+          "streams": [
+            {
+              "title": "PeacockTV Main Feed",
+              "url": "https://fsly.stream.peacocktv.com/Content/CMAF_CTR-4s/Live/channel(vc1021n07j)/master.mpd",
+              "drm_key": "002046c9a49b9ab1cdb6616bec5d26c3:d2f92f6b7edc9a1a05d393ba0c20ef9e"
+            }
+          ]
         }
       ]
     },
