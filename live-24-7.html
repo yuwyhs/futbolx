@@ -77,6 +77,15 @@
       width: 100%;
       height: 100%;
     }
+    .shaka-controls-container {
+      background: rgba(0, 0, 0, 0.7); /* Match original Plyr control bar */
+    }
+    .shaka-play-button, .shaka-fullscreen-button, .shaka-volume-bar, .shaka-quality-control, .shaka-language-control, .shaka-captions-control, .shaka-picture-in-picture-control {
+      color: #ff4d4d; /* Match site’s red theme */
+    }
+    .shaka-seek-bar {
+      background: #ff4d4d; /* Seek bar color */
+    }
     .offcanvas {
       z-index: 1055 !important;
     }
@@ -375,37 +384,48 @@
             }
             videoPlayerInstance = new shaka.Player(videoPlayer);
             const ui = new shaka.ui.Overlay(videoPlayerInstance, videoContainer, videoPlayer);
-            ui.configure({
-              controlPanelElements: [
-                'play_pause',
-                'mute',
-                'volume',
-                'time_and_duration',
-                'fullscreen',
-                'overflow_menu'
-              ],
-              overflowMenuButtons: [
-                'captions',
-                'quality',
-                'language',
-                'picture_in_picture'
-              ],
-              addSeekBar: true,
-              enableKeyboardPlaybackControls: true
-            });
-            if (drmKey) {
-              console.warn('DRM key provided for MPD stream. Ensure the key is valid.');
-              videoPlayerInstance.configure({
-                drm: {
-                  servers: {
-                    'com.widevine.alpha': drmKey
-                  }
-                }
-              });
-            }
+            // Configure UI controls
+            let controlPanelElements = [
+              'play_pause',
+              'mute',
+              'volume',
+              'time_and_duration',
+              'fullscreen',
+              'picture_in_picture',
+              'quality',
+              'language'
+            ];
+            // Check for captions after stream loads
             videoPlayerInstance.load(streamUrl).then(() => {
               console.log('Shaka Player loaded MPD stream');
               clearError();
+              // Detect available text tracks for captions
+              const textTracks = videoPlayerInstance.getTextTracks();
+              if (textTracks && textTracks.length > 0) {
+                console.log('Captions detected:', textTracks);
+                controlPanelElements.push('captions');
+                ui.configure({
+                  controlPanelElements: controlPanelElements,
+                  overflowMenuButtons: ['quality', 'language', 'captions'],
+                  addSeekBar: true,
+                  enableKeyboardPlaybackControls: true
+                });
+              } else {
+                console.log('No captions detected');
+                ui.configure({
+                  controlPanelElements: controlPanelElements,
+                  overflowMenuButtons: ['quality', 'language'],
+                  addSeekBar: true,
+                  enableKeyboardPlaybackControls: true
+                });
+              }
+              // Auto-detect and set default audio language
+              const audioTracks = videoPlayerInstance.getAudioLanguagesAndRoles();
+              if (audioTracks && audioTracks.length > 0) {
+                const defaultLang = audioTracks[0].language || 'en';
+                console.log('Setting default audio language:', defaultLang);
+                videoPlayerInstance.selectAudioLanguage(defaultLang);
+              }
             }).catch(e => {
               console.error('Shaka Player error:', e);
               let errorMessage = 'Failed to load MPD stream: ';
@@ -419,6 +439,16 @@
               errorContainer.className = 'alert alert-danger error-alert mt-3';
               errorContainer.innerText = errorMessage;
             });
+            if (drmKey) {
+              console.warn('DRM key provided for MPD stream. Ensure the key is valid.');
+              videoPlayerInstance.configure({
+                drm: {
+                  servers: {
+                    'com.widevine.alpha': drmKey
+                  }
+                }
+              });
+            }
             videoPlayerInstance.addEventListener('error', (e) => {
               console.error('Shaka Player error event:', e.detail);
               errorContainer.className = 'alert alert-danger error-alert mt-3';
