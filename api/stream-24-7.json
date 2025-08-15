@@ -47,12 +47,12 @@
       "always_live": 1
     },
     {
-      "name": "24/7 Comedy Channel",
-      "uri_name": "comedy-247",
+      "name": "Comedy Central",
+      "uri_name": "comedy-central",
       "tag": "Comedy",
       "category": "Entertainment",
-      "poster": "https://example.com/posters/comedy.jpg",
-      "streams": ["https://stream.example.com/comedy-247.m3u8"],
+      "poster": "https://images.paramount.tech/uri/mgid:arc:imageassetref:en-gb.ws.cc.co.uk:659465e0-b6ff-416d-98e2-a9969431b816?quality=0.7&gen=ntrn&format=webp&width=320",
+      "streams": ["https://fl3.moveonjoy.com/Comedy_Central/index.m3u8"],
       "always_live": 1
     },
     {
