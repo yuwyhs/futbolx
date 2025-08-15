@@ -160,7 +160,7 @@
       </footer>
     </div>
   </div>
-  <script src="/assets/js/player.js"></script>
+  <script src="/assets/js/player.js" onload="console.log('player.js loaded, PlayerJS:', typeof window.PlayerJS, 'playerjs:', typeof window.playerjs, 'Player:', typeof window.Player)"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script defer src="/assets/js/api.js"></script>
   <script defer src="/assets/js/auth.js"></script>
@@ -313,8 +313,10 @@
         const isM3U8 = streamUrl.toLowerCase().endsWith('.m3u8');
         const isMPD = streamUrl.toLowerCase().endsWith('.mpd');
         if (isM3U8 || isMPD) {
-          if (typeof PlayerJS === 'undefined') {
-            console.error('PlayerJS not defined. Available globals:', Object.keys(window));
+          // Try different PlayerJS namespaces
+          const Player = window.PlayerJS || window.playerjs?.Player || window.Player || window.playerjs;
+          if (!Player) {
+            console.error('PlayerJS not defined. Available globals:', Object.keys(window).filter(k => k.toLowerCase().includes('player')));
             throw new Error('PlayerJS library not loaded');
           }
           embedPlayer.style.display = 'none';
@@ -332,19 +334,13 @@
             controls: true
           };
           if (isMPD && drmKey) {
-            const [keyId, key] = drmKey.split(':');
-            playerConfig.drm = {
-              widevine: {
-                licenseUrl: 'https://your-correct-widevine-license-server.com', // Replace with actual URL
-                headers: {
-                  'X-EZDRM-KEYID': keyId,
-                  'X-EZDRM-KEY': key
-                }
-              }
-            };
+            console.warn('DRM key provided but EME module not enabled in player.js. Falling back to non-DRM playback for MPD.');
+            // Skip DRM config since EME is not supported
+            errorContainer.className = 'alert alert-warning error-alert mt-3';
+            errorContainer.innerText = 'DRM-protected streams (e.g., PeacockTV) require the EME module in PlayerJS. Contact support for assistance.';
           }
           console.log('PlayerJS config:', playerConfig);
-          videoPlayerInstance = new PlayerJS(videoPlayer, playerConfig);
+          videoPlayerInstance = new Player(videoPlayer, playerConfig);
           videoPlayerInstance.on('error', (e) => {
             console.error('PlayerJS error:', e);
             errorContainer.className = 'alert alert-danger error-alert mt-3';
@@ -353,11 +349,6 @@
           videoPlayerInstance.on('ready', () => {
             console.log('PlayerJS ready');
             clearError();
-          });
-          videoPlayerInstance.on('drmError', (e) => {
-            console.error('PlayerJS DRM error:', e);
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = 'DRM license request failed. Check license server or key.';
           });
         } else {
           videoContainer.style.display = 'none';
@@ -510,14 +501,25 @@
         errorContainer.innerText = 'An error occurred while initializing the page. Please try again.';
       }
     }
-    window.addEventListener('load', () => {
-      console.log('Window load complete at', new Date().toISOString());
-      setTimeout(() => {
-        initOffcanvas();
-      }, 500);
-      startTipCountdown();
-      initPage();
-    });
+    // Wait for player.js to load
+    const playerScript = document.querySelector('script[src="/assets/js/player.js"]');
+    if (playerScript) {
+      playerScript.addEventListener('load', () => {
+        console.log('player.js load event fired, PlayerJS:', typeof window.PlayerJS, 'playerjs:', typeof window.playerjs, 'Player:', typeof window.Player);
+        initPage();
+      });
+      playerScript.addEventListener('error', () => {
+        console.error('player.js failed to load');
+        const errorContainer = document.getElementById('errorContainer');
+        errorContainer.className = 'alert alert-danger error-alert mt-3';
+        errorContainer.innerText = 'Failed to load PlayerJS library. Please try again.';
+      });
+    } else {
+      console.error('player.js script tag not found');
+      const errorContainer = document.getElementById('errorContainer');
+      errorContainer.className = 'alert alert-danger error-alert mt-3';
+      errorContainer.innerText = 'PlayerJS script not found. Please check the script path.';
+    }
   </script>
 </body>
 </html>
