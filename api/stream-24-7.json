@@ -7,7 +7,7 @@
       "tag": "Boxing",
       "category": "Sports",
       "poster": "https://example.com/posters/boxing.jpg",
-      "streams": ["https://stream.example.com/boxing-247.m3u8"],
+      "streams": ["http://103.110.111.36:8081/live/spselect1_720p/playlist.m3u8"],
       "always_live": 1
     },
     {
