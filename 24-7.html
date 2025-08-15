@@ -89,6 +89,20 @@
       font-size: 0.95rem;
       padding: 0.5rem 1.2rem;
     }
+    /* Dropdown styling */
+    .category-dropdown {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+    .category-dropdown .dropdown-menu {
+      background-color: var(--bs-body-bg);
+      border: 1px solid var(--bs-border-color);
+    }
+    .category-dropdown .dropdown-item:hover {
+      background-color: var(--bs-primary);
+      color: var(--bs-white);
+    }
   </style>
 </head>
 <body>
@@ -127,6 +141,21 @@
   <!-- Main Content -->
   <div class="container-fluid main-content">
     <div class="container pt-2">
+      <!-- Category Dropdown -->
+      <div class="category-dropdown">
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Category
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+            <li><a class="dropdown-item" href="#" data-category="Sports">Sports</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Entertainment">Entertainment</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Kids">Kids</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Music">Music</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Movies">Movies</a></li>
+          </ul>
+        </div>
+      </div>
       <div id="errorContainer" class="d-none error-alert"></div>
       <div id="live" class="mt-4">
         <h2 class="m-0">
@@ -156,6 +185,9 @@
   <script defer data-domain="your-futbolx-site.vercel.app" src="https://p.vidembed.re/js/script.js"></script>
   <script>
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
+
+    let apiInstance = null;
+    let allStreams = [];
 
     function clearError() {
       const errorContainer = document.getElementById('errorContainer');
@@ -201,11 +233,56 @@
       });
     }
 
+    function renderStreams(streams) {
+      const livecards = document.getElementById('livecards');
+      const liveAnimation = document.getElementById('liveAnimation');
+      livecards.innerHTML = '';
+
+      if (streams.length === 0) {
+        livecards.innerHTML = '<p>No streams available for this category.</p>';
+        liveAnimation.classList.add('d-none');
+        return;
+      }
+
+      streams.forEach(stream => {
+        let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
+        let streamHtml = `
+          <a href="/live-24-7/${stream.uri_name}">
+            <div class="card">
+              <span class="live-badge">LIVE</span>
+              <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/285x160?text=Image+Failed';">
+              <div class="card-body">
+                <h5 class="card-title">${stream.name}</h5>
+                <p class="card-text">
+                  <span class="event-tag">${stream.tag}</span>
+                  <span class="event-timer">
+                    <a href="/live-24-7/${stream.uri_name}" class="btn btn-danger btn-sm watch-button">Watch</a>
+                  </span>
+                </p>
+              </div>
+            </div>
+          </a>`;
+        livecards.innerHTML += streamHtml;
+      });
+
+      liveAnimation.classList.remove('d-none');
+      const cards = document.querySelectorAll('.card');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      cards.forEach(card => observer.observe(card));
+    }
+
     function loadContent(api) {
       console.log('Starting loadContent at', new Date().toISOString());
       const errorContainer = document.getElementById('errorContainer');
-      const liveAnimation = document.getElementById('liveAnimation');
       const livecards = document.getElementById('livecards');
+      const liveAnimation = document.getElementById('liveAnimation');
 
       errorContainer.className = 'd-none error-alert';
       errorContainer.innerHTML = '';
@@ -242,55 +319,10 @@
             return;
           }
 
-          livecards.innerHTML = '';
-          let hasLiveEvents = false;
-
-          streamData.streams.forEach(stream => {
-            if (!stream.name || !stream.uri_name || !stream.tag || !stream.streams || !Array.isArray(stream.streams)) {
-              console.warn(`Invalid stream data for ${stream.name || 'unknown stream'}, skipping`);
-              return;
-            }
-
-            let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
-            let streamHtml = `
-              <a href="/live-24-7/${stream.uri_name}">
-                <div class="card">
-                  <span class="live-badge">LIVE</span>
-                  <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/285x160?text=Image+Failed';">
-                  <div class="card-body">
-                    <h5 class="card-title">${stream.name}</h5>
-                    <p class="card-text">
-                      <span class="event-tag">${stream.tag}</span>
-                      <span class="event-timer">
-                        <a href="/live-24-7/${stream.uri_name}" class="btn btn-danger btn-sm watch-button">Watch</a>
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </a>`;
-
-            livecards.innerHTML += streamHtml;
-            hasLiveEvents = true;
-          });
-
-          if (!hasLiveEvents) {
-            livecards.innerHTML = '<p>No 24/7 streams are available right now. Check back later!</p>';
-            liveAnimation.classList.add('d-none');
-          } else {
-            liveAnimation.classList.remove('d-none');
-          }
-
-          clearError();
-          const cards = document.querySelectorAll('.card');
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-              }
-            });
-          }, { threshold: 0.1 });
-          cards.forEach(card => observer.observe(card));
+          allStreams = streamData.streams.filter(stream => 
+            stream.name && stream.uri_name && stream.tag && stream.streams && Array.isArray(stream.streams)
+          );
+          renderStreams(allStreams); // Default to "All" category
         })
         .catch(error => {
           clearTimeout(timeout);
@@ -352,6 +384,23 @@
       }
     }
 
+    function initCategoryDropdown() {
+      const dropdownItems = document.querySelectorAll('.dropdown-item');
+      const dropdownButton = document.getElementById('categoryDropdown');
+
+      dropdownItems.forEach(item => {
+        item.addEventListener('click', (event) => {
+          event.preventDefault();
+          const category = item.getAttribute('data-category');
+          dropdownButton.textContent = category;
+          const filteredStreams = category === 'All' 
+            ? allStreams 
+            : allStreams.filter(stream => stream.category === category);
+          renderStreams(filteredStreams);
+        });
+      });
+    }
+
     function initPage() {
       console.log('Initializing page at', new Date().toISOString());
       const errorContainer = document.getElementById('errorContainer');
@@ -377,6 +426,9 @@
 
       // Initialize offcanvas
       initOffcanvas();
+
+      // Initialize category dropdown
+      initCategoryDropdown();
 
       // Load content
       try {
