@@ -32,12 +32,28 @@
       "dest": "/api/stream.json"
     },
     {
+      "src": "/api/stream-24-7.json",
+      "dest": "/api/stream-24-7.json"
+    },
+    {
+      "src": "/api/stream-24-7",
+      "dest": "/api/stream-24-7.json"
+    },
+    {
       "src": "/live/(.*)",
       "dest": "/live.html"
     },
     {
+      "src": "/live-24-7/(.*)",
+      "dest": "/live-24-7.html"
+    },
+    {
       "src": "/vip",
       "dest": "/vip.html"
+    },
+    {
+      "src": "/24-7",
+      "dest": "/24-7.html"
     },
     {
       "src": "/(.*)",
