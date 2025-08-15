@@ -16,6 +16,7 @@
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
     .tip-container {
@@ -72,7 +73,7 @@
     [data-bs-theme="light"] .btn-fullscreen:hover {
       background: #cc3333;
     }
-    .playerjs {
+    .plyr {
       width: 100%;
       height: 100%;
     }
@@ -140,9 +141,9 @@
           </div>
           <h2 id="eventTitle" class="mb-3"></h2>
           <div class="video-container">
-            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%;" allow="autoplay; fullscreen; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
             <div id="videoPlayerContainer" style="width: 100%; height: 100%;">
-              <div id="videoPlayer" class="playerjs d-none"></div>
+              <video id="videoPlayer" class="plyr d-none" playsinline controls></video>
             </div>
           </div>
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
@@ -160,7 +161,9 @@
       </footer>
     </div>
   </div>
-  <script src="/assets/js/player.js" onload="console.log('player.js loaded, PlayerJS:', typeof window.PlayerJS, 'playerjs:', typeof window.playerjs, 'Player:', typeof window.Player)"></script>
+  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script defer src="/assets/js/api.js"></script>
   <script defer src="/assets/js/auth.js"></script>
@@ -284,9 +287,11 @@
     function recreateVideoElement() {
       const videoContainer = document.getElementById('videoPlayerContainer');
       videoContainer.innerHTML = '';
-      const videoElement = document.createElement('div');
+      const videoElement = document.createElement('video');
       videoElement.id = 'videoPlayer';
-      videoElement.className = 'playerjs d-none';
+      videoElement.className = 'plyr d-none';
+      videoElement.setAttribute('playsinline', '');
+      videoElement.setAttribute('controls', '');
       videoContainer.appendChild(videoElement);
       return videoElement;
     }
@@ -313,12 +318,6 @@
         const isM3U8 = streamUrl.toLowerCase().endsWith('.m3u8');
         const isMPD = streamUrl.toLowerCase().endsWith('.mpd');
         if (isM3U8 || isMPD) {
-          // Try different PlayerJS namespaces
-          const Player = window.PlayerJS || window.playerjs?.Player || window.Player || window.playerjs;
-          if (!Player) {
-            console.error('PlayerJS not defined. Available globals:', Object.keys(window).filter(k => k.toLowerCase().includes('player')));
-            throw new Error('PlayerJS library not loaded');
-          }
           embedPlayer.style.display = 'none';
           let videoPlayer = document.getElementById('videoPlayer');
           if (!videoPlayer) {
@@ -326,29 +325,67 @@
           }
           videoPlayer.classList.remove('d-none');
           videoContainer.style.display = 'block';
+          // Plyr configuration
           const playerConfig = {
-            file: streamUrl,
+            controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'fullscreen'],
+            settings: ['captions', 'quality', 'speed'],
             autoplay: true,
-            width: '100%',
-            aspectRatio: '16:9',
-            controls: true
+            ratio: '16:9'
           };
-          if (isMPD && drmKey) {
-            console.warn('DRM key provided but EME module not enabled in player.js. Falling back to non-DRM playback for MPD.');
-            // Skip DRM config since EME is not supported
+          // Initialize Plyr
+          videoPlayerInstance = new Plyr(videoPlayer, playerConfig);
+          if (isM3U8 && Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(streamUrl);
+            hls.attachMedia(videoPlayer);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+              console.log('HLS manifest parsed');
+              videoPlayerInstance.on('ready', () => {
+                console.log('Plyr ready for HLS');
+                clearError();
+              });
+            });
+            hls.on(Hls.Events.ERROR, (event, data) => {
+              console.error('HLS error:', data);
+              errorContainer.className = 'alert alert-danger error-alert mt-3';
+              errorContainer.innerText = `Failed to load M3U8 stream: ${data.details || 'Unknown error'}`;
+            });
+          } else if (isMPD && window.dashjs) {
+            const dashPlayer = dashjs.MediaPlayer().create();
+            dashPlayer.initialize(videoPlayer, streamUrl, true);
+            if (drmKey) {
+              const [keyId, key] = drmKey.split(':');
+              dashPlayer.setProtectionData({
+                'com.widevine.alpha': {
+                  serverURL: 'https://your-correct-widevine-license-server.com', // Replace with actual URL
+                  httpRequestHeaders: {
+                    'X-EZDRM-KEYID': keyId,
+                    'X-EZDRM-KEY': key
+                  }
+                }
+              });
+            }
+            dashPlayer.on(dashjs.MediaPlayer.events.ERROR, (e) => {
+              console.error('DASH error:', e);
+              errorContainer.className = 'alert alert-danger error-alert mt-3';
+              errorContainer.innerText = `Failed to load MPD stream: ${e.error.message || 'Unknown error'}`;
+            });
+            dashPlayer.on(dashjs.MediaPlayer.events.STREAM_INITIALIZED, () => {
+              console.log('DASH stream initialized');
+              videoPlayerInstance.on('ready', () => {
+                console.log('Plyr ready for DASH');
+                clearError();
+              });
+            });
+          } else {
+            console.warn('HLS or DASH not supported in this browser');
             errorContainer.className = 'alert alert-warning error-alert mt-3';
-            errorContainer.innerText = 'DRM-protected streams (e.g., PeacockTV) require the EME module in PlayerJS. Contact support for assistance.';
+            errorContainer.innerText = 'Your browser does not support HLS or DASH playback.';
           }
-          console.log('PlayerJS config:', playerConfig);
-          videoPlayerInstance = new Player(videoPlayer, playerConfig);
           videoPlayerInstance.on('error', (e) => {
-            console.error('PlayerJS error:', e);
+            console.error('Plyr error:', e);
             errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = `Failed to load ${isMPD ? 'MPD' : 'M3U8'} stream: ${e.message || 'Unknown error'}`;
-          });
-          videoPlayerInstance.on('ready', () => {
-            console.log('PlayerJS ready');
-            clearError();
+            errorContainer.innerText = `Failed to load stream: ${e.message || 'Unknown error'}`;
           });
         } else {
           videoContainer.style.display = 'none';
@@ -377,21 +414,11 @@
           fullscreenBtn.classList.remove('d-none');
           fullscreenBtn.addEventListener('click', () => {
             if ((isM3U8 || isMPD) && videoPlayerInstance) {
-              const playerElement = document.getElementById('videoPlayer');
-              if (playerElement.requestFullscreen) {
-                playerElement.requestFullscreen().catch(err => {
-                  console.error('Fullscreen failed:', err);
-                  errorContainer.className = 'alert alert-danger error-alert mt-3';
-                  errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
-                });
-              } else if (playerElement.webkitRequestFullscreen) {
-                playerElement.webkitRequestFullscreen();
-              } else if (playerElement.msRequestFullscreen) {
-                playerElement.msRequestFullscreen();
-              } else {
-                console.error('Fullscreen API not supported');
-                errorContainer.innerText = 'Fullscreen is not supported in this browser.';
-              }
+              videoPlayerInstance.fullscreen.enter().catch(err => {
+                console.error('Fullscreen failed:', err);
+                errorContainer.className = 'alert alert-danger error-alert mt-3';
+                errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
+              });
             } else if (embedPlayer.requestFullscreen) {
               embedPlayer.requestFullscreen().catch(err => {
                 console.error('Fullscreen request failed:', err);
@@ -501,25 +528,14 @@
         errorContainer.innerText = 'An error occurred while initializing the page. Please try again.';
       }
     }
-    // Wait for player.js to load
-    const playerScript = document.querySelector('script[src="/assets/js/player.js"]');
-    if (playerScript) {
-      playerScript.addEventListener('load', () => {
-        console.log('player.js load event fired, PlayerJS:', typeof window.PlayerJS, 'playerjs:', typeof window.playerjs, 'Player:', typeof window.Player);
+    window.addEventListener('load', () => {
+      console.log('Window load complete at', new Date().toISOString());
+      setTimeout(() => {
+        initOffcanvas();
+        startTipCountdown();
         initPage();
-      });
-      playerScript.addEventListener('error', () => {
-        console.error('player.js failed to load');
-        const errorContainer = document.getElementById('errorContainer');
-        errorContainer.className = 'alert alert-danger error-alert mt-3';
-        errorContainer.innerText = 'Failed to load PlayerJS library. Please try again.';
-      });
-    } else {
-      console.error('player.js script tag not found');
-      const errorContainer = document.getElementById('errorContainer');
-      errorContainer.className = 'alert alert-danger error-alert mt-3';
-      errorContainer.innerText = 'PlayerJS script not found. Please check the script path.';
-    }
+      }, 500);
+    });
   </script>
 </body>
 </html>
