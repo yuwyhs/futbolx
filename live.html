@@ -143,6 +143,7 @@
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="/request">Request</a></li>
         <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
+        <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
         <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
         <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
@@ -202,17 +203,14 @@
   <script defer src="/assets/js/auth.js"></script>
   <script>
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
-
     let embedPlayer = null;
     let videoPlayerInstance = null;
     let streamData = null;
-
     const originalOpen = window.open;
     window.open = function(url) {
       console.log('Blocked popup attempt to:', url);
       return null;
     };
-
     function clearError() {
       const errorContainer = document.getElementById('errorContainer');
       if (errorContainer && !errorContainer.classList.contains('d-none')) {
@@ -223,20 +221,16 @@
         }, 500);
       }
     }
-
     function startTipCountdown() {
       const tipContainer = document.querySelector('.tip-container');
       const tipAlert = document.querySelector('.alert-info');
       const countdownTimer = document.getElementById('countdownTimer');
       let seconds = 10;
-
       if (!tipContainer || !tipAlert || !countdownTimer) {
         console.warn('Tip container or elements not found');
         return;
       }
-
       tipContainer.style.height = `${tipAlert.offsetHeight}px`;
-
       const interval = setInterval(() => {
         seconds--;
         countdownTimer.textContent = `${seconds}s`;
@@ -249,49 +243,40 @@
           }, 500);
         }
       }, 1000);
-
       setTimeout(() => {
         tipContainer.style.height = '0';
         tipAlert.style.display = 'none';
         clearInterval(interval);
       }, 10500);
     }
-
     function initOffcanvas() {
       const offcanvasElement = document.getElementById('sidebarMenu');
       const toggler = document.getElementById('sidebarToggler');
       const themeToggle = document.getElementById('themeToggle');
       const logoutButton = document.getElementById('logoutButton');
-
       if (!offcanvasElement || !toggler || !themeToggle) {
         console.error('Offcanvas, toggler, or theme toggle not found');
         return;
       }
-
       console.log('Initializing offcanvas at', new Date().toISOString());
       if (typeof bootstrap === 'undefined') {
         console.error('Bootstrap not loaded. Ensure Bootstrap JS is included.');
         return;
       }
-
       try {
         toggler.removeAttribute('data-bs-toggle');
         toggler.removeAttribute('data-bs-target');
-
         const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
           backdrop: true,
           keyboard: true,
           scroll: false
         });
-
         setTimeout(() => {
           offcanvas.hide();
           offcanvasElement.classList.remove('show', 'showing');
           console.log('Offcanvas explicitly hidden on init at', new Date().toISOString());
         }, 100);
-
         let isToggling = false;
-
         offcanvasElement.addEventListener('shown.bs.offcanvas', () => {
           console.log('Offcanvas shown at', new Date().toISOString(), 'Intentional:', isToggling);
           isToggling = false;
@@ -301,7 +286,6 @@
           console.log('Offcanvas hidden at', new Date().toISOString());
           isToggling = false;
         });
-
         toggler.addEventListener('click', (event) => {
           event.preventDefault();
           console.log('Sidebar toggler clicked at', new Date().toISOString());
@@ -314,7 +298,6 @@
           isToggling = true;
           offcanvas.toggle();
         });
-
         function attachSidebarListeners() {
           const navLinks = offcanvasElement.querySelectorAll('.nav-link');
           navLinks.forEach(link => {
@@ -341,7 +324,6 @@
               }
             });
           });
-
           const logoutButton = document.getElementById('logoutButton');
           if (logoutButton) {
             logoutButton.style.pointerEvents = 'auto';
@@ -359,7 +341,6 @@
               offcanvas.hide();
             });
           }
-
           const themeToggle = document.getElementById('themeToggle');
           if (themeToggle) {
             themeToggle.style.pointerEvents = 'auto';
@@ -370,7 +351,6 @@
             htmlElement.setAttribute('data-bs-theme', currentTheme);
             themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
             console.log('Theme toggle initialized to:', currentTheme, 'at', new Date().toISOString());
-
             const newThemeToggle = themeToggle.cloneNode(true);
             themeToggle.parentNode.replaceChild(newThemeToggle, themeToggle);
             newThemeToggle.addEventListener('click', (event) => {
@@ -409,9 +389,7 @@
             });
           }
         }
-
         attachSidebarListeners();
-
         document.addEventListener('click', (event) => {
           console.log('Global click, target:', event.target, 'at', new Date().toISOString());
         });
@@ -422,7 +400,6 @@
         console.error('Offcanvas initialization error:', error);
       }
     }
-
     function recreateVideoElement() {
       const videoContainer = document.getElementById('videoPlayerContainer');
       videoContainer.innerHTML = '';
@@ -432,7 +409,6 @@
       videoContainer.appendChild(videoElement);
       return videoElement;
     }
-
     function initPlayer(event, errorContainer, streamLinks) {
       console.log('initPlayer called with event:', event);
       try {
@@ -440,13 +416,10 @@
         embedPlayer = document.getElementById('embedPlayer');
         const videoContainer = document.getElementById('videoPlayerContainer');
         const streamUrl = event.streams[0]?.url;
-
         if (!streamUrl || !/^https?:/.test(streamUrl)) {
           throw new Error('Invalid or missing stream URL');
         }
-
         const isM3U8 = streamUrl.toLowerCase().endsWith('.m3u8');
-
         if (isM3U8) {
           embedPlayer.style.display = 'none';
           let videoPlayer = document.getElementById('videoPlayer');
@@ -455,7 +428,6 @@
           }
           videoPlayer.classList.remove('d-none');
           videoContainer.style.display = 'block';
-
           videoPlayerInstance = jwplayer('videoPlayer').setup({
             file: streamUrl,
             autostart: true,
@@ -464,18 +436,15 @@
             mute: false,
             controls: true
           });
-
           videoPlayerInstance.on('error', (e) => {
             console.error('JW Player error:', e.message);
             errorContainer.className = 'alert alert-danger error-alert mt-3';
             errorContainer.innerText = 'Failed to load M3U8 stream. Please try another stream.';
           });
-
           videoPlayerInstance.on('ready', () => {
             console.log('JW Player ready');
             clearError();
           });
-
         } else {
           videoContainer.style.display = 'none';
           embedPlayer.style.display = 'block';
@@ -487,7 +456,6 @@
           embedPlayer.contentWindow.location.replace(streamUrl);
           console.log('Embed initialized successfully');
         }
-
         streamLinks.innerHTML = event.streams.map((stream, index) => `
           <button class="btn btn-stream ${index === 0 ? 'active' : ''}" 
                   data-stream-encoded="${btoa(stream.url)}" 
@@ -496,7 +464,6 @@
             ${stream.title || `Stream ${index + 1}`}
           </button>
         `).join('');
-
         streamLinks.addEventListener('click', (e) => {
           const btn = e.target.closest('.btn.btn-stream');
           if (btn) {
@@ -567,20 +534,17 @@
             }
           }
         });
-
         if (!isM3U8) {
           embedPlayer.addEventListener('error', () => {
             console.error('Embed load error');
             errorContainer.className = 'alert alert-danger error-alert mt-3';
             errorContainer.innerText = 'Failed to load stream. The stream may be invalid or restricted.';
           });
-
           embedPlayer.addEventListener('load', () => {
             console.log('Embed loaded successfully');
             clearError();
           });
         }
-
         const fullscreenBtn = document.getElementById('fullscreenBtn');
         if (fullscreenBtn) {
           fullscreenBtn.classList.remove('d-none');
@@ -625,7 +589,6 @@
         errorContainer.innerText = 'Failed to initialize stream: ' + (err.message || 'Unknown error');
       }
     }
-
     function fetchWithRetry(url, maxRetries = 3, delay = 1000) {
       return new Promise((resolve, reject) => {
         let attempts = 0;
@@ -659,7 +622,6 @@
         attempt();
       });
     }
-
     function loadChatIframe() {
       const chatContainer = document.querySelector('.chat-container');
       const chatLoading = document.getElementById('chatLoading');
@@ -667,7 +629,6 @@
         console.error('Chat container or loading element not found');
         return;
       }
-
       setTimeout(() => {
         const iframe = document.createElement('iframe');
         iframe.src = 'https://www5.cbox.ws/box/?boxid=958103&boxtag=ElAMjb';
@@ -684,18 +645,15 @@
         chatContainer.appendChild(iframe);
       }, 1000);
     }
-
     function initPage() {
       console.log('Initializing page at', new Date().toISOString());
       const errorContainer = document.getElementById('errorContainer');
       const startLivestreamBtn = document.getElementById('startLivestream');
       const eventTitle = document.getElementById('eventTitle');
-
       try {
         const uriName = window.location.pathname.split('/').pop();
         const playerContainer = document.querySelector('.video-container');
         const streamLinks = document.getElementById('streamLinks');
-
         let api;
         if (typeof Api === 'undefined') {
           console.warn('Api class not defined. Using default API path.');
@@ -703,7 +661,6 @@
         } else {
           api = new Api(`${window.location.origin}/api`);
         }
-
         const apiUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream` : `${api.baseUrl}/stream`;
         fetchWithRetry(apiUrl)
           .then(data => {
@@ -724,7 +681,6 @@
             if (!event.name || !event.starts_at) {
               throw new Error('Missing required event fields');
             }
-
             const now = Math.floor(Date.now() / 1000);
             let startTime, endTime;
             try {
@@ -745,7 +701,6 @@
               startTime = now;
               endTime = now + 3 * 3600;
             }
-
             const isLive = (startTime <= now && now <= endTime) || event.always_live === 1;
             if (!isLive) {
               eventTitle.innerText = event.name + ' (Not Live)';
@@ -755,12 +710,10 @@
               startLivestreamBtn.innerText = 'Event Not Live';
               return;
             }
-
             eventTitle.innerText = event.name;
             streamData = event;
             startLivestreamBtn.innerText = 'Click to Start Livestream';
             startLivestreamBtn.disabled = false;
-
             startLivestreamBtn.addEventListener('click', () => {
               console.log('Start Livestream clicked');
               playerContainer.classList.add('fade-in');
@@ -768,7 +721,6 @@
               startLivestreamBtn.style.display = 'none';
               initPlayer(streamData, errorContainer, streamLinks);
             });
-
             loadChatIframe();
           })
           .catch(error => {
@@ -787,13 +739,11 @@
               setTimeout(() => window.location.href = '/', 3000);
             }
           });
-
         try {
           checkAuthStatus();
         } catch (error) {
           console.warn('Auth status check failed:', error);
         }
-
         console.log('Page initialized successfully');
       } catch (error) {
         console.error('Init page error:', error);
@@ -807,12 +757,11 @@
         });
       }
     }
-
     window.addEventListener('load', () => {
       console.log('Window load complete at', new Date().toISOString());
       setTimeout(() => {
         initOffcanvas();
-      }, 500); // Delay to allow auth.js/api.js to modify DOM
+      }, 500);
       startTipCountdown();
       initPage();
     });
