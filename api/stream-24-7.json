@@ -2,48 +2,58 @@
   "success": true,
   "streams": [
     {
-      "category": "24/7 Channels",
-      "always_live": 1,
-      "streams": [
-        {
-          "name": "Sports 24/7 Channel 1",
-          "uri_name": "sports-24-7-channel-1",
-          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROmzqd0QRfBGUodqqVUtE0NkP62eZJ-h5Hhg&s",
-          "tag": "24/7 Sports",
-          "starts_at": "2025-01-01T00:00:00",
-          "ends_at": "2025-12-31T23:59:59",
-          "always_live": 1,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://tvpass.org/live/Sports247/hd"
-            },
-            {
-              "title": "Alternate Feed",
-              "url": "https://fl5.moveonjoy.com/SPORTS247/tracks-v1a1/mono.ts.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Sports 24/7 Channel 2",
-          "uri_name": "sports-24-7-channel-2",
-          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLS9zIxfWMqA07CFgVoY3pcd0iQD1AYpSDLA&s",
-          "tag": "24/7 Sports",
-          "starts_at": "2025-01-01T00:00:00",
-          "ends_at": "2025-12-31T23:59:59",
-          "always_live": 1,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://kleanplay.shop/embed/24e7bc82ddc2c1206ab3378ad8c0de79"
-            },
-            {
-              "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd247.php"
-            }
-          ]
-        }
-      ]
+      "name": "24/7 Boxing Channel",
+      "uri_name": "boxing-247",
+      "tag": "Boxing",
+      "category": "Sports",
+      "poster": "https://example.com/posters/boxing.jpg",
+      "streams": ["https://stream.example.com/boxing-247.m3u8"],
+      "always_live": 1
+    },
+    {
+      "name": "24/7 Football Channel",
+      "uri_name": "football-247",
+      "tag": "Football",
+      "category": "Sports",
+      "poster": "https://example.com/posters/football.jpg",
+      "streams": ["https://stream.example.com/football-247.m3u8"],
+      "always_live": 1
+    },
+    {
+      "name": "24/7 Family Movies",
+      "uri_name": "family-movies-247",
+      "tag": "Family",
+      "category": "Movies",
+      "poster": "https://example.com/posters/family-movies.jpg",
+      "streams": ["https://stream.example.com/family-movies-247.m3u8"],
+      "always_live": 1
+    },
+    {
+      "name": "24/7 Kids Cartoons",
+      "uri_name": "cartoons-247",
+      "tag": "Cartoons",
+      "category": "Kids",
+      "poster": "https://example.com/posters/cartoons.jpg",
+      "streams": ["https://stream.example.com/cartoons-247.m3u8"],
+      "always_live": 1
+    },
+    {
+      "name": "24/7 Pop Music",
+      "uri_name": "pop-music-247",
+      "tag": "Music",
+      "category": "Music",
+      "poster": "https://example.com/posters/pop-music.jpg",
+      "streams": ["https://stream.example.com/pop-music-247.m3u8"],
+      "always_live": 1
+    },
+    {
+      "name": "24/7 Comedy Channel",
+      "uri_name": "comedy-247",
+      "tag": "Comedy",
+      "category": "Entertainment",
+      "poster": "https://example.com/posters/comedy.jpg",
+      "streams": ["https://stream.example.com/comedy-247.m3u8"],
+      "always_live": 1
     }
   ]
 }
