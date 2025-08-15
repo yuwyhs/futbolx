@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FutbolX - 24/7 Live Stream</title>
-  <meta name="description" content="FutbolX - Watch 24/7 live streams including boxing, cartoons, music, and more.">
-  <meta name="keywords" content="futbolx, 24/7, live streams, boxing, cartoons, music, stream, online, free">
-  <meta property="og:title" content="FutbolX - 24/7 Live Stream" />
+  <title>FutbolX - Watch 24/7</title>
+  <meta name="description" content="FutbolX - Watch 24/7 cartoons and other content.">
+  <meta name="keywords" content="futbolx, cartoons, 24/7, stream, online, free">
+  <meta property="og:title" content="FutbolX - Watch 24/7" />
   <meta property="og:url" content="https://your-futbolx-site.vercel.app/24-7" />
   <meta property="og:image" content="/assets/img/og-image.jpg">
-  <meta name="twitter:title" content="FutbolX - 24/7 Live Stream">
-  <meta name="twitter:description" content="Watch 24/7 live streams on FutbolX.">
+  <meta name="twitter:title" content="FutbolX - Watch 24/7">
+  <meta name="twitter:description" content="Watch 24/7 cartoons and other content on FutbolX.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
-  <script defer src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
+  <script defer src="/assets/js/player.js"></script>
   <style>
     .tip-container {
       max-width: 600px;
@@ -73,39 +73,29 @@
     [data-bs-theme="light"] .btn-fullscreen:hover {
       background: #cc3333;
     }
-    .jwplayer {
+    .playerjs {
       width: 100%;
       height: 100%;
     }
-    .offcanvas, .offcanvas-backdrop {
+    .offcanvas {
       z-index: 1055 !important;
-      pointer-events: auto !important;
     }
     .offcanvas-backdrop {
+      z-index: 1050 !important;
       background-color: rgba(0, 0, 0, 0.5);
     }
     .offcanvas .nav-link, .offcanvas .btn-link, .offcanvas button {
-      pointer-events: auto !important;
       cursor: pointer !important;
-      position: relative;
-      z-index: 1060 !important;
     }
     .offcanvas .nav-item {
       position: relative;
-      z-index: 1060 !important;
-    }
-    .video-container {
-      width: 100%;
-      max-width: 1280px;
-      margin: 0 auto;
-      aspect-ratio: 16 / 9;
     }
   </style>
 </head>
 <body>
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
-      <button class="btn btn-dark" type="button" id="sidebarToggler" aria-controls="sidebarMenu">
+      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
         <i class="fas fa-bars"></i>
       </button>
       <span class="futbolx-brand">FutbolX</span>
@@ -146,14 +136,15 @@
             </div>
           </div>
           <div class="d-flex align-items-center mb-3">
-            <a href="/24-7" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to 24/7</a>
-            <button id="startLivestream" class="btn btn-danger ms-3" disabled>Loading...</button>
+            <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
             <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
           </div>
           <h2 id="eventTitle" class="mb-3"></h2>
           <div class="video-container">
             <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
-            <div id="videoPlayerContainer" style="width: 100%; height: 100%;"></div>
+            <div id="videoPlayerContainer" style="width: 100%; height: 100%;">
+              <div id="videoPlayer" class="playerjs d-none"></div>
+            </div>
           </div>
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
         </div>
@@ -236,138 +227,56 @@
         return;
       }
       try {
-        toggler.removeAttribute('data-bs-toggle');
-        toggler.removeAttribute('data-bs-target');
         const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
           backdrop: true,
           keyboard: true,
           scroll: false
         });
-        setTimeout(() => {
-          offcanvas.hide();
-          offcanvasElement.classList.remove('show', 'showing');
-          console.log('Offcanvas explicitly hidden on init at', new Date().toISOString());
-        }, 100);
-        let isToggling = false;
         offcanvasElement.addEventListener('shown.bs.offcanvas', () => {
-          console.log('Offcanvas shown at', new Date().toISOString(), 'Intentional:', isToggling);
-          isToggling = false;
-          attachSidebarListeners();
+          console.log('Offcanvas shown at', new Date().toISOString());
         });
         offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
           console.log('Offcanvas hidden at', new Date().toISOString());
-          isToggling = false;
         });
-        toggler.addEventListener('click', (event) => {
-          event.preventDefault();
-          console.log('Sidebar toggler clicked at', new Date().toISOString());
-          isToggling = true;
-          offcanvas.toggle();
-        });
-        toggler.addEventListener('touchstart', (event) => {
-          event.preventDefault();
-          console.log('Sidebar toggler touched at', new Date().toISOString());
-          isToggling = true;
-          offcanvas.toggle();
-        });
-        function attachSidebarListeners() {
-          const navLinks = offcanvasElement.querySelectorAll('.nav-link');
-          navLinks.forEach(link => {
-            link.style.pointerEvents = 'auto';
-            link.style.cursor = 'pointer';
-            const newLink = link.cloneNode(true);
-            link.parentNode.replaceChild(newLink, link);
-            newLink.addEventListener('click', (event) => {
-              event.preventDefault();
-              const href = newLink.getAttribute('href');
-              if (href) {
-                console.log('Nav link clicked:', href, 'at', new Date().toISOString());
-                window.location.href = href;
-                offcanvas.hide();
-              }
-            });
-            newLink.addEventListener('touchstart', (event) => {
-              event.preventDefault();
-              const href = newLink.getAttribute('href');
-              console.log('Nav link touched:', href, 'at', new Date().toISOString());
-              if (href) {
-                window.location.href = href;
-                offcanvas.hide();
-              }
-            });
+        const navLinks = offcanvasElement.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          link.addEventListener('click', (event) => {
+            const href = link.getAttribute('href');
+            if (href) {
+              console.log('Nav link clicked:', href, 'at', new Date().toISOString());
+              window.location.href = href;
+              offcanvas.hide();
+            }
           });
-          const logoutButton = document.getElementById('logoutButton');
-          if (logoutButton) {
-            logoutButton.style.pointerEvents = 'auto';
-            logoutButton.style.cursor = 'pointer';
-            const newLogoutButton = logoutButton.cloneNode(true);
-            logoutButton.parentNode.replaceChild(newLogoutButton, logoutButton);
-            newLogoutButton.addEventListener('click', (event) => {
-              event.preventDefault();
-              console.log('Logout button clicked at', new Date().toISOString());
-              offcanvas.hide();
-            });
-            newLogoutButton.addEventListener('touchstart', (event) => {
-              event.preventDefault();
-              console.log('Logout button touched at', new Date().toISOString());
-              offcanvas.hide();
-            });
-          }
-          const themeToggle = document.getElementById('themeToggle');
-          if (themeToggle) {
-            themeToggle.style.pointerEvents = 'auto';
-            themeToggle.style.cursor = 'pointer';
-            themeToggle.style.display = 'block';
-            const htmlElement = document.documentElement;
-            const currentTheme = localStorage.getItem('theme') || 'dark';
-            htmlElement.setAttribute('data-bs-theme', currentTheme);
-            themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-            console.log('Theme toggle initialized to:', currentTheme, 'at', new Date().toISOString());
-            const newThemeToggle = themeToggle.cloneNode(true);
-            themeToggle.parentNode.replaceChild(newThemeToggle, themeToggle);
-            newThemeToggle.addEventListener('click', (event) => {
-              event.preventDefault();
-              try {
-                const currentTheme = htmlElement.getAttribute('data-bs-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                htmlElement.setAttribute('data-bs-theme', newTheme);
-                try {
-                  localStorage.setItem('theme', newTheme);
-                } catch (e) {
-                  console.warn('localStorage error:', e);
-                }
-                newThemeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-                console.log('Theme toggled to:', newTheme, 'at', new Date().toISOString());
-              } catch (error) {
-                console.error('Theme toggle click error:', error);
-              }
-            });
-            newThemeToggle.addEventListener('touchstart', (event) => {
-              event.preventDefault();
-              try {
-                const currentTheme = htmlElement.getAttribute('data-bs-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                htmlElement.setAttribute('data-bs-theme', newTheme);
-                try {
-                  localStorage.setItem('theme', newTheme);
-                } catch (e) {
-                  console.warn('localStorage error:', e);
-                }
-                newThemeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-                console.log('Theme toggled to:', newTheme, 'at', new Date().toISOString());
-              } catch (error) {
-                console.error('Theme toggle touch error:', error);
-              }
-            });
-          }
+        });
+        if (logoutButton) {
+          logoutButton.addEventListener('click', () => {
+            console.log('Logout button clicked at', new Date().toISOString());
+            offcanvas.hide();
+            if (typeof logout === 'function') {
+              logout();
+            }
+          });
         }
-        attachSidebarListeners();
-        document.addEventListener('click', (event) => {
-          console.log('Global click, target:', event.target, 'at', new Date().toISOString());
-        });
-        document.addEventListener('touchstart', (event) => {
-          console.log('Global touchstart, target:', event.target, 'at', new Date().toISOString());
-        });
+        if (themeToggle) {
+          const htmlElement = document.documentElement;
+          const currentTheme = localStorage.getItem('theme') || 'dark';
+          htmlElement.setAttribute('data-bs-theme', currentTheme);
+          themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+          console.log('Theme toggle initialized to:', currentTheme, 'at', new Date().toISOString());
+          themeToggle.addEventListener('click', () => {
+            try {
+              const currentTheme = htmlElement.getAttribute('data-bs-theme');
+              const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+              htmlElement.setAttribute('data-bs-theme', newTheme);
+              localStorage.setItem('theme', newTheme);
+              themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+              console.log('Theme toggled to:', newTheme, 'at', new Date().toISOString());
+            } catch (error) {
+              console.error('Theme toggle error:', error);
+            }
+          });
+        }
       } catch (error) {
         console.error('Offcanvas initialization error:', error);
       }
@@ -377,7 +286,7 @@
       videoContainer.innerHTML = '';
       const videoElement = document.createElement('div');
       videoElement.id = 'videoPlayer';
-      videoElement.className = 'jwplayer d-none';
+      videoElement.className = 'playerjs d-none';
       videoContainer.appendChild(videoElement);
       return videoElement;
     }
@@ -387,14 +296,16 @@
         clearError();
         embedPlayer = document.getElementById('embedPlayer');
         const videoContainer = document.getElementById('videoPlayerContainer');
-        const streamUrl = event.streams[0];
+        const stream = event.streams[0];
+        const streamUrl = stream.url;
         if (!streamUrl || !/^https?:/.test(streamUrl)) {
           throw new Error('Invalid or missing stream URL');
         }
         const isM3U8 = streamUrl.toLowerCase().endsWith('.m3u8');
-        if (isM3U8) {
-          if (typeof jwplayer === 'undefined') {
-            throw new Error('JW Player library not loaded');
+        const isMPD = streamUrl.toLowerCase().endsWith('.mpd');
+        if (isM3U8 || isMPD) {
+          if (typeof PlayerJS === 'undefined') {
+            throw new Error('PlayerJS library not loaded');
           }
           embedPlayer.style.display = 'none';
           let videoPlayer = document.getElementById('videoPlayer');
@@ -403,35 +314,52 @@
           }
           videoPlayer.classList.remove('d-none');
           videoContainer.style.display = 'block';
-          videoPlayerInstance = jwplayer('videoPlayer').setup({
+          const playerConfig = {
             file: streamUrl,
-            autostart: true,
+            autoplay: true,
             width: '100%',
-            aspectratio: '16:9',
-            mute: false,
+            aspectRatio: '16:9',
             controls: true
-          });
+          };
+          if (isMPD && stream.drm_key) {
+            const [keyId, key] = stream.drm_key.split(':');
+            playerConfig.drm = {
+              widevine: {
+                licenseUrl: 'https://your-correct-widevine-license-server.com', // Replace with actual URL
+                headers: {
+                  'X-EZDRM-KEYID': keyId,
+                  'X-EZDRM-KEY': key
+                }
+              }
+            };
+          }
+          videoPlayerInstance = new PlayerJS(videoPlayer, playerConfig);
           videoPlayerInstance.on('error', (e) => {
-            console.error('JW Player error:', e.message);
+            console.error('PlayerJS error:', e);
             errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = 'Failed to load M3U8 stream. Please try again.';
+            errorContainer.innerText = `Failed to load ${isMPD ? 'MPD' : 'M3U8'} stream: ${e.message || 'Unknown error'}`;
           });
           videoPlayerInstance.on('ready', () => {
-            console.log('JW Player ready');
+            console.log('PlayerJS ready');
             clearError();
+          });
+          videoPlayerInstance.on('drmError', (e) => {
+            console.error('PlayerJS DRM error:', e);
+            errorContainer.className = 'alert alert-danger error-alert mt-3';
+            errorContainer.innerText = 'DRM license request failed. Check license server or key.';
           });
         } else {
           videoContainer.style.display = 'none';
           embedPlayer.style.display = 'block';
           if (videoPlayerInstance) {
-            videoPlayerInstance.remove();
+            videoPlayerInstance.destroy();
             videoPlayerInstance = null;
             recreateVideoElement();
           }
           embedPlayer.contentWindow.location.replace(streamUrl);
           console.log('Embed initialized successfully');
         }
-        if (!isM3U8) {
+        if (!isM3U8 && !isMPD) {
           embedPlayer.addEventListener('error', () => {
             console.error('Embed load error');
             errorContainer.className = 'alert alert-danger error-alert mt-3';
@@ -446,11 +374,11 @@
         if (fullscreenBtn) {
           fullscreenBtn.classList.remove('d-none');
           fullscreenBtn.addEventListener('click', () => {
-            if (isM3U8 && videoPlayerInstance) {
+            if ((isM3U8 || isMPD) && videoPlayerInstance) {
               const playerElement = document.getElementById('videoPlayer');
               if (playerElement.requestFullscreen) {
                 playerElement.requestFullscreen().catch(err => {
-                  console.error('JW Player fullscreen failed:', err);
+                  console.error('Fullscreen failed:', err);
                   errorContainer.className = 'alert alert-danger error-alert mt-3';
                   errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
                 });
@@ -460,13 +388,11 @@
                 playerElement.msRequestFullscreen();
               } else {
                 console.error('Fullscreen API not supported');
-                errorContainer.className = 'alert alert-danger error-alert mt-3';
                 errorContainer.innerText = 'Fullscreen is not supported in this browser.';
               }
             } else if (embedPlayer.requestFullscreen) {
               embedPlayer.requestFullscreen().catch(err => {
                 console.error('Fullscreen request failed:', err);
-                errorContainer.className = 'alert alert-danger error-alert mt-3';
                 errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
               });
             } else if (embedPlayer.webkitRequestFullscreen) {
@@ -475,13 +401,12 @@
               embedPlayer.msRequestFullscreen();
             } else {
               console.error('Fullscreen API not supported');
-              errorContainer.className = 'alert alert-danger error-alert mt-3';
               errorContainer.innerText = 'Fullscreen is not supported in this browser.';
             }
           });
         }
       } catch (err) {
-        console.error('Embed init error:', err);
+        console.error('Player init error:', err);
         errorContainer.className = 'alert alert-danger error-alert mt-3';
         errorContainer.innerText = 'Failed to initialize stream: ' + (err.message || 'Unknown error');
       }
@@ -522,7 +447,6 @@
     function initPage() {
       console.log('Initializing page at', new Date().toISOString());
       const errorContainer = document.getElementById('errorContainer');
-      const startLivestreamBtn = document.getElementById('startLivestream');
       const eventTitle = document.getElementById('eventTitle');
       try {
         const uriName = window.location.pathname.split('/').pop();
@@ -537,7 +461,7 @@
         const apiUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream-24-7` : `${api.baseUrl}/stream-24-7`;
         fetchWithRetry(apiUrl)
           .then(data => {
-            console.log('24/7 Stream API Response:', data);
+            console.log('Stream API Response:', data);
             if (!data || !data.success || !Array.isArray(data.streams)) {
               throw new Error('Invalid stream data');
             }
@@ -545,27 +469,22 @@
             if (!event || !event.streams || !Array.isArray(event.streams) || event.streams.length === 0) {
               throw new Error(`Stream not found for uri_name: ${uriName}`);
             }
-            eventTitle.innerText = event.name || '24/7 Stream';
+            if (!event.name) {
+              throw new Error('Missing required event fields');
+            }
+            eventTitle.innerText = event.name;
             streamData = event;
-            startLivestreamBtn.innerText = 'Click to Start Livestream';
-            startLivestreamBtn.disabled = false;
-            startLivestreamBtn.addEventListener('click', () => {
-              console.log('Start Livestream clicked');
-              playerContainer.classList.add('fade-in');
-              startLivestreamBtn.style.display = 'none';
-              initPlayer(streamData, errorContainer);
-            });
+            playerContainer.classList.add('fade-in');
+            initPlayer(streamData, errorContainer);
           })
           .catch(error => {
             console.error('API Fetch Error:', error.message);
             eventTitle.innerText = 'Error: Stream Not Found';
             errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = `Failed to load stream: ${error.message}. Please try again.`;
-            startLivestreamBtn.innerText = 'Retry';
-            startLivestreamBtn.disabled = false;
-            startLivestreamBtn.addEventListener('click', () => {
-              window.location.reload();
-            });
+            errorContainer.innerText = error.message.includes('Stream not found')
+              ? `The requested stream "${uriName}" was not found. Redirecting to home...`
+              : 'Failed to load stream data. Please try again.';
+            setTimeout(() => window.location.href = '/', 3000);
           });
         try {
           checkAuthStatus();
@@ -578,11 +497,6 @@
         eventTitle.innerText = 'Error: Failed to Initialize';
         errorContainer.className = 'alert alert-danger error-alert mt-3';
         errorContainer.innerText = 'An error occurred while initializing the page. Please try again.';
-        startLivestreamBtn.innerText = 'Retry';
-        startLivestreamBtn.disabled = false;
-        startLivestreamBtn.addEventListener('click', () => {
-          window.location.reload();
-        });
       }
     }
     window.addEventListener('load', () => {
