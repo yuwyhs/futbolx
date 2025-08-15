@@ -1,0 +1,49 @@
+{
+  "success": true,
+  "streams": [
+    {
+      "category": "24/7 Channels",
+      "always_live": 1,
+      "streams": [
+        {
+          "name": "Sports 24/7 Channel 1",
+          "uri_name": "sports-24-7-channel-1",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROmzqd0QRfBGUodqqVUtE0NkP62eZJ-h5Hhg&s",
+          "tag": "24/7 Sports",
+          "starts_at": "2025-01-01T00:00:00",
+          "ends_at": "2025-12-31T23:59:59",
+          "always_live": 1,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://tvpass.org/live/Sports247/hd"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://fl5.moveonjoy.com/SPORTS247/tracks-v1a1/mono.ts.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Sports 24/7 Channel 2",
+          "uri_name": "sports-24-7-channel-2",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLS9zIxfWMqA07CFgVoY3pcd0iQD1AYpSDLA&s",
+          "tag": "24/7 Sports",
+          "starts_at": "2025-01-01T00:00:00",
+          "ends_at": "2025-12-31T23:59:59",
+          "always_live": 1,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://kleanplay.shop/embed/24e7bc82ddc2c1206ab3378ad8c0de79"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd247.php"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
