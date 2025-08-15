@@ -63,8 +63,8 @@
       "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/280px-Premier_League_Logo.svg.png",
       "streams": [
         {
-          "url": "https://d1g8wgjurz8via.cloudfront.net/bpk-tv/Shortstv2/default/manifest.mpd",
-          "drm_key": "b994480f788d41ddbc805862ac469416:78a6a0fc1758483595da7113e58e4467"
+          "url": "https://linearjitp-playback.astro.com.my/dash-wv/linear/408/default_ott.mpd",
+          "drm_key": "1a655189ab5c49eb235308c2b1a9e710:3c4508af348844107f5e026a4fd6b16e"
         }
       ],
       "always_live": 1
