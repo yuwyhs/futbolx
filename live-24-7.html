@@ -16,7 +16,6 @@
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
     .tip-container {
@@ -73,7 +72,7 @@
     [data-bs-theme="light"] .btn-fullscreen:hover {
       background: #cc3333;
     }
-    .jwplayer, .plyr {
+    .jwplayer, .shaka-player-container {
       width: 100%;
       height: 100%;
     }
@@ -162,8 +161,7 @@
     </div>
   </div>
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
-  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
-  <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.7.11/dist/shaka-player.compiled.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script defer src="/assets/js/api.js"></script>
   <script defer src="/assets/js/auth.js"></script>
@@ -287,9 +285,9 @@
     function recreateVideoElement(isM3U8) {
       const videoContainer = document.getElementById('videoPlayerContainer');
       videoContainer.innerHTML = '';
-      const videoElement = document.createElement('div');
+      const videoElement = document.createElement(isM3U8 ? 'div' : 'video');
       videoElement.id = 'videoPlayer';
-      videoElement.className = isM3U8 ? 'jwplayer d-none' : 'plyr d-none';
+      videoElement.className = isM3U8 ? 'jwplayer d-none' : 'shaka-player-container d-none';
       videoContainer.appendChild(videoElement);
       return videoElement;
     }
@@ -363,41 +361,33 @@
                 sourceError: e.sourceError
               });
             });
-          } else if (isMPD && window.dashjs) {
-            videoPlayer.className = 'plyr d-none';
+          } else if (isMPD && window.shaka) {
             videoPlayer = recreateVideoElement(false);
             videoPlayer.classList.remove('d-none');
-            const playerConfig = {
-              controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'fullscreen'],
-              settings: ['captions', 'quality', 'speed'],
-              autoplay: true,
-              ratio: '16:9'
-            };
-            videoPlayerInstance = new Plyr(videoPlayer, playerConfig);
-            if (drmKey) {
-              console.warn('DRM key expired for MPD stream. Contact stream provider for a new key.');
+            shaka.polyfill.installAll();
+            if (!shaka.Player.isBrowserSupported()) {
+              console.warn('Shaka Player not supported in this browser');
               errorContainer.className = 'alert alert-warning error-alert mt-3';
-              errorContainer.innerText = 'The DRM key for this stream has expired. Please contact the stream provider for a new key.';
-            } else {
-              const dashPlayer = dashjs.MediaPlayer().create();
-              dashPlayer.initialize(videoPlayer, streamUrl, true);
-              dashPlayer.on(dashjs.MediaPlayer.events.ERROR, (e) => {
-                console.error('DASH error:', e);
-                errorContainer.className = 'alert alert-danger error-alert mt-3';
-                errorContainer.innerText = `Failed to load MPD stream: ${e.error.message || 'Unknown error'}`;
-              });
-              dashPlayer.on(dashjs.MediaPlayer.events.STREAM_INITIALIZED, () => {
-                console.log('DASH stream initialized');
-                videoPlayerInstance.on('ready', () => {
-                  console.log('Plyr ready for DASH');
-                  clearError();
-                });
+              errorContainer.innerText = 'Your browser does not support DASH playback with Shaka Player.';
+              return;
+            }
+            videoPlayerInstance = new shaka.Player(videoPlayer);
+            if (drmKey) {
+              videoPlayerInstance.configure({
+                drm: {
+                  servers: {
+                    'com.widevine.alpha': drmKey
+                  }
+                }
               });
             }
-            videoPlayerInstance.on('error', (e) => {
-              console.error('Plyr error:', e);
+            videoPlayerInstance.load(streamUrl).then(() => {
+              console.log('Shaka Player loaded MPD stream');
+              clearError();
+            }).catch(e => {
+              console.error('Shaka Player error:', e);
               errorContainer.className = 'alert alert-danger error-alert mt-3';
-              errorContainer.innerText = `Failed to load stream: ${e.message || 'Unknown error'}`;
+              errorContainer.innerText = `Failed to load MPD stream: ${e.message || 'Unknown error'}`;
             });
           } else {
             console.warn('DASH not supported in this browser');
@@ -448,12 +438,18 @@
                 } else if (container.msRequestFullscreen) {
                   container.msRequestFullscreen();
                 }
-              } else if (isMPD && videoPlayerInstance.fullscreen) {
-                videoPlayerInstance.fullscreen.enter().catch(err => {
-                  console.error('Fullscreen failed:', err);
-                  errorContainer.className = 'alert alert-danger error-alert mt-3';
-                  errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
-                });
+              } else if (isMPD && videoPlayer) {
+                if (videoPlayer.requestFullscreen) {
+                  videoPlayer.requestFullscreen().catch(err => {
+                    console.error('Fullscreen failed:', err);
+                    errorContainer.className = 'alert alert-danger error-alert mt-3';
+                    errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
+                  });
+                } else if (videoPlayer.webkitRequestFullscreen) {
+                  videoPlayer.webkitRequestFullscreen();
+                } else if (videoPlayer.msRequestFullscreen) {
+                  videoPlayer.msRequestFullscreen();
+                }
               }
             } else if (embedPlayer.requestFullscreen) {
               embedPlayer.requestFullscreen().catch(err => {
