@@ -54,6 +54,20 @@
       "poster": "https://example.com/posters/comedy.jpg",
       "streams": ["https://stream.example.com/comedy-247.m3u8"],
       "always_live": 1
+    },
+    {
+      "name": "PeacockTV EPL",
+      "uri_name": "peacocktv-epl",
+      "tag": "Football",
+      "category": "Sports",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/280px-Premier_League_Logo.svg.png",
+      "streams": [
+        {
+          "url": "/api/proxy-stream?url=https://fsly.stream.peacocktv.com/Content/CMAF_CTR-4s/Live/channel(vc1021n07j)/master.mpd",
+          "drm_key": "002046c9a49b9ab1cdb6616bec5d26c3:d2f92f6b7edc9a1a05d393ba0c20ef9e"
+        }
+      ],
+      "always_live": 1
     }
   ]
 }
