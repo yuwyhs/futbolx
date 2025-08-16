@@ -64,7 +64,7 @@
       "streams": [
         {
           "url": "https://fsly.stream.peacocktv.com/Content/CMAF_OL1-CTR-4s/Live/channel(usa-east)/master.mpd",
-          "drm_key": "882c9f5613b43b47adc70aa968a308ce:882c9f5613b43b47adc70aa968a308ce"
+          "drm_key": "882c9f5613b43b47adc70aa968a308ce:dde534ef8914bfe62ba3cdd6bdb9e1c04"
         }
       ],
       "always_live": 1
