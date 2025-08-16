@@ -16,7 +16,7 @@
       "tag": "Football",
       "category": "Sports",
       "poster": "https://example.com/posters/football.jpg",
-      "streams": ["https://viamotionhsi.netplus.ch/live/eds/euronews/browser-dash/euronews.mpd"],
+      "streams": ["https://viamotionhsi.netplus.ch/live/eds/cartoonnetwork/browser-dash/cartoonnetwork.mpd"],
       "always_live": 1
     },
     {
