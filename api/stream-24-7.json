@@ -63,8 +63,8 @@
       "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/280px-Premier_League_Logo.svg.png",
       "streams": [
         {
-          "url": "https://fsly.stream.peacocktv.com/Content/CMAF_OL1-CTR-4s/Live/channel(usa-east)/master.mpd",
-          "drm_key": "882c9f5613b43b47adc70aa968a308ce:dde534ef8914bfe62ba3cdd6bdb9e1c04"
+          "url": "https://live-ctv.video.9c9media.com/f/TSN/TSN1/manifest.mpd",
+          "drm_key": "dea83ced0141424e983e1afe463b4b0d:c00dd5dd17b0799aa4013f365a1393ce"
         }
       ],
       "always_live": 1
