@@ -16,9 +16,8 @@
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="/assets/css/main.css?v=24">
-  <!-- Bitmovin Player CSS (optional, for custom styling if needed) -->
   <link rel="stylesheet" href="https://cdn.bitmovin.com/player/ui/8/bitmovinplayer-ui.min.css" />
+  <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
     .tip-container {
       max-width: 600px;
@@ -79,10 +78,10 @@
       height: 100%;
     }
     .bmpui-ui-playbacktogglebutton, .bmpui-ui-volumeslider, .bmpui-ui-qualityselect, .bmpui-ui-audioselect, .bmpui-ui-captionsselect, .bmpui-ui-fullscreentogglebutton, .bmpui-ui-piptogglebutton {
-      color: #ff4d4d; /* Match site’s red theme */
+      color: #ff4d4d;
     }
     .bmpui-ui-seekbar-playbackposition, .bmpui-ui-seekbar-bufferlevel {
-      background: #ff4d4d; /* Seek bar color */
+      background: #ff4d4d;
     }
     .offcanvas {
       z-index: 1055 !important;
@@ -293,7 +292,7 @@
     function recreateVideoElement(isM3U8) {
       const videoContainer = document.getElementById('videoPlayerContainer');
       videoContainer.innerHTML = '';
-      const videoElement = document.createElement(isM3U8 ? 'div' : 'div');
+      const videoElement = document.createElement('div');
       videoElement.id = 'videoPlayer';
       videoElement.className = isM3U8 ? 'jwplayer d-none' : 'd-none';
       videoContainer.appendChild(videoElement);
@@ -368,7 +367,13 @@
               sourceError: e.sourceError
             });
           });
-        } else if (isMPD && window.bitmovin) {
+        } else if (isMPD) {
+          if (typeof bitmovin === 'undefined' || !bitmovin.player) {
+            console.error('Bitmovin Player not loaded');
+            errorContainer.className = 'alert alert-danger error-alert mt-3';
+            errorContainer.innerText = 'Bitmovin Player library failed to load. Please check your network or CDN.';
+            return;
+          }
           embedPlayer.style.display = 'none';
           let videoPlayer = document.getElementById('videoPlayer');
           if (!videoPlayer) {
@@ -376,9 +381,9 @@
           }
           videoPlayer.classList.remove('d-none');
           videoContainer.style.display = 'block';
-          videoPlayerInstance = bitmovin.player.Player(videoPlayer);
-          const playerConfig = {
-            key: 'YOUR_BITMOVIN_PLAYER_LICENSE_KEY', // Replace with your Bitmovin license key
+          console.log('Initializing Bitmovin Player with license key: e176be67-c303-4147-a73e-cfe04526e383');
+          videoPlayerInstance = new bitmovin.player.Player(videoPlayer, {
+            key: 'e176be67-c303-4147-a73e-cfe04526e383', // Provided license key
             playback: {
               autoplay: true,
               muted: false
@@ -388,24 +393,32 @@
               aspectratio: '16:9',
               width: '100%'
             }
+          });
+          const sourceConfig = {
+            dash: streamUrl
           };
-          videoPlayerInstance.load({
-            dash: streamUrl,
-            drm: drmKey ? {
+          if (drmKey) {
+            console.log('Configuring DRM with key:', drmKey);
+            // Assuming drm_key is in format "keyId:licenseUrl"
+            const licenseUrl = drmKey.includes(':') ? drmKey.split(':')[1] : drmKey;
+            sourceConfig.drm = {
               widevine: {
-                LA_URL: drmKey
+                LA_URL: licenseUrl
               }
-            } : {}
-          }).then(() => {
-            console.log('Bitmovin Player loaded MPD stream');
+            };
+          }
+          videoPlayerInstance.load(sourceConfig).then(() => {
+            console.log('Bitmovin Player loaded MPD stream successfully');
             clearError();
           }).catch(e => {
-            console.error('Bitmovin Player error:', e);
+            console.error('Bitmovin Player load error:', e);
             let errorMessage = 'Failed to load MPD stream: ';
-            if (e.code === 'NETWORK') {
+            if (e.code && e.code.includes('NETWORK')) {
               errorMessage += 'Network error loading stream. The stream may be down or inaccessible.';
-            } else if (e.code === 'DRM') {
+            } else if (e.code && e.code.includes('DRM')) {
               errorMessage += 'DRM license request failed. The provided DRM key may be invalid or expired.';
+            } else if (e.code && e.code.includes('SETUP')) {
+              errorMessage += 'Player setup failed. Please verify the license key and domain allowlist.';
             } else {
               errorMessage += e.message || 'Unknown error';
             }
@@ -417,6 +430,15 @@
             errorContainer.className = 'alert alert-danger error-alert mt-3';
             errorContainer.innerText = `Failed to load MPD stream: ${e.message || 'Unknown error'}`;
           });
+          videoPlayerInstance.on('ready', () => {
+            console.log('Bitmovin Player ready');
+            clearError();
+          });
+          videoPlayerInstance.on('setuperror', (e) => {
+            console.error('Bitmovin Player setup error:', e);
+            errorContainer.className = 'alert alert-danger error-alert mt-3';
+            errorContainer.innerText = 'Bitmovin Player setup failed. Please verify the license key and domain allowlist.';
+          });
         } else {
           videoContainer.style.display = 'none';
           embedPlayer.style.display = 'block';
@@ -424,7 +446,7 @@
             if (videoPlayerInstance.unload) {
               videoPlayerInstance.unload();
             }
-            if (videoPlayerInstance.destroy) {
+            ifビデオPlayerInstance.destroy) {
               videoPlayerInstance.destroy();
             }
             videoPlayerInstance = null;
