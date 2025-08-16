@@ -6,75 +6,192 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Liverpool vs Bournemouth",
-          "uri_name": "liverpool-vs-bournemouth",
-          "poster": "https://cdn.nerdytips.com/public/img/preview-images/Liverpool-vs-Bournemouth-prediction-2025-08-15.png",
-          "tag": "English Premier League",
-          "starts_at": "2025-08-15T22:00:00",
-          "ends_at": "2025-08-15T23:59:00",
+          "name": "Aston Villa vs Newcastle",
+          "uri_name": "aston-villa-vs-newcastle",
+          "poster": "https://media.zenfs.com/en/playmakerstats_articles_264/4d5c44c64c19d1598f0b0c25b2695098",
+          "tag": "Epl",
+          "starts_at": "2025-08-16T14:30:00",
+          "ends_at": "2025-08-16T16:30:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "http://fl3.moveonjoy.com/USA_NETWORK/index.m3u8"
+              "url": "https://kleanplay.shop/embed/astonvilla-newcastle-main"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/pt/eleven1.php"
+              "url": "https://v5.sportsonline.si/channels/hd/astonvilla-newcastle-alt.php"
             }
           ]
         },
         {
-          "name": "Rennais vs Marseille",
-          "uri_name": "rennais-vs-marseille",
-          "poster": "https://nerdytips.com/public/img/preview-images/Rennes-vs-Marseille-prediction-2025-08-15.png",
-          "tag": "League One",
-          "starts_at": "2025-08-15T21:45:00",
-          "ends_at": "2025-08-15T23:50:00",
+          "name": "Goal Rush",
+          "uri_name": "goal-rush",
+          "poster": "https://ds-images.bolavip.com/news/image/1200/740/?src=https://images.worldsoccertalk.com/webp/WST_20160827_WST_184566_goal-rush.webp",
+          "tag": "Epl",
+          "starts_at": "2025-08-16T17:00:00",
+          "ends_at": "2025-08-16T19:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://kleanplay.shop/embed/ed2e4feb3324493718af934924315346"
+              "url": "https://kleanplay.shop/embed/goalrush-main"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd7.php"
+              "url": "https://v5.sportsonline.si/channels/hd/goalrush-alt.php"
             }
           ]
         },
         {
-          "name": "Girona vs Vallecano",
-          "uri_name": "girona-vs-vallecano",
-          "poster": "https://cdn.nerdytips.com/public/img/preview-images/Girona-vs-Rayo-Vallecano-prediction-2025-08-15.png",
+          "name": "Brighton vs Fulham",
+          "uri_name": "brighton-vs-fulham",
+          "poster": "https://s.yimg.com/ny/api/res/1.2/SGV6k8i5B1n_rJi5r3aPfw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNjtjZj13ZWJw/https://media.zenfs.com/en/playmakerstats_articles_264/b22f4fdcc86eb22a882cfab36c501e12",
+          "tag": "Epl",
+          "starts_at": "2025-08-16T17:00:00",
+          "ends_at": "2025-08-16T19:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://kleanplay.shop/embed/brighton-fulham-main"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/brighton-fulham-alt.php"
+            }
+          ]
+        },
+        {
+          "name": "Sunderland vs West Ham",
+          "uri_name": "sunderland-vs-west-ham",
+          "poster": "https://media.zenfs.com/en/playmakerstats_articles_264/557c55255729fb5deebac0758ed6f12f",
+          "tag": "Epl",
+          "starts_at": "2025-08-16T17:00:00",
+          "ends_at": "2025-08-16T19:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://kleanplay.shop/embed/sunderland-westham-main"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/sunderland-westham-alt.php"
+            }
+          ]
+        },
+        {
+          "name": "Tottenham vs Burnley",
+          "uri_name": "tottenham-vs-burnley",
+          "poster": "https://s.yimg.com/ny/api/res/1.2/7GzKscWH8DDfVjmdasJiaw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNjtjZj13ZWJw/https://media.zenfs.com/en/playmakerstats_articles_264/5987a36a5bd5863713d9b8495bce1e40",
+          "tag": "Epl",
+          "starts_at": "2025-08-16T17:00:00",
+          "ends_at": "2025-08-16T19:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://kleanplay.shop/embed/tottenham-burnley-main"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/tottenham-burnley-alt.php"
+            }
+          ]
+        },
+        {
+          "name": "Lens vs Lyon",
+          "uri_name": "lens-vs-lyon",
+          "poster": "https://s.yimg.com/ny/api/res/1.2/VvOYraTRBGvtlJidTKmF0g--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNjtjZj13ZWJw/https://media.zenfs.com/en/playmakerstats_articles_264/c6dbdf418363f06b2200173b5fd191c9",
+          "tag": "Ligue one",
+          "starts_at": "2025-08-16T18:00:00",
+          "ends_at": "2025-08-16T20:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://kleanplay.shop/embed/lens-lyon-main"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/lens-lyon-alt.php"
+            }
+          ]
+        },
+        {
+          "name": "Wolves vs Man City",
+          "uri_name": "wolves-vs-man-city",
+          "poster": "https://s.yimg.com/ny/api/res/1.2/6sNXvumfkpEdGdxzo5xC8A--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTM2MDtjZj13ZWJw/https://media.zenfs.com/en/manchester_city_fc_articles_899/9bcac003a0865d9e828e1851771d6873",
+          "tag": "Epl",
+          "starts_at": "2025-08-16T19:30:00",
+          "ends_at": "2025-08-16T21:30:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://kleanplay.shop/embed/wolves-mancity-main"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/wolves-mancity-alt.php"
+            }
+          ]
+        },
+        {
+          "name": "Monaco vs Le Havre",
+          "uri_name": "monaco-vs-le-havre",
+          "poster": "https://s.yimg.com/ny/api/res/1.2/5Bc9XPM87NGzZxvHsvalhA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNjtjZj13ZWJw/https://media.zenfs.com/en/playmakerstats_articles_264/b4db9d8895abad537995b7870e7397db",
+          "tag": "Ligue one",
+          "starts_at": "2025-08-16T20:00:00",
+          "ends_at": "2025-08-16T22:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://kleanplay.shop/embed/monaco-lehavre-main"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/monaco-lehavre-alt.php"
+            }
+          ]
+        },
+        {
+          "name": "Mallorca vs Barcelona",
+          "uri_name": "mallorca-vs-barcelona",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7q9oLkeGvE2r2C1HCb8b-PikO0TYx772e3g&s",
           "tag": "Laliga",
-          "starts_at": "2025-08-15T20:00:00",
-          "ends_at": "2025-08-15T21:59:00",
+          "starts_at": "2025-08-16T20:00:00",
+          "ends_at": "2025-08-16T22:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://kleanstorage.store/embed/pajip6maru1rlcoz1qizebitocof4aP7"
+              "url": "https://kleanplay.shop/embed/mallorca-barcelona-main"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://charfolemti.sbs/string/xixsponksdd2"
+              "url": "https://v5.sportsonline.si/channels/hd/mallorca-barcelona-alt.php"
             }
           ]
         },
         {
-          "name": "PeacockTV EPL",
-          "uri_name": "peacocktv-epl",
-          "poster": "https://cdn.punchng.com/wp-content/uploads/2023/10/18201131/Premier-League.png",
-          "tag": "Premier League",
-          "starts_at": "2025-08-13T12:00:00",
-          "ends_at": "2025-08-13T23:59:00",
-          "always_live": 1,
+          "name": "Nice vs Toulouse",
+          "uri_name": "nice-vs-toulouse",
+          "poster": "https://s.yimg.com/ny/api/res/1.2/RCzYHzIH.UMW6Ccdy5PFOA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNjtjZj13ZWJw/https://media.zenfs.com/en/playmakerstats_articles_264/e95033b783b7caad524bf2bdd7bac121",
+          "tag": "Ligue one",
+          "starts_at": "2025-08-16T22:05:00",
+          "ends_at": "2025-08-17T00:05:00",
+          "always_live": 0,
           "streams": [
             {
-              "title": "PeacockTV Main Feed",
-              "url": "https://fsly.stream.peacocktv.com/Content/CMAF_CTR-4s/Live/channel(vc1021n07j)/master.mpd",
-              "drm_key": "002046c9a49b9ab1cdb6616bec5d26c3:d2f92f6b7edc9a1a05d393ba0c20ef9e"
+              "title": "Main Feed",
+              "url": "https://kleanplay.shop/embed/nice-toulouse-main"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/nice-toulouse-alt.php"
             }
           ]
         }
@@ -83,7 +200,27 @@
     {
       "category": "Fights",
       "always_live": 0,
-      "streams": []
+      "streams": [
+        {
+          "name": "UFC 319",
+          "uri_name": "ufc-319",
+          "poster": "https://prod.cosm-cdn.io/venue-events/Sports_Events/ufc/UFC319/Product_Assets/Event_Image/UFC_319_keyart_16x9_v1.webp",
+          "tag": "UFC",
+          "starts_at": "2025-08-17T05:00:00",
+          "ends_at": "2025-08-17T08:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://kleanplay.shop/embed/ufc319-main"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/ufc319-alt.php"
+            }
+          ]
+        }
+      ]
     }
   ]
-}
+        }
