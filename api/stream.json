@@ -111,11 +111,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://kleanplay.shop/embed/lens-lyon-main"
+              "url": "https://sportzonline.si/channels/hd/hd4.php"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/lens-lyon-alt.php"
+              "url": "https://sportzonline.si/channels/hd/hd4.php"
             }
           ]
         },
@@ -130,11 +130,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://kleanplay.shop/embed/wolves-mancity-main"
+              "url": "https://sportzonline.si/channels/hd/hd1.php"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/wolves-mancity-alt.php"
+              "url": "https://sportzonline.si/channels/pt/eleven1.php"
             }
           ]
         },
@@ -149,11 +149,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://kleanplay.shop/embed/monaco-lehavre-main"
+              "url": "https://sportzonline.si/channels/hd/hd4.php"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/monaco-lehavre-alt.php"
+              "url": "https://sportzonline.si/channels/pt/sporttv3.php"
             }
           ]
         },
@@ -168,11 +168,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://kleanplay.shop/embed/mallorca-barcelona-main"
+              "url": "https://sportzonline.si/channels/hd/hd2.php"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/mallorca-barcelona-alt.php"
+              "url": "https://sportzonline.si/channels/hd/hd6.php"
             }
           ]
         },
@@ -187,11 +187,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://kleanplay.shop/embed/nice-toulouse-main"
+              "url": "https://sportzonline.si/channels/hd/hd4.php"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/nice-toulouse-alt.php"
+              "url": "https://sportzonline.si/channels/pt/sporttv3.php"
             }
           ]
         }
