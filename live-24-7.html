@@ -16,7 +16,7 @@
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdn.bitmovin.com/player/ui/8/bitmovinplayer-ui.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@4.7.11/dist/controls.css">
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
     .tip-container {
@@ -51,7 +51,7 @@
       from { opacity: 1; }
       to { opacity: 0; }
     }
-    .btn-fullscreen {
+    .btn-fullscreen, .btn-pip, .btn-quality {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -60,27 +60,37 @@
       color: #fff;
       border: none;
       border-radius: 20px;
+      margin-left: 10px;
       transition: transform 0.3s, background 0.3s;
     }
-    [data-bs-theme="light"] .btn-fullscreen {
+    [data-bs-theme="light"] .btn-fullscreen, [data-bs-theme="light"] .btn-pip, [data-bs-theme="light"] .btn-quality {
       background: #e63939;
       color: #333;
     }
-    .btn-fullscreen:hover {
+    .btn-fullscreen:hover, .btn-pip:hover, .btn-quality:hover {
       transform: scale(1.05);
       background: #e63939;
     }
-    [data-bs-theme="light"] .btn-fullscreen:hover {
+    [data-bs-theme="light"] .btn-fullscreen:hover, [data-bs-theme="light"] .btn-pip:hover, [data-bs-theme="light"] .btn-quality:hover {
       background: #cc3333;
     }
-    .jwplayer, .bmpui-ui-uicontainer {
+    .jwplayer, .shaka-player-container {
       width: 100%;
       height: 100%;
     }
-    .bmpui-ui-playbacktogglebutton, .bmpui-ui-volumeslider, .bmpui-ui-qualityselect, .bmpui-ui-audioselect, .bmpui-ui-captionsselect, .bmpui-ui-fullscreentogglebutton, .bmpui-ui-piptogglebutton {
+    .shaka-video-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    .shaka-controls-container {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+    }
+    .shaka-play-button, .shaka-volume-bar-container, .shaka-fullscreen-button {
       color: #ff4d4d;
     }
-    .bmpui-ui-seekbar-playbackposition, .bmpui-ui-seekbar-bufferlevel {
+    .shaka-seek-bar-container {
       background: #ff4d4d;
     }
     .offcanvas {
@@ -144,6 +154,10 @@
           <div class="d-flex align-items-center mb-3">
             <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
             <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
+            <button id="pipBtn" class="btn btn-pip ms-3 d-none">Picture-in-Picture</button>
+            <select id="qualitySelect" class="btn btn-quality ms-3 d-none">
+              <option value="">Select Quality</option>
+            </select>
           </div>
           <h2 id="eventTitle" class="mb-3"></h2>
           <div class="video-container">
@@ -168,7 +182,7 @@
     </div>
   </div>
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
-  <script src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.7.11/dist/shaka-player.compiled.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script defer src="/assets/js/api.js"></script>
   <script defer src="/assets/js/auth.js"></script>
@@ -302,15 +316,20 @@
     function recreateVideoElement(isM3U8) {
       const videoContainer = document.getElementById('videoPlayerContainer');
       videoContainer.innerHTML = '';
-      const videoElement = document.createElement('div');
+      const videoElement = isM3U8 ? document.createElement('div') : document.createElement('video');
       videoElement.id = 'videoPlayer';
-      videoElement.className = isM3U8 ? 'jwplayer d-none' : 'd-none';
+      videoElement.className = isM3U8 ? 'jwplayer d-none' : 'shaka-player-container d-none';
+      if (!isM3U8) {
+        videoElement.controls = true;
+        videoElement.style.width = '100%';
+        videoElement.style.height = '100%';
+      }
       videoContainer.appendChild(videoElement);
       return videoElement;
     }
 
     // Initialize player
-    function initPlayer(event, errorContainer) {
+    async function initPlayer(event, errorContainer) {
       console.log('initPlayer called with event:', event);
       try {
         clearError();
@@ -380,10 +399,10 @@
             });
           });
         } else if (isMPD) {
-          if (typeof bitmovin === 'undefined' || !bitmovin.player) {
-            console.error('Bitmovin Player script not loaded or failed to initialize');
+          if (typeof shaka === 'undefined') {
+            console.error('Shaka Player not loaded');
             errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = 'Failed to load Bitmovin Player. Check your network or disable ad blockers.';
+            errorContainer.innerText = 'Failed to load Shaka Player. Check your network or disable ad blockers.';
             return;
           }
           embedPlayer.style.display = 'none';
@@ -393,66 +412,119 @@
           }
           videoPlayer.classList.remove('d-none');
           videoContainer.style.display = 'block';
-          console.log('Initializing Bitmovin Player with license key: e176be67-c303-4147-a73e-cfe04526e383');
           try {
-            videoPlayerInstance = new bitmovin.player.Player(videoPlayer, {
-              key: 'e176be67-c303-4147-a73e-cfe04526e383',
-              playback: {
-                autoplay: true,
-                muted: false
-              },
-              ui: true
-            });
-          } catch (e) {
-            console.error('Bitmovin Player instantiation error:', e);
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = 'Failed to initialize Bitmovin Player. Please verify the license key.';
-            return;
-          }
-          const sourceConfig = {
-            dash: streamUrl
-          };
-          if (drmKey) {
-            console.log('Configuring DRM with key:', drmKey);
-            const licenseUrl = drmKey.includes(':') ? drmKey.split(':')[1] : drmKey;
-            sourceConfig.drm = {
-              widevine: {
-                LA_URL: licenseUrl
+            await shaka.polyfill.installAll();
+            if (!shaka.Player.isBrowserSupported()) {
+              throw new Error('Browser not supported by Shaka Player');
+            }
+            videoPlayerInstance = new shaka.Player(videoPlayer);
+            let drmConfig = {};
+            let loadUrl = streamUrl;
+            // Check for query parameter DRM (ClearKey)
+            const urlParams = new URLSearchParams(new URL(streamUrl).search);
+            const drmScheme = urlParams.get('drmScheme');
+            const drmLicense = urlParams.get('drmLicense');
+            if (drmScheme === 'clearkey' && drmLicense) {
+              const [keyId, key] = drmLicense.split(':');
+              if (!keyId || !key) {
+                throw new Error('Invalid ClearKey DRM format');
               }
-            };
-          }
-          videoPlayerInstance.load(sourceConfig).then(() => {
-            console.log('Bitmovin Player loaded MPD stream successfully');
+              drmConfig = {
+                servers: {
+                  'org.w3.clearkey': {
+                    keys: [{ kid: shaka.util.Uint8ArrayUtils.fromHex(keyId), k: shaka.util.Uint8ArrayUtils.fromHex(key) }]
+                  }
+                }
+              };
+              loadUrl = streamUrl.split('?')[0]; // Remove query params
+              console.log('Configuring ClearKey DRM:', { keyId, key });
+            } else if (drmKey) {
+              // Handle stream.json DRM (Widevine)
+              drmConfig = {
+                servers: {
+                  'com.widevine.alpha': drmKey.includes(':') ? drmKey.split(':')[1] : drmKey
+                }
+              };
+              console.log('Configuring Widevine DRM:', drmKey);
+            } else {
+              console.log('No DRM configuration provided');
+            }
+            videoPlayerInstance.configure({
+              streaming: {
+                bufferingGoal: 60,
+                rebufferingGoal: 2,
+                bufferBehind: 30
+              },
+              drm: drmConfig
+            });
+            // Load quality selection
+            const qualitySelect = document.getElementById('qualitySelect');
+            videoPlayerInstance.addEventListener('trackschanged', () => {
+              const tracks = videoPlayerInstance.getVariantTracks();
+              qualitySelect.innerHTML = '<option value="">Select Quality</option>';
+              tracks.forEach(track => {
+                const option = document.createElement('option');
+                option.value = track.id;
+                option.text = track.height ? `${track.height}p (${Math.round(track.bandwidth / 1000)} kbps)` : `Auto (${Math.round(track.bandwidth / 1000)} kbps)`;
+                qualitySelect.appendChild(option);
+              });
+              qualitySelect.classList.remove('d-none');
+            });
+            qualitySelect.addEventListener('change', () => {
+              const trackId = parseInt(qualitySelect.value);
+              if (trackId) {
+                const tracks = videoPlayerInstance.getVariantTracks();
+                const selectedTrack = tracks.find(t => t.id === trackId);
+                if (selectedTrack) {
+                  videoPlayerInstance.selectVariantTrack(selectedTrack, true);
+                  console.log('Selected quality:', selectedTrack.height ? selectedTrack.height + 'p' : 'Auto');
+                }
+              }
+            });
+            // Load captions
+            videoPlayerInstance.addEventListener('texttrackchanged', () => {
+              const tracks = videoPlayerInstance.getTextTracks();
+              if (tracks.length > 0) {
+                videoPlayerInstance.setTextTrackVisibility(true);
+                console.log('Captions available:', tracks);
+              }
+            });
+            // Picture-in-Picture
+            const pipBtn = document.getElementById('pipBtn');
+            if (document.pictureInPictureEnabled) {
+              pipBtn.classList.remove('d-none');
+              pipBtn.addEventListener('click', async () => {
+                try {
+                  if (document.pictureInPictureElement) {
+                    await document.exitPictureInPicture();
+                    pipBtn.textContent = 'Picture-in-Picture';
+                  } else {
+                    await videoPlayer.requestPictureInPicture();
+                    pipBtn.textContent = 'Exit Picture-in-Picture';
+                  }
+                } catch (e) {
+                  console.error('PiP error:', e);
+                  errorContainer.className = 'alert alert-danger error-alert mt-3';
+                  errorContainer.innerText = 'Picture-in-Picture failed: ' + (e.message || 'Not supported');
+                }
+              });
+            }
+            await videoPlayerInstance.load(loadUrl);
+            console.log('Shaka Player loaded MPD stream successfully:', loadUrl);
             clearError();
-          }).catch(e => {
-            console.error('Bitmovin Player load error:', e);
+          } catch (e) {
+            console.error('Shaka Player error:', e);
             let errorMessage = 'Failed to load MPD stream: ';
-            if (e.code && e.code.includes('NETWORK')) {
-              errorMessage += 'Network error loading stream. The stream may be down or inaccessible.';
-            } else if (e.code && e.code.includes('DRM')) {
-              errorMessage += 'DRM license request failed. The provided DRM key may be invalid or expired.';
-            } else if (e.code && e.code.includes('SETUP')) {
-              errorMessage += 'Player setup failed. Verify the license key and domain allowlist in the Bitmovin dashboard.';
+            if (e.code === shaka.util.Error.Code.BAD_HTTP_STATUS) {
+              errorMessage += 'Stream URL is inaccessible or returned an error.';
+            } else if (e.code === shaka.util.Error.Code.LICENSE_REQUEST_FAILED) {
+              errorMessage += 'DRM license request failed. The provided DRM key may be invalid.';
             } else {
               errorMessage += e.message || 'Unknown error';
             }
             errorContainer.className = 'alert alert-danger error-alert mt-3';
             errorContainer.innerText = errorMessage;
-          });
-          videoPlayerInstance.on('error', (e) => {
-            console.error('Bitmovin Player error event:', e);
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = `Failed to load MPD stream: ${e.message || 'Unknown error'}`;
-          });
-          videoPlayerInstance.on('ready', () => {
-            console.log('Bitmovin Player ready');
-            clearError();
-          });
-          videoPlayerInstance.on('setuperror', (e) => {
-            console.error('Bitmovin Player setup error:', e);
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = 'Bitmovin Player setup failed. Verify the license key and domain allowlist in the Bitmovin dashboard.';
-          });
+          }
         } else {
           videoContainer.style.display = 'none';
           embedPlayer.style.display = 'block';
@@ -497,18 +569,17 @@
               } else if (container.msRequestFullscreen) {
                 container.msRequestFullscreen();
               }
-            } else if (isMPD && videoPlayerInstance) {
-              const container = videoPlayer;
-              if (container.requestFullscreen) {
-                container.requestFullscreen().catch(err => {
+            } else if (isMPD && videoPlayer) {
+              if (videoPlayer.requestFullscreen) {
+                videoPlayer.requestFullscreen().catch(err => {
                   console.error('Fullscreen failed:', err);
                   errorContainer.className = 'alert alert-danger error-alert mt-3';
                   errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
                 });
-              } else if (container.webkitRequestFullscreen) {
-                container.webkitRequestFullscreen();
-              } else if (container.msRequestFullscreen) {
-                container.msRequestFullscreen();
+              } else if (videoPlayer.webkitRequestFullscreen) {
+                videoPlayer.webkitRequestFullscreen();
+              } else if (videoPlayer.msRequestFullscreen) {
+                videoPlayer.msRequestFullscreen();
               }
             } else if (embedPlayer.requestFullscreen) {
               embedPlayer.requestFullscreen().catch(err => {
