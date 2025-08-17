@@ -63,8 +63,8 @@
       "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/280px-Premier_League_Logo.svg.png",
       "streams": [
         {
-          "url": "https://live-ctv.video.9c9media.com/f/TSN/TSN1/manifest.mpd",
-          "drm_key": "dea83ced0141424e983e1afe463b4b0d:c00dd5dd17b0799aa4013f365a1393ce"
+          "url": "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/wf8usag51e/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd",
+          "drm_key": "ae26845bd33038a9c0774a0981007294:63ac662dde310cfb4cc6f9b43b34196d"
         }
       ],
       "always_live": 1
