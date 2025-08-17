@@ -6,192 +6,154 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Aston Villa vs Newcastle",
-          "uri_name": "aston-villa-vs-newcastle",
-          "poster": "https://media.zenfs.com/en/playmakerstats_articles_264/4d5c44c64c19d1598f0b0c25b2695098",
-          "tag": "Epl",
-          "starts_at": "2025-08-16T14:30:00",
-          "ends_at": "2025-08-16T16:30:00",
+          "name": "Brestois vs Lille",
+          "uri_name": "brestois-vs-lille",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRThRQx0oMDZfA9YHXWXOKEgU_n5-BQ2BiPe2EHw3zO2WKgYT_OzweQ0I0&s=10",
+          "tag": "Ligue 1",
+          "starts_at": "2025-08-17T16:00:00",
+          "ends_at": "2025-08-17T18:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://xfireflix.fun/opflix/play.php?cid=346373"
+              "url": "https://kleanplay.shop/embed/brestois-lille-main"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://xfireflix.fun/opflix/play.php?cid=346622"
+              "url": "https://v5.sportsonline.si/channels/hd/brestois-lille-alt.php"
             }
           ]
         },
         {
-          "name": "Goal Rush",
-          "uri_name": "goal-rush",
-          "poster": "https://ds-images.bolavip.com/news/image/1200/740/?src=https://images.worldsoccertalk.com/webp/WST_20160827_WST_184566_goal-rush.webp",
-          "tag": "Epl",
-          "starts_at": "2025-08-16T17:00:00",
-          "ends_at": "2025-08-16T19:00:00",
+          "name": "Chelsea vs Crystal Palace",
+          "uri_name": "chelsea-vs-crystal-palace",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7LGMvFBR89MKZI4k0dMNhOVrt5zTprG3WFfz7OV1QhMJrp6j8nYAAbhM&s=10",
+          "tag": "EPL",
+          "starts_at": "2025-08-17T16:00:00",
+          "ends_at": "2025-08-17T18:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://xfireflix.fun/opflix/play.php?cid=233185"
+              "url": "https://kleanplay.shop/embed/chelsea-crystalpalace-main"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://xfireflix.fun/opflix/play.php?cid=233185"
+              "url": "https://v5.sportsonline.si/channels/hd/chelsea-crystalpalace-alt.php"
             }
           ]
         },
         {
-          "name": "Brighton vs Fulham",
-          "uri_name": "brighton-vs-fulham",
-          "poster": "https://s.yimg.com/ny/api/res/1.2/SGV6k8i5B1n_rJi5r3aPfw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNjtjZj13ZWJw/https://media.zenfs.com/en/playmakerstats_articles_264/b22f4fdcc86eb22a882cfab36c501e12",
-          "tag": "Epl",
-          "starts_at": "2025-08-16T17:00:00",
-          "ends_at": "2025-08-16T19:00:00",
+          "name": "Nottingham Forest vs Brentford",
+          "uri_name": "nottingham-forest-vs-brentford",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmi0Cvze8Blw9jpOjsbJIu7WEfbznug7a-oZJto6YnwnbyAP_I1fpQxqER&s=10",
+          "tag": "EPL",
+          "starts_at": "2025-08-17T16:00:00",
+          "ends_at": "2025-08-17T18:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://xfireflix.fun/opflix/play.php?cid=346622"
+              "url": "https://kleanplay.shop/embed/nottinghamforest-brentford-main"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/brighton-fulham-alt.php"
+              "url": "https://v5.sportsonline.si/channels/hd/nottinghamforest-brentford-alt.php"
             }
           ]
         },
         {
-          "name": "Sunderland vs West Ham",
-          "uri_name": "sunderland-vs-west-ham",
-          "poster": "https://media.zenfs.com/en/playmakerstats_articles_264/557c55255729fb5deebac0758ed6f12f",
-          "tag": "Epl",
-          "starts_at": "2025-08-16T17:00:00",
-          "ends_at": "2025-08-16T19:00:00",
+          "name": "Auxerre vs Lorient",
+          "uri_name": "auxerre-vs-lorient",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzFZYQ7N5nQ7PRNejt7E4eXAIbpsm4DSth-H7c19uC7zqOKOuDpxag-65t&s=10",
+          "tag": "Ligue 1",
+          "starts_at": "2025-08-17T18:00:00",
+          "ends_at": "2025-08-17T20:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://xfireflix.fun/opflix/play.php?cid=233069"
+              "url": "https://kleanplay.shop/embed/auxerre-lorient-main"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://xfireflix.fun/opflix/play.php?cid=233069"
+              "url": "https://v5.sportsonline.si/channels/hd/auxerre-lorient-alt.php"
             }
           ]
         },
         {
-          "name": "Tottenham vs Burnley",
-          "uri_name": "tottenham-vs-burnley",
-          "poster": "https://s.yimg.com/ny/api/res/1.2/7GzKscWH8DDfVjmdasJiaw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNjtjZj13ZWJw/https://media.zenfs.com/en/playmakerstats_articles_264/5987a36a5bd5863713d9b8495bce1e40",
-          "tag": "Epl",
-          "starts_at": "2025-08-16T17:00:00",
-          "ends_at": "2025-08-16T19:00:00",
+          "name": "Angers vs Paris FC",
+          "uri_name": "angers-vs-paris-fc",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThLdRG5OW2qL7uStF6852IsRVHS4sYDNV_wq525d0bl2Aztxyk06EUBAE&s=10",
+          "tag": "Ligue 1",
+          "starts_at": "2025-08-17T18:15:00",
+          "ends_at": "2025-08-17T20:15:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://xfireflix.fun/opflix/play.php?cid=233179"
+              "url": "https://kleanplay.shop/embed/angers-parisfc-main"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://xfireflix.fun/opflix/play.php?cid=233179"
+              "url": "https://v5.sportsonline.si/channels/hd/angers-parisfc-alt.php"
             }
           ]
         },
         {
-          "name": "Lens vs Lyon",
-          "uri_name": "lens-vs-lyon",
-          "poster": "https://s.yimg.com/ny/api/res/1.2/VvOYraTRBGvtlJidTKmF0g--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNjtjZj13ZWJw/https://media.zenfs.com/en/playmakerstats_articles_264/c6dbdf418363f06b2200173b5fd191c9",
-          "tag": "Ligue one",
-          "starts_at": "2025-08-16T18:00:00",
-          "ends_at": "2025-08-16T20:00:00",
+          "name": "Man United vs Arsenal",
+          "uri_name": "man-united-vs-arsenal",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=man-united-vs-arsenal",
+          "tag": "EPL",
+          "starts_at": "2025-08-17T18:30:00",
+          "ends_at": "2025-08-17T20:30:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd4.php"
+              "url": "https://kleanplay.shop/embed/manunited-arsenal-main"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd4.php"
+              "url": "https://v5.sportsonline.si/channels/hd/manunited-arsenal-alt.php"
             }
           ]
         },
         {
-          "name": "Wolves vs Man City",
-          "uri_name": "wolves-vs-man-city",
-          "poster": "https://s.yimg.com/ny/api/res/1.2/6sNXvumfkpEdGdxzo5xC8A--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTM2MDtjZj13ZWJw/https://media.zenfs.com/en/manchester_city_fc_articles_899/9bcac003a0865d9e828e1851771d6873",
-          "tag": "Epl",
-          "starts_at": "2025-08-16T19:30:00",
-          "ends_at": "2025-08-16T21:30:00",
+          "name": "Metz vs Strasbourg",
+          "uri_name": "metz-vs-strasbourg",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR31LYQBVsK-qAX8puus0EC32CQWD6DY3O0rWeU1JgG1mt2lXHGm_u9NUA&s=10",
+          "tag": "Ligue 1",
+          "starts_at": "2025-08-17T20:00:00",
+          "ends_at": "2025-08-17T22:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd1.php"
+              "url": "https://kleanplay.shop/embed/metz-strasbourg-main"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/pt/eleven1.php"
+              "url": "https://v5.sportsonline.si/channels/hd/metz-strasbourg-alt.php"
             }
           ]
         },
         {
-          "name": "Monaco vs Le Havre",
-          "uri_name": "monaco-vs-le-havre",
-          "poster": "https://s.yimg.com/ny/api/res/1.2/5Bc9XPM87NGzZxvHsvalhA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNjtjZj13ZWJw/https://media.zenfs.com/en/playmakerstats_articles_264/b4db9d8895abad537995b7870e7397db",
-          "tag": "Ligue one",
-          "starts_at": "2025-08-16T20:00:00",
-          "ends_at": "2025-08-16T22:00:00",
+          "name": "Nantes vs PSG",
+          "uri_name": "nantes-vs-psg",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=nantes-vs-psg",
+          "tag": "Ligue 1",
+          "starts_at": "2025-08-17T21:45:00",
+          "ends_at": "2025-08-17T23:45:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd4.php"
+              "url": "https://kleanplay.shop/embed/nantes-psg-main"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd4.php"
-            }
-          ]
-        },
-        {
-          "name": "Mallorca vs Barcelona",
-          "uri_name": "mallorca-vs-barcelona",
-          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7q9oLkeGvE2r2C1HCb8b-PikO0TYx772e3g&s",
-          "tag": "Laliga",
-          "starts_at": "2025-08-16T20:30:00",
-          "ends_at": "2025-08-16T22:40:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd2.php"
-            },
-            {
-              "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd6.php"
-            }
-          ]
-        },
-        {
-          "name": "Nice vs Toulouse",
-          "uri_name": "nice-vs-toulouse",
-          "poster": "https://s.yimg.com/ny/api/res/1.2/RCzYHzIH.UMW6Ccdy5PFOA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNjtjZj13ZWJw/https://media.zenfs.com/en/playmakerstats_articles_264/e95033b783b7caad524bf2bdd7bac121",
-          "tag": "Ligue one",
-          "starts_at": "2025-08-16T22:05:00",
-          "ends_at": "2025-08-17T00:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd4.php"
-            },
-            {
-              "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/pt/sporttv3.php"
+              "url": "https://v5.sportsonline.si/channels/hd/nantes-psg-alt.php"
             }
           ]
         }
@@ -200,27 +162,7 @@
     {
       "category": "Fights",
       "always_live": 0,
-      "streams": [
-        {
-          "name": "UFC 319",
-          "uri_name": "ufc-319",
-          "poster": "https://prod.cosm-cdn.io/venue-events/Sports_Events/ufc/UFC319/Product_Assets/Event_Image/UFC_319_keyart_16x9_v1.webp",
-          "tag": "UFC",
-          "starts_at": "2025-08-17T01:00:00",
-          "ends_at": "2025-08-17T09:30:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://xfireflix.fun/opflix/play.php?cid=346373"
-            },
-            {
-              "title": "Alternate Feed",
-              "url": "https://xfireflix.fun/opflix/play.php?cid=347276"
-            }
-          ]
-        }
-      ]
+      "streams": []
     }
   ]
-        }
+}
