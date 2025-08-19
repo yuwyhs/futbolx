@@ -16,7 +16,7 @@
       "tag": "Football",
       "category": "Sports",
       "poster": "https://example.com/posters/football.jpg",
-      "streams": ["https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/wf8usag51e/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd?|drmScheme=clearkey&drmLicense=ae26845bd33038a9c0774a0981007294:63ac662dde310cfb4cc6f9b43b34196d"],
+      "streams": ["http://38.143.48.212:9981/stream/channelid/1520310405?profile=pass"],
       "always_live": 1
     },
     {
