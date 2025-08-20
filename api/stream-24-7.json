@@ -11,30 +11,25 @@
         "always_live": 1
       },
       {
-        "name": "24/7 Football Channel",
-        "uri_name": "football-247",
-        "tag": "Football",
-        "poster": "https://example.com/posters/football.jpg",
-        "streams": ["https://xfireflix.fun/file/hls.m3u8?c=51|referer=https://jxoplay.xyz/&origin=https://jxoplay.xyz"],
+        "name": "Goal Tv",
+        "uri_name": "goal-tv",
+        "tag": "Sports",
+        "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAANmuET_eYcvdWFygws63EIYSUofNOMfsjA&s",
+        "streams": ["https://streams2.sofast.tv/sofastplayout/WiseM3U8_1/master.m3u8"],
         "always_live": 1
       },
       {
-        "name": "PeacockTV EPL",
-        "uri_name": "peacocktv-epl",
-        "tag": "Football",
-        "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/280px-Premier_League_Logo.svg.png",
-        "streams": [
-          {
-            "url": "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/wf8usag51e/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd",
-            "drm_key": "ae26845bd33038a9c0774a0981007294:63ac662dde310cfb4cc6f9b43b34196d"
-          }
-        ],
+        "name": "CBS Sports Network",
+        "uri_name": "cbs-sports-network",
+        "tag": "Sports",
+        "poster": "https://www.cabletv.com/app/uploads/2024/09/CBS-Sports-Network-CTV-jpg.webp",
+        "streams": ["https://fl3.moveonjoy.com/CBS_SPORTS_NETWORK/index.m3u8"],
         "always_live": 1
       }
     ],
     "Entertainment": [
       {
-        "name": "Swimrewind(visit https://swimrewind.com/ for epg)",
+        "name": "Swimrewind",
         "uri_name": "swimrewind",
         "tag": "Entertainment",
         "poster": "https://static.wixstatic.com/media/80923f_8c41cc922b46429885d8a5700a557ac6~mv2.png/v1/fill/w_980,h_549,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/80923f_8c41cc922b46429885d8a5700a557ac6~mv2.png",
