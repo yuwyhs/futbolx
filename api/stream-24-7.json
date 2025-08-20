@@ -57,11 +57,11 @@
     ],
     "Music": [
       {
-        "name": "24/7 Pop Music",
-        "uri_name": "pop-music-247",
+        "name": "MTV Live",
+        "uri_name": "mtv-live",
         "tag": "Music",
-        "poster": "https://example.com/posters/pop-music.jpg",
-        "streams": ["https://stream.example.com/pop-music-247.m3u8"],
+        "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXvbNshlpj4xvKcWDuEGM2AbgKL9-eMwOWqQ&s",
+        "streams": ["https://fl3.moveonjoy.com/MTV_LIVE/index.m3u8"],
         "always_live": 1
       }
     ],
