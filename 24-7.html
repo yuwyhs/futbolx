@@ -167,7 +167,7 @@
           <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
             <li><a class="dropdown-item" href="#" data-category="Sports">Sports</a></li>
             <li><a class="dropdown-item" href="#" data-category="Entertainment">Entertainment</a></li>
-            <li class="dropdown-item" href="#" data-category="Kids">Kids</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Kids">Kids</a></li>
             <li><a class="dropdown-item" href="#" data-category="Music">Music</a></li>
             <li><a class="dropdown-item" href="#" data-category="Movies">Movies</a></li>
             <li><a class="dropdown-item" href="#" data-category="News">News</a></li>
@@ -225,7 +225,7 @@
         function attempt() {
           attempts++;
           console.log(`Fetching ${url}, attempt ${attempts}`);
-          fetch(url, { signal: AbortSignal.timeout(5000) })
+          fetch(url, { signal: AbortSignal.timeout(10000) })
             .then(res => {
               console.log(`Fetch status: ${res.status} ${res.statusText}`);
               if (!res.ok) {
@@ -244,6 +244,7 @@
               if (attempts < maxRetries) {
                 setTimeout(attempt, delay);
               } else {
+                console.error('All fetch attempts failed:', error);
                 reject(error);
               }
             });
@@ -295,6 +296,74 @@
         });
       }, { threshold: 0.1 });
       cards.forEach(card => observer.observe(card));
+    }
+
+    function loadContent() {
+      console.log('Starting loadContent at', new Date().toISOString());
+      const errorContainer = document.getElementById('errorContainer');
+      const livecards = document.getElementById('livecards');
+      const liveAnimation = document.getElementById('liveAnimation');
+
+      errorContainer.className = 'd-none error-alert';
+      errorContainer.innerHTML = '';
+      livecards.innerHTML = '<p>Loading streams...</p>';
+
+      const timeout = setTimeout(() => {
+        if (livecards.innerHTML.includes('Loading streams...')) {
+          livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
+          errorContainer.className = 'alert alert-danger error-alert';
+          errorContainer.innerHTML = 'Request timed out. Please check your connection or try again.';
+          const retryButton = document.getElementById('retryButton');
+          if (retryButton) {
+            retryButton.addEventListener('click', () => loadContent());
+          }
+        }
+      }, 15000);
+
+      const apiUrl = '/api/stream-24-7';
+      fetchWithRetry(apiUrl)
+        .then(data => {
+          clearTimeout(timeout);
+          console.log('24/7 Stream API Response:', data);
+
+          if (!data || !data.success) {
+            console.warn('Invalid stream data received:', data);
+            livecards.innerHTML = '<p>No streams are available right now. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
+            liveAnimation.classList.add('d-none');
+            errorContainer.className = 'alert alert-danger error-alert';
+            errorContainer.innerHTML = 'Invalid stream data received. Please try again.';
+            const retryButton = document.getElementById('retryButton');
+            if (retryButton) {
+              retryButton.addEventListener('click', () => loadContent());
+            }
+            return;
+          }
+
+          // Flatten categorized streams into a single array
+          allStreams = [];
+          Object.keys(data.streams).forEach(category => {
+            data.streams[category].forEach(stream => {
+              allStreams.push({ ...stream, category });
+            });
+          });
+
+          allStreams = allStreams.filter(stream => 
+            stream.name && stream.uri_name && stream.tag && stream.streams && Array.isArray(stream.streams)
+          );
+          renderStreams(allStreams); // Default to all streams
+        })
+        .catch(error => {
+          clearTimeout(timeout);
+          console.error('API Fetch Error:', error.message, error.stack);
+          livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
+          liveAnimation.classList.add('d-none');
+          errorContainer.className = 'alert alert-danger error-alert';
+          errorContainer.innerHTML = `Failed to load streams: ${error.message}. Please check your connection or try again.`;
+          const retryButton = document.getElementById('retryButton');
+          if (retryButton) {
+            retryButton.addEventListener('click', () => loadContent());
+          }
+        });
     }
 
     function initOffcanvas() {
@@ -391,21 +460,15 @@
 
       // Load content
       try {
-        if (typeof Api === 'undefined') {
-          console.warn('Api class not defined. Using default API path.');
-          apiInstance = { baseUrl: window.location.origin + '/api' };
-        } else {
-          apiInstance = new Api(`${window.location.origin}/api`);
-        }
-        loadContent(apiInstance);
+        loadContent();
       } catch (error) {
-        console.error('API initialization error:', error);
+        console.error('Load content error:', error, error.stack);
         livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
         errorContainer.className = 'alert alert-danger error-alert';
-        errorContainer.innerHTML = 'Failed to initialize streams. Please try again.';
+        errorContainer.innerHTML = 'Failed to initialize streams: ' + error.message + '. Please try again.';
         const retryButton = document.getElementById('retryButton');
         if (retryButton) {
-          retryButton.addEventListener('click', () => loadContent(apiInstance));
+          retryButton.addEventListener('click', () => loadContent());
         }
       }
 
