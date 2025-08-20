@@ -477,21 +477,21 @@
       try {
         const uriName = window.location.pathname.split('/').pop();
         const playerContainer = document.querySelector('.video-container');
-        let api;
-        if (typeof Api === 'undefined') {
-          console.warn('Api class not defined. Using default API path.');
-          api = { baseUrl: window.location.origin + '/api' };
-        } else {
-          api = new Api(`${window.location.origin}/api`);
-        }
-        const apiUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream-24-7` : `${api.baseUrl}/stream-24-7`;
+        const apiUrl = '/api/stream-24-7';
         fetchWithRetry(apiUrl)
           .then(data => {
             console.log('Stream API Response:', data);
-            if (!data || !data.success || !Array.isArray(data.streams)) {
+            if (!data || !data.success) {
               throw new Error('Invalid stream data');
             }
-            const event = data.streams.find(s => s.uri_name === uriName);
+            // Flatten categorized streams into a single array
+            const streams = [];
+            Object.keys(data.streams).forEach(category => {
+              data.streams[category].forEach(stream => {
+                streams.push({ ...stream, category });
+              });
+            });
+            const event = streams.find(s => s.uri_name === uriName);
             if (!event || !event.streams || !Array.isArray(event.streams) || event.streams.length === 0) {
               throw new Error(`Stream not found for uri_name: ${uriName}`);
             }
@@ -504,12 +504,12 @@
             initPlayer(streamData, errorContainer);
           })
           .catch(error => {
-            console.error('API Fetch Error:', error.message);
+            console.error('API Fetch Error:', error.message, error.stack);
             eventTitle.innerText = 'Error: Stream Not Found';
             errorContainer.className = 'alert alert-danger error-alert mt-3';
             errorContainer.innerText = error.message.includes('Stream not found')
               ? `The requested stream "${uriName}" was not found. Redirecting to home...`
-              : 'Failed to load stream data. Please try again.';
+              : 'Failed to load stream data: ' + error.message + '. Please try again.';
             setTimeout(() => window.location.href = '/', 3000);
           });
         try {
@@ -519,10 +519,10 @@
         }
         console.log('Page initialized successfully');
       } catch (error) {
-        console.error('Init page error:', error);
+        console.error('Init page error:', error, error.stack);
         eventTitle.innerText = 'Error: Failed to Initialize';
         errorContainer.className = 'alert alert-danger error-alert mt-3';
-        errorContainer.innerText = 'An error occurred while initializing the page. Please try again.';
+        errorContainer.innerText = 'An error occurred while initializing the page: ' + error.message + '. Please try again.';
       }
     }
 
