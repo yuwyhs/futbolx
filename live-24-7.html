@@ -132,7 +132,7 @@
             </div>
           </div>
           <div class="d-flex align-items-center mb-3">
-            <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            <a href="/24-7" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to 24/7 Streams</a>
             <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
           </div>
           <h2 id="eventTitle" class="mb-3"></h2>
@@ -508,9 +508,9 @@
             eventTitle.innerText = 'Error: Stream Not Found';
             errorContainer.className = 'alert alert-danger error-alert mt-3';
             errorContainer.innerText = error.message.includes('Stream not found')
-              ? `The requested stream "${uriName}" was not found. Redirecting to home...`
+              ? `The requested stream "${uriName}" was not found. Redirecting to 24/7 streams...`
               : 'Failed to load stream data: ' + error.message + '. Please try again.';
-            setTimeout(() => window.location.href = '/', 3000);
+            setTimeout(() => window.location.href = '/24-7', 3000);
           });
         try {
           checkAuthStatus();
