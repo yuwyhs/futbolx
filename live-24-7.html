@@ -16,7 +16,6 @@
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdn.dashjs.org/latest/dash.mediaplayer.min.css">
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
     .tip-container {
@@ -51,7 +50,7 @@
       from { opacity: 1; }
       to { opacity: 0; }
     }
-    .btn-fullscreen, .btn-pip, .btn-quality {
+    .btn-fullscreen {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -63,25 +62,16 @@
       margin-left: 10px;
       transition: transform 0.3s, background 0.3s;
     }
-    [data-bs-theme="light"] .btn-fullscreen, [data-bs-theme="light"] .btn-pip, [data-bs-theme="light"] .btn-quality {
+    [data-bs-theme="light"] .btn-fullscreen {
       background: #e63939;
       color: #333;
     }
-    .btn-fullscreen:hover, .btn-pip:hover, .btn-quality:hover {
+    .btn-fullscreen:hover {
       transform: scale(1.05);
       background: #e63939;
     }
-    [data-bs-theme="light"] .btn-fullscreen:hover, [data-bs-theme="light"] .btn-pip:hover, [data-bs-theme="light"] .btn-quality:hover {
+    [data-bs-theme="light"] .btn-fullscreen:hover {
       background: #cc3333;
-    }
-    .dashjs-player-container {
-      width: 100%;
-      height: 100%;
-      position: relative;
-    }
-    .dashjs-controls-container {
-      width: 100%;
-      background: rgba(0, 0, 0, 0.7);
     }
     .offcanvas {
       z-index: 1055 !important;
@@ -144,16 +134,12 @@
           <div class="d-flex align-items-center mb-3">
             <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
             <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
-            <button id="pipBtn" class="btn btn-pip ms-3 d-none">Picture-in-Picture</button>
-            <select id="qualitySelect" class="btn btn-quality ms-3 d-none">
-              <option value="">Select Quality</option>
-            </select>
           </div>
           <h2 id="eventTitle" class="mb-3"></h2>
           <div class="video-container">
-            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%;" allow="autoplay; fullscreen; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
             <div id="videoPlayerContainer" style="width: 100%; height: 100%;">
-              <video id="videoPlayer" class="dashjs-player-container d-none" controls></video>
+              <video id="videoPlayer" class="d-none" controls></video>
             </div>
           </div>
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
@@ -172,7 +158,6 @@
     </div>
   </div>
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
-  <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script defer src="/assets/js/api.js"></script>
   <script defer src="/assets/js/auth.js"></script>
@@ -308,7 +293,7 @@
       videoContainer.innerHTML = '';
       const videoElement = isM3U8 ? document.createElement('div') : document.createElement('video');
       videoElement.id = 'videoPlayer';
-      videoElement.className = isM3U8 ? 'jwplayer d-none' : 'dashjs-player-container d-none';
+      videoElement.className = isM3U8 ? 'jwplayer d-none' : 'd-none';
       if (!isM3U8) {
         videoElement.controls = true;
         videoElement.style.width = '100%';
@@ -318,36 +303,27 @@
       return videoElement;
     }
 
-    // Convert hex to base64 for ClearKey
-    function hexToBase64(hex) {
-      const hexClean = hex.replace(/[^0-9a-fA-F]/g, '');
-      const bytes = new Uint8Array(hexClean.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
-      return btoa(String.fromCharCode.apply(null, bytes));
-    }
-
-    // Initialize player with retry
-    async function initPlayer(event, errorContainer, retries = 3, delay = 1000) {
+    // Initialize player
+    async function initPlayer(event, errorContainer) {
       console.log('initPlayer called with event:', event);
       try {
         clearError();
         embedPlayer = document.getElementById('embedPlayer');
         const videoContainer = document.getElementById('videoPlayerContainer');
-        let streamUrl, drmKey;
+        let streamUrl;
         const stream = event.streams[0];
         if (typeof stream === 'string') {
           streamUrl = stream;
         } else if (typeof stream === 'object' && stream.url) {
           streamUrl = stream.url;
-          drmKey = stream.drm_key;
         } else {
           throw new Error('Invalid stream format');
         }
         if (!streamUrl || !/^https?:/.test(streamUrl)) {
           throw new Error('Invalid or missing stream URL');
         }
-        console.log('Stream URL:', streamUrl, 'DRM Key:', drmKey);
+        console.log('Stream URL:', streamUrl);
         const isM3U8 = streamUrl.toLowerCase().endsWith('.m3u8');
-        const isMPD = streamUrl.toLowerCase().endsWith('.mpd');
         if (isM3U8) {
           embedPlayer.style.display = 'none';
           let videoPlayer = document.getElementById('videoPlayer');
@@ -395,127 +371,6 @@
               sourceError: e.sourceError
             });
           });
-        } else if (isMPD) {
-          if (typeof dashjs === 'undefined') {
-            if (retries > 0) {
-              console.warn(`Dash.js not loaded, retrying (${retries} attempts left)...`);
-              setTimeout(() => initPlayer(event, errorContainer, retries - 1, delay), delay);
-              return;
-            }
-            console.error('Dash.js not loaded after retries');
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = 'Failed to load Dash.js. Check your network or disable ad blockers.';
-            return;
-          }
-          embedPlayer.style.display = 'none';
-          let videoPlayer = document.getElementById('videoPlayer');
-          if (!videoPlayer) {
-            videoPlayer = recreateVideoElement(false);
-          }
-          videoPlayer.classList.remove('d-none');
-          videoContainer.style.display = 'block';
-          try {
-            videoPlayerInstance = dashjs.MediaPlayer().create();
-            let drmConfig = {};
-            let loadUrl = streamUrl;
-            // Check for query parameter DRM (ClearKey)
-            const urlParams = new URLSearchParams(new URL(streamUrl).search);
-            const drmScheme = urlParams.get('drmScheme');
-            const drmLicense = urlParams.get('drmLicense');
-            if (drmScheme === 'clearkey' && drmLicense) {
-              const [keyId, key] = drmLicense.split(':');
-              if (!keyId || !key || !/^[0-9a-fA-F]+$/.test(keyId) || !/^[0-9a-fA-F]+$/.test(key)) {
-                throw new Error('Invalid ClearKey DRM format: keyId or key is not valid hex');
-              }
-              drmConfig['org.w3.clearkey'] = {
-                keys: [{ kid: hexToBase64(keyId), k: hexToBase64(key) }]
-              };
-              loadUrl = streamUrl.split('?')[0];
-              console.log('Configuring ClearKey DRM:', { keyId, key });
-            } else if (drmKey) {
-              const [keyId, licenseUrl] = drmKey.includes(':') ? drmKey.split(':') : [null, drmKey];
-              if (!licenseUrl || !/^https?:/.test(licenseUrl)) {
-                throw new Error('Invalid Widevine DRM license URL');
-              }
-              drmConfig['com.widevine.alpha'] = { serverURL: licenseUrl };
-              console.log('Configuring Widevine DRM:', { keyId, licenseUrl });
-            } else {
-              console.log('No DRM configuration provided');
-            }
-            videoPlayerInstance.setProtectionData(drmConfig);
-            // Test stream accessibility
-            const response = await fetch(loadUrl, { method: 'HEAD' });
-            if (!response.ok) {
-              throw new Error(`Stream URL returned HTTP ${response.status}`);
-            }
-            videoPlayerInstance.initialize(videoPlayer, loadUrl, true);
-            // Load quality selection
-            const qualitySelect = document.getElementById('qualitySelect');
-            videoPlayerInstance.on(dashjs.MediaPlayer.events.STREAM_INITIALIZED, () => {
-              const bitrates = videoPlayerInstance.getBitrateInfoListFor('video');
-              qualitySelect.innerHTML = '<option value="">Select Quality</option>';
-              bitrates.forEach((bitrate, index) => {
-                const option = document.createElement('option');
-                option.value = index;
-                option.text = bitrate.height ? `${bitrate.height}p (${Math.round(bitrate.bitrate / 1000)} kbps)` : `Auto (${Math.round(bitrate.bitrate / 1000)} kbps)`;
-                qualitySelect.appendChild(option);
-              });
-              qualitySelect.classList.remove('d-none');
-            });
-            qualitySelect.addEventListener('change', () => {
-              const qualityIndex = parseInt(qualitySelect.value);
-              if (!isNaN(qualityIndex)) {
-                videoPlayerInstance.setQualityFor('video', qualityIndex);
-                console.log('Selected quality index:', qualityIndex);
-              }
-            });
-            // Load captions
-            videoPlayerInstance.on(dashjs.MediaPlayer.events.TRACK_CHANGE_RENDERED, (e) => {
-              if (e.mediaType === 'text') {
-                console.log('Captions available:', videoPlayerInstance.getTracksFor('text'));
-              }
-            });
-            // Picture-in-Picture
-            const pipBtn = document.getElementById('pipBtn');
-            if (document.pictureInPictureEnabled) {
-              pipBtn.classList.remove('d-none');
-              pipBtn.addEventListener('click', async () => {
-                try {
-                  if (document.pictureInPictureElement) {
-                    await document.exitPictureInPicture();
-                    pipBtn.textContent = 'Picture-in-Picture';
-                  } else {
-                    await videoPlayer.requestPictureInPicture();
-                    pipBtn.textContent = 'Exit Picture-in-Picture';
-                  }
-                } catch (e) {
-                  console.error('PiP error:', e);
-                  errorContainer.className = 'alert alert-danger error-alert mt-3';
-                  errorContainer.innerText = 'Picture-in-Picture failed: ' + (e.message || 'Not supported');
-                }
-              });
-            }
-            // Error handling
-            videoPlayerInstance.on(dashjs.MediaPlayer.events.ERROR, (e) => {
-              console.error('Dash.js error:', e);
-              let errorMessage = 'Failed to load MPD stream: ';
-              if (e.error.code === 10) {
-                errorMessage += 'Stream URL is inaccessible or invalid.';
-              } else if (e.error.code === 27) {
-                errorMessage += 'DRM license request failed. The provided DRM key may be invalid.';
-              } else {
-                errorMessage += e.error.message || 'Unknown error';
-              }
-              errorContainer.className = 'alert alert-danger error-alert mt-3';
-              errorContainer.innerText = errorMessage;
-            });
-            console.log('Dash.js initialized for MPD stream:', loadUrl);
-            clearError();
-          } catch (e) {
-            console.error('Dash.js error:', e);
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = 'Failed to load MPD stream: ' + (e.message || 'Unknown error');
-          }
         } else {
           videoContainer.style.display = 'none';
           embedPlayer.style.display = 'block';
@@ -529,7 +384,7 @@
           embedPlayer.contentWindow.location.replace(streamUrl);
           console.log('Embed initialized successfully');
         }
-        if (!isM3U8 && !isMPD) {
+        if (!isM3U8) {
           embedPlayer.addEventListener('error', () => {
             console.error('Embed load error');
             errorContainer.className = 'alert alert-danger error-alert mt-3';
@@ -556,18 +411,6 @@
                 container.webkitRequestFullscreen();
               } else if (container.msRequestFullscreen) {
                 container.msRequestFullscreen();
-              }
-            } else if (isMPD && videoPlayer) {
-              if (videoPlayer.requestFullscreen) {
-                videoPlayer.requestFullscreen().catch(err => {
-                  console.error('Fullscreen failed:', err);
-                  errorContainer.className = 'alert alert-danger error-alert mt-3';
-                  errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
-                });
-              } else if (videoPlayer.webkitRequestFullscreen) {
-                videoPlayer.webkitRequestFullscreen();
-              } else if (videoPlayer.msRequestFullscreen) {
-                videoPlayer.msRequestFullscreen();
               }
             } else if (embedPlayer.requestFullscreen) {
               embedPlayer.requestFullscreen().catch(err => {
