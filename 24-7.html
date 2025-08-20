@@ -46,7 +46,7 @@
     /* Flexible grid layout for all screen sizes */
     .event-grid, #livecards.event-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
       padding: 1rem;
     }
@@ -103,6 +103,23 @@
       background-color: var(--bs-primary);
       color: var(--bs-white);
     }
+    /* Media queries for larger screens */
+    @media (min-width: 1200px) {
+      .card {
+        max-width: 350px;
+      }
+      .event-grid {
+        gap: 2rem;
+      }
+    }
+    @media (min-width: 1800px) {
+      .card {
+        max-width: 320px;
+      }
+      .event-grid {
+        gap: 2.5rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -150,9 +167,11 @@
           <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
             <li><a class="dropdown-item" href="#" data-category="Sports">Sports</a></li>
             <li><a class="dropdown-item" href="#" data-category="Entertainment">Entertainment</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Kids">Kids</a></li>
+            <li class="dropdown-item" href="#" data-category="Kids">Kids</a></li>
             <li><a class="dropdown-item" href="#" data-category="Music">Music</a></li>
             <li><a class="dropdown-item" href="#" data-category="Movies">Movies</a></li>
+            <li><a class="dropdown-item" href="#" data-category="News">News</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Religion">Religion</a></li>
           </ul>
         </div>
       </div>
@@ -276,66 +295,6 @@
         });
       }, { threshold: 0.1 });
       cards.forEach(card => observer.observe(card));
-    }
-
-    function loadContent(api) {
-      console.log('Starting loadContent at', new Date().toISOString());
-      const errorContainer = document.getElementById('errorContainer');
-      const livecards = document.getElementById('livecards');
-      const liveAnimation = document.getElementById('liveAnimation');
-
-      errorContainer.className = 'd-none error-alert';
-      errorContainer.innerHTML = '';
-      livecards.innerHTML = '<p>Loading streams...</p>';
-
-      const timeout = setTimeout(() => {
-        if (livecards.innerHTML.includes('Loading streams...')) {
-          livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
-          errorContainer.className = 'alert alert-danger error-alert';
-          errorContainer.innerHTML = 'Request timed out. Please try again.';
-          const retryButton = document.getElementById('retryButton');
-          if (retryButton) {
-            retryButton.addEventListener('click', () => loadContent(api));
-          }
-        }
-      }, 15000);
-
-      const apiUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream-24-7` : `${api.baseUrl}/stream-24-7`;
-      fetchWithRetry(apiUrl)
-        .then(streamData => {
-          clearTimeout(timeout);
-          console.log('24/7 Stream API Response:', streamData);
-
-          if (!streamData || !streamData.success || !Array.isArray(streamData.streams)) {
-            console.warn('Invalid stream data received:', streamData);
-            livecards.innerHTML = '<p>No streams are available right now. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
-            liveAnimation.classList.add('d-none');
-            errorContainer.className = 'alert alert-danger error-alert';
-            errorContainer.innerHTML = 'Invalid stream data received. Please try again.';
-            const retryButton = document.getElementById('retryButton');
-            if (retryButton) {
-              retryButton.addEventListener('click', () => loadContent(api));
-            }
-            return;
-          }
-
-          allStreams = streamData.streams.filter(stream => 
-            stream.name && stream.uri_name && stream.tag && stream.streams && Array.isArray(stream.streams)
-          );
-          renderStreams(allStreams); // Default to "All" category
-        })
-        .catch(error => {
-          clearTimeout(timeout);
-          console.error('API Fetch Error:', error.message);
-          livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
-          liveAnimation.classList.add('d-none');
-          errorContainer.className = 'alert alert-danger error-alert';
-          errorContainer.innerHTML = `Failed to load streams: ${error.message}. Please try again.`;
-          const retryButton = document.getElementById('retryButton');
-          if (retryButton) {
-            retryButton.addEventListener('click', () => loadContent(api));
-          }
-        });
     }
 
     function initOffcanvas() {
