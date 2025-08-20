@@ -1,73 +1,77 @@
 {
   "success": true,
-  "streams": [
-    {
-      "name": "NBA Tv",
-      "uri_name": "nba-tv",
-      "tag": "NBA",
-      "category": "Sports",
-      "poster": "https://www.basketusa.com/app/uploads/2019/11/2208453.jpg",
-      "streams": ["https://fl3.moveonjoy.com/NBA_TV/index.m3u8"],
-      "always_live": 1
-    },
-    {
-      "name": "24/7 Football Channel",
-      "uri_name": "football-247",
-      "tag": "Football",
-      "category": "Sports",
-      "poster": "https://example.com/posters/football.jpg",
-      "streams": ["https://xfireflix.fun/file/hls.m3u8?c=51|referer=https://jxoplay.xyz/&origin=https://jxoplay.xyz"],
-      "always_live": 1
-    },
-    {
-      "name": "Swimrewind(visit https://swimrewind.com/ for epg)",
-      "uri_name": "swimrewind",
-      "tag": "Entertainment",
-      "category": "Entertainment",
-      "poster": "https://static.wixstatic.com/media/80923f_8c41cc922b46429885d8a5700a557ac6~mv2.png/v1/fill/w_980,h_549,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/80923f_8c41cc922b46429885d8a5700a557ac6~mv2.png",
-      "streams": ["https://swimrewind.com/hls/stream.m3u8"],
-      "always_live": 1
-    },
-    {
-      "name": "Nickelodeon",
-      "uri_name": "nickelodeon",
-      "tag": "Cartoons",
-      "category": "Kids",
-      "poster": "https://cdn.mos.cms.futurecdn.net/u3xQKM9WfmqKc8FPXbcqyY.jpg",
-      "streams": ["https://fl5.moveonjoy.com/NICKELODEON/index.m3u8"],
-      "always_live": 1
-    },
-    {
-      "name": "24/7 Pop Music",
-      "uri_name": "pop-music-247",
-      "tag": "Music",
-      "category": "Music",
-      "poster": "https://example.com/posters/pop-music.jpg",
-      "streams": ["https://stream.example.com/pop-music-247.m3u8"],
-      "always_live": 1
-    },
-    {
-      "name": "Comedy Central",
-      "uri_name": "comedy-central",
-      "tag": "Comedy",
-      "category": "Entertainment",
-      "poster": "https://images.paramount.tech/uri/mgid:arc:imageassetref:en-gb.ws.cc.co.uk:659465e0-b6ff-416d-98e2-a9969431b816?quality=0.7&gen=ntrn&format=webp&width=320",
-      "streams": ["https://fl3.moveonjoy.com/Comedy_Central/index.m3u8"],
-      "always_live": 1
-    },
-    {
-      "name": "PeacockTV EPL",
-      "uri_name": "peacocktv-epl",
-      "tag": "Football",
-      "category": "Sports",
-      "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/280px-Premier_League_Logo.svg.png",
-      "streams": [
-        {
-          "url": "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/wf8usag51e/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd",
-          "drm_key": "ae26845bd33038a9c0774a0981007294:63ac662dde310cfb4cc6f9b43b34196d"
-        }
-      ],
-      "always_live": 1
-    }
-  ]
+  "streams": {
+    "Sports": [
+      {
+        "name": "NBA Tv",
+        "uri_name": "nba-tv",
+        "tag": "NBA",
+        "poster": "https://www.basketusa.com/app/uploads/2019/11/2208453.jpg",
+        "streams": ["https://fl3.moveonjoy.com/NBA_TV/index.m3u8"],
+        "always_live": 1
+      },
+      {
+        "name": "24/7 Football Channel",
+        "uri_name": "football-247",
+        "tag": "Football",
+        "poster": "https://example.com/posters/football.jpg",
+        "streams": ["https://xfireflix.fun/file/hls.m3u8?c=51|referer=https://jxoplay.xyz/&origin=https://jxoplay.xyz"],
+        "always_live": 1
+      },
+      {
+        "name": "PeacockTV EPL",
+        "uri_name": "peacocktv-epl",
+        "tag": "Football",
+        "poster": "https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/280px-Premier_League_Logo.svg.png",
+        "streams": [
+          {
+            "url": "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/wf8usag51e/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd",
+            "drm_key": "ae26845bd33038a9c0774a0981007294:63ac662dde310cfb4cc6f9b43b34196d"
+          }
+        ],
+        "always_live": 1
+      }
+    ],
+    "Entertainment": [
+      {
+        "name": "Swimrewind(visit https://swimrewind.com/ for epg)",
+        "uri_name": "swimrewind",
+        "tag": "Entertainment",
+        "poster": "https://static.wixstatic.com/media/80923f_8c41cc922b46429885d8a5700a557ac6~mv2.png/v1/fill/w_980,h_549,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/80923f_8c41cc922b46429885d8a5700a557ac6~mv2.png",
+        "streams": ["https://swimrewind.com/hls/stream.m3u8"],
+        "always_live": 1
+      },
+      {
+        "name": "Comedy Central",
+        "uri_name": "comedy-central",
+        "tag": "Comedy",
+        "poster": "https://images.paramount.tech/uri/mgid:arc:imageassetref:en-gb.ws.cc.co.uk:659465e0-b6ff-416d-98e2-a9969431b816?quality=0.7&gen=ntrn&format=webp&width=320",
+        "streams": ["https://fl3.moveonjoy.com/Comedy_Central/index.m3u8"],
+        "always_live": 1
+      }
+    ],
+    "Kids": [
+      {
+        "name": "Nickelodeon",
+        "uri_name": "nickelodeon",
+        "tag": "Cartoons",
+        "poster": "https://cdn.mos.cms.futurecdn.net/u3xQKM9WfmqKc8FPXbcqyY.jpg",
+        "streams": ["https://fl5.moveonjoy.com/NICKELODEON/index.m3u8"],
+        "always_live": 1
+      }
+    ],
+    "Music": [
+      {
+        "name": "24/7 Pop Music",
+        "uri_name": "pop-music-247",
+        "tag": "Music",
+        "poster": "https://example.com/posters/pop-music.jpg",
+        "streams": ["https://stream.example.com/pop-music-247.m3u8"],
+        "always_live": 1
+      }
+    ],
+    "Movies": [],
+    "News": [],
+    "Religion": []
+  }
 }
