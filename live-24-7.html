@@ -296,11 +296,44 @@
       videoElement.className = isM3U8 ? 'jwplayer d-none' : 'd-none';
       if (!isM3U8) {
         videoElement.controls = true;
+        videoElement.muted = true; // Start muted for autoplay
+        videoElement.autoplay = true;
         videoElement.style.width = '100%';
         videoElement.style.height = '100%';
+        // Auto-unmute after playback starts
+        videoElement.addEventListener('play', () => {
+          try {
+            videoElement.muted = false;
+            console.log('Non-M3U8 video unmuted');
+          } catch (e) {
+            console.warn('Failed to unmute non-M3U8 video:', e);
+          }
+        });
       }
       videoContainer.appendChild(videoElement);
       return videoElement;
+    }
+
+    // Detect M3U8 stream by content
+    async function isM3U8Stream(url) {
+      // Check if URL contains .m3u8 (with or without query parameters)
+      if (url.toLowerCase().includes('.m3u8')) {
+        return true;
+      }
+      try {
+        const response = await fetch(url, { 
+          method: 'GET', 
+          headers: { 'Range': 'bytes=0-1023' }, // Fetch only the first 1KB
+          signal: AbortSignal.timeout(5000)
+        });
+        if (!response.ok) return false;
+        const content = await response.text();
+        // Check for M3U8-specific markers
+        return content.includes('#EXTM3U') || content.includes('.ts');
+      } catch (error) {
+        console.warn(`M3U8 detection fetch failed for ${url}:`, error);
+        return false; // Fallback to non-M3U8 if fetch fails
+      }
     }
 
     // Initialize player
@@ -323,7 +356,11 @@
           throw new Error('Invalid or missing stream URL');
         }
         console.log('Stream URL:', streamUrl);
-        const isM3U8 = streamUrl.toLowerCase().endsWith('.m3u8');
+
+        // Check if stream is M3U8
+        const isM3U8 = await isM3U8Stream(streamUrl);
+        console.log('Is M3U8 stream:', isM3U8);
+
         if (isM3U8) {
           embedPlayer.style.display = 'none';
           let videoPlayer = document.getElementById('videoPlayer');
@@ -339,6 +376,7 @@
           videoPlayerInstance = jwplayer('videoPlayer').setup({
             file: streamUrl,
             autostart: true,
+            mute: true, // Start muted for autoplay
             width: '100%',
             aspectratio: '16:9',
             controls: true,
@@ -352,6 +390,13 @@
           videoPlayerInstance.on('ready', () => {
             console.log('JW Player ready for HLS');
             clearError();
+            videoPlayerInstance.play(); // Ensure playback
+            try {
+              videoPlayerInstance.setMute(false); // Auto-unmute
+              console.log('JW Player unmuted');
+            } catch (e) {
+              console.warn('Failed to unmute JW Player:', e);
+            }
           });
           videoPlayerInstance.on('error', (e) => {
             console.error('JW Player error:', e);
@@ -381,18 +426,29 @@
             videoPlayerInstance = null;
             recreateVideoElement(false);
           }
-          embedPlayer.contentWindow.location.replace(streamUrl);
+          // Append autoplay parameter to iframe URL
+          const url = new URL(streamUrl);
+          url.searchParams.append('autoplay', '1');
+          embedPlayer.contentWindow.location.replace(url.toString());
+          embedPlayer.muted = true; // Start muted for autoplay
           console.log('Embed initialized successfully');
-        }
-        if (!isM3U8) {
+          // Fallback to trigger iframe playback and unmute
+          embedPlayer.addEventListener('load', () => {
+            console.log('Embed loaded successfully');
+            clearError();
+            try {
+              embedPlayer.contentWindow.postMessage({ type: 'play' }, '*');
+              embedPlayer.contentWindow.postMessage({ type: 'unmute' }, '*'); // Attempt to unmute
+              embedPlayer.muted = false; // Fallback unmute
+              console.log('Iframe unmuted');
+            } catch (e) {
+              console.warn('Iframe play/unmute message failed:', e);
+            }
+          });
           embedPlayer.addEventListener('error', () => {
             console.error('Embed load error');
             errorContainer.className = 'alert alert-danger error-alert mt-3';
             errorContainer.innerText = 'Failed to load stream. The stream may be invalid or restricted.';
-          });
-          embedPlayer.addEventListener('load', () => {
-            console.log('Embed loaded successfully');
-            clearError();
           });
         }
         const fullscreenBtn = document.getElementById('fullscreenBtn');
