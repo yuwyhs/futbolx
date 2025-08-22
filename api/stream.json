@@ -54,7 +54,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd5.php"
+              "url": "https://d6.merichunidya.com:1686/hls/skysmixx.m3u8?md5=bRxuWQDKL420AJ1RbyJbfw&expires=1755888972"
             },
             {
               "title": "Alternate Feed",
