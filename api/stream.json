@@ -10,8 +10,8 @@
           "uri_name": "real-madrid-vs-osasuna",
           "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpKP-V4uTSVkbj-f_5QXJmjG7j-oIvkc3rHKkTHErhSdVnN_4RVQ3V4ik&s=10",
           "tag": "Laliga",
-          "starts_at": "2025-08-22T04:00:00",
-          "ends_at": "2025-08-22T23:59:00",
+          "starts_at": "2025-08-21T04:00:00",
+          "ends_at": "2025-08-21T23:59:00",
           "always_live": 0,
           "streams": [
             {
