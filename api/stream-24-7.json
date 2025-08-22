@@ -15,7 +15,7 @@
         "uri_name": "goal-tv",
         "tag": "Sports",
         "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAANmuET_eYcvdWFygws63EIYSUofNOMfsjA&s",
-        "streams": ["https://zekonew.newkso.ru/zeko/premium419/mono.m3u8|Referer=https://jxoplay.xyz/&Origin=https://jxoplay.xyz&User-Agent=Mozilla/5.0%20%28Windows%20NT%2010.0%3B%20Win64%3B%20x64%3B%20rv%3A139.0%29%20Gecko/20100101%20Firefox/139.0"],
+        "streams": ["https://streams2.sofast.tv/sofastplayout/WiseM3U8_1/master.m3u8"],
         "always_live": 1
       },
       {
