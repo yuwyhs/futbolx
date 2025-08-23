@@ -4,23 +4,118 @@
     {
       "category": "Football",
       "always_live": 0,
-      "streams": [
+      "jag": [
         {
-          "name": "Man City vs Tottenham",
-          "uri_name": "man-city-vs-tottenham",
-          "poster": "https://media.zenfs.com/en/playmakerstats_articles_264/fc0046adc028ede95e33436bc8e6e6b0",
+          "name": "Arsenal vs Leeds",
+          "uri_name": "arsenal-vs-leeds",
+          "poster": "https://s.yimg.com/ny/api/res/1.2/6fya3t.77wWN98B8G7U5Iw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNjtjZj13ZWJw/https://media.zenfs.com/en/playmakerstats_articles_264/644a5ed5623cf6d47f4edd4a5df01ca6",
           "tag": "Epl",
-          "starts_at": "2025-08-23T14:30:00",
-          "ends_at": "2025-08-23T16:30:00",
+          "starts_at": "2025-08-23T19:30:00",
+          "ends_at": "2025-08-23T21:30:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd1.php"
+              "url": "https://v5.sportsonline.si/channels/hd/arsenal-leeds-main.php"
             },
             {
               "title": "Alternate Feed",
-              "url": "http://drewlive24.duckdns.org:4123?url=https%3A%2F%2Fddy6new.newkso.ru%2Fddy6%2Fpremium414%2Fmono.m3u8&data=T3JpZ2luPWh0dHBzOi8vZm5qcGxheS54eXp8UmVmZXJlcj1odHRwczovL2ZuanBsYXkueHl6L3xVc2VyLWFnZW50PU1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQ7IHJ2OjE0MS4wKSBHZWNrby8yMDEwMDEwMSBGaXJlZm94LzE0MS4wfE9yaWdpbj1odHRwczovL2ZuanBsYXkueHl6fFJlZmVyZXI9aHR0cHM6Ly9mbmpwbGF5Lnh5ei98VXNlci1hZ2VudD1Nb3ppbGxhLzUuMCAoV2luZG93cyBOVCAxMC4wOyBXaW42NDsgeDY0OyBydjoxNDEuMCkgR2Vja28vMjAxMDAxMDEgRmlyZWZveC8xNDEuMHxPcmlnaW49aHR0cHM6Ly9mbmpwbGF5Lnh5enxSZWZlcmVyPWh0dHBzOi8vZm5qcGxheS54eXovfFVzZXItYWdlbnQ9TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NDsgcnY6MTQxLjApIEdlY2tvLzIwMTAwMTAxIEZpcmVmb3gvMTQxLjB8T3JpZ2luPWh0dHBzOi8vZm5qcGxheS54eXp8UmVmZXJlcj1odHRwczovL2ZuanBsYXkueHl6L3xVc2VyLWFnZW50PU1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQ7IHJ2OjE0MS4wKSBHZWNrby8yMDEwMDEwMSBGaXJlZm94LzE0MS4w"
+              "url": "https://v5.sportsonline.si/channels/hd/arsenal-leeds-alt.php"
+            }
+          ]
+        },
+        {
+          "name": "Atletico Madrid vs Elche",
+          "uri_name": "atletico-madrid-vs-elche",
+          "poster": "https://media.zenfs.com/en/playmakerstats_articles_264/0ea3aa3ffe5564cf7afc48e25b49b59c",
+          "tag": "Laliga",
+          "starts_at": "2025-08-23T20:30:00",
+          "ends_at": "2025-08-23T22:30:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/atletico-madrid-elche-main.php"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/atletico-madrid-elche-alt.php"
+            }
+          ]
+        },
+        {
+          "name": "Levante vs Barcelona",
+          "uri_name": "levante-vs-barcelona",
+          "poster": "https://media.zenfs.com/en/playmakerstats_articles_264/9fb3d53e055848175da3321f5f7650e2",
+          "tag": "Laliga",
+          "starts_at": "2025-08-23T22:30:00",
+          "ends_at": "2025-08-24T00:30:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/levante-barcelona-main.php"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/levante-barcelona-alt.php"
+            }
+          ]
+        },
+        {
+          "name": "Marseille vs Paris FC",
+          "uri_name": "marseille-vs-paris-fc",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tn:ANd9GcSyMUgHKAmH-lSkZYhv-i25x-0BqZQfMLc1sA&s",
+          "tag": "Ligue 1",
+          "starts_at": "2025-08-23T18:00:00",
+          "ends_at": "2025-08-23T20:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/marseille-paris-fc-main.php"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/marseille-paris-fc-alt.php"
+            }
+          ]
+        },
+        {
+          "name": "Nice vs Auxerre",
+          "uri_name": "nice-vs-auxerre",
+          "poster": "https://cdn-img.zerozero.pt/img/noticias/447/imgS300I894447T20250821184031.png",
+          "tag": "Ligue 1",
+          "starts_at": "2025-08-23T20:00:00",
+          "ends_at": "2025-08-23T22:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/nice-auxerre-main.php"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/nice-auxerre-alt.php"
+            }
+          ]
+        },
+        {
+          "name": "Lyon vs Metz",
+          "uri_name": "lyon-vs-metz",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tn:ANd9GcRqp2a98jvckIymaCl8Vo1XSULDcKHgJIr9lg&s",
+          "tag": "Ligue 1",
+          "starts_at": "2025-08-23T22:00:00",
+          "ends_at": "2025-08-24T00:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/lyon-metz-main.php"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/lyon-metz-alt.php"
             }
           ]
         }
