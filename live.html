@@ -354,6 +354,11 @@
 
     // Detect M3U8 stream by content
     async function isM3U8Stream(url) {
+      // Exclude URLs starting with http://drewlive24.duckdns.org:4123?url= from M3U8 detection
+      if (url.startsWith('http://drewlive24.duckdns.org:4123?url=')) {
+        console.log('Excluded URL from M3U8 detection:', url);
+        return false; // Force iframe usage
+      }
       // Check if URL contains .m3u8 (with or without query parameters)
       if (url.toLowerCase().includes('.m3u8')) {
         return true;
@@ -832,4 +837,4 @@
     });
   </script>
 </body>
-</html>
+  </html>
