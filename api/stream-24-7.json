@@ -15,7 +15,7 @@
         "uri_name": "goal-tv",
         "tag": "Sports",
         "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAANmuET_eYcvdWFygws63EIYSUofNOMfsjA&s",
-        "streams": ["http://drewlive24.duckdns.org:4123?url=http%3A%2F%2Fmain.light-ott.net%3A80%2Fplay%2Flive.php%3Fmac%3D00%3A1A%3A79%3A3A%3A93%3AFD%26stream%3D459868%26extension%3Dm3u8%26play_token%3DNDCRCg8Qsu"],
+        "streams": ["https://streams2.sofast.tv/sofastplayout/WiseM3U8_1/master.m3u8"],
         "always_live": 1
       },
       {
