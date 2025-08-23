@@ -35,11 +35,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/atletico-madrid-elche-main.php"
+              "url": "https://v5.sportsonline.si/channels/hd/hd2.php"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/atletico-madrid-elche-alt.php"
+              "url": "https://v5.sportsonline.si/channels/hd/hd6.php"
             }
           ]
         },
@@ -54,11 +54,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/levante-barcelona-main.php"
+              "url": "https://v5.sportsonline.si/channels/hd/hd2.php"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/levante-barcelona-alt.php"
+              "url": "https://v5.sportsonline.si/channels//hd6.php"
             }
           ]
         },
@@ -73,11 +73,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/marseille-paris-fc-main.php"
+              "url": "https://v5.sportsonline.si/channels/hd/hd4.php"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/marseille-paris-fc-alt.php"
+              "url": "https://v5.sportsonline.si/channels/pt/sporttv2.php"
             }
           ]
         },
@@ -92,11 +92,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/nice-auxerre-main.php"
+              "url": "https://v5.sportsonline.si/channels/hd/hd4.php"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/nice-auxerre-alt.php"
+              "url": "https://v5.sportsonline.si/channels/pt/sporttv3.php"
             }
           ]
         },
@@ -111,11 +111,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/lyon-metz-main.php"
+              "url": "https://v5.sportsonline.si/channels/hd/hd4.php"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/lyon-metz-alt.php"
+              "url": "https://v5.sportsonline.si/channels/hd/sporttv3.php"
             }
           ]
         }
