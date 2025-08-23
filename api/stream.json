@@ -16,11 +16,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://d6.merichunidya.com:1686/hls/bbtsp1.m3u8?md5=YJ2BWVv6mTZBf0eQ79GEOQ&expires=1755952958"
+              "url": "https://v5.sportsonline.si/channels/hd/hd1.php"
             },
             {
               "title": "Alternate Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/man-city-tottenham-alt.php"
+              "url": "https://v5.sportsonline.si/channels/pt/eleven1.php"
             }
           ]
         }
