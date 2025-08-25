@@ -7,7 +7,7 @@
         "uri_name": "nba-tv",
         "tag": "NBA",
         "poster": "https://www.basketusa.com/app/uploads/2019/11/2208453.jpg",
-        "streams": ["https://d6.merichunidya.com:1686/hls/bbtsp1.m3u8?md5=YJ2BWVv6mTZBf0eQ79GEOQ&expires=1755952958"],
+        "streams": ["https://d8.merichunidya.com:1686/hls/premieruk.m3u8?md5=dr69Z2KHsxv1m2j0YesS1w&expires=1756143934"],
         "always_live": 1
       },
       {
