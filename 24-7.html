@@ -46,9 +46,9 @@
     /* Responsive grid layout for all screen sizes */
     .event-grid, #livecards.event-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      padding: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive auto-fit */
+      gap: 20px; /* From provided CSS */
+      padding: 0 10px; /* From provided CSS */
     }
     /* Desktop mode: Ensure at least 2 columns, adapt to larger screens */
     @media (min-width: 768px) {
@@ -58,13 +58,17 @@
     }
     @media (min-width: 1200px) {
       .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(3, minmax(280px, 1fr));
+        grid-template-columns: repeat(3, minmax(280px, 1fr)); /* Align with provided 3-column suggestion */
       }
     }
     @media (min-width: 1800px) {
       .event-grid, #livecards.event-grid {
         grid-template-columns: repeat(4, minmax(280px, 1fr));
       }
+    }
+    /* Ensure each card fills its grid cell */
+    .event-grid > a, #livecards.event-grid > a {
+      width: 100%; /* Adapted from .stream-list > div */
     }
     .event-grid a {
       text-decoration: none;
