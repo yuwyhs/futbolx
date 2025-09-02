@@ -108,8 +108,10 @@
         "always_live": 1
       }
     ],
-    "Movies": [],
+    "Movies VOD": [],
     "News": [],
-    "Religion": []
+    "Religion": [],
+    "Anime": [],
+    "Movies Live": []
   }
 }
