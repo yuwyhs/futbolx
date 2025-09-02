@@ -162,9 +162,11 @@
             <li><a class="dropdown-item" href="#" data-category="Entertainment">Entertainment</a></li>
             <li><a class="dropdown-item" href="#" data-category="Kids">Kids</a></li>
             <li><a class="dropdown-item" href="#" data-category="Music">Music</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Movies">Movies</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Movies VOD">Movies VOD</a></li>
             <li><a class="dropdown-item" href="#" data-category="News">News</a></li>
             <li><a class="dropdown-item" href="#" data-category="Religion">Religion</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Anime">Anime</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Movies Live">Movies Live</a></li>
           </ul>
         </div>
       </div>
@@ -267,7 +269,7 @@
               <div class="card-body">
                 <h5 class="card-title">${stream.name}</h5>
                 <p class="card-text">
-                  <span class="event-tag">${stream.tag}</span>
+                  <span class="event-tag">${stream.category}</span>
                   <span class="event-timer">
                     <a href="/live-24-7/${stream.uri_name}" class="btn btn-danger btn-sm watch-button">Watch</a>
                   </span>
@@ -292,7 +294,7 @@
     }
 
     function loadContent() {
-      console.log('Starting loadContent at', new Date().toISOString());
+      console.log('Starting loadContent');
       const errorContainer = document.getElementById('errorContainer');
       const livecards = document.getElementById('livecards');
       const liveAnimation = document.getElementById('liveAnimation');
@@ -410,6 +412,7 @@
       const dropdownButton = document.getElementById('categoryDropdown');
 
       dropdownItems.forEach(item => {
+        item.removeEventListener('click', null); // Prevent duplicate listeners
         item.addEventListener('click', (event) => {
           event.preventDefault();
           const category = item.getAttribute('data-category');
@@ -420,10 +423,22 @@
           renderStreams(filteredStreams);
         });
       });
+
+      // Initialize Bootstrap dropdown
+      if (typeof bootstrap !== 'undefined') {
+        try {
+          new bootstrap.Dropdown(dropdownButton);
+          console.log('Category dropdown initialized');
+        } catch (error) {
+          console.error('Category dropdown initialization error:', error);
+        }
+      } else {
+        console.error('Bootstrap not loaded for category dropdown');
+      }
     }
 
     function initPage() {
-      console.log('Initializing page at', new Date().toISOString());
+      console.log('Initializing page');
       const errorContainer = document.getElementById('errorContainer');
       const livecards = document.getElementById('livecards');
       const themeToggle = document.getElementById('themeToggle');
@@ -446,10 +461,18 @@
       }
 
       // Initialize offcanvas
-      initOffcanvas();
+      try {
+        initOffcanvas();
+      } catch (error) {
+        console.error('Offcanvas initialization error:', error);
+      }
 
       // Initialize category dropdown
-      initCategoryDropdown();
+      try {
+        initCategoryDropdown();
+      } catch (error) {
+        console.error('Category dropdown initialization error:', error);
+      }
 
       // Load content
       try {
@@ -476,8 +499,12 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      console.log('DOM loaded at', new Date().toISOString());
-      initPage();
+      console.log('DOM loaded');
+      try {
+        initPage();
+      } catch (error) {
+        console.error('DOMContentLoaded error:', error);
+      }
     });
   </script>
 </body>
