@@ -179,6 +179,7 @@
     let videoPlayerInstance = null;
     let streamData = null;
     let currentStreamIndex = 0;
+    let countdownInterval = null;
 
     // Block popups
     const originalOpen = window.open;
@@ -208,16 +209,21 @@
         console.warn('Tip container or elements not found');
         return;
       }
+      // Clear any existing interval to prevent duplicates
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+      }
       let seconds = 10;
       countdownTimer.textContent = `${seconds}s`;
       tipContainer.style.height = `${tipAlert.offsetHeight}px`;
-      const interval = setInterval(() => {
+      countdownInterval = setInterval(() => {
         seconds--;
         if (seconds >= 0) {
           countdownTimer.textContent = `${seconds}s`;
         }
         if (seconds <= 0) {
-          clearInterval(interval);
+          clearInterval(countdownInterval);
+          countdownInterval = null;
           tipAlert.classList.add('fade-out');
           setTimeout(() => {
             tipContainer.style.height = '0';
@@ -237,9 +243,8 @@
         console.error('Offcanvas, toggler, or theme toggle not found');
         return;
       }
-      console.log('Initializing offcanvas at', new Date().toISOString());
       if (typeof bootstrap === 'undefined') {
-        console.error('Bootstrap not loaded. Ensure Bootstrap JS is included.');
+        console.error('Bootstrap not loaded');
         return;
       }
       try {
@@ -249,17 +254,17 @@
           scroll: false
         });
         offcanvasElement.addEventListener('shown.bs.offcanvas', () => {
-          console.log('Offcanvas shown at', new Date().toISOString());
+          console.log('Offcanvas shown');
         });
         offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
-          console.log('Offcanvas hidden at', new Date().toISOString());
+          console.log('Offcanvas hidden');
         });
         const navLinks = offcanvasElement.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
           link.addEventListener('click', (event) => {
             const href = link.getAttribute('href');
             if (href) {
-              console.log('Nav link clicked:', href, 'at', new Date().toISOString());
+              console.log('Nav link clicked:', href);
               window.location.href = href;
               offcanvas.hide();
             }
@@ -267,7 +272,7 @@
         });
         if (logoutButton) {
           logoutButton.addEventListener('click', () => {
-            console.log('Logout button clicked at', new Date().toISOString());
+            console.log('Logout button clicked');
             offcanvas.hide();
             if (typeof logout === 'function') {
               logout();
@@ -287,22 +292,26 @@
         console.error('Theme toggle or HTML element not found');
         return;
       }
-      const currentTheme = localStorage.getItem('theme') || 'dark';
-      htmlElement.setAttribute('data-bs-theme', currentTheme);
-      themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-      console.log('Theme initialized to:', currentTheme, 'at', new Date().toISOString());
-      themeToggle.addEventListener('click', () => {
-        try {
-          const currentTheme = htmlElement.getAttribute('data-bs-theme');
-          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-          htmlElement.setAttribute('data-bs-theme', newTheme);
-          localStorage.setItem('theme', newTheme);
-          themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-          console.log('Theme toggled to:', newTheme, 'at', new Date().toISOString());
-        } catch (error) {
-          console.error('Theme toggle error:', error);
-        }
-      });
+      try {
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        htmlElement.setAttribute('data-bs-theme', currentTheme);
+        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        console.log('Theme initialized to:', currentTheme);
+        themeToggle.addEventListener('click', () => {
+          try {
+            const currentTheme = htmlElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlElement.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            console.log('Theme toggled to:', newTheme);
+          } catch (error) {
+            console.error('Theme toggle error:', error);
+          }
+        });
+      } catch (error) {
+        console.error('Theme toggle initialization error:', error);
+      }
     }
 
     // Recreate video element
@@ -371,10 +380,8 @@
           throw new Error('Invalid or missing stream URL');
         }
         console.log('Stream URL:', streamUrl);
-
         const isM3U8 = await isM3U8Stream(streamUrl);
         console.log('Is M3U8 stream:', isM3U8);
-
         if (isM3U8) {
           embedPlayer.style.display = 'none';
           let videoPlayer = document.getElementById('videoPlayer');
@@ -511,14 +518,12 @@
         return;
       }
       dropdownMenu.innerHTML = '';
-
       if (streams.length === 0) {
         dropdownMenu.innerHTML = '<li><span class="dropdown-item disabled">No streams available</span></li>';
         dropdownButton.textContent = 'No Streams';
         dropdownButton.disabled = true;
         return;
       }
-
       streams.forEach((stream, index) => {
         const li = document.createElement('li');
         const a = document.createElement('a');
@@ -529,12 +534,11 @@
         li.appendChild(a);
         dropdownMenu.appendChild(li);
       });
-
       dropdownButton.textContent = streams[currentStreamIndex].label || `Stream ${currentStreamIndex + 1}`;
       dropdownButton.disabled = streams.length === 1;
-
       const dropdownItems = dropdownMenu.querySelectorAll('.dropdown-item');
       dropdownItems.forEach(item => {
+        item.removeEventListener('click', null); // Remove any existing listeners
         item.addEventListener('click', (event) => {
           event.preventDefault();
           const streamIndex = parseInt(item.dataset.streamIndex);
@@ -545,9 +549,15 @@
           }
         });
       });
-
       if (typeof bootstrap !== 'undefined') {
-        new bootstrap.Dropdown(dropdownButton);
+        try {
+          new bootstrap.Dropdown(dropdownButton);
+          console.log('Dropdown initialized');
+        } catch (error) {
+          console.error('Dropdown initialization error:', error);
+        }
+      } else {
+        console.error('Bootstrap not loaded for dropdown');
       }
     }
 
@@ -588,7 +598,7 @@
 
     // Initialize page
     function initPage() {
-      console.log('Initializing page at', new Date().toISOString());
+      console.log('Initializing page');
       const errorContainer = document.getElementById('errorContainer');
       const eventTitle = document.getElementById('eventTitle');
       if (!errorContainer || !eventTitle) {
@@ -632,9 +642,7 @@
             eventTitle.innerText = 'Error: Stream Not Found';
             errorContainer.className = 'alert alert-danger error-alert mt-3';
             errorContainer.innerText = error.message.includes('Stream not found')
-              ? `The requested stream "${ಸ
-
-System: "${uriName}" was not found. Redirecting to 24/7 streams...`
+              ? `The requested stream "${uriName}" was not found. Redirecting to 24/7 streams...`
               : 'Failed to load stream data: ' + error.message + '. Please try again.';
             setTimeout(() => window.location.href = '/24-7', 3000);
           });
@@ -654,11 +662,15 @@ System: "${uriName}" was not found. Redirecting to 24/7 streams...`
 
     // Wait for DOM content to load
     document.addEventListener('DOMContentLoaded', () => {
-      console.log('DOM content loaded at', new Date().toISOString());
-      initThemeToggle();
-      initOffcanvas();
-      startTipCountdown();
-      initPage();
+      console.log('DOM content loaded');
+      try {
+        initThemeToggle();
+        initOffcanvas();
+        startTipCountdown();
+        initPage();
+      } catch (error) {
+        console.error('DOMContentLoaded error:', error);
+      }
     });
   </script>
 </body>
