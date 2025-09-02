@@ -33,7 +33,7 @@
         "uri_name": "swimrewind",
         "tag": "Entertainment",
         "poster": "https://static.wixstatic.com/media/80923f_8c41cc922b46429885d8a5700a557ac6~mv2.png/v1/fill/w_980,h_549,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/80923f_8c41cc922b46429885d8a5700a557ac6~mv2.png",
-        "streams": ["https://swimrewind.com/hls/stream.m3u8"],
+        "streams": ["https://swimrewind.com/hls/stream23.m3u8"],
         "always_live": 1
       },
       {
