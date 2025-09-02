@@ -16,7 +16,7 @@
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="/assets/css/main.css?v=25">
+  <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
     .tip-container {
       max-width: 600px;
@@ -136,20 +136,22 @@
             <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
           </div>
           <h2 id="eventTitle" class="mb-3"></h2>
-          <div class="video-container">
-            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
-            <div id="videoPlayerContainer" style="width: 100%; height: 100%;">
-              <video id="videoPlayer" class="d-none" controls></video>
+          <div class="player-container">
+            <div class="video-container">
+              <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+              <div id="videoPlayerContainer" style="width: 100%; height: 100%;">
+                <video id="videoPlayer" class="d-none" controls></video>
+              </div>
             </div>
-          </div>
-          <div class="stream-dropdown mt-3">
-            <div class="dropdown">
-              <button class="btn btn-stream dropdown-toggle" type="button" id="streamDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                Select Stream
-              </button>
-              <ul class="dropdown-menu" id="streamDropdownMenu" aria-labelledby="streamDropdown">
-                <!-- Stream options will be populated dynamically -->
-              </ul>
+            <div class="stream-dropdown">
+              <div class="dropdown">
+                <button class="btn btn-stream dropdown-toggle" type="button" id="streamDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  Select Stream
+                </button>
+                <ul class="dropdown-menu" id="streamDropdownMenu" aria-labelledby="streamDropdown">
+                  <!-- Stream options will be populated dynamically -->
+                </ul>
+              </div>
             </div>
           </div>
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
@@ -544,7 +546,6 @@
         });
       });
 
-      // Ensure Bootstrap dropdown is initialized
       if (typeof bootstrap !== 'undefined') {
         new bootstrap.Dropdown(dropdownButton);
       }
@@ -631,7 +632,9 @@
             eventTitle.innerText = 'Error: Stream Not Found';
             errorContainer.className = 'alert alert-danger error-alert mt-3';
             errorContainer.innerText = error.message.includes('Stream not found')
-              ? `The requested stream "${uriName}" was not found. Redirecting to 24/7 streams...`
+              ? `The requested stream "${ಸ
+
+System: "${uriName}" was not found. Redirecting to 24/7 streams...`
               : 'Failed to load stream data: ' + error.message + '. Please try again.';
             setTimeout(() => window.location.href = '/24-7', 3000);
           });
