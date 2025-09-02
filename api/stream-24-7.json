@@ -111,7 +111,29 @@
     "Movies VOD": [],
     "News": [],
     "Religion": [],
-    "Anime": [],
+    "Anime": [
+      {
+        "name": "Anime Channel",
+        "uri_name": "anime-channel",
+        "tag": "Anime",
+        "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvYH2wGCSxxZj4mZW0KnHbQMGXEGpTn1WWT_Wje5nNhivpLKwq5fWfzQ1_&s=10",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://example.com/anime/stream1.m3u8"
+          },
+          {
+            "label": "Stream 2",
+            "url": "https://example.com/anime/stream2.m3u8"
+          },
+          {
+            "label": "Stream 3",
+            "url": "https://example.com/anime/stream3.m3u8"
+          }
+        ],
+        "always_live": 1
+      }
+    ],
     "Movies Live": []
   }
 }
