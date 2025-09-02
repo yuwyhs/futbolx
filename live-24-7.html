@@ -128,9 +128,7 @@
               <strong>Tip:</strong> For an ad-free experience, consider installing an ad blocker like
               <a href="https://ublockorigin.com" target="_blank" rel="noopener">uBlock Origin</a> or
               <a href="https://adguard.com" target="_blank" rel="noopener">AdGuard</a>.
-              <span id="countdownTimer">10ល
-
-System: 10s</span>
+              <span id="countdownTimer">10s</span>
             </div>
           </div>
           <div class="d-flex align-items-center mb-3">
@@ -204,15 +202,18 @@ System: 10s</span>
       const tipContainer = document.querySelector('.tip-container');
       const tipAlert = document.querySelector('.alert-info');
       const countdownTimer = document.getElementById('countdownTimer');
-      let seconds = 10;
       if (!tipContainer || !tipAlert || !countdownTimer) {
         console.warn('Tip container or elements not found');
         return;
       }
+      let seconds = 10;
+      countdownTimer.textContent = `${seconds}s`;
       tipContainer.style.height = `${tipAlert.offsetHeight}px`;
       const interval = setInterval(() => {
         seconds--;
-        countdownTimer.textContent = `${seconds}s`;
+        if (seconds >= 0) {
+          countdownTimer.textContent = `${seconds}s`;
+        }
         if (seconds <= 0) {
           clearInterval(interval);
           tipAlert.classList.add('fade-out');
@@ -222,11 +223,6 @@ System: 10s</span>
           }, 500);
         }
       }, 1000);
-      setTimeout(() => {
-        tipContainer.style.height = '0';
-        tipAlert.style.display = 'none';
-        clearInterval(interval);
-      }, 10500);
     }
 
     // Initialize offcanvas
@@ -276,33 +272,44 @@ System: 10s</span>
             }
           });
         }
-        if (themeToggle) {
-          const htmlElement = document.documentElement;
-          const currentTheme = localStorage.getItem('theme') || 'dark';
-          htmlElement.setAttribute('data-bs-theme', currentTheme);
-          themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-          console.log('Theme toggle initialized to:', currentTheme, 'at', new Date().toISOString());
-          themeToggle.addEventListener('click', () => {
-            try {
-              const currentTheme = htmlElement.getAttribute('data-bs-theme');
-              const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-              htmlElement.setAttribute('data-bs-theme', newTheme);
-              localStorage.setItem('theme', newTheme);
-              themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-              console.log('Theme toggled to:', newTheme, 'at', new Date().toISOString());
-            } catch (error) {
-              console.error('Theme toggle error:', error);
-            }
-          });
-        }
       } catch (error) {
         console.error('Offcanvas initialization error:', error);
       }
     }
 
+    // Initialize theme toggle
+    function initThemeToggle() {
+      const themeToggle = document.getElementById('themeToggle');
+      const htmlElement = document.documentElement;
+      if (!themeToggle || !htmlElement) {
+        console.error('Theme toggle or HTML element not found');
+        return;
+      }
+      const currentTheme = localStorage.getItem('theme') || 'dark';
+      htmlElement.setAttribute('data-bs-theme', currentTheme);
+      themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+      console.log('Theme initialized to:', currentTheme, 'at', new Date().toISOString());
+      themeToggle.addEventListener('click', () => {
+        try {
+          const currentTheme = htmlElement.getAttribute('data-bs-theme');
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          htmlElement.setAttribute('data-bs-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+          themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+          console.log('Theme toggled to:', newTheme, 'at', new Date().toISOString());
+        } catch (error) {
+          console.error('Theme toggle error:', error);
+        }
+      });
+    }
+
     // Recreate video element
     function recreateVideoElement(isM3U8) {
       const videoContainer = document.getElementById('videoPlayerContainer');
+      if (!videoContainer) {
+        console.error('Video player container not found');
+        return null;
+      }
       videoContainer.innerHTML = '';
       const videoElement = isM3U8 ? document.createElement('div') : document.createElement('video');
       videoElement.id = 'videoPlayer';
@@ -322,7 +329,7 @@ System: 10s</span>
           }
         });
       }
-      videoContainer.appendChild(videoElement GK);
+      videoContainer.appendChild(videoElement);
       return videoElement;
     }
 
@@ -353,6 +360,9 @@ System: 10s</span>
         clearError();
         embedPlayer = document.getElementById('embedPlayer');
         const videoContainer = document.getElementById('videoPlayerContainer');
+        if (!embedPlayer || !videoContainer) {
+          throw new Error('Player elements not found');
+        }
         const stream = event.streams[streamIndex];
         const streamUrl = stream.url;
         if (!streamUrl || !/^https?:/.test(streamUrl)) {
@@ -395,7 +405,7 @@ System: 10s</span>
             videoPlayerInstance.play();
             try {
               videoPlayerInstance.setMute(false);
-              console.log('JV Player unmuted');
+              console.log('JW Player unmuted');
             } catch (e) {
               console.warn('Failed to unmute JW Player:', e);
             }
@@ -430,11 +440,10 @@ System: 10s</span>
           }
           const url = new URL(streamUrl);
           url.searchParams.append('autoplay', '1');
-          embedPlayer.contentWindow.location.replace(url.toString());
+          embedPlayer.src = url.toString();
           embedPlayer.muted = true;
           console.log('Embed initialized successfully');
-          embed """
-Player.addEventListener('load', () => {
+          embedPlayer.addEventListener('load', () => {
             console.log('Embed loaded successfully');
             clearError();
             try {
@@ -495,6 +504,10 @@ Player.addEventListener('load', () => {
     function populateStreamDropdown(streams) {
       const dropdownMenu = document.getElementById('streamDropdownMenu');
       const dropdownButton = document.getElementById('streamDropdown');
+      if (!dropdownMenu || !dropdownButton) {
+        console.error('Stream dropdown elements not found');
+        return;
+      }
       dropdownMenu.innerHTML = '';
 
       if (streams.length === 0) {
@@ -530,6 +543,11 @@ Player.addEventListener('load', () => {
           }
         });
       });
+
+      // Ensure Bootstrap dropdown is initialized
+      if (typeof bootstrap !== 'undefined') {
+        new bootstrap.Dropdown(dropdownButton);
+      }
     }
 
     // Fetch stream data with retry
@@ -572,9 +590,16 @@ Player.addEventListener('load', () => {
       console.log('Initializing page at', new Date().toISOString());
       const errorContainer = document.getElementById('errorContainer');
       const eventTitle = document.getElementById('eventTitle');
+      if (!errorContainer || !eventTitle) {
+        console.error('Error container or event title not found');
+        return;
+      }
       try {
         const uriName = window.location.pathname.split('/').pop();
         const playerContainer = document.querySelector('.video-container');
+        if (!playerContainer) {
+          throw new Error('Player container not found');
+        }
         const apiUrl = '/api/stream-24-7';
         fetchWithRetry(apiUrl)
           .then(data => {
@@ -608,9 +633,7 @@ Player.addEventListener('load', () => {
             errorContainer.innerText = error.message.includes('Stream not found')
               ? `The requested stream "${uriName}" was not found. Redirecting to 24/7 streams...`
               : 'Failed to load stream data: ' + error.message + '. Please try again.';
-            set автомобилей
-
-Timeout(() => window.location.href = '/24-7', 3000);
+            setTimeout(() => window.location.href = '/24-7', 3000);
           });
         try {
           checkAuthStatus();
@@ -626,14 +649,13 @@ Timeout(() => window.location.href = '/24-7', 3000);
       }
     }
 
-    // Wait for page load
-    window.addEventListener('load', () => {
-      console.log('Window load complete at', new Date().toISOString());
-      setTimeout(() => {
-        initOffcanvas();
-        startTipCountdown();
-        initPage();
-      }, 500);
+    // Wait for DOM content to load
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM content loaded at', new Date().toISOString());
+      initThemeToggle();
+      initOffcanvas();
+      startTipCountdown();
+      initPage();
     });
   </script>
 </body>
