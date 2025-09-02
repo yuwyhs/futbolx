@@ -7,7 +7,16 @@
         "uri_name": "nba-tv",
         "tag": "NBA",
         "poster": "https://www.basketusa.com/app/uploads/2019/11/2208453.jpg",
-        "streams": ["https://ads.its-newid.net/api/manifest.m3u8?tp=samsung_tvplus&channel_name=animax%EC%9A%94%EB%A6%AC%EC%99%95%EB%B9%84%EB%A3%A1%EB%8D%94%EB%A7%88%EC%8A%A4%ED%84%B0&channel_id=newid_024&apikey=b97c7a7d0c82424bb607e141ef215779&auth=e9963ef1-e25f558f-49451fd9-38ec4fb9&ads.live=[CONTENT_LIVE]&ads.device_did=%7BPSID%7D&ads.ifa=[IFA]&ads.ifatype=[IFA_TYPE]&ads.lat=[LMT]&ads.donotsell=[DNS]&ads.ip=[IP]&ads.gdpr=[GDPR]&ads.gdprconsent=[GDPR_CONSENT]&ads.country=[COUNTRY]&ads.us_privacy=[US_PRIVACY]&ads.appstoreurl=[APP_STOREURL]&ads.bundleid=[APP_BUNDLE]&ads.app.name=%7BAPP_NAME%7D&ads.appversion=[APP_VERSION]&ads.devicetype=[DEVICE_TYPE]&ads.devicemake=[DEVICE_MAKE]&ads.devicemodel=[DEVICE_MODEL]&ads.targetad=[TARGETAD_ALLOWED]&ads.content_title=[PROGRAM_TITLE]&ads.content_series=[SERIES_TITLE]&ads.content_season=[SEASON_TITLE]&ads.content_episode=[EPISODE_NO]&ads.content_length=[CONTENT_LENGTH]&ads.device.dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&nh=true&ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&ads.ssai_vendor=SSSLIVE&ads.service_id=KRBC3200001VC"],
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://ads.its-newid.net/api/manifest.m3u8?tp=samsung_tvplus&channel_name=animax%EC%9A%94%EB%A6%AC%EC%99%80%EB%B9%84%EB%A3%A1%EB%8D%94%EB%A7%88%EC%8A%A4%ED%84%B0&channel_id=newid_024&apikey=b97c7a7d0c82424bb607e141ef215779&auth=e9963ef1-e25f558f-49451fd9-38ec4fb9&ads.live=[CONTENT_LIVE]&ads.device_did=%7 BPSID%7D&ads.ifa=[IFA]&ads.ifatype=[IFA_TYPE]&ads.lat=[LMT]&ads.donotsell=[DNS]&ads.ip=[IP]&ads.gdpr=[GDPR]&ads.gdprconsent=[GDPR_CONSENT]&ads.country=[COUNTRY]&ads.us_privacy=[US_PRIVACY]&ads.appstoreurl=[APP_STOREURL]&ads.bundleid=[APP_BUNDLE]&ads.app.name=%7BAPP_NAME%7D&ads.appversion=[APP_VERSION]&ads.devicetype=[DEVICE_TYPE]&ads.devicemake=[DEVICE_MAKE]&ads.devicemodel=[DEVICE_MODEL]&ads.targetad=[TARGETAD_ALLOWED]&ads.content_title=[PROGRAM_TITLE]&ads.content_series=[SERIES_TITLE]&ads.content_season=[SEASON_TITLE]&ads.content_episode=[EPISODE_NO]&ads.content_length=[CONTENT_LENGTH]&ads.device.dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&nh=true&ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&ads.ssai_vendor=SSSLIVE&ads.service_id=KRBC3200001VC"
+          },
+          {
+            "label": "Stream 2",
+            "url": "https://fl3.moveonjoy.com/NBA_TV_ALTERNATE/index.m3u8"
+          }
+        ],
         "always_live": 1
       },
       {
@@ -15,7 +24,16 @@
         "uri_name": "goal-tv",
         "tag": "Sports",
         "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAANmuET_eYcvdWFygws63EIYSUofNOMfsjA&s",
-        "streams": ["https://streams2.sofast.tv/sofastplayout/WiseM3U8_1/master.m3u8"],
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://streams2.sofast.tv/sofastplayout/WiseM3U8_1/master.m3u8"
+          },
+          {
+            "label": "Stream 2",
+            "url": "https://streams2.sofast.tv/sofastplayout/WiseM3U8_2/master.m3u8"
+          }
+        ],
         "always_live": 1
       },
       {
@@ -23,7 +41,12 @@
         "uri_name": "cbs-sports-network",
         "tag": "Sports",
         "poster": "https://www.cabletv.com/app/uploads/2024/09/CBS-Sports-Network-CTV-jpg.webp",
-        "streams": ["https://fl3.moveonjoy.com/CBS_SPORTS_NETWORK/index.m3u8"],
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://fl3.moveonjoy.com/CBS_SPORTS_NETWORK/index.m3u8"
+          }
+        ],
         "always_live": 1
       }
     ],
@@ -33,7 +56,12 @@
         "uri_name": "swimrewind",
         "tag": "Entertainment",
         "poster": "https://static.wixstatic.com/media/80923f_8c41cc922b46429885d8a5700a557ac6~mv2.png/v1/fill/w_980,h_549,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/80923f_8c41cc922b46429885d8a5700a557ac6~mv2.png",
-        "streams": ["https://swimrewind.com/hls/stream23.m3u8"],
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://swimrewind.com/hls/stream23.m3u8"
+          }
+        ],
         "always_live": 1
       },
       {
@@ -41,7 +69,12 @@
         "uri_name": "comedy-central",
         "tag": "Comedy",
         "poster": "https://images.paramount.tech/uri/mgid:arc:imageassetref:en-gb.ws.cc.co.uk:659465e0-b6ff-416d-98e2-a9969431b816?quality=0.7&gen=ntrn&format=webp&width=320",
-        "streams": ["https://fl3.moveonjoy.com/Comedy_Central/index.m3u8"],
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://fl3.moveonjoy.com/Comedy_Central/index.m3u8"
+          }
+        ],
         "always_live": 1
       }
     ],
@@ -51,7 +84,12 @@
         "uri_name": "nickelodeon",
         "tag": "Cartoons",
         "poster": "https://cdn.mos.cms.futurecdn.net/u3xQKM9WfmqKc8FPXbcqyY.jpg",
-        "streams": ["https://fl5.moveonjoy.com/NICKELODEON/index.m3u8"],
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://fl5.moveonjoy.com/NICKELODEON/index.m3u8"
+          }
+        ],
         "always_live": 1
       }
     ],
@@ -61,7 +99,12 @@
         "uri_name": "mtv-live",
         "tag": "Music",
         "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXvbNshlpj4xvKcWDuEGM2AbgKL9-eMwOWqQ&s",
-        "streams": ["https://fl3.moveonjoy.com/MTV_LIVE/index.m3u8"],
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://fl3.moveonjoy.com/MTV_LIVE/index.m3u8"
+          }
+        ],
         "always_live": 1
       }
     ],
