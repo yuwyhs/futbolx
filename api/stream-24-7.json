@@ -14,7 +14,7 @@
           },
           {
             "label": "Stream 2",
-            "url": "https://tiger-hub.vercel.app/Hub_Sports-1/tracks-v1a1/mono.ts.m3u8"
+            "url": "https://e2e6c63fa23a.entrypoint.cloud.wowza.com/app-4Xp44q4s/ngrp:8bf9bc10_all/playlist.m3u8"
           }
         ],
         "always_live": 1
