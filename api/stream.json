@@ -4,82 +4,33 @@
     {
       "category": "Football",
       "always_live": 0,
-      "streams": [
-        {
-          "name": "Newcastle vs Liverpool",
-          "uri_name": "newcastle-vs-liverpool",
-          "poster": "https://media.zenfs.com/en/playmakerstats_articles_264/08d66dc89b9953e21eacab25563d5b57",
-          "tag": "Epl",
-          "starts_at": "2025-08-25T22:00:00",
-          "ends_at": "2025-08-26T00:00:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://great-white.mediatools.click:6646/4reStAcaHuraStIc3o7rOdRAprEy2glB/tracks-v1a1/mono.m3u8?token=2a7f3d052d765a02b5f874"
-            },
-            {
-              "title": "Alternate Feed",
-              "url": "https://great-white.mediatools.click:6646/e25132915cf1e67759051cac80b42275/tracks-v1a1/mono.m3u8?token=fedc5b7e941bb882b691eb52cbca4cfb248100b8-8e0bcaa738ebf0455c690be29cf9faca-1756151449-1756140649"
-            }
-          ]
-        },
-        {
-          "name": "Sevilla vs Getafe",
-          "uri_name": "sevilla-vs-getafe",
-          "poster": "https://media.zenfs.com/en/playmakerstats_articles_264/e8fa0221633c78bd55e4353076d079a6",
-          "tag": "Laliga",
-          "starts_at": "2025-08-25T22:30:00",
-          "ends_at": "2025-08-26T00:30:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://d17lsiabqrlwa2.cloudfront.net/pl_138/207480-6551168-1/chunklist.m3u8"
-            },
-            {
-              "title": "Alternate Feed",
-              "url": "https://great-white.mediatools.click:6646/aE5dT9yH2uJ8gP1zWn7fK4oL6mV3cB/tracks-v1a1/mono.m3u8?token=76b44003b24429933824cd1558ab5a6c64e7a056-6003c87f36230ccc6519fdeade4c0f7c-1756151579-1756140779"
-            }
-          ]
-        },
-        {
-          "name": "Inter Milan vs Torino",
-          "uri_name": "inter-milan-vs-torino",
-          "poster": "https://www.footitalia.com/wp-content/uploads/2024/10/Inter-v-Torino.png",
-          "tag": "Seria A",
-          "starts_at": "2025-08-25T21:45:00",
-          "ends_at": "2025-08-25T23:45:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://fl3.moveonjoy.com/CBS_SPORTS_NETWORK/index.m3u8"
-            },
-            {
-              "title": "Alternate Feed",
-              "url": "https://fl3.moveonjoy.com/CBS_SPORTS_NETWORK/index.m3u8"
-            }
-          ]
-        }
-      ]
+      "streams": []
     },
     {
       "category": "Fights",
       "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "NFL",
+      "always_live": 0,
       "streams": [
         {
-          "name": "WWE Raw",
-          "uri_name": "wwe-raw",
-          "poster": "https://ppv.to/assets/thumb/56336f9d22c51c416e1a56afbd18f314-thumbnail.jpg",
-          "tag": "wwe",
-          "starts_at": "2025-08-25T22:00:00",
-          "ends_at": "2025-08-26T01:00:00",
+          "name": "Dallas Cowboys vs Philadelphia Eagles",
+          "uri_name": "dallas-cowboys-vs-philadelphia-eagles",
+          "poster": "https://ppvs.su/assets/thumb/3aa4039619f530cd4310d59ac59f2cfb-thumbnail.jpg",
+          "tag": "NFL",
+          "starts_at": "2025-09-05T03:20:00",
+          "ends_at": "2025-09-05T06:20:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://cr6rabe9r4sterowutru5o9o5hepiva2r.ruseneslt0xadlcrahithot2dlcum4j3f.jdx3.org/fishy-smell/9d22858c114ef1bef13b52c99e31b8ed.m3u8?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHJlYW1JZCI6IjlkMjI4NThjMTE0ZWYxYmVmMTNiNTJjOTllMzFiOGVkIiwidHlwZSI6InBsYXlsaXN0X2FjY2VzcyIsImlhdCI6MTc1NjE0OTc5MiwiZXhwIjoxNzU2MTYwNTkyfQ.dCQkLSoxcjZzcElDaG9IKl89PTd0bFRyRWZST0pMVF8maDRYSURyITZlMiRv"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/nfl1/playlist.m3u8"
+            },
+            {
+              "title": "Alternate Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/nfl2/playlist.m3u8"
             }
           ]
         }
