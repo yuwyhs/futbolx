@@ -26,7 +26,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://silvierataylor.s3.us-east-2.amazonaws.com/main.m3u8"
+              "url": "https://great-white.mediatools.click/4a1b2c3d5e6f7890a1b2c3d4e5f67890/tracks-v1a1/mono.m3u8?token=a34dc3265b1fe33d42d4d4b4cc10860fc21d6d1d-0b01341dc07f94b8e603ff71c06e2423-1757044467-1757033667"
             },
             {
               "title": "Alternate Feed",
