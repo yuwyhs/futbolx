@@ -14,7 +14,7 @@
           },
           {
             "label": "Stream 2",
-            "url": "https://m3u8-proxy-xfsf.onrender.com/fetch/?url=https://epltv1.github.io/epl.m3u8"
+            "url": "https://cors-proxy.cooks.fyi/https://d1.merichunidya.com:1686/hls/star1in.m3u8?md5=urhTKEaoDXLRGRzDpFLLEA&expires=1757285591"
           }
         ],
         "always_live": 1
