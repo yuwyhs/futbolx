@@ -14,7 +14,7 @@
           },
           {
             "label": "Stream 2",
-            "url": "https://cors-proxy.cooks.fyi/https://d1.merichunidya.com:1686/hls/star1in.m3u8?md5=urhTKEaoDXLRGRzDpFLLEA&expires=1757285591"
+            "url": "https://cors-proxy.cooks.fyi/http://main.light-ott.net:80/play/live.php?mac=00:1A:79:3A:93:FD&stream=396873&extension=m3u8"
           }
         ],
         "always_live": 1
