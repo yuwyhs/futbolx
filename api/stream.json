@@ -4,37 +4,79 @@
     {
       "category": "Football",
       "always_live": 0,
-      "streams": []
-    },
-    {
-      "category": "Fights",
-      "always_live": 0,
-      "streams": []
-    },
-    {
-      "category": "Motorsports",
-      "always_live": 0,
       "streams": [
         {
-          "name": "F1 Italian GP P1",
-          "uri_name": "f1-italian-gp-p1",
-          "poster": "https://cdn.i.haymarketmedia.asia/?n=campaign-asia%2Fcontent%2FcroppedF1logo.png",
-          "tag": "F1",
-          "starts_at": "2025-09-05T14:30:00",
-          "ends_at": "2025-09-05T15:30:00",
+          "name": "Brentford vs Chelsea",
+          "uri_name": "brentford-vs-chelsea",
+          "poster": "https://ppvs.su/assets/thumb/c64232652f5a11534281acaa990e1fc1-thumbnail.jpg",
+          "tag": "Epl",
+          "starts_at": "2025-09-14T16:00:00",
+          "ends_at": "2025-09-14T18:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/f1live/playlist.m3u8"
-            },
-            {
-              "title": "Alternate Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/f1live/playlist.m3u8"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
             }
           ]
         }
       ]
+    },
+    {
+      "category": "Fights",
+      "always_live": 0,
+      "streams": [
+        {
+          "name": "Crocker vs Donovan 2",
+          "uri_name": "crocker-vs-donovan-2",
+          "poster": "https://ppvs.su/assets/thumb/01b6edf26aade273253ee2d9197d9c84-thumbnail.jpg",
+          "tag": "Boxing",
+          "starts_at": "2025-09-27T22:00:00",
+          "ends_at": "2025-09-28T00:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/fightslive/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Lopes vs Silva",
+          "uri_name": "lopes-vs-silva",
+          "poster": "https://ppvs.su/assets/thumb/6d83d8d8a1aeb6ccba36c4e1a049015f-thumbnail.jpg",
+          "tag": "Noche UFC",
+          "starts_at": "2025-09-14T21:00:00",
+          "ends_at": "2025-09-15T03:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ufclive/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Canelo vs Crawford",
+          "uri_name": "canelo-vs-crawford",
+          "poster": "https://ppvs.su/assets/thumb/1e757f328bbe3ec56b66ee0eff26a9fb-thumbnail.jpg",
+          "tag": "Boxing",
+          "starts_at": "2025-09-20T22:00:00",
+          "ends_at": "2025-09-21T00:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/boxinglive/playlist.m3u8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Motorsports",
+      "always_live": 0,
+      "streams": []
     }
   ]
 }
