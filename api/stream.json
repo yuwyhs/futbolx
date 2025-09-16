@@ -40,8 +40,8 @@
           "uri_name": "real-madrid-vs-marseille",
           "poster": "https://ppvs.su/assets/thumb/7643b7d0bbd5b7ec1459212458a99074-thumbnail.jpg",
           "tag": "UCL",
-          "starts_at": "2025-09-17T22:00:00",
-          "ends_at": "2025-09-18T00:00:00",
+          "starts_at": "2025-09-16T22:00:00",
+          "ends_at": "2025-09-17T00:00:00",
           "always_live": 0,
           "streams": [
             {
@@ -55,8 +55,8 @@
           "uri_name": "benfica-vs-qarabag",
           "poster": "https://ppvs.su/assets/thumb/1a4c3d87888ceb7a5c7a9d390d1930ef-thumbnail.jpg",
           "tag": "UCL",
-          "starts_at": "2025-09-17T22:00:00",
-          "ends_at": "2025-09-18T00:00:00",
+          "starts_at": "2025-09-16T22:00:00",
+          "ends_at": "2025-09-17T00:00:00",
           "always_live": 0,
           "streams": [
             {
@@ -70,8 +70,8 @@
           "uri_name": "juventus-vs-dortmund",
           "poster": "https://ppvs.su/assets/thumb/dc0b15f069401144079cc0217776da43-thumbnail.jpg",
           "tag": "UCL",
-          "starts_at": "2025-09-17T22:00:00",
-          "ends_at": "2025-09-18T00:00:00",
+          "starts_at": "2025-09-16T22:00:00",
+          "ends_at": "2025-09-17T00:00:00",
           "always_live": 0,
           "streams": [
             {
@@ -85,8 +85,8 @@
           "uri_name": "tottenham-vs-villareal",
           "poster": "https://ppvs.su/assets/thumb/123c6b1077d70dff38a1efb1b7217fdc-thumbnail.jpg",
           "tag": "UCL",
-          "starts_at": "2025-09-17T22:00:00",
-          "ends_at": "2025-09-18T00:00:00",
+          "starts_at": "2025-09-16T22:00:00",
+          "ends_at": "2025-09-17T00:00:00",
           "always_live": 0,
           "streams": [
             {
@@ -145,7 +145,7 @@
           "uri_name": "olympiacos-vs-pafos",
           "poster": "https://ppvs.su/assets/thumb/104c7aaad8c428f39dabb9674d6720b8-thumbnail.jpg",
           "tag": "UCL",
-          "starts_at": "2025-09-18T20:45:00",
+          "starts_at": "2025-09-17T20:45:00",
           "ends_at": "2025-09-18T22:45:00",
           "always_live": 0,
           "streams": [
@@ -160,7 +160,7 @@
           "uri_name": "slavia-praha-vs-bodo-glimt",
           "poster": "https://ppvs.su/assets/thumb/e1013659b9ad285a268fbbb75b00ba8d-thumbnail.jpg",
           "tag": "UCL",
-          "starts_at": "2025-09-18T20:45:00",
+          "starts_at": "2025-09-17T20:45:00",
           "ends_at": "2025-09-18T22:45:00",
           "always_live": 0,
           "streams": [
@@ -175,8 +175,8 @@
           "uri_name": "ajax-vs-inter",
           "poster": "https://ppvs.su/assets/thumb/9cd8cb871842d1e43779d5863abd94db-thumbnail.jpg",
           "tag": "UCL",
-          "starts_at": "2025-09-18T22:00:00",
-          "ends_at": "2025-09-19T00:00:00",
+          "starts_at": "2025-09-17T22:00:00",
+          "ends_at": "2025-09-18T00:00:00",
           "always_live": 0,
           "streams": [
             {
@@ -220,8 +220,8 @@
           "uri_name": "club-brugge-vs-monaco",
           "poster": "https://ppvs.su/assets/thumb/0f7aa82bde80806beb976484ca8e25e0-thumbnail.jpg",
           "tag": "UCL",
-          "starts_at": "2025-09-19T20:45:00",
-          "ends_at": "2025-09-19T22:45:00",
+          "starts_at": "2025-09-18T20:45:00",
+          "ends_at": "2025-09-18T22:45:00",
           "always_live": 0,
           "streams": [
             {
@@ -235,8 +235,8 @@
           "uri_name": "copenhagen-vs-leverkusen",
           "poster": "https://ppvs.su/assets/thumb/9554aec2891b78380bc0ebc1dad80435-thumbnail.jpg",
           "tag": "UCL",
-          "starts_at": "2025-09-19T20:45:00",
-          "ends_at": "2025-09-19T22:45:00",
+          "starts_at": "2025-09-18T20:45:00",
+          "ends_at": "2025-09-18T22:45:00",
           "always_live": 0,
           "streams": [
             {
@@ -250,8 +250,8 @@
           "uri_name": "frankfurt-vs-galatasaray",
           "poster": "https://ppvs.su/assets/thumb/054bb6df8777a17f70f9b5f782420f6f-thumbnail.jpg",
           "tag": "UCL",
-          "starts_at": "2025-09-19T20:45:00",
-          "ends_at": "2025-09-19T22:45:00",
+          "starts_at": "2025-09-18T20:45:00",
+          "ends_at": "2025-09-18T22:45:00",
           "always_live": 0,
           "streams": [
             {
@@ -265,8 +265,8 @@
           "uri_name": "sporting-cp-vs-kairat-almaty",
           "poster": "https://ppvs.su/assets/thumb/2d829c0a0925fc49546b90c58fd6f8c5-thumbnail.jpg",
           "tag": "UCL",
-          "starts_at": "2025-09-19T20:45:00",
-          "ends_at": "2025-09-19T22:45:00",
+          "starts_at": "2025-09-18T20:45:00",
+          "ends_at": "2025-09-18T22:45:00",
           "always_live": 0,
           "streams": [
             {
