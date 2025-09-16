@@ -6,107 +6,272 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Celta Vigo vs Girona",
-          "uri_name": "celta-vigo-vs-girona",
-          "poster": "https://ppvs.su/assets/thumb/6b1ea0c40dcba9f68a53eb42e00904d9-thumbnail.jpg",
-          "tag": "Laliga",
-          "starts_at": "2025-09-14T15:00:00",
-          "ends_at": "2025-09-14T17:00:00",
+          "name": "A.Bilbao vs Arsenal",
+          "uri_name": "a-bilbao-vs-arsenal",
+          "poster": "https://ppvs.su/assets/thumb/6cc0798d1cd168a100489bcdee272e92-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-16T20:45:00",
+          "ends_at": "2025-09-16T22:45:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/laliga/playlist.m3u8"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
             }
           ]
         },
         {
-          "name": "Burnley vs Liverpool",
-          "uri_name": "burnley-vs-liverpool",
-          "poster": "https://ppvs.su/assets/thumb/7a0cc2636cf1778baf6988c4425fd6a8-thumbnail.jpg",
-          "tag": "Epl",
-          "starts_at": "2025-09-14T16:00:00",
-          "ends_at": "2025-09-14T18:00:00",
+          "name": "Psv vs Union SG",
+          "uri_name": "psv-vs-union-sg",
+          "poster": "https://ppvs.su/assets/thumb/1e143f6ef8ea6885e0df7be8efee6415-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-16T20:45:00",
+          "ends_at": "2025-09-16T22:45:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl2/playlist.m3u8"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
             }
           ]
         },
         {
-          "name": "PSG vs Lens",
-          "uri_name": "psg-vs-lens",
-          "poster": "https://ppvs.su/assets/thumb/6044a1dc923f6d2df98f45e36880de40-thumbnail.jpg",
-          "tag": "Ligue 1",
-          "starts_at": "2025-09-14T18:15:00",
-          "ends_at": "2025-09-14T20:15:00",
+          "name": "Real Madrid vs Marseille",
+          "uri_name": "real-madrid-vs-marseille",
+          "poster": "https://ppvs.su/assets/thumb/7643b7d0bbd5b7ec1459212458a99074-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-17T22:00:00",
+          "ends_at": "2025-09-18T00:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/futbolx/playlist.m3u8"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
             }
           ]
         },
         {
-          "name": "Man City vs Man United",
-          "uri_name": "man-city-vs-man-united",
-          "poster": "https://ppvs.su/assets/thumb/9603ff2c942127b4f57cc89e3d2e7f22-thumbnail.jpg",
-          "tag": "Epl",
-          "starts_at": "2025-09-14T18:30:00",
-          "ends_at": "2025-09-14T20:30:00",
+          "name": "Benfica vs Qarabağ",
+          "uri_name": "benfica-vs-qarabag",
+          "poster": "https://ppvs.su/assets/thumb/1a4c3d87888ceb7a5c7a9d390d1930ef-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-17T22:00:00",
+          "ends_at": "2025-09-18T00:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl1/playlist.m3u8"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
             }
           ]
         },
         {
-          "name": "Rennes vs Lyon",
-          "uri_name": "rennes-vs-lyon",
-          "poster": "https://ppvs.su/assets/thumb/9e8f908d1b0601b62e8cb8a78df6db67-thumbnail.jpg",
-          "tag": "Ligue 1",
-          "starts_at": "2025-09-14T21:45:00",
-          "ends_at": "2025-09-14T23:45:00",
+          "name": "Juventus vs Dortmund",
+          "uri_name": "juventus-vs-dortmund",
+          "poster": "https://ppvs.su/assets/thumb/dc0b15f069401144079cc0217776da43-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-17T22:00:00",
+          "ends_at": "2025-09-18T00:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/futbolx/playlist.m3u8"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
             }
           ]
         },
         {
-          "name": "Milan vs Bologna",
-          "uri_name": "milan-vs-bologna",
-          "poster": "https://ppvs.su/assets/thumb/1b42eac0f3813820da906bbde63c115f-thumbnail.jpg",
-          "tag": "Serie A",
-          "starts_at": "2025-09-14T21:45:00",
-          "ends_at": "2025-09-14T23:45:00",
+          "name": "Tottenham vs Villareal",
+          "uri_name": "tottenham-vs-villareal",
+          "poster": "https://ppvs.su/assets/thumb/123c6b1077d70dff38a1efb1b7217fdc-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-17T22:00:00",
+          "ends_at": "2025-09-18T00:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd1.php"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
             }
           ]
         },
         {
-          "name": "Barcelona vs Valencia CF",
-          "uri_name": "barcelona-vs-valencia-cf",
-          "poster": "https://ppvs.su/assets/thumb/59ede966acdd2f4f6bd367ab86d397fc-thumbnail.jpg",
-          "tag": "Laliga",
-          "starts_at": "2025-09-14T22:00:00",
-          "ends_at": "2025-09-15T00:00:00",
+          "name": "Bayern Munich vs Chelsea",
+          "uri_name": "bayern-munich-vs-chelsea",
+          "poster": "https://ppvs.su/assets/thumb/86bd9a7659647e7e23837992c02db4fd-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-17T22:00:00",
+          "ends_at": "2025-09-18T00:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/laliga/playlist.m3u8"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Liverpool vs Atletico Madrid",
+          "uri_name": "liverpool-vs-atletico-madrid",
+          "poster": "https://ppvs.su/assets/thumb/055a470b8c5797706cab75c25a849d10-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-17T22:00:00",
+          "ends_at": "2025-09-18T00:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "PSG vs Atalanta",
+          "uri_name": "psg-vs-atalanta",
+          "poster": "https://ppvs.su/assets/thumb/c4fdfcb930c275d43a7941dea371ab5c-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-17T22:00:00",
+          "ends_at": "2025-09-18T00:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Olympiacos vs Pafos",
+          "uri_name": "olympiacos-vs-pafos",
+          "poster": "https://ppvs.su/assets/thumb/104c7aaad8c428f39dabb9674d6720b8-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-18T20:45:00",
+          "ends_at": "2025-09-18T22:45:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Slavia Praha vs. Bodø/Glimt",
+          "uri_name": "slavia-praha-vs-bodo-glimt",
+          "poster": "https://ppvs.su/assets/thumb/e1013659b9ad285a268fbbb75b00ba8d-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-18T20:45:00",
+          "ends_at": "2025-09-18T22:45:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Ajax vs Inter",
+          "uri_name": "ajax-vs-inter",
+          "poster": "https://ppvs.su/assets/thumb/9cd8cb871842d1e43779d5863abd94db-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-18T22:00:00",
+          "ends_at": "2025-09-19T00:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Man City vs Napoli",
+          "uri_name": "man-city-vs-napoli",
+          "poster": "https://ppvs.su/assets/thumb/98a817a6c8f8eef1c941ebbcec3d8666-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-18T22:00:00",
+          "ends_at": "2025-09-19T00:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Newcastle vs Barcelona",
+          "uri_name": "newcastle-vs-barcelona",
+          "poster": "https://ppvs.su/assets/thumb/a0e7710613728ed383a05a1b21781ebf-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-18T22:00:00",
+          "ends_at": "2025-09-19T00:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Club Brugge vs Monaco",
+          "uri_name": "club-brugge-vs-monaco",
+          "poster": "https://ppvs.su/assets/thumb/0f7aa82bde80806beb976484ca8e25e0-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-19T20:45:00",
+          "ends_at": "2025-09-19T22:45:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Copenhagen vs. Leverkusen",
+          "uri_name": "copenhagen-vs-leverkusen",
+          "poster": "https://ppvs.su/assets/thumb/9554aec2891b78380bc0ebc1dad80435-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-19T20:45:00",
+          "ends_at": "2025-09-19T22:45:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Frankfurt vs. Galatasaray",
+          "uri_name": "frankfurt-vs-galatasaray",
+          "poster": "https://ppvs.su/assets/thumb/054bb6df8777a17f70f9b5f782420f6f-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-19T20:45:00",
+          "ends_at": "2025-09-19T22:45:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Sporting CP vs. Kairat Almaty",
+          "uri_name": "sporting-cp-vs-kairat-almaty",
+          "poster": "https://ppvs.su/assets/thumb/2d829c0a0925fc49546b90c58fd6f8c5-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-19T20:45:00",
+          "ends_at": "2025-09-19T22:45:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
             }
           ]
         }
