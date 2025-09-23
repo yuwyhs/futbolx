@@ -51,17 +51,17 @@
           ]
         },
         {
-          "name": "Wolves vs Everton",
-          "uri_name": "wolves-vs-everton",
-          "poster": "https://www.cbssports.com/_next/image?url=https%3A%2F%2Fsportshub.cbsistatic.com%2Fi%2F2025%2F09%2F18%2Fa78e1e03-1bfc-4569-9de8-010873b7ab4d%2Fimage-1758227649934.jpg%3Fwidth%3D400%26crop%3D16%3A9%2Csmart&w=3840&q=70",
-          "tag": "Efl Cup",
-          "starts_at": "2025-09-22T21:45:00",
-          "ends_at": "2025-09-22T23:50:00",
+          "name": "Levante UD vs Real Madrid",
+          "uri_name": "levante-ud-vs-real-madrid",
+          "poster": "https://ppv.to/assets/thumb/1aa65aee917e279207afd850fade27bf-thumbnail.jpg",
+          "tag": "Laliga",
+          "starts_at": "2025-09-23T22:30:00",
+          "ends_at": "2025-09-24T00:40:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/footballlive/playlist.m3u8"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/laliga/playlist.m3u8"
             }
           ]
         }
