@@ -249,9 +249,9 @@
       const countdownElements = document.querySelectorAll('.countdown');
       countdownElements.forEach(element => {
         const startTime = parseInt(element.getAttribute('data-start'), 10);
-        let timer = startTime - now;
         const uri = element.getAttribute('data-uri');
         const cardLink = element.closest('a[href]');
+        let timer = startTime - now;
         if (timer > 0) {
           let days = Math.floor(timer / 86400);
           let weeks = Math.floor(days / 7);
@@ -259,15 +259,23 @@
           let mins = Math.floor(timer / 60);
           let secs = Math.floor(timer);
           let displayText = '';
+          // Convert startTime (Unix timestamp) to local timezone for display
+          const startDate = new Date(startTime * 1000);
+          const localTimeString = startDate.toLocaleString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+          });
           if (days >= 7) {
-            displayText = `Starting in ${weeks} week${weeks > 1 ? 's' : ''}`;
+            displayText = `Starting in ${weeks} week${weeks > 1 ? 's' : ''} (${localTimeString})`;
           } else if (days >= 1) {
-            displayText = `Starting in ${days} day${days > 1 ? 's' : ''}`;
+            displayText = `Starting in ${days} day${days > 1 ? 's' : ''} (${localTimeString})`;
           } else {
             let hh = hours - days * 24;
             let mm = mins - hours * 60;
             let ss = secs - mins * 60;
-            displayText = `${zeropad(hh)}:${zeropad(mm)}:${zeropad(ss)}`;
+            displayText = `${zeropad(hh)}:${zeropad(mm)}:${zeropad(ss)} (${localTimeString})`;
           }
           if (element.innerHTML !== displayText) {
             element.innerHTML = displayText;
@@ -343,7 +351,7 @@
             retryButton.addEventListener('click', () => loadContent(api));
           }
         }
-      }, 15000); // Increased timeout to 15 seconds
+      }, 15000);
 
       const apiUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream` : `${api.baseUrl}/stream`;
       fetchWithRetry(apiUrl)
@@ -410,13 +418,14 @@
               }
               let startTime, endTime;
               try {
-                startTime = new Date(stream.starts_at).getTime() / 1000;
+                // Parse starts_at as EAT (UTC+3)
+                startTime = new Date(stream.starts_at + '+03:00').getTime() / 1000;
                 if (isNaN(startTime)) {
                   console.warn(`Invalid start time for stream ${stream.name}`);
                   startTime = now;
                 }
                 endTime = stream.ends_at 
-                  ? new Date(stream.ends_at).getTime() / 1000 
+                  ? new Date(stream.ends_at + '+03:00').getTime() / 1000 
                   : startTime + 3 * 3600;
                 if (isNaN(endTime)) {
                   console.warn(`Invalid end time for stream ${stream.name}`);
