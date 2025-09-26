@@ -114,12 +114,13 @@
     [data-bs-theme="light"] .clappr-video-player .media-control button:hover {
       background: #e63939 !important;
     }
-    .clappr-video-player .quality-selector {
+    .clappr-video-player .media-control select {
       background: #222 !important;
       color: #fff !important;
       border: 1px solid #ff4d4d !important;
+      border-radius: 4px !important;
     }
-    [data-bs-theme="light"] .clappr-video-player .quality-selector {
+    [data-bs-theme="light"] .clappr-video-player .media-control select {
       background: #f5f5f5 !important;
       color: #333 !important;
       border: 1px solid #e63939 !important;
@@ -456,20 +457,15 @@
             width: '100%',
             height: '100%',
             autoPlay: true,
-            mute: true,
+            mute: false,
             playback: {
-              plugins: ['hlsjs-playback'], // Enables M3U8 with quality selection
+              name: 'hlsjs_playback',
               hlsjsConfig: {
                 enableWorker: false,
                 lowLatencyMode: false,
                 backBufferLength: 90,
-                enableStreamStateEvents: true
+                autoLevelCapping: -1 // Enables quality switching
               }
-            },
-            plugins: {
-              container: ['clapper_container'],
-              playback: ['hlsjs-playback'],
-              level: ['playback_level_selector'] // Quality selector button
             },
             events: {
               onReady: () => {
@@ -480,22 +476,22 @@
                 console.log('Clappr unmuted');
                 // PiP support
                 if (document.pictureInPictureEnabled) {
-                  videoPlayerEl.addEventListener('click', () => {
-                    const video = videoPlayerEl.querySelector('video');
-                    if (video && video.requestPictureInPicture) {
-                      video.requestPictureInPicture();
-                    }
-                  });
+                  const video = videoPlayerEl.querySelector('video');
+                  if (video) {
+                    video.addEventListener('click', () => {
+                      if (video.requestPictureInPicture) {
+                        video.requestPictureInPicture().catch(err => {
+                          console.error('PiP failed:', err);
+                        });
+                      }
+                    });
+                  }
                 }
               },
               onError: (error) => {
                 console.error('Clappr error:', error);
-                let errorMessage = 'Failed to load M3U8 stream: ';
-                if (error.message) {
-                  errorMessage += error.message;
-                }
                 errorContainer.className = 'alert alert-danger error-alert mt-3';
-                errorContainer.innerText = errorMessage;
+                errorContainer.innerText = 'Failed to load M3U8 stream: ' + (error.message || 'Unknown error');
               }
             }
           });
@@ -581,20 +577,15 @@
                   width: '100%',
                   height: '100%',
                   autoPlay: true,
-                  mute: true,
+                  mute: false,
                   playback: {
-                    plugins: ['hlsjs-playback'],
+                    name: 'hlsjs_playback',
                     hlsjsConfig: {
                       enableWorker: false,
                       lowLatencyMode: false,
                       backBufferLength: 90,
-                      enableStreamStateEvents: true
+                      autoLevelCapping: -1
                     }
-                  },
-                  plugins: {
-                    container: ['clapper_container'],
-                    playback: ['hlsjs-playback'],
-                    level: ['playback_level_selector']
                   },
                   events: {
                     onReady: () => {
@@ -603,6 +594,19 @@
                       videoPlayerInstance.play();
                       videoPlayerInstance.setMuted(false);
                       console.log('Clappr unmuted (switch)');
+                      // PiP support
+                      if (document.pictureInPictureEnabled) {
+                        const video = videoPlayerEl.querySelector('video');
+                        if (video) {
+                          video.addEventListener('click', () => {
+                            if (video.requestPictureInPicture) {
+                              video.requestPictureInPicture().catch(err => {
+                                console.error('PiP failed:', err);
+                              });
+                            }
+                          });
+                        }
+                      }
                     },
                     onError: (error) => {
                       console.error('Clappr error (switch):', error);
