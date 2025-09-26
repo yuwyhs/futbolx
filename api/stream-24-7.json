@@ -14,7 +14,7 @@
           },
           {
             "label": "Stream 2",
-            "url": "https://storage.googleapis.com/overtrongher1/mux_video_ts1/index-1.m3u8"
+            "url": "http://cord-cutter.net:8080/95549031/69361122/57292"
           }
         ],
         "always_live": 1
