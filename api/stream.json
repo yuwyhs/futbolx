@@ -6,12 +6,12 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Tottenham Hotspur vs Doncaster Rovers",
-          "uri_name": "tottenham-hotspur-vs-doncaster-rovers",
-          "poster": "https://ppv.to/assets/thumb/adc6376f860fa7298f2cb133621127a3-thumbnail.jpg",
-          "tag": "EFL Cup",
-          "starts_at": "2025-09-26T18:30:00",
-          "ends_at": "2025-09-26T23:55:00",
+          "name": "Al Ittihad vs Al Nassr FC",
+          "uri_name": "al-ittihad-vs-al-nassr-fc",
+          "poster": "https://image.discovery.indazn.com/ca/v2/ca/image?id=253e739ayiret3mja55zqa88b_image-header_pRow_1758622792000&quality=70",
+          "tag": "Saudi Pro League",
+          "starts_at": "2025-09-26T21:00:00",
+          "ends_at": "2025-09-26T23:00:00",
           "always_live": 0,
           "streams": [
             {
@@ -21,77 +21,32 @@
           ]
         },
         {
-          "name": "Huddersfield Town vs Manchester City",
-          "uri_name": "huddersfield-town-vs-manchester-city",
-          "poster": "https://ppv.to/assets/thumb/3d09082ef392afee1d513dc94abb484c-thumbnail.jpg",
-          "tag": "EFL Cup",
-          "starts_at": "2025-09-24T21:45:00",
-          "ends_at": "2025-09-24T23:55:00",
+          "name": "Bayern Munich vs Bremen",
+          "uri_name": "bayern-munich-vs-bremen",
+          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F793%2FimgS620I928793T20250924193016.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=d11a87bf07516f68390eb7370a9f3415",
+          "tag": "Bundesliga",
+          "starts_at": "2025-09-26T21:30:00",
+          "ends_at": "2025-09-26T23:40:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl2/playlist.m3u8"
+              "url": "https://streams2.sofast.tv/WiseM3U8_30/sofast/cleanhls/master.m3u8"
             }
           ]
         },
         {
-          "name": "Newcastle United vs Bradford City",
-          "uri_name": "newcastle-united-vs-bradford-city",
-          "poster": "https://ppv.to/assets/thumb/bfee6dcf1923f53b9ccd3546f7cca9fe-thumbnail.jpg",
-          "tag": "EFL Cup",
-          "starts_at": "2025-09-24T21:45:00",
-          "ends_at": "2025-09-24T23:55:00",
+          "name": "Strasbourg vs Marseille",
+          "uri_name": "strasbourg-vs-marseille",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLoUZBUyGbhm8GQlpijOuiwjeaIhanwBCn_ssjBV3Nxw&s=10",
+          "tag": "Ligue 1",
+          "starts_at": "2025-09-26T21:45:00",
+          "ends_at": "2025-09-26T23:50:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl3/playlist.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "The Golazo Show",
-          "uri_name": "the-golazo-show",
-          "poster": "https://ppv.to/assets/thumb/3bac1a9cd01590ac3bac714bd0663c20-thumbnail.jpg",
-          "tag": "MultiCast",
-          "starts_at": "2025-09-24T22:00:00",
-          "ends_at": "2025-09-24T23:59:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/futbolx/playlist.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Port Vale vs Arsenal",
-          "uri_name": "port-vale-vs-arsenal",
-          "poster": "https://ppv.to/assets/thumb/c213193ff975a1b347381bec5361bcef-thumbnail.jpg",
-          "tag": "EFL Cup",
-          "starts_at": "2025-09-24T22:00:00",
-          "ends_at": "2025-09-24T23:59:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl4/playlist.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Atlético de Madrid vs Rayo Vallecano",
-          "uri_name": "atletico-de-madrid-vs-rayo-vallecano",
-          "poster": "https://ppv.to/assets/thumb/449529f5aa087dbba0267a60aaf74475-thumbnail.jpg",
-          "tag": "Laliga",
-          "starts_at": "2025-09-24T22:30:00",
-          "ends_at": "2025-09-25T00:40:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/laliga/playlist.m3u8"
+              "url": "https://streams2.sofast.tv/WiseM3U8_30/sofast/cleanhls/master.m3u8"
             }
           ]
         }
