@@ -6,12 +6,42 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Brentford vs Man United",
-          "uri_name": "brentford-vs-man-united",
-          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8X3xbxRXDSlE_XLdfLswNKx4cF4CSBmC28EY3vycrCQ&s=10",
+          "name": "Chelsea vs Brighton",
+          "uri_name": "chelsea-vs-brighton",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWMV7sf6bp8le3ebqQsrdtNoa7g7GGD8tgm22TYNQWGxBS5MLvd9xOdnI&s=10",
           "tag": "EPL",
-          "starts_at": "2025-09-27T14:30:00",
-          "ends_at": "2025-09-27T16:35:00",
+          "starts_at": "2025-09-27T17:00:00",
+          "ends_at": "2025-09-27T18:59:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd11.php"
+            }
+          ]
+        },
+        {
+          "name": "Crystal Palace vs Liverpool",
+          "uri_name": "crystal-palace-vs-liverpool",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR4uTwPxGvENJuAgHUmKT00pQICo2pSJytbuMhoX1_qFo3RvnHHUGIRbW6&s=10",
+          "tag": "EPL",
+          "starts_at": "2025-09-27T17:00:00",
+          "ends_at": "2025-09-27T18:59:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd5.php"
+            }
+          ]
+        },
+        {
+          "name": "Man City vs Burnley",
+          "uri_name": "man-city-vs-burnley",
+          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F600%2FimgS620I929600T20250925151519.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=85e5a172c692bbac6a123e4fe2dcd91e",
+          "tag": "EPL",
+          "starts_at": "2025-09-27T17:00:00",
+          "ends_at": "2025-09-27T18:59:00",
           "always_live": 0,
           "streams": [
             {
@@ -21,32 +51,122 @@
           ]
         },
         {
-          "name": "Bayern Munich vs Bremen",
-          "uri_name": "bayern-munich-vs-bremen",
-          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F793%2FimgS620I928793T20250924193016.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=d11a87bf07516f68390eb7370a9f3415",
-          "tag": "Bundesliga",
-          "starts_at": "2025-09-26T21:30:00",
-          "ends_at": "2025-09-26T23:40:00",
+          "name": "Leeds vs Bournemouth",
+          "uri_name": "leeds-vs-bournemouth",
+          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F589%2FimgS620I929589T20250925151024.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=49e6e90a17bec54ed9a3b7511e79865e",
+          "tag": "EPL",
+          "starts_at": "2025-09-27T17:00:00",
+          "ends_at": "2025-09-27T18:59:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/futbolx/playlist.m3u8"
+              "url": "https://v5.sportsonline.si/channels/hd/hd10.php"
             }
           ]
         },
         {
-          "name": "Strasbourg vs Marseille",
-          "uri_name": "strasbourg-vs-marseille",
-          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLoUZBUyGbhm8GQlpijOuiwjeaIhanwBCn_ssjBV3Nxw&s=10",
-          "tag": "Ligue 1",
-          "starts_at": "2025-09-26T21:45:00",
-          "ends_at": "2025-09-26T23:50:00",
+          "name": "Atlético Madrid vs Real Madrid",
+          "uri_name": "atletico-madrid-vs-real-madrid",
+          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F611%2FimgS620I929611T20250925152047.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=5804ce755ed245f02e8b85222c7ade74",
+          "tag": "LaLiga",
+          "starts_at": "2025-09-27T17:15:00",
+          "ends_at": "2025-09-27T19:25:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ligue/playlist.m3u8"
+              "url": "https://v5.sportsonline.si/channels/hd/hd2.php"
+            }
+          ]
+        },
+        {
+          "name": "Lorient vs Monaco",
+          "uri_name": "lorient-vs-monaco",
+          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F634%2FimgS620I929634T20250925160055.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=a5c9892aa555c1cb62da2309bd643df0",
+          "tag": "Ligue 1",
+          "starts_at": "2025-09-27T18:00:00",
+          "ends_at": "2025-09-27T19:59:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://streams2.sofast.tv/WiseM3U8_30/sofast/cleanhls/master.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Nottingham Forest vs Sunderland",
+          "uri_name": "nottingham-forest-vs-sunderland",
+          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F723%2FimgS620I929723T20250925173513.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=a87f85b0dfc3886bd2a3228e0c935323",
+          "tag": "EPL",
+          "starts_at": "2025-09-27T19:30:00",
+          "ends_at": "2025-09-27T21:35:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://streams2.sofast.tv/WiseM3U8_30/sofast/cleanhls/master.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Toulouse vs Nantes",
+          "uri_name": "toulouse-vs-nantes",
+          "poster": "https://media.zenfs.com/en/playmakerstats_articles_264/bd685d21e8a10befcbf3f765ae66781c",
+          "tag": "Ligue 1",
+          "starts_at": "2025-09-27T20:00:00",
+          "ends_at": "2025-09-27T21:59:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://streams2.sofast.tv/WiseM3U8_30/sofast/cleanhls/master.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Cagliari vs Inter",
+          "uri_name": "cagliari-vs-inter",
+          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F828%2FimgS620I929828T20250925194547.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=f00f079e1e62fa9658c0aee823e25848",
+          "tag": "Serie A",
+          "starts_at": "2025-09-27T21:45:00",
+          "ends_at": "2025-09-27T23:50:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://streams2.sofast.tv/WiseM3U8_30/sofast/cleanhls/master.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Tottenham vs Wolves",
+          "uri_name": "tottenham-vs-wolves",
+          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F870%2FimgS620I929870T20250925201020.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=b6fddf75760e674130d003cc9d414d41",
+          "tag": "EPL",
+          "starts_at": "2025-09-27T22:00:00",
+          "ends_at": "2025-09-27T23:59:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://streams2.sofast.tv/WiseM3U8_30/sofast/cleanhls/master.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "PSG vs Auxerre",
+          "uri_name": "psg-vs-auxerre",
+          "poster": "https://s.yimg.com/ny/api/res/1.2/4bGJ5Pu4g1OvK1_GR9k8_w--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNjtjZj13ZWJw/https://media.zenfs.com/en/playmakerstats_articles_264/49273b8b5837610f2a52a20646a18909",
+          "tag": "Ligue 1",
+          "starts_at": "2025-09-27T22:05:00",
+          "ends_at": "2025-09-28T00:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://streams2.sofast.tv/WiseM3U8_30/sofast/cleanhls/master.m3u8"
             }
           ]
         }
