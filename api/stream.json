@@ -6,92 +6,92 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Aston Villa vs Fulham",
-          "uri_name": "aston-villa-vs-fulham",
-          "poster": "https://ppv.to/assets/thumb/9140546e3e216c644c8dd19cec61212d-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2025-09-28T16:00:00",
-          "ends_at": "2025-09-28T18:05:00",
+          "name": "Kairat Almaty vs Real Madrid",
+          "uri_name": "kairat-almaty-vs-real-madrid",
+          "poster": "https://ppv.to/assets/thumb/150c602f71645132a717765b3989ce0c-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-30T19:45:00",
+          "ends_at": "2025-09-30T21:55:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl4/playlist.m3u8"
+              "url": "https://cr6rabe9r4sterowutru5o9o5hepiva2r.ruseneslt0xadlcrahithot2dlcum4j3f.jdx3.org/end-love/frofudrljocldrugudr295ifistlsw1w.m3u8?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHJlYW1JZCI6ImZyb2Z1ZHJsam9jbGRydWd1ZHIyOTVpZmlzdGxzdzF3IiwidHlwZSI6InByb3h5X2FjY2VzcyIsImlhdCI6MTc1OTIzNTk2NiwiZXhwIjoxNzU5MjQzMTY2fQ.ciomRUhZRFdJaEgqRSZXRCNIWTc4ZWl1aG4zcjlmeQ"
             }
           ]
         },
         {
-          "name": "Newcastle vs Arsenal",
-          "uri_name": "newcastle-vs-arsenal",
-          "poster": "https://ppv.to/assets/thumb/956f9864e7241c66166c6b35e253aa6d-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2025-09-28T18:30:00",
-          "ends_at": "2025-09-28T20:45:00",
+          "name": "Chelsea vs Benfica",
+          "uri_name": "chelsea-vs-benfica",
+          "poster": "https://ppv.to/assets/thumb/9f0156f0306f59703e6276ba33a7295a-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-30T22:00:00",
+          "ends_at": "2025-10-01T00:05:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl4/playlist.m3u8"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ucl2/playlist.m3u8"
             }
           ]
         },
         {
-          "name": "Barcelona vs Real Sociedad",
-          "uri_name": "barcelona-vs-real-sociedad",
-          "poster": "https://ppv.to/assets/thumb/e95d3ac92c6ba219d58f413d6d480f5a-thumbnail.jpg",
-          "tag": "LaLiga",
-          "starts_at": "2025-09-28T19:30:00",
-          "ends_at": "2025-09-28T21:45:00",
+          "name": "Bodø/Glimt vs Tottenham",
+          "uri_name": "bodo-glimt-vs-tottenham",
+          "poster": "https://ppv.to/assets/thumb/7c801009a07092aa3111668694152748-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-30T22:00:00",
+          "ends_at": "2025-10-01T00:05:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/laliga/playlist.m3u8"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ucl3/playlist.m3u8"
             }
           ]
         },
         {
-          "name": "AC Milan vs Napoli",
-          "uri_name": "ac-milan-vs-napoli",
-          "poster": "https://ppv.to/assets/thumb/8dff1c0bebe8e978eb4cbdf110dfb45e-thumbnail.jpg",
-          "tag": "Serie A",
-          "starts_at": "2025-09-28T21:45:00",
-          "ends_at": "2025-09-28T23:55:00",
+          "name": "Galatasaray vs Liverpool",
+          "uri_name": "galatasaray-vs-liverpool",
+          "poster": "https://ppv.to/assets/thumb/fa1655d74aae98f97a66ce93275b1e18-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-30T22:00:00",
+          "ends_at": "2025-10-01T00:05:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd5.php"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ucl4/playlist.m3u8"
             }
           ]
         },
         {
-          "name": "Real Betis vs Osasuna",
-          "uri_name": "real-betis-vs-osasuna",
-          "poster": "https://ppv.to/assets/thumb/0c414e1996f329a29b818499c8c19596-thumbnail.jpg",
-          "tag": "LaLiga",
-          "starts_at": "2025-09-28T22:00:00",
-          "ends_at": "2025-09-29T00:05:00",
+          "name": "Pafos vs Bayern München",
+          "uri_name": "pafos-vs-bayern-munchen",
+          "poster": "https://ppv.to/assets/thumb/b92fc0aec2df1ea1fef92561fb2aaf9b-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-30T22:00:00",
+          "ends_at": "2025-10-01T00:05:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd2.php"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ucl5/playlist.m3u8"
             }
           ]
         },
         {
-          "name": "Multiplex",
-          "uri_name": "ligue-1-multiplex",
-          "poster": "https://i.ytimg.com/vi/KklvDJlIgpg/maxresdefault.jpg",
-          "tag": "Ligue 1",
-          "starts_at": "2025-09-28T18:15:00",
-          "ends_at": "2025-09-28T20:20:00",
+          "name": "Marseille vs Ajax",
+          "uri_name": "marseille-vs-ajax",
+          "poster": "https://ppv.to/assets/thumb/647da8bd3d9d09bbccd5beb59c79b043-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-09-30T22:00:00",
+          "ends_at": "2025-10-01T00:05:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ligue/playlist.m3u8"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ucl6/playlist.m3u8"
             }
           ]
         }
