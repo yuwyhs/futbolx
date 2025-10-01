@@ -87,7 +87,12 @@
         {
           "name": "Bayer Leverkusen vs PSV Eindhoven",
           "uri_name": "bayer-leverkusen-vs-psv-eindhoven",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/91c6va175675401 strum": [
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/91c6va1756754016.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-10-02T22:00:00",
+          "ends_at": "2025-10-03T00:05:00",
+          "always_live": 0,
+          "streams": [
             {
               "title": "Main Feed",
               "url": "https://live20.bozztv.com/akamaissh101/ssh101/ucl6/playlist.m3u8"
