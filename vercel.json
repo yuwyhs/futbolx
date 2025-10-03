@@ -16,6 +16,10 @@
     {
       "src": "api/*.json",
       "use": "@vercel/static"
+    },
+    {
+      "src": "api/viewers.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -54,6 +58,10 @@
     {
       "src": "/24-7",
       "dest": "/24-7.html"
+    },
+    {
+      "src": "/ws/(.*)",
+      "dest": "/api/viewers.js"
     },
     {
       "src": "/(.*)",
