@@ -85,7 +85,7 @@
       background: #fff !important;
     }
     .clappr-video-player video {
-      object-fit: contain !important;
+      object-fit: contain !important; /* Fits without cropping, preserves aspect ratio */
       width: 100% !important;
       height: 100% !important;
     }
@@ -188,7 +188,7 @@
       position: relative;
       width: 100%;
       height: 0;
-      padding-bottom: 56.25%;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
     }
     .video-container #videoPlayerContainer {
       position: absolute;
@@ -196,15 +196,6 @@
       left: 0;
       width: 100%;
       height: 100%;
-    }
-    .viewer-count {
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: #ff4d4d;
-      font-family: 'Kanit', sans-serif;
-    }
-    [data-bs-theme="light"] .viewer-count {
-      color: #e63939;
     }
   </style>
 </head>
@@ -264,9 +255,6 @@
             </div>
           </div>
           <div id="streamLinks" class="stream-links mt-3"></div>
-          <div id="viewerCount" class="viewer-count mt-3 text-center">
-            <span>Viewers: <span id="viewerNumber">0</span></span>
-          </div>
           <div class="chat-container">
             <div id="chatLoading" class="text-center p-3">Loading chat...</div>
           </div>
@@ -293,7 +281,6 @@
     let embedPlayer = null;
     let videoPlayerInstance = null;
     let streamData = null;
-    let ws = null;
 
     // Block popups
     const originalOpen = window.open;
@@ -342,37 +329,6 @@
         tipAlert.style.display = 'none';
         clearInterval(interval);
       }, 10500);
-    }
-
-    // Initialize WebSocket for viewer count
-    function initViewerCount(eventId) {
-      const wsUrl = `wss://your-futbolx-site.vercel.app/ws?eventId=${encodeURIComponent(eventId)}`;
-      ws = new WebSocket(wsUrl);
-
-      ws.onopen = () => {
-        console.log('WebSocket connected for event:', eventId);
-      };
-
-      ws.onmessage = (event) => {
-        try {
-          const data = JSON.parse(event.data);
-          if (data.eventId === eventId) {
-            const viewerNumber = document.getElementById('viewerNumber');
-            viewerNumber.textContent = data.viewers || 0;
-            console.log(`Updated viewer count for ${eventId}: ${data.viewers}`);
-          }
-        } catch (err) {
-          console.error('WebSocket message error:', err);
-        }
-      };
-
-      ws.onerror = (err) => {
-        console.error('WebSocket error:', err);
-      };
-
-      ws.onclose = () => {
-        console.log('WebSocket closed for event:', eventId);
-      };
     }
 
     // Initialize offcanvas
@@ -508,7 +464,7 @@
                 enableWorker: false,
                 lowLatencyMode: false,
                 backBufferLength: 90,
-                autoLevelCapping: -1
+                autoLevelCapping: -1 // Enables quality switching
               }
             },
             events: {
@@ -518,6 +474,7 @@
                 videoPlayerInstance.play();
                 videoPlayerInstance.setMuted(false);
                 console.log('Clappr unmuted');
+                // PiP support
                 if (document.pictureInPictureEnabled) {
                   const video = videoPlayerEl.querySelector('video');
                   if (video) {
@@ -569,6 +526,7 @@
           });
         }
 
+        // Generate stream links
         streamLinks.innerHTML = event.streams.map((stream, index) => {
           const url = typeof stream === 'string' ? stream : stream.url;
           return `
@@ -581,6 +539,7 @@
           `;
         }).join('');
 
+        // Handle stream link clicks
         streamLinks.addEventListener('click', async (e) => {
           const btn = e.target.closest('.btn.btn-stream');
           if (btn) {
@@ -635,6 +594,7 @@
                       videoPlayerInstance.play();
                       videoPlayerInstance.setMuted(false);
                       console.log('Clappr unmuted (switch)');
+                      // PiP support
                       if (document.pictureInPictureEnabled) {
                         const video = videoPlayerEl.querySelector('video');
                         if (video) {
@@ -695,6 +655,7 @@
           }
         });
 
+        // Fullscreen button
         const fullscreenBtn = document.getElementById('fullscreenBtn');
         if (fullscreenBtn) {
           fullscreenBtn.classList.remove('d-none');
@@ -834,6 +795,7 @@
             const now = Math.floor(Date.now() / 1000);
             let startTime, endTime;
             try {
+              // Parse times as EAT (UTC+3)
               startTime = new Date(event.starts_at + '+03:00').getTime() / 1000;
               if (isNaN(startTime)) {
                 console.warn(`Invalid start time for stream ${event.name}`);
@@ -852,6 +814,7 @@
               endTime = now + 3 * 3600;
             }
             const isLive = (startTime <= now && now <= endTime) || event.always_live === 1;
+            // Convert start time to local timezone for display
             const startDate = new Date(startTime * 1000);
             const localTimeString = startDate.toLocaleString('en-US', {
               hour: 'numeric',
@@ -877,7 +840,6 @@
               streamLinks.classList.add('fade-in');
               startLivestreamBtn.style.display = 'none';
               initPlayer(streamData, errorContainer, streamLinks);
-              initViewerCount(uriName);
             });
             loadChatIframe();
           })
@@ -915,13 +877,6 @@
         });
       }
     }
-
-    // Handle page unload to decrement viewer count
-    window.addEventListener('beforeunload', () => {
-      if (ws && ws.readyState === WebSocket.OPEN) {
-        ws.close();
-      }
-    });
 
     // Wait for page load
     window.addEventListener('load', () => {
