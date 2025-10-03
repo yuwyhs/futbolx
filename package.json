@@ -9,10 +9,7 @@
   },
   "author": "Futbol-x",
   "license": "MIT",
-  "dependencies": {
-    "express": "^4.18.2",
-    "ws": "^8.13.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "serve": "^14.2.1"
   }
