@@ -19,6 +19,111 @@
               "url": "https://cr6rabe9r4sterowutru5o9o5hepiva2r.ruseneslt0xadlcrahithot2dlcum4j3f.jdx3.org/end-love/e25132915cf1e67759051cac80b42275.m3u8?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHJlYW1JZCI6ImUyNTEzMjkxNWNmMWU2Nzc1OTA1MWNhYzgwYjQyMjc1IiwidHlwZSI6InByb3h5X2FjY2VzcyIsImlhdCI6MTc1OTU3NzQ3NSwiZXhwIjoxNzU5NTg0Njc1fQ.ciomRUhZRFdJaEgqRSZXRCNIWTc4ZWl1aG4zcjlmeQ"
             }
           ]
+        },
+        {
+          "name": "Arsenal vs West Ham",
+          "uri_name": "arsenal-vs-west-ham",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/kc0qlf1750320259.jpg",
+          "tag": "EPL",
+          "starts_at": "2025-10-04T17:00:00",
+          "ends_at": "2025-10-04T19:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl2/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Man United vs Sunderland",
+          "uri_name": "man-united-vs-sunderland",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/6z9qav1750320277.jpg",
+          "tag": "EPL",
+          "starts_at": "2025-10-04T17:00:00",
+          "ends_at": "2025-10-04T19:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl3/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Chelsea vs Liverpool",
+          "uri_name": "chelsea-vs-liverpool",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/7yez681750320269.jpg",
+          "tag": "EPL",
+          "starts_at": "2025-10-04T17:00:00",
+          "ends_at": "2025-10-04T19:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl4/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Metz vs Marseille",
+          "uri_name": "metz-vs-marseille",
+          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F250%2FimgS620I937250T20251002160047.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=dfc17fbc43d4862072d288b0d2d5a113",
+          "tag": "Ligue 1",
+          "starts_at": "2025-10-04T18:00:00",
+          "ends_at": "2025-10-04T20:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ligue1/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Brest vs Nantes",
+          "uri_name": "brest-vs-nantes",
+          "poster": "https://www.playmakerstats.com/img/noticias/379/imgS620I937379T20251002180056.png",
+          "tag": "Ligue 1",
+          "starts_at": "2025-10-04T20:00:00",
+          "ends_at": "2025-10-04T22:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ligue2/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Auxerre vs Lens",
+          "uri_name": "auxerre-vs-lens",
+          "poster": "https://s.yimg.com/ny/api/res/1.2/BlIxNRfyLFFktGLjaM3gFQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNjtjZj13ZWJw/https://media.zenfs.com/en/playmakerstats_articles_264/a9a8d48aa57b162c70b91c221739bdbe",
+          "tag": "Ligue 1",
+          "starts_at": "2025-10-04T22:05:00",
+          "ends_at": "2025-10-05T00:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ligue3/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Real Madrid vs Villarreal",
+          "uri_name": "real-madrid-vs-villarreal",
+          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F475%2FimgS620I937475T20251002200515.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=5c1f2865aa07ab572bd7a9a0467d088e",
+          "tag": "LaLiga",
+          "starts_at": "2025-10-04T22:00:00",
+          "ends_at": "2025-10-05T00:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/laliga1/playlist.m3u8"
+            }
+          ]
         }
       ]
     },
@@ -38,4 +143,4 @@
       "streams": []
     }
   ]
-}
+            }
