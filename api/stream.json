@@ -76,7 +76,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ligue1/playlist.m3u8"
+              "url": "https://v5.sportsonline.si/channels/hd/hd4.php"
             }
           ]
         },
@@ -91,7 +91,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ligue2/playlist.m3u8"
+              "url": "https://v5.sportsonline.si/channels/hd/hd4.php"
             }
           ]
         },
@@ -106,7 +106,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ligue3/playlist.m3u8"
+              "url": "https://v5.sportsonline.si/channels/hd/hd4.php"
             }
           ]
         },
