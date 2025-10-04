@@ -6,111 +6,17 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Barcelona vs PSG",
-          "uri_name": "barcelona-vs-psg",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/w64w9j1712648081.jpg",
-          "tag": "UCL",
-          "starts_at": "2025-10-01T15:30:00",
-          "ends_at": "2025-10-01T19:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "English Feed",
-              "url": "https://fl25.moveonjoy.com/TSN_1/index.m3u8"
-            },
-            {
-              "title": "French Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ucl1/fr/playlist.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Monaco vs Man City",
-          "uri_name": "monaco-vs-man-city",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/bifgro1756754005.jpg",
-          "tag": "UCL",
-          "starts_at": "2025-10-01T22:00:00",
-          "ends_at": "2025-10-02T00:05:00",
+          "name": "Leeds vs Tottenham",
+          "uri_name": "leeds-vs-tottenham",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/ehrad71750320274.jpg",
+          "tag": "EPL",
+          "starts_at": "2025-10-04T14:30:00",
+          "ends_at": "2025-10-04T16:50:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://cr6rabe9r4sterowutru5o9o5hepiva2r.ruseneslt0xadlcrahithot2dlcum4j3f.jdx3.org/end-love/c5phuthukothlwrudro8rosas3b64ini.m3u8?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHJlYW1JZCI6ImM1cGh1dGh1a290aGx3cnVkcm84cm9zYXMzYjY0aW5pIiwidHlwZSI6InByb3h5X2FjY2VzcyIsImlhdCI6MTc1OTM0MzIxMiwiZXhwIjoxNzU5MzUwNDEyfQ.ciomRUhZRFdJaEgqRSZXRCNIWTc4ZWl1aG4zcjlmeQ"
-            }
-          ]
-        },
-        {
-          "name": "Arsenal vs Olympiacos",
-          "uri_name": "arsenal-vs-olympiacos",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/83fwhe1756754009.jpg",
-          "tag": "UCL",
-          "starts_at": "2025-10-01T22:00:00",
-          "ends_at": "2025-10-02T00:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cr6rabe9r4sterowutru5o9o5hepiva2r.ruseneslt0xadlcrahithot2dlcum4j3f.jdx3.org/end-love/frofudrljocldrugudr295ifistlsw1w.m3u8?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHJlYW1JZCI6ImZyb2Z1ZHJsam9jbGRydWd1ZHIyOTVpZmlzdGxzdzF3IiwidHlwZSI6InByb3h5X2FjY2VzcyIsImlhdCI6MTc1OTM0MjgxNSwiZXhwIjoxNzU5MzUwMDE1fQ.ciomRUhZRFdJaEgqRSZXRCNIWTc4ZWl1aG4zcjlmeQ"
-            }
-          ]
-        },
-        {
-          "name": "Villarreal vs Juventus",
-          "uri_name": "villarreal-vs-juventus",
-          "poster": "https://www.thesportsdb.com/images/media/event/thumb/4j6bgj1758024463.jpg",
-          "tag": "UCL",
-          "starts_at": "2025-10-01T22:00:00",
-          "ends_at": "2025-10-02T00:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cr6rabe9r4sterowutru5o9o5hepiva2r.ruseneslt0xadlcrahithot2dlcum4j3f.jdx3.org/end-love/77c5a377bae7c1bbdd8a7107bfaf6e1a.m3u8?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHJlYW1JZCI6Ijc3YzVhMzc3YmFlN2MxYmJkZDhhNzEwN2JmYWY2ZTFhIiwidHlwZSI6InByb3h5X2FjY2VzcyIsImlhdCI6MTc1OTM0MzUwNCwiZXhwIjoxNzU5MzUwNzA0fQ.ciomRUhZRFdJaEgqRSZXRCNIWTc4ZWl1aG4zcjlmeQ"
-            }
-          ]
-        },
-        {
-          "name": "Napoli vs Sporting CP",
-          "uri_name": "napoli-vs-sporting-cp",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/y70rdo1756754012.jpg",
-          "tag": "UCL",
-          "starts_at": "2025-10-01T22:00:00",
-          "ends_at": "2025-10-02T00:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cr6rabe9r4sterowutru5o9o5hepiva2r.ruseneslt0xadlcrahithot2dlcum4j3f.jdx3.org/end-love/6b9f40beebba17487fa5fc47a1af4395.m3u8?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHJlYW1JZCI6IjZiOWY0MGJlZWJiYTE3NDg3ZmE1ZmM0N2ExYWY0Mzk1IiwidHlwZSI6InByb3h5X2FjY2VzcyIsImlhdCI6MTc1OTM0MzQ0NCwiZXhwIjoxNzU5MzUwNjQ0fQ.ciomRUhZRFdJaEgqRSZXRCNIWTc4ZWl1aG4zcjlmeQ"
-            }
-          ]
-        },
-        {
-          "name": "Bayer Leverkusen vs PSV Eindhoven",
-          "uri_name": "bayer-leverkusen-vs-psv-eindhoven",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/91c6va1756754016.jpg",
-          "tag": "UCL",
-          "starts_at": "2025-10-01T22:00:00",
-          "ends_at": "2025-10-02T00:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cr6rabe9r4sterowutru5o9o5hepiva2r.ruseneslt0xadlcrahithot2dlcum4j3f.jdx3.org/end-love/6a6f753ceed208a802c70ed231896f5a.m3u8?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHJlYW1JZCI6IjZhNmY3NTNjZWVkMjA4YTgwMmM3MGVkMjMxODk2ZjVhIiwidHlwZSI6InByb3h5X2FjY2VzcyIsImlhdCI6MTc1OTM0MzYwMiwiZXhwIjoxNzU5MzUwODAyfQ.ciomRUhZRFdJaEgqRSZXRCNIWTc4ZWl1aG4zcjlmeQ"
-            }
-          ]
-        },
-        {
-          "name": "Dortmund vs A. Bilbao",
-          "uri_name": "dortmund-vs-a-bilbao",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/yrbi8d1756754001.jpg",
-          "tag": "UCL",
-          "starts_at": "2025-10-01T22:00:00",
-          "ends_at": "2025-10-02T00:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cr6rabe9r4sterowutru5o9o5hepiva2r.ruseneslt0xadlcrahithot2dlcum4j3f.jdx3.org/end-love/04aaf73c823ca5ace11b2256474ef4d9.m3u8?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHJlYW1JZCI6IjA0YWFmNzNjODIzY2E1YWNlMTFiMjI1NjQ3NGVmNGQ5IiwidHlwZSI6InByb3h5X2FjY2VzcyIsImlhdCI6MTc1OTM0MzM0NCwiZXhwIjoxNzU5MzUwNTQ0fQ.ciomRUhZRFdJaEgqRSZXRCNIWTc4ZWl1aG4zcjlmeQ"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl1/playlist.m3u8"
             }
           ]
         }
