@@ -4,7 +4,113 @@
     {
       "category": "Football",
       "always_live": 0,
-      "streams": []
+      "streams": [
+        {
+          "name": "Aston Villa vs Burnley",
+          "uri_name": "aston-villa-vs-burnley",
+          "poster": "https://www.playmakerstats.com/img/noticias/396/imgS620I938396T20251003140023.png",
+          "tag": "EPL",
+          "starts_at": "2025-10-05T16:00:00",
+          "ends_at": "2025-10-05T18:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl1/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Everton vs Crystal Palace",
+          "uri_name": "everton-vs-crystal-palace",
+          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F401%2FimgS620I938401T20251003140517.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=07d9a72bc3cae2810d502a7e50083ef8",
+          "tag": "EPL",
+          "starts_at": "2025-10-05T16:00:00",
+          "ends_at": "2025-10-05T18:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl2/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Newcastle vs Nottingham Forest",
+          "uri_name": "newcastle-vs-nottingham-forest",
+          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F409%2FimgS620I938409T20251003141044.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=ee326886a5a1c2832821287a13848d75",
+          "tag": "EPL",
+          "starts_at": "2025-10-05T16:00:00",
+          "ends_at": "2025-10-05T18:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl3/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Wolves vs Brighton",
+          "uri_name": "wolves-vs-brighton",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXvetyNxxAALLli3le34-I5MVgCk5YKxf4XNfoh1xkOJteEuV7UOH8qNc&s=10",
+          "tag": "EPL",
+          "starts_at": "2025-10-05T16:00:00",
+          "ends_at": "2025-10-05T18:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl4/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Sevilla vs Barcelona",
+          "uri_name": "sevilla-vs-barcelona",
+          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F444%2FimgS620I938444T20251003151519.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=a5c865520bee24986ca92fb7922375c5",
+          "tag": "LaLiga",
+          "starts_at": "2025-10-05T17:15:00",
+          "ends_at": "2025-10-05T19:20:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/laliga1/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Brentford vs Man City",
+          "uri_name": "brentford-vs-man-city",
+          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F522%2FimgS620I938522T20251003163101.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=f09b7b76ae36b7aeb489887c4828d506",
+          "tag": "EPL",
+          "starts_at": "2025-10-05T18:30:00",
+          "ends_at": "2025-10-05T20:37:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl5/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Juventus vs AC Milan",
+          "uri_name": "juventus-vs-ac-milan",
+          "poster": "https://oneftbl-cms.imgix.net/https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F656%2FimgS620I938656T20251003194516.png?ixlib=js-3.8.0&w=280&h=210&dpr=2&auto=format%2Ccompress&crop=faces&fit=crop&s=fb5f627432271c5f28f16b2b02456365",
+          "tag": "Serie A",
+          "starts_at": "2025-10-05T21:45:00",
+          "ends_at": "2025-10-05T23:50:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/serie1/playlist.m3u8"
+            }
+          ]
+        }
+      ]
     },
     {
       "category": "Fights",
