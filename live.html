@@ -239,7 +239,8 @@
             <div class="alert alert-info">
               <strong>Tip:</strong> For an ad-free experience, consider installing an ad blocker like
               <a href="https://ublockorigin.com" target="_blank" rel="noopener">uBlock Origin</a> or
-              <a href="https://adguard.com" target="_blank" rel="noopener">AdGuard</a>.
+              <a Collider
+              href="https://adguard.com" target="_blank" rel="noopener">AdGuard</a>.
               <span id="countdownTimer">10s</span>
             </div>
           </div>
@@ -531,27 +532,39 @@
           dashPlayerEl.innerHTML = '';
           dashPlayerEl.appendChild(videoElement);
           dashPlayerInstance = dashjs.MediaPlayer().create();
+          // Explicitly configure for ClearKey DRM only
+          dashPlayerInstance.setProtectionData({
+            'org.w3.clearkey': {
+              clearkeys: stream.drm && stream.drm.clearkey && Array.isArray(stream.drm.clearkey) ? 
+                stream.drm.clearkey.reduce((acc, key) => {
+                  if (key.keyId && key.key && /^[0-9a-fA-F]{32}$/.test(key.keyId) && /^[0-9a-fA-F]{32}$/.test(key.key)) {
+                    acc[key.keyId] = key.key;
+                    return acc;
+                  } else {
+                    console.warn('Invalid ClearKey format, skipping:', key);
+                    return acc;
+                  }
+                }, {}) : {},
+              serverURL: null // Prevent license server requests
+            }
+          });
           dashPlayerInstance.initialize(videoElement, streamUrl, true);
-          if (stream.drm && stream.drm.clearkey) {
-            const keySystemOptions = {
-              'org.w3.clearkey': {
-                clearkeys: {}
-              }
-            };
-            stream.drm.clearkey.forEach(key => {
-              keySystemOptions['org.w3.clearkey'].clearkeys[key.keyId] = key.key;
-            });
-            dashPlayerInstance.setProtectionData(keySystemOptions);
-            console.log('ClearKey DRM configured:', keySystemOptions);
-          }
+          console.log('dash.js initialized for MPD stream:', streamUrl);
           dashPlayerInstance.on(dashjs.MediaPlayer.events.ERROR, (error) => {
             console.error('dash.js error:', error);
+            let errorMessage = 'Failed to load MPD stream: ' + (error.error.message || 'Unknown error');
+            if (error.error.code === dashjs.MediaPlayer.errors.KEY_SYSTEM_NO_LICENSE_SERVER_URL) {
+              errorMessage = 'Failed to load MPD stream: DRM configuration error. The stream may use Widevine or PlayReady instead of ClearKey.';
+            }
             errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = 'Failed to load MPD stream: ' + (error.error.message || 'Unknown error');
+            errorContainer.innerText = errorMessage;
           });
           dashPlayerInstance.on(dashjs.MediaPlayer.events.PLAYBACK_STARTED, () => {
             console.log('dash.js playback started');
             clearError();
+          });
+          dashPlayerInstance.on(dashjs.MediaPlayer.events.PROTECTION_CREATED, (event) => {
+            console.log('DRM systems detected in MPD:', event.data);
           });
         } else {
           videoContainer.classList.add('d-none');
@@ -703,27 +716,39 @@
                 dashPlayerEl.innerHTML = '';
                 dashPlayerEl.appendChild(videoElement);
                 dashPlayerInstance = dashjs.MediaPlayer().create();
+                // Explicitly configure for ClearKey DRM only
+                dashPlayerInstance.setProtectionData({
+                  'org.w3.clearkey': {
+                    clearkeys: event.streams[streamIndex].drm && event.streams[streamIndex].drm.clearkey && Array.isArray(event.streams[streamIndex].drm.clearkey) ? 
+                      event.streams[streamIndex].drm.clearkey.reduce((acc, key) => {
+                        if (key.keyId && key.key && /^[0-9a-fA-F]{32}$/.test(key.keyId) && /^[0-9a-fA-F]{32}$/.test(key.key)) {
+                          acc[key.keyId] = key.key;
+                          return acc;
+                        } else {
+                          console.warn('Invalid ClearKey format, skipping:', key);
+                          return acc;
+                        }
+                      }, {}) : {},
+                    serverURL: null // Prevent license server requests
+                  }
+                });
                 dashPlayerInstance.initialize(videoElement, url, true);
-                if (event.streams[streamIndex].drm && event.streams[streamIndex].drm.clearkey) {
-                  const keySystemOptions = {
-                    'org.w3.clearkey': {
-                      clearkeys: {}
-                    }
-                  };
-                  event.streams[streamIndex].drm.clearkey.forEach(key => {
-                    keySystemOptions['org.w3.clearkey'].clearkeys[key.keyId] = key.key;
-                  });
-                  dashPlayerInstance.setProtectionData(keySystemOptions);
-                  console.log('ClearKey DRM configured (switch):', keySystemOptions);
-                }
+                console.log('dash.js initialized for MPD stream (switch):', url);
                 dashPlayerInstance.on(dashjs.MediaPlayer.events.ERROR, (error) => {
                   console.error('dash.js error (switch):', error);
+                  let errorMessage = 'Failed to load MPD stream: ' + (error.error.message || 'Unknown error');
+                  if (error.error.code === dashjs.MediaPlayer.errors.KEY_SYSTEM_NO_LICENSE_SERVER_URL) {
+                    errorMessage = 'Failed to load MPD stream: DRM configuration error. The stream may use Widevine or PlayReady instead of ClearKey.';
+                  }
                   errorContainer.className = 'alert alert-danger error-alert mt-3';
-                  errorContainer.innerText = 'Failed to load MPD stream: ' + (error.error.message || 'Unknown error');
+                  errorContainer.innerText = errorMessage;
                 });
                 dashPlayerInstance.on(dashjs.MediaPlayer.events.PLAYBACK_STARTED, () => {
                   console.log('dash.js playback started (switch)');
                   clearError();
+                });
+                dashPlayerInstance.on(dashjs.MediaPlayer.events.PROTECTION_CREATED, (event) => {
+                  console.log('DRM systems detected in MPD (switch):', event.data);
                 });
               } else {
                 videoContainer.classList.add('d-none');
