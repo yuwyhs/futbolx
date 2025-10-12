@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script defer src="https://cdn.jsdelivr.net/npm/@clappr/player@0.11.14/dist/clappr.min.js"></script>
+  <script defer src="https://cdn.dashjs.org/v4.7.0/dash.all.min.js"></script>
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
     .tip-container {
@@ -252,6 +253,7 @@
             <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
             <div id="videoPlayerContainer" class="d-none">
               <div id="videoPlayer" class="clappr-video-player"></div>
+              <div id="dashPlayer" class="clappr-video-player d-none"></div>
             </div>
           </div>
           <div id="streamLinks" class="stream-links mt-3"></div>
@@ -280,6 +282,7 @@
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
     let embedPlayer = null;
     let videoPlayerInstance = null;
+    let dashPlayerInstance = null;
     let streamData = null;
 
     // Block popups
@@ -402,14 +405,16 @@
       }
     }
 
-    // Detect M3U8 stream by content
-    async function isM3U8Stream(url) {
+    // Detect stream type
+    async function detectStreamType(url, streamObj) {
       if (url.startsWith('http://drewlive24.duckdns.org:4123?url=')) {
-        console.log('Excluded URL from M3U8 detection:', url);
-        return false;
+        console.log('Excluded URL from detection:', url);
+        return 'iframe';
       }
       if (url.toLowerCase().includes('.m3u8')) {
-        return true;
+        return 'm3u8';
+      } else if (url.toLowerCase().includes('.mpd')) {
+        return 'mpd';
       }
       try {
         const response = await fetch(url, { 
@@ -417,12 +422,17 @@
           headers: { 'Range': 'bytes=0-1023' }, 
           signal: AbortSignal.timeout(5000)
         });
-        if (!response.ok) return false;
+        if (!response.ok) return 'iframe';
         const content = await response.text();
-        return content.includes('#EXTM3U') || content.includes('.ts');
+        if (content.includes('#EXTM3U') || content.includes('.ts')) {
+          return 'm3u8';
+        } else if (content.includes('<MPD')) {
+          return 'mpd';
+        }
+        return 'iframe';
       } catch (error) {
-        console.warn(`M3U8 detection fetch failed for ${url}:`, error);
-        return false;
+        console.warn(`Stream detection failed for ${url}:`, error);
+        return 'iframe';
       }
     }
 
@@ -433,6 +443,8 @@
         clearError();
         embedPlayer = document.getElementById('embedPlayer');
         const videoContainer = document.getElementById('videoPlayerContainer');
+        const clapprPlayerEl = document.getElementById('videoPlayer');
+        const dashPlayerEl = document.getElementById('dashPlayer');
         const stream = event.streams[0];
         const streamUrl = typeof stream === 'string' ? stream : stream.url;
         if (!streamUrl || !/^https?:/.test(streamUrl)) {
@@ -440,13 +452,14 @@
         }
         console.log('Stream URL:', streamUrl);
 
-        const isM3U8 = await isM3U8Stream(streamUrl);
-        console.log('Is M3U8 stream:', isM3U8);
+        const streamType = await detectStreamType(streamUrl, stream);
+        console.log('Detected stream type:', streamType);
 
-        if (isM3U8) {
+        if (streamType === 'm3u8') {
           embedPlayer.style.display = 'none';
+          dashPlayerEl.classList.add('d-none');
           videoContainer.classList.remove('d-none');
-          const videoPlayerEl = document.getElementById('videoPlayer');
+          clapprPlayerEl.classList.remove('d-none');
           if (typeof Clappr === 'undefined') {
             console.error('Clappr not loaded');
             throw new Error('Clappr library not loaded');
@@ -464,7 +477,7 @@
                 enableWorker: false,
                 lowLatencyMode: false,
                 backBufferLength: 90,
-                autoLevelCapping: -1 // Enables quality switching
+                autoLevelCapping: -1
               }
             },
             events: {
@@ -474,9 +487,8 @@
                 videoPlayerInstance.play();
                 videoPlayerInstance.setMuted(false);
                 console.log('Clappr unmuted');
-                // PiP support
                 if (document.pictureInPictureEnabled) {
-                  const video = videoPlayerEl.querySelector('video');
+                  const video = clapprPlayerEl.querySelector('video');
                   if (video) {
                     video.addEventListener('click', () => {
                       if (video.requestPictureInPicture) {
@@ -495,12 +507,64 @@
               }
             }
           });
+        } else if (streamType === 'mpd') {
+          embedPlayer.style.display = 'none';
+          clapprPlayerEl.classList.add('d-none');
+          videoContainer.classList.remove('d-none');
+          dashPlayerEl.classList.remove('d-none');
+          if (typeof dashjs === 'undefined') {
+            console.error('dash.js not loaded');
+            throw new Error('dash.js library not loaded');
+          }
+          if (videoPlayerInstance) {
+            videoPlayerInstance.destroy();
+            videoPlayerInstance = null;
+          }
+          if (dashPlayerInstance) {
+            dashPlayerInstance.destroy();
+            dashPlayerInstance = null;
+          }
+          const videoElement = document.createElement('video');
+          videoElement.id = 'dashVideo';
+          videoElement.style.width = '100%';
+          videoElement.style.height = '100%';
+          dashPlayerEl.innerHTML = '';
+          dashPlayerEl.appendChild(videoElement);
+          dashPlayerInstance = dashjs.MediaPlayer().create();
+          dashPlayerInstance.initialize(videoElement, streamUrl, true);
+          if (stream.drm && stream.drm.clearkey) {
+            const keySystemOptions = {
+              'org.w3.clearkey': {
+                clearkeys: {}
+              }
+            };
+            stream.drm.clearkey.forEach(key => {
+              keySystemOptions['org.w3.clearkey'].clearkeys[key.keyId] = key.key;
+            });
+            dashPlayerInstance.setProtectionData(keySystemOptions);
+            console.log('ClearKey DRM configured:', keySystemOptions);
+          }
+          dashPlayerInstance.on(dashjs.MediaPlayer.events.ERROR, (error) => {
+            console.error('dash.js error:', error);
+            errorContainer.className = 'alert alert-danger error-alert mt-3';
+            errorContainer.innerText = 'Failed to load MPD stream: ' + (error.error.message || 'Unknown error');
+          });
+          dashPlayerInstance.on(dashjs.MediaPlayer.events.PLAYBACK_STARTED, () => {
+            console.log('dash.js playback started');
+            clearError();
+          });
         } else {
           videoContainer.classList.add('d-none');
+          clapprPlayerEl.classList.add('d-none');
+          dashPlayerEl.classList.add('d-none');
           embedPlayer.style.display = 'block';
           if (videoPlayerInstance) {
             videoPlayerInstance.destroy();
             videoPlayerInstance = null;
+          }
+          if (dashPlayerInstance) {
+            dashPlayerInstance.destroy();
+            dashPlayerInstance = null;
           }
           const url = new URL(streamUrl);
           url.searchParams.append('autoplay', '1');
@@ -529,11 +593,12 @@
         // Generate stream links
         streamLinks.innerHTML = event.streams.map((stream, index) => {
           const url = typeof stream === 'string' ? stream : stream.url;
+          const streamType = stream.url.toLowerCase().includes('.m3u8') ? 'm3u8' : stream.url.toLowerCase().includes('.mpd') ? 'mpd' : 'iframe';
           return `
             <button class="btn btn-stream ${index === 0 ? 'active' : ''}" 
                     data-stream-encoded="${btoa(url)}" 
                     data-stream-index="${index}"
-                    data-stream-type="${url.toLowerCase().includes('.m3u8') ? 'm3u8' : 'iframe'}">
+                    data-stream-type="${streamType}">
               ${stream.title || `Stream ${index + 1}`}
             </button>
           `;
@@ -545,6 +610,7 @@
           if (btn) {
             const encodedUrl = btn.getAttribute('data-stream-encoded');
             const streamType = btn.getAttribute('data-stream-type');
+            const streamIndex = parseInt(btn.getAttribute('data-stream-index'));
             if (!encodedUrl) {
               console.error('No encoded stream URL');
               errorContainer.className = 'alert alert-danger error-alert mt-3';
@@ -561,15 +627,18 @@
             clearError();
             try {
               console.log('Switching to stream:', url, 'Type:', streamType);
-              const isM3U8 = await isM3U8Stream(url);
-              console.log('Is M3U8 stream (switch):', isM3U8);
-              if (isM3U8) {
+              if (streamType === 'm3u8') {
                 embedPlayer.style.display = 'none';
+                dashPlayerEl.classList.add('d-none');
                 videoContainer.classList.remove('d-none');
-                const videoPlayerEl = document.getElementById('videoPlayer');
+                clapprPlayerEl.classList.remove('d-none');
                 if (videoPlayerInstance) {
                   videoPlayerInstance.destroy();
                   videoPlayerInstance = null;
+                }
+                if (dashPlayerInstance) {
+                  dashPlayerInstance.destroy();
+                  dashPlayerInstance = null;
                 }
                 videoPlayerInstance = new Clappr.Player({
                   source: url,
@@ -594,9 +663,8 @@
                       videoPlayerInstance.play();
                       videoPlayerInstance.setMuted(false);
                       console.log('Clappr unmuted (switch)');
-                      // PiP support
                       if (document.pictureInPictureEnabled) {
-                        const video = videoPlayerEl.querySelector('video');
+                        const video = clapprPlayerEl.querySelector('video');
                         if (video) {
                           video.addEventListener('click', () => {
                             if (video.requestPictureInPicture) {
@@ -615,12 +683,60 @@
                     }
                   }
                 });
+              } else if (streamType === 'mpd') {
+                embedPlayer.style.display = 'none';
+                clapprPlayerEl.classList.add('d-none');
+                videoContainer.classList.remove('d-none');
+                dashPlayerEl.classList.remove('d-none');
+                if (videoPlayerInstance) {
+                  videoPlayerInstance.destroy();
+                  videoPlayerInstance = null;
+                }
+                if (dashPlayerInstance) {
+                  dashPlayerInstance.destroy();
+                  dashPlayerInstance = null;
+                }
+                const videoElement = document.createElement('video');
+                videoElement.id = 'dashVideo';
+                videoElement.style.width = '100%';
+                videoElement.style.height = '100%';
+                dashPlayerEl.innerHTML = '';
+                dashPlayerEl.appendChild(videoElement);
+                dashPlayerInstance = dashjs.MediaPlayer().create();
+                dashPlayerInstance.initialize(videoElement, url, true);
+                if (event.streams[streamIndex].drm && event.streams[streamIndex].drm.clearkey) {
+                  const keySystemOptions = {
+                    'org.w3.clearkey': {
+                      clearkeys: {}
+                    }
+                  };
+                  event.streams[streamIndex].drm.clearkey.forEach(key => {
+                    keySystemOptions['org.w3.clearkey'].clearkeys[key.keyId] = key.key;
+                  });
+                  dashPlayerInstance.setProtectionData(keySystemOptions);
+                  console.log('ClearKey DRM configured (switch):', keySystemOptions);
+                }
+                dashPlayerInstance.on(dashjs.MediaPlayer.events.ERROR, (error) => {
+                  console.error('dash.js error (switch):', error);
+                  errorContainer.className = 'alert alert-danger error-alert mt-3';
+                  errorContainer.innerText = 'Failed to load MPD stream: ' + (error.error.message || 'Unknown error');
+                });
+                dashPlayerInstance.on(dashjs.MediaPlayer.events.PLAYBACK_STARTED, () => {
+                  console.log('dash.js playback started (switch)');
+                  clearError();
+                });
               } else {
                 videoContainer.classList.add('d-none');
+                clapprPlayerEl.classList.add('d-none');
+                dashPlayerEl.classList.add('d-none');
                 embedPlayer.style.display = 'block';
                 if (videoPlayerInstance) {
                   videoPlayerInstance.destroy();
                   videoPlayerInstance = null;
+                }
+                if (dashPlayerInstance) {
+                  dashPlayerInstance.destroy();
+                  dashPlayerInstance = null;
                 }
                 const switchUrl = new URL(url);
                 switchUrl.searchParams.append('autoplay', '1');
@@ -660,8 +776,21 @@
         if (fullscreenBtn) {
           fullscreenBtn.classList.remove('d-none');
           fullscreenBtn.addEventListener('click', () => {
-            if (isM3U8 && videoPlayerInstance) {
+            if (streamType === 'm3u8' && videoPlayerInstance) {
               const container = document.getElementById('videoPlayer');
+              if (container.requestFullscreen) {
+                container.requestFullscreen().catch(err => {
+                  console.error('Fullscreen failed:', err);
+                  errorContainer.className = 'alert alert-danger error-alert mt-3';
+                  errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
+                });
+              } else if (container.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen();
+              } else if (container.msRequestFullscreen) {
+                container.msRequestFullscreen();
+              }
+            } else if (streamType === 'mpd' && dashPlayerInstance) {
+              const container = document.getElementById('dashPlayer');
               if (container.requestFullscreen) {
                 container.requestFullscreen().catch(err => {
                   console.error('Fullscreen failed:', err);
@@ -795,7 +924,6 @@
             const now = Math.floor(Date.now() / 1000);
             let startTime, endTime;
             try {
-              // Parse times as EAT (UTC+3)
               startTime = new Date(event.starts_at + '+03:00').getTime() / 1000;
               if (isNaN(startTime)) {
                 console.warn(`Invalid start time for stream ${event.name}`);
@@ -814,7 +942,6 @@
               endTime = now + 3 * 3600;
             }
             const isLive = (startTime <= now && now <= endTime) || event.always_live === 1;
-            // Convert start time to local timezone for display
             const startDate = new Date(startTime * 1000);
             const localTimeString = startDate.toLocaleString('en-US', {
               hour: 'numeric',
