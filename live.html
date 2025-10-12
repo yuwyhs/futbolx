@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script defer src="https://cdn.jsdelivr.net/npm/@clappr/player@0.11.14/dist/clappr.min.js"></script>
-  <script defer src="https://cdn.dashjs.org/v4.7.0/dash.all.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/shaka-player.compiled.min.js"></script>
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
     .tip-container {
@@ -74,7 +74,7 @@
     [data-bs-theme="light"] .btn-fullscreen:hover {
       background: #cc3333;
     }
-    .clappr-video-player {
+    .clappr-video-player, .shaka-video-player {
       width: 100% !important;
       height: 100% !important;
       background: #000 !important;
@@ -82,15 +82,15 @@
       overflow: hidden;
       font-family: 'Kanit', sans-serif;
     }
-    [data-bs-theme="light"] .clappr-video-player {
+    [data-bs-theme="light"] .clappr-video-player, [data-bs-theme="light"] .shaka-video-player {
       background: #fff !important;
     }
-    .clappr-video-player video {
+    .clappr-video-player video, .shaka-video-player video {
       object-fit: contain !important; /* Fits without cropping, preserves aspect ratio */
       width: 100% !important;
       height: 100% !important;
     }
-    .clappr-video-player.clappr-fullscreen {
+    .clappr-video-player.clappr-fullscreen, .shaka-video-player.shaka-fullscreen {
       border-radius: 0 !important;
       width: 100vw !important;
       height: 100vh !important;
@@ -239,8 +239,7 @@
             <div class="alert alert-info">
               <strong>Tip:</strong> For an ad-free experience, consider installing an ad blocker like
               <a href="https://ublockorigin.com" target="_blank" rel="noopener">uBlock Origin</a> or
-              <a Collider
-              href="https://adguard.com" target="_blank" rel="noopener">AdGuard</a>.
+              <a href="https://adguard.com" target="_blank" rel="noopener">AdGuard</a>.
               <span id="countdownTimer">10s</span>
             </div>
           </div>
@@ -254,7 +253,7 @@
             <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
             <div id="videoPlayerContainer" class="d-none">
               <div id="videoPlayer" class="clappr-video-player"></div>
-              <div id="dashPlayer" class="clappr-video-player d-none"></div>
+              <div id="shakaPlayer" class="shaka-video-player d-none"></div>
             </div>
           </div>
           <div id="streamLinks" class="stream-links mt-3"></div>
@@ -283,7 +282,7 @@
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
     let embedPlayer = null;
     let videoPlayerInstance = null;
-    let dashPlayerInstance = null;
+    let shakaPlayerInstance = null;
     let streamData = null;
 
     // Block popups
@@ -445,7 +444,7 @@
         embedPlayer = document.getElementById('embedPlayer');
         const videoContainer = document.getElementById('videoPlayerContainer');
         const clapprPlayerEl = document.getElementById('videoPlayer');
-        const dashPlayerEl = document.getElementById('dashPlayer');
+        const shakaPlayerEl = document.getElementById('shakaPlayer');
         const stream = event.streams[0];
         const streamUrl = typeof stream === 'string' ? stream : stream.url;
         if (!streamUrl || !/^https?:/.test(streamUrl)) {
@@ -458,12 +457,15 @@
 
         if (streamType === 'm3u8') {
           embedPlayer.style.display = 'none';
-          dashPlayerEl.classList.add('d-none');
+          shakaPlayerEl.classList.add('d-none');
           videoContainer.classList.remove('d-none');
           clapprPlayerEl.classList.remove('d-none');
           if (typeof Clappr === 'undefined') {
             console.error('Clappr not loaded');
             throw new Error('Clappr library not loaded');
+          }
+          if (videoPlayerInstance) {
+            videoPlayerInstance.destroy();
           }
           videoPlayerInstance = new Clappr.Player({
             source: streamUrl,
@@ -512,72 +514,98 @@
           embedPlayer.style.display = 'none';
           clapprPlayerEl.classList.add('d-none');
           videoContainer.classList.remove('d-none');
-          dashPlayerEl.classList.remove('d-none');
-          if (typeof dashjs === 'undefined') {
-            console.error('dash.js not loaded');
-            throw new Error('dash.js library not loaded');
+          shakaPlayerEl.classList.remove('d-none');
+          if (typeof shaka === 'undefined') {
+            console.error('Shaka Player not loaded');
+            throw new Error('Shaka Player library not loaded');
           }
           if (videoPlayerInstance) {
             videoPlayerInstance.destroy();
             videoPlayerInstance = null;
           }
-          if (dashPlayerInstance) {
-            dashPlayerInstance.destroy();
-            dashPlayerInstance = null;
+          if (shakaPlayerInstance) {
+            shakaPlayerInstance.destroy();
+            shakaPlayerInstance = null;
+          }
+          shaka.polyfill.installAll();
+          if (!shaka.Player.isBrowserSupported()) {
+            throw new Error('Shaka Player is not supported in this browser');
           }
           const videoElement = document.createElement('video');
-          videoElement.id = 'dashVideo';
+          videoElement.id = 'shakaVideo';
+          videoElement.controls = true;
           videoElement.style.width = '100%';
           videoElement.style.height = '100%';
-          dashPlayerEl.innerHTML = '';
-          dashPlayerEl.appendChild(videoElement);
-          dashPlayerInstance = dashjs.MediaPlayer().create();
-          // Explicitly configure for ClearKey DRM only
-          dashPlayerInstance.setProtectionData({
-            'org.w3.clearkey': {
-              clearkeys: stream.drm && stream.drm.clearkey && Array.isArray(stream.drm.clearkey) ? 
-                stream.drm.clearkey.reduce((acc, key) => {
-                  if (key.keyId && key.key && /^[0-9a-fA-F]{32}$/.test(key.keyId) && /^[0-9a-fA-F]{32}$/.test(key.key)) {
-                    acc[key.keyId] = key.key;
-                    return acc;
-                  } else {
-                    console.warn('Invalid ClearKey format, skipping:', key);
-                    return acc;
-                  }
-                }, {}) : {},
-              serverURL: null // Prevent license server requests
+          shakaPlayerEl.innerHTML = '';
+          shakaPlayerEl.appendChild(videoElement);
+          shakaPlayerInstance = new shaka.Player(videoElement);
+          // Configure ClearKey DRM
+          const clearKeys = {};
+          if (stream.drm && stream.drm.clearkey && Array.isArray(stream.drm.clearkey)) {
+            stream.drm.clearkey.forEach(key => {
+              if (key.keyId && key.key && /^[0-9a-fA-F]{32}$/.test(key.keyId) && /^[0-9a-fA-F]{32}$/.test(key.key)) {
+                clearKeys[key.keyId] = key.key;
+              } else {
+                console.warn('Invalid ClearKey format, skipping:', key);
+              }
+            });
+            if (Object.keys(clearKeys).length > 0) {
+              shakaPlayerInstance.configure({
+                drm: {
+                  clearKeys: clearKeys
+                }
+              });
+              console.log('ClearKey DRM configured for Shaka:', clearKeys);
+            } else {
+              console.warn('No valid ClearKey keys provided, attempting to play without DRM');
             }
-          });
-          dashPlayerInstance.initialize(videoElement, streamUrl, true);
-          console.log('dash.js initialized for MPD stream:', streamUrl);
-          dashPlayerInstance.on(dashjs.MediaPlayer.events.ERROR, (error) => {
-            console.error('dash.js error:', error);
-            let errorMessage = 'Failed to load MPD stream: ' + (error.error.message || 'Unknown error');
-            if (error.error.code === dashjs.MediaPlayer.errors.KEY_SYSTEM_NO_LICENSE_SERVER_URL) {
-              errorMessage = 'Failed to load MPD stream: DRM configuration error. The stream may use Widevine or PlayReady instead of ClearKey.';
+          } else {
+            console.log('No ClearKey DRM keys provided, attempting to play MPD without DRM');
+          }
+          shakaPlayerInstance.addEventListener('error', (event) => {
+            console.error('Shaka error:', event.detail);
+            const error = event.detail;
+            let errorMessage = 'Failed to load MPD stream: ' + (error.message || 'Unknown error');
+            if (error.code === shaka.util.Error.Severity.CRITICAL && error.category === shaka.util.Error.Category.DRM) {
+              errorMessage = 'Failed to load MPD stream: DRM error (e.g., unsupported scheme or invalid keys). Ensure ClearKey is used.';
             }
             errorContainer.className = 'alert alert-danger error-alert mt-3';
             errorContainer.innerText = errorMessage;
           });
-          dashPlayerInstance.on(dashjs.MediaPlayer.events.PLAYBACK_STARTED, () => {
-            console.log('dash.js playback started');
-            clearError();
+          shakaPlayerInstance.addEventListener('loading', () => {
+            console.log('Shaka loading MPD');
           });
-          dashPlayerInstance.on(dashjs.MediaPlayer.events.PROTECTION_CREATED, (event) => {
-            console.log('DRM systems detected in MPD:', event.data);
+          shakaPlayerInstance.addEventListener('loaded', () => {
+            console.log('Shaka loaded MPD successfully');
+            clearError();
+            videoElement.play().catch(err => console.error('Shaka autoplay failed:', err));
+            videoElement.muted = false;
+            if (document.pictureInPictureEnabled) {
+              videoElement.addEventListener('click', () => {
+                if (videoElement.requestPictureInPicture) {
+                  videoElement.requestPictureInPicture().catch(err => {
+                    console.error('PiP failed:', err);
+                  });
+                }
+              });
+            }
+          });
+          shakaPlayerInstance.load(streamUrl).catch(err => {
+            console.error('Shaka load failed:', err);
+            throw err;
           });
         } else {
           videoContainer.classList.add('d-none');
           clapprPlayerEl.classList.add('d-none');
-          dashPlayerEl.classList.add('d-none');
+          shakaPlayerEl.classList.add('d-none');
           embedPlayer.style.display = 'block';
           if (videoPlayerInstance) {
             videoPlayerInstance.destroy();
             videoPlayerInstance = null;
           }
-          if (dashPlayerInstance) {
-            dashPlayerInstance.destroy();
-            dashPlayerInstance = null;
+          if (shakaPlayerInstance) {
+            shakaPlayerInstance.destroy();
+            shakaPlayerInstance = null;
           }
           const url = new URL(streamUrl);
           url.searchParams.append('autoplay', '1');
@@ -606,7 +634,7 @@
         // Generate stream links
         streamLinks.innerHTML = event.streams.map((stream, index) => {
           const url = typeof stream === 'string' ? stream : stream.url;
-          const streamType = stream.url.toLowerCase().includes('.m3u8') ? 'm3u8' : stream.url.toLowerCase().includes('.mpd') ? 'mpd' : 'iframe';
+          const streamType = url.toLowerCase().includes('.m3u8') ? 'm3u8' : url.toLowerCase().includes('.mpd') ? 'mpd' : 'iframe';
           return `
             <button class="btn btn-stream ${index === 0 ? 'active' : ''}" 
                     data-stream-encoded="${btoa(url)}" 
@@ -642,16 +670,16 @@
               console.log('Switching to stream:', url, 'Type:', streamType);
               if (streamType === 'm3u8') {
                 embedPlayer.style.display = 'none';
-                dashPlayerEl.classList.add('d-none');
+                shakaPlayerEl.classList.add('d-none');
                 videoContainer.classList.remove('d-none');
                 clapprPlayerEl.classList.remove('d-none');
                 if (videoPlayerInstance) {
                   videoPlayerInstance.destroy();
                   videoPlayerInstance = null;
                 }
-                if (dashPlayerInstance) {
-                  dashPlayerInstance.destroy();
-                  dashPlayerInstance = null;
+                if (shakaPlayerInstance) {
+                  shakaPlayerInstance.destroy();
+                  shakaPlayerInstance = null;
                 }
                 videoPlayerInstance = new Clappr.Player({
                   source: url,
@@ -700,68 +728,94 @@
                 embedPlayer.style.display = 'none';
                 clapprPlayerEl.classList.add('d-none');
                 videoContainer.classList.remove('d-none');
-                dashPlayerEl.classList.remove('d-none');
+                shakaPlayerEl.classList.remove('d-none');
                 if (videoPlayerInstance) {
                   videoPlayerInstance.destroy();
                   videoPlayerInstance = null;
                 }
-                if (dashPlayerInstance) {
-                  dashPlayerInstance.destroy();
-                  dashPlayerInstance = null;
+                if (shakaPlayerInstance) {
+                  shakaPlayerInstance.destroy();
+                  shakaPlayerInstance = null;
+                }
+                shaka.polyfill.installAll();
+                if (!shaka.Player.isBrowserSupported()) {
+                  throw new Error('Shaka Player is not supported in this browser');
                 }
                 const videoElement = document.createElement('video');
-                videoElement.id = 'dashVideo';
+                videoElement.id = 'shakaVideo';
+                videoElement.controls = true;
                 videoElement.style.width = '100%';
                 videoElement.style.height = '100%';
-                dashPlayerEl.innerHTML = '';
-                dashPlayerEl.appendChild(videoElement);
-                dashPlayerInstance = dashjs.MediaPlayer().create();
-                // Explicitly configure for ClearKey DRM only
-                dashPlayerInstance.setProtectionData({
-                  'org.w3.clearkey': {
-                    clearkeys: event.streams[streamIndex].drm && event.streams[streamIndex].drm.clearkey && Array.isArray(event.streams[streamIndex].drm.clearkey) ? 
-                      event.streams[streamIndex].drm.clearkey.reduce((acc, key) => {
-                        if (key.keyId && key.key && /^[0-9a-fA-F]{32}$/.test(key.keyId) && /^[0-9a-fA-F]{32}$/.test(key.key)) {
-                          acc[key.keyId] = key.key;
-                          return acc;
-                        } else {
-                          console.warn('Invalid ClearKey format, skipping:', key);
-                          return acc;
-                        }
-                      }, {}) : {},
-                    serverURL: null // Prevent license server requests
+                shakaPlayerEl.innerHTML = '';
+                shakaPlayerEl.appendChild(videoElement);
+                shakaPlayerInstance = new shaka.Player(videoElement);
+                // Configure ClearKey DRM
+                const clearKeys = {};
+                if (event.streams[streamIndex].drm && event.streams[streamIndex].drm.clearkey && Array.isArray(event.streams[streamIndex].drm.clearkey)) {
+                  event.streams[streamIndex].drm.clearkey.forEach(key => {
+                    if (key.keyId && key.key && /^[0-9a-fA-F]{32}$/.test(key.keyId) && /^[0-9a-fA-F]{32}$/.test(key.key)) {
+                      clearKeys[key.keyId] = key.key;
+                    } else {
+                      console.warn('Invalid ClearKey format, skipping:', key);
+                    }
+                  });
+                  if (Object.keys(clearKeys).length > 0) {
+                    shakaPlayerInstance.configure({
+                      drm: {
+                        clearKeys: clearKeys
+                      }
+                    });
+                    console.log('ClearKey DRM configured for Shaka (switch):', clearKeys);
+                  } else {
+                    console.warn('No valid ClearKey keys provided, attempting to play without DRM');
                   }
-                });
-                dashPlayerInstance.initialize(videoElement, url, true);
-                console.log('dash.js initialized for MPD stream (switch):', url);
-                dashPlayerInstance.on(dashjs.MediaPlayer.events.ERROR, (error) => {
-                  console.error('dash.js error (switch):', error);
-                  let errorMessage = 'Failed to load MPD stream: ' + (error.error.message || 'Unknown error');
-                  if (error.error.code === dashjs.MediaPlayer.errors.KEY_SYSTEM_NO_LICENSE_SERVER_URL) {
-                    errorMessage = 'Failed to load MPD stream: DRM configuration error. The stream may use Widevine or PlayReady instead of ClearKey.';
+                } else {
+                  console.log('No ClearKey DRM keys provided, attempting to play MPD without DRM');
+                }
+                shakaPlayerInstance.addEventListener('error', (event) => {
+                  console.error('Shaka error (switch):', event.detail);
+                  const error = event.detail;
+                  let errorMessage = 'Failed to load MPD stream: ' + (error.message || 'Unknown error');
+                  if (error.code === shaka.util.Error.Severity.CRITICAL && error.category === shaka.util.Error.Category.DRM) {
+                    errorMessage = 'Failed to load MPD stream: DRM error (e.g., unsupported scheme or invalid keys). Ensure ClearKey is used.';
                   }
                   errorContainer.className = 'alert alert-danger error-alert mt-3';
                   errorContainer.innerText = errorMessage;
                 });
-                dashPlayerInstance.on(dashjs.MediaPlayer.events.PLAYBACK_STARTED, () => {
-                  console.log('dash.js playback started (switch)');
-                  clearError();
+                shakaPlayerInstance.addEventListener('loading', () => {
+                  console.log('Shaka loading MPD (switch)');
                 });
-                dashPlayerInstance.on(dashjs.MediaPlayer.events.PROTECTION_CREATED, (event) => {
-                  console.log('DRM systems detected in MPD (switch):', event.data);
+                shakaPlayerInstance.addEventListener('loaded', () => {
+                  console.log('Shaka loaded MPD successfully (switch)');
+                  clearError();
+                  videoElement.play().catch(err => console.error('Shaka autoplay failed (switch):', err));
+                  videoElement.muted = false;
+                  if (document.pictureInPictureEnabled) {
+                    videoElement.addEventListener('click', () => {
+                      if (videoElement.requestPictureInPicture) {
+                        videoElement.requestPictureInPicture().catch(err => {
+                          console.error('PiP failed:', err);
+                        });
+                      }
+                    });
+                  }
+                });
+                shakaPlayerInstance.load(url).catch(err => {
+                  console.error('Shaka load failed (switch):', err);
+                  throw err;
                 });
               } else {
                 videoContainer.classList.add('d-none');
                 clapprPlayerEl.classList.add('d-none');
-                dashPlayerEl.classList.add('d-none');
+                shakaPlayerEl.classList.add('d-none');
                 embedPlayer.style.display = 'block';
                 if (videoPlayerInstance) {
                   videoPlayerInstance.destroy();
                   videoPlayerInstance = null;
                 }
-                if (dashPlayerInstance) {
-                  dashPlayerInstance.destroy();
-                  dashPlayerInstance = null;
+                if (shakaPlayerInstance) {
+                  shakaPlayerInstance.destroy();
+                  shakaPlayerInstance = null;
                 }
                 const switchUrl = new URL(url);
                 switchUrl.searchParams.append('autoplay', '1');
@@ -814,8 +868,8 @@
               } else if (container.msRequestFullscreen) {
                 container.msRequestFullscreen();
               }
-            } else if (streamType === 'mpd' && dashPlayerInstance) {
-              const container = document.getElementById('dashPlayer');
+            } else if (streamType === 'mpd' && shakaPlayerInstance) {
+              const container = document.getElementById('shakaPlayer');
               if (container.requestFullscreen) {
                 container.requestFullscreen().catch(err => {
                   console.error('Fullscreen failed:', err);
