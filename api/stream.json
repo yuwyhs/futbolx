@@ -11,7 +11,7 @@
           "poster": "https://r2.thesportsdb.com/images/media/event/thumb/utse5e1750320300.jpg",
           "tag": "EPL",
           "starts_at": "2025-10-18T14:30:00",
-          "ends_at": "2025-10-18T16:30:00",
+          "ends_at": "2025-10-18T16:40:00",
           "always_live": 0,
           "streams": [
             {
@@ -92,6 +92,21 @@
             {
               "title": "Main Feed",
               "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl6/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Barcelona vs Girona",
+          "uri_name": "barcelona-vs-girona",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/4yo1jp1751450001.jpg",
+          "tag": "LaLiga",
+          "starts_at": "2025-10-18T17:15:00",
+          "ends_at": "2025-10-18T19:20:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/laliga1/playlist.m3u8"
             }
           ]
         }
