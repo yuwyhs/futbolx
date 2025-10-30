@@ -43,32 +43,20 @@
       50% { transform: scale(1.1); opacity: 0.7; }
       100% { transform: scale(1); opacity: 1; }
     }
-    /* Responsive grid layout for all screen sizes */
+
+    /* -------------------------------------------------
+       RESPONSIVE GRID – auto-fits any screen size
+       ------------------------------------------------- */
     .event-grid, #livecards.event-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
       padding: 1rem;
     }
-    /* Desktop mode: Ensure at least 2 columns, adapt to larger screens */
-    @media (min-width: 768px) {
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(2, minmax(280px, 1fr));
-      }
-    }
-    @media (min-width: 1200px) {
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(3, minmax(280px, 1fr));
-      }
-    }
-    @media (min-width: 1800px) {
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(4, minmax(280px, 1fr));
-      }
-    }
     .event-grid a {
       text-decoration: none;
     }
+
     .card {
       width: 100%;
       max-width: 400px;
@@ -117,6 +105,7 @@
       <span class="futbolx-brand">FutbolX</span>
     </div>
   </nav>
+
   <!-- Left Sidebar -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
@@ -140,14 +129,17 @@
       </ul>
     </div>
   </div>
+
   <!-- Main Content -->
   <div class="container-fluid main-content">
     <div class="text-center py-5 bg-dark hero-background">
       <h1 class="display-4 fw-bold">Welcome to FutbolX</h1>
       <p class="lead">Stream Free PPV Boxing, UFC, Basketball, and More - Live & On-Demand!</p>
     </div>
+
     <div class="container pt-2">
       <div id="errorContainer" class="d-none error-alert"></div>
+
       <div id="live" class="mt-4">
         <h2 class="m-0">
           Live Now <span id="liveAnimation" class="live-animation d-none"></span>
@@ -156,6 +148,7 @@
           <p>Loading streams...</p>
         </div>
       </div>
+
       <div id="football" class="mt-5 d-none">
         <h2 class="m-0">Football</h2>
         <div id="footballcards" class="event-grid py-3"></div>
@@ -204,6 +197,7 @@
         <h2 class="m-0">Others</h2>
         <div id="otherscards" class="event-grid py-3"></div>
       </div>
+
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
         <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
@@ -216,12 +210,14 @@
       </footer>
     </div>
   </div>
+
   <script src="/_vercel/insights/script.js" defer></script>
   <script src="/_vercel/speed-insights/script.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="/assets/js/api.js"></script>
   <script async src="/assets/js/auth.js"></script>
   <script defer data-domain="your-futbolx-site.vercel.app" src="https://p.vidembed.re/js/script.js"></script>
+
   <script>
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
     
@@ -259,7 +255,6 @@
           let mins = Math.floor(timer / 60);
           let secs = Math.floor(timer);
           let displayText = '';
-          // Convert startTime (Unix timestamp) to local timezone for display
           const startDate = new Date(startTime * 1000);
           const localTimeString = startDate.toLocaleString('en-US', {
             hour: 'numeric',
@@ -418,7 +413,6 @@
               }
               let startTime, endTime;
               try {
-                // Parse starts_at as EAT (UTC+3)
                 startTime = new Date(stream.starts_at + '+03:00').getTime() / 1000;
                 if (isNaN(startTime)) {
                   console.warn(`Invalid start time for stream ${stream.name}`);
@@ -482,11 +476,11 @@
             }
           });
 
+          // Fix: Ensure live animation shows when there are live events
+          liveAnimation.classList.remove('d-none');
           if (!hasLiveEvents) {
             livecards.innerHTML = '<p>No streams are live right now. Check back later!</p>';
             liveAnimation.classList.add('d-none');
-          } else {
-            liveAnimation.classList.remove('d-none');
           }
 
           clearError();
@@ -553,7 +547,6 @@
           logoutButton.addEventListener('click', (event) => {
             event.stopPropagation();
             console.log('Logout button clicked');
-            // Assume logout logic is in auth.js
           });
         }
       } catch (error) {
@@ -568,7 +561,6 @@
       const themeToggle = document.getElementById('themeToggle');
       const htmlElement = document.documentElement;
 
-      // Initialize theme
       const currentTheme = localStorage.getItem('theme') || 'dark';
       htmlElement.setAttribute('data-bs-theme', currentTheme);
       if (themeToggle) {
@@ -584,10 +576,8 @@
         console.error('Theme toggle element not found');
       }
 
-      // Initialize offcanvas
       initOffcanvas();
 
-      // Load content
       try {
         if (typeof Api === 'undefined') {
           console.warn('Api class not defined. Using default API path.');
@@ -607,7 +597,6 @@
         }
       }
 
-      // Auth status
       try {
         checkAuthStatus();
       } catch (error) {
@@ -624,4 +613,4 @@
     });
   </script>
 </body>
-                                 </html>
+</html>
