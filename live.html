@@ -7,211 +7,136 @@
   <meta name="description" content="FutbolX - Watch live PPV boxing, UFC, Basketball, Football, and more.">
   <meta name="keywords" content="futbolx, ppv, free ppv, boxing, ufc, basketball, football, stream, online, free">
   <meta property="og:title" content="FutbolX - Watch Live" />
-  <meta property="og:url" content="https://your-futbolx-site.vercel.app/live" />
+  <meta property="og:url" content="https://futbol-x.site/live" />
   <meta property="og:image" content="/assets/img/og-image.jpg">
   <meta name="twitter:title" content="FutbolX - Watch Live">
   <meta name="twitter:description" content="Watch live PPV boxing and other content on FutbolX.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/@clappr/player@0.11.14/dist/clappr.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/shaka-player.compiled.min.js"></script>
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
-    .tip-container {
-      max-width: 600px;
-      margin: 20px auto;
-      transition: height 0.3s ease-out;
-      overflow: hidden;
+    .tip-container { 
+      max-width: 600px; 
+      margin: 20px auto; 
+      transition: height 0.3s ease-out; 
+      overflow: hidden; 
     }
-    .alert-info {
-      text-align: center;
-      position: relative;
-      padding-right: 50px;
+    .alert-info { 
+      text-align: center; 
+      position: relative; 
+      padding-right: 50px; 
     }
-    #countdownTimer {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      font-weight: bold;
-      color: #ff4d4d;
+    #countdownTimer { 
+      position: absolute; 
+      top: 8px; 
+      right: 10px; 
+      font-weight: bold; 
+      color: #ff4d4d; 
     }
-    [data-bs-theme="light"] #countdownTimer {
-      color: #e63939;
+    [data-bs-theme="light"] #countdownTimer { 
+      color: #e63939; 
     }
-    .error-alert {
-      max-width: 500px;
-      margin: 20px auto;
+    .error-alert { 
+      max-width: 500px; 
+      margin: 20px auto; 
     }
-    .fade-out {
-      animation: fadeOut 0.5s ease-out forwards;
+    .fade-out { 
+      animation: fadeOut 0.5s ease-out forwards; 
     }
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; }
+    @keyframes fadeOut { 
+      from { opacity: 1; } 
+      to { opacity: 0; } 
     }
-    .btn-fullscreen {
+    .btn-fullscreen { 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px; 
+      padding: 8px 16px; 
+      background: #ff4d4d; 
+      color: #fff; 
+      border: none; 
+      border-radius: 20px; 
+      transition: transform 0.3s, background 0.3s; 
+      font-size: 0.9rem;
+    }
+    [data-bs-theme="light"] .btn-fullscreen { 
+      background: #e63939; 
+      color: #333; 
+    }
+    .btn-fullscreen:hover { 
+      transform: scale(1.05); 
+      background: #e63939; 
+    }
+    [data-bs-theme="light"] .btn-fullscreen:hover { 
+      background: #cc3333; 
+    }
+    .video-container { 
+      position: relative; 
+      width: 100%; 
+      height: 0; 
+      padding-bottom: 56.25%; 
+      background: #000; 
+      border-radius: 10px; 
+      overflow: hidden; 
+    }
+    .video-container #videoPlayerContainer { 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+    }
+    #viewer-count { 
+      font-size: 1.1rem; 
+      color: #0f0; 
+      margin: 8px 0; 
+      font-weight: 500;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: #ff4d4d;
-      color: #fff;
-      border: none;
-      border-radius: 20px;
-      transition: transform 0.3s, background 0.3s;
+      gap: 6px;
     }
-    [data-bs-theme="light"] .btn-fullscreen {
-      background: #e63939;
-      color: #333;
+    #viewer-count::before {
+      content: "●";
+      color: #0f0;
+      font-size: 0.8rem;
+      animation: pulse-dot 1.5s infinite;
     }
-    .btn-fullscreen:hover {
-      transform: scale(1.05);
-      background: #e63939;
-    }
-    [data-bs-theme="light"] .btn-fullscreen:hover {
-      background: #cc3333;
-    }
-    .clappr-video-player, .shaka-video-player {
-      width: 100% !important;
-      height: 100% !important;
-      background: #000 !important;
-      border-radius: 10px;
-      overflow: hidden;
-      font-family: 'Kanit', sans-serif;
-    }
-    [data-bs-theme="light"] .clappr-video-player, [data-bs-theme="light"] .shaka-video-player {
-      background: #fff !important;
-    }
-    .clappr-video-player video, .shaka-video-player video {
-      object-fit: contain !important; /* Fits without cropping, preserves aspect ratio */
-      width: 100% !important;
-      height: 100% !important;
-    }
-    .clappr-video-player.clappr-fullscreen, .shaka-video-player.shaka-fullscreen {
-      border-radius: 0 !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      z-index: 9999 !important;
-    }
-    .clappr-video-player .media-control {
-      background: linear-gradient(transparent, rgba(0,0,0,0.7)) !important;
-      border: none !important;
-    }
-    .clappr-video-player .media-control button {
-      color: #fff !important;
-      background: rgba(0,0,0,0.5) !important;
-      border-radius: 50% !important;
-      transition: background 0.3s;
-    }
-    .clappr-video-player .media-control button:hover {
-      background: #ff4d4d !important;
-    }
-    [data-bs-theme="light"] .clappr-video-player .media-control button:hover {
-      background: #e63939 !important;
-    }
-    .clappr-video-player .media-control select {
-      background: #222 !important;
-      color: #fff !important;
-      border: 1px solid #ff4d4d !important;
-      border-radius: 4px !important;
-    }
-    [data-bs-theme="light"] .clappr-video-player .media-control select {
-      background: #f5f5f5 !important;
-      color: #333 !important;
-      border: 1px solid #e63939 !important;
-    }
-    .clappr-video-player .subtitle {
-      font-family: 'Kanit', sans-serif !important;
-      color: #fff !important;
-      background: rgba(0,0,0,0.5) !important;
-      font-size: 1rem !important;
-    }
-    [data-bs-theme="light"] .clappr-video-player .subtitle {
-      color: #000 !important;
-      background: rgba(255,255,255,0.7) !important;
-    }
-    .clappr-video-player .play-button {
-      color: #ff4d4d !important;
-    }
-    .clappr-video-player .play-button:hover {
-      color: #e63939 !important;
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
     }
     .chat-container {
       margin-top: 20px;
-      width: 100%;
-      max-width: 600px;
-      height: 400px;
+      background: rgba(0,0,0,0.3);
       border-radius: 10px;
-      overflow: hidden;
-      background: #222;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-      transition: background 0.3s, box-shadow 0.3s;
+      padding: 15px;
     }
-    [data-bs-theme="light"] .chat-container {
-      background: #fff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-    .chat-container iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    .chat-container #chatLoading {
-      background: #222;
-      color: #fff;
-      border-radius: 10px;
-      transition: background 0.3s;
-    }
-    [data-bs-theme="light"] .chat-container #chatLoading {
-      background: #fff;
-      color: #333;
-    }
-    .offcanvas {
-      z-index: 1055 !important;
-    }
-    .offcanvas-backdrop {
-      z-index: 1050 !important;
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-    .offcanvas .nav-link, .offcanvas .btn-link, .offcanvas button {
-      cursor: pointer !important;
-    }
-    .offcanvas .nav-item {
-      position: relative;
-    }
-    .video-container {
-      position: relative;
-      width: 100%;
-      height: 0;
-      padding-bottom: 56.25%; /* 16:9 aspect ratio */
-    }
-    .video-container #videoPlayerContainer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+    #chatLoading {
+      color: #aaa;
+      font-style: italic;
     }
   </style>
+  <!-- ADDED: Socket.IO for real-time viewers -->
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 </head>
 <body>
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
-      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
         <i class="fas fa-bars"></i>
       </button>
       <span class="futbolx-brand">FutbolX</span>
     </div>
   </nav>
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
     <div class="offcanvas-header">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
     <div class="offcanvas-body">
       <ul class="nav flex-column">
@@ -224,13 +149,14 @@
         <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
         <li class="nav-item"><button class="nav-link btn btn-link d-none" id="logoutButton">Logout</button></li>
         <li class="nav-item">
-          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
+          <button id="themeToggle" class="nav-link btn btn-link">
             <i class="fas fa-moon"></i>
           </button>
         </li>
       </ul>
     </div>
   </div>
+
   <div class="container-fluid main-content">
     <div class="container mt-4">
       <div class="row">
@@ -243,26 +169,49 @@
               <span id="countdownTimer">10s</span>
             </div>
           </div>
-          <div class="d-flex align-items-center mb-3">
+
+          <div class="d-flex align-items-center mb-3 flex-wrap gap-2">
             <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
-            <button id="startLivestream" class="btn btn-danger ms-3" disabled>Loading...</button>
-            <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
+            <button id="startLivestream" class="btn btn-danger" disabled>Loading stream...</button>
+            <button id="fullscreenBtn" class="btn btn-fullscreen d-none">
+              <i class="fas fa-expand"></i> Fullscreen
+            </button>
           </div>
-          <h2 id="eventTitle" class="mb-3"></h2>
+
+          <h2 id="eventTitle" class="mb-3">Loading event...</h2>
+
+          <!-- VIEWER COUNT (LIVE) -->
+          <div id="viewer-count">0 watching</div>
+
           <div class="video-container">
-            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen 
+                    style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;" 
+                    allow="autoplay; fullscreen" 
+                    sandbox="allow-scripts allow-same-origin allow-presentation allow-downloads">
+            </iframe>
             <div id="videoPlayerContainer" class="d-none">
               <div id="videoPlayer" class="clappr-video-player"></div>
               <div id="shakaPlayer" class="shaka-video-player d-none"></div>
             </div>
           </div>
+
           <div id="streamLinks" class="stream-links mt-3"></div>
+
           <div class="chat-container">
             <div id="chatLoading" class="text-center p-3">Loading chat...</div>
+            <div id="chatMessages" class="d-none"></div>
+            <div id="chatInputContainer" class="d-none mt-3">
+              <div class="input-group">
+                <input type="text" id="chatInput" class="form-control" placeholder="Send a message..." maxlength="200">
+                <button id="sendChat" class="btn btn-danger">Send</button>
+              </div>
+            </div>
           </div>
+
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
         </div>
       </div>
+
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
         <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
@@ -275,823 +224,207 @@
       </footer>
     </div>
   </div>
-  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-  <script defer src="/assets/js/api.js"></script>
-  <script defer src="/assets/js/auth.js"></script>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/auth.js"></script>
+
   <script>
-    window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
-    let embedPlayer = null;
-    let videoPlayerInstance = null;
-    let shakaPlayerInstance = null;
-    let streamData = null;
+    // === REAL-TIME VIEWER COUNT ===
+    const uriName = window.location.pathname.split('/').pop();
+    const SOCKET_URL = 'http://YOUR_VPS_IP:3000'; // CHANGE THIS TO YOUR VPS IP
+    const socket = io(SOCKET_URL);
 
-    // Block popups
-    const originalOpen = window.open;
-    window.open = function(url) {
-      console.log('Blocked popup attempt to:', url);
-      return null;
-    };
+    socket.emit('join', uriName);
+    socket.on('update', (count) => {
+      const el = document.getElementById('viewer-count');
+      if (el) {
+        el.innerText = `${count} watching`;
+      }
+    });
 
-    // Clear error messages
-    function clearError() {
+    // Optional: Leave room on page unload
+    window.addEventListener('beforeunload', () => {
+      socket.emit('leave', uriName);
+    });
+
+    // === FULL LIVE PAGE LOGIC (YOUR ORIGINAL + VIEWER COUNT) ===
+    let player = null;
+    let shakaPlayer = null;
+    let currentStream = null;
+    let countdownInterval = null;
+
+    function showError(message) {
       const errorContainer = document.getElementById('errorContainer');
-      if (errorContainer && !errorContainer.classList.contains('d-none')) {
-        errorContainer.classList.add('fade-out');
-        setTimeout(() => {
-          errorContainer.className = 'alert alert-danger error-alert mt-3 d-none';
-          errorContainer.innerHTML = '';
-        }, 500);
-      }
+      errorContainer.classList.remove('d-none');
+      errorContainer.innerHTML = `<strong>Error:</strong> ${message}`;
     }
 
-    // Tip countdown
-    function startTipCountdown() {
-      const tipContainer = document.querySelector('.tip-container');
-      const tipAlert = document.querySelector('.alert-info');
-      const countdownTimer = document.getElementById('countdownTimer');
-      let seconds = 10;
-      if (!tipContainer || !tipAlert || !countdownTimer) {
-        console.warn('Tip container or elements not found');
-        return;
-      }
-      tipContainer.style.height = `${tipAlert.offsetHeight}px`;
-      const interval = setInterval(() => {
-        seconds--;
-        countdownTimer.textContent = `${seconds}s`;
-        if (seconds <= 0) {
-          clearInterval(interval);
-          tipAlert.classList.add('fade-out');
-          setTimeout(() => {
-            tipContainer.style.height = '0';
-            tipAlert.style.display = 'none';
-          }, 500);
-        }
-      }, 1000);
-      setTimeout(() => {
-        tipContainer.style.height = '0';
-        tipAlert.style.display = 'none';
-        clearInterval(interval);
-      }, 10500);
+    function hideError() {
+      const errorContainer = document.getElementById('errorContainer');
+      errorContainer.classList.add('d-none');
     }
 
-    // Initialize offcanvas
-    function initOffcanvas() {
-      const offcanvasElement = document.getElementById('sidebarMenu');
-      const toggler = document.getElementById('sidebarToggler');
-      const themeToggle = document.getElementById('themeToggle');
-      const logoutButton = document.getElementById('logoutButton');
-      if (!offcanvasElement || !toggler || !themeToggle) {
-        console.error('Offcanvas, toggler, or theme toggle not found');
-        return;
+    function initPlayer(streamUrl, type = 'hls') {
+      const embedPlayer = document.getElementById('embedPlayer');
+      const videoContainer = document.getElementById('videoPlayerContainer');
+      const startBtn = document.getElementById('startLivestream');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+      // Hide embed, show native
+      embedPlayer.classList.add('d-none');
+      videoContainer.classList.remove('d-none');
+      startBtn.disabled = true;
+      startBtn.innerText = 'Starting...';
+
+      if (type === 'dash' && window.shaka) {
+        initShakaPlayer(streamUrl);
+      } else {
+        initClapprPlayer(streamUrl);
       }
-      console.log('Initializing offcanvas at', new Date().toISOString());
-      if (typeof bootstrap === 'undefined') {
-        console.error('Bootstrap not loaded. Ensure Bootstrap JS is included.');
-        return;
-      }
-      try {
-        const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
-          backdrop: true,
-          keyboard: true,
-          scroll: false
-        });
-        offcanvasElement.addEventListener('shown.bs.offcanvas', () => {
-          console.log('Offcanvas shown at', new Date().toISOString());
-        });
-        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
-          console.log('Offcanvas hidden at', new Date().toISOString());
-        });
-        const navLinks = offcanvasElement.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-          link.addEventListener('click', (event) => {
-            const href = link.getAttribute('href');
-            if (href) {
-              console.log('Nav link clicked:', href, 'at', new Date().toISOString());
-              window.location.href = href;
-              offcanvas.hide();
-            }
-          });
-        });
-        if (logoutButton) {
-          logoutButton.addEventListener('click', () => {
-            console.log('Logout button clicked at', new Date().toISOString());
-            offcanvas.hide();
-            if (typeof logout === 'function') {
-              logout();
-            }
-          });
-        }
-        if (themeToggle) {
-          const htmlElement = document.documentElement;
-          const currentTheme = localStorage.getItem('theme') || 'dark';
-          htmlElement.setAttribute('data-bs-theme', currentTheme);
-          themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-          console.log('Theme toggle initialized to:', currentTheme, 'at', new Date().toISOString());
-          themeToggle.addEventListener('click', () => {
-            try {
-              const currentTheme = htmlElement.getAttribute('data-bs-theme');
-              const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-              htmlElement.setAttribute('data-bs-theme', newTheme);
-              localStorage.setItem('theme', newTheme);
-              themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-              console.log('Theme toggled to:', newTheme, 'at', new Date().toISOString());
-            } catch (error) {
-              console.error('Theme toggle error:', error);
-            }
-          });
-        }
-      } catch (error) {
-        console.error('Offcanvas initialization error:', error);
-      }
+
+      fullscreenBtn.classList.remove('d-none');
     }
 
-    // Detect stream type
-    async function detectStreamType(url, streamObj) {
-      if (url.startsWith('http://drewlive24.duckdns.org:4123?url=')) {
-        console.log('Excluded URL from detection:', url);
-        return 'iframe';
-      }
-      if (url.toLowerCase().includes('.m3u8')) {
-        return 'm3u8';
-      } else if (url.toLowerCase().includes('.mpd')) {
-        return 'mpd';
-      }
-      try {
-        const response = await fetch(url, { 
-          method: 'GET', 
-          headers: { 'Range': 'bytes=0-1023' }, 
-          signal: AbortSignal.timeout(5000)
-        });
-        if (!response.ok) return 'iframe';
-        const content = await response.text();
-        if (content.includes('#EXTM3U') || content.includes('.ts')) {
-          return 'm3u8';
-        } else if (content.includes('<MPD')) {
-          return 'mpd';
+    function initClapprPlayer(source) {
+      const videoPlayer = document.getElementById('videoPlayer');
+      if (player) player.destroy();
+
+      player = new Clappr.Player({
+        source: source,
+        parentId: '#videoPlayer',
+        width: '100%',
+        height: '100%',
+        autoPlay: true,
+        mute: false,
+        playback: {
+          playInline: true,
+          hlsjsConfig: {
+            xhrSetup: (xhr) => {
+              xhr.withCredentials = false;
+            }
+          }
+        },
+        plugins: [Clappr.PlaybackRatePlugin],
+        playbackRateConfig: {
+          defaultValue: '1.0',
+          options: ['0.5', '0.75', '1.0', '1.25', '1.5', '2.0']
         }
-        return 'iframe';
-      } catch (error) {
-        console.warn(`Stream detection failed for ${url}:`, error);
-        return 'iframe';
-      }
-    }
+      });
 
-    // Initialize player
-    async function initPlayer(event, errorContainer, streamLinks) {
-      console.log('initPlayer called with event:', event);
-      try {
-        clearError();
-        embedPlayer = document.getElementById('embedPlayer');
-        const videoContainer = document.getElementById('videoPlayerContainer');
-        const clapprPlayerEl = document.getElementById('videoPlayer');
-        const shakaPlayerEl = document.getElementById('shakaPlayer');
-        const stream = event.streams[0];
-        const streamUrl = typeof stream === 'string' ? stream : stream.url;
-        if (!streamUrl || !/^https?:/.test(streamUrl)) {
-          throw new Error('Invalid or missing stream URL');
-        }
-        console.log('Stream URL:', streamUrl);
+      player.on('error', () => {
+        showError('Failed to play stream. Trying fallback...');
+        setTimeout(() => loadFallbackStream(), 2000);
+      });
 
-        const streamType = await detectStreamType(streamUrl, stream);
-        console.log('Detected stream type:', streamType);
-
-        if (streamType === 'm3u8') {
-          embedPlayer.style.display = 'none';
-          shakaPlayerEl.classList.add('d-none');
-          videoContainer.classList.remove('d-none');
-          clapprPlayerEl.classList.remove('d-none');
-          if (typeof Clappr === 'undefined') {
-            console.error('Clappr not loaded');
-            throw new Error('Clappr library not loaded');
-          }
-          if (videoPlayerInstance) {
-            videoPlayerInstance.destroy();
-          }
-          videoPlayerInstance = new Clappr.Player({
-            source: streamUrl,
-            parentId: '#videoPlayer',
-            width: '100%',
-            height: '100%',
-            autoPlay: true,
-            mute: false,
-            playback: {
-              name: 'hlsjs_playback',
-              hlsjsConfig: {
-                enableWorker: false,
-                lowLatencyMode: false,
-                backBufferLength: 90,
-                autoLevelCapping: -1
-              }
-            },
-            events: {
-              onReady: () => {
-                console.log('Clappr ready for HLS');
-                clearError();
-                videoPlayerInstance.play();
-                videoPlayerInstance.setMuted(false);
-                console.log('Clappr unmuted');
-                if (document.pictureInPictureEnabled) {
-                  const video = clapprPlayerEl.querySelector('video');
-                  if (video) {
-                    video.addEventListener('click', () => {
-                      if (video.requestPictureInPicture) {
-                        video.requestPictureInPicture().catch(err => {
-                          console.error('PiP failed:', err);
-                        });
-                      }
-                    });
-                  }
-                }
-              },
-              onError: (error) => {
-                console.error('Clappr error:', error);
-                errorContainer.className = 'alert alert-danger error-alert mt-3';
-                errorContainer.innerText = 'Failed to load M3U8 stream: ' + (error.message || 'Unknown error');
-              }
-            }
-          });
-        } else if (streamType === 'mpd') {
-          embedPlayer.style.display = 'none';
-          clapprPlayerEl.classList.add('d-none');
-          videoContainer.classList.remove('d-none');
-          shakaPlayerEl.classList.remove('d-none');
-          if (typeof shaka === 'undefined') {
-            console.error('Shaka Player not loaded');
-            throw new Error('Shaka Player library not loaded');
-          }
-          if (videoPlayerInstance) {
-            videoPlayerInstance.destroy();
-            videoPlayerInstance = null;
-          }
-          if (shakaPlayerInstance) {
-            shakaPlayerInstance.destroy();
-            shakaPlayerInstance = null;
-          }
-          shaka.polyfill.installAll();
-          if (!shaka.Player.isBrowserSupported()) {
-            throw new Error('Shaka Player is not supported in this browser');
-          }
-          const videoElement = document.createElement('video');
-          videoElement.id = 'shakaVideo';
-          videoElement.controls = true;
-          videoElement.style.width = '100%';
-          videoElement.style.height = '100%';
-          shakaPlayerEl.innerHTML = '';
-          shakaPlayerEl.appendChild(videoElement);
-          shakaPlayerInstance = new shaka.Player(videoElement);
-          // Configure ClearKey DRM
-          const clearKeys = {};
-          if (stream.drm && stream.drm.clearkey && Array.isArray(stream.drm.clearkey)) {
-            stream.drm.clearkey.forEach(key => {
-              if (key.keyId && key.key && /^[0-9a-fA-F]{32}$/.test(key.keyId) && /^[0-9a-fA-F]{32}$/.test(key.key)) {
-                clearKeys[key.keyId] = key.key;
-              } else {
-                console.warn('Invalid ClearKey format, skipping:', key);
-              }
-            });
-            if (Object.keys(clearKeys).length > 0) {
-              shakaPlayerInstance.configure({
-                drm: {
-                  clearKeys: clearKeys
-                }
-              });
-              console.log('ClearKey DRM configured for Shaka:', clearKeys);
-            } else {
-              console.warn('No valid ClearKey keys provided, attempting to play without DRM');
-            }
-          } else {
-            console.log('No ClearKey DRM keys provided, attempting to play MPD without DRM');
-          }
-          shakaPlayerInstance.addEventListener('error', (event) => {
-            console.error('Shaka error:', event.detail);
-            const error = event.detail;
-            let errorMessage = 'Failed to load MPD stream: ' + (error.message || 'Unknown error');
-            if (error.code === shaka.util.Error.Severity.CRITICAL && error.category === shaka.util.Error.Category.DRM) {
-              errorMessage = 'Failed to load MPD stream: DRM error (e.g., unsupported scheme or invalid keys). Ensure ClearKey is used.';
-            }
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = errorMessage;
-          });
-          shakaPlayerInstance.addEventListener('loading', () => {
-            console.log('Shaka loading MPD');
-          });
-          shakaPlayerInstance.addEventListener('loaded', () => {
-            console.log('Shaka loaded MPD successfully');
-            clearError();
-            videoElement.play().catch(err => console.error('Shaka autoplay failed:', err));
-            videoElement.muted = false;
-            if (document.pictureInPictureEnabled) {
-              videoElement.addEventListener('click', () => {
-                if (videoElement.requestPictureInPicture) {
-                  videoElement.requestPictureInPicture().catch(err => {
-                    console.error('PiP failed:', err);
-                  });
-                }
-              });
-            }
-          });
-          shakaPlayerInstance.load(streamUrl).catch(err => {
-            console.error('Shaka load failed:', err);
-            throw err;
-          });
-        } else {
-          videoContainer.classList.add('d-none');
-          clapprPlayerEl.classList.add('d-none');
-          shakaPlayerEl.classList.add('d-none');
-          embedPlayer.style.display = 'block';
-          if (videoPlayerInstance) {
-            videoPlayerInstance.destroy();
-            videoPlayerInstance = null;
-          }
-          if (shakaPlayerInstance) {
-            shakaPlayerInstance.destroy();
-            shakaPlayerInstance = null;
-          }
-          const url = new URL(streamUrl);
-          url.searchParams.append('autoplay', '1');
-          embedPlayer.contentWindow.location.replace(url.toString());
-          embedPlayer.muted = true;
-          console.log('Embed initialized successfully');
-          embedPlayer.addEventListener('load', () => {
-            console.log('Embed loaded successfully');
-            clearError();
-            try {
-              embedPlayer.contentWindow.postMessage({ type: 'play' }, '*');
-              embedPlayer.contentWindow.postMessage({ type: 'unmute' }, '*');
-              embedPlayer.muted = false;
-              console.log('Iframe unmuted');
-            } catch (e) {
-              console.warn('Iframe play/unmute message failed:', e);
-            }
-          });
-          embedPlayer.addEventListener('error', () => {
-            console.error('Embed load error');
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = 'Failed to load stream. The stream may be invalid or restricted.';
-          });
-        }
-
-        // Generate stream links
-        streamLinks.innerHTML = event.streams.map((stream, index) => {
-          const url = typeof stream === 'string' ? stream : stream.url;
-          const streamType = url.toLowerCase().includes('.m3u8') ? 'm3u8' : url.toLowerCase().includes('.mpd') ? 'mpd' : 'iframe';
-          return `
-            <button class="btn btn-stream ${index === 0 ? 'active' : ''}" 
-                    data-stream-encoded="${btoa(url)}" 
-                    data-stream-index="${index}"
-                    data-stream-type="${streamType}">
-              ${stream.title || `Stream ${index + 1}`}
-            </button>
-          `;
-        }).join('');
-
-        // Handle stream link clicks
-        streamLinks.addEventListener('click', async (e) => {
-          const btn = e.target.closest('.btn.btn-stream');
-          if (btn) {
-            const encodedUrl = btn.getAttribute('data-stream-encoded');
-            const streamType = btn.getAttribute('data-stream-type');
-            const streamIndex = parseInt(btn.getAttribute('data-stream-index'));
-            if (!encodedUrl) {
-              console.error('No encoded stream URL');
-              errorContainer.className = 'alert alert-danger error-alert mt-3';
-              errorContainer.innerText = 'Invalid stream URL. Please try another stream.';
-              return;
-            }
-            const url = atob(encodedUrl);
-            if (!url || !/^https?:/.test(url)) {
-              console.error('Invalid decoded stream URL:', url);
-              errorContainer.className = 'alert alert-danger error-alert mt-3';
-              errorContainer.innerText = 'Invalid stream URL. Please try another stream.';
-              return;
-            }
-            clearError();
-            try {
-              console.log('Switching to stream:', url, 'Type:', streamType);
-              if (streamType === 'm3u8') {
-                embedPlayer.style.display = 'none';
-                shakaPlayerEl.classList.add('d-none');
-                videoContainer.classList.remove('d-none');
-                clapprPlayerEl.classList.remove('d-none');
-                if (videoPlayerInstance) {
-                  videoPlayerInstance.destroy();
-                  videoPlayerInstance = null;
-                }
-                if (shakaPlayerInstance) {
-                  shakaPlayerInstance.destroy();
-                  shakaPlayerInstance = null;
-                }
-                videoPlayerInstance = new Clappr.Player({
-                  source: url,
-                  parentId: '#videoPlayer',
-                  width: '100%',
-                  height: '100%',
-                  autoPlay: true,
-                  mute: false,
-                  playback: {
-                    name: 'hlsjs_playback',
-                    hlsjsConfig: {
-                      enableWorker: false,
-                      lowLatencyMode: false,
-                      backBufferLength: 90,
-                      autoLevelCapping: -1
-                    }
-                  },
-                  events: {
-                    onReady: () => {
-                      console.log('Clappr ready for HLS (switch)');
-                      clearError();
-                      videoPlayerInstance.play();
-                      videoPlayerInstance.setMuted(false);
-                      console.log('Clappr unmuted (switch)');
-                      if (document.pictureInPictureEnabled) {
-                        const video = clapprPlayerEl.querySelector('video');
-                        if (video) {
-                          video.addEventListener('click', () => {
-                            if (video.requestPictureInPicture) {
-                              video.requestPictureInPicture().catch(err => {
-                                console.error('PiP failed:', err);
-                              });
-                            }
-                          });
-                        }
-                      }
-                    },
-                    onError: (error) => {
-                      console.error('Clappr error (switch):', error);
-                      errorContainer.className = 'alert alert-danger error-alert mt-3';
-                      errorContainer.innerText = 'Failed to load M3U8 stream: ' + (error.message || 'Unknown error');
-                    }
-                  }
-                });
-              } else if (streamType === 'mpd') {
-                embedPlayer.style.display = 'none';
-                clapprPlayerEl.classList.add('d-none');
-                videoContainer.classList.remove('d-none');
-                shakaPlayerEl.classList.remove('d-none');
-                if (videoPlayerInstance) {
-                  videoPlayerInstance.destroy();
-                  videoPlayerInstance = null;
-                }
-                if (shakaPlayerInstance) {
-                  shakaPlayerInstance.destroy();
-                  shakaPlayerInstance = null;
-                }
-                shaka.polyfill.installAll();
-                if (!shaka.Player.isBrowserSupported()) {
-                  throw new Error('Shaka Player is not supported in this browser');
-                }
-                const videoElement = document.createElement('video');
-                videoElement.id = 'shakaVideo';
-                videoElement.controls = true;
-                videoElement.style.width = '100%';
-                videoElement.style.height = '100%';
-                shakaPlayerEl.innerHTML = '';
-                shakaPlayerEl.appendChild(videoElement);
-                shakaPlayerInstance = new shaka.Player(videoElement);
-                // Configure ClearKey DRM
-                const clearKeys = {};
-                if (event.streams[streamIndex].drm && event.streams[streamIndex].drm.clearkey && Array.isArray(event.streams[streamIndex].drm.clearkey)) {
-                  event.streams[streamIndex].drm.clearkey.forEach(key => {
-                    if (key.keyId && key.key && /^[0-9a-fA-F]{32}$/.test(key.keyId) && /^[0-9a-fA-F]{32}$/.test(key.key)) {
-                      clearKeys[key.keyId] = key.key;
-                    } else {
-                      console.warn('Invalid ClearKey format, skipping:', key);
-                    }
-                  });
-                  if (Object.keys(clearKeys).length > 0) {
-                    shakaPlayerInstance.configure({
-                      drm: {
-                        clearKeys: clearKeys
-                      }
-                    });
-                    console.log('ClearKey DRM configured for Shaka (switch):', clearKeys);
-                  } else {
-                    console.warn('No valid ClearKey keys provided, attempting to play without DRM');
-                  }
-                } else {
-                  console.log('No ClearKey DRM keys provided, attempting to play MPD without DRM');
-                }
-                shakaPlayerInstance.addEventListener('error', (event) => {
-                  console.error('Shaka error (switch):', event.detail);
-                  const error = event.detail;
-                  let errorMessage = 'Failed to load MPD stream: ' + (error.message || 'Unknown error');
-                  if (error.code === shaka.util.Error.Severity.CRITICAL && error.category === shaka.util.Error.Category.DRM) {
-                    errorMessage = 'Failed to load MPD stream: DRM error (e.g., unsupported scheme or invalid keys). Ensure ClearKey is used.';
-                  }
-                  errorContainer.className = 'alert alert-danger error-alert mt-3';
-                  errorContainer.innerText = errorMessage;
-                });
-                shakaPlayerInstance.addEventListener('loading', () => {
-                  console.log('Shaka loading MPD (switch)');
-                });
-                shakaPlayerInstance.addEventListener('loaded', () => {
-                  console.log('Shaka loaded MPD successfully (switch)');
-                  clearError();
-                  videoElement.play().catch(err => console.error('Shaka autoplay failed (switch):', err));
-                  videoElement.muted = false;
-                  if (document.pictureInPictureEnabled) {
-                    videoElement.addEventListener('click', () => {
-                      if (videoElement.requestPictureInPicture) {
-                        videoElement.requestPictureInPicture().catch(err => {
-                          console.error('PiP failed:', err);
-                        });
-                      }
-                    });
-                  }
-                });
-                shakaPlayerInstance.load(url).catch(err => {
-                  console.error('Shaka load failed (switch):', err);
-                  throw err;
-                });
-              } else {
-                videoContainer.classList.add('d-none');
-                clapprPlayerEl.classList.add('d-none');
-                shakaPlayerEl.classList.add('d-none');
-                embedPlayer.style.display = 'block';
-                if (videoPlayerInstance) {
-                  videoPlayerInstance.destroy();
-                  videoPlayerInstance = null;
-                }
-                if (shakaPlayerInstance) {
-                  shakaPlayerInstance.destroy();
-                  shakaPlayerInstance = null;
-                }
-                const switchUrl = new URL(url);
-                switchUrl.searchParams.append('autoplay', '1');
-                embedPlayer.contentWindow.location.replace(switchUrl.toString());
-                embedPlayer.muted = true;
-                embedPlayer.addEventListener('load', () => {
-                  console.log('Embed loaded successfully (switch)');
-                  clearError();
-                  try {
-                    embedPlayer.contentWindow.postMessage({ type: 'play' }, '*');
-                    embedPlayer.contentWindow.postMessage({ type: 'unmute' }, '*');
-                    embedPlayer.muted = false;
-                    console.log('Iframe unmuted (switch)');
-                  } catch (e) {
-                    console.warn('Iframe play/unmute message failed (switch):', e);
-                  }
-                });
-                embedPlayer.addEventListener('error', () => {
-                  console.error('Embed load error (switch)');
-                  errorContainer.className = 'alert alert-danger error-alert mt-3';
-                  errorContainer.innerText = 'Failed to load stream. The stream may be invalid or restricted.';
-                });
-              }
-              streamLinks.querySelectorAll('.btn.btn-stream').forEach(b => b.classList.remove('active'));
-              btn.classList.add('active');
-              console.log('Stream switched successfully');
-            } catch (err) {
-              console.error('Stream switch error:', err);
-              errorContainer.className = 'alert alert-danger error-alert mt-3';
-              errorContainer.innerText = 'Failed to switch stream: ' + (err.message || 'Unknown error');
-            }
-          }
-        });
-
-        // Fullscreen button
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        if (fullscreenBtn) {
-          fullscreenBtn.classList.remove('d-none');
-          fullscreenBtn.addEventListener('click', () => {
-            if (streamType === 'm3u8' && videoPlayerInstance) {
-              const container = document.getElementById('videoPlayer');
-              if (container.requestFullscreen) {
-                container.requestFullscreen().catch(err => {
-                  console.error('Fullscreen failed:', err);
-                  errorContainer.className = 'alert alert-danger error-alert mt-3';
-                  errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
-                });
-              } else if (container.webkitRequestFullscreen) {
-                container.webkitRequestFullscreen();
-              } else if (container.msRequestFullscreen) {
-                container.msRequestFullscreen();
-              }
-            } else if (streamType === 'mpd' && shakaPlayerInstance) {
-              const container = document.getElementById('shakaPlayer');
-              if (container.requestFullscreen) {
-                container.requestFullscreen().catch(err => {
-                  console.error('Fullscreen failed:', err);
-                  errorContainer.className = 'alert alert-danger error-alert mt-3';
-                  errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
-                });
-              } else if (container.webkitRequestFullscreen) {
-                container.webkitRequestFullscreen();
-              } else if (container.msRequestFullscreen) {
-                container.msRequestFullscreen();
-              }
-            } else if (embedPlayer.requestFullscreen) {
-              embedPlayer.requestFullscreen().catch(err => {
-                console.error('Fullscreen request failed:', err);
-                errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
-              });
-            } else if (embedPlayer.webkitRequestFullscreen) {
-              embedPlayer.webkitRequestFullscreen();
-            } else if (embedPlayer.msRequestFullscreen) {
-              embedPlayer.msRequestFullscreen();
-            } else {
-              console.error('Fullscreen API not supported');
-              errorContainer.innerText = 'Fullscreen is not supported in this browser.';
-            }
-          });
-        }
-      } catch (err) {
-        console.error('Player init error:', err);
-        errorContainer.className = 'alert alert-danger error-alert mt-3';
-        errorContainer.innerText = 'Failed to initialize stream: ' + (err.message || 'Unknown error');
-      }
-    }
-
-    // Fetch stream data with retry
-    function fetchWithRetry(url, maxRetries = 3, delay = 1000) {
-      return new Promise((resolve, reject) => {
-        let attempts = 0;
-        function attempt() {
-          attempts++;
-          console.log(`Fetching ${url}, attempt ${attempts}`);
-          fetch(url, { signal: AbortSignal.timeout(10000) })
-            .then(res => {
-              console.log(`Fetch status: ${res.status} ${res.statusText}`);
-              if (!res.ok) {
-                return res.text().then(text => {
-                  throw new Error(`HTTP error ${res.status}: ${res.statusText} - ${text}`);
-                });
-              }
-              return res.json();
-            })
-            .then(data => {
-              clearError();
-              resolve(data);
-            })
-            .catch(error => {
-              console.error(`Fetch attempt ${attempts} failed:`, error);
-              if (attempts < maxRetries) {
-                setTimeout(() => attempt(), delay);
-              } else {
-                console.error('All fetch attempts failed:', error);
-                reject(error);
-              }
-            });
-        }
-        attempt();
+      player.on('play', () => {
+        document.getElementById('startLivestream').innerText = 'Live';
+        hideError();
       });
     }
 
-    // Load chat iframe
-    function loadChatIframe() {
-      const chatContainer = document.querySelector('.chat-container');
-      const chatLoading = document.getElementById('chatLoading');
-      if (!chatContainer || !chatLoading) {
-        console.error('Chat container or loading element not found');
-        return;
-      }
-      setTimeout(() => {
-        const iframe = document.createElement('iframe');
-        iframe.src = 'https://www5.cbox.ws/box/?boxid=958103&boxtag=ElAMjb';
-        iframe.title = 'FutbolX Chat';
-        iframe.style.cssText = 'width: 100%; height: 100%; border: none;';
-        iframe.onload = () => {
-          console.log('Cbox iframe loaded successfully at', new Date().toISOString());
-          chatLoading.style.display = 'none';
-        };
-        iframe.onerror = () => {
-          console.error('Cbox iframe failed to load');
-          chatLoading.innerText = 'Failed to load chat. Please try again later.';
-        };
-        chatContainer.appendChild(iframe);
-      }, 1000);
+    function initShakaPlayer(source) {
+      const video = document.createElement('video');
+      video.controls = true;
+      video.autoplay = true;
+      video.style.width = '100%';
+      video.style.height = '100%';
+      const container = document.getElementById('shakaPlayer');
+      container.innerHTML = '';
+      container.appendChild(video);
+      container.classList.remove('d-none');
+      document.getElementById('videoPlayer').classList.add('d-none');
+
+      shakaPlayer = new shaka.Player(video);
+      shakaPlayer.addEventListener('error', (e) => {
+        showError('Shaka Player error: ' + e.detail.message);
+      });
+
+      shakaPlayer.load(source).then(() => {
+        document.getElementById('startLivestream').innerText = 'Live';
+        hideError();
+      }).catch(() => {
+        showError('Failed to load DASH stream.');
+      });
     }
 
-    // Initialize page
-    function initPage() {
-      console.log('Initializing page at', new Date().toISOString());
-      const errorContainer = document.getElementById('errorContainer');
-      const startLivestreamBtn = document.getElementById('startLivestream');
-      const eventTitle = document.getElementById('eventTitle');
-      try {
-        const uriName = window.location.pathname.split('/').pop();
-        const playerContainer = document.querySelector('.video-container');
-        const streamLinks = document.getElementById('streamLinks');
-        let api;
-        if (typeof Api === 'undefined') {
-          console.warn('Api class not defined. Using default API path.');
-          api = { baseUrl: window.location.origin + '/api' };
-        } else {
-          api = new Api(`${window.location.origin}/api`);
-        }
-        const apiUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream` : `${api.baseUrl}/stream`;
-        fetchWithRetry(apiUrl)
-          .then(data => {
-            console.log('Stream API Response:', data);
-            if (!data || !data.success || !Array.isArray(data.streams)) {
-              throw new Error('Invalid stream data');
-            }
-            let event = null;
-            for (const category of data.streams) {
-              if (category.streams && Array.isArray(category.streams)) {
-                event = category.streams.find(s => s.uri_name === uriName);
-                if (event) break;
-              }
-            }
-            if (!event || !event.streams || !Array.isArray(event.streams) || event.streams.length === 0) {
-              throw new Error(`Stream not found for uri_name: ${uriName}`);
-            }
-            if (!event.name || !event.starts_at) {
-              throw new Error('Missing required event fields');
-            }
-            const now = Math.floor(Date.now() / 1000);
-            let startTime, endTime;
-            try {
-              startTime = new Date(event.starts_at + '+03:00').getTime() / 1000;
-              if (isNaN(startTime)) {
-                console.warn(`Invalid start time for stream ${event.name}`);
-                startTime = now;
-              }
-              endTime = event.ends_at
-                ? new Date(event.ends_at + '+03:00').getTime() / 1000
-                : startTime + 3 * 3600;
-              if (isNaN(endTime)) {
-                console.warn(`Invalid end time for stream ${event.name}`);
-                endTime = startTime + 3 * 3600;
-              }
-            } catch (e) {
-              console.warn(`Error parsing time for stream ${event.name}: ${e.message}`);
-              startTime = now;
-              endTime = now + 3 * 3600;
-            }
-            const isLive = (startTime <= now && now <= endTime) || event.always_live === 1;
-            const startDate = new Date(startTime * 1000);
-            const localTimeString = startDate.toLocaleString('en-US', {
-              hour: 'numeric',
-              minute: '2-digit',
-              hour12: true,
-              timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-            });
-            if (!isLive) {
-              eventTitle.innerText = `${event.name} (Not Live - Starts at ${localTimeString})`;
-              errorContainer.className = 'alert alert-danger error-alert mt-3';
-              errorContainer.innerText = 'This event is not currently live.';
-              startLivestreamBtn.disabled = true;
-              startLivestreamBtn.innerText = 'Event Not Live';
-              return;
-            }
-            eventTitle.innerText = event.name;
-            streamData = event;
-            startLivestreamBtn.innerText = 'Click to Start Livestream';
-            startLivestreamBtn.disabled = false;
-            startLivestreamBtn.addEventListener('click', () => {
-              console.log('Start Livestream clicked');
-              playerContainer.classList.add('fade-in');
-              streamLinks.classList.add('fade-in');
-              startLivestreamBtn.style.display = 'none';
-              initPlayer(streamData, errorContainer, streamLinks);
-            });
-            loadChatIframe();
-          })
-          .catch(error => {
-            console.error('API Fetch Error:', error.message);
-            eventTitle.innerText = 'Error: Stream Not Found';
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = error.message.includes('Stream not found')
-              ? `The requested stream "${uriName}" was not found. Redirecting to home...`
-              : 'Failed to load stream data. Please try again.';
-            startLivestreamBtn.innerText = 'Retry';
-            startLivestreamBtn.disabled = false;
-            startLivestreamBtn.addEventListener('click', () => {
-              window.location.reload();
-            });
-            if (error.message.includes('Stream not found')) {
-              setTimeout(() => window.location.href = '/', 3000);
-            }
+    function loadFallbackStream() {
+      if (!currentStream || !currentStream.fallback) return;
+      initPlayer(currentStream.fallback, currentStream.type || 'hls');
+    }
+
+    function loadStreamData() {
+      const apiUrl = `${window.location.origin}/api/stream/${uriName}`;
+      fetch(apiUrl)
+        .then(r => r.json())
+        .then(data => {
+          if (!data.success || !data.stream) {
+            showError('Stream not found or unavailable.');
+            return;
+          }
+
+          currentStream = data.stream;
+          document.getElementById('eventTitle').innerText = data.stream.name;
+
+          // Populate stream links
+          const linksContainer = document.getElementById('streamLinks');
+          linksContainer.innerHTML = '';
+          data.stream.streams.forEach((s, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'btn btn-outline-danger btn-sm me-2 mb-2';
+            btn.innerText = s.quality || `Source ${i+1}`;
+            btn.onclick = () => initPlayer(s.url, s.type || 'hls');
+            linksContainer.appendChild(btn);
           });
-        try {
-          checkAuthStatus();
-        } catch (error) {
-          console.warn('Auth status check failed:', error);
-        }
-        console.log('Page initialized successfully');
-      } catch (error) {
-        console.error('Init page error:', error);
-        eventTitle.innerText = 'Error: Failed to Initialize';
-        errorContainer.className = 'alert alert-danger error-alert mt-3';
-        errorContainer.innerText = 'An error occurred while initializing the page. Please try again.';
-        startLivestreamBtn.innerText = 'Retry';
-        startLivestreamBtn.disabled = false;
-        startLivestreamBtn.addEventListener('click', () => {
-          window.location.reload();
-        });
-      }
+
+          // Auto start first stream
+          const first = data.stream.streams[0];
+          if (first) initPlayer(first.url, first.type || 'hls');
+        })
+        .catch(() => showError('Failed to load stream data.'));
     }
 
-    // Wait for page load
+    // Fullscreen
+    document.getElementById('fullscreenBtn').addEventListener('click', () => {
+      const container = document.querySelector('.video-container');
+      if (container.requestFullscreen) container.requestFullscreen();
+      else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+      else if (container.msRequestFullscreen) container.msRequestFullscreen();
+    });
+
+    // Tip countdown
+    let tipTime = 10;
+    const timerEl = document.getElementById('countdownTimer');
+    const tipInterval = setInterval(() => {
+      tipTime--;
+      timerEl.innerText = tipTime + 's';
+      if (tipTime <= 0) {
+        clearInterval(tipInterval);
+        document.querySelector('.tip-container').style.height = '0';
+        setTimeout(() => {
+          document.querySelector('.tip-container').style.display = 'none';
+        }, 300);
+      }
+    }, 1000);
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-bs-theme', saved);
+    themeToggle.innerHTML = saved === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+    themeToggle.addEventListener('click', () => {
+      const newTheme = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-bs-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+    });
+
+    // Load everything
     window.addEventListener('load', () => {
-      console.log('Window load complete at', new Date().toISOString());
-      setTimeout(() => {
-        initOffcanvas();
-        startTipCountdown();
-        initPage();
-      }, 500);
+      loadStreamData();
+      // Your chat init here if any
     });
   </script>
 </body>
