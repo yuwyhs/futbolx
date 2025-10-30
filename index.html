@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="  " data-bs-theme="dark">
+<html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,12 +7,12 @@
   <meta name="description" content="FutbolX - Free PPV boxing, UFC, Basketball, Football, and more available live and on-demand.">
   <meta name="keywords" content="futbolx, ppv, free ppv, boxing, ufc, basketball, football, stream, online, free">
   <meta property="og:title" content="FutbolX - Free PPV and More" />
-  <meta property="og:url" content="https://futbol-x.site" />
+  <meta property="og:url" content="https://your-futbolx-site.vercel.app" />
   <meta property="og:image" content="/assets/img/og-image.jpg">
   <meta name="twitter:title" content="FutbolX - Free PPV and More">
   <meta name="twitter:description" content="Free PPV boxing and other content available live and on-demand.">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -43,12 +43,14 @@
       50% { transform: scale(1.1); opacity: 0.7; }
       100% { transform: scale(1); opacity: 1; }
     }
+    /* Responsive grid layout for all screen sizes */
     .event-grid, #livecards.event-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
       padding: 1rem;
     }
+    /* Desktop mode: Ensure at least 2 columns, adapt to larger screens */
     @media (min-width: 768px) {
       .event-grid, #livecards.event-grid {
         grid-template-columns: repeat(2, minmax(280px, 1fr));
@@ -100,21 +102,13 @@
       font-size: 0.95rem;
     }
     .watch-button {
-      font-size: lining 0.95rem;
+      font-size: 0.95rem;
       padding: 0.5rem 1.2rem;
     }
-    /* VIEWER COUNT: small, clean, non-intrusive */
-    .viewer-count {
-      font-size: 0.85rem;
-      color: #aaa;
-      margin-top: 4px;
-      display: block;
-    }
   </style>
-  <!-- Socket.IO CDN -->
-  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 </head>
 <body>
+  <!-- Top Bar -->
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
       <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
@@ -123,7 +117,7 @@
       <span class="futbolx-brand">FutbolX</span>
     </div>
   </nav>
-
+  <!-- Left Sidebar -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -146,7 +140,7 @@
       </ul>
     </div>
   </div>
-
+  <!-- Main Content -->
   <div class="container-fluid main-content">
     <div class="text-center py-5 bg-dark hero-background">
       <h1 class="display-4 fw-bold">Welcome to FutbolX</h1>
@@ -222,22 +216,17 @@
       </footer>
     </div>
   </div>
-
   <script src="/_vercel/insights/script.js" defer></script>
   <script src="/_vercel/speed-insights/script.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="/assets/js/api.js"></script>
   <script async src="/assets/js/auth.js"></script>
-  <script defer data-domain="futbol-x.site" src="https://p.vidembed.re/js/script.js"></script>
+  <script defer data-domain="your-futbolx-site.vercel.app" src="https://p.vidembed.re/js/script.js"></script>
   <script>
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
     
     let lastApiCall = 0;
     let apiInstance = null;
-
-    // VIEWER SYSTEM
-    const SOCKET_URL = 'http://13.61.142.87:3000'; // CHANGE THIS
-    const socket = io(SOCKET_URL);
 
     function zeropad(num) {
       return num > 9 ? num : '0' + num;
@@ -270,6 +259,7 @@
           let mins = Math.floor(timer / 60);
           let secs = Math.floor(timer);
           let displayText = '';
+          // Convert startTime (Unix timestamp) to local timezone for display
           const startDate = new Date(startTime * 1000);
           const localTimeString = startDate.toLocaleString('en-US', {
             hour: 'numeric',
@@ -289,7 +279,7 @@
           }
           if (element.innerHTML !== displayText) {
             element.innerHTML = displayText;
-        }
+          }
         } else if (timer <= 0 && !element.innerHTML.includes('watch-button')) {
           element.innerHTML = `<a href="${uri}" class="btn btn-danger btn-sm watch-button">Watch</a>`;
           if (cardLink) {
@@ -316,6 +306,7 @@
           console.log(`Fetching ${url}, attempt ${attempts}`);
           fetch(url, { signal: AbortSignal.timeout(5000) })
             .then(res => {
+              console.log(`Fetch status: ${res.status} ${res.statusText}`);
               if (!res.ok) {
                 return res.text().then(text => {
                   throw new Error(`HTTP error ${res.status}: ${res.statusText} - ${text}`);
@@ -369,6 +360,7 @@
           console.log('Stream API Response:', streamData);
           
           if (!streamData || !streamData.success || !Array.isArray(streamData.streams)) {
+            console.warn('Invalid stream data received:', streamData);
             livecards.innerHTML = '<p>No streams are available right now. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
             liveAnimation.classList.add('d-none');
             errorContainer.className = 'alert alert-danger error-alert';
@@ -410,21 +402,37 @@
           Object.keys(categories).forEach(key => categoryEvents[key] = []);
 
           streamData.streams.forEach(category => {
-            if (!category.streams || !Array.isArray(category.streams)) return;
+            if (!category.streams || !Array.isArray(category.streams)) {
+              console.warn(`Skipping invalid category: ${category.category}`);
+              return;
+            }
             let categoryKey = category.category.toLowerCase().replace(/\s+/g, '');
-            if (!categories[categoryKey]) categoryKey = 'others';
+            if (!categories[categoryKey]) {
+              console.warn(`Category ${category.category} not found, mapping to 'others'`);
+              categoryKey = 'others';
+            }
             category.streams.forEach(stream => {
-              if (!stream.name || !stream.uri_name || !stream.tag || !stream.starts_at || !stream.streams || !Array.isArray(stream.streams)) return;
-
+              if (!stream.name || !stream.uri_name || !stream.tag || !stream.starts_at || !stream.streams || !Array.isArray(stream.streams)) {
+                console.warn(`Invalid stream data for ${stream.name || 'unknown stream'}, skipping`);
+                return;
+              }
               let startTime, endTime;
               try {
+                // Parse starts_at as EAT (UTC+3)
                 startTime = new Date(stream.starts_at + '+03:00').getTime() / 1000;
-                if (isNaN(startTime)) startTime = now;
+                if (isNaN(startTime)) {
+                  console.warn(`Invalid start time for stream ${stream.name}`);
+                  startTime = now;
+                }
                 endTime = stream.ends_at 
                   ? new Date(stream.ends_at + '+03:00').getTime() / 1000 
                   : startTime + 3 * 3600;
-                if (isNaN(endTime)) endTime = startTime + 3 * 3600;
+                if (isNaN(endTime)) {
+                  console.warn(`Invalid end time for stream ${stream.name}`);
+                  endTime = startTime + 3 * 3600;
+                }
               } catch (e) {
+                console.warn(`Error parsing time for stream ${stream.name}: ${e.message}`);
                 startTime = now;
                 endTime = now + 3 * 3600;
               }
@@ -437,7 +445,7 @@
               let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
               let streamHtml = {
                 html: `
-                  <a href="/live/${stream.uri_name}" data-uri-name="${stream.uri_name}">
+                  <a href="/live/${stream.uri_name}">
                     <div class="card">
                       ${liveBadge}
                       <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/285x160?text=Image+Failed';">
@@ -448,11 +456,8 @@
                           <span class="event-timer">
                             ${isLive 
                               ? `<a href="/live/${stream.uri_name}" class="btn btn-danger btn-sm watch-button">Watch</a>` 
-                              : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`
-                            }
+                              : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
                           </span>
-                          <br>
-                          <small id="viewers-${stream.uri_name}" class="viewer-count text-muted">0 watching</small>
                         </p>
                       </div>
                     </div>
@@ -463,7 +468,6 @@
               if (isLive) {
                 livecards.innerHTML += streamHtml.html;
                 hasLiveEvents = true;
-                socket.emit('join', stream.uri_name);
               } else {
                 categoryEvents[categoryKey].push(streamHtml);
               }
@@ -496,22 +500,10 @@
             });
           }, { threshold: 0.1 });
           cards.forEach(card => observer.observe(card));
-
-          // Re-join on reconnect
-          socket.on('connect', () => {
-            document.querySelectorAll('[data-uri-name]').forEach(el => {
-              socket.emit('join', el.dataset.uriName);
-            });
-          });
-
-          // Update viewer count
-          socket.on('update', (count) => {
-            const el = document.getElementById(`viewers-${count}`);
-            if (el) el.innerText = `${count} watching`;
-          });
         })
         .catch(error => {
           clearTimeout(timeout);
+          console.error('API Fetch Error:', error.message);
           livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
           liveAnimation.classList.add('d-none');
           errorContainer.className = 'alert alert-danger error-alert';
@@ -526,57 +518,110 @@
     function initOffcanvas() {
       const offcanvasElement = document.getElementById('sidebarMenu');
       const toggler = document.getElementById('sidebarToggler');
-      if (!offcanvasElement || !toggler) return;
-      if (typeof bootstrap === 'undefined') return;
+      
+      if (!offcanvasElement || !toggler) {
+        console.error('Offcanvas or toggler not found');
+        return;
+      }
+
+      console.log('Initializing offcanvas');
+      if (typeof bootstrap === 'undefined') {
+        console.warn('Bootstrap not loaded. Relying on data attributes.');
+        return;
+      }
+
       try {
         const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          console.log('Offcanvas closed');
+        });
+
         const navLinks = offcanvasElement.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
           link.addEventListener('click', (event) => {
             event.stopPropagation();
             const href = link.getAttribute('href');
-            if (href) window.location.href = href;
+            if (href) {
+              console.log('Nav link clicked:', href);
+              window.location.href = href;
+            }
           });
         });
+
+        const logoutButton = document.getElementById('logoutButton');
+        if (logoutButton) {
+          logoutButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            console.log('Logout button clicked');
+            // Assume logout logic is in auth.js
+          });
+        }
       } catch (error) {
-        console.error('Offcanvas init error:', error);
+        console.error('Offcanvas initialization error:', error);
       }
     }
 
     function initPage() {
+      console.log('Initializing page at', new Date().toISOString());
+      const errorContainer = document.getElementById('errorContainer');
+      const livecards = document.getElementById('livecards');
       const themeToggle = document.getElementById('themeToggle');
       const htmlElement = document.documentElement;
+
+      // Initialize theme
       const currentTheme = localStorage.getItem('theme') || 'dark';
       htmlElement.setAttribute('data-bs-theme', currentTheme);
       if (themeToggle) {
         themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
         themeToggle.addEventListener('click', () => {
+          console.log('Theme toggle clicked');
           const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
           htmlElement.setAttribute('data-bs-theme', newTheme);
           localStorage.setItem('theme', newTheme);
           themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
         });
+      } else {
+        console.error('Theme toggle element not found');
       }
+
+      // Initialize offcanvas
       initOffcanvas();
+
+      // Load content
       try {
         if (typeof Api === 'undefined') {
+          console.warn('Api class not defined. Using default API path.');
           apiInstance = { baseUrl: window.location.origin + '/api' };
         } else {
           apiInstance = new Api(`${window.location.origin}/api`);
         }
         loadContent(apiInstance);
       } catch (error) {
-        console.error('API init error:', error);
+        console.error('API initialization error:', error);
+        livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
+        errorContainer.className = 'alert alert-danger error-alert';
+        errorContainer.innerHTML = 'Failed to initialize streams. Please try again.';
+        const retryButton = document.getElementById('retryButton');
+        if (retryButton) {
+          retryButton.addEventListener('click', () => loadContent(apiInstance));
+        }
       }
+
+      // Auth status
       try {
         checkAuthStatus();
       } catch (error) {
-        console.warn('Auth check failed:', error);
+        console.warn('Auth status check failed:', error);
       }
+
       countdown();
+      console.log('Page initialized successfully');
     }
 
-    document.addEventListener('DOMContentLoaded', initPage);
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM loaded at', new Date().toISOString());
+      initPage();
+    });
   </script>
 </body>
-</html>
+                                 </html>
