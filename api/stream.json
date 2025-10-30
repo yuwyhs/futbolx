@@ -4,124 +4,69 @@
     {
       "category": "Football",
       "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "Basketball",
+      "always_live": 0,
       "streams": [
         {
-          "name": "Chelsea vs Sunderland",
-          "uri_name": "chelsea-vs-sunderland",
-          "poster": "https://streamed.pk/api/images/proxy/GwZg7AZpYEZgHCAjAJgCzrAThFlBWSUYAUwVmDW2nmAmD32FrWGHXbeAENgBjUgg5sSdTtw5kAJqWCEImeuFFs8VbmAEgQMEFBIhuIPiAO7EOc7kMFgSCn2Gz6KMCpRc35ellkemtGBuYqIQQA.webp",
-          "tag": "EPL",
-          "starts_at": "2025-10-30T21:00:00",
-          "ends_at": "2025-10-30T23:59:00",
+          "name": "Orlando Magic vs Charlotte Hornets",
+          "uri_name": "orlando-magic-vs-charlotte-hornets",
+          "poster": "https://ppv.to/assets/thumb/e4c89adc36ecb38c3b9213960a337c72-thumbnail.jpg",
+          "tag": "NBA",
+          "starts_at": "2025-10-31T02:00:00",
+          "ends_at": "2025-10-31T04:30:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://tv.futbol-x.site/embed/test"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Newcastle vs Fulham",
-          "uri_name": "newcastle-vs-fulham",
-          "poster": "https://streamed.pk/api/images/proxy/GwZg7AZpYEZgHCAjAJgCzrAThFlBWSUYAUwVmDW2nmAmD32FrWGHXbeAENgBjUgg5sSdTtw5kAJqWCEImeuFFs8rfCBIgoMbSBQhuIPppC7EOcyAsFgSCn2Gz6KMCpRc35ellkemtGBuYqIQQA.webp",
-          "tag": "EPL",
-          "starts_at": "2025-10-30T21:00:00",
-          "ends_at": "2025-10-30T23:59:00",
+          "name": "Golden State Warriors vs Milwaukee Bucks",
+          "uri_name": "golden-state-warriors-vs-milwaukee-bucks",
+          "poster": "https://ppv.to/assets/thumb/b8197ea388fe4e178370868203aefbb0-thumbnail.jpg",
+          "tag": "NBA",
+          "starts_at": "2025-10-31T03:00:00",
+          "ends_at": "2025-10-31T05:30:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://justembeds.top/embed/9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Brest vs PSG",
-          "uri_name": "brest-vs-psg",
-          "poster": "https://streamed.pk/api/images/proxy/GwZg7AZpYEZgHCAjAJgCzrAThFlBWSUYAUwVmDW2nmAmD32FrWGHXbeAENgBjUgg5sSdTtw5kAJqWCEImeuFFs8rPiCmQQcJGxDcQGkiAhHc5mAZAgCwJBT7DZ9FGBUou78vSyzPTLRg7mKiEEA.webp",
-          "tag": "Ligue 1",
-          "starts_at": "2025-10-30T21:00:00",
-          "ends_at": "2025-10-30T23:59:00",
+          "name": "Washington Wizards vs Oklahoma City Thunder",
+          "uri_name": "washington-wizards-vs-oklahoma-city-thunder",
+          "poster": "https://ppv.to/assets/thumb/986573d491a85d6c7408a60e45220136-thumbnail.jpg",
+          "tag": "NBA",
+          "starts_at": "2025-10-31T03:00:00",
+          "ends_at": "2025-10-31T05:30:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd2.php"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Napoli vs Inter",
-          "uri_name": "napoli-vs-inter",
-          "poster": "https://streamed.pk/api/images/proxy/GwZg7AZpYEZgHCAjAJgCzrAThFlBWSUYAUwVmDW2nmAmD32FrWGHXbeAENgBjUgg5sSdTtw5kAJqWCEImeuFFs8aENzC8pWnsAAMGkHxAlTIFCEQQQMW8YLAkFPsNn0UYFSi5fy9LFkfJlowLzFRCCA.webp",
-          "tag": "Serie A",
-          "starts_at": "2025-10-30T21:00:00",
-          "ends_at": "2025-10-30T23:10:00",
+          "name": "Miami Heat vs San Antonio Spurs",
+          "uri_name": "miami-heat-vs-san-antonio-spurs",
+          "poster": "https://ppv.to/assets/thumb/8eea28efc8711743786329a57ab45ead-thumbnail.jpg",
+          "tag": "NBA",
+          "starts_at": "2025-10-31T03:00:00",
+          "ends_at": "2025-10-31T05:30:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd3.php"
-            }
-          ]
-        },
-        {
-          "name": "Man United vs Brighton",
-          "uri_name": "man-united-vs-brighton",
-          "poster": "https://streamed.pk/api/images/proxy/GwZg7AZpYEZgHCAjAJgCzrAThFlBWSUYAUwVmDW2nmAmD32FrWGHXbeAENgBjUgg5sSdTtw5kAJqWCEImeuFFs8VPmBTQc3ELt18QJEDBCIcp8yBQFgSCn2Gz6WlSi5gy8IllnumtGCeYqIQQA.webp",
-          "tag": "EPL",
-          "starts_at": "2025-10-25T19:30:00",
-          "ends_at": "2025-10-25T21:40:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd4.php"
-            }
-          ]
-        },
-        {
-          "name": "Monaco vs Toulouse",
-          "uri_name": "monaco-vs-toulouse",
-          "poster": "https://streamed.pk/api/images/proxy/GwZg7AZpYEZgHCAjAJgCzrAThFlBWSUYAUwVmDW2nmAmD32FrWGHXbeAENgBjUgg5sSdTtw5kAJqWCEImeuFFs8aXG1xgkoBCG4g+IEiAiHc5mCETwCwJBT7DZ9FGBUou78vSyzPTLRg7mKiEEA.webp",
-          "tag": "Ligue 1",
-          "starts_at": "2025-09-25T20:00:00",
-          "ends_at": "2025-09-25T21:59:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd5.php"
-            }
-          ]
-        },
-        {
-          "name": "Brentford vs Liverpool",
-          "uri_name": "brentford-vs-liverpool",
-          "poster": "https://streamed.pk/api/images/proxy/GwZg7AZpYEZgHCAjAJgCzrAThFlBWSUYAUwVmDW2nmAmD32FrWGHXbeAENgBjUgg5sSdTtw5kAJqWCEImeuFFs8aEDBBR6vLGBIhuIPiAObEOc4ZAoCwJBT7DZ9FPrYou+8vSyzPTLRg7vSiEEA.webp",
-          "tag": "EPL",
-          "starts_at": "2025-10-25T22:00:00",
-          "ends_at": "2025-10-25T23:59:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd6.php"
-            }
-          ]
-        },
-        {
-          "name": "Lens vs Marseille",
-          "uri_name": "lens-vs-marseille",
-          "poster": "https://image-service.onefootball.com/transform?w=280&h=210&dpr=2&image=https%3A%2F%2Fwww.playmakerstats.com%2Fimg%2Fnoticias%2F966%2FimgS620I956966T20251023202521.png",
-          "tag": "Ligue 1",
-          "starts_at": "2025-09-25T22:05:00",
-          "ends_at": "2025-09-26T00:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd7.php"
+              "url": ""
             }
           ]
         }
@@ -130,59 +75,12 @@
     {
       "category": "Fights",
       "always_live": 0,
-      "streams": [
-        {
-          "name": "UFC 321: Aspinall vs. Gane",
-          "uri_name": "ufc-321-aspinall-vs-gane",
-          "poster": "https://streamed.pk/api/images/proxy/GwZg7AZpYEZgHCAjAJgCzrAY29lBWSUYAUwVmDTAE5p5gJhqDh61hh1OPgBDYLKQRcOJBt15cyAE1LBCETI3BiOzduyjVOsMLxD6sIaQZDUQKEDBCJrF-MCQUsIuYxRhVKHp-KNtYt4O9GCe4mIQQA.webp",
-          "tag": "UFC",
-          "starts_at": "2025-10-25T17:00:00",
-          "ends_at": "2025-10-26T00:00:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://justembeds.top/embed/7e030e5bb44b8846f2dc9aa12fddafa6"
-            }
-          ]
-        }
-      ]
+      "streams": []
     },
     {
       "category": "Motorsports",
       "always_live": 0,
-      "streams": [
-        {
-          "name": "Mexican Grand Prix - FP3",
-          "uri_name": "mexican-grand-prix-fp3",
-          "poster": "https://ppv.to/assets/thumb/cf45c8e54cc4a2cdedba5287d558280f-thumbnail.jpg",
-          "tag": "F1",
-          "starts_at": "2025-10-25T20:30:00",
-          "ends_at": "2025-10-25T23:30:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd9.php"
-            }
-          ]
-        },
-        {
-          "name": "Mexican Grand Prix - Qualifying",
-          "uri_name": "mexican-grand-prix-qualifying",
-          "poster": "https://ppv.to/assets/thumb/cf45c8e54cc4a2cdedba5287d558280f-thumbnail.jpg",
-          "tag": "F1",
-          "starts_at": "2025-10-26T00:00:00",
-          "ends_at": "2025-10-26T02:00:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd10.php"
-            }
-          ]
-        }
-      ]
+      "streams": []
     },
     {
       "category": "Others",
