@@ -106,32 +106,37 @@
       padding: 0.5rem 1.2rem;
     }
 
-    /* Roaming Discord Button */
-    @keyframes roam {
+    /* Smooth Patrolling Discord Button */
+    @keyframes patrol {
       0%   { top: 20px; left: 20px; }
-      25%  { top: 20px; right: 20px; }
-      50%  { bottom: 20px; right: 20px; }
-      75%  { bottom: 20px; left: 20px; }
+      12.5% { top: 20px; left: calc(100% - 70px); }     /* Top-right */
+      25%  { top: calc(100% - 70px); left: calc(100% - 70px); } /* Bottom-right */
+      37.5% { top: calc(100% - 70px); left: 20px; }     /* Bottom-left */
+      50%  { top: 20px; left: 20px; }                   /* Back to top-left */
+      62.5% { top: 20px; right: 20px; }
+      75%  { bottom: 20px; right: 20px; }
+      87.5% { bottom: 20px; left: 20px; }
       100% { top: 20px; left: 20px; }
     }
-    @keyframes roamGlow {
-      0%, 100% { box-shadow: 0 4px 14px rgba(0,0,0,0.5); }
-      25%, 75% { box-shadow: 0 0 20px #5865F2, 0 4px 14px rgba(88,101,242,0.3); }
+    @keyframes patrolGlow {
+      0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.5); }
+      25%, 75% { box-shadow: 0 0 16px #5865F2, 0 3px 10px rgba(88,101,242,0.3); }
     }
-    #roamingDiscord {
-      animation: roam 28s infinite ease-in-out;
+    #patrolDiscord {
+      animation: patrol 32s infinite ease-in-out;
       animation-delay: 1s;
     }
-    #roamingDiscord img {
-      animation: roamGlow 28s infinite ease-in-out;
+    #patrolDiscord img {
+      animation: patrolGlow 32s infinite ease-in-out;
       border-radius: 50%;
       display: block;
     }
-    #roamingDiscord:hover {
+    #patrolDiscord:hover {
       animation-play-state: paused;
     }
-    #roamingDiscord:hover img {
+    #patrolDiscord:hover img {
       animation-play-state: paused;
+      box-shadow: 0 0 20px #5865F2, 0 5px 15px rgba(88,101,242,0.5) !important;
     }
   </style>
 </head>
@@ -245,12 +250,12 @@
     </div>
   </div>
 
-  <!-- Roaming Discord Button -->
-  <a href="https://discord.gg/Xt3DKA38MK" target="_blank" rel="noopener" id="roamingDiscord" 
-     style="position:fixed;z-index:9999;opacity:0.92;transition:opacity .3s;cursor:pointer;"
+  <!-- Smooth Patrolling Discord Button (Smaller & Smoother) -->
+  <a href="https://discord.gg/Xt3DKA38MK" target="_blank" rel="noopener" id="patrolDiscord" 
+     style="position:fixed;z-index:9999;opacity:0.92;transition:opacity .3s;cursor:pointer;pointer-events:auto;"
      onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.92">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" 
-         alt="Join Discord" width="60" height="60">
+         alt="Join Discord" width="48" height="48">
   </a>
 
   <script src="/_vercel/insights/script.js" defer></script>
