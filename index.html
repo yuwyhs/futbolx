@@ -50,7 +50,6 @@
       gap: 1.5rem;
       padding: 1rem;
     }
-    /* Desktop mode: Ensure at least 2 columns, adapt to larger screens */
     @media (min-width: 768px) {
       .event-grid, #livecards.event-grid {
         grid-template-columns: repeat(2, minmax(280px, 1fr));
@@ -106,37 +105,38 @@
       padding: 0.5rem 1.2rem;
     }
 
-    /* Smooth Patrolling Discord Button */
-    @keyframes patrol {
-      0%   { top: 20px; left: 20px; }
-      12.5% { top: 20px; left: calc(100% - 70px); }     /* Top-right */
-      25%  { top: calc(100% - 70px); left: calc(100% - 70px); } /* Bottom-right */
-      37.5% { top: calc(100% - 70px); left: 20px; }     /* Bottom-left */
-      50%  { top: 20px; left: 20px; }                   /* Back to top-left */
-      62.5% { top: 20px; right: 20px; }
-      75%  { bottom: 20px; right: 20px; }
-      87.5% { bottom: 20px; left: 20px; }
-      100% { top: 20px; left: 20px; }
+    /* Fixed Discord Button - Bottom Right with Glow */
+    #discordBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      opacity: 0.92;
+      transition: opacity .3s, transform .2s;
+      pointer-events: auto;
+      cursor: pointer;
     }
-    @keyframes patrolGlow {
-      0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.5); }
-      25%, 75% { box-shadow: 0 0 16px #5865F2, 0 3px 10px rgba(88,101,242,0.3); }
+    #discordBtn:hover {
+      opacity: 1;
+      transform: scale(1.05);
     }
-    #patrolDiscord {
-      animation: patrol 32s infinite ease-in-out;
-      animation-delay: 1s;
-    }
-    #patrolDiscord img {
-      animation: patrolGlow 32s infinite ease-in-out;
+    #discordBtn img {
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       display: block;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+      transition: box-shadow .3s;
     }
-    #patrolDiscord:hover {
-      animation-play-state: paused;
+    #discordBtn:hover img {
+      box-shadow: 0 0 20px #5865F2, 0 5px 15px rgba(88,101,242,0.5);
     }
-    #patrolDiscord:hover img {
-      animation-play-state: paused;
-      box-shadow: 0 0 20px #5865F2, 0 5px 15px rgba(88,101,242,0.5) !important;
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.5); }
+      50% { box-shadow: 0 0 18px #5865F2, 0 3px 10px rgba(88,101,242,0.3); }
+    }
+    #discordBtn img {
+      animation: glowPulse 2.5s infinite ease-in-out;
     }
   </style>
 </head>
@@ -250,10 +250,8 @@
     </div>
   </div>
 
-  <!-- Smooth Patrolling Discord Button (Smaller & Smoother) -->
-  <a href="https://discord.gg/Xt3DKA38MK" target="_blank" rel="noopener" id="patrolDiscord" 
-     style="position:fixed;z-index:9999;opacity:0.92;transition:opacity .3s;cursor:pointer;pointer-events:auto;"
-     onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.92">
+  <!-- Fixed Discord Button - Bottom Right with Glow -->
+  <a href="https://discord.gg/Xt3DKA38MK" target="_blank" rel="noopener" id="discordBtn">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" 
          alt="Join Discord" width="48" height="48">
   </a>
