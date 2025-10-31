@@ -216,6 +216,9 @@
       </footer>
     </div>
   </div>
+  <a href="https://discord.gg/Xt3DKA38MK" target="_blank" rel="noopener" style="position:fixed;bottom:20px;right:20px;z-index:9999;opacity:0.9;transition:opacity .3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.9">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" alt="Join Discord" width="60" height="60" style="border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,0.4);">
+  </a>
   <script src="/_vercel/insights/script.js" defer></script>
   <script src="/_vercel/speed-insights/script.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
@@ -337,7 +340,7 @@
       const liveAnimation = document.getElementById('liveAnimation');
       const livecards = document.getElementById('livecards');
       
-      errorContainer.className = 'd-none error-alert';
+      errorContainer.className = 'd-none errorShuffle';
       errorContainer.innerHTML = '';
       livecards.innerHTML = '<p>Loading streams...</p>';
 
@@ -347,7 +350,7 @@
           errorContainer.className = 'alert alert-danger error-alert';
           errorContainer.innerHTML = 'Request timed out. Please try again.';
           const retryButton = document.getElementById('retryButton');
-          if (retryButton) {
+          if (retryButton)903 {
             retryButton.addEventListener('click', () => loadContent(api));
           }
         }
@@ -624,4 +627,4 @@
     });
   </script>
 </body>
-          </html>
+</html>
