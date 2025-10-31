@@ -340,7 +340,7 @@
       const liveAnimation = document.getElementById('liveAnimation');
       const livecards = document.getElementById('livecards');
       
-      errorContainer.className = 'd-none errorShuffle';
+      errorContainer.className = 'd-none error-alert';
       errorContainer.innerHTML = '';
       livecards.innerHTML = '<p>Loading streams...</p>';
 
@@ -350,7 +350,7 @@
           errorContainer.className = 'alert alert-danger error-alert';
           errorContainer.innerHTML = 'Request timed out. Please try again.';
           const retryButton = document.getElementById('retryButton');
-          if (retryButton)903 {
+          if (retryButton) {
             retryButton.addEventListener('click', () => loadContent(api));
           }
         }
@@ -610,9 +610,13 @@
         }
       }
 
-      // Auth status
+      // Auth status - wrapped in try-catch to prevent errors
       try {
-        checkAuthStatus();
+        if (typeof checkAuthStatus === 'function') {
+          checkAuthStatus();
+        } else {
+          console.warn('checkAuthStatus not defined, skipping');
+        }
       } catch (error) {
         console.warn('Auth status check failed:', error);
       }
