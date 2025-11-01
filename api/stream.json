@@ -130,8 +130,8 @@
           "uri_name": "napoli-vs-como",
           "poster": "https://ppv.to/assets/thumb/c517db1494f5d3282bd0b147f46a6316-thumbnail.jpg",
           "tag": "Serie A",
-          "starts_at": "2025-11-01T20:00:00",
-          "ends_at": "2025-11-01T21:59:00",
+          "starts_at": "2025-10-01T20:00:00",
+          "ends_at": "2025-10-01T21:59:00",
           "always_live": 0,
           "streams": [
             {
