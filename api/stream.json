@@ -10,8 +10,8 @@
           "uri_name": "psg-vs-nice",
           "poster": "https://ppv.to/assets/thumb/db15d9422057b90f436753765c1f2df9-thumbnail.jpg",
           "tag": "Ligue 1",
-          "starts_at": "2025-11-01T19:00:00",
-          "ends_at": "2025-11-01T20:59:00",
+          "starts_at": "2025-10-01T19:00:00",
+          "ends_at": "2025-10-01T20:59:00",
           "always_live": 0,
           "streams": [
             {
@@ -25,8 +25,8 @@
           "uri_name": "tottenham-vs-chelsea",
           "poster": "https://ppv.to/assets/thumb/4c1cf94ad858ae315905259fb3f1881f-thumbnail.jpg",
           "tag": "EPL",
-          "starts_at": "2025-11-01T20:30:00",
-          "ends_at": "2025-11-01T22:40:00",
+          "starts_at": "2025-10-01T20:30:00",
+          "ends_at": "2025-10-01T22:40:00",
           "always_live": 0,
           "streams": [
             {
@@ -40,8 +40,8 @@
           "uri_name": "bayern-munich-vs-leverkusen",
           "poster": "https://ppv.to/assets/thumb/6a16335dab348bfd589dd928ac119a1f-thumbnail.jpg",
           "tag": "Bundesliga",
-          "starts_at": "2025-11-01T20:30:00",
-          "ends_at": "2025-11-01T22:40:00",
+          "starts_at": "2025-10-01T20:30:00",
+          "ends_at": "2025-10-01T22:40:00",
           "always_live": 0,
           "streams": [
             {
@@ -55,8 +55,8 @@
           "uri_name": "al-nassr-vs-al-feiha",
           "poster": "https://www.thesportsdb.com/images/media/event/thumb/jmho5n1758291853.jpg",
           "tag": "Saudi Pro League",
-          "starts_at": "2025-11-01T20:30:00",
-          "ends_at": "2025-11-01T22:40:00",
+          "starts_at": "2025-10-01T20:30:00",
+          "ends_at": "2025-10-01T22:40:00",
           "always_live": 0,
           "streams": [
             {
@@ -70,8 +70,8 @@
           "uri_name": "monaco-vs-paris-fc",
           "poster": "https://ppv.to/assets/thumb/906cd9e528637356dff861596914eabe-thumbnail.jpg",
           "tag": "Ligue 1",
-          "starts_at": "2025-11-01T21:00:00",
-          "ends_at": "2025-11-01T22:59:00",
+          "starts_at": "2025-10-01T21:00:00",
+          "ends_at": "2025-10-01T22:59:00",
           "always_live": 0,
           "streams": [
             {
@@ -85,8 +85,8 @@
           "uri_name": "cremonese-vs-juventus",
           "poster": "https://ppv.to/assets/thumb/7d27b923ce1048700fd36c69a3ab3212-thumbnail.jpg",
           "tag": "Serie A",
-          "starts_at": "2025-11-01T22:45:00",
-          "ends_at": "2025-11-02T00:50:00",
+          "starts_at": "2025-10-01T22:45:00",
+          "ends_at": "2025-10-02T00:50:00",
           "always_live": 0,
           "streams": [
             {
@@ -100,8 +100,8 @@
           "uri_name": "liverpool-vs-aston-villa",
           "poster": "https://ppv.to/assets/thumb/da64b16cd0084624098a70c0070d44d9-thumbnail.jpg",
           "tag": "EPL",
-          "starts_at": "2025-11-01T23:00:00",
-          "ends_at": "2025-11-02T00:59:00",
+          "starts_at": "2025-10-01T23:00:00",
+          "ends_at": "2025-10-02T00:59:00",
           "always_live": 0,
           "streams": [
             {
@@ -115,8 +115,8 @@
           "uri_name": "real-madrid-vs-valencia",
           "poster": "https://ppv.to/assets/thumb/8905dfd747e99e4852659989e6102698-thumbnail.jpg",
           "tag": "LaLiga",
-          "starts_at": "2025-11-01T23:00:00",
-          "ends_at": "2025-11-02T00:59:00",
+          "starts_at": "2025-10-01T23:00:00",
+          "ends_at": "2025-10-02T00:59:00",
           "always_live": 0,
           "streams": [
             {
@@ -130,8 +130,8 @@
           "uri_name": "auxerre-vs-marseille",
           "poster": "https://ppv.to/assets/thumb/b3066133aedb963aebfb1e59c3d31549-thumbnail.jpg",
           "tag": "Ligue 1",
-          "starts_at": "2025-11-01T23:05:00",
-          "ends_at": "2025-11-02T01:10:00",
+          "starts_at": "2025-10-01T23:05:00",
+          "ends_at": "2025-10-02T01:10:00",
           "always_live": 0,
           "streams": [
             {
