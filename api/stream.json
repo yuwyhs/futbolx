@@ -4,69 +4,259 @@
     {
       "category": "Football",
       "always_live": 0,
-      "streams": []
-    },
-    {
-      "category": "Basketball",
-      "always_live": 0,
       "streams": [
         {
-          "name": "Orlando Magic vs Charlotte Hornets",
-          "uri_name": "orlando-magic-vs-charlotte-hornets",
-          "poster": "https://ppv.to/assets/thumb/e4c89adc36ecb38c3b9213960a337c72-thumbnail.jpg",
-          "tag": "NBA",
-          "starts_at": "2025-10-31T02:00:00",
-          "ends_at": "2025-10-31T04:30:00",
+          "name": "Goal Rush",
+          "uri_name": "goal-rush",
+          "poster": "https://ppv.to/assets/thumb/7e5a5d5d101ec513c9f8e00aea73e1ed-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2025-11-01T18:00:00",
+          "ends_at": "2025-11-01T19:59:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://tv.futbol-x.site/embed/299a04af"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/epl1/playlist.m3u8"
             }
           ]
         },
         {
-          "name": "Golden State Warriors vs Milwaukee Bucks",
-          "uri_name": "golden-state-warriors-vs-milwaukee-bucks",
-          "poster": "https://ppv.to/assets/thumb/b8197ea388fe4e178370868203aefbb0-thumbnail.jpg",
-          "tag": "NBA",
-          "starts_at": "2025-10-31T03:00:00",
-          "ends_at": "2025-10-31T05:30:00",
+          "name": "Nottingham Forest vs Man United",
+          "uri_name": "nottingham-forest-vs-man-united",
+          "poster": "https://ppv.to/assets/thumb/e780acb38a0ea7d5d2165cecef216d93-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2025-11-01T18:00:00",
+          "ends_at": "2025-11-01T19:59:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://tv.futbol-x.site/embed/6c914e8a"
+              "url": "https://v5.sportsonline.si/channels/hd/hd1.php"
             }
           ]
         },
         {
-          "name": "Washington Wizards vs Oklahoma City Thunder",
-          "uri_name": "washington-wizards-vs-oklahoma-city-thunder",
-          "poster": "https://ppv.to/assets/thumb/986573d491a85d6c7408a60e45220136-thumbnail.jpg",
-          "tag": "NBA",
-          "starts_at": "2025-10-31T03:00:00",
-          "ends_at": "2025-10-31T05:30:00",
+          "name": "Burnley vs Arsenal",
+          "uri_name": "burnley-vs-arsenal",
+          "poster": "https://ppv.to/assets/thumb/bff66acbd09c9dce5e38813e5b624159-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2025-11-01T18:00:00",
+          "ends_at": "2025-11-01T19:59:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://tv.futbol-x.site/embed/c8f7c06c"
+              "url": "https://v5.sportsonline.si/channels/hd/hd2.php"
             }
           ]
         },
         {
-          "name": "Miami Heat vs San Antonio Spurs",
-          "uri_name": "miami-heat-vs-san-antonio-spurs",
-          "poster": "https://ppv.to/assets/thumb/8eea28efc8711743786329a57ab45ead-thumbnail.jpg",
-          "tag": "NBA",
-          "starts_at": "2025-10-31T03:30:00",
-          "ends_at": "2025-10-31T06:20:00",
+          "name": "Brighton vs Leeds",
+          "uri_name": "brighton-vs-leeds",
+          "poster": "https://ppv.to/assets/thumb/53c56b619efe271d63c3522b69d56953-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2025-11-01T18:00:00",
+          "ends_at": "2025-11-01T19:59:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://tv.futbol-x.site/embed/f619d853"
+              "url": "https://v5.sportsonline.si/channels/hd/hd3.php"
+            }
+          ]
+        },
+        {
+          "name": "Fulham vs Wolves",
+          "uri_name": "fulham-vs-wolves",
+          "poster": "https://ppv.to/assets/thumb/d629fa236bed88d0109d8305824ffe4e-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2025-11-01T18:00:00",
+          "ends_at": "2025-11-01T19:59:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd4.php"
+            }
+          ]
+        },
+        {
+          "name": "Crystal Palace vs Brentford",
+          "uri_name": "crystal-palace-vs-brentford",
+          "poster": "https://ppv.to/assets/thumb/6277a9c2d054bc8b69c5766ba2a3f52a-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2025-11-01T18:00:00",
+          "ends_at": "2025-11-01T19:59:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd5.php"
+            }
+          ]
+        },
+        {
+          "name": "Atletico vs Sevilla",
+          "uri_name": "atletico-vs-sevilla",
+          "poster": "https://ppv.to/assets/thumb/4ffb6428bb0b4009c1bfae7a50029a13-thumbnail.jpg",
+          "tag": "LaLiga",
+          "starts_at": "2025-11-01T18:15:00",
+          "ends_at": "2025-11-01T20:20:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd6.php"
+            }
+          ]
+        },
+        {
+          "name": "PSG vs Nice",
+          "uri_name": "psg-vs-nice",
+          "poster": "https://ppv.to/assets/thumb/db15d9422057b90f436753765c1f2df9-thumbnail.jpg",
+          "tag": "Ligue 1",
+          "starts_at": "2025-11-01T19:00:00",
+          "ends_at": "2025-11-01T20:59:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd7.php"
+            }
+          ]
+        },
+        {
+          "name": "Napoli vs Como",
+          "uri_name": "napoli-vs-como",
+          "poster": "https://ppv.to/assets/thumb/c517db1494f5d3282bd0b147f46a6316-thumbnail.jpg",
+          "tag": "Serie A",
+          "starts_at": "2025-11-01T20:00:00",
+          "ends_at": "2025-11-01T21:59:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd8.php"
+            }
+          ]
+        },
+        {
+          "name": "Tottenham vs Chelsea",
+          "uri_name": "tottenham-vs-chelsea",
+          "poster": "https://ppv.to/assets/thumb/4c1cf94ad858ae315905259fb3f1881f-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2025-11-01T20:30:00",
+          "ends_at": "2025-11-01T22:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd9.php"
+            }
+          ]
+        },
+        {
+          "name": "Bayern Munich vs Leverkusen",
+          "uri_name": "bayern-munich-vs-leverkusen",
+          "poster": "https://ppv.to/assets/thumb/6a16335dab348bfd589dd928ac119a1f-thumbnail.jpg",
+          "tag": "Bundesliga",
+          "starts_at": "2025-11-01T20:30:00",
+          "ends_at": "2025-11-01T22:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd10.php"
+            }
+          ]
+        },
+        {
+          "name": "Al Nassr vs Al Feiha",
+          "uri_name": "al-nassr-vs-al-feiha",
+          "poster": "https://www.thesportsdb.com/images/media/event/thumb/jmho5n1758291853.jpg",
+          "tag": "Saudi Pro League",
+          "starts_at": "2025-11-01T20:30:00",
+          "ends_at": "2025-11-01T22:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd11.php"
+            }
+          ]
+        },
+        {
+          "name": "Monaco vs Paris FC",
+          "uri_name": "monaco-vs-paris-fc",
+          "poster": "https://ppv.to/assets/thumb/906cd9e528637356dff861596914eabe-thumbnail.jpg",
+          "tag": "Ligue 1",
+          "starts_at": "2025-11-01T21:00:00",
+          "ends_at": "2025-11-01T22:59:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd12.php"
+            }
+          ]
+        },
+        {
+          "name": "Cremonese vs Juventus",
+          "uri_name": "cremonese-vs-juventus",
+          "poster": "https://ppv.to/assets/thumb/7d27b923ce1048700fd36c69a3ab3212-thumbnail.jpg",
+          "tag": "Serie A",
+          "starts_at": "2025-11-01T22:45:00",
+          "ends_at": "2025-11-02T00:50:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd13.php"
+            }
+          ]
+        },
+        {
+          "name": "Liverpool vs Aston Villa",
+          "uri_name": "liverpool-vs-aston-villa",
+          "poster": "https://ppv.to/assets/thumb/da64b16cd0084624098a70c0070d44d9-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2025-11-01T23:00:00",
+          "ends_at": "2025-11-02T00:59:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd14.php"
+            }
+          ]
+        },
+        {
+          "name": "Real Madrid vs Valencia",
+          "uri_name": "real-madrid-vs-valencia",
+          "poster": "https://ppv.to/assets/thumb/8905dfd747e99e4852659989e6102698-thumbnail.jpg",
+          "tag": "LaLiga",
+          "starts_at": "2025-11-01T23:00:00",
+          "ends_at": "2025-11-02T00:59:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd15.php"
+            }
+          ]
+        },
+        {
+          "name": "Auxerre vs Marseille",
+          "uri_name": "auxerre-vs-marseille",
+          "poster": "https://ppv.to/assets/thumb/b3066133aedb963aebfb1e59c3d31549-thumbnail.jpg",
+          "tag": "Ligue 1",
+          "starts_at": "2025-11-01T23:05:00",
+          "ends_at": "2025-11-02T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd16.php"
             }
           ]
         }
@@ -79,6 +269,41 @@
     },
     {
       "category": "Motorsports",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "Basketball",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "NFL",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "Tennis",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "NHL",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "MLB",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "Rugby",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "Golf",
       "always_live": 0,
       "streams": []
     },
