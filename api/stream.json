@@ -6,111 +6,6 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Goal Rush",
-          "uri_name": "goal-rush",
-          "poster": "https://ppv.to/assets/thumb/7e5a5d5d101ec513c9f8e00aea73e1ed-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2025-11-01T18:00:00",
-          "ends_at": "2025-11-01T19:59:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://tv.futbol-x.site/embed/9390642c"
-            }
-          ]
-        },
-        {
-          "name": "Nottingham Forest vs Man United",
-          "uri_name": "nottingham-forest-vs-man-united",
-          "poster": "https://ppv.to/assets/thumb/e780acb38a0ea7d5d2165cecef216d93-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2025-11-01T18:00:00",
-          "ends_at": "2025-11-01T19:59:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://justembeds.top/embed/37896c92a15dbf0cb129dff519e2a6d9"
-            }
-          ]
-        },
-        {
-          "name": "Burnley vs Arsenal",
-          "uri_name": "burnley-vs-arsenal",
-          "poster": "https://ppv.to/assets/thumb/bff66acbd09c9dce5e38813e5b624159-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2025-11-01T18:00:00",
-          "ends_at": "2025-11-01T19:59:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://tv.futbol-x.site/embed/47b31fb4"
-            }
-          ]
-        },
-        {
-          "name": "Brighton vs Leeds",
-          "uri_name": "brighton-vs-leeds",
-          "poster": "https://ppv.to/assets/thumb/53c56b619efe271d63c3522b69d56953-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2025-11-01T18:00:00",
-          "ends_at": "2025-11-01T19:59:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://justembeds.top/embed/5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d"
-            }
-          ]
-        },
-        {
-          "name": "Fulham vs Wolves",
-          "uri_name": "fulham-vs-wolves",
-          "poster": "https://ppv.to/assets/thumb/d629fa236bed88d0109d8305824ffe4e-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2025-11-01T18:00:00",
-          "ends_at": "2025-11-01T19:59:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://tv.futbol-x.site/embed/11bedf05"
-            }
-          ]
-        },
-        {
-          "name": "Crystal Palace vs Brentford",
-          "uri_name": "crystal-palace-vs-brentford",
-          "poster": "https://ppv.to/assets/thumb/6277a9c2d054bc8b69c5766ba2a3f52a-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2025-11-01T18:00:00",
-          "ends_at": "2025-11-01T19:59:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://justembeds.top/embed/9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d"
-            }
-          ]
-        },
-        {
-          "name": "Atletico vs Sevilla",
-          "uri_name": "atletico-vs-sevilla",
-          "poster": "https://ppv.to/assets/thumb/4ffb6428bb0b4009c1bfae7a50029a13-thumbnail.jpg",
-          "tag": "LaLiga",
-          "starts_at": "2025-10-01T18:15:00",
-          "ends_at": "2025-10-01T20:20:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://tv.futbol-x.site/embed/c9d4fc46"
-            }
-          ]
-        },
-        {
           "name": "PSG vs Nice",
           "uri_name": "psg-vs-nice",
           "poster": "https://ppv.to/assets/thumb/db15d9422057b90f436753765c1f2df9-thumbnail.jpg",
@@ -122,21 +17,6 @@
             {
               "title": "Main Feed",
               "url": "https://tv.futbol-x.site/embed/9ca261da"
-            }
-          ]
-        },
-        {
-          "name": "Napoli vs Como",
-          "uri_name": "napoli-vs-como",
-          "poster": "https://ppv.to/assets/thumb/c517db1494f5d3282bd0b147f46a6316-thumbnail.jpg",
-          "tag": "Serie A",
-          "starts_at": "2025-10-01T20:00:00",
-          "ends_at": "2025-10-01T21:59:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd8.php"
             }
           ]
         },
