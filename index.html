@@ -515,7 +515,7 @@
           Object.keys(categories).forEach(key => {
             if (categoryEvents[key].length > 0) {
               categoryEvents[key].sort((a, b) => a.startTime - b.startTime);
-              categories[key].element.innerHTML = categoryEvents[key].slice(0, 4).map(item => item.html).join('');
+              categories[key].element.innerHTML = categoryEvents[key].map(item => item.html).join('');
               document.getElementById(categories[key].id).classList.remove('d-none');
             }
           });
@@ -530,6 +530,7 @@
           clearError();
           const cards = document.querySelectorAll('.card');
           const observer = new IntersectionObserver((entries) => {
+ Yarn
             entries.forEach(entry => {
               if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
