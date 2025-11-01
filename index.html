@@ -50,19 +50,22 @@
       gap: 1.5rem;
       padding: 1rem;
     }
+
     @media (min-width: 768px) {
       .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(2, minmax(280px, 1fr));
+        grid-template-columns: repeat(3, minmax(280px, 1fr)); /* 3 columns for desktop mode */
       }
     }
+
     @media (min-width: 1200px) {
       .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(3, minmax(280px, 1fr));
+        grid-template-columns: repeat(4, minmax(280px, 1fr)); /* 4 columns for larger screens */
       }
     }
+
     @media (min-width: 1800px) {
       .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(4, minmax(280px, 1fr));
+        grid-template-columns: repeat(5, minmax(280px, 1fr)); /* 5+ columns for extra-large screens */
       }
     }
     .event-grid a {
