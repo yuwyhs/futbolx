@@ -14,8 +14,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V余cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvW MmZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=25">
   <style>
     .error-alert { max-width: 500px; margin: 20px auto; }
@@ -141,9 +141,49 @@
     #discordBtn img {
       animation: glowPulse 2.5s infinite ease-in-out;
     }
+    /* Overlay Styles */
+    .site-down-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+      backdrop-filter: blur(8px); /* Blur effect for the background */
+      -webkit-backdrop-filter: blur(8px); /* Safari support */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000; /* High z-index to ensure it’s on top */
+      pointer-events: all; /* Blocks interaction with underlying content */
+    }
+    .site-down-text {
+      color: #fff;
+      font-size: 2.5rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.8); /* Slightly darker background for text readability */
+      border-radius: 10px;
+      font-family: 'Kanit', sans-serif; /* Match the site's font */
+      animation: blink 1.5s infinite; /* Blinking animation */
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    @media (max-width: 768px) {
+      .site-down-text {
+        font-size: 1.8rem; /* Smaller font size for mobile */
+        padding: 15px;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="site-down-overlay">
+    <div class="site-down-text">Site Down - We Will Be Back Soon</div>
+  </div>
   <!-- Top Bar -->
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
