@@ -16,7 +16,11 @@
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script defer src="https://cdn.jsdelivr.net/npm/@clappr/player@0.11.14/dist/clappr.min.js"></script>
+  <!-- Replaced Clappr with exact ihatestreams version + required plugins -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@clappr/player@0.11.3/dist/clappr.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@clappr/hls-playback@latest/dist/hls-playback.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@clappr/level-selector-plugin@latest/dist/level-selector.min.js"></script>
+  <script defer src="https://ihatstreams.xyz/js/2-engine.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/shaka-player.compiled.min.js"></script>
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
@@ -467,6 +471,7 @@
           if (videoPlayerInstance) {
             videoPlayerInstance.destroy();
           }
+          // Exact ihatestreams Clappr setup with PiP, quality, engine
           videoPlayerInstance = new Clappr.Player({
             source: streamUrl,
             parentId: '#videoPlayer',
@@ -474,33 +479,27 @@
             height: '100%',
             autoPlay: true,
             mute: false,
-            playback: {
-              name: 'hlsjs_playback',
-              hlsjsConfig: {
-                enableWorker: false,
-                lowLatencyMode: false,
-                backBufferLength: 90,
-                autoLevelCapping: -1
-              }
+            live: true,
+            plugins: {
+              playback: [Clappr.HTML5Video, Clappr.HLSJSPlayback],
+              container: [Clappr.LevelSelector]
             },
             events: {
-              onReady: () => {
-                console.log('Clappr ready for HLS');
+              onReady: function() {
+                console.log('Clappr ready (ihatestreams style)');
                 clearError();
                 videoPlayerInstance.play();
                 videoPlayerInstance.setMuted(false);
-                console.log('Clappr unmuted');
-                if (document.pictureInPictureEnabled) {
-                  const video = clapprPlayerEl.querySelector('video');
-                  if (video) {
-                    video.addEventListener('click', () => {
-                      if (video.requestPictureInPicture) {
-                        video.requestPictureInPicture().catch(err => {
-                          console.error('PiP failed:', err);
-                        });
-                      }
-                    });
-                  }
+                // PiP via click
+                const video = clapprPlayerEl.querySelector('video');
+                if (video && document.pictureInPictureEnabled) {
+                  video.addEventListener('click', () => {
+                    video.requestPictureInPicture?.().catch(err => console.error('PiP failed:', err));
+                  });
+                }
+                // Hook into ihatestreams engine if available
+                if (typeof IhatEngine !== 'undefined') {
+                  IhatEngine.init(videoPlayerInstance, { embedId: '5e18fba0-8304-11f0-b385-bc2411b21e0d' });
                 }
               },
               onError: (error) => {
@@ -688,33 +687,25 @@
                   height: '100%',
                   autoPlay: true,
                   mute: false,
-                  playback: {
-                    name: 'hlsjs_playback',
-                    hlsjsConfig: {
-                      enableWorker: false,
-                      lowLatencyMode: false,
-                      backBufferLength: 90,
-                      autoLevelCapping: -1
-                    }
+                  live: true,
+                  plugins: {
+                    playback: [Clappr.HTML5Video, Clappr.HLSJSPlayback],
+                    container: [Clappr.LevelSelector]
                   },
                   events: {
-                    onReady: () => {
-                      console.log('Clappr ready for HLS (switch)');
+                    onReady: function() {
+                      console.log('Clappr ready (switch)');
                       clearError();
                       videoPlayerInstance.play();
                       videoPlayerInstance.setMuted(false);
-                      console.log('Clappr unmuted (switch)');
-                      if (document.pictureInPictureEnabled) {
-                        const video = clapprPlayerEl.querySelector('video');
-                        if (video) {
-                          video.addEventListener('click', () => {
-                            if (video.requestPictureInPicture) {
-                              video.requestPictureInPicture().catch(err => {
-                                console.error('PiP failed:', err);
-                              });
-                            }
-                          });
-                        }
+                      const video = clapprPlayerEl.querySelector('video');
+                      if (video && document.pictureInPictureEnabled) {
+                        video.addEventListener('click', () => {
+                          video.requestPictureInPicture?.().catch(err => console.error('PiP failed:', err));
+                        });
+                      }
+                      if (typeof IhatEngine !== 'undefined') {
+                        IhatEngine.init(videoPlayerInstance, { embedId: '5e18fba0-8304-11f0-b385-bc2411b21e0d' });
                       }
                     },
                     onError: (error) => {
