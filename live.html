@@ -250,7 +250,7 @@
           </div>
           <h2 id="eventTitle" class="mb-3"></h2>
           <div class="video-container">
-            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;" allow="autoplay; fullscreen"></iframe>
             <div id="videoPlayerContainer" class="d-none">
               <div id="videoPlayer" class="clappr-video-player"></div>
               <div id="shakaPlayer" class="shaka-video-player d-none"></div>
@@ -517,7 +517,7 @@
           shakaPlayerEl.classList.remove('d-none');
           if (typeof shaka === 'undefined') {
             console.error('Shaka Player not loaded');
-            throw new Error('Shaka Player library not loaded');
+            throw new Error('  Error('Shaka Player library not loaded');
           }
           if (videoPlayerInstance) {
             videoPlayerInstance.destroy();
@@ -1095,4 +1095,4 @@
     });
   </script>
 </body>
-  </html>
+</html>
