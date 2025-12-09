@@ -16,7 +16,7 @@
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="/assets/css/main.css?v=25">
+  <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
     .error-alert { max-width: 500px; margin: 20px auto; }
     .card { 
@@ -43,34 +43,29 @@
       50% { transform: scale(1.1); opacity: 0.7; }
       100% { transform: scale(1); opacity: 1; }
     }
-    /* Responsive masonry layout for all screen sizes */
+    /* Responsive grid layout for all screen sizes */
     .event-grid, #livecards.event-grid {
-      columns: 5; /* Default 5 columns for extra-large */
-      column-gap: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
       padding: 1rem;
     }
 
-    @media (max-width: 1800px) {
+    @media (min-width: 768px) {
       .event-grid, #livecards.event-grid {
-        columns: 4; /* 4 for large */
+        grid-template-columns: repeat(3, minmax(280px, 1fr)); /* 3 columns for desktop mode */
       }
     }
 
-    @media (max-width: 1200px) {
+    @media (min-width: 1200px) {
       .event-grid, #livecards.event-grid {
-        columns: 3; /* 3 for medium */
+        grid-template-columns: repeat(4, minmax(280px, 1fr)); /* 4 columns for larger screens */
       }
     }
 
-    @media (max-width: 768px) {
+    @media (min-width: 1800px) {
       .event-grid, #livecards.event-grid {
-        columns: 2; /* 2 for small */
-      }
-    }
-
-    @media (max-width: 576px) {
-      .event-grid, #livecards.event-grid {
-        columns: 1; /* 1 for extra-small */
+        grid-template-columns: repeat(5, minmax(280px, 1fr)); /* 5+ columns for extra-large screens */
       }
     }
     .event-grid a {
@@ -84,8 +79,6 @@
       border-radius: 10px;
       overflow: hidden;
       border: 2px solid transparent;
-      break-inside: avoid;
-      margin-bottom: 1.5rem;
     }
     .card:hover {
       transform: translateY(-8px);
@@ -716,4 +709,4 @@
     });
   </script>
 </body>
-          </html>
+    </html>
