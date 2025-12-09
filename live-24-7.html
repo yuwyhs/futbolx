@@ -478,6 +478,21 @@
         errorContainer.className = 'alert alert-danger error-alert mt-3';
         errorContainer.innerText = 'An error occurred while initializing the page: ' + error.message + '. Please try again.';
       }
+
+      // Start stream only on button click
+      const startBtn = document.getElementById('startLivestream');
+      if (startBtn) {
+        startBtn.disabled = false;
+        startBtn.textContent = 'Start Stream';
+        startBtn.onclick = () => {
+          if (streamData && !streamStarted) {
+            streamStarted = true;
+            startBtn.disabled = true;
+            startBtn.textContent = 'Live';
+            initPlayer(streamData, currentStreamIndex, errorContainer);
+          }
+        };
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -519,4 +534,4 @@
     window.addEventListener("load", () => createSnow(30));
   </script>
 </body>
-</html>
+    </html>
