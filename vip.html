@@ -8,49 +8,18 @@
   <meta name="keywords" content="futbolx, vip, premium streaming, ppv, boxing, ufc, basketball, football, stream, online">
   <meta property="og:title" content="FutbolX - VIP Membership" />
   <meta property="og:url" content="https://your-futbolx-site.vercel.app/vip" />
-  <meta property="og:image" content="/assets/css/main.css?v=26">
-  <style>
-    .coming-soon-overlay {
-      position: fixed;
-      top: 60px;
-      left: 0;
-      width: 100%;
-      height: calc(100% - 60px);
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(8px);
-      z-index: 1150;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .coming-soon-text {
-      font-family: 'Kanit', sans-serif;
-      font-size: 3.5rem;
-      font-weight: 700;
-      color: #ff4d4d;
-      text-shadow: 0 0 10px rgba(255, 77, 77, 0.8), 0 0 20px rgba(255, 77, 77, 0.6);
-      animation: pulse-text 2s ease-in-out infinite;
-      text-align: center;
-    }
-    [data-bs-theme="light"] .coming-soon-text {
-      color: #e63939;
-      text-shadow: 0 0 10px rgba(230, 57, 57, 0.8), 0 0 20px rgba(230, 57, 57, 0.6);
-    }
-    @keyframes pulse-text {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.8; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .top-bar { z-index: 1200; }
-    .offcanvas { z-index: 1300; }
-    @media (max-width: 768px) { .coming-soon-text { font-size: 2.5rem; } }
-    @media (max-width: 576px) { .coming-soon-text { font-size: 2rem; } }
-  </style>
+  <meta property="og:image" content="/assets/img/og-image.jpg">
+  <meta name="twitter:title" content="FutbolX - VIP Membership">
+  <meta name="twitter:description" content="Unlock premium sports streaming with FutbolX VIP membership.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/assets/css/main.css?v=26">
 </head>
 <body>
-  <div class="coming-soon-overlay">
-    <div class="coming-soon-text">Coming Soon</div>
-  </div>
+  <!-- Top Bar -->
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
       <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
@@ -59,6 +28,7 @@
       <span class="futbolx-brand">FutbolX</span>
     </div>
   </nav>
+  <!-- Left Sidebar -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -81,6 +51,8 @@
       </ul>
     </div>
   </div>
+
+  <!-- Main Content -->
   <div class="container-fluid main-content">
     <div class="container">
       <section class="hero-section py-5">
@@ -227,7 +199,7 @@
       initPage();
     });
   </script>
-  <!-- Snow Script -->
+  <!-- Snow Script – Fixed to use real snowflakes -->
   <script>
     const snowContainer = document.getElementById("snow-container");
     const snowContent = ["snowflake", "snowflake", "snowflake"];
@@ -248,12 +220,12 @@
     };
 
     const createSnow = (num) => {
-      for (var i = num; i > 0; i--) {
-        var snow = document.createElement("div");
+      for (let i = num; i > 0; i--) {
+        const snow = document.createElement("div");
         snow.className = "snow";
         snow.style.cssText = getRandomStyles();
         snow.innerHTML = snowContent[random(3)];
-        snowContainer.append(snow);
+        snowContainer.appendChild(snow);
       }
     };
 
