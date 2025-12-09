@@ -43,29 +43,34 @@
       50% { transform: scale(1.1); opacity: 0.7; }
       100% { transform: scale(1); opacity: 1; }
     }
-    /* Responsive grid layout for all screen sizes */
+    /* Responsive masonry layout for all screen sizes */
     .event-grid, #livecards.event-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
+      columns: 5; /* Default 5 columns for extra-large */
+      column-gap: 1.5rem;
       padding: 1rem;
     }
 
-    @media (min-width: 768px) {
+    @media (max-width: 1800px) {
       .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(3, minmax(280px, 1fr)); /* 3 columns for desktop mode */
+        columns: 4; /* 4 for large */
       }
     }
 
-    @media (min-width: 1200px) {
+    @media (max-width: 1200px) {
       .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(4, minmax(280px, 1fr)); /* 4 columns for larger screens */
+        columns: 3; /* 3 for medium */
       }
     }
 
-    @media (min-width: 1800px) {
+    @media (max-width: 768px) {
       .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(5, minmax(280px, 1fr)); /* 5+ columns for extra-large screens */
+        columns: 2; /* 2 for small */
+      }
+    }
+
+    @media (max-width: 576px) {
+      .event-grid, #livecards.event-grid {
+        columns: 1; /* 1 for extra-small */
       }
     }
     .event-grid a {
@@ -79,6 +84,8 @@
       border-radius: 10px;
       overflow: hidden;
       border: 2px solid transparent;
+      break-inside: avoid;
+      margin-bottom: 1.5rem;
     }
     .card:hover {
       transform: translateY(-8px);
@@ -258,6 +265,9 @@
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" 
          alt="Join Discord" width="48" height="48">
   </a>
+
+  <!-- Snow Container -->
+  <div id="snow-container"></div>
 
   <script src="/_vercel/insights/script.js" defer></script>
   <script src="/_vercel/speed-insights/script.js" defer></script>
@@ -671,5 +681,39 @@
       initPage();
     });
   </script>
+  <!-- Snow Script -->
+  <script>
+    const snowContainer = document.getElementById("snow-container");
+    const snowContent = ["&#10052;", "&#10053;", "&#10054;"];
+
+    const random = (num) => Math.floor(Math.random() * num);
+
+    const getRandomStyles = () => {
+      const top = random(100);
+      const left = random(100);
+      const dur = random(10) + 10;
+      const size = random(25) + 25;
+      return `
+        top: -${top}%;
+        left: ${left}%;
+        font-size: ${size}px;
+        animation-duration: ${dur}s;
+      `;
+    };
+
+    const createSnow = (num) => {
+      for (var i = num; i > 0; i--) {
+        var snow = document.createElement("div");
+        snow.className = "snow";
+        snow.style.cssText = getRandomStyles();
+        snow.innerHTML = snowContent[random(3)];
+        snowContainer.append(snow);
+      }
+    };
+
+    window.addEventListener("load", () => {
+      createSnow(30);
+    });
+  </script>
 </body>
-</html>
+          </html>
