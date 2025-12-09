@@ -43,18 +43,34 @@
       50% { transform: scale(1.1); opacity: 0.7; }
       100% { transform: scale(1); opacity: 1; }
     }
-    /* Responsive masonry layout */
+    /* Responsive grid layout for all screen sizes */
     .event-grid, #livecards.event-grid {
-      columns: 5;
-      column-gap: 1.5rem;
-      padding: 0 10px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 1rem;
     }
-    @media (max-width: 1800px) { .event-grid, #livecards.event-grid { columns: 4; } }
-    @media (max-width: 1200px) { .event-grid, #livecards.event-grid { columns: 3; } }
-    @media (max-width: 768px) { .event-grid, #livecards.event-grid { columns: 2; } }
-    @media (max-width: 576px) { .event-grid, #livecards.event-grid { columns: 1; } }
 
-    .event-grid a { text-decoration: none; }
+    @media (min-width: 768px) {
+      .event-grid, #livecards.event-grid {
+        grid-template-columns: repeat(3, minmax(280px, 1fr));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .event-grid, #livecards.event-grid {
+        grid-template-columns: repeat(4, minmax(280px, 1fr));
+      }
+    }
+
+    @media (min-width: 1800px) {
+      .event-grid, #livecards.event-grid {
+        grid-template-columns: repeat(5, minmax(280px, 1fr));
+      }
+    }
+    .event-grid a {
+      text-decoration: none;
+    }
     .card {
       width: 100%;
       max-width: 400px;
@@ -63,8 +79,6 @@
       border-radius: 10px;
       overflow: hidden;
       border: 2px solid transparent;
-      break-inside: avoid;
-      margin-bottom: 1.5rem;
     }
     .card:hover {
       transform: translateY(-8px);
@@ -75,14 +89,37 @@
       border-color: #e63939;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
-    .card-img-top { height: 220px; object-fit: cover; }
-    .card-body { padding: 1rem; }
-    .card-title { font-size: 1.3rem; margin-bottom: 0.5rem; }
-    .event-tag { font-size: 0.95rem; }
-    .watch-button { font-size: 0.95rem; padding: 0.5rem 1.2rem; }
-    .category-dropdown { display: flex; justify-content: center; margin: 1rem 0; }
-    .category-dropdown .dropdown-menu { background-color: var(--bs-body-bg); border: 1px solid var(--bs-border-color); }
-    .category-dropdown .dropdown-item:hover { background-color: var(--bs-primary); color: var(--bs-white); }
+    .card-img-top {
+      height: 220px;
+      object-fit: cover;
+    }
+    .card-body {
+      padding: 1rem;
+    }
+    .card-title {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .event-tag {
+      font-size: 0.95rem;
+    }
+    .watch-button {
+      font-size: 0.95rem;
+      padding: 0.5rem 1.2rem;
+    }
+    .category-dropdown {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+    .category-dropdown .dropdown-menu {
+      background-color: var(--bs-body-bg);
+      border: 1px solid var(--bs-border-color);
+    }
+    .category-dropdown .dropdown-item:hover {
+      background-color: var(--bs-primary);
+      color: var(--bs-white);
+    }
   </style>
 </head>
 <body>
@@ -476,7 +513,7 @@
   <!-- Snow Script -->
   <script>
     const snowContainer = document.getElementById("snow-container");
-    const snowContent = ["snowflake", "snowflake", "snowflake"];
+    const snowContent = ["&#10052;", "&#10053;", "&#10054;"];
 
     const random = (num) => Math.floor(Math.random() * num);
 
@@ -508,4 +545,4 @@
     });
   </script>
 </body>
-  </html>
+</html>
