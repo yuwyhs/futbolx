@@ -189,7 +189,7 @@
       position: relative;
       width: 100%;
       height: 0;
-      padding-bottom: 56.25%;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
     }
     .video-container #videoPlayerContainer {
       position: absolute;
@@ -260,7 +260,7 @@
           </div>
           <div class="d-flex align-items-center mb-3">
             <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
-            <button id="startLivestream" class="btn btn-danger ms-3" disabled>Loading...</button>
+            <button id="startLivestream" class="btn btn-danger ms-3">Start Stream</button>
             <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
           </div>
           <h2 id="eventTitle" class="mb-3"></h2>
@@ -275,6 +275,7 @@
           <div id="eventTimer" class="event-timer d-none"></div>
           <div class="chat-container">
             <div id="chatLoading" class="text-center p-3">Loading chat...</div>
+            <iframe src="" style="display:none;"></iframe>
           </div>
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
         </div>
@@ -303,15 +304,14 @@
     let videoPlayerInstance = null;
     let shakaPlayerInstance = null;
     let streamData = null;
+    let streamStarted = false;
 
-    // Block popups
     const originalOpen = window.open;
     window.open = function(url) {
       console.log('Blocked popup attempt to:', url);
       return null;
     };
 
-    // Clear error
     function clearError() {
       const errorContainer = document.getElementById('errorContainer');
       if (errorContainer && !errorContainer.classList.contains('d-none')) {
@@ -323,7 +323,6 @@
       }
     }
 
-    // Tip countdown
     function startTipCountdown() {
       const tipContainer = document.querySelector('.tip-container');
       const tipAlert = document.querySelector('.alert-info');
@@ -345,7 +344,6 @@
       }, 1000);
     }
 
-    // Offcanvas + Theme
     function initOffcanvas() {
       const offcanvasElement = document.getElementById('sidebarMenu');
       const toggler = document.getElementById('sidebarToggler');
@@ -375,7 +373,33 @@
       });
     }
 
-    // Stream type detection
+    function zeropad(num) {
+      return num > 9 ? num : '0' + num;
+    }
+
+    function updateTimer(streamEvent) {
+      const eventTimer = document.getElementById('eventTimer');
+      if (!eventTimer) return;
+      const now = Math.floor(Date.now() / 1000);
+      let startTime;
+      try {
+        startTime = new Date(streamEvent.starts_at + '+03:00').getTime() / 1000;
+        if (isNaN(startTime)) startTime = now;
+      } catch (e) {
+        startTime = now;
+      }
+      if (now < startTime) {
+        eventTimer.innerHTML = `<span>${streamEvent.name}</span> | <span>Starting soon</span>`;
+      } else {
+        const elapsed = now - startTime;
+        const hours = Math.floor(elapsed / 3600);
+        const mins = Math.floor((elapsed % 3600) / 60);
+        const secs = elapsed % 60;
+        const formatted = `${zeropad(hours)}:${zeropad(mins)}:${zeropad(secs)}`;
+        eventTimer.innerHTML = `<span>${streamEvent.name}</span> | <span>${formatted}</span>`;
+      }
+    }
+
     async function detectStreamType(url) {
       if (url.includes('.m3u8')) return 'm3u8';
       if (url.includes('.mpd')) return 'mpd';
@@ -391,7 +415,6 @@
       }
     }
 
-    // Player init
     async function initPlayer(eventData, errorContainer, streamLinks) {
       clearError();
       embedPlayer = document.getElementById('embedPlayer');
@@ -402,44 +425,72 @@
       const url = typeof firstStream === 'string' ? firstStream : firstStream.url;
       const type = await detectStreamType(url);
 
-      if (type === 'm3u8') {
-        embedPlayer.style.display = 'none';
-        shakaEl.classList.add('d-none');
-        videoContainer.classList.remove('d-none');
-        clapprEl.classList.remove('d-none');
-        if (videoPlayerInstance) videoPlayerInstance.destroy();
-        videoPlayerInstance = new Clappr.Player({
-          source: url,
-          parentId: '#videoPlayer',
-          width: '100%',
-          height: '100%',
-          autoPlay: true,
-          mute: false,
-          playback: { name: 'hlsjs_playback', hlsjsConfig: { enableWorker: false } },
-          events: { onReady: () => { clearError(); videoPlayerInstance.play(); } }
-        });
-      } else if (type === 'mpd') {
-        embedPlayer.style.display = 'none';
-        clapprEl.classList.add('d-none');
-        videoContainer.classList.remove('d-none');
-        shakaEl.classList.remove('d-none');
-        if (videoPlayerInstance) videoPlayerInstance.destroy();
-        if (shakaPlayerInstance) shakaPlayerInstance.destroy();
-        shaka.polyfill.installAll();
-        const video = document.createElement('video');
-        video.id = 'shakaVideo';
-        video.controls = true;
-        shakaEl.innerHTML = '';
-        shakaEl.appendChild(video);
-        shakaPlayerInstance = new shaka.Player(video);
-        shakaPlayerInstance.load(url);
-      } else {
-        videoContainer.classList.add('d-none');
-        embedPlayer.style.display = 'block';
-        const u = new URL(url);
-        u.searchParams.append('autoplay', '1');
-        embedPlayer.src = u.toString();
-      }
+      // Reset player
+      embedPlayer.style.display = 'none';
+      videoContainer.classList.add('d-none');
+      clapprEl.classList.add('d-none');
+      shakaEl.classList.add('d-none');
+      if (videoPlayerInstance) { videoPlayerInstance.destroy(); videoPlayerInstance = null; }
+      if (shakaPlayerInstance) { shakaPlayerInstance.destroy(); shakaPlayerInstance = null; }
+
+      // Wait for user to click "Start Stream"
+      const startBtn = document.getElementById('startLivestream');
+      startBtn.disabled = false;
+      startBtn.textContent = 'Start Stream';
+      startBtn.onclick = async () => {
+        if (streamStarted) return;
+        streamStarted = true;
+        startBtn.disabled = true;
+        startBtn.textContent = 'Live';
+
+        if (type === 'm3u8') {
+          embedPlayer.style.display = 'none';
+          videoContainer.classList.remove('d-none');
+          clapprEl.classList.remove('d-none');
+          videoPlayerInstance = new Clappr.Player({
+            source: url,
+            parentId: '#videoPlayer',
+            width: '100%',
+            height: '100%',
+            autoPlay: true,
+            mute: false,
+            playback: { name: 'hlsjs_playback', hlsjsConfig: { enableWorker: false } },
+            events: { onReady: () => clearError() }
+          });
+        } else if (type === 'mpd') {
+          embedPlayer.style.display = 'none';
+          videoContainer.classList.remove('d-none');
+          shakaEl.classList.remove('d-none');
+          shaka.polyfill.installAll();
+          const video = document.createElement('video');
+          video.id = 'shakaVideo';
+          video.controls = true;
+          shakaEl.innerHTML = '';
+          shakaEl.appendChild(video);
+          shakaPlayerInstance = new shaka.Player(video);
+          shakaPlayerInstance.load(url);
+        } else {
+          videoContainer.classList.add('d-none');
+          embedPlayer.style.display = 'block';
+          const u = new URL(url);
+          u.searchParams.append('autoplay', '1');
+          embedPlayer.src = u.toString();
+        }
+
+        // Fullscreen
+        const fsBtn = document.getElementById('fullscreenBtn');
+        fsBtn.classList.remove('d-none');
+        fsBtn.onclick = () => {
+          const el = type === 'm3u8' ? clapprEl : type === 'mpd' ? shakaEl : embedPlayer;
+          (el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen).call(el);
+        };
+
+        // Timer
+        const timer = document.getElementById('eventTimer');
+        timer.classList.remove('d-none');
+        updateTimer(eventData);
+        setInterval(() => updateTimer(eventData), 1000);
+      };
 
       // Stream buttons
       streamLinks.innerHTML = eventData.streams.map((s, i) => {
@@ -450,11 +501,12 @@
 
       streamLinks.addEventListener('click', async e => {
         const btn = e.target.closest('.btn');
-        if (!btn) return;
+        if (!btn || !streamStarted) return;
         const u = btn.dataset.url;
         const t = btn.dataset.type;
         streamLinks.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
+
         if (t === 'm3u8') {
           if (videoPlayerInstance) videoPlayerInstance.destroy();
           videoPlayerInstance = new Clappr.Player({ source: u, parentId: '#videoPlayer', autoPlay: true });
@@ -469,36 +521,8 @@
           embedPlayer.src = url.toString();
         }
       });
-
-      // Fullscreen
-      const fsBtn = document.getElementById('fullscreenBtn');
-      fsBtn.classList.remove('d-none');
-      fsBtn.onclick = () => {
-        const el = type === 'm3u8' ? clapprEl : type === 'mpd' ? shakaEl : embedPlayer;
-        (el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen).call(el);
-      };
-
-      // Timer
-      const timer = document.getElementById('eventTimer');
-      timer.classList.remove('d-none');
-      const start = new Date(eventData.starts_at + '+03:00').getTime() / 1000;
-      const update = () => {
-        const now = Date.now() / 1000;
-        if (now < start) {
-          timer.innerHTML = `<span>${eventData.name}</span> | <span>Starting soon</span>`;
-        } else {
-          const elapsed = now - start;
-          const h = Math.floor(elapsed / 3600).toString().padStart(2, '0');
-          const m = Math.floor((elapsed % 3600) / 60).toString().padStart(2, '0');
-          const s = Math.floor(elapsed % 60).toString().padStart(2, '0');
-          timer.innerHTML = `<span>${eventData.name}</span> | <span>${h}:${m}:${s}</span>`;
-        }
-      };
-      update();
-      setInterval(update, 1000);
     }
 
-    // Load event
     function loadEvent() {
       const uri = window.location.pathname.split('/').pop();
       fetch('/api/stream')
@@ -512,8 +536,6 @@
           document.getElementById('eventTitle').textContent = event.name;
           streamData = event;
           initPlayer(event, document.getElementById('errorContainer'), document.getElementById('streamLinks'));
-          document.getElementById('startLivestream').disabled = true;
-          document.getElementById('startLivestream').textContent = 'Live';
         })
         .catch(err => {
           document.getElementById('errorContainer').className = 'alert alert-danger error-alert mt-3';
@@ -521,15 +543,13 @@
         });
     }
 
-    // Load chat
     function loadChat() {
-      const chatFrame = document.createElement('iframe');
+      const chatFrame = document.querySelector('.chat-container iframe');
       chatFrame.src = 'https://www.twitch.tv/embed/futbolx/chat?parent=futbol-x.site';
-      chatFrame.onload = () => document.getElementById('chatLoading').style.display = 'none';
-      document.querySelector('.chat-container').appendChild(chatFrame);
+      chatFrame.style.display = 'block';
+      document.getElementById('chatLoading').style.display = 'none';
     }
 
-    // Init
     document.addEventListener('DOMContentLoaded', () => {
       initThemeToggle();
       initOffcanvas();
@@ -538,7 +558,7 @@
       loadChat();
     });
   </script>
-  <!-- Snow Script – Real Icons -->
+  <!-- Snow Script – Real Snowflakes -->
   <script>
     const snowContainer = document.getElementById("snow-container");
     const snowContent = ["snowflake", "snowflake", "snowflake"];
@@ -566,4 +586,4 @@
     window.addEventListener("load", () => createSnow(30));
   </script>
 </body>
-  </html>
+</html>
