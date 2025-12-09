@@ -18,74 +18,21 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
-    .tip-container {
-      max-width: 600px;
-      margin: 20px auto;
-      transition: height 0.3s ease-out;
-      overflow: hidden;
-    }
-    .alert-info {
-      text-align: center;
-      position: relative;
-      padding-right: 50px;
-    }
-    #countdownTimer {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      font-weight: bold;
-      color: #ff4d4d;
-    }
-    [data-bs-theme="light"] #countdownTimer {
-      color: #e63939;
-    }
-    .error-alert {
-      max-width: 500px;
-      margin: 20px auto;
-    }
-    .fade-out {
-      animation: fadeOut 0.5s ease-out forwards;
-    }
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; }
-    }
-    .btn-fullscreen {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: #ff4d4d;
-      color: #fff;
-      border: none;
-      border-radius: 20px;
-      margin-left: 10px;
-      transition: transform 0.3s, background 0.3s;
-    }
-    [data-bs-theme="light"] .btn-fullscreen {
-      background: #e63939;
-      color: #333;
-    }
-    .btn-fullscreen:hover {
-      transform: scale(1.05);
-      background: #e63939;
-    }
-    [data-bs-theme="light"] .btn-fullscreen:hover {
-      background: #cc3333;
-    }
-    .offcanvas {
-      z-index: 1055 !important;
-    }
-    .offcanvas-backdrop {
-      z-index: 1050 !important;
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-    .offcanvas .nav-link, .offcanvas .btn-link, .offcanvas button {
-      cursor: pointer !important;
-    }
-    .offcanvas .nav-item {
-      position: relative;
-    }
+    .tip-container { max-width: 600px; margin: 20px auto; transition: height 0.3s ease-out; overflow: hidden; }
+    .alert-info { text-align: center; position: relative; padding-right: 50px; }
+    #countdownTimer { position: absolute; top: 8px; right: 10px; font-weight: bold; color: #ff4d4d; }
+    [data-bs-theme="light"] #countdownTimer { color: #e63939; }
+    .error-alert { max-width: 500px; margin: 20px auto; }
+    .fade-out { animation: fadeOut 0.5s ease-out forwards; }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    .btn-fullscreen { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: #ff4d4d; color: #fff; border: none; border-radius: 20px; margin-left: 10px; transition: transform 0.3s, background 0.3s; }
+    [data-bs-theme="light"] .btn-fullscreen { background: #e63939; color: #333; }
+    .btn-fullscreen:hover { transform: scale(1.05); background: #e63939; }
+    [data-bs-theme="light"] .btn-fullscreen:hover { background: #cc3333; }
+    .offcanvas { z-index: 1055 !important; }
+    .offcanvas-backdrop { z-index: 1050 !important; background-color: rgba(0, 0, 0, 0.5); }
+    .offcanvas .nav-link, .offcanvas .btn-link, .offcanvas button { cursor: pointer !important; }
+    .offcanvas .nav-item { position: relative; }
   </style>
 </head>
 <body>
@@ -132,7 +79,7 @@
             </div>
           </div>
           <div class="d-flex align-items-center mb-3">
-            <a href="/24-7" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to 24/7 Streams</a>
+            <a href="/24-7" class="btn btn-back">Back to 24/7 Streams</a>
             <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
           </div>
           <h2 id="eventTitle" class="mb-3"></h2>
@@ -148,8 +95,7 @@
                 <button class="btn btn-stream dropdown-toggle" type="button" id="streamDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                   Select Stream
                 </button>
-                <ul class="dropdown-menu" id="streamDropdownMenu" aria-labelledby="streamDropdown">
-                </ul>
+                <ul class="dropdown-menu" id="streamDropdownMenu" aria-labelledby="streamDropdown"></ul>
               </div>
             </div>
           </div>
@@ -168,7 +114,6 @@
       </footer>
     </div>
   </div>
-  <!-- Snow Container -->
   <div id="snow-container"></div>
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
@@ -183,10 +128,7 @@
     let countdownInterval = null;
 
     const originalOpen = window.open;
-    window.open = function(url) {
-      console.log('Blocked popup attempt to:', url);
-      return null;
-    };
+    window.open = function(url) { console.log('Blocked popup:', url); return null; };
 
     function clearError() {
       const errorContainer = document.getElementById('errorContainer');
@@ -550,7 +492,6 @@
       }
     });
   </script>
-  <!-- Snow Script – Fixed to use real snowflakes -->
   <script>
     const snowContainer = document.getElementById("snow-container");
     const snowContent = ["snowflake", "snowflake", "snowflake"];
@@ -562,16 +503,11 @@
       const left = random(100);
       const dur = random(10) + 10;
       const size = random(25) + 25;
-      return `
-        top: -${top}%;
-        left: ${left}%;
-        font-size: ${size}px;
-        animation-duration: ${dur}s;
-      `;
+      return `top: -${top}%; left: ${left}%; font-size: ${size}px; animation-duration: ${dur}s;`;
     };
 
     const createSnow = (num) => {
-      for (let i = num; i > 0; i--) {
+      for (let i = 0; i < num; i++) {
         const snow = document.createElement("div");
         snow.className = "snow";
         snow.style.cssText = getRandomStyles();
@@ -580,9 +516,7 @@
       }
     };
 
-    window.addEventListener("load", () => {
-      createSnow(30);
-    });
+    window.addEventListener("load", () => createSnow(30));
   </script>
 </body>
-  </html>
+</html>
