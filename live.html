@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script defer src="https://cdn.jsdelivr.net/npm/@clappr/player@0.11.14/dist/clappr.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/shaka-player.compiled.min.js"></script>
-  <link rel="stylesheet" href="/assets/css/main.css?v=24">
+  <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
     .tip-container {
       max-width: 600px;
@@ -462,15 +462,15 @@
     }
 
     // Initialize player
-    async function initPlayer(event, errorContainer, streamLinks) {
-      console.log('initPlayer called with event:', event);
+    async function initPlayer(streamEvent, errorContainer, streamLinks) {
+      console.log('initPlayer called with event:', streamEvent);
       try {
         clearError();
         embedPlayer = document.getElementById('embedPlayer');
         const videoContainer = document.getElementById('videoPlayerContainer');
         const clapprPlayerEl = document.getElementById('videoPlayer');
         const shakaPlayerEl = document.getElementById('shakaPlayer');
-        const stream = event.streams[0];
+        const stream = streamEvent.streams[0];
         const streamUrl = typeof stream === 'string' ? stream : stream.url;
         if (!streamUrl || !/^https?:/.test(streamUrl)) {
           throw new Error('Invalid or missing stream URL');
@@ -632,7 +632,7 @@
         }
 
         // ----- Stream links -----
-        streamLinks.innerHTML = event.streams.map((stream, i) => {
+        streamLinks.innerHTML = streamEvent.streams.map((stream, i) => {
           const u = typeof stream === 'string' ? stream : stream.url;
           const type = u.includes('.m3u8') ? 'm3u8' : u.includes('.mpd') ? 'mpd' : 'iframe';
           return `<button class="btn btn-stream ${i===0?'active':''}"
@@ -693,8 +693,8 @@
         const eventTimer = document.getElementById('eventTimer');
         if (eventTimer) {
           eventTimer.classList.remove('d-none');
-          updateTimer(event);
-          setInterval(() => updateTimer(event), 1000);
+          updateTimer(streamEvent);
+          setInterval(() => updateTimer(streamEvent), 1000);
         }
       } catch (err) {
         console.error('Player init error:', err);
@@ -703,28 +703,28 @@
       }
     }
 
-    function updateTimer(event) {
+    function updateTimer(streamEvent) {
       const eventTimer = document.getElementById('eventTimer');
       if (!eventTimer) return;
 
       const now = Math.floor(Date.now() / 1000);
       let startTime;
       try {
-        startTime = new Date(event.starts_at + '+03:00').getTime() / 1000;
+        startTime = new Date(streamEvent.starts_at + '+03:00').getTime() / 1000;
         if (isNaN(startTime)) startTime = now;
       } catch (e) {
         startTime = now;
       }
 
       if (now < startTime) {
-        eventTimer.innerHTML = `<span>${event.name}</span> | <span>Starting soon</span>`;
+        eventTimer.innerHTML = `<span>${streamEvent.name}</span> | <span>Starting soon</span>`;
       } else {
         const elapsed = now - startTime;
         const hours = Math.floor(elapsed / 3600);
         const mins = Math.floor((elapsed % 3600) / 60);
         const secs = elapsed % 60;
         const formatted = `${zeropad(hours)}:${zeropad(mins)}:${zeropad(secs)}`;
-        eventTimer.innerHTML = `<span>${event.name}</span> | <span>${formatted}</span>`;
+        eventTimer.innerHTML = `<span>${streamEvent.name}</span> | <span>${formatted}</span>`;
       }
     }
 
@@ -784,4 +784,4 @@
     });
   </script>
 </body>
-  </html>
+              </html>
