@@ -16,7 +16,7 @@
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="/assets/css/main.css?v=25">
+  <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
     .error-alert { max-width: 500px; margin: 20px auto; }
     .card { 
@@ -43,26 +43,18 @@
       50% { transform: scale(1.1); opacity: 0.7; }
       100% { transform: scale(1); opacity: 1; }
     }
-    /* Responsive grid layout for all screen sizes */
+    /* Responsive masonry layout */
     .event-grid, #livecards.event-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive for smaller screens */
-      gap: 20px;
+      columns: 5;
+      column-gap: 1.5rem;
       padding: 0 10px;
     }
-    /* Desktop mode: Force 2 columns */
-    @media (min-width: 768px) {
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(2, 1fr); /* Force 2 events per row */
-      }
-    }
-    /* Ensure each card fills its grid cell */
-    .event-grid > a, #livecards.event-grid > a {
-      width: 100%;
-    }
-    .event-grid a {
-      text-decoration: none;
-    }
+    @media (max-width: 1800px) { .event-grid, #livecards.event-grid { columns: 4; } }
+    @media (max-width: 1200px) { .event-grid, #livecards.event-grid { columns: 3; } }
+    @media (max-width: 768px) { .event-grid, #livecards.event-grid { columns: 2; } }
+    @media (max-width: 576px) { .event-grid, #livecards.event-grid { columns: 1; } }
+
+    .event-grid a { text-decoration: none; }
     .card {
       width: 100%;
       max-width: 400px;
@@ -71,6 +63,8 @@
       border-radius: 10px;
       overflow: hidden;
       border: 2px solid transparent;
+      break-inside: avoid;
+      margin-bottom: 1.5rem;
     }
     .card:hover {
       transform: translateY(-8px);
@@ -81,38 +75,14 @@
       border-color: #e63939;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
-    .card-img-top {
-      height: 220px;
-      object-fit: cover;
-    }
-    .card-body {
-      padding: 1rem;
-    }
-    .card-title {
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-    }
-    .event-tag {
-      font-size: 0.95rem;
-    }
-    .watch-button {
-      font-size: 0.95rem;
-      padding: 0.5rem 1.2rem;
-    }
-    /* Dropdown styling */
-    .category-dropdown {
-      display: flex;
-      justify-content: center;
-      margin: 1rem 0;
-    }
-    .category-dropdown .dropdown-menu {
-      background-color: var(--bs-body-bg);
-      border: 1px solid var(--bs-border-color);
-    }
-    .category-dropdown .dropdown-item:hover {
-      background-color: var(--bs-primary);
-      color: var(--bs-white);
-    }
+    .card-img-top { height: 220px; object-fit: cover; }
+    .card-body { padding: 1rem; }
+    .card-title { font-size: 1.3rem; margin-bottom: 0.5rem; }
+    .event-tag { font-size: 0.95rem; }
+    .watch-button { font-size: 0.95rem; padding: 0.5rem 1.2rem; }
+    .category-dropdown { display: flex; justify-content: center; margin: 1rem 0; }
+    .category-dropdown .dropdown-menu { background-color: var(--bs-body-bg); border: 1px solid var(--bs-border-color); }
+    .category-dropdown .dropdown-item:hover { background-color: var(--bs-primary); color: var(--bs-white); }
   </style>
 </head>
 <body>
@@ -191,6 +161,10 @@
       </footer>
     </div>
   </div>
+
+  <!-- Snow Container -->
+  <div id="snow-container"></div>
+
   <script src="/_vercel/insights/script.js" defer></script>
   <script src="/_vercel/speed-insights/script.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
@@ -334,7 +308,6 @@
             return;
           }
 
-          // Flatten categorized streams into a single array
           allStreams = [];
           Object.keys(data.streams).forEach(category => {
             data.streams[category].forEach(stream => {
@@ -345,7 +318,7 @@
           allStreams = allStreams.filter(stream => 
             stream.name && stream.uri_name && stream.tag && stream.streams && Array.isArray(stream.streams)
           );
-          renderStreams(allStreams); // Default to all streams
+          renderStreams(allStreams);
         })
         .catch(error => {
           clearTimeout(timeout);
@@ -399,7 +372,6 @@
           logoutButton.addEventListener('click', (event) => {
             event.stopPropagation();
             console.log('Logout button clicked');
-            // Assume logout logic is in auth.js
           });
         }
       } catch (error) {
@@ -412,7 +384,7 @@
       const dropdownButton = document.getElementById('categoryDropdown');
 
       dropdownItems.forEach(item => {
-        item.removeEventListener('click', null); // Prevent duplicate listeners
+        item.removeEventListener('click', null);
         item.addEventListener('click', (event) => {
           event.preventDefault();
           const category = item.getAttribute('data-category');
@@ -424,7 +396,6 @@
         });
       });
 
-      // Initialize Bootstrap dropdown
       if (typeof bootstrap !== 'undefined') {
         try {
           new bootstrap.Dropdown(dropdownButton);
@@ -444,7 +415,6 @@
       const themeToggle = document.getElementById('themeToggle');
       const htmlElement = document.documentElement;
 
-      // Initialize theme
       const currentTheme = localStorage.getItem('theme') || 'dark';
       htmlElement.setAttribute('data-bs-theme', currentTheme);
       if (themeToggle) {
@@ -460,21 +430,18 @@
         console.error('Theme toggle element not found');
       }
 
-      // Initialize offcanvas
       try {
         initOffcanvas();
       } catch (error) {
         console.error('Offcanvas initialization error:', error);
       }
 
-      // Initialize category dropdown
       try {
         initCategoryDropdown();
       } catch (error) {
         console.error('Category dropdown initialization error:', error);
       }
 
-      // Load content
       try {
         loadContent();
       } catch (error) {
@@ -488,7 +455,6 @@
         }
       }
 
-      // Auth status
       try {
         checkAuthStatus();
       } catch (error) {
@@ -507,5 +473,39 @@
       }
     });
   </script>
+  <!-- Snow Script -->
+  <script>
+    const snowContainer = document.getElementById("snow-container");
+    const snowContent = ["snowflake", "snowflake", "snowflake"];
+
+    const random = (num) => Math.floor(Math.random() * num);
+
+    const getRandomStyles = () => {
+      const top = random(100);
+      const left = random(100);
+      const dur = random(10) + 10;
+      const size = random(25) + 25;
+      return `
+        top: -${top}%;
+        left: ${left}%;
+        font-size: ${size}px;
+        animation-duration: ${dur}s;
+      `;
+    };
+
+    const createSnow = (num) => {
+      for (var i = num; i > 0; i--) {
+        var snow = document.createElement("div");
+        snow.className = "snow";
+        snow.style.cssText = getRandomStyles();
+        snow.innerHTML = snowContent[random(3)];
+        snowContainer.append(snow);
+      }
+    };
+
+    window.addEventListener("load", () => {
+      createSnow(30);
+    });
+  </script>
 </body>
-</html>
+  </html>
