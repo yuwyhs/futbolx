@@ -813,7 +813,7 @@ footer {
   }
 }
 
-/* Snow Effect CSS */
+/* Snow Effect CSS - FIXED: Real snowflake icons */
 @keyframes fall {
   0% {
     opacity: 0;
@@ -862,6 +862,8 @@ footer {
   position: absolute;
   font-size: 1.5em;
   opacity: 0.8;
+  /* Use real snowflake icons */
+  content: "snowflake";
 }
 
 [data-bs-theme="light"] .snow {
@@ -884,4 +886,4 @@ footer {
 [data-bs-theme="light"] .event-timer {
   color: #e63939;
   background: #f5f5f5;
-    }
+  }
