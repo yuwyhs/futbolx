@@ -4,6 +4,8 @@ body {
   font-family: 'Kanit', sans-serif;
   transition: background-color 0.3s, color 0.3s;
   color: #fff;
+  position: relative; /* For snow positioning */
+  overflow-x: hidden; /* Prevent horizontal scroll from snow */
 }
 
 [data-bs-theme="dark"] body {
@@ -316,19 +318,23 @@ body {
   border: none;
   border-radius: 10px;
   overflow: hidden;
+  break-inside: avoid; /* For masonry */
+  margin-bottom: 1.5rem; /* Gap between cards */
+  animation: fadeIn 0.5s ease-in; /* Unique fade-in for cool effect */
 }
 
 [data-bs-theme="dark"] .card {
-  background: #222;
+  background: linear-gradient(135deg, #333 0%, #222 100%); /* Unique gradient */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Deeper shadow */
 }
 
 [data-bs-theme="light"] .card {
-  background: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #f5f5f5 0%, #e5e5e5 100%); /* Unique gradient */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Softer shadow */
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px) rotate(1deg); /* Unique tilt on hover */
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
@@ -461,28 +467,34 @@ body {
   100% { transform: scale(1); opacity: 1; box-shadow: 0 0 5px rgba(255, 77, 77, 0.5); }
 }
 
-/* Event Grid */
+/* Event Grid - Changed to Masonry Layout */
 .event-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+  columns: 5; /* Default 5 columns for extra-large */
+  column-gap: 1.5rem;
+  padding: 1rem;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 1800px) {
   .event-grid {
-    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    columns: 4; /* 4 for large */
   }
 }
 
-@media (min-width: 1200px) {
+@media (max-width: 1200px) {
   .event-grid {
-    grid-template-columns: repeat(3, minmax(280px, 1fr));
+    columns: 3; /* 3 for medium */
   }
 }
 
-@media (min-width: 1800px) {
+@media (max-width: 768px) {
   .event-grid {
-    grid-template-columns: repeat(4, minmax(280px, 1fr));
+    columns: 2; /* 2 for small */
+  }
+}
+
+@media (max-width: 576px) {
+  .event-grid {
+    columns: 1; /* 1 for extra-small */
   }
 }
 
@@ -761,10 +773,6 @@ footer {
     padding-right: 10px;
   }
 
-  .event-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
-
   .hero-section {
     padding: 2rem 0;
   }
@@ -787,10 +795,6 @@ footer {
     max-height: 50vh;
   }
 
-  .event-grid {
-    grid-template-columns: 1fr;
-  }
-
   .admin-section .contact-card {
     padding: 15px;
   }
@@ -803,4 +807,77 @@ footer {
   .stream-dropdown {
     justify-content: center;
   }
+}
+
+/* Snow Effect CSS */
+@keyframes fall {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    top: 100vh;
+    opacity: 1;
+  }
+}
+
+@keyframes sway {
+  0% {
+    margin-left: 0;
+  }
+  25% {
+    margin-left: 50px;
+  }
+  50% {
+    margin-left: -50px;
+  }
+  75% {
+    margin-left: 50px;
+  }
+  100% {
+    margin-left: 0;
+  }
+}
+
+#snow-container {
+  height: 100vh;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: -1; /* Behind content */
+  pointer-events: none; /* Doesn't block interactions */
+}
+
+.snow {
+  animation: fall ease-in infinite, sway ease-in-out infinite;
+  color: white; /* White snowflakes for both themes */
+  position: absolute;
+  font-size: 1.5em; /* Adjust size */
+  opacity: 0.8;
+}
+
+[data-bs-theme="light"] .snow {
+  color: #ddd; /* Lighter for light theme */
+}
+
+/* Event Timer in Live Page */
+.event-timer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  color: #ff4d4d;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  border-radius: 10px;
+  background: #222;
+}
+
+[data-bs-theme="light"] .event-timer {
+  color: #e63939;
+  background: #f5f5f5;
 }
