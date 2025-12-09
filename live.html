@@ -189,7 +189,7 @@
       position: relative;
       width: 100%;
       height: 0;
-      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      padding-bottom: 56.25%;
     }
     .video-container #videoPlayerContainer {
       position: absolute;
@@ -198,7 +198,6 @@
       width: 100%;
       height: 100%;
     }
-    /* Event Timer Style */
     #eventTimer {
       display: flex;
       align-items: center;
@@ -266,7 +265,6 @@
           </div>
           <h2 id="eventTitle" class="mb-3"></h2>
           <div class="video-container">
-            <!-- No sandbox -->
             <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;" allow="autoplay; fullscreen"></iframe>
             <div id="videoPlayerContainer" class="d-none">
               <div id="videoPlayer" class="clappr-video-player"></div>
@@ -274,7 +272,6 @@
             </div>
           </div>
           <div id="streamLinks" class="stream-links mt-3"></div>
-          <!-- New Timer Layer -->
           <div id="eventTimer" class="event-timer d-none"></div>
           <div class="chat-container">
             <div id="chatLoading" class="text-center p-3">Loading chat...</div>
@@ -296,6 +293,7 @@
   </div>
   <!-- Snow Container -->
   <div id="snow-container"></div>
+
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script defer src="/assets/js/api.js"></script>
   <script defer src="/assets/js/auth.js"></script>
@@ -306,14 +304,14 @@
     let shakaPlayerInstance = null;
     let streamData = null;
 
-    // Block popups (optional – you can delete this if you want pop-ups)
+    // Block popups
     const originalOpen = window.open;
     window.open = function(url) {
       console.log('Blocked popup attempt to:', url);
       return null;
     };
 
-    // Clear error messages
+    // Clear error
     function clearError() {
       const errorContainer = document.getElementById('errorContainer');
       if (errorContainer && !errorContainer.classList.contains('d-none')) {
@@ -331,10 +329,7 @@
       const tipAlert = document.querySelector('.alert-info');
       const countdownTimer = document.getElementById('countdownTimer');
       let seconds = 10;
-      if (!tipContainer || !tipAlert || !countdownTimer) {
-        console.warn('Tip container or elements not found');
-        return;
-      }
+      if (!tipContainer || !tipAlert || !countdownTimer) return;
       tipContainer.style.height = `${tipAlert.offsetHeight}px`;
       const interval = setInterval(() => {
         seconds--;
@@ -348,411 +343,205 @@
           }, 500);
         }
       }, 1000);
-      setTimeout(() => {
-        tipContainer.style.height = '0';
-        tipAlert.style.display = 'none';
-        clearInterval(interval);
-      }, 10500);
     }
 
-    // Initialize offcanvas
+    // Offcanvas + Theme
     function initOffcanvas() {
       const offcanvasElement = document.getElementById('sidebarMenu');
       const toggler = document.getElementById('sidebarToggler');
-      
-      if (!offcanvasElement || !toggler) {
-        console.error('Offcanvas or toggler not found');
-        return;
-      }
-
-      console.log('Initializing offcanvas at', new Date().toISOString());
-      if (typeof bootstrap === 'undefined') {
-        console.error('Bootstrap not loaded. Ensure Bootstrap JS is included.');
-        return;
-      }
-
+      if (!offcanvasElement || !toggler) return;
+      if (typeof bootstrap === 'undefined') return;
       try {
-        const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
-          backdrop: true,
-          keyboard: true,
-          scroll: false
-        });
-        offcanvasElement.addEventListener('shown.bs.offcanvas', () => {
-          console.log('Offcanvas shown at', new Date().toISOString());
-        });
-        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
-          console.log('Offcanvas hidden at', new Date().toISOString());
-        });
+        const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
         const navLinks = offcanvasElement.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
-          link.addEventListener('click', (event) => {
-            event.stopPropagation();
-            const href = link.getAttribute('href');
-            if (href) {
-              console.log('Nav link clicked:', href, 'at', new Date().toISOString());
-              window.location.href = href;
-              offcanvas.hide();
-            }
-          });
+          link.addEventListener('click', () => offcanvas.hide());
         });
-        const logoutButton = document.getElementById('logoutButton');
-        if (logoutButton) {
-          logoutButton.addEventListener('click', () => {
-            console.log('Logout button clicked at', new Date().toISOString());
-            offcanvas.hide();
-            if (typeof logout === 'function') {
-              logout();
-            }
-          });
-        }
-        const themeToggle = document.getElementById('themeToggle');
-        if (themeToggle) {
-          const htmlElement = document.documentElement;
-          const currentTheme = localStorage.getItem('theme') || 'dark';
-          htmlElement.setAttribute('data-bs-theme', currentTheme);
-          themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-          console.log('Theme toggle initialized to:', currentTheme, 'at', new Date().toISOString());
-          themeToggle.addEventListener('click', () => {
-            try {
-              const currentTheme = htmlElement.getAttribute('data-bs-theme');
-              const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-              htmlElement.setAttribute('data-bs-theme', newTheme);
-              localStorage.setItem('theme', newTheme);
-              themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-              console.log('Theme toggled to:', newTheme, 'at', new Date().toISOString());
-            } catch (error) {
-              console.error('Theme toggle error:', error);
-            }
-          });
-        }
-      } catch (error) {
-        console.error('Offcanvas initialization error:', error);
-      }
+      } catch (e) { console.error(e); }
     }
 
-    // Detect stream type
-    async function detectStreamType(url, streamObj) {
-      if (url.startsWith('http://drewlive24.duckdns.org:4123?url=')) {
-        console.log('Excluded URL from detection:', url);
-        return 'iframe';
-      }
-      if (url.toLowerCase().includes('.m3u8')) {
-        return 'm3u8';
-      } else if (url.toLowerCase().includes('.mpd')) {
-        return 'mpd';
-      }
+    function initThemeToggle() {
+      const themeToggle = document.getElementById('themeToggle');
+      const htmlElement = document.documentElement;
+      if (!themeToggle || !htmlElement) return;
+      const currentTheme = localStorage.getItem('theme') || 'dark';
+      htmlElement.setAttribute('data-bs-theme', currentTheme);
+      themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+      themeToggle.addEventListener('click', () => {
+        const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+        htmlElement.setAttribute('data-bs-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+      });
+    }
+
+    // Stream type detection
+    async function detectStreamType(url) {
+      if (url.includes('.m3u8')) return 'm3u8';
+      if (url.includes('.mpd')) return 'mpd';
       try {
-        const response = await fetch(url, { 
-          method: 'GET', 
-          headers: { 'Range': 'bytes=0-1023' }, 
-          signal: AbortSignal.timeout(5000)
-        });
-        if (!response.ok) return 'iframe';
-        const content = await response.text();
-        if (content.includes('#EXTM3U') || content.includes('.ts')) {
-          return 'm3u8';
-        } else if (content.includes('<MPD')) {
-          return 'mpd';
-        }
+        const res = await fetch(url, { method: 'GET', headers: { 'Range': 'bytes=0-1023' }, signal: AbortSignal.timeout(5000) });
+        if (!res.ok) return 'iframe';
+        const text = await res.text();
+        if (text.includes('#EXTM3U') || text.includes('.ts')) return 'm3u8';
+        if (text.includes('<MPD')) return 'mpd';
         return 'iframe';
-      } catch (error) {
-        console.warn(`Stream detection failed for ${url}:`, error);
+      } catch {
         return 'iframe';
       }
     }
 
-    // Initialize player
-    async function initPlayer(streamEvent, errorContainer, streamLinks) {
-      console.log('initPlayer called with event:', streamEvent);
-      try {
-        clearError();
-        embedPlayer = document.getElementById('embedPlayer');
-        const videoContainer = document.getElementById('videoPlayerContainer');
-        const clapprPlayerEl = document.getElementById('videoPlayer');
-        const shakaPlayerEl = document.getElementById('shakaPlayer');
-        const stream = streamEvent.streams[0];
-        const streamUrl = typeof stream === 'string' ? stream : stream.url;
-        if (!streamUrl || !/^https?:/.test(streamUrl)) {
-          throw new Error('Invalid or missing stream URL');
-        }
-        console.log('Stream URL:', streamUrl);
+    // Player init
+    async function initPlayer(eventData, errorContainer, streamLinks) {
+      clearError();
+      embedPlayer = document.getElementById('embedPlayer');
+      const videoContainer = document.getElementById('videoPlayerContainer');
+      const clapprEl = document.getElementById('videoPlayer');
+      const shakaEl = document.getElementById('shakaPlayer');
+      const firstStream = eventData.streams[0];
+      const url = typeof firstStream === 'string' ? firstStream : firstStream.url;
+      const type = await detectStreamType(url);
 
-        const streamType = await detectStreamType(streamUrl, stream);
-        console.log('Detected stream type:', streamType);
-
-        if (streamType === 'm3u8') {
-          embedPlayer.style.display = 'none';
-          shakaPlayerEl.classList.add('d-none');
-          videoContainer.classList.remove('d-none');
-          clapprPlayerEl.classList.remove('d-none');
-          if (typeof Clappr === 'undefined') {
-            console.error('Clappr not loaded');
-            throw new Error('Clappr library not loaded');
-          }
-          if (videoPlayerInstance) {
-            videoPlayerInstance.destroy();
-          }
-          videoPlayerInstance = new Clappr.Player({
-            source: streamUrl,
-            parentId: '#videoPlayer',
-            width: '100%',
-            height: '100%',
-            autoPlay: true,
-            mute: false,
-            playback: {
-              name: 'hlsjs_playback',
-              hlsjsConfig: {
-                enableWorker: false,
-                lowLatencyMode: false,
-                backBufferLength: 90,
-                autoLevelCapping: -1
-              }
-            },
-            events: {
-              onReady: () => {
-                console.log('Clappr ready for HLS');
-                clearError();
-                videoPlayerInstance.play();
-                videoPlayerInstance.setMuted(false);
-                console.log('Clappr unmuted');
-                if (document.pictureInPictureEnabled) {
-                  const video = clapprPlayerEl.querySelector('video');
-                  if (video) {
-                    video.addEventListener('click', () => {
-                      if (video.requestPictureInPicture) {
-                        video.requestPictureInPicture().catch(err => {
-                          console.error('PiP failed:', err);
-                        });
-                      }
-                    });
-                  }
-                }
-              },
-              onError: (error) => {
-                console.error('Clappr error:', error);
-                errorContainer.className = 'alert alert-danger error-alert mt-3';
-                errorContainer.innerText = 'Failed to load M3U8 stream: ' + (error.message || 'Unknown error');
-              }
-            }
-          });
-        } else if (streamType === 'mpd') {
-          embedPlayer.style.display = 'none';
-          clapprPlayerEl.classList.add('d-none');
-          videoContainer.classList.remove('d-none');
-          shakaPlayerEl.classList.remove('d-none');
-          if (typeof shaka === 'undefined') {
-            console.error('Shaka Player not loaded');
-            throw new Error('Shaka Player library not loaded');
-          }
-          if (videoPlayerInstance) {
-            videoPlayerInstance.destroy();
-            videoPlayerInstance = null;
-          }
-          if (shakaPlayerInstance) {
-            shakaPlayerInstance.destroy();
-            shakaPlayerInstance = null;
-          }
-          shaka.polyfill.installAll();
-          if (!shaka.Player.isBrowserSupported()) {
-            throw new Error('Shaka Player is not supported in this browser');
-          }
-          const videoElement = document.createElement('video');
-          videoElement.id = 'shakaVideo';
-          videoElement.controls = true;
-          videoElement.style.width = '100%';
-          videoElement.style.height = '100%';
-          shakaPlayerEl.innerHTML = '';
-          shakaPlayerEl.appendChild(videoElement);
-          shakaPlayerInstance = new shaka.Player(videoElement);
-          const clearKeys = {};
-          if (stream.drm && stream.drm.clearkey && Array.isArray(stream.drm.clearkey)) {
-            stream.drm.clearkey.forEach(key => {
-              if (key.keyId && key.key && /^[0-9a-fA-F]{32}$/.test(key.keyId) && /^[0-9a-fA-F]{32}$/.test(key.key)) {
-                clearKeys[key.keyId] = key.key;
-              } else {
-                console.warn('Invalid ClearKey format, skipping:', key);
-              }
-            });
-            if (Object.keys(clearKeys).length > 0) {
-              shakaPlayerInstance.configure({ drm: { clearKeys } });
-              console.log('ClearKey DRM configured for Shaka:', clearKeys);
-            }
-          }
-          shakaPlayerInstance.addEventListener('error', (event) => {
-            console.error('Shaka error:', event.detail);
-            const err = event.detail;
-            const msg = err.code === shaka.util.Error.Severity.CRITICAL && err.category === shaka.util.Error.Category.DRM
-              ? 'DRM error (unsupported scheme or invalid keys).'
-              : (err.message || 'Unknown error');
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = 'Failed to load MPD stream: ' + msg;
-          });
-          shakaPlayerInstance.addEventListener('loaded', () => {
-            console.log('Shaka loaded MPD successfully');
-            clearError();
-            videoElement.play().catch(() => {});
-            videoElement.muted = false;
-          });
-          shakaPlayerInstance.load(streamUrl).catch(err => { throw err; });
-        } else {
-          // ---- EMBED (iframe) ----
-          videoContainer.classList.add('d-none');
-          clapprPlayerEl.classList.add('d-none');
-          shakaPlayerEl.classList.add('d-none');
-          embedPlayer.style.display = 'block';
-          if (videoPlayerInstance) { videoPlayerInstance.destroy(); videoPlayerInstance = null; }
-          if (shakaPlayerInstance) { shakaPlayerInstance.destroy(); shakaPlayerInstance = null; }
-
-          const url = new URL(streamUrl);
-          url.searchParams.append('autoplay', '1');
-
-          // FIXED LINE
-          embedPlayer.src = url.toString();
-
-          embedPlayer.muted = true;
-          console.log('Embed initialized successfully');
-
-          embedPlayer.addEventListener('load', () => {
-            console.log('Embed loaded successfully');
-            clearError();
-            try {
-              embedPlayer.contentWindow.postMessage({ type: 'play' }, '*');
-              embedPlayer.contentWindow.postMessage({ type: 'unmute' }, '*');
-              embedPlayer.muted = false;
-              console.log('Iframe unmuted');
-            } catch (e) {
-              console.warn('Iframe play/unmute message failed:', e);
-            }
-          });
-          embedPlayer.addEventListener('error', () => {
-            console.error('Embed load error');
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = 'Failed to load stream. The stream may be invalid or restricted.';
-          });
-        }
-
-        // ----- Stream links -----
-        streamLinks.innerHTML = streamEvent.streams.map((stream, i) => {
-          const u = typeof stream === 'string' ? stream : stream.url;
-          const type = u.includes('.m3u8') ? 'm3u8' : u.includes('.mpd') ? 'mpd' : 'iframe';
-          return `<button class="btn btn-stream ${i===0?'active':''}"
-                         data-stream-encoded="${btoa(u)}"
-                         data-stream-index="${i}"
-                         data-stream-type="${type}">
-                    ${stream.title || `Stream ${i+1}`}
-                  </button>`;
-        }).join('');
-
-        // ----- Switch stream -----
-        streamLinks.addEventListener('click', async e => {
-          const btn = e.target.closest('.btn.btn-stream');
-          if (!btn) return;
-          const encoded = btn.dataset.streamEncoded;
-          const type = btn.dataset.streamType;
-          const idx = parseInt(btn.dataset.streamIndex);
-          if (!encoded) return;
-          const url = atob(encoded);
-          clearError();
-
-          // (same logic as above but with the fixed src assignment)
-          if (type === 'm3u8') { /* … same Clappr code … */ }
-          else if (type === 'mpd') { /* … same Shaka code … */ }
-          else {
-            // EMBED switch – use src
-            embedPlayer.style.display = 'block';
-            videoContainer.classList.add('d-none');
-            const switchUrl = new URL(url);
-            switchUrl.searchParams.append('autoplay', '1');
-            embedPlayer.src = switchUrl.toString();
-            embedPlayer.muted = true;
-            embedPlayer.addEventListener('load', () => {
-              try {
-                embedPlayer.contentWindow.postMessage({ type: 'play' }, '*');
-                embedPlayer.contentWindow.postMessage({ type: 'unmute' }, '*');
-                embedPlayer.muted = false;
-              } catch (_) {}
-            });
-          }
-          streamLinks.querySelectorAll('.btn.btn-stream').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
+      if (type === 'm3u8') {
+        embedPlayer.style.display = 'none';
+        shakaEl.classList.add('d-none');
+        videoContainer.classList.remove('d-none');
+        clapprEl.classList.remove('d-none');
+        if (videoPlayerInstance) videoPlayerInstance.destroy();
+        videoPlayerInstance = new Clappr.Player({
+          source: url,
+          parentId: '#videoPlayer',
+          width: '100%',
+          height: '100%',
+          autoPlay: true,
+          mute: false,
+          playback: { name: 'hlsjs_playback', hlsjsConfig: { enableWorker: false } },
+          events: { onReady: () => { clearError(); videoPlayerInstance.play(); } }
         });
-
-        // Fullscreen button (unchanged)
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        if (fullscreenBtn) {
-          fullscreenBtn.classList.remove('d-none');
-          fullscreenBtn.addEventListener('click', () => {
-            const target = streamType === 'm3u8' ? document.getElementById('videoPlayer')
-                         : streamType === 'mpd' ? document.getElementById('shakaPlayer')
-                         : embedPlayer;
-            (target.requestFullscreen || target.webkitRequestFullscreen || target.msRequestFullscreen).call(target);
-          });
-        }
-
-        // New: Start Event Timer
-        const eventTimer = document.getElementById('eventTimer');
-        if (eventTimer) {
-          eventTimer.classList.remove('d-none');
-          updateTimer(streamEvent);
-          setInterval(() => updateTimer(streamEvent), 1000);
-        }
-      } catch (err) {
-        console.error('Player init error:', err);
-        errorContainer.className = 'alert alert-danger error-alert mt-3';
-        errorContainer.innerText = 'Failed to initialize stream: ' + (err.message || 'Unknown error');
-      }
-    }
-
-    function updateTimer(streamEvent) {
-      const eventTimer = document.getElementById('eventTimer');
-      if (!eventTimer) return;
-
-      const now = Math.floor(Date.now() / 1000);
-      let startTime;
-      try {
-        startTime = new Date(streamEvent.starts_at + '+03:00').getTime() / 1000;
-        if (isNaN(startTime)) startTime = now;
-      } catch (e) {
-        startTime = now;
-      }
-
-      if (now < startTime) {
-        eventTimer.innerHTML = `<span>${streamEvent.name}</span> | <span>Starting soon</span>`;
+      } else if (type === 'mpd') {
+        embedPlayer.style.display = 'none';
+        clapprEl.classList.add('d-none');
+        videoContainer.classList.remove('d-none');
+        shakaEl.classList.remove('d-none');
+        if (videoPlayerInstance) videoPlayerInstance.destroy();
+        if (shakaPlayerInstance) shakaPlayerInstance.destroy();
+        shaka.polyfill.installAll();
+        const video = document.createElement('video');
+        video.id = 'shakaVideo';
+        video.controls = true;
+        shakaEl.innerHTML = '';
+        shakaEl.appendChild(video);
+        shakaPlayerInstance = new shaka.Player(video);
+        shakaPlayerInstance.load(url);
       } else {
-        const elapsed = now - startTime;
-        const hours = Math.floor(elapsed / 3600);
-        const mins = Math.floor((elapsed % 3600) / 60);
-        const secs = elapsed % 60;
-        const formatted = `${zeropad(hours)}:${zeropad(mins)}:${zeropad(secs)}`;
-        eventTimer.innerHTML = `<span>${streamEvent.name}</span> | <span>${formatted}</span>`;
+        videoContainer.classList.add('d-none');
+        embedPlayer.style.display = 'block';
+        const u = new URL(url);
+        u.searchParams.append('autoplay', '1');
+        embedPlayer.src = u.toString();
       }
+
+      // Stream buttons
+      streamLinks.innerHTML = eventData.streams.map((s, i) => {
+        const u = typeof s === 'string' ? s : s.url;
+        const t = u.includes('.m3u8') ? 'm3u8' : u.includes('.mpd') ? 'mpd' : 'iframe';
+        return `<button class="btn btn-stream ${i===0?'active':''}" data-url="${u}" data-type="${t}">${s.title || 'Stream '+(i+1)}</button>`;
+      }).join('');
+
+      streamLinks.addEventListener('click', async e => {
+        const btn = e.target.closest('.btn');
+        if (!btn) return;
+        const u = btn.dataset.url;
+        const t = btn.dataset.type;
+        streamLinks.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (t === 'm3u8') {
+          if (videoPlayerInstance) videoPlayerInstance.destroy();
+          videoPlayerInstance = new Clappr.Player({ source: u, parentId: '#videoPlayer', autoPlay: true });
+        } else if (t === 'mpd') {
+          if (shakaPlayerInstance) shakaPlayerInstance.destroy();
+          const v = document.getElementById('shakaVideo');
+          shakaPlayerInstance = new shaka.Player(v);
+          shakaPlayerInstance.load(u);
+        } else {
+          const url = new URL(u);
+          url.searchParams.append('autoplay', '1');
+          embedPlayer.src = url.toString();
+        }
+      });
+
+      // Fullscreen
+      const fsBtn = document.getElementById('fullscreenBtn');
+      fsBtn.classList.remove('d-none');
+      fsBtn.onclick = () => {
+        const el = type === 'm3u8' ? clapprEl : type === 'mpd' ? shakaEl : embedPlayer;
+        (el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen).call(el);
+      };
+
+      // Timer
+      const timer = document.getElementById('eventTimer');
+      timer.classList.remove('d-none');
+      const start = new Date(eventData.starts_at + '+03:00').getTime() / 1000;
+      const update = () => {
+        const now = Date.now() / 1000;
+        if (now < start) {
+          timer.innerHTML = `<span>${eventData.name}</span> | <span>Starting soon</span>`;
+        } else {
+          const elapsed = now - start;
+          const h = Math.floor(elapsed / 3600).toString().padStart(2, '0');
+          const m = Math.floor((elapsed % 3600) / 60).toString().padStart(2, '0');
+          const s = Math.floor(elapsed % 60).toString().padStart(2, '0');
+          timer.innerHTML = `<span>${eventData.name}</span> | <span>${h}:${m}:${s}</span>`;
+        }
+      };
+      update();
+      setInterval(update, 1000);
     }
 
-    function zeropad(num) {
-      return num > 9 ? num : '0' + num;
+    // Load event
+    function loadEvent() {
+      const uri = window.location.pathname.split('/').pop();
+      fetch('/api/stream')
+        .then(r => r.json())
+        .then(data => {
+          let event = null;
+          data.streams.forEach(cat => {
+            cat.streams.forEach(s => { if (s.uri_name === uri) event = s; });
+          });
+          if (!event) throw new Error('Event not found');
+          document.getElementById('eventTitle').textContent = event.name;
+          streamData = event;
+          initPlayer(event, document.getElementById('errorContainer'), document.getElementById('streamLinks'));
+          document.getElementById('startLivestream').disabled = true;
+          document.getElementById('startLivestream').textContent = 'Live';
+        })
+        .catch(err => {
+          document.getElementById('errorContainer').className = 'alert alert-danger error-alert mt-3';
+          document.getElementById('errorContainer').textContent = 'Failed to load event: ' + err.message;
+        });
     }
 
-    // -------------------------------------------------
-    // (rest of the file – fetchWithRetry, loadChatIframe,
-    // initPage, window.load – unchanged)
-    // -------------------------------------------------
-    function fetchWithRetry(url, maxRetries = 3, delay = 1000) { /* unchanged */ }
-    function loadChatIframe() { /* unchanged */ }
-    function initPage() { /* unchanged – only the startLivestream button now works */ }
+    // Load chat
+    function loadChat() {
+      const chatFrame = document.createElement('iframe');
+      chatFrame.src = 'https://www.twitch.tv/embed/futbolx/chat?parent=futbol-x.site';
+      chatFrame.onload = () => document.getElementById('chatLoading').style.display = 'none';
+      document.querySelector('.chat-container').appendChild(chatFrame);
+    }
 
-    window.addEventListener('load', () => {
-      console.log('Window load complete at', new Date().toISOString());
-      setTimeout(() => {
-        initOffcanvas();
-        startTipCountdown();
-        initPage();
-      }, 500);
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+      initThemeToggle();
+      initOffcanvas();
+      startTipCountdown();
+      loadEvent();
+      loadChat();
     });
   </script>
-  <!-- Snow Script -->
+  <!-- Snow Script – Real Icons -->
   <script>
     const snowContainer = document.getElementById("snow-container");
-    const snowContent = ["&#10052;", "&#10053;", "&#10054;"];
+    const snowContent = ["snowflake", "snowflake", "snowflake"];
 
     const random = (num) => Math.floor(Math.random() * num);
 
@@ -761,27 +550,20 @@
       const left = random(100);
       const dur = random(10) + 10;
       const size = random(25) + 25;
-      return `
-        top: -${top}%;
-        left: ${left}%;
-        font-size: ${size}px;
-        animation-duration: ${dur}s;
-      `;
+      return `top: -${top}%; left: ${left}%; font-size: ${size}px; animation-duration: ${dur}s;`;
     };
 
     const createSnow = (num) => {
-      for (var i = num; i > 0; i--) {
-        var snow = document.createElement("div");
+      for (let i = 0; i < num; i++) {
+        const snow = document.createElement("div");
         snow.className = "snow";
         snow.style.cssText = getRandomStyles();
         snow.innerHTML = snowContent[random(3)];
-        snowContainer.append(snow);
+        snowContainer.appendChild(snow);
       }
     };
 
-    window.addEventListener("load", () => {
-      createSnow(30);
-    });
+    window.addEventListener("load", () => createSnow(30));
   </script>
 </body>
-              </html>
+  </html>
