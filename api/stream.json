@@ -197,7 +197,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd1.php"
+              "url": "https://v5.sportsonline.si/channels/hd/hd11.php"
             }
           ]
         },
@@ -212,7 +212,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd2.php"
+              "url": "https://v5.sportsonline.si/channels/hd/hd12.php"
             }
           ]
         }
