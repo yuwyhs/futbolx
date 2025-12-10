@@ -6,17 +6,167 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "FC Metz vs Rennes",
-          "uri_name": "fc-metz-vs-rennes",
-          "poster": "https://api.ppv.to/assets/thumb/17201132dc25834d60e71099ee796945-thumbnail.jpg",
-          "tag": "Ligue 1",
-          "starts_at": "2025-12-10T12:45:00",
-          "ends_at": "2025-12-10T18:45:00",
+          "name": "Qarabag FK vs Ajax",
+          "uri_name": "qarabag-fk-vs-ajax",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/cur23j1756754325.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-12-10T20:45:00",
+          "ends_at": "2025-12-10T22:50:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/charlie/sanfrecce-hiroshima-vs-shanghai-shenhua-1438955/1"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ucl1/playlist.m3u8"
+            }
+          ]
+        },
+        {
+          "name": "Villarreal vs Copenhagen",
+          "uri_name": "villarreal-vs-copenhagen",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/udypuv1756754321.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-12-10T20:45:00",
+          "ends_at": "2025-12-10T22:50:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd1.php"
+            }
+          ]
+        },
+        {
+          "name": "Golazo Show CBS",
+          "uri_name": "golazo-show-cbs",
+          "poster": "https://api.ppv.to/assets/thumb/9495bb8da4657a7abea8bacb2a43b50b-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-12-10T23:00:00",
+          "ends_at": "2025-12-11T01:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd2.php"
+            }
+          ]
+        },
+        {
+          "name": "Goal Show Extra Tnt",
+          "uri_name": "goal-show-extra-tnt",
+          "poster": "https://api.ppv.to/assets/thumb/a1ffcb323db604d728eb84a29c7d3df0-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-12-10T23:00:00",
+          "ends_at": "2025-12-11T01:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd3.php"
+            }
+          ]
+        },
+        {
+          "name": "Real Madrid vs Man City",
+          "uri_name": "real-madrid-vs-man-city",
+          "poster": "https://api.ppv.to/assets/thumb/d00eadfc2a8f560bcf16b7fd2315fe8d-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-12-10T23:00:00",
+          "ends_at": "2025-12-11T01:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd4.php"
+            }
+          ]
+        },
+        {
+          "name": "Bilbao vs PSG",
+          "uri_name": "bilbao-vs-psg",
+          "poster": "https://api.ppv.to/assets/thumb/7edf4bd63ad7b0253833b39df3319af2-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-12-10T23:00:00",
+          "ends_at": "2025-12-11T01:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd5.php"
+            }
+          ]
+        },
+        {
+          "name": "Club Brugge vs Arsenal",
+          "uri_name": "club-brugge-vs-arsenal",
+          "poster": "https://api.ppv.to/assets/thumb/e464d28702afde0ea13bfa1257991a08-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-12-10T23:00:00",
+          "ends_at": "2025-12-11T01:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd6.php"
+            }
+          ]
+        },
+        {
+          "name": "Leverkusen vs Newcastle",
+          "uri_name": "leverkusen-vs-newcastle",
+          "poster": "https://api.ppv.to/assets/thumb/ead987e56ac3111c00454fbd198ed96d-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-12-10T23:00:00",
+          "ends_at": "2025-12-11T01:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd7.php"
+            }
+          ]
+        },
+        {
+          "name": "Dortmund vs Bodø/Glimt",
+          "uri_name": "dortmund-vs-bodo-glimt",
+          "poster": "https://api.ppv.to/assets/thumb/148a4a1bf22d168e6910fb284e9f564e-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-12-10T23:00:00",
+          "ends_at": "2025-12-11T01:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd8.php"
+            }
+          ]
+        },
+        {
+          "name": "Benfica vs Napoli",
+          "uri_name": "benfica-vs-napoli",
+          "poster": "https://api.ppv.to/assets/thumb/69fbece3804f1b8efb5ef58d7e0e00ad-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-12-10T23:00:00",
+          "ends_at": "2025-12-11T01:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd9.php"
+            }
+          ]
+        },
+        {
+          "name": "Juventus vs Pafos FC",
+          "uri_name": "juventus-vs-pafos-fc",
+          "poster": "https://api.ppv.to/assets/thumb/dcd98bcaf6241ebcd816b02d61f6d38a-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2025-12-10T23:00:00",
+          "ends_at": "2025-12-11T01:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd10.php"
             }
           ]
         }
@@ -35,7 +185,38 @@
     {
       "category": "Basketball",
       "always_live": 0,
-      "streams": []
+      "streams": [
+        {
+          "name": "Phoenix Suns vs Oklahoma City Thunder",
+          "uri_name": "phoenix-suns-vs-oklahoma-city-thunder",
+          "poster": "https://api.ppv.to/assets/thumb/8b2f2d4da1b1f498a6e5aa0d6d4dbaa7-thumbnail.jpg",
+          "tag": "NBA",
+          "starts_at": "2025-12-11T03:30:00",
+          "ends_at": "2025-12-11T07:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd1.php"
+            }
+          ]
+        },
+        {
+          "name": "San Antonio Spurs vs Los Angeles Lakers",
+          "uri_name": "san-antonio-spurs-vs-los-angeles-lakers",
+          "poster": "https://api.ppv.to/assets/thumb/9e34880b11bf85d1b23d17e9e68bc42b-thumbnail.jpg",
+          "tag": "NBA",
+          "starts_at": "2025-12-11T06:00:00",
+          "ends_at": "2025-12-11T09:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://v5.sportsonline.si/channels/hd/hd2.php"
+            }
+          ]
+        }
+      ]
     },
     {
       "category": "NFL",
