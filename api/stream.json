@@ -121,7 +121,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://v5.sportsonline.si/channels/hd/hd7.php"
+              "url": "https://47442542a4df9c37168d814d2743c294.s3.eu-central-2.wasabisys.com/sodrito5weqefradroqa900esw68i9lg.m3u8?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=O17GM76KTX4OPODPUWU9%2F20251210%2Feu-central-2%2Fs3%2Faws4_request&X-Amz-Date=20251210T191228Z&X-Amz-Expires=3600&X-Amz-Signature=53ab6ab80ebc8885502444c8c28c453cf41c9f939a9635bc691d2b57a43d294d&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
             }
           ]
         },
