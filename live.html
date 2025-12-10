@@ -21,6 +21,43 @@
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
+  <style>
+    .tip-container {max-width:600px;margin:20px auto;transition:height .3s;overflow:hidden;}
+    .alert-info {text-align:center;position:relative;padding-right:50px;}
+    #countdownTimer {position:absolute;top:8px;right:10px;font-weight:bold;color:#ff4d4d;}
+    [data-bs-theme="light"] #countdownTimer {color:#e63939;}
+    .error-alert {max-width:500px;margin:20px auto;}
+    .fade-out {animation:fadeOut .5s forwards;} @keyframes fadeOut {from{opacity:1}to{opacity:0}}
+    .btn-fullscreen {display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#ff4d4d;color:#fff;border:none;border-radius:20px;transition:.3s;}
+    [data-bs-theme="light"] .btn-fullscreen {background:#e63939;color:#333;}
+    .btn-fullscreen:hover {transform:scale(1.05);background:#e63939;}
+    .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;margin-bottom:1rem;}
+    #jwplayer-div {position:absolute;top:0;left:0;width:100%;height:100%;}
+    
+    /* FIXED: Proper spacing for timer */
+    .stream-timer-box {
+      background: #222;
+      color: #ff4d4d;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: center;
+      margin: 1.2rem 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    [data-bs-theme="light"] .stream-timer-box {
+      background: #f0f0f0;
+      color: #e63939;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .chat-container {margin-top:2rem;max-width:600px;height:400px;border-radius:10px;overflow:hidden;background:#222;box-shadow:0 4px 12px rgba(0,0,0,.4);}
+    [data-bs-theme="light"] .chat-container {background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.2);}
+    .chat-container iframe {width:100%;height:100%;border:none;}
+    #chatLoading {text-align:center;padding:20px;background:#222;color:#fff;}
+    [data-bs-theme="light"] #chatLoading {background:#fff;color:#333;}
+  </style>
 </head>
 <body>
   <nav class="top-bar fixed-top">
@@ -56,6 +93,7 @@
   <div class="container-fluid main-content">
     <div class="container mt-4">
       <div class="row"><div class="col-12">
+
         <div class="tip-container">
           <div class="alert alert-info">
             <strong>Tip:</strong> For an ad-free experience, install
@@ -78,10 +116,10 @@
           <div id="jwplayer-div"></div>
         </div>
 
-        <div id="streamLinks" class="stream-links mt-3"></div>
+        <div id="streamLinks" class="stream-links mt-3 mb-3"></div>
 
-        <!-- NEW: Stream Title + Live Timer -->
-        <div class="event-timer mt-3">
+        <!-- PERFECTLY SPACED TIMER BOX -->
+        <div class="stream-timer-box">
           <span id="streamTitleTimer">Loading...</span>
         </div>
 
@@ -110,7 +148,7 @@
   <script src="/assets/js/auth.js"></script>
 
   <script>
-    window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
+    window.plausible = window.plausible || function() => {};
 
     let jw = null;
     let streamData = null;
@@ -197,30 +235,27 @@
       });
     }
 
-    // NEW: Live Timer Feature
     function startLiveTimer(startISO, endISO) {
-      const timerEl = document.getElementById('streamTitleTimer');
-      if (!timerEl) return;
-
-      const startTime = new Date(startISO).getTime();
-      const endTime = new Date(endISO).getTime();
+      const el = document.getElementById('streamTitleTimer');
+      const start = new Date(startISO).getTime();
+      const end = new Date(endISO).getTime();
 
       timerInterval = setInterval(() => {
         const now = Date.now();
-        const elapsed = now - startTime;
-        const remaining = endTime - now;
+        const elapsed = now - start;
+        const remaining = end - now;
 
         if (remaining <= 0) {
-          timerEl.textContent = `${streamData.name} | Stream Ended`;
+          el.textContent = `${streamData.name} | Stream Ended`;
           clearInterval(timerInterval);
           return;
         }
 
-        const hours = Math.floor(elapsed / 3600000);
-        const minutes = Math.floor((elapsed % 3600000) / 60000);
-        const seconds = Math.floor((elapsed % 60000) / 1000);
+        const h = Math.floor(elapsed / 3600000).toString().padStart(2,'0');
+        const m = Math.floor((elapsed % 3600000) / 60000).toString().padStart(2,'0');
+        const s = Math.floor((elapsed % 60000) / 1000).toString().padStart(2,'0');
 
-        timerEl.textContent = `${streamData.name} | ${String(hours).padStart(2,'0')}h:${String(minutes).padStart(2,'0')}min:${String(seconds).padStart(2,'0')}sec`;
+        el.textContent = `${streamData.name} | ${h}h:${m}min:${s}sec`;
       }, 1000);
     }
 
@@ -254,8 +289,6 @@
             const firstUrl = event.streams[0].url || event.streams[0];
             playStream(firstUrl);
             populateStreamButtons(event);
-
-            // Start the live timer
             startLiveTimer(event.starts_at, event.ends_at || new Date(Date.now() + 3*3600000).toISOString());
           };
         })
