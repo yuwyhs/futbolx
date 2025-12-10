@@ -132,6 +132,21 @@
     let jw = null;
     let streamData = null;
 
+    // === THEME TOGGLE – RESTORED EXACTLY AS BEFORE ===
+    const htmlEl = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    htmlEl.setAttribute('data-bs-theme', savedTheme);
+    themeToggle.innerHTML = savedTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+
+    themeToggle.addEventListener('click', () => {
+      const current = htmlEl.getAttribute('data-bs-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-bs-theme', next);
+      localStorage.setItem('theme', next);
+      themeToggle.innerHTML = next === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+    });
+
     function clearError() {
       const e = document.getElementById('errorContainer');
       if (e && !e.classList.contains('d-none')) {
@@ -150,7 +165,6 @@
     }
 
     async function playStream(url) {
-      // destroy old JW instance
       if (jw) { jw.remove(); jw = null; }
 
       const useJW = await isM3U8(url);
@@ -179,7 +193,6 @@
           document.getElementById('errorContainer').innerHTML = 'Stream failed – try another source';
         });
       } else {
-        // IFRAME FALLBACK – exactly like before
         document.getElementById('jwplayer-div').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
@@ -191,18 +204,11 @@
 
     function populateStreamButtons(event) {
       const container = document.getElementById('streamLinks');
-      container.innerHTML = '';
-      event.streams.forEach((s, i) => {
+      container.innerHTML = event.streams.map((s, i) => {
         const url = typeof s === 'string' ? s : s.url;
         const title = s.title || `Stream ${i+1}`;
-        const btn = document.createElement('button');
-        btn.className = 'btn btn-stream';
-        btn.textContent = title;
-        btn.dataset.streamEncoded = btoa(url);
-        btn.dataset.streamIndex = i;
-        if (i === 0) btn.classList.add('active');
-        container.appendChild(btn);
-      });
+        return `<button class="btn btn-stream ${i===0?'active':''}" data-stream-encoded="${btoa(url)}" data-stream-index="${i}">${title}</button>`;
+      }).join('');
 
       container.addEventListener('click', async e => {
         const btn = e.target.closest('.btn-stream');
@@ -251,7 +257,6 @@
           document.getElementById('errorContainer').innerHTML = 'This stream is not available.';
         });
 
-      // Fullscreen button (works for both JW and iframe)
       document.getElementById('fullscreenBtn').addEventListener('click', () => {
         const el = document.getElementById('jwplayer-div').style.display !== 'none'
           ? document.getElementById('jwplayer-div')
@@ -261,7 +266,7 @@
         else if (el.msRequestFullscreen) el.msRequestFullscreen();
       });
 
-      // Chat (unchanged)
+      // Chat – unchanged
       setTimeout(() => {
         const c = document.querySelector('.chat-container');
         const l = document.getElementById('chatLoading');
@@ -272,7 +277,7 @@
         c.appendChild(i);
       }, 1000);
 
-      // Tip countdown (exactly like before)
+      // Tip countdown – exactly as before
       let sec = 10;
       const timer = document.getElementById('countdownTimer');
       const iv = setInterval(() => {
