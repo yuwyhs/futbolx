@@ -16,7 +16,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Hub%20Premier%201&code=gb&user=cdnlivetv&plan=free"
+              "url": "https://live20.bozztv.com/akamaissh101/ssh101/futbolx1/playlist.m3u8"
             }
           ]
         },
