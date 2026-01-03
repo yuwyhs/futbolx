@@ -16,7 +16,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "http://fl1.moveonjoy.com/USA_NETWORK/index.m3u8"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=USA%20Network&code=us&user=cdnlivetv&plan=free"
             }
           ]
         },
