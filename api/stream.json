@@ -121,7 +121,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-nice-vs-strasbourg/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sport%20TV%201&code=pt&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -136,7 +136,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-mali-vs-tunisia/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=SuperSport%20PSL&code=za&user=cdnlivetv&plan=free"
             }
           ]
         },
