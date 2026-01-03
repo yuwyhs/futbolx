@@ -6,122 +6,182 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Toulouse vs Lens",
-          "uri_name": "tttt",
-          "poster": "https://api.ppv.to/assets/thumb/0098b62119882563e93c05d2f9ffd4a3-thumbnail.jpg",
-          "tag": "Ligue 1",
-          "starts_at": "2026-01-02T22:45:00",
-          "ends_at": "2026-01-03T00:55:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=beIN%20SPORTS&code=us&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Liverpool vs Brighton",
-          "uri_name": "liverpool-vs-brighton",
-          "poster": "https://api.ppv.to/assets/thumb/9987c73d3cb4666c0230aecb9e6aa699-thumbnail.jpg",
+          "name": "Aston Villa vs Nottingham Forest",
+          "uri_name": "aston-villa-vs-nottingham-forest",
+          "poster": "https://api.ppv.to/assets/thumb/145be18c71bc7091ce96135402eecc9d-thumbnail.jpg",
           "tag": "EPL",
-          "starts_at": "2025-12-13T18:00:00",
-          "ends_at": "2025-12-13T20:05:00",
+          "starts_at": "2026-01-03T15:30:00",
+          "ends_at": "2026-01-03T17:40:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://sportzonline.top/channels/hd/hd1.php"
+              "url": "https://embedsports.top/embed/admin/ppv-aston-villa-vs-nottingham-forest/1"
             }
           ]
         },
         {
-          "name": "Rennes vs Brest",
-          "uri_name": "rennes-vs-brest",
-          "poster": "https://api.ppv.to/assets/thumb/06342935d7e5e56c58e451e6cea95bf4-thumbnail.jpg",
-          "tag": "Ligue 1",
-          "starts_at": "2025-12-13T19:00:00",
-          "ends_at": "2025-12-13T21:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://sportzonline.top/channels/hd/hd4.php"
-            }
-          ]
-        },
-        {
-          "name": "Burnley vs Fulham",
-          "uri_name": "burnley-vs-fulham",
-          "poster": "https://api.ppv.to/assets/thumb/38923b6c91362f43672b1539d43bc29d-thumbnail.jpg",
+          "name": "Brighton vs Burnley",
+          "uri_name": "brighton-vs-burnley",
+          "poster": "https://api.ppv.to/assets/thumb/490152b0725b67a205762a956a323d0c-thumbnail.jpg",
           "tag": "EPL",
-          "starts_at": "2025-12-13T20:30:00",
-          "ends_at": "2025-12-13T22:40:00",
+          "starts_at": "2026-01-03T18:00:00",
+          "ends_at": "2026-01-03T20:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://sportzonline.top/channels/hd/hd5.php"
+              "url": "https://embedsports.top/embed/admin/ppv-brighton-vs-burnley/1"
             }
           ]
         },
         {
-          "name": "Barcelona vs Osasuna",
-          "uri_name": "barcelona-vs-osasuna",
-          "poster": "https://api.ppv.to/assets/thumb/67b07709cfb21ac501bc57657dcd7795-thumbnail.jpg",
+          "name": "Wolves vs West Ham",
+          "uri_name": "wolves-vs-west-ham",
+          "poster": "https://api.ppv.to/assets/thumb/dd0135a3eadc6217fa73751f9ff1525f-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-03T18:00:00",
+          "ends_at": "2026-01-03T20:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-wolves-vs-west-ham/1"
+            }
+          ]
+        },
+        {
+          "name": "Senegal vs Sudan",
+          "uri_name": "senegal-vs-sudan",
+          "poster": "https://api.ppv.to/assets/thumb/dda7b3e8a55243bc50228ec8758acdf3-thumbnail.jpg",
+          "tag": "AFCON",
+          "starts_at": "2026-01-03T19:00:00",
+          "ends_at": "2026-01-03T21:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-senegal-vs-sudan/1"
+            }
+          ]
+        },
+        {
+          "name": "Monaco vs Lyon",
+          "uri_name": "monaco-vs-lyon",
+          "poster": "https://api.ppv.to/assets/thumb/caba358be42ecd3169de963faa2443a1-thumbnail.jpg",
+          "tag": "Ligue 1",
+          "starts_at": "2026-01-03T19:00:00",
+          "ends_at": "2026-01-03T21:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-monaco-vs-lyon/1"
+            }
+          ]
+        },
+        {
+          "name": "Juventus vs Lecce",
+          "uri_name": "juventus-vs-lecce",
+          "poster": "https://api.ppv.to/assets/thumb/04ab1cc40cd1afed4b09282f3c42097e-thumbnail.jpg",
+          "tag": "Serie A",
+          "starts_at": "2026-01-03T20:00:00",
+          "ends_at": "2026-01-03T22:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-juventus-vs-lecce/1"
+            }
+          ]
+        },
+        {
+          "name": "Bournemouth vs Arsenal",
+          "uri_name": "bournemouth-vs-arsenal",
+          "poster": "https://api.ppv.to/assets/thumb/6c93cdbd0b519cd15b015b8f489a9c21-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-03T20:30:00",
+          "ends_at": "2026-01-03T22:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-bournemouth-vs-arsenal/1"
+            }
+          ]
+        },
+        {
+          "name": "Nice vs Strasbourg",
+          "uri_name": "nice-vs-strasbourg",
+          "poster": "https://api.ppv.to/assets/thumb/09a5c0b3d8ee8f06111ce21a91f713fe-thumbnail.jpg",
+          "tag": "Ligue 1",
+          "starts_at": "2026-01-03T21:00:00",
+          "ends_at": "2026-01-03T23:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-nice-vs-strasbourg/1"
+            }
+          ]
+        },
+        {
+          "name": "Mali vs Tunisia",
+          "uri_name": "mali-vs-tunisia",
+          "poster": "https://api.ppv.to/assets/thumb/015f4fa0875f89f338736d03006f2980-thumbnail.jpg",
+          "tag": "AFCON",
+          "starts_at": "2026-01-03T22:00:00",
+          "ends_at": "2026-01-04T00:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-mali-vs-tunisia/1"
+            }
+          ]
+        },
+        {
+          "name": "Atalanta vs Roma",
+          "uri_name": "atalanta-vs-roma",
+          "poster": "https://api.ppv.to/assets/thumb/42af626809e6f27839181d396b209e00-thumbnail.jpg",
+          "tag": "Serie A",
+          "starts_at": "2026-01-03T22:45:00",
+          "ends_at": "2026-01-04T00:50:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-atalanta-vs-roma/1"
+            }
+          ]
+        },
+        {
+          "name": "Espanyol vs Barcelona",
+          "uri_name": "espanyol-vs-barcelona",
+          "poster": "https://api.ppv.to/assets/thumb/3bf5e4fff347efe328b10e584688ea69-thumbnail.jpg",
           "tag": "LaLiga",
-          "starts_at": "2025-12-13T20:30:00",
-          "ends_at": "2025-12-13T22:40:00",
+          "starts_at": "2026-01-03T23:00:00",
+          "ends_at": "2026-01-04T01:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://sportzonline.top/channels/hd/hd2.php"
+              "url": "https://embedsports.top/embed/admin/ppv-espanyol-vs-barcelona/1"
             }
           ]
         },
         {
-          "name": "FC Metz vs PSG",
-          "uri_name": "fc-metz-vs-psg",
-          "poster": "https://api.ppv.to/assets/thumb/56c8e279152aa266ca5d0436eed444dc-thumbnail.jpg",
+          "name": "Lille vs Stade Rennais",
+          "uri_name": "lille-vs-stade-rennais",
+          "poster": "https://api.ppv.to/assets/thumb/d83a89c1f64b35597807c6e1f9937175-thumbnail.jpg",
           "tag": "Ligue 1",
-          "starts_at": "2025-12-13T21:00:00",
-          "ends_at": "2025-12-13T23:05:00",
+          "starts_at": "2026-01-03T23:05:00",
+          "ends_at": "2026-01-04T01:10:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://sportzonline.top/channels/hd/hd4.php"
-            }
-          ]
-        },
-        {
-          "name": "Arsenal vs Wolves",
-          "uri_name": "arsenal-vs-wolves",
-          "poster": "https://api.ppv.to/assets/thumb/1974161db676c6548660d0da6fbaac80-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2025-12-13T23:00:00",
-          "ends_at": "2025-12-14T01:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://sportzonline.top/channels/hd/hd1.php"
-            }
-          ]
-        },
-        {
-          "name": "Paris FC vs Toulouse",
-          "uri_name": "paris-fc-vs-toulouse",
-          "poster": "https://api.ppv.to/assets/thumb/606fea856393ba7905b6b2674b85dd42-thumbnail.jpg",
-          "tag": "Ligue 1",
-          "starts_at": "2025-12-13T23:05:00",
-          "ends_at": "2025-12-14T01:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://sportzonline.top/channels/hd/hd4.php"
+              "url": "https://embedsports.top/embed/admin/ppv-lille-vs-stade-rennais/1"
             }
           ]
         }
@@ -130,38 +190,7 @@
     {
       "category": "Fights",
       "always_live": 0,
-      "streams": [
-        {
-          "name": "UFC Fight Night: Royval vs Kape",
-          "uri_name": "ufc-fight-night-royval-vs-kape",
-          "poster": "https://api.ppv.to/assets/thumb/07e548c632b6de966682703f5478c806-thumbnail.jpg",
-          "tag": "UFC",
-          "starts_at": "2025-12-14T02:00:00",
-          "ends_at": "2025-12-14T05:00:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-ufc-fight-night-royval-vs-kape/1"
-            }
-          ]
-        },
-        {
-          "name": "WWE: Saturday Night's Main Event",
-          "uri_name": "wwe-saturday-nights-main-event",
-          "poster": "https://api.ppv.to/assets/thumb/880a048062dc9e403943d35cd58747b4-thumbnail.jpg",
-          "tag": "WWE",
-          "starts_at": "2025-12-14T04:00:00",
-          "ends_at": "2025-12-14T06:30:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-wwe-saturday-nights-main-event/1"
-            }
-          ]
-        }
-      ]
+      "streams": []
     },
     {
       "category": "Motorsports",
@@ -171,38 +200,7 @@
     {
       "category": "Basketball",
       "always_live": 0,
-      "streams": [
-        {
-          "name": "New York Knicks vs Orlando Magic",
-          "uri_name": "new-york-knicks-vs-orlando-magic",
-          "poster": "https://api.ppv.to/assets/thumb/eeb913f32babf4b8ddd344c98fb38cdf-thumbnail.jpg",
-          "tag": "NBA",
-          "starts_at": "2025-12-14T01:30:00",
-          "ends_at": "2025-12-14T04:00:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-new-york-knicks-vs-orlando-magic/1"
-            }
-          ]
-        },
-        {
-          "name": "San Antonio Spurs vs Oklahoma City Thunder",
-          "uri_name": "san-antonio-spurs-vs-oklahoma-city-thunder",
-          "poster": "https://api.ppv.to/assets/thumb/d03a1547f0924a87418143df7354dbdf-thumbnail.jpg",
-          "tag": "NBA",
-          "starts_at": "2025-12-14T05:00:00",
-          "ends_at": "2025-12-14T08:00:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-san-antonio-spurs-vs-oklahoma-city-thunder/1"
-            }
-          ]
-        }
-      ]
+      "streams": []
     },
     {
       "category": "NFL",
