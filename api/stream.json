@@ -130,8 +130,8 @@
           "uri_name": "brest-vs-auxerre",
           "poster": "https://api.ppv.to/assets/thumb/7b8b730aca55a095afa83609be989cab-thumbnail.jpg",
           "tag": "Ligue 1",
-          "starts_at": "2026-01-04T19:15:00",
-          "ends_at": "2026-01-04T21:25:00",
+          "starts_at": "2026-01-01T19:15:00",
+          "ends_at": "2026-01-01T21:25:00",
           "always_live": 0,
           "streams": [
             {
@@ -145,8 +145,8 @@
           "uri_name": "le-havre-vs-angers",
           "poster": "https://api.ppv.to/assets/thumb/00ee1ffb594f974bd3968628d8005343-thumbnail.jpg",
           "tag": "Ligue 1",
-          "starts_at": "2026-01-04T19:15:00",
-          "ends_at": "2026-01-04T21:25:00",
+          "starts_at": "2026-01-01T19:15:00",
+          "ends_at": "2026-01-01T21:25:00",
           "always_live": 0,
           "streams": [
             {
@@ -160,8 +160,8 @@
           "uri_name": "lorient-vs-metz",
           "poster": "https://api.ppv.to/assets/thumb/17e006f623c0a063a1ca1c418ef0e530-thumbnail.jpg",
           "tag": "Ligue 1",
-          "starts_at": "2026-01-04T19:15:00",
-          "ends_at": "2026-01-04T21:25:00",
+          "starts_at": "2026-01-01T19:15:00",
+          "ends_at": "2026-01-01T21:25:00",
           "always_live": 0,
           "streams": [
             {
