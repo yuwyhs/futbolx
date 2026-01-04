@@ -31,7 +31,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sport%20TV%201&code=pt&user=cdnlivetv&plan=free"
+              "url": "https://embedsports.top/embed/admin/ppv-marseille-vs-nantes/1"
             }
           ]
         },
@@ -167,6 +167,51 @@
             {
               "title": "Main Feed",
               "url": "https://embedsports.top/embed/admin/ppv-lorient-vs-metz/1"
+            }
+          ]
+        },
+        {
+          "name": "Man City vs Chelsea",
+          "uri_name": "man-city-vs-chelsea",
+          "poster": "https://api.ppv.to/assets/thumb/819142cc3fd49934504f31d34bd88e3e-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-04T20:30:00",
+          "ends_at": "2026-01-04T22:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-man-city-vs-chelsea/1"
+            }
+          ]
+        },
+        {
+          "name": "South Africa vs Cameroon",
+          "uri_name": "south-africa-vs-cameroon",
+          "poster": "https://api.ppv.to/assets/thumb/9a64cbc608eea1f068fcafc57df3453c-thumbnail.jpg",
+          "tag": "AFCON",
+          "starts_at": "2026-01-04T22:00:00",
+          "ends_at": "2026-01-05T00:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-south-africa-vs-cameroon/1"
+            }
+          ]
+        },
+        {
+          "name": "PSG vs Paris FC",
+          "uri_name": "psg-vs-paris-fc",
+          "poster": "https://api.ppv.to/assets/thumb/a9baf4bb8d72505d10c26a1e0166eb20-thumbnail.jpg",
+          "tag": "Ligue 1",
+          "starts_at": "2026-01-04T22:45:00",
+          "ends_at": "2026-01-05T00:55:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-psg-vs-paris-fc/1"
             }
           ]
         }
