@@ -31,7 +31,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-man-city-vs-brighton/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sports%20Main%20Event&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -46,7 +46,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-fulham-vs-chelsea/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sports%20Football&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -61,7 +61,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-bournemouth-vs-tottenham/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sports%20Golf&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -76,7 +76,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-brentford-vs-sunderland/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sports%20Tennis&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -91,7 +91,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-crystal-palace-vs-aston-villa/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Hub%20Premier%205&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -106,7 +106,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-everton-vs-wolves/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sports%20F1&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
