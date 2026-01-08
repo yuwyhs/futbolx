@@ -6,12 +6,12 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Barcelona vs Athletic Bilbao",
-          "uri_name": "barcelona-vs-athletic-bilbao",
-          "poster": "https://api.ppv.to/assets/thumb/ae74949e4deac35de85a36df9e3359c6-thumbnail.jpg",
+          "name": "Atletico Madrid vs Real Madrid",
+          "uri_name": "atletico-madrid-vs-real-madrid",
+          "poster": "https://api.ppv.to/assets/thumb/b244653662fed40689b855f60c98054d-thumbnail.jpg",
           "tag": "Spanish SuperCup",
-          "starts_at": "2026-01-07T22:00:00",
-          "ends_at": "2026-01-08T00:00:00",
+          "starts_at": "2026-01-08T22:00:00",
+          "ends_at": "2026-01-09T00:00:00",
           "always_live": 0,
           "streams": [
             {
@@ -21,122 +21,17 @@
           ]
         },
         {
-          "name": "Man City vs Brighton",
-          "uri_name": "man-city-vs-brighton",
-          "poster": "https://api.ppv.to/assets/thumb/efe8c7a3d62f994d528ba75f5731f5db-thumbnail.jpg",
+          "name": "Arsenal vs Liverpool",
+          "uri_name": "arsenal-vs-liverpool",
+          "poster": "https://api.ppv.to/assets/thumb/69bd1af0e43583f8e954027919b6d860-thumbnail.jpg",
           "tag": "EPL",
-          "starts_at": "2026-01-07T22:30:00",
-          "ends_at": "2026-01-08T00:40:00",
+          "starts_at": "2026-01-08T23:00:00",
+          "ends_at": "2026-01-09T01:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
               "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sports%20Main%20Event&code=gb&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Fulham vs Chelsea",
-          "uri_name": "fulham-vs-chelsea",
-          "poster": "https://api.ppv.to/assets/thumb/e8e69f0a35fdc64c9bd627612a5ef3e7-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2026-01-07T22:30:00",
-          "ends_at": "2026-01-08T00:40:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sports%20Football&code=gb&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Bournemouth vs Tottenham",
-          "uri_name": "bournemouth-vs-tottenham",
-          "poster": "https://api.ppv.to/assets/thumb/57192d629b684d92e6f5c0dde61bd2d5-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2026-01-07T22:30:00",
-          "ends_at": "2026-01-08T00:40:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sports%20Golf&code=gb&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Brentford vs Sunderland",
-          "uri_name": "brentford-vs-sunderland",
-          "poster": "https://api.ppv.to/assets/thumb/b67a286215476107f75ef81c342debe9-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2026-01-07T22:30:00",
-          "ends_at": "2026-01-08T00:40:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sports%20Tennis&code=gb&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Crystal Palace vs Aston Villa",
-          "uri_name": "crystal-palace-vs-aston-villa",
-          "poster": "https://api.ppv.to/assets/thumb/3990d38694cbba2727998aa5259a5155-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2026-01-07T22:30:00",
-          "ends_at": "2026-01-08T00:40:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Hub%20Premier%205&code=gb&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Everton vs Wolves",
-          "uri_name": "everton-vs-wolves",
-          "poster": "https://api.ppv.to/assets/thumb/8e7b29025fa9499d22122d0846d806fb-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2026-01-07T22:30:00",
-          "ends_at": "2026-01-08T00:40:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sports%20F1&code=gb&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Burnley vs Man United",
-          "uri_name": "burnley-vs-man-united",
-          "poster": "https://api.ppv.to/assets/thumb/6327e2fb1f4336444860be58a285b004-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2026-01-07T23:15:00",
-          "ends_at": "2026-01-08T01:20:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=USA%20Network&code=us&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Newcastle vs Leeds",
-          "uri_name": "newcastle-vs-leeds",
-          "poster": "https://api.ppv.to/assets/thumb/33042061323a1b4ffccbe47f18185324-thumbnail.jpg",
-          "tag": "EPL",
-          "starts_at": "2026-01-07T23:15:00",
-          "ends_at": "2026-01-08T01:20:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sports%20Cricket&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         }
