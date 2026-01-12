@@ -16,7 +16,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-genoa-vs-cagliari/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Astro%20Football&code=us&user=cdnlivetv&plan=free"
             }
           ]
         }
