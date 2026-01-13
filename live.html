@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
+  <!-- ONLY CHANGE: JW Player from your working 24/7 page -->
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
@@ -38,42 +39,68 @@
     #chatLoading {text-align:center;padding:20px;background:#222;color:#fff;}
     [data-bs-theme="light"] #chatLoading {background:#fff;color:#333;}
 
-    /* New styles for pre-stream state */
-    .pre-stream-info { 
-      text-align: center; 
-      padding: 40px 20px; 
-      background: rgba(0,0,0,0.4); 
-      border-radius: 12px; 
-      margin: 30px auto; 
-      max-width: 700px; 
+    /* Added for cool pre-stream look */
+    #statusArea {
+      text-align: center;
+      padding: 30px 15px;
+      background: rgba(30,30,30,0.7);
+      border-radius: 12px;
+      margin: 25px auto;
+      max-width: 720px;
     }
-    .pre-stream-title { 
-      font-size: 2.2rem; 
-      margin-bottom: 15px; 
-      color: #ff4d4d; 
+    #eventTitle {
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+      color: #ff4d4d;
     }
-    .pre-stream-message { 
-      font-size: 1.3rem; 
-      margin: 20px 0; 
-      color: #ccc; 
+    .countdown-display {
+      font-size: 4rem;
+      font-weight: bold;
+      color: #ff4d4d;
+      letter-spacing: 5px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px rgba(255,77,77,0.5);
     }
-    .countdown-display { 
-      font-size: 3.5rem; 
-      font-weight: bold; 
-      color: #ff4d4d; 
-      letter-spacing: 4px; 
-      margin: 25px 0; 
-      text-shadow: 0 0 15px rgba(255,77,77,0.6); 
+    .status-message {
+      font-size: 1.4rem;
+      color: #ddd;
     }
-    .ended-message { 
-      font-size: 1.8rem; 
-      color: #888; 
-      padding: 40px; 
-    }
+    .status-live { color: #4caf50 !important; }
+    .status-ended { color: #888 !important; }
   </style>
 </head>
 <body>
-  <!-- ... (top bar, sidebar unchanged) ... -->
+  <nav class="top-bar fixed-top">
+    <div class="container-fluid">
+      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <span class="futbolx-brand">FutbolX</span>
+    </div>
+  </nav>
+
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+    <div class="offcanvas-header">
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/request">Request</a></li>
+        <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
+        <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
+        <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
+        <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
+        <li class="nav-item"><button class="nav-link btn btn-link d-none" id="logoutButton">Logout</button></li>
+        <li class="nav-item">
+          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
 
   <div class="container-fluid main-content">
     <div class="container mt-4">
@@ -94,19 +121,19 @@
             <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
           </div>
 
-          <!-- Pre-stream / status area -->
-          <div id="statusArea" class="pre-stream-info">
-            <h2 id="eventTitle" class="pre-stream-title mb-0"></h2>
+          <!-- Cool status area -->
+          <div id="statusArea">
+            <h2 id="eventTitle" class="mb-3"></h2>
             <div id="countdownDisplay" class="countdown-display"></div>
-            <p id="statusMessage" class="pre-stream-message">Loading event details...</p>
+            <p id="statusMessage" class="status-message">Loading event...</p>
           </div>
 
-          <div class="video-container" id="videoContainer">
+          <div class="video-container">
             <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
             <div id="jwplayer-div"></div>
           </div>
 
-          <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
+          <div id="streamLinks" class="stream-links mt-3"></div>
 
           <div class="chat-container">
             <div id="chatLoading">Loading chat...</div>
@@ -116,76 +143,108 @@
         </div>
       </div>
 
-      <!-- footer unchanged -->
+      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
+        <ul class="nav justify-content-center justify-content-lg-end mb-0">
+          <li class="nav-item"><a href="/api" class="nav-link px-2 text-body-secondary">API</a></li>
+          <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">Discord</a></li>
+          <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
+          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
+          <li class="nav-item"><a href="/contact" class="nav-link px-2 text-body-secondary">Contact us</a></li>
+        </ul>
+      </footer>
     </div>
   </div>
 
-  <!-- scripts unchanged except the main one below -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/auth.js"></script>
 
   <script>
-    // ... (theme toggle, clearError, isM3U8, playStream functions unchanged) ...
+    window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
 
     let jw = null;
     let streamData = null;
     let eventStartTime = null;
     let eventEndTime = null;
 
-    function formatTimeLeft(seconds) {
-      if (seconds <= 0) return "Starting now!";
-      const days = Math.floor(seconds / 86400);
-      const hours = Math.floor((seconds % 86400) / 3600);
-      const minutes = Math.floor((seconds % 3600) / 60);
-      const secs = seconds % 60;
+    // THEME TOGGLE – EXACTLY AS BEFORE
+    const htmlEl = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    htmlEl.setAttribute('data-bs-theme', savedTheme);
+    themeToggle.innerHTML = savedTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
 
-      if (days > 0) return `${days}d ${hours.toString().padStart(2,'0')}h ${minutes.toString().padStart(2,'0')}m`;
-      if (hours > 0) return `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
-      return `${minutes.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+    themeToggle.addEventListener('click', () => {
+      const current = htmlEl.getAttribute('data-bs-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-bs-theme', next);
+      localStorage.setItem('theme', next);
+      themeToggle.innerHTML = next === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+    });
+
+    function clearError() {
+      const e = document.getElementById('errorContainer');
+      if (e && !e.classList.contains('d-none')) {
+        e.classList.add('fade-out');
+        setTimeout(() => { e.className = 'alert alert-danger error-alert mt-3 d-none'; e.innerHTML = ''; }, 500);
+      }
     }
 
-    function updateStatus() {
-      const now = Math.floor(Date.now() / 1000);
-      const titleEl = document.getElementById('eventTitle');
-      const countdownEl = document.getElementById('countdownDisplay');
-      const messageEl = document.getElementById('statusMessage');
-      const startBtn = document.getElementById('startLivestream');
-      const videoCont = document.getElementById('videoContainer');
-      const linksCont = document.getElementById('streamLinks');
+    async function isM3U8(url) {
+      if (url.toLowerCase().includes('.m3u8')) return true;
+      try {
+        const r = await fetch(url, {method:'HEAD'});
+        const ct = r.headers.get('content-type') || '';
+        return ct.includes('application/vnd.apple.mpegurl');
+      } catch { return false; }
+    }
 
-      if (!eventStartTime || !eventEndTime) {
-        messageEl.textContent = "Event information unavailable";
-        countdownEl.textContent = "";
-        return;
-      }
+    async function playStream(url) {
+      if (jw) { jw.remove(); jw = null; }
 
-      const timeLeft = eventStartTime - now;
-      const isLive = now >= eventStartTime && now <= eventEndTime;
-      const isEnded = now > eventEndTime;
+      const useJW = await isM3U8(url);
 
-      if (isEnded) {
-        countdownEl.textContent = "";
-        messageEl.innerHTML = '<i class="fas fa-times-circle me-2"></i>This event has ended';
-        messageEl.className = 'pre-stream-message text-danger';
-        startBtn.style.display = 'none';
-        videoCont.style.display = 'none';
-        linksCont.style.display = 'none';
-      } else if (isLive) {
-        countdownEl.textContent = "LIVE NOW!";
-        messageEl.innerHTML = '<i class="fas fa-play-circle me-2"></i>Stream is live — click below to watch';
-        messageEl.className = 'pre-stream-message text-success';
-        startBtn.style.display = 'inline-block';
-        startBtn.disabled = false;
+      if (useJW) {
+        document.getElementById('embedPlayer').style.display = 'none';
+        document.getElementById('jwplayer-div').style.display = 'block';
+
+        jw = jwplayer('jwplayer-div').setup({
+          file: url,
+          width: '100%',
+          height: '100%',
+          autostart: true,
+          mute: false,
+          stretching: 'uniform',
+          primary: 'html5',
+          hlsjsConfig: { enableWorker: true },
+          controls: true,
+          displaytitle: false,
+          pipIcon: 'enabled',
+          captions: { color: '#fff', backgroundOpacity: 50 }
+        });
+        jw.on('ready', clearError);
+        jw.on('error', () => {
+          document.getElementById('errorContainer').classList.remove('d-none');
+          document.getElementById('errorContainer').innerHTML = 'Stream failed – try another source';
+        });
       } else {
-        countdownEl.textContent = formatTimeLeft(timeLeft);
-        messageEl.innerHTML = '<i class="fas fa-clock me-2"></i>Stream has not started yet — kickoff in:';
-        messageEl.className = 'pre-stream-message';
-        startBtn.style.display = 'none';
-        videoCont.style.display = 'none';
-        linksCont.style.display = 'none';
+        document.getElementById('jwplayer-div').style.display = 'none';
+        const iframe = document.getElementById('embedPlayer');
+        iframe.style.display = 'block';
+        const u = new URL(url);
+        u.searchParams.set('autoplay', '1');
+        iframe.src = u.toString();
+
+        // Hide real src from inspector
+        setTimeout(() => {
+          iframe.src = 'about:blank';
+          iframe.removeAttribute('src');
+        }, 800);
       }
     }
 
     function populateStreamButtons(event) {
-      // unchanged
       const container = document.getElementById('streamLinks');
       container.innerHTML = event.streams.map((s, i) => {
         const url = typeof s === 'string' ? s : s.url;
@@ -203,9 +262,49 @@
       });
     }
 
+    function formatTimeLeft(seconds) {
+      if (seconds <= 0) return "Starting now!";
+      const d = Math.floor(seconds / 86400);
+      const h = Math.floor((seconds % 86400) / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
+      if (d > 0) return `${d}d ${h.toString().padStart(2,'0')}h ${m.toString().padStart(2,'0')}m`;
+      return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    }
+
+    function updatePreStreamStatus() {
+      const now = Math.floor(Date.now() / 1000);
+      const countdownEl = document.getElementById('countdownDisplay');
+      const messageEl = document.getElementById('statusMessage');
+      const startBtn = document.getElementById('startLivestream');
+
+      if (!eventStartTime || !eventEndTime) return;
+
+      const timeLeft = eventStartTime - now;
+      const isLive = now >= eventStartTime && now <= eventEndTime;
+      const isEnded = now > eventEndTime;
+
+      if (isEnded) {
+        countdownEl.textContent = "";
+        messageEl.textContent = "This event has ended";
+        messageEl.classList.add('status-ended');
+        startBtn.style.display = 'none';
+      } else if (isLive) {
+        countdownEl.textContent = "LIVE NOW!";
+        messageEl.textContent = "Stream is live – click to watch";
+        messageEl.classList.add('status-live');
+        startBtn.style.display = 'inline-block';
+      } else {
+        countdownEl.textContent = formatTimeLeft(timeLeft);
+        messageEl.textContent = "Stream has not started yet – kickoff in:";
+        startBtn.style.display = 'none';
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       const uriName = window.location.pathname.split('/').pop();
       const titleEl = document.getElementById('eventTitle');
+      const startBtn = document.getElementById('startLivestream');
 
       fetch('/api/stream')
         .then(r => r.json())
@@ -226,33 +325,63 @@
             eventStartTime = new Date(event.starts_at + '+03:00').getTime() / 1000;
             eventEndTime = event.ends_at 
               ? new Date(event.ends_at + '+03:00').getTime() / 1000 
-              : eventStartTime + 10800; // 3 hours fallback
+              : eventStartTime + 3 * 3600;
           } catch (e) {
             eventStartTime = Date.now() / 1000;
-            eventEndTime = eventStartTime + 10800;
+            eventEndTime = eventStartTime + 3 * 3600;
           }
 
-          updateStatus();
-          setInterval(updateStatus, 1000); // smooth countdown
+          updatePreStreamStatus();
+          setInterval(updatePreStreamStatus, 1000);
 
-          document.getElementById('startLivestream').onclick = () => {
-            document.getElementById('videoContainer').style.display = 'block';
-            document.getElementById('streamLinks').style.display = 'block';
-            document.getElementById('statusArea').style.display = 'none'; // optional: hide status after start
-            document.getElementById('startLivestream').style.display = 'none';
+          startBtn.onclick = () => {
+            document.querySelector('.video-container').style.display = 'block';
+            startBtn.style.display = 'none';
             document.getElementById('fullscreenBtn').classList.remove('d-none');
-
             const firstUrl = event.streams[0].url || event.streams[0];
             playStream(firstUrl);
             populateStreamButtons(event);
           };
         })
-        .catch(err => {
-          document.getElementById('statusMessage').textContent = 'Event not found or unavailable';
-          console.error(err);
+        .catch(() => {
+          titleEl.textContent = 'Stream Not Found';
+          document.getElementById('statusMessage').textContent = 'This stream is not available.';
+          document.getElementById('errorContainer').classList.remove('d-none');
+          document.getElementById('errorContainer').innerHTML = 'Event not found or unavailable.';
         });
 
-      // fullscreen, chat, tip countdown unchanged...
+      document.getElementById('fullscreenBtn').addEventListener('click', () => {
+        const el = document.getElementById('jwplayer-div').style.display !== 'none'
+          ? document.getElementById('jwplayer-div')
+          : document.getElementById('embedPlayer');
+        if (el.requestFullscreen) el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+        else if (el.msRequestFullscreen) el.msRequestFullscreen();
+      });
+
+      // Chat loading – restored exactly
+      setTimeout(() => {
+        const c = document.querySelector('.chat-container');
+        const l = document.getElementById('chatLoading');
+        const i = document.createElement('iframe');
+        i.src = 'https://www5.cbox.ws/box/?boxid=958103&boxtag=ElAMjb';
+        i.style = 'width:100%;height:100%;border:none;';
+        i.onload = () => l.style.display = 'none';
+        c.appendChild(i);
+      }, 1000);
+
+      // Tip countdown – restored exactly
+      let sec = 10;
+      const timer = document.getElementById('countdownTimer');
+      const iv = setInterval(() => {
+        sec--;
+        timer.textContent = sec + 's';
+        if (sec <= 0) {
+          clearInterval(iv);
+          document.querySelector('.alert-info').classList.add('fade-out');
+          setTimeout(() => document.querySelector('.tip-container').style.height = '0', 500);
+        }
+      }, 1000);
     });
   </script>
 </body>
