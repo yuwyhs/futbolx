@@ -17,7 +17,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
-  <!-- JW Player -->
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
@@ -39,7 +38,6 @@
     #chatLoading {text-align:center;padding:20px;background:#222;color:#fff;}
     [data-bs-theme="light"] #chatLoading {background:#fff;color:#333;}
 
-    /* Pre-stream status styling */
     #statusArea {
       text-align: center;
       padding: 30px 15px;
@@ -121,7 +119,6 @@
             <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
           </div>
 
-          <!-- Cool status area -->
           <div id="statusArea">
             <h2 id="eventTitle" class="mb-3"></h2>
             <div id="countdownDisplay" class="countdown-display"></div>
@@ -133,7 +130,7 @@
             <div id="jwplayer-div"></div>
           </div>
 
-          <div id="streamLinks" class="stream-links mt-3"></div>
+          <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
           <div class="chat-container">
             <div id="chatLoading">Loading chat...</div>
@@ -168,7 +165,6 @@
     let eventStartTime = null;
     let eventEndTime = null;
 
-    // Theme toggle
     const htmlEl = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -273,9 +269,12 @@
 
     function updatePreStreamStatus() {
       const now = Math.floor(Date.now() / 1000);
+      const statusArea = document.getElementById('statusArea');
       const countdownEl = document.getElementById('countdownDisplay');
       const messageEl = document.getElementById('statusMessage');
       const startBtn = document.getElementById('startLivestream');
+      const videoCont = document.querySelector('.video-container');
+      const streamLinks = document.getElementById('streamLinks');
 
       if (!eventStartTime || !eventEndTime) return;
 
@@ -283,20 +282,26 @@
       const isLive = now >= eventStartTime && now <= eventEndTime;
       const isEnded = now > eventEndTime;
 
-      if (isEnded) {
-        countdownEl.textContent = "";
-        messageEl.textContent = "This event has ended";
-        messageEl.classList.add('status-ended');
-        startBtn.style.display = 'none';
-      } else if (isLive) {
-        countdownEl.textContent = "LIVE NOW!";
-        messageEl.textContent = "Stream is live – click to watch";
-        messageEl.classList.add('status-live');
-        startBtn.style.display = 'inline-block';
+      if (isLive) {
+        // During live: hide status, show player/buttons after click
+        statusArea.style.display = 'none';
+        // startBtn visibility handled in click handler
       } else {
-        countdownEl.textContent = formatTimeLeft(timeLeft);
-        messageEl.textContent = "Stream has not started yet";
+        // Before start or after end: show status, hide player & stream links
+        statusArea.style.display = 'block';
+        videoCont.style.display = 'none';
+        streamLinks.style.display = 'none';
         startBtn.style.display = 'none';
+
+        if (isEnded) {
+          countdownEl.textContent = "";
+          messageEl.textContent = "This event has ended";
+          messageEl.classList.add('status-ended');
+        } else {
+          countdownEl.textContent = formatTimeLeft(timeLeft);
+          messageEl.textContent = "Stream has not started yet";
+          messageEl.classList.remove('status-live', 'status-ended');
+        }
       }
     }
 
@@ -335,6 +340,7 @@
 
           startBtn.onclick = () => {
             document.querySelector('.video-container').style.display = 'block';
+            document.getElementById('streamLinks').style.display = 'block';
             startBtn.style.display = 'none';
             document.getElementById('fullscreenBtn').classList.remove('d-none');
             const firstUrl = event.streams[0].url || event.streams[0];
@@ -358,7 +364,6 @@
         else if (el.msRequestFullscreen) el.msRequestFullscreen();
       });
 
-      // Chat
       setTimeout(() => {
         const c = document.querySelector('.chat-container');
         const l = document.getElementById('chatLoading');
@@ -369,7 +374,6 @@
         c.appendChild(i);
       }, 1000);
 
-      // Tip countdown
       let sec = 10;
       const timer = document.getElementById('countdownTimer');
       const iv = setInterval(() => {
@@ -384,4 +388,4 @@
     });
   </script>
 </body>
-</html>
+  </html>
