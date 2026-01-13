@@ -222,7 +222,7 @@
 
           <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
-          <!-- Chat with fake online counter -->
+          <!-- Chat with realistic fake online counter -->
           <div class="chat-wrapper">
             <div class="chat-header">
               Live Chat 
@@ -521,31 +521,43 @@
       }, 1000);
 
       // =====================================
-      // Fake Realistic Online Users Counter
+      // Realistic Fake Online Users Counter (slow growth, decreases too)
       // =====================================
-      let currentOnline = Math.floor(Math.random() * 150) + 50; // Start 50–200
+      let currentOnline = Math.floor(Math.random() * 90) + 30; // Start low: 30–120
       const maxOnline = 1700;
       const onlineEl = document.getElementById('fakeOnline');
 
       function updateFakeOnline() {
-        const change = Math.floor(Math.random() * 100) - 20;
-        currentOnline = Math.max(40, Math.min(maxOnline, currentOnline + change));
+        // Small normal change: -15 to +25
+        let change = Math.floor(Math.random() * 40) - 15;
 
-        // Occasional bigger jumps (like goal moments)
-        if (Math.random() < 0.1) {
-          currentOnline += Math.floor(Math.random() * 120) + 50;
+        // 20% chance of bigger drop (people leaving)
+        if (Math.random() < 0.2) {
+          change = Math.floor(Math.random() * -80) - 20; // -20 to -100
+        }
+
+        // 15% chance of bigger jump (new viewers / goal moment)
+        if (Math.random() < 0.15) {
+          change = Math.floor(Math.random() * 80) + 30; // +30 to +110
+        }
+
+        currentOnline = Math.max(25, Math.min(maxOnline, currentOnline + change));
+
+        // Very rare big spike (like match start)
+        if (Math.random() < 0.03) { // ~3% chance
+          currentOnline += Math.floor(Math.random() * 200) + 100;
           currentOnline = Math.min(maxOnline, currentOnline);
         }
 
         onlineEl.textContent = currentOnline + ' online';
       }
 
-      // First update after 2 seconds
-      setTimeout(updateFakeOnline, 2000);
+      // First update after 3 seconds
+      setTimeout(updateFakeOnline, 3000);
 
-      // Then update every 8–15 seconds
-      setInterval(updateFakeOnline, Math.random() * 7000 + 8000);
+      // Then update every 10–18 seconds (natural feel)
+      setInterval(updateFakeOnline, Math.random() * 8000 + 10000);
     });
   </script>
 </body>
-                </html>
+  </html>
