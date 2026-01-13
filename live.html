@@ -94,11 +94,6 @@
       border-radius:12px;
       font-weight:bold;
       transition: all 0.4s ease;
-      animation: subtlePulse 4s infinite alternate;
-    }
-    @keyframes subtlePulse {
-      from { opacity: 0.8; }
-      to   { opacity: 1; }
     }
     .chat-container {
       height:420px;
@@ -222,7 +217,7 @@
 
           <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
-          <!-- Chat with realistic fake online counter -->
+          <!-- Chat with super realistic fake online counter -->
           <div class="chat-wrapper">
             <div class="chat-header">
               Live Chat 
@@ -521,32 +516,39 @@
       }, 1000);
 
       // =====================================
-      // Realistic Fake Online Users Counter (slow growth, decreases too)
+      // Super Realistic Fake Online Counter (adapts to live event status)
       // =====================================
-      let currentOnline = Math.floor(Math.random() * 90) + 30; // Start low: 30–120
+      let currentOnline = Math.floor(Math.random() * 40) + 10; // Start very low: 10–50
       const maxOnline = 1700;
       const onlineEl = document.getElementById('fakeOnline');
 
       function updateFakeOnline() {
-        // Small normal change: -15 to +25
-        let change = Math.floor(Math.random() * 40) - 15;
+        if (!streamStarted) {
+          // No live event → stay very low, max 50, mostly quiet
+          let change = Math.floor(Math.random() * 10) - 5; // -5 to +5
+          if (Math.random() < 0.1) change = Math.floor(Math.random() * 15) - 8; // rare small jump/drop
+          currentOnline = Math.max(8, Math.min(50, currentOnline + change));
+        } else {
+          // Live event active → slow growth toward 700–900, rare big spikes
+          let change = Math.floor(Math.random() * 20) - 8; // -8 to +12 most times
 
-        // 20% chance of bigger drop (people leaving)
-        if (Math.random() < 0.2) {
-          change = Math.floor(Math.random() * -80) - 20; // -20 to -100
-        }
+          // Occasional small drop (people leaving)
+          if (Math.random() < 0.25) {
+            change = Math.floor(Math.random() * -30) - 5; // -5 to -35
+          }
 
-        // 15% chance of bigger jump (new viewers / goal moment)
-        if (Math.random() < 0.15) {
-          change = Math.floor(Math.random() * 80) + 30; // +30 to +110
-        }
+          // Small jump (new viewers)
+          if (Math.random() < 0.20) {
+            change = Math.floor(Math.random() * 40) + 10; // +10 to +50
+          }
 
-        currentOnline = Math.max(25, Math.min(maxOnline, currentOnline + change));
+          currentOnline = Math.max(25, Math.min(maxOnline, currentOnline + change));
 
-        // Very rare big spike (like match start)
-        if (Math.random() < 0.03) { // ~3% chance
-          currentOnline += Math.floor(Math.random() * 200) + 100;
-          currentOnline = Math.min(maxOnline, currentOnline);
+          // Rare bigger spike (goal / big moment) - only ~3% chance
+          if (Math.random() < 0.03) {
+            currentOnline += Math.floor(Math.random() * 120) + 80;
+            currentOnline = Math.min(maxOnline, currentOnline);
+          }
         }
 
         onlineEl.textContent = currentOnline + ' online';
@@ -555,8 +557,8 @@
       // First update after 3 seconds
       setTimeout(updateFakeOnline, 3000);
 
-      // Then update every 10–18 seconds (natural feel)
-      setInterval(updateFakeOnline, Math.random() * 8000 + 10000);
+      // Update every 12–20 seconds (feels natural)
+      setInterval(updateFakeOnline, Math.random() * 8000 + 12000);
     });
   </script>
 </body>
