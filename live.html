@@ -63,7 +63,7 @@
       100% { opacity: 1; }
     }
 
-    /* Chat with realistic fake online counter */
+    /* Chat */
     .chat-wrapper {
       max-width:600px;
       margin:30px auto;
@@ -87,33 +87,18 @@
       gap: 15px;
     }
     .online-count {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.9rem;
-      font-weight: bold;
-      color: #4caf50; /* Green for online status */
-      background: rgba(76,175,80,0.15);
-      padding: 5px 12px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(76,175,80,0.5);
-      animation: glowPulse 3s infinite alternate;
+      font-size:0.9rem;
+      color:#fff9;
+      background:#0006;
+      padding:5px 12px;
+      border-radius:12px;
+      font-weight:bold;
+      transition: all 0.4s ease;
+      animation: subtlePulse 4s infinite alternate;
     }
-    .status-dot {
-      width: 10px;
-      height: 10px;
-      background: #4caf50;
-      border-radius: 50%;
-      box-shadow: 0 0 8px #4caf50, 0 0 15px #4caf50;
-      animation: blink 2s infinite;
-    }
-    @keyframes glowPulse {
-      from { box-shadow: 0 0 10px rgba(76,175,80,0.5); }
-      to   { box-shadow: 0 0 20px rgba(76,175,80,0.9); }
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50%      { opacity: 0.4; }
+    @keyframes subtlePulse {
+      from { opacity: 0.8; }
+      to   { opacity: 1; }
     }
     .chat-container {
       height:420px;
@@ -242,7 +227,6 @@
             <div class="chat-header">
               Live Chat 
               <span id="fakeOnline" class="online-count">
-                <span class="status-dot"></span>
                 Loading...
               </span>
             </div>
@@ -544,24 +528,24 @@
       const onlineEl = document.getElementById('fakeOnline');
 
       function updateFakeOnline() {
-        // Small normal change: -10 to +20
-        let change = Math.floor(Math.random() * 30) - 10;
+        // Small normal change: -15 to +25
+        let change = Math.floor(Math.random() * 40) - 15;
 
-        // 25% chance of small drop (people leaving)
-        if (Math.random() < 0.25) {
-          change = Math.floor(Math.random() * -40) - 5; // -5 to -45
+        // 20% chance of bigger drop (people leaving)
+        if (Math.random() < 0.2) {
+          change = Math.floor(Math.random() * -80) - 20; // -20 to -100
         }
 
-        // 20% chance of small jump (new viewers)
-        if (Math.random() < 0.20) {
-          change = Math.floor(Math.random() * 50) + 10; // +10 to +60
+        // 15% chance of bigger jump (new viewers / goal moment)
+        if (Math.random() < 0.15) {
+          change = Math.floor(Math.random() * 80) + 30; // +30 to +110
         }
 
         currentOnline = Math.max(25, Math.min(maxOnline, currentOnline + change));
 
-        // Very rare bigger spike (like match start or goal)
-        if (Math.random() < 0.04) { // ~4% chance
-          currentOnline += Math.floor(Math.random() * 150) + 80;
+        // Very rare big spike (like match start)
+        if (Math.random() < 0.03) { // ~3% chance
+          currentOnline += Math.floor(Math.random() * 200) + 100;
           currentOnline = Math.min(maxOnline, currentOnline);
         }
 
