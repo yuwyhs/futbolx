@@ -198,7 +198,10 @@
     }
 
     async function playStream(url) {
-      if (jw) { jw.remove(); jw = null; }
+      if (jw) { 
+        jw.remove(); 
+        jw = null; 
+      }
 
       const useJW = await isM3U8(url);
 
@@ -220,6 +223,7 @@
           pipIcon: 'enabled',
           captions: { color: '#fff', backgroundOpacity: 50 }
         });
+
         jw.on('ready', clearError);
         jw.on('error', () => {
           document.getElementById('errorContainer').classList.remove('d-none');
@@ -229,14 +233,13 @@
         document.getElementById('jwplayer-div').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
-        const u = new URL(url);
-        u.searchParams.set('autoplay', '1');
-        iframe.src = u.toString();
-
-        setTimeout(() => {
-          iframe.src = 'about:blank';
-          iframe.removeAttribute('src');
-        }, 800);
+        try {
+          const u = new URL(url);
+          u.searchParams.set('autoplay', '1');
+          iframe.src = u.toString();
+        } catch {
+          iframe.src = url;
+        }
       }
     }
 
@@ -245,9 +248,10 @@
       container.innerHTML = event.streams.map((s, i) => {
         const realUrl = typeof s === 'string' ? s : s.url;
         
-        // Double base64 + random junk (8-10 chars) to obscure the URL
-        const junk = Math.random().toString(36).slice(2, 11);
-        const protectedValue = btoa(btoa(realUrl) + junk);
+        // Double base64 + separator + random junk
+        const junk = Math.random().toString(36).slice(2, 10);
+        const payload = btoa(realUrl) + '||' + junk;
+        const protectedValue = btoa(payload);
         
         const title = s.title || `Stream ${i+1}`;
         return `
@@ -264,18 +268,20 @@
         const protectedStr = btn.dataset.p;
         
         try {
-          // Decode twice and remove junk suffix
-          const doubleDecoded = atob(protectedStr);
-          const realUrl = atob(doubleDecoded.slice(0, -10)); // junk is ~8-10 chars
+          const payload = atob(protectedStr);
+          const parts = payload.split('||');
+          if (parts.length !== 2) throw new Error('Invalid stream format');
+          
+          const realUrl = atob(parts[0]);
           
           playStream(realUrl);
           
           container.querySelectorAll('.btn-stream').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
         } catch (err) {
-          console.error("Could not decode stream URL");
+          console.error('Stream decode error:', err);
           document.getElementById('errorContainer').classList.remove('d-none');
-          document.getElementById('errorContainer').innerHTML = 'Error loading stream';
+          document.getElementById('errorContainer').innerHTML = 'Failed to load stream – invalid source';
         }
       });
     }
