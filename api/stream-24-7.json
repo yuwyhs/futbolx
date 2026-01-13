@@ -44,7 +44,7 @@
         "streams": [
           {
             "label": "Stream 1",
-            "url": "https://futbolxt.vercel.app/hub1.m3u8"
+            "url": "https://cdn-live.tv/api/v1/channels/player/?name=CBS%20Sports%20Network&code=us&user=cdnlivetv&plan=free"
           }
         ],
         "always_live": 1
@@ -87,7 +87,7 @@
         "streams": [
           {
             "label": "Stream 1",
-            "url": "https://fl25.moveonjoy.com/NICKELODEON/index.m3u8"
+            "url": "https://cdn-live.tv/api/v1/channels/player/?name=Nickelodeon%20TV&code=us&user=cdnlivetv&plan=free"
           }
         ],
         "always_live": 1
