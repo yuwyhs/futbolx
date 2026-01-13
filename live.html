@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
-  <!-- ONLY CHANGE: JW Player from your working 24/7 page -->
+  <!-- JW Player -->
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
@@ -39,7 +39,7 @@
     #chatLoading {text-align:center;padding:20px;background:#222;color:#fff;}
     [data-bs-theme="light"] #chatLoading {background:#fff;color:#333;}
 
-    /* Added for cool pre-stream look */
+    /* Pre-stream status styling */
     #statusArea {
       text-align: center;
       padding: 30px 15px;
@@ -168,7 +168,7 @@
     let eventStartTime = null;
     let eventEndTime = null;
 
-    // THEME TOGGLE – EXACTLY AS BEFORE
+    // Theme toggle
     const htmlEl = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -236,7 +236,6 @@
         u.searchParams.set('autoplay', '1');
         iframe.src = u.toString();
 
-        // Hide real src from inspector
         setTimeout(() => {
           iframe.src = 'about:blank';
           iframe.removeAttribute('src');
@@ -296,7 +295,7 @@
         startBtn.style.display = 'inline-block';
       } else {
         countdownEl.textContent = formatTimeLeft(timeLeft);
-        messageEl.textContent = "Stream has not started yet – kickoff in:";
+        messageEl.textContent = "Stream has not started yet";
         startBtn.style.display = 'none';
       }
     }
@@ -359,7 +358,7 @@
         else if (el.msRequestFullscreen) el.msRequestFullscreen();
       });
 
-      // Chat loading – restored exactly
+      // Chat
       setTimeout(() => {
         const c = document.querySelector('.chat-container');
         const l = document.getElementById('chatLoading');
@@ -370,7 +369,7 @@
         c.appendChild(i);
       }, 1000);
 
-      // Tip countdown – restored exactly
+      // Tip countdown
       let sec = 10;
       const timer = document.getElementById('countdownTimer');
       const iv = setInterval(() => {
@@ -385,4 +384,4 @@
     });
   </script>
 </body>
-  </html>
+</html>
