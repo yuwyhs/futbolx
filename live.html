@@ -164,6 +164,7 @@
     let streamData = null;
     let eventStartTime = null;
     let eventEndTime = null;
+    let streamStarted = false;
 
     const htmlEl = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
@@ -280,31 +281,29 @@
       const isLive = now >= eventStartTime && now <= eventEndTime;
       const isEnded = now > eventEndTime;
 
-      // Always hide player/stream links/fullscreen before click
-      document.querySelector('.video-container').style.display = 'none';
-      document.getElementById('streamLinks').style.display = 'none';
-      document.getElementById('fullscreenBtn').classList.add('d-none');
+      if (streamStarted) {
+        statusArea.style.display = 'none';
+        startBtn.style.display = 'none';
+        return;
+      }
 
       if (isLive) {
         statusArea.style.display = 'none';
-        if (startBtn.dataset.clicked !== 'true') {
-          startBtn.style.display = 'inline-block';
-        } else {
-          startBtn.style.display = 'none';
-        }
+        startBtn.style.display = 'inline-block';
       } else {
         statusArea.style.display = 'block';
         startBtn.style.display = 'none';
+        document.querySelector('.video-container').style.display = 'none';
+        document.getElementById('streamLinks').style.display = 'none';
+        document.getElementById('fullscreenBtn').classList.add('d-none');
 
         if (isEnded) {
           countdownEl.textContent = "";
           messageEl.textContent = "This event has ended";
           messageEl.classList.add('status-ended');
-          messageEl.classList.remove('status-live');
         } else {
           countdownEl.textContent = formatTimeLeft(timeLeft);
           messageEl.textContent = "Stream has not started yet";
-          messageEl.classList.remove('status-live', 'status-ended');
         }
       }
     }
@@ -346,11 +345,12 @@
             document.querySelector('.video-container').style.display = 'block';
             document.getElementById('streamLinks').style.display = 'block';
             startBtn.style.display = 'none';
-            startBtn.dataset.clicked = 'true'; // prevent showing again
             document.getElementById('fullscreenBtn').classList.remove('d-none');
             const firstUrl = event.streams[0].url || event.streams[0];
             playStream(firstUrl);
             populateStreamButtons(event);
+
+            streamStarted = true;
           };
         })
         .catch(() => {
