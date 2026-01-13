@@ -126,6 +126,9 @@
           </div>
 
           <div class="video-container">
+            <div id="loadingOverlay" style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);color:white;display:flex;align-items:center;justify-content:center;z-index:10;font-size:1.3rem;">
+              Loading stream...
+            </div>
             <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
             <div id="jwplayer-div"></div>
           </div>
@@ -193,18 +196,35 @@
       try {
         const r = await fetch(url, {method:'HEAD'});
         const ct = r.headers.get('content-type') || '';
-        return ct.includes('application/vnd.apple.mpegurl');
+        return ct.includes('application/vnd.apple.mpegurl') || ct.includes('application/x-mpegURL');
       } catch { return false; }
     }
 
     async function playStream(url) {
-      if (jw) { jw.remove(); jw = null; }
+      if (jw) {
+        try { jw.remove(); } catch(e) {}
+        jw = null;
+      }
 
-      const useJW = await isM3U8(url);
+      const jwDiv = document.getElementById('jwplayer-div');
+      const iframe = document.getElementById('embedPlayer');
+      const container = document.querySelector('.video-container');
+      const loadingOverlay = document.getElementById('loadingOverlay');
+
+      // Clean state
+      jwDiv.style.display = 'none';
+      iframe.style.display = 'none';
+      loadingOverlay.style.display = 'flex';
+
+      let useJW = false;
+      try {
+        useJW = await isM3U8(url);
+      } catch (e) {
+        useJW = url.toLowerCase().includes('.m3u8'); // fallback
+      }
 
       if (useJW) {
-        document.getElementById('embedPlayer').style.display = 'none';
-        document.getElementById('jwplayer-div').style.display = 'block';
+        jwDiv.style.display = 'block';
 
         jw = jwplayer('jwplayer-div').setup({
           file: url,
@@ -214,29 +234,42 @@
           mute: false,
           stretching: 'uniform',
           primary: 'html5',
-          hlsjsConfig: { enableWorker: true },
+          hlsjsConfig: { enableWorker: true, maxMaxBufferLength: 60 },
           controls: true,
-          displaytitle: false,
-          pipIcon: 'enabled',
-          captions: { color: '#fff', backgroundOpacity: 50 }
+          displaytitle: false
         });
-        jw.on('ready', clearError);
+
+        // Force repaint after setup
+        setTimeout(() => {
+          jwDiv.style.opacity = '0.99';
+          void jwDiv.offsetHeight;
+          jwDiv.style.opacity = '1';
+        }, 300);
+
+        jw.on('ready', () => {
+          loadingOverlay.style.display = 'none';
+          clearError();
+        });
+
         jw.on('error', () => {
+          loadingOverlay.style.display = 'none';
           document.getElementById('errorContainer').classList.remove('d-none');
           document.getElementById('errorContainer').innerHTML = 'Stream failed – try another source';
         });
       } else {
-        document.getElementById('jwplayer-div').style.display = 'none';
-        const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
-        const u = new URL(url);
-        u.searchParams.set('autoplay', '1');
-        iframe.src = u.toString();
+        try {
+          const u = new URL(url);
+          u.searchParams.set('autoplay', '1');
+          iframe.src = u.toString();
+        } catch {
+          iframe.src = url;
+        }
 
+        // Hide loading after short delay (iframe may take time)
         setTimeout(() => {
-          iframe.src = 'about:blank';
-          iframe.removeAttribute('src');
-        }, 800);
+          loadingOverlay.style.display = 'none';
+        }, 2500);
       }
     }
 
@@ -342,10 +375,16 @@
           setInterval(updatePreStreamStatus, 1000);
 
           startBtn.onclick = () => {
-            document.querySelector('.video-container').style.display = 'block';
+            const videoContainer = document.querySelector('.video-container');
+            
+            // Show container FIRST + force reflow
+            videoContainer.style.display = 'block';
+            videoContainer.offsetHeight; // ← important for repaint
+
             document.getElementById('streamLinks').style.display = 'block';
             startBtn.style.display = 'none';
             document.getElementById('fullscreenBtn').classList.remove('d-none');
+
             const firstUrl = event.streams[0].url || event.streams[0];
             playStream(firstUrl);
             populateStreamButtons(event);
@@ -393,4 +432,4 @@
     });
   </script>
 </body>
-</html>
+              </html>
