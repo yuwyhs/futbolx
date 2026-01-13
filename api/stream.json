@@ -95,7 +95,113 @@
     {
       "category": "Basketball",
       "always_live": 0,
-      "streams": []
+      "streams": [
+        {
+          "name": "Phoenix Suns vs Miami Heat",
+          "uri_name": "phoenix-suns-vs-miami-heat",
+          "poster": "https://api.ppv.to/assets/thumb/d88e7bdf98ced62887c00867f966ec96-thumbnail.jpg",
+          "tag": "NBA",
+          "starts_at": "2026-01-14T03:30:00",
+          "ends_at": "2026-01-14T06:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-phoenix-suns-vs-miami-heat/1"
+            }
+          ]
+        },
+        {
+          "name": "Chicago Bulls vs Houston Rockets",
+          "uri_name": "chicago-bulls-vs-houston-rockets",
+          "poster": "https://api.ppv.to/assets/thumb/fc2871490271573beaca1548c52a5431-thumbnail.jpg",
+          "tag": "NBA",
+          "starts_at": "2026-01-14T04:00:00",
+          "ends_at": "2026-01-14T07:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-chicago-bulls-vs-houston-rockets/1"
+            }
+          ]
+        },
+        {
+          "name": "Minnesota Timberwolves vs Milwaukee Bucks",
+          "uri_name": "minnesota-timberwolves-vs-milwaukee-bucks",
+          "poster": "https://api.ppv.to/assets/thumb/ab88a02267740e4663e3cbab3ba1efcf-thumbnail.jpg",
+          "tag": "NBA",
+          "starts_at": "2026-01-14T04:00:00",
+          "ends_at": "2026-01-14T07:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-minnesota-timberwolves-vs-milwaukee-bucks/1"
+            }
+          ]
+        },
+        {
+          "name": "Denver Nuggets vs New Orleans Pelicans",
+          "uri_name": "denver-nuggets-vs-new-orleans-pelicans",
+          "poster": "https://api.ppv.to/assets/thumb/f5e04e77687d0b287804a33bf351eec4-thumbnail.jpg",
+          "tag": "NBA",
+          "starts_at": "2026-01-14T04:00:00",
+          "ends_at": "2026-01-14T07:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-denver-nuggets-vs-new-orleans-pelicans/1"
+            }
+          ]
+        },
+        {
+          "name": "San Antonio Spurs vs Oklahoma City Thunder",
+          "uri_name": "san-antonio-spurs-vs-oklahoma-city-thunder",
+          "poster": "https://api.ppv.to/assets/thumb/6ebe7667cd66bcc8e86ae7fa5e17d6c5-thumbnail.jpg",
+          "tag": "NBA",
+          "starts_at": "2026-01-14T04:00:00",
+          "ends_at": "2026-01-14T07:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-san-antonio-spurs-vs-oklahoma-city-thunder/1"
+            }
+          ]
+        },
+        {
+          "name": "Atlanta Hawks vs Los Angeles Lakers",
+          "uri_name": "atlanta-hawks-vs-los-angeles-lakers",
+          "poster": "https://api.ppv.to/assets/thumb/5c72f040e66dc641eb69e630fc1f65f3-thumbnail.jpg",
+          "tag": "NBA",
+          "starts_at": "2026-01-14T06:30:00",
+          "ends_at": "2026-01-14T09:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-atlanta-hawks-vs-los-angeles-lakers/1"
+            }
+          ]
+        },
+        {
+          "name": "Portland Trail Blazers vs Golden State Warriors",
+          "uri_name": "portland-trail-blazers-vs-golden-state-warriors",
+          "poster": "https://api.ppv.to/assets/thumb/74ab6a28f17d3ba4e795b350af1d3292-thumbnail.jpg",
+          "tag": "NBA",
+          "starts_at": "2026-01-14T07:00:00",
+          "ends_at": "2026-01-14T09:30:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-portland-trail-blazers-vs-golden-state-warriors/1"
+            }
+          ]
+        }
+      ]
     },
     {
       "category": "NFL",
