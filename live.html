@@ -31,7 +31,7 @@
     .btn-fullscreen {display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#ff4d4d;color:#fff;border:none;border-radius:20px;transition:.3s;}
     [data-bs-theme="light"] .btn-fullscreen {background:#e63939;color:#333;}
     .btn-fullscreen:hover {transform:scale(1.05);background:#e63939;}
-    .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;}
+    .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;}
     #jwplayer-div {position:absolute;top:0;left:0;width:100%;height:100%;}
     .chat-container {margin-top:20px;max-width:600px;height:400px;border-radius:10px;overflow:hidden;background:#222;box-shadow:0 4px 12px rgba(0,0,0,.4);}
     [data-bs-theme="light"] .chat-container {background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.2);}
@@ -88,14 +88,14 @@
 
           <div class="d-flex align-items-center mb-3">
             <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
-            <button id="startLivestream" class="btn btn-danger ms-3" disabled>Loading...</button>
+            <button id="startLivestream" class="btn btn-danger ms-3" style="display:none;">Click to Start Livestream</button>
             <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
           </div>
 
           <h2 id="eventTitle" class="mb-3"></h2>
 
           <div class="video-container">
-            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;"></iframe>
+            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
             <div id="jwplayer-div"></div>
           </div>
 
@@ -131,6 +131,8 @@
 
     let jw = null;
     let streamData = null;
+    let eventStartTime = null;
+    let eventEndTime = null;
 
     // === THEME TOGGLE – RESTORED EXACTLY AS BEFORE ===
     const htmlEl = document.documentElement;
@@ -199,6 +201,12 @@
         const u = new URL(url);
         u.searchParams.set('autoplay', '1');
         iframe.src = u.toString();
+
+        // Hide real src from inspector after short delay
+        setTimeout(() => {
+          iframe.src = 'about:blank';
+          iframe.removeAttribute('src');
+        }, 800);
       }
     }
 
@@ -218,6 +226,26 @@
         container.querySelectorAll('.btn-stream').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
       });
+    }
+
+    function updateStreamButtonVisibility() {
+      const now = Math.floor(Date.now() / 1000);
+      const btn = document.getElementById('startLivestream');
+
+      if (!eventStartTime || !eventEndTime) {
+        btn.style.display = 'none';
+        return;
+      }
+
+      const isLiveNow = now >= eventStartTime && now <= eventEndTime;
+
+      if (isLiveNow) {
+        btn.style.display = 'inline-block';
+        btn.disabled = false;
+        btn.textContent = 'Click to Start Livestream';
+      } else {
+        btn.style.display = 'none';
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -240,11 +268,24 @@
           titleEl.textContent = event.name;
           streamData = event;
 
-          startBtn.textContent = 'Click to Start Livestream';
-          startBtn.disabled = false;
+          // Set start/end times (using your existing +03:00 logic)
+          try {
+            eventStartTime = new Date(event.starts_at + '+03:00').getTime() / 1000;
+            eventEndTime = event.ends_at 
+              ? new Date(event.ends_at + '+03:00').getTime() / 1000 
+              : eventStartTime + 3 * 3600; // fallback 3 hours
+          } catch (e) {
+            eventStartTime = Date.now() / 1000;
+            eventEndTime = eventStartTime + 3 * 3600;
+          }
+
+          // Initial check + periodic update
+          updateStreamButtonVisibility();
+          setInterval(updateStreamButtonVisibility, 30000); // check every 30s
+
           startBtn.onclick = () => {
             document.querySelector('.video-container').style.display = 'block';
-            startBtn.style.display = 'none';
+            startBtn.style.display = 'none'; // hide after click
             document.getElementById('fullscreenBtn').classList.remove('d-none');
             const firstUrl = event.streams[0].url || event.streams[0];
             playStream(firstUrl);
