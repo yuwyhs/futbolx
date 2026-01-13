@@ -273,8 +273,6 @@
       const countdownEl = document.getElementById('countdownDisplay');
       const messageEl = document.getElementById('statusMessage');
       const startBtn = document.getElementById('startLivestream');
-      const videoCont = document.querySelector('.video-container');
-      const streamLinks = document.getElementById('streamLinks');
 
       if (!eventStartTime || !eventEndTime) return;
 
@@ -282,21 +280,27 @@
       const isLive = now >= eventStartTime && now <= eventEndTime;
       const isEnded = now > eventEndTime;
 
+      // Always hide player/stream links/fullscreen before click
+      document.querySelector('.video-container').style.display = 'none';
+      document.getElementById('streamLinks').style.display = 'none';
+      document.getElementById('fullscreenBtn').classList.add('d-none');
+
       if (isLive) {
-        // During live: hide status, show player/buttons after click
         statusArea.style.display = 'none';
-        // startBtn visibility handled in click handler
+        if (startBtn.dataset.clicked !== 'true') {
+          startBtn.style.display = 'inline-block';
+        } else {
+          startBtn.style.display = 'none';
+        }
       } else {
-        // Before start or after end: show status, hide player & stream links
         statusArea.style.display = 'block';
-        videoCont.style.display = 'none';
-        streamLinks.style.display = 'none';
         startBtn.style.display = 'none';
 
         if (isEnded) {
           countdownEl.textContent = "";
           messageEl.textContent = "This event has ended";
           messageEl.classList.add('status-ended');
+          messageEl.classList.remove('status-live');
         } else {
           countdownEl.textContent = formatTimeLeft(timeLeft);
           messageEl.textContent = "Stream has not started yet";
@@ -342,6 +346,7 @@
             document.querySelector('.video-container').style.display = 'block';
             document.getElementById('streamLinks').style.display = 'block';
             startBtn.style.display = 'none';
+            startBtn.dataset.clicked = 'true'; // prevent showing again
             document.getElementById('fullscreenBtn').classList.remove('d-none');
             const firstUrl = event.streams[0].url || event.streams[0];
             playStream(firstUrl);
@@ -388,4 +393,4 @@
     });
   </script>
 </body>
-  </html>
+</html>
