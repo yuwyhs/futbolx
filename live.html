@@ -81,19 +81,6 @@
       font-size:1.2rem;
       text-align:center;
       border-bottom:2px solid #cc0000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-    }
-    .online-count {
-      font-size:0.9rem;
-      color:#fff9;
-      background:#0006;
-      padding:5px 12px;
-      border-radius:12px;
-      font-weight:bold;
-      transition: all 0.4s ease;
     }
     .chat-container {
       height:420px;
@@ -217,14 +204,9 @@
 
           <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
-          <!-- Chat with super realistic fake online counter -->
+          <!-- Cbox Chat (clean, no online counter) -->
           <div class="chat-wrapper">
-            <div class="chat-header">
-              Live Chat 
-              <span id="fakeOnline" class="online-count">
-                Loading...
-              </span>
-            </div>
+            <div class="chat-header">Live Chat</div>
             <div class="chat-container">
               <div id="chatLoading">Loading chat...</div>
             </div>
@@ -514,52 +496,7 @@
           setTimeout(() => document.querySelector('.tip-container').style.height = '0', 500);
         }
       }, 1000);
-
-      // =====================================
-      // Super Realistic Fake Online Counter (adapts to live event status)
-      // =====================================
-      let currentOnline = Math.floor(Math.random() * 40) + 10; // Start very low: 10–50
-      const maxOnline = 1700;
-      const onlineEl = document.getElementById('fakeOnline');
-
-      function updateFakeOnline() {
-        if (!streamStarted) {
-          // No live event → stay very low, max 50, mostly quiet
-          let change = Math.floor(Math.random() * 10) - 5; // -5 to +5
-          if (Math.random() < 0.1) change = Math.floor(Math.random() * 15) - 8; // rare small jump/drop
-          currentOnline = Math.max(8, Math.min(50, currentOnline + change));
-        } else {
-          // Live event active → slow growth toward 700–900, rare big spikes
-          let change = Math.floor(Math.random() * 20) - 8; // -8 to +12 most times
-
-          // Occasional small drop (people leaving)
-          if (Math.random() < 0.25) {
-            change = Math.floor(Math.random() * -30) - 5; // -5 to -35
-          }
-
-          // Small jump (new viewers)
-          if (Math.random() < 0.20) {
-            change = Math.floor(Math.random() * 40) + 10; // +10 to +50
-          }
-
-          currentOnline = Math.max(25, Math.min(maxOnline, currentOnline + change));
-
-          // Rare bigger spike (goal / big moment) - only ~3% chance
-          if (Math.random() < 0.03) {
-            currentOnline += Math.floor(Math.random() * 120) + 80;
-            currentOnline = Math.min(maxOnline, currentOnline);
-          }
-        }
-
-        onlineEl.textContent = currentOnline + ' online';
-      }
-
-      // First update after 3 seconds
-      setTimeout(updateFakeOnline, 3000);
-
-      // Update every 12–20 seconds (feels natural)
-      setInterval(updateFakeOnline, Math.random() * 8000 + 12000);
     });
   </script>
 </body>
-  </html>
+</html>
