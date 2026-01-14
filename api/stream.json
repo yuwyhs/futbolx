@@ -31,7 +31,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-napoli-vs-parma/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sport%20TV%203&code=pt&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -46,7 +46,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-fc-koln-vs-bayern-munich/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sport%20Bundesliga%201&code=de&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -61,7 +61,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-inter-vs-lecce/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=SuperSport%20Football&code=za&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -76,7 +76,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-chelsea-vs-arsenal/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sports%20Main%20Event&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -106,7 +106,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-albacete-vs-real-madrid/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Viaplay%20Sports%202&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
