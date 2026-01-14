@@ -122,7 +122,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-chicago-bulls-vs-houston-rockets/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=nba+league+pass+3&code=us&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -137,7 +137,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-minnesota-timberwolves-vs-milwaukee-bucks/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=nba+league+pass+4&code=us&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -152,7 +152,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-denver-nuggets-vs-new-orleans-pelicans/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=nba+league+pass+5&code=us&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -167,7 +167,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-san-antonio-spurs-vs-oklahoma-city-thunder/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=nba+league+pass+2&code=us&user=cdnlivetv&plan=free"
             }
           ]
         },
