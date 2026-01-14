@@ -121,7 +121,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-alaves-vs-vallecano/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=M%20LALIGA%202&code=es&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -136,7 +136,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-real-betis-vs-elche/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Match%20Football%201&code=ru&user=cdnlivetv&plan=free"
             }
           ]
         }
