@@ -107,7 +107,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-phoenix-suns-vs-miami-heat/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=nba+league+pass+1&code=us&user=cdnlivetv&plan=free"
             }
           ]
         },
