@@ -6,77 +6,137 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Dortmund vs Werder Bremen",
-          "uri_name": "dortmund-vs-werder-bremen",
-          "poster": "https://api.ppv.to/assets/thumb/b906adabd54611e8a6a2d8701acbd969-thumbnail.jpg",
-          "tag": "Bundesliga",
-          "starts_at": "2026-01-13T22:30:00",
-          "ends_at": "2026-01-14T00:40:00",
+          "name": "Senegal vs Egypt",
+          "uri_name": "senegal-vs-egypt",
+          "poster": "https://api.ppv.to/assets/thumb/24abed837564873c7f7101cf84db3ea1-thumbnail.jpg",
+          "tag": "AFCON",
+          "starts_at": "2026-01-14T19:00:00",
+          "ends_at": "2026-01-14T21:30:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sport%20Bundesliga%201&code=de&user=cdnlivetv&plan=free"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=SuperSport%20PSL&code=za&user=cdnlivetv&plan=free"
             }
           ]
         },
         {
-          "name": "Hamburg SV vs Leverkusen",
-          "uri_name": "hamburg-sv-vs-leverkusen",
-          "poster": "https://api.ppv.to/assets/thumb/d66873b60ee410eade0045ed7a1edae5-thumbnail.jpg",
-          "tag": "Bundesliga",
-          "starts_at": "2026-01-13T22:30:00",
-          "ends_at": "2026-01-14T00:40:00",
+          "name": "Napoli vs Parma",
+          "uri_name": "napoli-vs-parma",
+          "poster": "https://api.ppv.to/assets/thumb/e0e6d65943c0e4f7348d98f3e233b331-thumbnail.jpg",
+          "tag": "Serie A",
+          "starts_at": "2026-01-14T20:30:00",
+          "ends_at": "2026-01-14T22:40:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sport%20Bundesliga%203&code=de&user=cdnlivetv&plan=free"
+              "url": "https://embedsports.top/embed/admin/ppv-napoli-vs-parma/1"
             }
           ]
         },
         {
-          "name": "Newcastle vs Man City",
-          "uri_name": "newcastle-vs-man-city",
-          "poster": "https://api.ppv.to/assets/thumb/aed3008df440f2e5d8303af74904b01d-thumbnail.jpg",
+          "name": "FC Koln vs Bayern Munich",
+          "uri_name": "fc-koln-vs-bayern-munich",
+          "poster": "https://api.ppv.to/assets/thumb/a8bb7221ae33e485a331cde9102e3370-thumbnail.jpg",
+          "tag": "Bundesliga",
+          "starts_at": "2026-01-14T22:30:00",
+          "ends_at": "2026-01-15T00:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-fc-koln-vs-bayern-munich/1"
+            }
+          ]
+        },
+        {
+          "name": "Inter vs Lecce",
+          "uri_name": "inter-vs-lecce",
+          "poster": "https://api.ppv.to/assets/thumb/013c427391a9dbe9e49df0c175a9b943-thumbnail.jpg",
+          "tag": "Serie A",
+          "starts_at": "2026-01-14T22:45:00",
+          "ends_at": "2026-01-15T00:50:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-inter-vs-lecce/1"
+            }
+          ]
+        },
+        {
+          "name": "Chelsea vs Arsenal",
+          "uri_name": "chelsea-vs-arsenal",
+          "poster": "https://api.ppv.to/assets/thumb/8bb98c33c31e016bab7f5558529725f4-thumbnail.jpg",
           "tag": "Carabao Cup",
-          "starts_at": "2026-01-13T23:00:00",
-          "ends_at": "2026-01-14T01:00:00",
+          "starts_at": "2026-01-14T23:00:00",
+          "ends_at": "2026-01-15T01:05:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sports%20Main%20Event&code=gb&user=cdnlivetv&plan=free"
+              "url": "https://embedsports.top/embed/admin/ppv-chelsea-vs-arsenal/1"
             }
           ]
         },
         {
-          "name": "Roma vs Torino",
-          "uri_name": "roma-vs-torino",
-          "poster": "https://streamed.pk/api/images/proxy/GwZg7AZpYEZgHCAjAJgCzrAThFlBWSUYAUwVmDW2nmAmD32FrWGHXbeAENgBjUgg5sSdTtw5kAJqWCEImeuFFs8rRPArAwKbCG4g+IKSBIgI53IasgCwJBT7DZ9XSpRcwZTfSyyPTLRgXmKiEEA.webp",
-          "tag": "Coppa Italia",
-          "starts_at": "2026-01-13T23:00:00",
-          "ends_at": "2026-01-14T01:00:00",
+          "name": "Nigeria vs Morocco",
+          "uri_name": "nigeria-vs-morocco",
+          "poster": "https://api.ppv.to/assets/thumb/518a4e19da9e721dde8891dccad0923f-thumbnail.jpg",
+          "tag": "AFCON",
+          "starts_at": "2026-01-14T23:00:00",
+          "ends_at": "2026-01-15T01:05:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Italia%201&code=it&user=cdnlivetv&plan=free"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=SuperSport%20PSL&code=za&user=cdnlivetv&plan=free"
             }
           ]
         },
         {
-          "name": "Bayeux vs Marseille",
-          "uri_name": "bayeux-vs-marseille",
-          "poster": "https://cdn.discordapp.com/attachments/1439990541487050823/1460381554810290280/image.png?ex=6966b5cf&is=6965644f&hm=fd0461df4f113f19bc261f7c66b343ab2f374f8a7820a868fcc44ab086467d47&",
-          "tag": "Coupe de France",
-          "starts_at": "2026-01-13T23:00:00",
-          "ends_at": "2026-01-14T01:15:00",
+          "name": "Albacete vs Real Madrid",
+          "uri_name": "albacete-vs-real-madrid",
+          "poster": "https://api.ppv.to/assets/thumb/c9bd84be97bcc7917959ccee6f47da59-thumbnail.jpg",
+          "tag": "Copa del Rey",
+          "starts_at": "2026-01-14T23:00:00",
+          "ends_at": "2026-01-15T01:05:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=beIN%20SPORTS%201&code=fr&user=cdnlivetv&plan=free"
+              "url": "https://embedsports.top/embed/admin/ppv-albacete-vs-real-madrid/1"
+            }
+          ]
+        },
+        {
+          "name": "Alaves vs Vallecano",
+          "uri_name": "alaves-vs-vallecano",
+          "poster": "https://api.ppv.to/assets/thumb/f0a623e772f5018ed1abd27164bfadf1-thumbnail.jpg",
+          "tag": "Copa del Rey",
+          "starts_at": "2026-01-14T23:00:00",
+          "ends_at": "2026-01-15T01:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-alaves-vs-vallecano/1"
+            }
+          ]
+        },
+        {
+          "name": "Real Betis vs Elche",
+          "uri_name": "real-betis-vs-elche",
+          "poster": "https://api.ppv.to/assets/thumb/d591929d7935a2283960c69a3d7b8998-thumbnail.jpg",
+          "tag": "Copa del Rey",
+          "starts_at": "2026-01-14T23:00:00",
+          "ends_at": "2026-01-15T01:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-real-betis-vs-elche/1"
             }
           ]
         }
@@ -95,113 +155,7 @@
     {
       "category": "Basketball",
       "always_live": 0,
-      "streams": [
-        {
-          "name": "Phoenix Suns vs Miami Heat",
-          "uri_name": "phoenix-suns-vs-miami-heat",
-          "poster": "https://api.ppv.to/assets/thumb/d88e7bdf98ced62887c00867f966ec96-thumbnail.jpg",
-          "tag": "NBA",
-          "starts_at": "2026-01-14T03:30:00",
-          "ends_at": "2026-01-14T06:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=nba+league+pass+1&code=us&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Chicago Bulls vs Houston Rockets",
-          "uri_name": "chicago-bulls-vs-houston-rockets",
-          "poster": "https://api.ppv.to/assets/thumb/fc2871490271573beaca1548c52a5431-thumbnail.jpg",
-          "tag": "NBA",
-          "starts_at": "2026-01-14T04:00:00",
-          "ends_at": "2026-01-14T07:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=nba+league+pass+3&code=us&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Minnesota Timberwolves vs Milwaukee Bucks",
-          "uri_name": "minnesota-timberwolves-vs-milwaukee-bucks",
-          "poster": "https://api.ppv.to/assets/thumb/ab88a02267740e4663e3cbab3ba1efcf-thumbnail.jpg",
-          "tag": "NBA",
-          "starts_at": "2026-01-14T04:00:00",
-          "ends_at": "2026-01-14T07:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=nba+league+pass+4&code=us&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Denver Nuggets vs New Orleans Pelicans",
-          "uri_name": "denver-nuggets-vs-new-orleans-pelicans",
-          "poster": "https://api.ppv.to/assets/thumb/f5e04e77687d0b287804a33bf351eec4-thumbnail.jpg",
-          "tag": "NBA",
-          "starts_at": "2026-01-14T04:00:00",
-          "ends_at": "2026-01-14T07:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=nba+league+pass+5&code=us&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "San Antonio Spurs vs Oklahoma City Thunder",
-          "uri_name": "san-antonio-spurs-vs-oklahoma-city-thunder",
-          "poster": "https://api.ppv.to/assets/thumb/6ebe7667cd66bcc8e86ae7fa5e17d6c5-thumbnail.jpg",
-          "tag": "NBA",
-          "starts_at": "2026-01-14T04:00:00",
-          "ends_at": "2026-01-14T07:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=nba+league+pass+2&code=us&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Atlanta Hawks vs Los Angeles Lakers",
-          "uri_name": "atlanta-hawks-vs-los-angeles-lakers",
-          "poster": "https://api.ppv.to/assets/thumb/5c72f040e66dc641eb69e630fc1f65f3-thumbnail.jpg",
-          "tag": "NBA",
-          "starts_at": "2026-01-14T06:30:00",
-          "ends_at": "2026-01-14T09:00:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-atlanta-hawks-vs-los-angeles-lakers/1"
-            }
-          ]
-        },
-        {
-          "name": "Portland Trail Blazers vs Golden State Warriors",
-          "uri_name": "portland-trail-blazers-vs-golden-state-warriors",
-          "poster": "https://api.ppv.to/assets/thumb/74ab6a28f17d3ba4e795b350af1d3292-thumbnail.jpg",
-          "tag": "NBA",
-          "starts_at": "2026-01-14T07:00:00",
-          "ends_at": "2026-01-14T09:30:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-portland-trail-blazers-vs-golden-state-warriors/1"
-            }
-          ]
-        }
-      ]
+      "streams": []
     },
     {
       "category": "NFL",
