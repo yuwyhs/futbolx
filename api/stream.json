@@ -6,12 +6,12 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Como vs AC Milan",
-          "uri_name": "como-vs-ac-milan",
-          "poster": "https://api.ppv.to/assets/thumb/d8f3290c7f298af72753cb3af9f44fd1-thumbnail.jpg",
-          "tag": "Serie A",
-          "starts_at": "2026-01-15T22:45:00",
-          "ends_at": "2026-01-16T00:55:00",
+          "name": "Psg vs Lille",
+          "uri_name": "psg-vs-lille",
+          "poster": "https://api.ppv.to/assets/thumb/9dfd79d7085b1ecf32c982033edcd4e6-thumbnail.jpg",
+          "tag": "Ligue 1",
+          "starts_at": "2026-01-16T23:00:00",
+          "ends_at": "2026-01-17T01:10:00",
           "always_live": 0,
           "streams": [
             {
