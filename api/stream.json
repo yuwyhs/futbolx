@@ -16,7 +16,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://live20.bozztv.com/akamaissh101/ssh101/ligue/playlist.m3u8"
+              "url": "https://cdn-live-tv.ru/api/v1/channels/fr-bein-sports-1/tracks-v1/index.fmp4.m3u8?token=2d5ae99a95aad728e30a79b65274b26045a6c36f2bdf75f09290dd2719ed19b2.1768593853.a62039caeee4560c2d8dd908b45cd04d.f3dbab380dbb222258cb05f2fcb3d762.9f35016afe53d5a227f88ab7489449a9.f2ddd28c849b3191"
             }
           ]
         },
