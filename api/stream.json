@@ -6,47 +6,310 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Psg vs Lille",
-          "uri_name": "psg-vs-lille",
-          "poster": "https://api.ppv.to/assets/thumb/9dfd79d7085b1ecf32c982033edcd4e6-thumbnail.jpg",
+          "name": "Man United vs Man City",
+          "uri_name": "man-united-vs-man-city",
+          "poster": "https://api.ppv.to/assets/thumb/0b8c6b6d9fd8412c5de020aab97a08d3-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T15:30:00",
+          "ends_at": "2026-01-17T17:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-man-united-vs-man-city/1"
+            },
+            {
+              "title": "Alt Feed 1",
+              "url": "https://embedsports.top/embed/admin/ppv-man-united-vs-man-city/2"
+            },
+            {
+              "title": "Alt Feed 2",
+              "url": "https://embedsports.top/embed/admin/ppv-man-united-vs-man-city/3"
+            }
+          ]
+        },
+        {
+          "name": "Real Madrid vs Levante",
+          "uri_name": "real-madrid-vs-levante",
+          "poster": "https://api.ppv.to/assets/thumb/290f0cb9e471f9c4207edbe859443604-thumbnail.jpg",
+          "tag": "LaLiga",
+          "starts_at": "2026-01-17T16:00:00",
+          "ends_at": "2026-01-17T18:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-real-madrid-vs-levante/1"
+            }
+          ]
+        },
+        {
+          "name": "Udinese vs Inter Milan",
+          "uri_name": "udinese-vs-inter-milan",
+          "poster": "https://api.ppv.to/assets/thumb/def27987121f6e8e0b349ca3a72eac55-thumbnail.jpg",
+          "tag": "Serie A",
+          "starts_at": "2026-01-17T17:00:00",
+          "ends_at": "2026-01-17T19:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-udinese-vs-inter-milan/1"
+            }
+          ]
+        },
+        {
+          "name": "Borussia Dortmund vs St Pauli",
+          "uri_name": "borussia-dortmund-vs-st-pauli",
+          "poster": "https://api.ppv.to/assets/thumb/c065dc55fa9b583a52ba681df8991138-thumbnail.jpg",
+          "tag": "Bundesliga",
+          "starts_at": "2026-01-17T17:30:00",
+          "ends_at": "2026-01-17T19:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-borussia-dortmund-vs-st-pauli/1"
+            }
+          ]
+        },
+        {
+          "name": "TSG Hoffenheim vs Bayer Leverkusen",
+          "uri_name": "tsg-hoffenheim-vs-bayer-leverkusen",
+          "poster": "https://api.ppv.to/assets/thumb/0eac92f6bd9e7b2d6b3b0fd04a8278ad-thumbnail.jpg",
+          "tag": "Bundesliga",
+          "starts_at": "2026-01-17T17:30:00",
+          "ends_at": "2026-01-17T19:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-tsg-hoffenheim-vs-bayer-leverkusen/1"
+            }
+          ]
+        },
+        {
+          "name": "Goal Rush",
+          "uri_name": "goal-rush",
+          "poster": "https://api.ppv.to/assets/thumb/e94e4857435183cbcfa868d0dc8981d7-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T18:00:00",
+          "ends_at": "2026-01-17T20:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-goal-rush/1"
+            }
+          ]
+        },
+        {
+          "name": "Chelsea vs Brentford",
+          "uri_name": "chelsea-vs-brentford",
+          "poster": "https://api.ppv.to/assets/thumb/669ab8f1df2c6a783de2cb97f5e2472f-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T18:00:00",
+          "ends_at": "2026-01-17T20:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-chelsea-vs-brentford/1"
+            }
+          ]
+        },
+        {
+          "name": "Liverpool vs Burnley",
+          "uri_name": "liverpool-vs-burnley",
+          "poster": "https://api.ppv.to/assets/thumb/2ee76e370370958a1c728b94f5557835-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T18:00:00",
+          "ends_at": "2026-01-17T20:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-liverpool-vs-burnley/1"
+            }
+          ]
+        },
+        {
+          "name": "Tottenham vs West Ham",
+          "uri_name": "tottenham-vs-west-ham",
+          "poster": "https://api.ppv.to/assets/thumb/33a376ffe631e42f4c2319b6d4e38a99-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T18:00:00",
+          "ends_at": "2026-01-17T20:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-tottenham-vs-west-ham/1"
+            }
+          ]
+        },
+        {
+          "name": "Sunderland vs Crystal Palace",
+          "uri_name": "sunderland-vs-crystal-palace",
+          "poster": "https://api.ppv.to/assets/thumb/0f68833a53a49e8a7140609bcb7ffefc-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T18:00:00",
+          "ends_at": "2026-01-17T20:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-sunderland-vs-crystal-palace/1"
+            }
+          ]
+        },
+        {
+          "name": "Leeds vs Fulham",
+          "uri_name": "leeds-vs-fulham",
+          "poster": "https://api.ppv.to/assets/thumb/2268daac5cbf6ca1ac4ff994c5dddf0b-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T18:00:00",
+          "ends_at": "2026-01-17T20:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-leeds-vs-fulham/1"
+            }
+          ]
+        },
+        {
+          "name": "Lens vs Auxerre",
+          "uri_name": "lens-vs-auxerre",
+          "poster": "https://api.ppv.to/assets/thumb/a93a797b26a43a69cd50696c7e2a04b9-thumbnail.jpg",
           "tag": "Ligue 1",
-          "starts_at": "2026-01-16T23:00:00",
-          "ends_at": "2026-01-17T01:10:00",
+          "starts_at": "2026-01-17T19:00:00",
+          "ends_at": "2026-01-17T21:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=bein+sports+1&code=fr&user=cdnlivetv&plan=free"
+              "url": "https://embedsports.top/embed/admin/ppv-lens-vs-auxerre/1"
             }
           ]
         },
         {
-          "name": "Racing vs Barcelona",
-          "uri_name": "racing-vs-barcelona",
-          "poster": "https://api.ppv.to/assets/thumb/a48daaac9d34b77c584ad17ece539fe4-thumbnail.jpg",
-          "tag": "Copa del Rey",
-          "starts_at": "2026-01-15T23:00:00",
-          "ends_at": "2026-01-16T01:30:00",
+          "name": "Egypt vs Nigeria",
+          "uri_name": "egypt-vs-nigeria",
+          "poster": "https://api.ppv.to/assets/thumb/4282284a26ec45d85b12f31fe3810239-thumbnail.jpg",
+          "tag": "AFCON",
+          "starts_at": "2026-01-17T19:00:00",
+          "ends_at": "2026-01-17T21:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Viaplay%20Sports%201&code=gb&user=cdnlivetv&plan=free"
+              "url": "https://embedsports.top/embed/admin/ppv-egypt-vs-nigeria/1"
             }
           ]
         },
         {
-          "name": "Burgos CF vs Valencia",
-          "uri_name": "burgos-cf-vs-valencia",
-          "poster": "https://api.ppv.to/assets/thumb/fd9727e61e1ffd5d6ef8f16ef3c79515-thumbnail.jpg",
-          "tag": "Copa del Rey",
-          "starts_at": "2026-01-15T23:00:00",
-          "ends_at": "2026-01-16T01:10:00",
+          "name": "Napoli vs Sassuolo",
+          "uri_name": "napoli-vs-sassuolo",
+          "poster": "https://api.ppv.to/assets/thumb/05844720ddf962a748b813e9472cf45c-thumbnail.jpg",
+          "tag": "Serie A",
+          "starts_at": "2026-01-17T20:00:00",
+          "ends_at": "2026-01-17T22:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Match%20Football%203&code=ru&user=cdnlivetv&plan=free"
+              "url": "https://embedsports.top/embed/admin/ppv-napoli-vs-sassuolo/1"
+            }
+          ]
+        },
+        {
+          "name": "Leipzig vs Bayern Munich",
+          "uri_name": "leipzig-vs-bayern-munich",
+          "poster": "https://api.ppv.to/assets/thumb/4e3dabbb44ba3fd19939d8f410537e52-thumbnail.jpg",
+          "tag": "Bundesliga",
+          "starts_at": "2026-01-17T20:30:00",
+          "ends_at": "2026-01-17T22:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-leipzig-vs-bayern-munich/1"
+            }
+          ]
+        },
+        {
+          "name": "Nottingham Forest vs Arsenal",
+          "uri_name": "nottingham-forest-vs-arsenal",
+          "poster": "https://api.ppv.to/assets/thumb/1e495d9705405f4dde1349a35ec9ac6f-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T20:30:00",
+          "ends_at": "2026-01-17T22:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-nottingham-forest-vs-arsenal/1"
+            }
+          ]
+        },
+        {
+          "name": "Toulouse vs Nice",
+          "uri_name": "toulouse-vs-nice",
+          "poster": "https://api.ppv.to/assets/thumb/585b18762d1ce11e27b146cd0900a8d2-thumbnail.jpg",
+          "tag": "Ligue 1",
+          "starts_at": "2026-01-17T21:00:00",
+          "ends_at": "2026-01-17T23:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-toulouse-vs-nice/1"
+            }
+          ]
+        },
+        {
+          "name": "Cagliari vs Juventus",
+          "uri_name": "cagliari-vs-juventus",
+          "poster": "https://api.ppv.to/assets/thumb/4128380ac504281cf57d242d086b4dcd-thumbnail.jpg",
+          "tag": "Serie A",
+          "starts_at": "2026-01-17T22:45:00",
+          "ends_at": "2026-01-18T00:55:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-cagliari-vs-juventus/1"
+            }
+          ]
+        },
+        {
+          "name": "Real Betis vs Villarreal",
+          "uri_name": "real-betis-vs-villarreal",
+          "poster": "https://api.ppv.to/assets/thumb/c9a3df4951efd6f43788d0951e5330f4-thumbnail.jpg",
+          "tag": "LaLiga",
+          "starts_at": "2026-01-17T23:00:00",
+          "ends_at": "2026-01-18T01:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-real-betis-vs-villarreal/1"
+            }
+          ]
+        },
+        {
+          "name": "Angers vs Marseille",
+          "uri_name": "angers-vs-marseille",
+          "poster": "https://api.ppv.to/assets/thumb/11463ee132e613fd47714b2a740dbcac-thumbnail.jpg",
+          "tag": "Ligue 1",
+          "starts_at": "2026-01-17T23:05:00",
+          "ends_at": "2026-01-18T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-angers-vs-marseille/1"
             }
           ]
         }
