@@ -183,8 +183,8 @@
           "uri_name": "lens-vs-auxerre",
           "poster": "https://api.ppv.to/assets/thumb/a93a797b26a43a69cd50696c7e2a04b9-thumbnail.jpg",
           "tag": "Ligue 1",
-          "starts_at": "2026-01-17T19:00:00",
-          "ends_at": "2026-01-17T21:00:00",
+          "starts_at": "2026-01-16T19:00:00",
+          "ends_at": "2026-01-16T21:00:00",
           "always_live": 0,
           "streams": [
             {
@@ -204,7 +204,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-egypt-vs-nigeria/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=SuperSport%20PSL&code=za&user=cdnlivetv&plan=free"
             }
           ]
         },
