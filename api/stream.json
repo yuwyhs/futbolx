@@ -1,600 +1,369 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FutbolX - Free PPV and More</title>
-  <meta name="description" content="FutbolX - Free PPV boxing, UFC, Basketball, Football, and more available live and on-demand.">
-  <meta name="keywords" content="futbolx, ppv, free ppv, boxing, ufc, basketball, football, stream, online, free">
-  <meta property="og:title" content="FutbolX - Free PPV and More" />
-  <meta property="og:url" content="https://your-futbolx-site.vercel.app" />
-  <meta property="og:image" content="/assets/img/og-image.jpg">
-  <meta name="twitter:title" content="FutbolX - Free PPV and More">
-  <meta name="twitter:description" content="Free PPV boxing and other content available live and on-demand.">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
-  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="/assets/css/main.css?v=26">
-  <style>
-    .error-alert { max-width: 500px; margin: 20px auto; }
-    .card { 
-      opacity: 0; 
-      transform: translateY(50px); 
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
-    }
-    .card.visible { 
-      opacity: 1; 
-      transform: translateY(0); 
-    }
-    .fade-out { 
-      animation: fadeOut 0.5s ease-out forwards; 
-    }
-    @keyframes fadeOut { 
-      from { opacity: 1; } 
-      to { opacity: 0; } 
-    }
-    .watch-button {
-      animation: pulse 1s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.7; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    /* Responsive grid layout for all screen sizes */
-    .event-grid, #livecards.event-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      padding: 1rem;
-    }
-
-    @media (min-width: 768px) {
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(3, minmax(280px, 1fr));
-      }
-    }
-
-    @media (min-width: 1200px) {
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(4, minmax(280px, 1fr));
-      }
-    }
-
-    @media (min-width: 1800px) {
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(5, minmax(280px, 1fr));
-      }
-    }
-    .event-grid a {
-      text-decoration: none;
-    }
-    .card {
-      width: 100%;
-      max-width: 400px;
-      margin: 0 auto;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 2px solid transparent;
-    }
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-      border-color: #ff4d4d;
-    }
-    [data-bs-theme="light"] .card:hover {
-      border-color: #e63939;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    }
-    .card-img-top {
-      height: 220px;
-      object-fit: cover;
-    }
-    .card-body {
-      padding: 1rem;
-    }
-    .card-title {
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-    }
-    .event-tag {
-      font-size: 0.95rem;
-    }
-    .watch-button {
-      font-size: 0.95rem;
-      padding: 0.5rem 1.2rem;
-    }
-
-    /* Fixed Discord Button - Bottom Right with Glow */
-    #discordBtn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
-      opacity: 0.92;
-      transition: opacity .3s, transform .2s;
-      pointer-events: auto;
-      cursor: pointer;
-    }
-    #discordBtn:hover {
-      opacity: 1;
-      transform: scale(1.05);
-    }
-    #discordBtn img {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: block;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.5);
-      transition: box-shadow .3s;
-    }
-    #discordBtn:hover img {
-      box-shadow: 0 0 20px #5865F2, 0 5px 15px rgba(88,101,242,0.5);
-    }
-    @keyframes glowPulse {
-      0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.5); }
-      50% { box-shadow: 0 0 18px #5865F2, 0 3px 10px rgba(88,101,242,0.3); }
-    }
-    #discordBtn img {
-      animation: glowPulse 2.5s infinite ease-in-out;
-    }
-  </style>
-</head>
-<body>
-  <!-- Top Bar -->
-  <nav class="top-bar fixed-top">
-    <div class="container-fluid">
-      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
-        <i class="fas fa-bars"></i>
-      </button>
-      <span class="futbolx-brand">FutbolX</span>
-    </div>
-  </nav>
-  <!-- Left Sidebar -->
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
-    <div class="offcanvas-header">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/request">Request</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
-        <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
-        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
-        <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
-        <li class="nav-item"><button class="nav-link btn btn-link d-none" id="logoutButton">Logout</button></li>
-        <li class="nav-item">
-          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
-            <i class="fas fa-moon"></i>
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <!-- Main Content -->
-  <div class="container-fluid main-content">
-    <div class="text-center py-5 bg-dark hero-background">
-      <h1 class="display-4 fw-bold">Welcome to FutbolX</h1>
-      <p class="lead">Stream Free PPV Boxing, UFC, Basketball, and More - Live & On-Demand!</p>
-    </div>
-    <div class="container pt-2">
-      <div id="errorContainer" class="d-none error-alert"></div>
-      <div id="live" class="mt-4">
-        <h2 class="m-0">
-          Live Now <span id="liveAnimation" class="live-animation d-none"></span>
-        </h2>
-        <div id="livecards" class="event-grid py-3">
-          <p>Loading streams...</p>
-        </div>
-      </div>
-      <div id="football" class="mt-5 d-none">
-        <h2 class="m-0">Football</h2>
-        <div id="footballcards" class="event-grid py-3"></div>
-      </div>
-      <div id="nba" class="mt-5 d-none">
-        <h2 class="m-0">Basketball</h2>
-        <div id="nbacards" class="event-grid py-3"></div>
-      </div>
-      <div id="fights" class="mt-5 d-none">
-        <h2 class="m-0">Fights</h2>
-        <div id="fightscards" class="event-grid py-3"></div>
-      </div>
-      <div id="motorsports" class="mt-5 d-none">
-        <h2 class="m-0">Motorsports</h2>
-        <div id="motorsportscards" class="event-grid py-3"></div>
-      </div>
-      <div id="nfl" class="mt-5 d-none">
-        <h2 class="m-0">NFL</h2>
-        <div id="nflcards" class="event-grid py-3"></div>
-      </div>
-      <div id="nhl" class="mt-5 d-none">
-        <h2 class="m-0">NHL</h2>
-        <div id="nhlcards" class="event-grid py-3"></div>
-      </div>
-      <div id="mlb" class="mt-5 d-none">
-        <h2 class="m-0">MLB</h2>
-        <div id="mlbcards" class="event-grid py-3"></div>
-      </div>
-      <div id="icehockey" class="mt-5 d-none">
-        <h2 class="m-0">Ice Hockey</h2>
-        <div id="icehockeycards" class="event-grid py-3"></div>
-      </div>
-      <div id="tennis" class="mt-5 d-none">
-        <h2 class="m-0">Tennis</h2>
-        <div id="tenniscards" class="event-grid py-3"></div>
-      </div>
-      <div id="rugby" class="mt-5 d-none">
-        <h2 class="m-0">Rugby</h2>
-        <div id="rugbycards" class="event-grid py-3"></div>
-      </div>
-      <div id="golf" class="mt-5 d-none">
-        <h2 class="m-0">Golf</h2>
-        <div id="golfcards" class="event-grid py-3"></div>
-      </div>
-      <div id="others" class="mt-5 d-none">
-        <h2 class="m-0">Others</h2>
-        <div id="otherscards" class="event-grid py-3"></div>
-      </div>
-      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
-        <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item"><a href="/api" class="nav-link px-2 text-body-secondary">API</a></li>
-          <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">Discord</a></li>
-          <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
-          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
-          <li class="nav-item"><a href="/contact" class="nav-link px-2 text-body-secondary">Contact us</a></li>
-        </ul>
-      </footer>
-    </div>
-  </div>
-
-  <!-- Fixed Discord Button -->
-  <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener" id="discordBtn">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" 
-         alt="Join Discord" width="48" height="48">
-  </a>
-
-  <script src="/_vercel/insights/script.js" defer></script>
-  <script src="/_vercel/speed-insights/script.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-  <script src="/assets/js/api.js"></script>
-  <script async src="/assets/js/auth.js"></script>
-  <script defer data-domain="your-futbolx-site.vercel.app" src="https://p.vidembed.re/js/script.js"></script>
-  <script>
-    window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
-    
-    let lastApiCall = 0;
-    let apiInstance = null;
-
-    function zeropad(num) {
-      return num > 9 ? num : '0' + num;
-    }
-
-    function clearError() {
-      const errorContainer = document.getElementById('errorContainer');
-      if (errorContainer && !errorContainer.classList.contains('d-none')) {
-        errorContainer.classList.add('fade-out');
-        setTimeout(() => {
-          errorContainer.className = 'd-none error-alert';
-          errorContainer.innerHTML = '';
-        }, 500);
-      }
-    }
-
-    function countdown() {
-      const now = Math.floor(Date.now() / 1000);
-      let needsRefresh = false;
-      const countdownElements = document.querySelectorAll('.countdown');
-      countdownElements.forEach(element => {
-        const startTime = parseInt(element.getAttribute('data-start'), 10);
-        const uri = element.getAttribute('data-uri');
-        const cardLink = element.closest('a[href]');
-        let timer = startTime - now;
-        if (timer > 0) {
-          let days = Math.floor(timer / 86400);
-          let weeks = Math.floor(days / 7);
-          let hours = Math.floor(timer / 3600);
-          let mins = Math.floor(timer / 60);
-          let secs = Math.floor(timer);
-          let displayText = '';
-          const startDate = new Date(startTime * 1000);
-          const localTimeString = startDate.toLocaleString('en-US', {
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true,
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-          });
-          if (days >= 7) {
-            displayText = `Starting in ${weeks} week${weeks > 1 ? 's' : ''} (${localTimeString})`;
-          } else if (days >= 1) {
-            displayText = `Starting in ${days} day${days > 1 ? 's' : ''} (${localTimeString})`;
-          } else {
-            let hh = hours - days * 24;
-            let mm = mins - hours * 60;
-            let ss = secs - mins * 60;
-            displayText = `${zeropad(hh)}:${zeropad(mm)}:${zeropad(ss)} (${localTimeString})`;
-          }
-          if (element.innerHTML !== displayText) {
-            element.innerHTML = displayText;
-          }
-        } else if (timer <= 0 && !element.innerHTML.includes('watch-button')) {
-          element.innerHTML = `<a href="${uri}" class="btn btn-danger btn-sm watch-button">Watch</a>`;
-          if (cardLink) {
-            cardLink.classList.add('clickable');
-          }
-          needsRefresh = true;
-        }
-      });
-      if (needsRefresh && apiInstance) {
-        const currentTime = Date.now();
-        if (currentTime - lastApiCall >= 1000) {
-          lastApiCall = currentTime;
-          loadContent(apiInstance);
-        }
-      }
-      setTimeout(countdown, 1000);
-    }
-
-    function fetchWithRetry(url, maxRetries = 3, delay = 1000) {
-      return new Promise((resolve, reject) => {
-        let attempts = 0;
-        function attempt() {
-          attempts++;
-          console.log(`Fetching ${url}, attempt ${attempts}`);
-          fetch(url, { signal: AbortSignal.timeout(5000) })
-            .then(res => {
-              if (!res.ok) {
-                return res.text().then(text => {
-                  throw new Error(`HTTP error ${res.status}: ${res.statusText} - ${text}`);
-                });
-              }
-              return res.json();
-            })
-            .then(data => {
-              clearError();
-              resolve(data);
-            })
-            .catch(error => {
-              console.error(`Fetch attempt ${attempts} failed:`, error);
-              if (attempts < maxRetries) {
-                setTimeout(attempt, delay);
-              } else {
-                reject(error);
-              }
-            });
-        }
-        attempt();
-      });
-    }
-
-    function loadContent(api) {
-      console.log('Starting loadContent at', new Date().toISOString());
-      const errorContainer = document.getElementById('errorContainer');
-      const liveAnimation = document.getElementById('liveAnimation');
-      const livecards = document.getElementById('livecards');
-      
-      errorContainer.className = 'd-none error-alert';
-      errorContainer.innerHTML = '';
-      livecards.innerHTML = '<p>Loading streams...</p>';
-
-      const timeout = setTimeout(() => {
-        if (livecards.innerHTML.includes('Loading streams...')) {
-          livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
-          errorContainer.className = 'alert alert-danger error-alert';
-          errorContainer.innerHTML = 'Request timed out. Please try again.';
-          const retryButton = document.getElementById('retryButton');
-          if (retryButton) {
-            retryButton.addEventListener('click', () => loadContent(api));
-          }
-        }
-      }, 15000);
-
-      const apiUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream` : `${api.baseUrl}/stream`;
-      fetchWithRetry(apiUrl)
-        .then(streamData => {
-          clearTimeout(timeout);
-          console.log('Stream API Response:', streamData);
-          
-          if (!streamData || !streamData.success || !Array.isArray(streamData.streams)) {
-            livecards.innerHTML = '<p>No streams are available right now. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
-            liveAnimation.classList.add('d-none');
-            errorContainer.className = 'alert alert-danger error-alert';
-            errorContainer.innerHTML = 'Invalid stream data received. Please try again.';
-            return;
-          }
-
-          const categories = {
-            football: { id: 'football', element: document.getElementById('footballcards') },
-            nba: { id: 'nba', element: document.getElementById('nbacards') },
-            fights: { id: 'fights', element: document.getElementById('fightscards') },
-            motorsports: { id: 'motorsports', element: document.getElementById('motorsportscards') },
-            nfl: { id: 'nfl', element: document.getElementById('nflcards') },
-            nhl: { id: 'nhl', element: document.getElementById('nhlcards') },
-            mlb: { id: 'mlb', element: document.getElementById('mlbcards') },
-            icehockey: { id: 'icehockey', element: document.getElementById('icehockeycards') },
-            tennis: { id: 'tennis', element: document.getElementById('tenniscards') },
-            rugby: { id: 'rugby', element: document.getElementById('rugbycards') },
-            golf: { id: 'golf', element: document.getElementById('golfcards') },
-            others: { id: 'others', element: document.getElementById('otherscards') }
-          };
-          
-          Object.values(categories).forEach(cat => {
-            if (cat.element) cat.element.innerHTML = '';
-          });
-          Object.keys(categories).forEach(key => {
-            const section = document.getElementById(categories[key].id);
-            if (section) section.classList.add('d-none');
-          });
-          livecards.innerHTML = '';
-
-          let hasLiveEvents = false;
-          const now = Math.floor(Date.now() / 1000);
-          const categoryEvents = {};
-          Object.keys(categories).forEach(key => categoryEvents[key] = []);
-
-          // FIXED CATEGORY MAPPING
-          const categoryMap = {
-            'football': 'football',
-            'basketball': 'nba',
-            'fights': 'fights',
-            'motorsports': 'motorsports',
-            'nfl': 'nfl',
-            'nhl': 'nhl',
-            'mlb': 'mlb',
-            'icehockey': 'icehockey',
-            'tennis': 'tennis',
-            'rugby': 'rugby',
-            'golf': 'golf'
-          };
-
-          streamData.streams.forEach(category => {
-            if (!category.streams || !Array.isArray(category.streams)) return;
-
-            const normalizedName = category.category.trim().toLowerCase();
-            let categoryKey = categoryMap[normalizedName] || 'others';
-
-            category.streams.forEach(stream => {
-              if (!stream.name || !stream.uri_name || !stream.tag || !stream.starts_at || !stream.streams || !Array.isArray(stream.streams)) {
-                console.warn(`Invalid stream data for ${stream.name || 'unknown stream'}, skipping`);
-                return;
-              }
-
-              let startTime, endTime;
-              try {
-                startTime = new Date(stream.starts_at + '+03:00').getTime() / 1000;
-                endTime = stream.ends_at 
-                  ? new Date(stream.ends_at + '+03:00').getTime() / 1000 
-                  : startTime + 3 * 3600;
-              } catch (e) {
-                startTime = now;
-                endTime = now + 3 * 3600;
-              }
-
-              const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
-              const isEnded = now > endTime;
-              if (isEnded) return;
-
-              let liveBadge = isLive ? '<span class="live-badge">LIVE</span>' : '';
-              let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
-
-              let streamHtml = {
-                html: `
-                  <a href="/live/${stream.uri_name}">
-                    <div class="card">
-                      ${liveBadge}
-                      <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/285x160?text=Image+Failed';">
-                      <div class="card-body">
-                        <h5 class="card-title">${stream.name}</h5>
-                        <p class="card-text">
-                          <span class="event-tag">${stream.tag}</span>
-                          <span class="event-timer">
-                            ${isLive 
-                              ? `<a href="/live/${stream.uri_name}" class="btn btn-danger btn-sm watch-button">Watch</a>` 
-                              : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  </a>`,
-                startTime
-              };
-
-              if (isLive) {
-                livecards.innerHTML += streamHtml.html;
-                hasLiveEvents = true;
-              } else {
-                categoryEvents[categoryKey].push(streamHtml);
-              }
-            });
-          });
-
-          // Render all categories
-          Object.keys(categories).forEach(key => {
-            if (categoryEvents[key].length > 0) {
-              categoryEvents[key].sort((a, b) => a.startTime - b.startTime);
-              categories[key].element.innerHTML = categoryEvents[key].map(item => item.html).join('');
-              const section = document.getElementById(categories[key].id);
-              if (section) section.classList.remove('d-none');
+{
+  "success": true,
+  "streams": [
+    {
+      "category": "Football",
+      "always_live": 0,
+      "streams": [
+        {
+          "name": "Man United vs Man City",
+          "uri_name": "man-united-vs-man-city",
+          "poster": "https://api.ppv.to/assets/thumb/0b8c6b6d9fd8412c5de020aab97a08d3-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T14:30:00",
+          "ends_at": "2026-01-17T17:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-man-united-vs-man-city/1"
+            },
+            {
+              "title": "Alt Feed 1",
+              "url": "https://embedsports.top/embed/admin/ppv-man-united-vs-man-city/2"
+            },
+            {
+              "title": "Alt Feed 2",
+              "url": "https://embedsports.top/embed/admin/ppv-man-united-vs-man-city/3"
             }
-          });
-
-          if (!hasLiveEvents) {
-            livecards.innerHTML = '<p>No streams are live right now. Check back later!</p>';
-            liveAnimation.classList.add('d-none');
-          } else {
-            liveAnimation.classList.remove('d-none');
-          }
-
-          clearError();
-          const cards = document.querySelectorAll('.card');
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-              }
-            });
-          }, { threshold: 0.1 });
-          cards.forEach(card => observer.observe(card));
-        })
-        .catch(error => {
-          clearTimeout(timeout);
-          console.error('API Fetch Error:', error.message);
-          livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
-          liveAnimation.classList.add('d-none');
-          errorContainer.className = 'alert alert-danger error-alert';
-          errorContainer.innerHTML = `Failed to load streams: ${error.message}. Please try again.`;
-          const retryButton = document.getElementById('retryButton');
-          if (retryButton) {
-            retryButton.addEventListener('click', () => loadContent(api));
-          }
-        });
+          ]
+        },
+        {
+          "name": "Real Madrid vs Levante",
+          "uri_name": "real-madrid-vs-levante",
+          "poster": "https://api.ppv.to/assets/thumb/290f0cb9e471f9c4207edbe859443604-thumbnail.jpg",
+          "tag": "LaLiga",
+          "starts_at": "2026-01-17T14:00:00",
+          "ends_at": "2026-01-17T18:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-real-madrid-vs-levante/1"
+            }
+          ]
+        },
+        {
+          "name": "Udinese vs Inter Milan",
+          "uri_name": "udinese-vs-inter-milan",
+          "poster": "https://api.ppv.to/assets/thumb/def27987121f6e8e0b349ca3a72eac55-thumbnail.jpg",
+          "tag": "Serie A",
+          "starts_at": "2026-01-17T14:00:00",
+          "ends_at": "2026-01-17T19:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-udinese-vs-inter-milan/1"
+            }
+          ]
+        },
+        {
+          "name": "Borussia Dortmund vs St Pauli",
+          "uri_name": "borussia-dortmund-vs-st-pauli",
+          "poster": "https://api.ppv.to/assets/thumb/c065dc55fa9b583a52ba681df8991138-thumbnail.jpg",
+          "tag": "Bundesliga",
+          "starts_at": "2026-01-17T17:30:00",
+          "ends_at": "2026-01-17T19:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-borussia-dortmund-vs-st-pauli/1"
+            }
+          ]
+        },
+        {
+          "name": "TSG Hoffenheim vs Bayer Leverkusen",
+          "uri_name": "tsg-hoffenheim-vs-bayer-leverkusen",
+          "poster": "https://api.ppv.to/assets/thumb/0eac92f6bd9e7b2d6b3b0fd04a8278ad-thumbnail.jpg",
+          "tag": "Bundesliga",
+          "starts_at": "2026-01-17T17:30:00",
+          "ends_at": "2026-01-17T19:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-tsg-hoffenheim-vs-bayer-leverkusen/1"
+            }
+          ]
+        },
+        {
+          "name": "Goal Rush",
+          "uri_name": "goal-rush",
+          "poster": "https://api.ppv.to/assets/thumb/e94e4857435183cbcfa868d0dc8981d7-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T18:00:00",
+          "ends_at": "2026-01-17T20:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-goal-rush/1"
+            }
+          ]
+        },
+        {
+          "name": "Chelsea vs Brentford",
+          "uri_name": "chelsea-vs-brentford",
+          "poster": "https://api.ppv.to/assets/thumb/669ab8f1df2c6a783de2cb97f5e2472f-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T18:00:00",
+          "ends_at": "2026-01-17T20:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-chelsea-vs-brentford/1"
+            }
+          ]
+        },
+        {
+          "name": "Liverpool vs Burnley",
+          "uri_name": "liverpool-vs-burnley",
+          "poster": "https://api.ppv.to/assets/thumb/2ee76e370370958a1c728b94f5557835-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T18:00:00",
+          "ends_at": "2026-01-17T20:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-liverpool-vs-burnley/1"
+            }
+          ]
+        },
+        {
+          "name": "Tottenham vs West Ham",
+          "uri_name": "tottenham-vs-west-ham",
+          "poster": "https://api.ppv.to/assets/thumb/33a376ffe631e42f4c2319b6d4e38a99-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T18:00:00",
+          "ends_at": "2026-01-17T20:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-tottenham-vs-west-ham/1"
+            }
+          ]
+        },
+        {
+          "name": "Sunderland vs Crystal Palace",
+          "uri_name": "sunderland-vs-crystal-palace",
+          "poster": "https://api.ppv.to/assets/thumb/0f68833a53a49e8a7140609bcb7ffefc-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T18:00:00",
+          "ends_at": "2026-01-17T20:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-sunderland-vs-crystal-palace/1"
+            }
+          ]
+        },
+        {
+          "name": "Leeds vs Fulham",
+          "uri_name": "leeds-vs-fulham",
+          "poster": "https://api.ppv.to/assets/thumb/2268daac5cbf6ca1ac4ff994c5dddf0b-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T18:00:00",
+          "ends_at": "2026-01-17T20:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-leeds-vs-fulham/1"
+            }
+          ]
+        },
+        {
+          "name": "Lens vs Auxerre",
+          "uri_name": "lens-vs-auxerre",
+          "poster": "https://api.ppv.to/assets/thumb/a93a797b26a43a69cd50696c7e2a04b9-thumbnail.jpg",
+          "tag": "Ligue 1",
+          "starts_at": "2026-01-17T19:00:00",
+          "ends_at": "2026-01-17T21:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-lens-vs-auxerre/1"
+            }
+          ]
+        },
+        {
+          "name": "Egypt vs Nigeria",
+          "uri_name": "egypt-vs-nigeria",
+          "poster": "https://api.ppv.to/assets/thumb/4282284a26ec45d85b12f31fe3810239-thumbnail.jpg",
+          "tag": "AFCON",
+          "starts_at": "2026-01-17T19:00:00",
+          "ends_at": "2026-01-17T21:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-egypt-vs-nigeria/1"
+            }
+          ]
+        },
+        {
+          "name": "Napoli vs Sassuolo",
+          "uri_name": "napoli-vs-sassuolo",
+          "poster": "https://api.ppv.to/assets/thumb/05844720ddf962a748b813e9472cf45c-thumbnail.jpg",
+          "tag": "Serie A",
+          "starts_at": "2026-01-17T20:00:00",
+          "ends_at": "2026-01-17T22:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-napoli-vs-sassuolo/1"
+            }
+          ]
+        },
+        {
+          "name": "Leipzig vs Bayern Munich",
+          "uri_name": "leipzig-vs-bayern-munich",
+          "poster": "https://api.ppv.to/assets/thumb/4e3dabbb44ba3fd19939d8f410537e52-thumbnail.jpg",
+          "tag": "Bundesliga",
+          "starts_at": "2026-01-17T20:30:00",
+          "ends_at": "2026-01-17T22:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-leipzig-vs-bayern-munich/1"
+            }
+          ]
+        },
+        {
+          "name": "Nottingham Forest vs Arsenal",
+          "uri_name": "nottingham-forest-vs-arsenal",
+          "poster": "https://api.ppv.to/assets/thumb/1e495d9705405f4dde1349a35ec9ac6f-thumbnail.jpg",
+          "tag": "EPL",
+          "starts_at": "2026-01-17T20:30:00",
+          "ends_at": "2026-01-17T22:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-nottingham-forest-vs-arsenal/1"
+            }
+          ]
+        },
+        {
+          "name": "Toulouse vs Nice",
+          "uri_name": "toulouse-vs-nice",
+          "poster": "https://api.ppv.to/assets/thumb/585b18762d1ce11e27b146cd0900a8d2-thumbnail.jpg",
+          "tag": "Ligue 1",
+          "starts_at": "2026-01-17T21:00:00",
+          "ends_at": "2026-01-17T23:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-toulouse-vs-nice/1"
+            }
+          ]
+        },
+        {
+          "name": "Cagliari vs Juventus",
+          "uri_name": "cagliari-vs-juventus",
+          "poster": "https://api.ppv.to/assets/thumb/4128380ac504281cf57d242d086b4dcd-thumbnail.jpg",
+          "tag": "Serie A",
+          "starts_at": "2026-01-17T22:45:00",
+          "ends_at": "2026-01-18T00:55:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-cagliari-vs-juventus/1"
+            }
+          ]
+        },
+        {
+          "name": "Real Betis vs Villarreal",
+          "uri_name": "real-betis-vs-villarreal",
+          "poster": "https://api.ppv.to/assets/thumb/c9a3df4951efd6f43788d0951e5330f4-thumbnail.jpg",
+          "tag": "LaLiga",
+          "starts_at": "2026-01-17T23:00:00",
+          "ends_at": "2026-01-18T01:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-real-betis-vs-villarreal/1"
+            }
+          ]
+        },
+        {
+          "name": "Angers vs Marseille",
+          "uri_name": "angers-vs-marseille",
+          "poster": "https://api.ppv.to/assets/thumb/11463ee132e613fd47714b2a740dbcac-thumbnail.jpg",
+          "tag": "Ligue 1",
+          "starts_at": "2026-01-17T23:05:00",
+          "ends_at": "2026-01-18T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-angers-vs-marseille/1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Fights",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "Motorsports",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "Basketball",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "NFL",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "Tennis",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "NHL",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "MLB",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "Rugby",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "Golf",
+      "always_live": 0,
+      "streams": []
+    },
+    {
+      "category": "Others",
+      "always_live": 0,
+      "streams": []
     }
-
-    function initOffcanvas() {
-      const offcanvasElement = document.getElementById('sidebarMenu');
-      const toggler = document.getElementById('sidebarToggler');
-      if (!offcanvasElement || !toggler) return;
-
-      if (typeof bootstrap !== 'undefined') {
-        const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
-      }
-    }
-
-    function initPage() {
-      const themeToggle = document.getElementById('themeToggle');
-      const htmlElement = document.documentElement;
-      const currentTheme = localStorage.getItem('theme') || 'dark';
-      htmlElement.setAttribute('data-bs-theme', currentTheme);
-      if (themeToggle) {
-        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-        themeToggle.addEventListener('click', () => {
-          const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
-          htmlElement.setAttribute('data-bs-theme', newTheme);
-          localStorage.setItem('theme', newTheme);
-          themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-        });
-      }
-
-      initOffcanvas();
-
-      try {
-        apiInstance = typeof Api !== 'undefined' ? new Api(`${window.location.origin}/api`) : { baseUrl: window.location.origin + '/api' };
-        loadContent(apiInstance);
-      } catch (error) {
-        console.error('API init error:', error);
-      }
-
-      if (typeof checkAuthStatus === 'function') checkAuthStatus();
-      countdown();
-    }
-
-    document.addEventListener('DOMContentLoaded', initPage);
-  </script>
-</body>
-</html>
+  ]
+}
