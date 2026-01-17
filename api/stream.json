@@ -43,14 +43,12 @@
       50% { transform: scale(1.1); opacity: 0.7; }
       100% { transform: scale(1); opacity: 1; }
     }
-    /* FIX: Standardized Grid for all sections */
+    /* Responsive grid layout for all screen sizes */
     .event-grid, #livecards.event-grid {
       display: grid;
-      /* Changed to auto-fill so items don't stretch when there are few live events */
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
       padding: 1rem;
-      justify-content: start;
     }
 
     @media (min-width: 768px) {
@@ -70,22 +68,18 @@
         grid-template-columns: repeat(5, minmax(280px, 1fr));
       }
     }
-    
     .event-grid a {
       text-decoration: none;
-      display: block; /* Ensure the link wrapper is a proper grid item */
     }
-    
     .card {
       width: 100%;
       max-width: 400px;
-      margin: 0; /* Keep cards aligned to the start of their grid cell */
+      margin: 0 auto;
       transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
       border-radius: 10px;
       overflow: hidden;
       border: 2px solid transparent;
     }
-    /* ... rest of your CSS remains identical ... */
     .card:hover {
       transform: translateY(-8px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
@@ -114,6 +108,7 @@
       padding: 0.5rem 1.2rem;
     }
 
+    /* Fixed Discord Button - Bottom Right with Glow */
     #discordBtn {
       position: fixed;
       bottom: 20px;
@@ -149,6 +144,7 @@
   </style>
 </head>
 <body>
+  <!-- Top Bar -->
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
       <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
@@ -157,6 +153,7 @@
       <span class="futbolx-brand">FutbolX</span>
     </div>
   </nav>
+  <!-- Left Sidebar -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -179,7 +176,7 @@
       </ul>
     </div>
   </div>
-
+  <!-- Main Content -->
   <div class="container-fluid main-content">
     <div class="text-center py-5 bg-dark hero-background">
       <h1 class="display-4 fw-bold">Welcome to FutbolX</h1>
@@ -195,19 +192,54 @@
           <p>Loading streams...</p>
         </div>
       </div>
-      <div id="football" class="mt-5 d-none"><h2 class="m-0">Football</h2><div id="footballcards" class="event-grid py-3"></div></div>
-      <div id="nba" class="mt-5 d-none"><h2 class="m-0">Basketball</h2><div id="nbacards" class="event-grid py-3"></div></div>
-      <div id="fights" class="mt-5 d-none"><h2 class="m-0">Fights</h2><div id="fightscards" class="event-grid py-3"></div></div>
-      <div id="motorsports" class="mt-5 d-none"><h2 class="m-0">Motorsports</h2><div id="motorsportscards" class="event-grid py-3"></div></div>
-      <div id="nfl" class="mt-5 d-none"><h2 class="m-0">NFL</h2><div id="nflcards" class="event-grid py-3"></div></div>
-      <div id="nhl" class="mt-5 d-none"><h2 class="m-0">NHL</h2><div id="nhlcards" class="event-grid py-3"></div></div>
-      <div id="mlb" class="mt-5 d-none"><h2 class="m-0">MLB</h2><div id="mlbcards" class="event-grid py-3"></div></div>
-      <div id="icehockey" class="mt-5 d-none"><h2 class="m-0">Ice Hockey</h2><div id="icehockeycards" class="event-grid py-3"></div></div>
-      <div id="tennis" class="mt-5 d-none"><h2 class="m-0">Tennis</h2><div id="tenniscards" class="event-grid py-3"></div></div>
-      <div id="rugby" class="mt-5 d-none"><h2 class="m-0">Rugby</h2><div id="rugbycards" class="event-grid py-3"></div></div>
-      <div id="golf" class="mt-5 d-none"><h2 class="m-0">Golf</h2><div id="golfcards" class="event-grid py-3"></div></div>
-      <div id="others" class="mt-5 d-none"><h2 class="m-0">Others</h2><div id="otherscards" class="event-grid py-3"></div></div>
-
+      <div id="football" class="mt-5 d-none">
+        <h2 class="m-0">Football</h2>
+        <div id="footballcards" class="event-grid py-3"></div>
+      </div>
+      <div id="nba" class="mt-5 d-none">
+        <h2 class="m-0">Basketball</h2>
+        <div id="nbacards" class="event-grid py-3"></div>
+      </div>
+      <div id="fights" class="mt-5 d-none">
+        <h2 class="m-0">Fights</h2>
+        <div id="fightscards" class="event-grid py-3"></div>
+      </div>
+      <div id="motorsports" class="mt-5 d-none">
+        <h2 class="m-0">Motorsports</h2>
+        <div id="motorsportscards" class="event-grid py-3"></div>
+      </div>
+      <div id="nfl" class="mt-5 d-none">
+        <h2 class="m-0">NFL</h2>
+        <div id="nflcards" class="event-grid py-3"></div>
+      </div>
+      <div id="nhl" class="mt-5 d-none">
+        <h2 class="m-0">NHL</h2>
+        <div id="nhlcards" class="event-grid py-3"></div>
+      </div>
+      <div id="mlb" class="mt-5 d-none">
+        <h2 class="m-0">MLB</h2>
+        <div id="mlbcards" class="event-grid py-3"></div>
+      </div>
+      <div id="icehockey" class="mt-5 d-none">
+        <h2 class="m-0">Ice Hockey</h2>
+        <div id="icehockeycards" class="event-grid py-3"></div>
+      </div>
+      <div id="tennis" class="mt-5 d-none">
+        <h2 class="m-0">Tennis</h2>
+        <div id="tenniscards" class="event-grid py-3"></div>
+      </div>
+      <div id="rugby" class="mt-5 d-none">
+        <h2 class="m-0">Rugby</h2>
+        <div id="rugbycards" class="event-grid py-3"></div>
+      </div>
+      <div id="golf" class="mt-5 d-none">
+        <h2 class="m-0">Golf</h2>
+        <div id="golfcards" class="event-grid py-3"></div>
+      </div>
+      <div id="others" class="mt-5 d-none">
+        <h2 class="m-0">Others</h2>
+        <div id="otherscards" class="event-grid py-3"></div>
+      </div>
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
         <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
@@ -221,75 +253,348 @@
     </div>
   </div>
 
+  <!-- Fixed Discord Button -->
   <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener" id="discordBtn">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" alt="Join Discord" width="48" height="48">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" 
+         alt="Join Discord" width="48" height="48">
   </a>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/_vercel/insights/script.js" defer></script>
+  <script src="/_vercel/speed-insights/script.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script src="/assets/js/api.js"></script>
+  <script async src="/assets/js/auth.js"></script>
+  <script defer data-domain="your-futbolx-site.vercel.app" src="https://p.vidembed.re/js/script.js"></script>
   <script>
-    // Logic for zeropad, clearError, fetchWithRetry, etc. is omitted for brevity as it remains the same.
-    // KEY FIX: Ensuring we don't nest <a> tags in the cards below.
+    window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
+    
+    let lastApiCall = 0;
+    let apiInstance = null;
+
+    function zeropad(num) {
+      return num > 9 ? num : '0' + num;
+    }
+
+    function clearError() {
+      const errorContainer = document.getElementById('errorContainer');
+      if (errorContainer && !errorContainer.classList.contains('d-none')) {
+        errorContainer.classList.add('fade-out');
+        setTimeout(() => {
+          errorContainer.className = 'd-none error-alert';
+          errorContainer.innerHTML = '';
+        }, 500);
+      }
+    }
 
     function countdown() {
       const now = Math.floor(Date.now() / 1000);
+      let needsRefresh = false;
       const countdownElements = document.querySelectorAll('.countdown');
       countdownElements.forEach(element => {
         const startTime = parseInt(element.getAttribute('data-start'), 10);
         const uri = element.getAttribute('data-uri');
+        const cardLink = element.closest('a[href]');
         let timer = startTime - now;
         if (timer > 0) {
-          // ... existing countdown text logic ...
-          element.innerHTML = "Countdown logic..."; 
+          let days = Math.floor(timer / 86400);
+          let weeks = Math.floor(days / 7);
+          let hours = Math.floor(timer / 3600);
+          let mins = Math.floor(timer / 60);
+          let secs = Math.floor(timer);
+          let displayText = '';
+          const startDate = new Date(startTime * 1000);
+          const localTimeString = startDate.toLocaleString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+          });
+          if (days >= 7) {
+            displayText = `Starting in ${weeks} week${weeks > 1 ? 's' : ''} (${localTimeString})`;
+          } else if (days >= 1) {
+            displayText = `Starting in ${days} day${days > 1 ? 's' : ''} (${localTimeString})`;
+          } else {
+            let hh = hours - days * 24;
+            let mm = mins - hours * 60;
+            let ss = secs - mins * 60;
+            displayText = `${zeropad(hh)}:${zeropad(mm)}:${zeropad(ss)} (${localTimeString})`;
+          }
+          if (element.innerHTML !== displayText) {
+            element.innerHTML = displayText;
+          }
         } else if (timer <= 0 && !element.innerHTML.includes('watch-button')) {
-          // FIX: Changed <a> to <span> to avoid breaking the grid link
-          element.innerHTML = `<span class="btn btn-danger btn-sm watch-button">Watch</span>`;
+          element.innerHTML = `<a href="${uri}" class="btn btn-danger btn-sm watch-button">Watch</a>`;
+          if (cardLink) {
+            cardLink.classList.add('clickable');
+          }
+          needsRefresh = true;
         }
       });
+      if (needsRefresh && apiInstance) {
+        const currentTime = Date.now();
+        if (currentTime - lastApiCall >= 1000) {
+          lastApiCall = currentTime;
+          loadContent(apiInstance);
+        }
+      }
       setTimeout(countdown, 1000);
     }
 
-    function loadContent(api) {
-      const livecards = document.getElementById('livecards');
-      const apiUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream` : `${api.baseUrl}/stream`;
-      
-      fetch(apiUrl).then(res => res.json()).then(streamData => {
-        livecards.innerHTML = '';
-        streamData.streams.forEach(category => {
-          category.streams.forEach(stream => {
-            const startTime = new Date(stream.starts_at).getTime() / 1000;
-            const isLive = (startTime <= Math.floor(Date.now() / 1000));
-            
-            // FIX: The "Watch" button is now a span. Since it is inside a card link, 
-            // clicking it will still open the stream without breaking the grid layout.
-            let streamHtml = `
-              <a href="/live/${stream.uri_name}">
-                <div class="card">
-                  <img src="${stream.poster || 'https://via.placeholder.com/285x160'}" class="card-img-top">
-                  <div class="card-body">
-                    <h5 class="card-title">${stream.name}</h5>
-                    <p class="card-text">
-                      <span class="event-tag">${stream.tag}</span>
-                      <span class="event-timer">
-                        ${isLive 
-                          ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` 
-                          : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </a>`;
-            if (isLive) livecards.innerHTML += streamHtml;
-            // ... add to categories logic ...
-          });
-        });
+    function fetchWithRetry(url, maxRetries = 3, delay = 1000) {
+      return new Promise((resolve, reject) => {
+        let attempts = 0;
+        function attempt() {
+          attempts++;
+          console.log(`Fetching ${url}, attempt ${attempts}`);
+          fetch(url, { signal: AbortSignal.timeout(5000) })
+            .then(res => {
+              if (!res.ok) {
+                return res.text().then(text => {
+                  throw new Error(`HTTP error ${res.status}: ${res.statusText} - ${text}`);
+                });
+              }
+              return res.json();
+            })
+            .then(data => {
+              clearError();
+              resolve(data);
+            })
+            .catch(error => {
+              console.error(`Fetch attempt ${attempts} failed:`, error);
+              if (attempts < maxRetries) {
+                setTimeout(attempt, delay);
+              } else {
+                reject(error);
+              }
+            });
+        }
+        attempt();
       });
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        // Initialize your API and Page here...
-        loadContent({ baseUrl: '/api' });
-        countdown();
-    });
+    function loadContent(api) {
+      console.log('Starting loadContent at', new Date().toISOString());
+      const errorContainer = document.getElementById('errorContainer');
+      const liveAnimation = document.getElementById('liveAnimation');
+      const livecards = document.getElementById('livecards');
+      
+      errorContainer.className = 'd-none error-alert';
+      errorContainer.innerHTML = '';
+      livecards.innerHTML = '<p>Loading streams...</p>';
+
+      const timeout = setTimeout(() => {
+        if (livecards.innerHTML.includes('Loading streams...')) {
+          livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
+          errorContainer.className = 'alert alert-danger error-alert';
+          errorContainer.innerHTML = 'Request timed out. Please try again.';
+          const retryButton = document.getElementById('retryButton');
+          if (retryButton) {
+            retryButton.addEventListener('click', () => loadContent(api));
+          }
+        }
+      }, 15000);
+
+      const apiUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream` : `${api.baseUrl}/stream`;
+      fetchWithRetry(apiUrl)
+        .then(streamData => {
+          clearTimeout(timeout);
+          console.log('Stream API Response:', streamData);
+          
+          if (!streamData || !streamData.success || !Array.isArray(streamData.streams)) {
+            livecards.innerHTML = '<p>No streams are available right now. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
+            liveAnimation.classList.add('d-none');
+            errorContainer.className = 'alert alert-danger error-alert';
+            errorContainer.innerHTML = 'Invalid stream data received. Please try again.';
+            return;
+          }
+
+          const categories = {
+            football: { id: 'football', element: document.getElementById('footballcards') },
+            nba: { id: 'nba', element: document.getElementById('nbacards') },
+            fights: { id: 'fights', element: document.getElementById('fightscards') },
+            motorsports: { id: 'motorsports', element: document.getElementById('motorsportscards') },
+            nfl: { id: 'nfl', element: document.getElementById('nflcards') },
+            nhl: { id: 'nhl', element: document.getElementById('nhlcards') },
+            mlb: { id: 'mlb', element: document.getElementById('mlbcards') },
+            icehockey: { id: 'icehockey', element: document.getElementById('icehockeycards') },
+            tennis: { id: 'tennis', element: document.getElementById('tenniscards') },
+            rugby: { id: 'rugby', element: document.getElementById('rugbycards') },
+            golf: { id: 'golf', element: document.getElementById('golfcards') },
+            others: { id: 'others', element: document.getElementById('otherscards') }
+          };
+          
+          Object.values(categories).forEach(cat => {
+            if (cat.element) cat.element.innerHTML = '';
+          });
+          Object.keys(categories).forEach(key => {
+            const section = document.getElementById(categories[key].id);
+            if (section) section.classList.add('d-none');
+          });
+          livecards.innerHTML = '';
+
+          let hasLiveEvents = false;
+          const now = Math.floor(Date.now() / 1000);
+          const categoryEvents = {};
+          Object.keys(categories).forEach(key => categoryEvents[key] = []);
+
+          // FIXED CATEGORY MAPPING
+          const categoryMap = {
+            'football': 'football',
+            'basketball': 'nba',
+            'fights': 'fights',
+            'motorsports': 'motorsports',
+            'nfl': 'nfl',
+            'nhl': 'nhl',
+            'mlb': 'mlb',
+            'icehockey': 'icehockey',
+            'tennis': 'tennis',
+            'rugby': 'rugby',
+            'golf': 'golf'
+          };
+
+          streamData.streams.forEach(category => {
+            if (!category.streams || !Array.isArray(category.streams)) return;
+
+            const normalizedName = category.category.trim().toLowerCase();
+            let categoryKey = categoryMap[normalizedName] || 'others';
+
+            category.streams.forEach(stream => {
+              if (!stream.name || !stream.uri_name || !stream.tag || !stream.starts_at || !stream.streams || !Array.isArray(stream.streams)) {
+                console.warn(`Invalid stream data for ${stream.name || 'unknown stream'}, skipping`);
+                return;
+              }
+
+              let startTime, endTime;
+              try {
+                startTime = new Date(stream.starts_at + '+03:00').getTime() / 1000;
+                endTime = stream.ends_at 
+                  ? new Date(stream.ends_at + '+03:00').getTime() / 1000 
+                  : startTime + 3 * 3600;
+              } catch (e) {
+                startTime = now;
+                endTime = now + 3 * 3600;
+              }
+
+              const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
+              const isEnded = now > endTime;
+              if (isEnded) return;
+
+              let liveBadge = isLive ? '<span class="live-badge">LIVE</span>' : '';
+              let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
+
+              let streamHtml = {
+                html: `
+                  <a href="/live/${stream.uri_name}">
+                    <div class="card">
+                      ${liveBadge}
+                      <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/285x160?text=Image+Failed';">
+                      <div class="card-body">
+                        <h5 class="card-title">${stream.name}</h5>
+                        <p class="card-text">
+                          <span class="event-tag">${stream.tag}</span>
+                          <span class="event-timer">
+                            ${isLive 
+                              ? `<a href="/live/${stream.uri_name}" class="btn btn-danger btn-sm watch-button">Watch</a>` 
+                              : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </a>`,
+                startTime
+              };
+
+              if (isLive) {
+                livecards.innerHTML += streamHtml.html;
+                hasLiveEvents = true;
+              } else {
+                categoryEvents[categoryKey].push(streamHtml);
+              }
+            });
+          });
+
+          // Render all categories
+          Object.keys(categories).forEach(key => {
+            if (categoryEvents[key].length > 0) {
+              categoryEvents[key].sort((a, b) => a.startTime - b.startTime);
+              categories[key].element.innerHTML = categoryEvents[key].map(item => item.html).join('');
+              const section = document.getElementById(categories[key].id);
+              if (section) section.classList.remove('d-none');
+            }
+          });
+
+          if (!hasLiveEvents) {
+            livecards.innerHTML = '<p>No streams are live right now. Check back later!</p>';
+            liveAnimation.classList.add('d-none');
+          } else {
+            liveAnimation.classList.remove('d-none');
+          }
+
+          clearError();
+          const cards = document.querySelectorAll('.card');
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.1 });
+          cards.forEach(card => observer.observe(card));
+        })
+        .catch(error => {
+          clearTimeout(timeout);
+          console.error('API Fetch Error:', error.message);
+          livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
+          liveAnimation.classList.add('d-none');
+          errorContainer.className = 'alert alert-danger error-alert';
+          errorContainer.innerHTML = `Failed to load streams: ${error.message}. Please try again.`;
+          const retryButton = document.getElementById('retryButton');
+          if (retryButton) {
+            retryButton.addEventListener('click', () => loadContent(api));
+          }
+        });
+    }
+
+    function initOffcanvas() {
+      const offcanvasElement = document.getElementById('sidebarMenu');
+      const toggler = document.getElementById('sidebarToggler');
+      if (!offcanvasElement || !toggler) return;
+
+      if (typeof bootstrap !== 'undefined') {
+        const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+      }
+    }
+
+    function initPage() {
+      const themeToggle = document.getElementById('themeToggle');
+      const htmlElement = document.documentElement;
+      const currentTheme = localStorage.getItem('theme') || 'dark';
+      htmlElement.setAttribute('data-bs-theme', currentTheme);
+      if (themeToggle) {
+        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        themeToggle.addEventListener('click', () => {
+          const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+          htmlElement.setAttribute('data-bs-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+          themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        });
+      }
+
+      initOffcanvas();
+
+      try {
+        apiInstance = typeof Api !== 'undefined' ? new Api(`${window.location.origin}/api`) : { baseUrl: window.location.origin + '/api' };
+        loadContent(apiInstance);
+      } catch (error) {
+        console.error('API init error:', error);
+      }
+
+      if (typeof checkAuthStatus === 'function') checkAuthStatus();
+      countdown();
+    }
+
+    document.addEventListener('DOMContentLoaded', initPage);
   </script>
 </body>
 </html>
