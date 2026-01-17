@@ -3,175 +3,168 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FutbolX - Free PPV and More</title>
-  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
-  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  <title>FutbolX</title>
+  <link href="https://fonts.bunny.net/css?family=kanit:400,500,600,700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
-    /* FIX: Standardized Grid for EVERY section */
+    body { font-family: 'Kanit', sans-serif; background-color: #121212; }
+    
+    /* UNIFIED GRID: This makes Live and Football sections identical */
     .event-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1.5rem;
       padding: 1rem 0;
-      justify-content: start;
     }
-
-    /* Fixed sizes for different screens to ensure everything stays aligned */
-    @media (min-width: 768px) { .event-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (min-width: 992px) { .event-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (min-width: 1400px) { .event-grid { grid-template-columns: repeat(4, 1fr); } }
 
     .card {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      position: relative; /* Required for stretched-link */
       height: 100%;
-      transition: transform 0.3s ease;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .card:hover { transform: translateY(-5px); }
-    
-    /* Ensure links don't break the layout */
-    .event-link { text-decoration: none; color: inherit; display: block; }
-    
-    .watch-button {
-      background-color: #dc3545;
-      color: white;
-      padding: 4px 12px;
-      border-radius: 4px;
-      font-weight: bold;
-      display: inline-block;
     }
 
-    /* Sidebar Fixes */
-    .offcanvas { z-index: 1051 !important; }
-    .offcanvas-backdrop { z-index: 1050 !important; }
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: #ff4d4d;
+    }
+
+    .watch-button {
+      background-color: #ff4d4d;
+      border: none;
+      padding: 5px 20px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+
+    .live-dot {
+      height: 8px;
+      width: 8px;
+      background-color: #ff4d4d;
+      border-radius: 50%;
+      display: inline-block;
+      margin-left: 8px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
   </style>
 </head>
 <body>
-  <nav class="top-bar fixed-top">
-    <div class="container-fluid d-flex align-items-center">
-      <button class="btn btn-dark me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
-        <i class="fas fa-bars"></i>
+
+  <nav class="navbar navbar-dark bg-dark sticky-top border-bottom border-secondary">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+        <span class="navbar-toggler-icon"></span>
       </button>
-      <span class="futbolx-brand">FutbolX</span>
+      <a class="navbar-brand fw-bold" href="#">FutbolX</a>
     </div>
   </nav>
 
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
-    <div class="offcanvas-header">
+  <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebarMenu">
+    <div class="offcanvas-header border-bottom border-secondary">
       <h5 class="offcanvas-title">Menu</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
     </div>
     <div class="offcanvas-body">
-      <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/request">Request</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
-        <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
+      <ul class="nav flex-column gap-2">
+        <li><a class="nav-link text-white" href="/"><i class="fas fa-home me-2"></i> Home</a></li>
+        <li><a class="nav-link text-white" href="/request"><i class="fas fa-plus me-2"></i> Request</a></li>
+        <li><a class="nav-link text-white" href="/vods"><i class="fas fa-video me-2"></i> VODs</a></li>
+        <li><a class="nav-link text-white" href="/vip"><i class="fas fa-star me-2"></i> VIP Access</a></li>
       </ul>
     </div>
   </div>
 
-  <div class="container-fluid main-content">
-    <div class="text-center py-5 bg-dark hero-background">
-      <h1 class="display-4 fw-bold">Welcome to FutbolX</h1>
-      <p class="lead">Live & On-Demand Streams</p>
+  <div class="container py-4">
+    <div id="live-section">
+      <h3 class="fw-bold">Live Now <span class="live-dot"></span></h3>
+      <div id="livecards" class="event-grid">
+        </div>
     </div>
 
-    <div class="container pt-2">
-      <div id="live" class="mt-4">
-        <h2 class="m-0">Live Now <span id="liveAnimation" class="live-animation"></span></h2>
-        <div id="livecards" class="event-grid"></div>
-      </div>
+    <hr class="my-5 border-secondary">
 
-      <div id="football" class="mt-5 d-none"><h2>Football</h2><div id="footballcards" class="event-grid"></div></div>
-      <div id="nba" class="mt-5 d-none"><h2>Basketball</h2><div id="nbacards" class="event-grid"></div></div>
-      <div id="fights" class="mt-5 d-none"><h2>Fights</h2><div id="fightscards" class="event-grid"></div></div>
-      <div id="others" class="mt-5 d-none"><h2>Others</h2><div id="otherscards" class="event-grid"></div></div>
+    <div id="football" class="category-section d-none">
+      <h3 class="fw-bold">Football</h3>
+      <div id="footballcards" class="event-grid"></div>
+    </div>
+
+    <div id="nba" class="category-section d-none">
+      <h3 class="fw-bold">Basketball</h3>
+      <div id="nbacards" class="event-grid"></div>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.bundle.min.js"></script>
   <script>
-    function zeropad(n) { return n < 10 ? '0' + n : n; }
-
-    function updateCountdowns() {
-      const now = Math.floor(Date.now() / 1000);
-      document.querySelectorAll('.countdown').forEach(el => {
-        const start = parseInt(el.dataset.start);
-        const diff = start - now;
-        if (diff <= 0) {
-          el.innerHTML = '<span class="watch-button">WATCH</span>';
-        } else {
-          const h = Math.floor(diff / 3600);
-          const m = Math.floor((diff % 3600) / 60);
-          const s = diff % 60;
-          el.innerHTML = `${zeropad(h)}:${zeropad(m)}:${zeropad(s)}`;
-        }
-      });
-    }
-
-    async function loadContent() {
+    async function loadStreams() {
       try {
-        const res = await fetch('/api/stream');
-        const data = await res.json();
-        
+        // Change this to your actual API endpoint
+        const response = await fetch('/api/stream');
+        const data = await response.json();
+
         const liveContainer = document.getElementById('livecards');
-        liveContainer.innerHTML = ''; // Clear loading text
+        
+        // Reset grids
+        liveContainer.innerHTML = '';
 
         data.streams.forEach(category => {
-          const catId = category.name.toLowerCase().replace(/\s+/g, '');
-          const catSection = document.getElementById(catId) || document.getElementById('others');
-          const catGrid = catSection.querySelector('.event-grid');
+          // Find the correct container for the category
+          const catName = category.name.toLowerCase();
+          const catContainer = document.getElementById(`${catName}cards`);
+          const catSection = document.getElementById(catName);
+
+          if (catContainer) catContainer.innerHTML = '';
 
           category.streams.forEach(stream => {
-            const startTime = Math.floor(new Date(stream.starts_at).getTime() / 1000);
-            const isLive = startTime <= Math.floor(Date.now() / 1000);
+            const startTime = new Date(stream.starts_at).getTime();
+            const isLive = startTime <= Date.now();
 
+            // FIX: Removed nested <a>. The .stretched-link handles the click.
             const cardHtml = `
-              <a href="/live/${stream.uri_name}" class="event-link">
-                <div class="card bg-dark text-white">
-                  <img src="${stream.poster || '/assets/img/placeholder.jpg'}" class="card-img-top">
-                  <div class="card-body">
-                    <h5 class="card-title text-truncate">${stream.name}</h5>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <small class="text-secondary">${stream.tag}</small>
-                      <div class="event-timer">
-                        ${isLive ? '<span class="watch-button">LIVE</span>' : 
-                        `<span class="countdown" data-start="${startTime}"></span>`}
-                      </div>
-                    </div>
+              <div class="card">
+                <img src="${stream.poster || 'https://via.placeholder.com/300x170'}" class="card-img-top rounded-top" alt="...">
+                <div class="card-body">
+                  <h6 class="text-secondary text-uppercase mb-1" style="font-size: 0.75rem;">${stream.tag}</h6>
+                  <h5 class="card-title mb-3">${stream.name}</h5>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-secondary small">${isLive ? 'Started' : new Date(stream.starts_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                    <a href="/live/${stream.uri_name}" class="btn watch-button stretched-link">${isLive ? 'Watch' : 'Wait'}</a>
                   </div>
                 </div>
-              </a>`;
+              </div>`;
 
-            // 1. Add to the category section (Upcoming/All)
-            catGrid.innerHTML += cardHtml;
-            catSection.classList.remove('d-none'); // Show the category
+            // Add to the main category section
+            if (catContainer) {
+              catContainer.innerHTML += cardHtml;
+              catSection.classList.remove('d-none'); // Show section if it has events
+            }
 
-            // 2. If live, also add to the top "Live Now" section
+            // If it is live, ALSO add to the Live Now section at the top
             if (isLive) {
               liveContainer.innerHTML += cardHtml;
             }
           });
         });
 
+        // If nothing is live, show a message
         if (liveContainer.innerHTML === '') {
-          liveContainer.innerHTML = '<p class="text-secondary">No events currently live.</p>';
+          liveContainer.innerHTML = '<p class="text-secondary">No streams are live right now. Check back later!</p>';
         }
 
-      } catch (err) {
-        console.error("Failed to load streams", err);
+      } catch (error) {
+        console.error("Error loading streams:", error);
       }
     }
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-      loadContent();
-      setInterval(updateCountdowns, 1000);
-    });
+    document.addEventListener('DOMContentLoaded', loadStreams);
   </script>
 </body>
 </html>
