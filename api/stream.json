@@ -16,15 +16,15 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-man-united-vs-man-city/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sports%20Main%20Event&code=gb&user=cdnlivetv&plan=free"
             },
             {
               "title": "Alt Feed 1",
-              "url": "https://embedsports.top/embed/admin/ppv-man-united-vs-man-city/2"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=SuperSport%20Premier%20League&code=za&user=cdnlivetv&plan=free"
             },
             {
               "title": "Alt Feed 2",
-              "url": "https://embedsports.top/embed/admin/ppv-man-united-vs-man-city/3"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=USA%20Network&code=us&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -39,7 +39,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-real-madrid-vs-levante/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=LaLiga%20TV&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
