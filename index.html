@@ -4,162 +4,64 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FutbolX - Free PPV and More</title>
-  <meta name="description" content="FutbolX - Free PPV boxing, UFC, Basketball, Football, and more available live and on-demand.">
-  <meta name="keywords" content="futbolx, ppv, free ppv, boxing, ufc, basketball, football, stream, online, free">
-  <meta property="og:title" content="FutbolX - Free PPV and More" />
-  <meta property="og:url" content="https://your-futbolx-site.vercel.app" />
-  <meta property="og:image" content="/assets/img/og-image.jpg">
-  <meta name="twitter:title" content="FutbolX - Free PPV and More">
-  <meta name="twitter:description" content="Free PPV boxing and other content available live and on-demand.">
-  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
-    .error-alert { max-width: 500px; margin: 20px auto; }
-    .card { 
-      opacity: 0; 
-      transform: translateY(50px); 
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
-    }
-    .card.visible { 
-      opacity: 1; 
-      transform: translateY(0); 
-    }
-    .fade-out { 
-      animation: fadeOut 0.5s ease-out forwards; 
-    }
-    @keyframes fadeOut { 
-      from { opacity: 1; } 
-      to { opacity: 0; } 
-    }
-    .watch-button {
-      animation: pulse 1s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.7; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    /* FIX: Standardized Grid for all sections */
-    .event-grid, #livecards.event-grid {
+    /* FIX: Standardized Grid for EVERY section */
+    .event-grid {
       display: grid;
-      /* Changed to auto-fill so items don't stretch when there are few live events */
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1.5rem;
-      padding: 1rem;
+      padding: 1rem 0;
       justify-content: start;
     }
 
-    @media (min-width: 768px) {
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(3, minmax(280px, 1fr));
-      }
-    }
+    /* Fixed sizes for different screens to ensure everything stays aligned */
+    @media (min-width: 768px) { .event-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 992px) { .event-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 1400px) { .event-grid { grid-template-columns: repeat(4, 1fr); } }
 
-    @media (min-width: 1200px) {
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(4, minmax(280px, 1fr));
-      }
-    }
-
-    @media (min-width: 1800px) {
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(5, minmax(280px, 1fr));
-      }
-    }
-    
-    .event-grid a {
-      text-decoration: none;
-      display: block; /* Ensure the link wrapper is a proper grid item */
-    }
-    
     .card {
-      width: 100%;
-      max-width: 400px;
-      margin: 0; /* Keep cards aligned to the start of their grid cell */
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 2px solid transparent;
+      height: 100%;
+      transition: transform 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.1);
     }
-    /* ... rest of your CSS remains identical ... */
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-      border-color: #ff4d4d;
-    }
-    [data-bs-theme="light"] .card:hover {
-      border-color: #e63939;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    }
-    .card-img-top {
-      height: 220px;
-      object-fit: cover;
-    }
-    .card-body {
-      padding: 1rem;
-    }
-    .card-title {
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-    }
-    .event-tag {
-      font-size: 0.95rem;
-    }
+    .card:hover { transform: translateY(-5px); }
+    
+    /* Ensure links don't break the layout */
+    .event-link { text-decoration: none; color: inherit; display: block; }
+    
     .watch-button {
-      font-size: 0.95rem;
-      padding: 0.5rem 1.2rem;
+      background-color: #dc3545;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-weight: bold;
+      display: inline-block;
     }
 
-    #discordBtn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
-      opacity: 0.92;
-      transition: opacity .3s, transform .2s;
-      pointer-events: auto;
-      cursor: pointer;
-    }
-    #discordBtn:hover {
-      opacity: 1;
-      transform: scale(1.05);
-    }
-    #discordBtn img {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: block;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.5);
-      transition: box-shadow .3s;
-    }
-    #discordBtn:hover img {
-      box-shadow: 0 0 20px #5865F2, 0 5px 15px rgba(88,101,242,0.5);
-    }
-    @keyframes glowPulse {
-      0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.5); }
-      50% { box-shadow: 0 0 18px #5865F2, 0 3px 10px rgba(88,101,242,0.3); }
-    }
-    #discordBtn img {
-      animation: glowPulse 2.5s infinite ease-in-out;
-    }
+    /* Sidebar Fixes */
+    .offcanvas { z-index: 1051 !important; }
+    .offcanvas-backdrop { z-index: 1050 !important; }
   </style>
 </head>
 <body>
   <nav class="top-bar fixed-top">
-    <div class="container-fluid">
-      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+    <div class="container-fluid d-flex align-items-center">
+      <button class="btn btn-dark me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
         <i class="fas fa-bars"></i>
       </button>
       <span class="futbolx-brand">FutbolX</span>
     </div>
   </nav>
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
     <div class="offcanvas-header">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      <h5 class="offcanvas-title">Menu</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
     <div class="offcanvas-body">
       <ul class="nav flex-column">
@@ -167,15 +69,7 @@
         <li class="nav-item"><a class="nav-link" href="/request">Request</a></li>
         <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
         <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
-        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
-        <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
-        <li class="nav-item"><button class="nav-link btn btn-link d-none" id="logoutButton">Logout</button></li>
-        <li class="nav-item">
-          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
-            <i class="fas fa-moon"></i>
-          </button>
-        </li>
       </ul>
     </div>
   </div>
@@ -183,112 +77,100 @@
   <div class="container-fluid main-content">
     <div class="text-center py-5 bg-dark hero-background">
       <h1 class="display-4 fw-bold">Welcome to FutbolX</h1>
-      <p class="lead">Stream Free PPV Boxing, UFC, Basketball, and More - Live & On-Demand!</p>
+      <p class="lead">Live & On-Demand Streams</p>
     </div>
-    <div class="container pt-2">
-      <div id="errorContainer" class="d-none error-alert"></div>
-      <div id="live" class="mt-4">
-        <h2 class="m-0">
-          Live Now <span id="liveAnimation" class="live-animation d-none"></span>
-        </h2>
-        <div id="livecards" class="event-grid py-3">
-          <p>Loading streams...</p>
-        </div>
-      </div>
-      <div id="football" class="mt-5 d-none"><h2 class="m-0">Football</h2><div id="footballcards" class="event-grid py-3"></div></div>
-      <div id="nba" class="mt-5 d-none"><h2 class="m-0">Basketball</h2><div id="nbacards" class="event-grid py-3"></div></div>
-      <div id="fights" class="mt-5 d-none"><h2 class="m-0">Fights</h2><div id="fightscards" class="event-grid py-3"></div></div>
-      <div id="motorsports" class="mt-5 d-none"><h2 class="m-0">Motorsports</h2><div id="motorsportscards" class="event-grid py-3"></div></div>
-      <div id="nfl" class="mt-5 d-none"><h2 class="m-0">NFL</h2><div id="nflcards" class="event-grid py-3"></div></div>
-      <div id="nhl" class="mt-5 d-none"><h2 class="m-0">NHL</h2><div id="nhlcards" class="event-grid py-3"></div></div>
-      <div id="mlb" class="mt-5 d-none"><h2 class="m-0">MLB</h2><div id="mlbcards" class="event-grid py-3"></div></div>
-      <div id="icehockey" class="mt-5 d-none"><h2 class="m-0">Ice Hockey</h2><div id="icehockeycards" class="event-grid py-3"></div></div>
-      <div id="tennis" class="mt-5 d-none"><h2 class="m-0">Tennis</h2><div id="tenniscards" class="event-grid py-3"></div></div>
-      <div id="rugby" class="mt-5 d-none"><h2 class="m-0">Rugby</h2><div id="rugbycards" class="event-grid py-3"></div></div>
-      <div id="golf" class="mt-5 d-none"><h2 class="m-0">Golf</h2><div id="golfcards" class="event-grid py-3"></div></div>
-      <div id="others" class="mt-5 d-none"><h2 class="m-0">Others</h2><div id="otherscards" class="event-grid py-3"></div></div>
 
-      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
-        <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item"><a href="/api" class="nav-link px-2 text-body-secondary">API</a></li>
-          <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">Discord</a></li>
-          <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
-          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
-          <li class="nav-item"><a href="/contact" class="nav-link px-2 text-body-secondary">Contact us</a></li>
-        </ul>
-      </footer>
+    <div class="container pt-2">
+      <div id="live" class="mt-4">
+        <h2 class="m-0">Live Now <span id="liveAnimation" class="live-animation"></span></h2>
+        <div id="livecards" class="event-grid"></div>
+      </div>
+
+      <div id="football" class="mt-5 d-none"><h2>Football</h2><div id="footballcards" class="event-grid"></div></div>
+      <div id="nba" class="mt-5 d-none"><h2>Basketball</h2><div id="nbacards" class="event-grid"></div></div>
+      <div id="fights" class="mt-5 d-none"><h2>Fights</h2><div id="fightscards" class="event-grid"></div></div>
+      <div id="others" class="mt-5 d-none"><h2>Others</h2><div id="otherscards" class="event-grid"></div></div>
     </div>
   </div>
 
-  <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener" id="discordBtn">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" alt="Join Discord" width="48" height="48">
-  </a>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Logic for zeropad, clearError, fetchWithRetry, etc. is omitted for brevity as it remains the same.
-    // KEY FIX: Ensuring we don't nest <a> tags in the cards below.
+    function zeropad(n) { return n < 10 ? '0' + n : n; }
 
-    function countdown() {
+    function updateCountdowns() {
       const now = Math.floor(Date.now() / 1000);
-      const countdownElements = document.querySelectorAll('.countdown');
-      countdownElements.forEach(element => {
-        const startTime = parseInt(element.getAttribute('data-start'), 10);
-        const uri = element.getAttribute('data-uri');
-        let timer = startTime - now;
-        if (timer > 0) {
-          // ... existing countdown text logic ...
-          element.innerHTML = "Countdown logic..."; 
-        } else if (timer <= 0 && !element.innerHTML.includes('watch-button')) {
-          // FIX: Changed <a> to <span> to avoid breaking the grid link
-          element.innerHTML = `<span class="btn btn-danger btn-sm watch-button">Watch</span>`;
+      document.querySelectorAll('.countdown').forEach(el => {
+        const start = parseInt(el.dataset.start);
+        const diff = start - now;
+        if (diff <= 0) {
+          el.innerHTML = '<span class="watch-button">WATCH</span>';
+        } else {
+          const h = Math.floor(diff / 3600);
+          const m = Math.floor((diff % 3600) / 60);
+          const s = diff % 60;
+          el.innerHTML = `${zeropad(h)}:${zeropad(m)}:${zeropad(s)}`;
         }
       });
-      setTimeout(countdown, 1000);
     }
 
-    function loadContent(api) {
-      const livecards = document.getElementById('livecards');
-      const apiUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream` : `${api.baseUrl}/stream`;
-      
-      fetch(apiUrl).then(res => res.json()).then(streamData => {
-        livecards.innerHTML = '';
-        streamData.streams.forEach(category => {
+    async function loadContent() {
+      try {
+        const res = await fetch('/api/stream');
+        const data = await res.json();
+        
+        const liveContainer = document.getElementById('livecards');
+        liveContainer.innerHTML = ''; // Clear loading text
+
+        data.streams.forEach(category => {
+          const catId = category.name.toLowerCase().replace(/\s+/g, '');
+          const catSection = document.getElementById(catId) || document.getElementById('others');
+          const catGrid = catSection.querySelector('.event-grid');
+
           category.streams.forEach(stream => {
-            const startTime = new Date(stream.starts_at).getTime() / 1000;
-            const isLive = (startTime <= Math.floor(Date.now() / 1000));
-            
-            // FIX: The "Watch" button is now a span. Since it is inside a card link, 
-            // clicking it will still open the stream without breaking the grid layout.
-            let streamHtml = `
-              <a href="/live/${stream.uri_name}">
-                <div class="card">
-                  <img src="${stream.poster || 'https://via.placeholder.com/285x160'}" class="card-img-top">
+            const startTime = Math.floor(new Date(stream.starts_at).getTime() / 1000);
+            const isLive = startTime <= Math.floor(Date.now() / 1000);
+
+            const cardHtml = `
+              <a href="/live/${stream.uri_name}" class="event-link">
+                <div class="card bg-dark text-white">
+                  <img src="${stream.poster || '/assets/img/placeholder.jpg'}" class="card-img-top">
                   <div class="card-body">
-                    <h5 class="card-title">${stream.name}</h5>
-                    <p class="card-text">
-                      <span class="event-tag">${stream.tag}</span>
-                      <span class="event-timer">
-                        ${isLive 
-                          ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` 
-                          : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
-                      </span>
-                    </p>
+                    <h5 class="card-title text-truncate">${stream.name}</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <small class="text-secondary">${stream.tag}</small>
+                      <div class="event-timer">
+                        ${isLive ? '<span class="watch-button">LIVE</span>' : 
+                        `<span class="countdown" data-start="${startTime}"></span>`}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </a>`;
-            if (isLive) livecards.innerHTML += streamHtml;
-            // ... add to categories logic ...
+
+            // 1. Add to the category section (Upcoming/All)
+            catGrid.innerHTML += cardHtml;
+            catSection.classList.remove('d-none'); // Show the category
+
+            // 2. If live, also add to the top "Live Now" section
+            if (isLive) {
+              liveContainer.innerHTML += cardHtml;
+            }
           });
         });
-      });
+
+        if (liveContainer.innerHTML === '') {
+          liveContainer.innerHTML = '<p class="text-secondary">No events currently live.</p>';
+        }
+
+      } catch (err) {
+        console.error("Failed to load streams", err);
+      }
     }
 
+    // Initialize
     document.addEventListener('DOMContentLoaded', () => {
-        // Initialize your API and Page here...
-        loadContent({ baseUrl: '/api' });
-        countdown();
+      loadContent();
+      setInterval(updateCountdowns, 1000);
     });
   </script>
 </body>
