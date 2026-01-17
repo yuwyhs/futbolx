@@ -43,38 +43,45 @@
       50% { transform: scale(1.1); opacity: 0.7; }
       100% { transform: scale(1); opacity: 1; }
     }
-    /* Responsive grid layout for all screen sizes */
-    .event-grid, #livecards.event-grid {
+    
+    /* FIXED: Responsive grid layout optimized for all sections */
+    .event-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      /* Use auto-fill to ensure items don't stretch when there's only one live event */
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1.5rem;
-      padding: 1rem;
+      padding: 1rem 0; /* Aligned with the container edges */
     }
 
     @media (min-width: 768px) {
-      .event-grid, #livecards.event-grid {
+      .event-grid {
         grid-template-columns: repeat(3, minmax(280px, 1fr));
       }
     }
 
     @media (min-width: 1200px) {
-      .event-grid, #livecards.event-grid {
+      .event-grid {
         grid-template-columns: repeat(4, minmax(280px, 1fr));
       }
     }
 
     @media (min-width: 1800px) {
-      .event-grid, #livecards.event-grid {
+      .event-grid {
         grid-template-columns: repeat(5, minmax(280px, 1fr));
       }
     }
+
+    /* Ensure link wrappers behave as block-level grid items */
     .event-grid a {
       text-decoration: none;
+      display: block;
+      width: 100%;
     }
+
     .card {
       width: 100%;
       max-width: 400px;
-      margin: 0 auto;
+      margin: 0; /* Removed margin auto to keep left alignment consistent with upcoming games */
       transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
       border-radius: 10px;
       overflow: hidden;
@@ -144,7 +151,6 @@
   </style>
 </head>
 <body>
-  <!-- Top Bar -->
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
       <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
@@ -153,7 +159,6 @@
       <span class="futbolx-brand">FutbolX</span>
     </div>
   </nav>
-  <!-- Left Sidebar -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -176,7 +181,6 @@
       </ul>
     </div>
   </div>
-  <!-- Main Content -->
   <div class="container-fluid main-content">
     <div class="text-center py-5 bg-dark hero-background">
       <h1 class="display-4 fw-bold">Welcome to FutbolX</h1>
@@ -253,7 +257,6 @@
     </div>
   </div>
 
-  <!-- Fixed Discord Button -->
   <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener" id="discordBtn">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" 
          alt="Join Discord" width="48" height="48">
