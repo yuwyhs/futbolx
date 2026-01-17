@@ -249,7 +249,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-nottingham-forest-vs-arsenal/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%201&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -258,8 +258,8 @@
           "uri_name": "toulouse-vs-nice",
           "poster": "https://api.ppv.to/assets/thumb/585b18762d1ce11e27b146cd0900a8d2-thumbnail.jpg",
           "tag": "Ligue 1",
-          "starts_at": "2026-01-17T21:00:00",
-          "ends_at": "2026-01-17T23:00:00",
+          "starts_at": "2026-01-16T21:00:00",
+          "ends_at": "2026-01-16T23:00:00",
           "always_live": 0,
           "streams": [
             {
