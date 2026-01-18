@@ -31,7 +31,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-lyon-vs-brest/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=supersport+maximo+1&code=za&user=cdnlivetv&plan=free"
             }
           ]
         },
