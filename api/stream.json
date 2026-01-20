@@ -16,7 +16,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-kairat-vs-club-brugge/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%201&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -31,7 +31,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-bodo-glimt-vs-man-city/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%202&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -46,7 +46,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-ucl-goal-show/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Sky%20Sport%201&code=at&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -61,7 +61,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-real-madrid-vs-monaco/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%202&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -76,7 +76,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-inter-milan-vs-arsenal/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=SuperSport%20Premier%20League&code=za&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -91,7 +91,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-tottenham-vs-dortmund/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%201&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -106,7 +106,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-sporting-cp-vs-psg/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=Canal%20Foot&code=fr&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -121,7 +121,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-olympiacos-vs-leverkusen/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=M%20Liga%20de%20Campeones%207&code=es&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -136,7 +136,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-villarreal-vs-ajax/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%206&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -151,7 +151,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-copenhagen-vs-napoli/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%205&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         }
