@@ -16,7 +16,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%209&code=gb&user=cdnlivetv&plan=free"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=paramount+event+2&code=us&user=cdnlivetv&plan=free"
             }
           ]
         },
