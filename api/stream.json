@@ -6,137 +6,17 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Qarabag FK vs Frankfurt",
-          "uri_name": "qarabag-fk-vs-frankfurt",
-          "poster": "https://api.ppv.to/assets/thumb/d80108c6cd9f7824294758d074ec55bb-thumbnail.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-01-21T20:45:00",
-          "ends_at": "2026-01-21T22:50:00",
+          "name": "AJ Auxerre vs Paris Saint-Germain",
+          "uri_name": "aj-auxerre-vs-paris-saint-germain",
+          "poster": "https://api.ppv.to/assets/thumb/94363a57fdce68920d364ccd48100217-thumbnail.jpg",
+          "tag": "Ligue 1",
+          "starts_at": "2026-01-23T22:00:00",
+          "ends_at": "2026-01-24T00:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=paramount+event+2&code=us&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Galatasaray vs Atlético Madrid",
-          "uri_name": "galatasaray-vs-atletico-madrid",
-          "poster": "https://api.ppv.to/assets/thumb/aaf0118e4586944e3589ea07249d56da-thumbnail.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-01-21T20:45:00",
-          "ends_at": "2026-01-21T22:50:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%204&code=gb&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "UCL Goal Show",
-          "uri_name": "ucl-goal-show",
-          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf2NnBc1WTwC2MyxaQU87W2EAcdnB6nvs_JlC-x2fv3Q&s=10",
-          "tag": "UCL",
-          "starts_at": "2026-01-21T23:00:00",
-          "ends_at": "2026-01-22T01:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%204&code=gb&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Marseille vs Liverpool",
-          "uri_name": "marseille-vs-liverpool",
-          "poster": "https://api.ppv.to/assets/thumb/e084eb6874289554e187b23eb83cec16-thumbnail.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-01-21T23:00:00",
-          "ends_at": "2026-01-22T01:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%201&code=gb&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Slavia Prague vs Barcelona",
-          "uri_name": "slavia-prague-vs-barcelona",
-          "poster": "https://api.ppv.to/assets/thumb/f754a1c652fd5ed214f8cabee486f0eb-thumbnail.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-01-21T23:00:00",
-          "ends_at": "2026-01-22T01:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%206&code=gb&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Chelsea vs Pafos FC",
-          "uri_name": "chelsea-vs-pafos-fc",
-          "poster": "https://api.ppv.to/assets/thumb/3652b863fd4282df663de30b46d9ec74-thumbnail.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-01-21T23:00:00",
-          "ends_at": "2026-01-22T01:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%203&code=gb&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Juventus vs SL Benfica",
-          "uri_name": "juventus-vs-sl-benfica",
-          "poster": "https://api.ppv.to/assets/thumb/45f850c7e2a4a00e90031b61716d02f0-thumbnail.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-01-21T23:00:00",
-          "ends_at": "2026-01-22T01:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%205&code=gb&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Bayern Munich vs St.Gilloise",
-          "uri_name": "bayern-munich-vs-st-gilloise",
-          "poster": "https://api.ppv.to/assets/thumb/93d8348151fbf1ff07b8154f28c2f811-thumbnail.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-01-21T23:00:00",
-          "ends_at": "2026-01-22T01:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%207&code=gb&user=cdnlivetv&plan=free"
-            }
-          ]
-        },
-        {
-          "name": "Newcastle vs PSV Eindhoven",
-          "uri_name": "newcastle-vs-psv-eindhoven",
-          "poster": "https://api.ppv.to/assets/thumb/ba061e06652bf9dfdf3575210b35e9d9-thumbnail.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-01-21T23:00:00",
-          "ends_at": "2026-01-22T01:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=TNT%20Sports%202&code=gb&user=cdnlivetv&plan=free"
+              "url": "https://embedsports.top/embed/admin/ppv-aj-auxerre-vs-paris-saint-germain/1"
             }
           ]
         }
