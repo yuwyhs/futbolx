@@ -16,7 +16,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://stream.futbol-x.site/psg/embed.html"
+              "url": "https://stream.futbol-x.site/psg/index.m3u8"
             }
           ]
         }
