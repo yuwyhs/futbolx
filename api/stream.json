@@ -181,7 +181,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://tg.futbol-x.site/realmadrid/index.m3u8"
+              "url": "https://tg.futbol-x.site/realmadrid/embed.html"
             }
           ]
         },
@@ -196,7 +196,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://tg.futbol-x.site/marseille/index.m3u8"
+              "url": "https://tg.futbol-x.site/marseille/embed.html"
             }
           ]
         }
