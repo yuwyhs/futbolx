@@ -6,6 +6,21 @@
       "always_live": 0,
       "streams": [
         {
+          "name": "Portsmouth vs Southampton",
+          "uri_name": "portsmouth-vs-southampton",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk6KEM-pBwI7zey82lltRe8BAbw0XYe6E7rQqH1LJgpA&s",
+          "tag": "EFL",
+          "starts_at": "2026-01-25T15:00:00",
+          "ends_at": "2026-01-25T17:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-portsmouth-vs-southampton/1"
+            }
+          ]
+        },
+        {
           "name": "Atlético Madrid vs Mallorca",
           "uri_name": "atletico-madrid-vs-mallorca",
           "poster": "https://api.ppv.to/assets/thumb/34bc325967aadbf1ca6d2e851df6745f-thumbnail.jpg",
@@ -272,4 +287,4 @@
       "streams": []
     }
   ]
-}
+        }
