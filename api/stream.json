@@ -16,7 +16,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://tg.futbol-x.site/test/mpegts"
+              "url": "https://tg.futbol-x.site/test/index.m3u8"
             }
           ]
         },
