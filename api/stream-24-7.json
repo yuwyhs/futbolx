@@ -10,7 +10,7 @@
         "streams": [
           {
             "label": "Nba Tv Usa",
-            "url": "http://212.147.229.158/B1/embed.html"
+            "url": "https://cdn-live-tv.ru/api/v1/channels/gb-tnt-sports-1/tracks-v1a1/mono.ts.m3u8?token=f3d983b0f8ff7975d47ed9cd0bbf198a4566cd8100469c474763aa3d7ca8b2d3.1769595019.d9474b4ff1cde0237fab24c122f0ce08.bbcf1c9b715f7ed43f19162c0c4591f5.d0e35f2d75ba12bc274e04bcef380cb4.c54a8b06bfcac8a2"
           },
           {
             "label": "Stream 2",
