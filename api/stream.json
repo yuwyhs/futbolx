@@ -46,7 +46,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-benfica-vs-real-madrid/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=tnt+sports+8&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -61,7 +61,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-psg-vs-newcastle/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=tnt+sports+3&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -76,7 +76,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-man-city-vs-galatasaray/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=tnt+sports+6&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -91,7 +91,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-liverpool-vs-qarabag/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=tnt+sports+2&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -106,7 +106,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-barcelona-vs-copenhagen/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=m+liga+de+campeones+2&code=es&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -121,7 +121,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-arsenal-vs-kairat-almaty/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=tnt+sports+7&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -136,7 +136,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-dortmund-vs-inter/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=cbs+sports+network&code=us&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -151,7 +151,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-leverkusen-vs-villarreal/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=m+liga+de+campeones+5&code=es&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -181,7 +181,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-club-brugge-vs-marseille/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=sky+sport+3&code=de&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -211,7 +211,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-monaco-vs-juventus/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=canal+sport360&code=fr&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -226,7 +226,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-frankfurt-vs-tottenham/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=tnt+sports+5&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -256,7 +256,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-athletic-club-vs-sporting-cp/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=m+liga+de+campeones+4&code=es&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -271,7 +271,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-pafos-vs-slavia-praha/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=bein+sports+8&code=sa&user=cdnlivetv&plan=free"
             }
           ]
         }
