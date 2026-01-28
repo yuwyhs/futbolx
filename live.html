@@ -17,7 +17,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
-  <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
+  <!-- OPlayer scripts (core + ui + hls + mpegts plugins) -->
+  <script src="https://cdn.jsdelivr.net/npm/@oplayer/core@latest/dist/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@oplayer/ui@latest/dist/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@oplayer/hls@latest/dist/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@oplayer/mpegts@latest/dist/index.min.js"></script>
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
@@ -266,7 +270,7 @@
   <script>
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
 
-    let jw = null;
+    let player = null;  // Now OPlayer instance (replaces jw)
     let streamData = null;
     let eventStartTime = null;
     let eventEndTime = null;
@@ -299,38 +303,58 @@
       try {
         const r = await fetch(url, {method:'HEAD'});
         const ct = r.headers.get('content-type') || '';
-        return ct.includes('application/vnd.apple.mpegurl');
+        return ct.includes('application/vnd.apple.mpegurl') || ct.includes('mpegurl');
       } catch { return false; }
     }
 
     async function playStream(url) {
-      if (jw) { jw.remove(); jw = null; }
+      if (player) {
+        player.destroy();  // Clean up previous instance
+        player = null;
+      }
 
-      const useJW = await isM3U8(url);
+      const useOPlayer = await isM3U8(url);  // Use OPlayer for m3u8 / hls streams
 
-      if (useJW) {
+      if (useOPlayer) {
         document.getElementById('embedPlayer').style.display = 'none';
         document.getElementById('jwplayer-div').style.display = 'block';
+        document.getElementById('jwplayer-div').innerHTML = '';  // Clear previous content
 
-        jw = jwplayer('jwplayer-div').setup({
-          file: url,
-          width: '100%',
-          height: '100%',
-          autostart: true,
-          mute: false,
-          stretching: 'uniform',
-          primary: 'html5',
-          hlsjsConfig: { enableWorker: true },
-          controls: true,
-          displaytitle: false,
-          pipIcon: 'enabled',
-          captions: { color: '#fff', backgroundOpacity: 50 }
-        });
-        jw.on('ready', clearError);
-        jw.on('error', () => {
+        player = OPlayer.make('#jwplayer-div', {
+          source: {
+            src: url,
+            format: 'hls'  // Helps auto-detection; can be 'auto' too
+          },
+          autoplay: true,
+          muted: false,
+          volume: 1,
+          playbackRate: 1,
+          aspectRatio: '16:9',
+          poster: '',  // optional
+          lang: 'en'
+        })
+        .use([
+          OUI({
+            // You can customize UI here later (themes, thumbnails, etc.)
+            // For now keep it simple/minimal
+          }),
+          OHls({
+            // forceHLS: true,           // optional - forces hls.js even if native works
+            // library: 'https://cdn.jsdelivr.net/npm/hls.js@latest',  // auto if needed
+          }),
+          OMpegts({})  // Enables FLV + MPEG-TS support too
+          // Add .use(ODash({})) if you later need DASH
+        ])
+        .create();
+
+        // Basic event handling (similar to JW)
+        player.on('error', () => {
           document.getElementById('errorContainer').classList.remove('d-none');
           document.getElementById('errorContainer').innerHTML = 'Stream failed – try another source';
         });
+
+        player.on('canplay', clearError);  // Or 'playing' / 'loadeddata'
+
       } else {
         document.getElementById('jwplayer-div').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
@@ -507,12 +531,12 @@
         });
 
       document.getElementById('fullscreenBtn').addEventListener('click', () => {
-        const el = document.getElementById('jwplayer-div').style.display !== 'none'
+        const container = document.getElementById('jwplayer-div').style.display !== 'none'
           ? document.getElementById('jwplayer-div')
           : document.getElementById('embedPlayer');
-        if (el.requestFullscreen) el.requestFullscreen();
-        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-        else if (el.msRequestFullscreen) el.msRequestFullscreen();
+        if (container.requestFullscreen) container.requestFullscreen();
+        else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+        else if (container.msRequestFullscreen) container.msRequestFullscreen();
       });
 
       // Tip countdown + permanent notification logic
@@ -547,4 +571,4 @@
     });
   </script>
 </body>
-                </html>
+</html>
