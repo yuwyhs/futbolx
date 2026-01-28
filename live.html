@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
-  <!-- OPlayer scripts (core + ui + hls + mpegts plugins) -->
+  <!-- OPlayer scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@oplayer/core@latest/dist/index.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@oplayer/ui@latest/dist/index.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@oplayer/hls@latest/dist/index.min.js"></script>
@@ -270,7 +270,7 @@
   <script>
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
 
-    let player = null;  // Now OPlayer instance (replaces jw)
+    let player = null;
     let streamData = null;
     let eventStartTime = null;
     let eventEndTime = null;
@@ -309,51 +309,84 @@
 
     async function playStream(url) {
       if (player) {
-        player.destroy();  // Clean up previous instance
+        player.destroy();
         player = null;
       }
 
-      const useOPlayer = await isM3U8(url);  // Use OPlayer for m3u8 / hls streams
+      const useOPlayer = await isM3U8(url);
 
       if (useOPlayer) {
         document.getElementById('embedPlayer').style.display = 'none';
-        document.getElementById('jwplayer-div').style.display = 'block';
-        document.getElementById('jwplayer-div').innerHTML = '';  // Clear previous content
+        const playerDiv = document.getElementById('jwplayer-div');
+        playerDiv.style.display = 'block';
+        playerDiv.innerHTML = '';  // Clear completely
 
         player = OPlayer.make('#jwplayer-div', {
           source: {
             src: url,
-            format: 'hls'  // Helps auto-detection; can be 'auto' too
+            format: 'hls'
           },
-          autoplay: true,
           muted: false,
           volume: 1,
           playbackRate: 1,
           aspectRatio: '16:9',
-          poster: '',  // optional
-          lang: 'en'
+          poster: '',
+          lang: 'en',
+          autoplay: false  // We'll trigger manually
         })
         .use([
           OUI({
-            // You can customize UI here later (themes, thumbnails, etc.)
-            // For now keep it simple/minimal
+            theme: { primaryColor: '#ff4d4d' }
           }),
           OHls({
-            // forceHLS: true,           // optional - forces hls.js even if native works
-            // library: 'https://cdn.jsdelivr.net/npm/hls.js@latest',  // auto if needed
+            forceHLS: true,
+            hlsjsConfig: {
+              autoStartLoad: true,
+              startLevel: -1,
+              liveSyncDurationCount: 4,
+              maxBufferLength: 30,
+              maxMaxBufferLength: 60,
+              debug: true,                    // Change to false once working
+              enableWorker: true,
+              lowLatencyMode: true,
+              backBufferLength: 90
+            }
           }),
-          OMpegts({})  // Enables FLV + MPEG-TS support too
-          // Add .use(ODash({})) if you later need DASH
+          OMpegts({})
         ])
         .create();
 
-        // Basic event handling (similar to JW)
-        player.on('error', () => {
+        // Manual play trigger (after short delay to allow init)
+        setTimeout(() => {
+          if (player && player.video) {
+            player.video.play()
+              .then(() => console.log('Manual play succeeded'))
+              .catch(err => {
+                console.error('Unmuted play blocked:', err);
+                // Fallback: try muted (browsers usually allow)
+                player.mute();
+                player.video.play()
+                  .then(() => console.log('Muted fallback play succeeded'))
+                  .catch(e => console.error('Muted play also failed:', e));
+              });
+          }
+        }, 1000);
+
+        player.on('error', (e) => {
+          console.error('OPlayer error:', e);
           document.getElementById('errorContainer').classList.remove('d-none');
-          document.getElementById('errorContainer').innerHTML = 'Stream failed – try another source';
+          document.getElementById('errorContainer').innerHTML = 'Playback error – check browser console (F12) for details';
         });
 
-        player.on('canplay', clearError);  // Or 'playing' / 'loadeddata'
+        player.on('canplaythrough', () => {
+          clearError();
+          console.log('Can play through – ready');
+        });
+
+        player.on('playing', () => console.log('Video is now playing'));
+        player.on('waiting', () => console.log('Buffering...'));
+        player.on('stalled', () => console.log('Stream stalled'));
+        player.on('loadedmetadata', () => console.log('Metadata loaded'));
 
       } else {
         document.getElementById('jwplayer-div').style.display = 'none';
@@ -552,13 +585,11 @@
         if (sec <= 0) {
           clearInterval(iv);
           
-          // Fade out and hide temporary tip
           tempAlert.classList.add('fade-out');
           
           setTimeout(() => {
             tempAlert.style.display = 'none';
             
-            // Show permanent notification with fade-in
             permanentNoti.classList.remove('d-none');
             permanentNoti.style.opacity = '0';
             permanentNoti.style.transition = 'opacity 0.6s ease-in';
@@ -571,4 +602,4 @@
     });
   </script>
 </body>
-</html>
+    </html>
