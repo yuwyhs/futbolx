@@ -6,32 +6,272 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "St Pauli vs Rb Leipzig",
-          "uri_name": "st-pauli-vs-rb-leipzig",
-          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe-XYqYNA7SMSfmpo0tTmVQW3p4mftFDLAekClu8UDLA&s",
-          "tag": "Bundesliga",
-          "starts_at": "2026-01-27T22:30:00",
-          "ends_at": "2026-01-28T00:40:00",
+          "name": "UCL Goal Show",
+          "uri_name": "ucl-goal-show",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf2NnBc1WTwC2MyxaQU87W2EAcdnB6nvs_JlC-x2fv3Q&s=10",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://tg.futbol-x.site/st.pauli/embed.html"
+              "url": "https://embedsports.top/embed/admin/ppv-ucl-goal-show/1"
             }
           ]
         },
         {
-          "name": "Bremen vs Hoffenheim",
-          "uri_name": "bremen-vs-hoffenheim",
-          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUWsprgaZIsfwNjHR-hs1NAKaTE7PEAyD-6SMk1HJyXA&s",
-          "tag": "Bundesliga",
-          "starts_at": "2026-01-27T22:30:00",
-          "ends_at": "2026-01-28T00:40:00",
+          "name": "Napoli vs Chelsea",
+          "uri_name": "napoli-vs-chelsea",
+          "poster": "https://api.ppv.to/assets/thumb/f0ce280eafc3bb671e7467b38fc25332-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://tg.futbol-x.site/bremen/embed.html"
+              "url": "https://embedsports.top/embed/admin/ppv-napoli-vs-chelsea/1"
+            }
+          ]
+        },
+        {
+          "name": "Benfica vs Real Madrid",
+          "uri_name": "benfica-vs-real-madrid",
+          "poster": "https://api.ppv.to/assets/thumb/2b1324d86527129d588b9cd56a4c7117-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-benfica-vs-real-madrid/1"
+            }
+          ]
+        },
+        {
+          "name": "Psg vs Newcastle",
+          "uri_name": "psg-vs-newcastle",
+          "poster": "https://api.ppv.to/assets/thumb/77ce234fc941455c6145fa83893a0920-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-psg-vs-newcastle/1"
+            }
+          ]
+        },
+        {
+          "name": "Man City vs Galatasaray",
+          "uri_name": "man-city-vs-galatasaray",
+          "poster": "https://api.ppv.to/assets/thumb/2eb715f5fcf3f371ed22a13985b2a01c-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-man-city-vs-galatasaray/1"
+            }
+          ]
+        },
+        {
+          "name": "Liverpool vs Qarabag",
+          "uri_name": "liverpool-vs-qarabag",
+          "poster": "https://api.ppv.to/assets/thumb/2eb715f5fcf3f371ed22a13985b2a01c-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-liverpool-vs-qarabag/1"
+            }
+          ]
+        },
+        {
+          "name": "Barcelona vs Copenhagen",
+          "uri_name": "barcelona-vs-copenhagen",
+          "poster": "https://api.ppv.to/assets/thumb/1c187b08b7cfb3677d5df991162b554f-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-barcelona-vs-copenhagen/1"
+            }
+          ]
+        },
+        {
+          "name": "Arsenal vs Kairat Almaty",
+          "uri_name": "arsenal-vs-kairat-almaty",
+          "poster": "https://api.ppv.to/assets/thumb/5910ddf6166e7ac128d9cec14584e0f9-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-arsenal-vs-kairat-almaty/1"
+            }
+          ]
+        },
+        {
+          "name": "Dortmund vs Inter",
+          "uri_name": "dortmund-vs-inter",
+          "poster": "https://api.ppv.to/assets/thumb/88e7a7cba670d8d0a2ff3d8a0ed03917-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-dortmund-vs-inter/1"
+            }
+          ]
+        },
+        {
+          "name": "Leverkusen vs Villarreal",
+          "uri_name": "leverkusen-vs-villarreal",
+          "poster": "https://api.ppv.to/assets/thumb/0433eedf87c7714d13ae3faa51d692d3-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-leverkusen-vs-villarreal/1"
+            }
+          ]
+        },
+        {
+          "name": "Atletico vs Bodø/Glimt",
+          "uri_name": "atletico-vs-bodo-glimt",
+          "poster": "https://api.ppv.to/assets/thumb/d0e65d92cd63d3f5c7e89c11ead3ffbe-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-atletico-vs-bodo-glimt/1"
+            }
+          ]
+        },
+        {
+          "name": "Club Brugge vs Marseille",
+          "uri_name": "club-brugge-vs-marseille",
+          "poster": "https://api.ppv.to/assets/thumb/23c579e12e16c43973e4b64439a12f61-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-club-brugge-vs-marseille/1"
+            }
+          ]
+        },
+        {
+          "name": "Psv vs Bayern Munich",
+          "uri_name": "psv-vs-bayern-munich",
+          "poster": "https://api.ppv.to/assets/thumb/ec139d344f4e2152264111fe7c58103d-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-psv-vs-bayern-munich/1"
+            }
+          ]
+        },
+        {
+          "name": "Monaco vs Juventus",
+          "uri_name": "monaco-vs-juventus",
+          "poster": "https://api.ppv.to/assets/thumb/ecd3b051aa678bbae9a08652f4e48601-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-monaco-vs-juventus/1"
+            }
+          ]
+        },
+        {
+          "name": "Frankfurt vs Tottenham",
+          "uri_name": "frankfurt-vs-tottenham",
+          "poster": "https://api.ppv.to/assets/thumb/ad4b7de87a175d38463c558acb491f16-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-frankfurt-vs-tottenham/1"
+            }
+          ]
+        },
+        {
+          "name": "Union SG vs Atalanta",
+          "uri_name": "union-sg-vs-atalanta",
+          "poster": "https://api.ppv.to/assets/thumb/2953d856036379cc53c81ed36f3b7fb1-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-union-sg-vs-atalanta/1"
+            }
+          ]
+        },
+        {
+          "name": "Athletic Club vs Sporting Cp",
+          "uri_name": "athletic-club-vs-sporting-cp",
+          "poster": "https://api.ppv.to/assets/thumb/7a7ed413f0b0464637af617b5fdccec8-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-athletic-club-vs-sporting-cp/1"
+            }
+          ]
+        },
+        {
+          "name": "Pafos vs Slavia Praha",
+          "uri_name": "pafos-vs-slavia-praha",
+          "poster": "https://api.ppv.to/assets/thumb/eb7d34a965b4cfeb85a49d044793c397-thumbnail.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-01-28T23:00:00",
+          "ends_at": "2026-01-29T01:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-pafos-vs-slavia-praha/1"
             }
           ]
         }
@@ -88,4 +328,4 @@
       "streams": []
     }
   ]
-}
+        }
