@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
-  <!-- Plyr CSS + JS + hls.js for HLS support -->
+  <!-- Plyr + hls.js -->
   <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
   <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -33,50 +33,63 @@
     .btn-fullscreen {display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#ff4d4d;color:#fff;border:none;border-radius:20px;transition:.3s;}
     [data-bs-theme="light"] .btn-fullscreen {background:#e63939;color:#333;}
     .btn-fullscreen:hover {transform:scale(1.05);background:#e63939;}
-    .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;}
-    #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;}
+    .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
+    #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
-    /* Plyr theme customization to match your dark/red site */
+    /* Plyr custom theme + fixes */
     #oplayer-container .plyr {
-      --plyr-color-main: #ff4d4d;              /* Primary accent (buttons, progress bar fill) */
-      --plyr-video-background: #000;           /* Video bg fallback */
-      --plyr-control-bar-background: rgba(0,0,0,0.7); /* Semi-transparent dark bar */
+      --plyr-color-main: #ff4d4d;
+      --plyr-control-bar-background: rgba(0,0,0,0.75);
       --plyr-control-bar-background-hover: rgba(30,30,30,0.9);
-      --plyr-control-color: #ffffff;           /* Icons/text default */
-      --plyr-control-color-hover: #ff4d4d;     /* Hover accent */
-      --plyr-control-color-active: #ff4d4d;
-      --plyr-range-track-background: rgba(255,255,255,0.25);
+      --plyr-control-color: #ffffff;
+      --plyr-control-color-hover: #ff4d4d;
       --plyr-range-fill-background: #ff4d4d;
       --plyr-range-thumb-background: #ff4d4d;
-      --plyr-range-thumb-shadow: 0 0 0 3px rgba(255,77,77,0.3);
-      --plyr-menu-color: #ffffff;
-      --plyr-menu-background: rgba(30,30,30,0.95);
-      --plyr-tooltip-background: rgba(30,30,30,0.9);
-      --plyr-tooltip-color: #ffffff;
-      --plyr-badge-background: #ff4d4d;
-      font-family: 'Kanit', sans-serif;        /* Match your site font */
+      --plyr-control-spacing: 12px;
+      --plyr-control-padding: 8px;
+      font-family: 'Kanit', sans-serif;
+      height: 100%;
     }
 
-    #oplayer-container .plyr__control {
-      transition: all 0.2s ease;
+    /* Hide time / progress / duration for live feel */
+    #oplayer-container .plyr__progress,
+    #oplayer-container .plyr__time + .plyr__time,
+    #oplayer-container .plyr__time--current,
+    #oplayer-container .plyr__time--duration,
+    #oplayer-container .plyr__time-divider {
+      display: none !important;
     }
 
-    #oplayer-container .plyr__control:hover,
-    #oplayer-container .plyr__control[aria-expanded="true"] {
-      background: rgba(255,77,77,0.15);
-    }
-
-    #oplayer-container .plyr__progress__buffer {
-      color: rgba(255,255,255,0.3);
-    }
-
-    /* Live indicator (optional enhancement) */
-    #oplayer-container .plyr__controls__item.plyr__time {
+    /* Custom LIVE badge */
+    #oplayer-container .plyr__controls::before {
+      content: "● LIVE";
+      position: absolute;
+      top: 8px;
+      left: 12px;
+      background: #ff4d4d;
+      color: white;
+      font-size: 0.8rem;
       font-weight: bold;
-      color: #ff4d4d;
+      padding: 4px 10px;
+      border-radius: 12px;
+      z-index: 10;
+      box-shadow: 0 0 8px rgba(255,77,77,0.5);
     }
 
-    /* Rest of your styles (live-title, chat, etc.) unchanged */
+    /* Prevent initial controls misplacement / overlap fix */
+    #oplayer-container video {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+    }
+
+    #oplayer-container .plyr__controls {
+      padding: 0 12px 12px;
+      margin: 0;
+      bottom: 0;
+    }
+
+    /* Rest of your styles (live-title, chat, etc.) */
     .live-title {
       text-align: center;
       background: linear-gradient(135deg, #1a1a1a, #2d0000);
@@ -267,7 +280,7 @@
           </div>
 
           <div class="video-container">
-            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-presentation" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
             <div id="oplayer-container"></div>
           </div>
 
@@ -353,36 +366,43 @@
         document.getElementById('embedPlayer').style.display = 'none';
         const container = document.getElementById('oplayer-container');
         container.style.display = 'block';
-        container.innerHTML = '<video id="plyr-player" playsinline controls></video>';
+        container.innerHTML = '<video id="plyr-player" playsinline controls preload="metadata"></video>';
 
         const video = document.getElementById('plyr-player');
-        const hls = new Hls();
+        let hls = null;
 
         if (Hls.isSupported()) {
+          hls = new Hls({
+            liveSyncDurationCount: 3,
+            maxBufferLength: 20,
+            lowLatencyMode: true
+          });
           hls.loadSource(url);
           hls.attachMedia(video);
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            video.play().catch(() => console.log('Autoplay blocked'));
+            video.play().catch(err => console.log('Autoplay blocked:', err));
+            setTimeout(() => {
+              if (player) player.update();
+            }, 500);
           });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
           video.src = url;
           video.addEventListener('loadedmetadata', () => {
-            video.play().catch(() => console.log('Autoplay blocked'));
+            video.play().catch(err => console.log('Autoplay blocked:', err));
           });
         }
 
         player = new Plyr('#plyr-player', {
           autoplay: true,
-          muted: true,  // Safe start; user unmutes via controls
+          muted: true,
           volume: 0.5,
-          controls: [
-            'play-large', 'restart', 'rewind', 'play', 'fast-forward', 'progress', 'current-time',
-            'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
-          ],
-          settings: ['captions', 'quality', 'speed', 'loop'],
-          quality: { default: 'auto', options: [2160, 1440, 1080, 720, 576, 480, 360, 240] },
-          captions: { active: true, update: true },
-          tooltips: { controls: true, seek: true }
+          controls: ['play-large', 'play', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
+          settings: ['captions', 'quality', 'speed'],
+          quality: { default: 'auto', options: ['auto', 1080, 720, 480, 360] },
+          captions: { active: true },
+          tooltips: { controls: true, seek: true },
+          hideControls: true,
+          invertTime: false
         });
 
         player.on('error', (event) => {
@@ -393,6 +413,12 @@
 
         player.on('playing', clearError);
         player.on('waiting', () => console.log('Buffering...'));
+
+        // PiP button tooltip
+        setTimeout(() => {
+          const pipBtn = document.querySelector('.plyr__control--pip');
+          if (pipBtn) pipBtn.setAttribute('title', 'Picture-in-Picture (tap to float video)');
+        }, 1000);
 
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
@@ -408,7 +434,6 @@
       }
     }
 
-    // (Your remaining functions unchanged: populateStreamButtons, formatTimeLeft, updatePreStreamStatus, DOMContentLoaded fetch logic, fullscreenBtn listener, tip countdown)
     function populateStreamButtons(event) {
       const container = document.getElementById('streamLinks');
       container.innerHTML = event.streams.map((s, i) => {
@@ -607,4 +632,4 @@
     });
   </script>
 </body>
-                                 </html>
+  </html>
