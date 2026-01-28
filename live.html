@@ -17,12 +17,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
-  <!-- OPlayer scripts (using the more complete bundle from your example) -->
+  <!-- OPlayer loading - exact pattern from the working live site -->
   <script src="https://cdn.jsdelivr.net/npm/@oplayer/core@latest/dist/index.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@oplayer/ui@latest/dist/index.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@oplayer/hls@latest/dist/index.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@oplayer/plugins@latest/dist/index.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@oplayer/mpegts@latest/dist/index.min.js"></script>
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
@@ -202,6 +201,7 @@
       <div class="row">
         <div class="col-12">
           <div class="tip-container">
+            <!-- Temporary tip -->
             <div class="alert alert-info" id="tempTipAlert">
               <strong>Tip:</strong> For an ad-free experience, consider installing an ad blocker like
               <a href="https://ublockorigin.com" target="_blank" rel="noopener">uBlock Origin</a> or
@@ -209,6 +209,7 @@
               <span id="countdownTimer">10s</span>
             </div>
 
+            <!-- Permanent notification -->
             <div class="alert alert-info permanent-noti d-none" id="permanentNoti">
               <strong>Info:</strong> If stream is not loading on your end, try using a VPN to bypass your ISP restrictions.
             </div>
@@ -237,6 +238,7 @@
 
           <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
+          <!-- Cbox Chat -->
           <div class="chat-wrapper">
             <div class="chat-header">Live Chat</div>
             <div class="chat-container">
@@ -324,13 +326,11 @@
             src: url,
             format: 'hls'
           },
-          muted: false,
-          volume: 1,
-          playbackRate: 1,
+          autoplay: true,
+          muted: true,              // Start muted → most reliable for live streams
+          volume: 0.5,
           aspectRatio: '16:9',
-          poster: '',
-          lang: 'en',
-          autoplay: false
+          lang: 'en'
         })
         .use([
           OUI({
@@ -341,46 +341,45 @@
             hlsjsConfig: {
               autoStartLoad: true,
               startLevel: -1,
-              liveSyncDurationCount: 4,
-              maxBufferLength: 30,
-              maxMaxBufferLength: 60,
-              debug: false,
+              liveSyncDurationCount: 3,
+              liveMaxLatencyDurationCount: 5,
+              maxBufferLength: 20,
+              debug: true,                    // ← open F12 console to see logs
               enableWorker: true,
               lowLatencyMode: true,
-              backBufferLength: 90
+              backBufferLength: 90,
+              fragLoadingMaxRetry: 6,
+              manifestLoadingMaxRetry: 4,
+              manifestLoadingTimeOut: 10000,
+              levelLoadingTimeOut: 10000,
+              fragLoadingTimeOut: 20000
             }
-          }),
-          OMpegts({})
+          })
         ])
         .create();
 
+        // Extra nudge for stubborn live streams
         setTimeout(() => {
-          if (player && player.video) {
-            player.video.play()
-              .then(() => console.log('Manual play succeeded'))
-              .catch(err => {
-                console.error('Unmuted play blocked:', err);
-                player.mute();
-                player.video.play().catch(e => console.error('Muted play failed:', e));
-              });
+          if (player && player.video && player.video.paused) {
+            player.play().catch(err => {
+              console.log('Extra play attempt:', err.message);
+            });
           }
-        }, 1000);
+        }, 4000);
 
         player.on('error', (e) => {
-          console.error('OPlayer error:', e);
+          console.error('OPlayer error details:', e);
           document.getElementById('errorContainer').classList.remove('d-none');
-          document.getElementById('errorContainer').innerHTML = 'Playback error – check browser console (F12) for details';
+          document.getElementById('errorContainer').innerHTML = 'Stream failed to load – check console (F12) or try another source/VPN';
         });
 
-        player.on('canplaythrough', () => {
+        player.on('canplay', clearError);
+        player.on('playing', () => {
+          console.log('Stream is playing');
           clearError();
-          console.log('Can play through – ready');
         });
-
-        player.on('playing', () => console.log('Video is now playing'));
         player.on('waiting', () => console.log('Buffering...'));
-        player.on('stalled', () => console.log('Stream stalled'));
-        player.on('loadedmetadata', () => console.log('Metadata loaded'));
+        player.on('stalled', () => console.log('Playback stalled'));
 
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
@@ -594,4 +593,4 @@
     });
   </script>
 </body>
-        </html>
+              </html>
