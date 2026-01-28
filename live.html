@@ -17,10 +17,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
-  <!-- OPlayer scripts -->
+  <!-- OPlayer scripts (using the more complete bundle from your example) -->
   <script src="https://cdn.jsdelivr.net/npm/@oplayer/core@latest/dist/index.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@oplayer/ui@latest/dist/index.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@oplayer/hls@latest/dist/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@oplayer/plugins@latest/dist/index.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@oplayer/mpegts@latest/dist/index.min.js"></script>
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
@@ -35,7 +36,7 @@
     [data-bs-theme="light"] .btn-fullscreen {background:#e63939;color:#333;}
     .btn-fullscreen:hover {transform:scale(1.05);background:#e63939;}
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;}
-    #jwplayer-div {position:absolute;top:0;left:0;width:100%;height:100%;}
+    #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;}
     
     /* Live Title */
     .live-title {
@@ -201,7 +202,6 @@
       <div class="row">
         <div class="col-12">
           <div class="tip-container">
-            <!-- Temporary tip (disappears after 10s) -->
             <div class="alert alert-info" id="tempTipAlert">
               <strong>Tip:</strong> For an ad-free experience, consider installing an ad blocker like
               <a href="https://ublockorigin.com" target="_blank" rel="noopener">uBlock Origin</a> or
@@ -209,7 +209,6 @@
               <span id="countdownTimer">10s</span>
             </div>
 
-            <!-- Permanent notification (appears after tip disappears) -->
             <div class="alert alert-info permanent-noti d-none" id="permanentNoti">
               <strong>Info:</strong> If stream is not loading on your end, try using a VPN to bypass your ISP restrictions.
             </div>
@@ -233,12 +232,11 @@
 
           <div class="video-container">
             <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-            <div id="jwplayer-div"></div>
+            <div id="oplayer-container"></div>
           </div>
 
           <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
-          <!-- Cbox Chat (clean, no online counter) -->
           <div class="chat-wrapper">
             <div class="chat-header">Live Chat</div>
             <div class="chat-container">
@@ -317,11 +315,11 @@
 
       if (useOPlayer) {
         document.getElementById('embedPlayer').style.display = 'none';
-        const playerDiv = document.getElementById('jwplayer-div');
+        const playerDiv = document.getElementById('oplayer-container');
         playerDiv.style.display = 'block';
-        playerDiv.innerHTML = '';  // Clear completely
+        playerDiv.innerHTML = '';
 
-        player = OPlayer.make('#jwplayer-div', {
+        player = OPlayer.make('#oplayer-container', {
           source: {
             src: url,
             format: 'hls'
@@ -332,7 +330,7 @@
           aspectRatio: '16:9',
           poster: '',
           lang: 'en',
-          autoplay: false  // We'll trigger manually
+          autoplay: false
         })
         .use([
           OUI({
@@ -346,7 +344,7 @@
               liveSyncDurationCount: 4,
               maxBufferLength: 30,
               maxMaxBufferLength: 60,
-              debug: true,                    // Change to false once working
+              debug: false,
               enableWorker: true,
               lowLatencyMode: true,
               backBufferLength: 90
@@ -356,18 +354,14 @@
         ])
         .create();
 
-        // Manual play trigger (after short delay to allow init)
         setTimeout(() => {
           if (player && player.video) {
             player.video.play()
               .then(() => console.log('Manual play succeeded'))
               .catch(err => {
                 console.error('Unmuted play blocked:', err);
-                // Fallback: try muted (browsers usually allow)
                 player.mute();
-                player.video.play()
-                  .then(() => console.log('Muted fallback play succeeded'))
-                  .catch(e => console.error('Muted play also failed:', e));
+                player.video.play().catch(e => console.error('Muted play failed:', e));
               });
           }
         }, 1000);
@@ -389,7 +383,7 @@
         player.on('loadedmetadata', () => console.log('Metadata loaded'));
 
       } else {
-        document.getElementById('jwplayer-div').style.display = 'none';
+        document.getElementById('oplayer-container').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
         try {
@@ -544,7 +538,6 @@
 
             streamStarted = true;
 
-            // Load Cbox chat
             setTimeout(() => {
               const c = document.querySelector('.chat-container');
               const l = document.getElementById('chatLoading');
@@ -564,15 +557,14 @@
         });
 
       document.getElementById('fullscreenBtn').addEventListener('click', () => {
-        const container = document.getElementById('jwplayer-div').style.display !== 'none'
-          ? document.getElementById('jwplayer-div')
+        const container = document.getElementById('oplayer-container').style.display !== 'none'
+          ? document.getElementById('oplayer-container')
           : document.getElementById('embedPlayer');
         if (container.requestFullscreen) container.requestFullscreen();
         else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
         else if (container.msRequestFullscreen) container.msRequestFullscreen();
       });
 
-      // Tip countdown + permanent notification logic
       let sec = 10;
       const timer = document.getElementById('countdownTimer');
       const tempAlert = document.getElementById('tempTipAlert');
@@ -602,4 +594,4 @@
     });
   </script>
 </body>
-    </html>
+        </html>
