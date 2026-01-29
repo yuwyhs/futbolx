@@ -17,11 +17,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
-  <!-- Plyr + hls.js + Chromecast plugin -->
+  <!-- Plyr + hls.js -->
   <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
   <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@silvermine/videojs-chromecast@1.5.1/dist/silvermine-videojs-chromecast.min.js"></script>
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
@@ -31,13 +30,20 @@
     [data-bs-theme="light"] #countdownTimer {color:#e63939;}
     .error-alert {max-width:500px;margin:20px auto;}
     .fade-out {animation:fadeOut .5s forwards;} @keyframes fadeOut {from{opacity:1}to{opacity:0}}
-    .btn-fullscreen {display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#ff4d4d;color:#fff;border:none;border-radius:20px;transition:.3s;}
-    [data-bs-theme="light"] .btn-fullscreen {background:#e63939;color:#333;}
-    .btn-fullscreen:hover {transform:scale(1.05);background:#e63939;}
+    .btn-fullscreen, .btn-cast {
+      display:inline-flex;align-items:center;gap:8px;padding:8px 16px;
+      background:#ff4d4d;color:#fff;border:none;border-radius:20px;transition:.3s;
+    }
+    [data-bs-theme="light"] .btn-fullscreen, [data-bs-theme="light"] .btn-cast {
+      background:#e63939;color:#333;
+    }
+    .btn-fullscreen:hover, .btn-cast:hover {transform:scale(1.05);background:#e63939;}
+    .btn-cast {margin-left:8px;}
+    .btn-cast i {font-size:1.2rem;}
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
-    /* Plyr custom theme */
+    /* Plyr theme */
     #oplayer-container .plyr {
       --plyr-color-main: #ff4d4d;
       --plyr-control-bar-background: rgba(0,0,0,0.75);
@@ -52,7 +58,7 @@
       height: 100%;
     }
 
-    /* Hide time/progress/duration for live feel */
+    /* Hide time/progress for live feel */
     #oplayer-container .plyr__progress,
     #oplayer-container .plyr__time + .plyr__time,
     #oplayer-container .plyr__time--current,
@@ -61,7 +67,7 @@
       display: none !important;
     }
 
-    /* Custom LIVE badge */
+    /* LIVE badge */
     #oplayer-container .plyr__controls::before {
       content: "● LIVE";
       position: absolute;
@@ -77,36 +83,16 @@
       box-shadow: 0 0 8px rgba(255,77,77,0.5);
     }
 
-    /* Big centered play/pause button */
-    #oplayer-container .plyr__controls .plyr__controls__item.plyr__play-pause-large {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90px;
-      height: 90px;
-      font-size: 60px;
-      background: rgba(0,0,0,0.5);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      z-index: 5;
-      transition: opacity 0.3s;
-      opacity: 0.9;
+    /* Hide volume bar, keep only speaker icon */
+    #oplayer-container .plyr__volume {
+      width: auto !important;
+      min-width: 40px !important;
+    }
+    #oplayer-container .plyr__volume input[type="range"] {
+      display: none !important;
     }
 
-    #oplayer-container .plyr__controls .plyr__controls__item.plyr__play-pause-large:hover {
-      background: rgba(255,77,77,0.4);
-      opacity: 1;
-    }
-
-    /* Hide default small play button when large one is used */
-    #oplayer-container .plyr__control--play:not(.plyr__play-pause-large) {
-      display: none;
-    }
-
+    /* Prevent overlap */
     #oplayer-container video {
       width: 100% !important;
       height: 100% !important;
@@ -119,7 +105,7 @@
       bottom: 0;
     }
 
-    /* Rest of your styles unchanged */
+    /* Your other styles */
     .live-title {
       text-align: center;
       background: linear-gradient(135deg, #1a1a1a, #2d0000);
@@ -297,6 +283,7 @@
             <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
             <button id="startLivestream" class="btn btn-danger ms-3" style="display:none;">Click to Start Livestream</button>
             <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
+            <button id="castBtn" class="btn-cast d-none" title="Cast to TV"><i class="fas fa-cast"></i></button>
           </div>
 
           <div id="liveStreamTitle" class="live-title d-none">
@@ -425,12 +412,9 @@
         player = new Plyr('#plyr-player', {
           autoplay: true,
           muted: true,
-          volume: 0.5,
+          volume: 1,  // Full volume by default
           controls: [
-            'play-large',           // ← this is now the big centered one
-            'mute', 'volume',
-            'captions', 'settings',
-            'pip', 'airplay', 'fullscreen'
+            'play-large', 'play', 'mute', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
           ],
           settings: ['captions', 'quality', 'speed'],
           quality: { default: 'auto', options: ['auto', 1080, 720, 480, 360] },
@@ -446,7 +430,10 @@
           document.getElementById('errorContainer').innerHTML = 'Stream failed – try another source or VPN';
         });
 
-        player.on('playing', clearError);
+        player.on('playing', () => {
+          clearError();
+          document.getElementById('castBtn').classList.remove('d-none');
+        });
         player.on('waiting', () => console.log('Buffering...'));
 
         // PiP tooltip
@@ -457,6 +444,7 @@
 
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
+        document.getElementById('castBtn').classList.add('d-none');
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
         try {
@@ -468,6 +456,17 @@
         }
       }
     }
+
+    // Cast button handler (triggers Plyr's cast/airplay)
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('castBtn')?.addEventListener('click', () => {
+        if (player) {
+          // Plyr's built-in airplay/cast trigger
+          const castBtn = document.querySelector('.plyr__control--airplay, .plyr__control--cast');
+          if (castBtn) castBtn.click();
+        }
+      });
+    });
 
     function populateStreamButtons(event) {
       const container = document.getElementById('streamLinks');
@@ -550,6 +549,7 @@
         document.querySelector('.video-container').style.display = 'none';
         document.getElementById('streamLinks').style.display = 'none';
         document.getElementById('fullscreenBtn').classList.add('d-none');
+        document.getElementById('castBtn').classList.add('d-none');
         document.getElementById('liveStreamTitle').classList.add('d-none');
 
         if (isEnded) {
@@ -667,4 +667,4 @@
     });
   </script>
 </body>
-  </html>
+                               </html>
