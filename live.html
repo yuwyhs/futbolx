@@ -60,11 +60,11 @@
       display: none !important;
     }
 
-    /* LIVE badge - now top right */
-    #oplayer-container .plyr__controls::after {
+    /* LIVE badge - TOP RIGHT */
+    #oplayer-container .plyr__video-wrapper::after {
       content: "● LIVE";
       position: absolute;
-      top: 8px;
+      top: 12px;
       right: 12px;
       background: #ff4d4d;
       color: white;
@@ -85,7 +85,7 @@
       min-width: 40px !important;
     }
 
-    /* Hide settings button if no captions or quality */
+    /* Hide settings if no captions or quality */
     #oplayer-container .plyr__control--settings:empty,
     #oplayer-container .plyr__menu-wrapper:empty + .plyr__control--settings {
       display: none !important;
