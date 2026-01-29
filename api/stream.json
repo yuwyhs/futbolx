@@ -61,7 +61,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-real-betis-vs-feyenoord/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=m+liga+de+campeones+1&code=es&user=cdnlivetv&plan=free"
             }
           ]
         },
@@ -106,7 +106,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-ludogorets-vs-nice/1"
+              "url": "https://tg.futbol-x.site/nice/index.m3u8"
             }
           ]
         },
@@ -151,7 +151,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-panathinaikos-vs-roma/1"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=m+liga+de+campeones+10&code=es&user=cdnlivetv&plan=free"
             }
           ]
         }
