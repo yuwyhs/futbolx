@@ -6,6 +6,21 @@
       "always_live": 0,
       "streams": [
         {
+          "name": "Golazo Show",
+          "uri_name": "golazo-show",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk-vXWUnMAHw2mi5UbTPpu_wSi4niRJDICfQUJ4FikaA&s=10",
+          "tag": "Europa League",
+          "starts_at": "2026-01-29T23:00:00",
+          "ends_at": "2026-01-30T01:08:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-golazo-show/1"
+            }
+          ]
+        },
+        {
           "name": "Porto vs Rangers",
           "uri_name": "porto-vs-rangers",
           "poster": "https://api.ppv.to/assets/thumb/f2ad893d31b974320060176c1681dc3e-thumbnail.jpg",
