@@ -17,10 +17,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
-  <!-- Plyr + hls.js -->
+  <!-- Plyr + hls.js + Chromecast plugin -->
   <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
   <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@silvermine/videojs-chromecast@1.5.1/dist/silvermine-videojs-chromecast.min.js"></script>
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
@@ -36,7 +37,7 @@
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
-    /* Plyr custom theme + fixes */
+    /* Plyr custom theme */
     #oplayer-container .plyr {
       --plyr-color-main: #ff4d4d;
       --plyr-control-bar-background: rgba(0,0,0,0.75);
@@ -51,7 +52,7 @@
       height: 100%;
     }
 
-    /* Hide time / progress / duration for live feel */
+    /* Hide time/progress/duration for live feel */
     #oplayer-container .plyr__progress,
     #oplayer-container .plyr__time + .plyr__time,
     #oplayer-container .plyr__time--current,
@@ -76,7 +77,36 @@
       box-shadow: 0 0 8px rgba(255,77,77,0.5);
     }
 
-    /* Prevent initial controls misplacement / overlap fix */
+    /* Big centered play/pause button */
+    #oplayer-container .plyr__controls .plyr__controls__item.plyr__play-pause-large {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90px;
+      height: 90px;
+      font-size: 60px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      z-index: 5;
+      transition: opacity 0.3s;
+      opacity: 0.9;
+    }
+
+    #oplayer-container .plyr__controls .plyr__controls__item.plyr__play-pause-large:hover {
+      background: rgba(255,77,77,0.4);
+      opacity: 1;
+    }
+
+    /* Hide default small play button when large one is used */
+    #oplayer-container .plyr__control--play:not(.plyr__play-pause-large) {
+      display: none;
+    }
+
     #oplayer-container video {
       width: 100% !important;
       height: 100% !important;
@@ -89,7 +119,7 @@
       bottom: 0;
     }
 
-    /* Rest of your styles (live-title, chat, etc.) */
+    /* Rest of your styles unchanged */
     .live-title {
       text-align: center;
       background: linear-gradient(135deg, #1a1a1a, #2d0000);
@@ -396,7 +426,12 @@
           autoplay: true,
           muted: true,
           volume: 0.5,
-          controls: ['play-large', 'play', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
+          controls: [
+            'play-large',           // ← this is now the big centered one
+            'mute', 'volume',
+            'captions', 'settings',
+            'pip', 'airplay', 'fullscreen'
+          ],
           settings: ['captions', 'quality', 'speed'],
           quality: { default: 'auto', options: ['auto', 1080, 720, 480, 360] },
           captions: { active: true },
@@ -414,7 +449,7 @@
         player.on('playing', clearError);
         player.on('waiting', () => console.log('Buffering...'));
 
-        // PiP button tooltip
+        // PiP tooltip
         setTimeout(() => {
           const pipBtn = document.querySelector('.plyr__control--pip');
           if (pipBtn) pipBtn.setAttribute('title', 'Picture-in-Picture (tap to float video)');
