@@ -103,14 +103,14 @@
       bottom: 0;
     }
 
-    /* Chat container adjustments for Chatango */
+    /* Chatango fit container */
     .chat-container {
       height: 420px;
       background: #111;
       position: relative;
       overflow: hidden;
     }
-    .chat-container #cid0020000430637810018 {
+    .chat-container script {
       width: 100% !important;
       height: 100% !important;
       border: none;
@@ -290,12 +290,12 @@
 
           <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
-          <!-- Updated Chatango chat -->
+          <!-- Updated Chatango embed -->
           <div class="chat-wrapper">
             <div class="chat-header">Live Chat</div>
             <div class="chat-container">
-              <script id="cid0020000430637810018" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%; height: 100%;">
-                {"handle":"futbol-x","arch":"js","styles":{"a":"000000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"000000","l":"000000","m":"000000","n":"FFFFFF","p":"9.27","q":"000000","r":100,"t":0,"usricon":0.87,"allowpm":0,"cnrs":"1","fwtickm":1}}
+              <script id="cid0020000430638419337" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%; height: 100%;">
+                {"handle":"futbol-x","arch":"js","styles":{"a":"000000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"000000","l":"000000","m":"000000","n":"FFFFFF","p":"9.27","q":"000000","r":100,"t":0,"usricon":0.87,"allowpm":0,"cnrs":"1"}}
               </script>
             </div>
           </div>
@@ -392,7 +392,6 @@
             setTimeout(() => {
               if (player) player.update();
 
-              // Hide settings if no captions AND no quality levels
               const hasQuality = hls.levels && hls.levels.length > 1;
               const hasCaptions = player.captions && player.captions.length > 0;
               if (!hasQuality && !hasCaptions) {
@@ -434,7 +433,6 @@
         });
         player.on('waiting', () => console.log('Buffering...'));
 
-        // PiP tooltip
         setTimeout(() => {
           const pipBtn = document.querySelector('.plyr__control--pip');
           if (pipBtn) pipBtn.setAttribute('title', 'Picture-in-Picture (tap to float video)');
