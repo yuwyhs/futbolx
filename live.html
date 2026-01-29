@@ -30,16 +30,9 @@
     [data-bs-theme="light"] #countdownTimer {color:#e63939;}
     .error-alert {max-width:500px;margin:20px auto;}
     .fade-out {animation:fadeOut .5s forwards;} @keyframes fadeOut {from{opacity:1}to{opacity:0}}
-    .btn-fullscreen, .btn-cast {
-      display:inline-flex;align-items:center;gap:8px;padding:8px 16px;
-      background:#ff4d4d;color:#fff;border:none;border-radius:20px;transition:.3s;
-      font-size:1rem;font-weight:500;
-    }
-    [data-bs-theme="light"] .btn-fullscreen, [data-bs-theme="light"] .btn-cast {
-      background:#e63939;color:#333;
-    }
-    .btn-fullscreen:hover, .btn-cast:hover {transform:scale(1.05);background:#e63939;}
-    .btn-cast {margin-left:8px;}
+    .btn-fullscreen {display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#ff4d4d;color:#fff;border:none;border-radius:20px;transition:.3s;}
+    [data-bs-theme="light"] .btn-fullscreen {background:#e63939;color:#333;}
+    .btn-fullscreen:hover {transform:scale(1.05);background:#e63939;}
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
@@ -67,12 +60,12 @@
       display: none !important;
     }
 
-    /* LIVE badge */
-    #oplayer-container .plyr__controls::before {
+    /* LIVE badge - now top right */
+    #oplayer-container .plyr__controls::after {
       content: "● LIVE";
       position: absolute;
       top: 8px;
-      left: 12px;
+      right: 12px;
       background: #ff4d4d;
       color: white;
       font-size: 0.8rem;
@@ -93,8 +86,8 @@
     }
 
     /* Hide settings button if no captions or quality */
-    #oplayer-container .plyr__menu-wrapper:empty + .plyr__control--settings,
-    #oplayer-container .plyr__menu-wrapper:not(:has(.plyr__menu__container)) + .plyr__control--settings {
+    #oplayer-container .plyr__control--settings:empty,
+    #oplayer-container .plyr__menu-wrapper:empty + .plyr__control--settings {
       display: none !important;
     }
 
@@ -288,7 +281,6 @@
             <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
             <button id="startLivestream" class="btn btn-danger ms-3" style="display:none;">Click to Start Livestream</button>
             <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
-            <button id="castBtn" class="btn-cast d-none">Cast</button>
           </div>
 
           <div id="liveStreamTitle" class="live-title d-none">
@@ -425,11 +417,11 @@
         player = new Plyr('#plyr-player', {
           autoplay: true,
           muted: true,
-          volume: 1,  // Full volume
+          volume: 1,
           controls: [
-            'play-large', 'play', 'mute', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
+            'play-large', 'play', 'mute', 'captions', 'settings', 'pip', 'fullscreen'
           ],
-          settings: ['captions', 'quality'],  // Only CC and Quality (no speed)
+          settings: ['captions', 'quality'],
           quality: { default: 'auto', options: ['auto', 1080, 720, 480, 360] },
           captions: { active: true },
           tooltips: { controls: true, seek: true },
@@ -446,7 +438,6 @@
         player.on('playing', () => {
           clearError();
           document.getElementById('fullscreenBtn').classList.remove('d-none');
-          document.getElementById('castBtn').classList.remove('d-none');
         });
         player.on('waiting', () => console.log('Buffering...'));
 
@@ -459,7 +450,6 @@
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
         document.getElementById('fullscreenBtn').classList.add('d-none');
-        document.getElementById('castBtn').classList.add('d-none');
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
         try {
@@ -471,8 +461,6 @@
         }
       }
     }
-
-    // ... rest of your script unchanged (populateStreamButtons, formatTimeLeft, updatePreStreamStatus, DOMContentLoaded fetch logic, fullscreenBtn listener, tip countdown) ...
 
     function populateStreamButtons(event) {
       const container = document.getElementById('streamLinks');
@@ -555,7 +543,6 @@
         document.querySelector('.video-container').style.display = 'none';
         document.getElementById('streamLinks').style.display = 'none';
         document.getElementById('fullscreenBtn').classList.add('d-none');
-        document.getElementById('castBtn').classList.add('d-none');
         document.getElementById('liveStreamTitle').classList.add('d-none');
 
         if (isEnded) {
@@ -673,4 +660,4 @@
     });
   </script>
 </body>
-          </html>
+  </html>
