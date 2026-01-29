@@ -76,13 +76,10 @@
       box-shadow: 0 0 8px rgba(255,77,77,0.5);
     }
 
-    /* Hide volume slider, keep only speaker icon */
-    #oplayer-container .plyr__volume input[type="range"] {
-      display: none !important;
-    }
+    /* Hide mute/unmute button completely */
+    #oplayer-container .plyr__control--mute,
     #oplayer-container .plyr__volume {
-      width: auto !important;
-      min-width: 40px !important;
+      display: none !important;
     }
 
     /* Hide settings if no captions or quality */
@@ -103,17 +100,40 @@
       bottom: 0;
     }
 
-    /* Chatango fit container */
-    .chat-container {
-      height: 420px;
-      background: #111;
-      position: relative;
-      overflow: hidden;
+    /* Chatango full fit, no rounded corners, dark/red blend */
+    .chat-wrapper {
+      max-width:600px;
+      margin:30px auto;
+      background:#1a1a1a;
+      border-radius:0; /* no rounded corners */
+      overflow:hidden;
+      border:1px solid #333;
+      box-shadow:0 10px 30px rgba(0,0,0,0.6);
     }
-    .chat-container script {
-      width: 100% !important;
-      height: 100% !important;
-      border: none;
+    .chat-header {
+      background:#ff4d4d;
+      color:white;
+      padding:12px 20px;
+      font-weight:bold;
+      font-size:1.2rem;
+      text-align:center;
+      border-bottom:none; /* seamless with chat */
+    }
+    .chat-container {
+      height:420px;
+      background:#111;
+      position:relative;
+      overflow:hidden;
+      border-radius:0; /* force no corners */
+    }
+    .chat-container script,
+    .chat-container iframe {
+      width:100% !important;
+      height:100% !important;
+      border:none !important;
+      margin:0 !important;
+      padding:0 !important;
+      border-radius:0 !important;
     }
 
     /* Your other styles unchanged */
@@ -144,25 +164,6 @@
       0% { opacity: 1; }
       50% { opacity: 0.4; }
       100% { opacity: 1; }
-    }
-
-    .chat-wrapper {
-      max-width:600px;
-      margin:30px auto;
-      background:#1a1a1a;
-      border-radius:16px;
-      overflow:hidden;
-      border:1px solid #333;
-      box-shadow:0 10px 30px rgba(0,0,0,0.6);
-    }
-    .chat-header {
-      background:#ff4d4d;
-      color:white;
-      padding:12px 20px;
-      font-weight:bold;
-      font-size:1.2rem;
-      text-align:center;
-      border-bottom:2px solid #cc0000;
     }
 
     #statusArea {
@@ -290,12 +291,33 @@
 
           <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
-          <!-- Updated Chatango embed -->
-          <div class="chat-wrapper">
+          <!-- Customized Chatango - full fit, no corners, dark/red blend, minimized branding -->
+          <div class="chat-wrapper" style="border-radius:0;overflow:hidden;">
             <div class="chat-header">Live Chat</div>
-            <div class="chat-container">
-              <script id="cid0020000430638419337" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%; height: 100%;">
-                {"handle":"futbol-x","arch":"js","styles":{"a":"000000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"000000","l":"000000","m":"000000","n":"FFFFFF","p":"9.27","q":"000000","r":100,"t":0,"usricon":0.87,"allowpm":0,"cnrs":"1"}}
+            <div class="chat-container" style="border-radius:0;overflow:hidden;background:#111;">
+              <script id="cid0020000430638419337" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width:100%;height:100%;border:none;">
+                {
+                  "handle": "futbol-x",
+                  "arch": "js",
+                  "styles": {
+                    "a": "111111",     // dark bg
+                    "b": 100,
+                    "c": "ffffff",     // text white
+                    "d": "ff4d4d",     // links red
+                    "k": "ff4d4d",     // header red
+                    "l": "111111",     // borders invisible
+                    "m": "1a1a1a",     // message bg dark
+                    "n": "dddddd",     // secondary text
+                    "p": "9.27",
+                    "q": "ffffff",
+                    "r": 0,            // no rounded corners
+                    "t": 0,            // minimal theme
+                    "usricon": 0,      // hide icons/branding
+                    "allowpm": 0,
+                    "cnrs": "0",       // force no corners
+                    "fwtickm": 1
+                  }
+                }
               </script>
             </div>
           </div>
@@ -411,7 +433,7 @@
           muted: true,
           volume: 1,
           controls: [
-            'play-large', 'play', 'mute', 'captions', 'settings', 'pip', 'fullscreen'
+            'play-large', 'play', 'captions', 'settings', 'pip', 'fullscreen'
           ],
           settings: ['captions', 'quality'],
           quality: { default: 'auto', options: ['auto', 1080, 720, 480, 360] },
@@ -641,4 +663,4 @@
     });
   </script>
 </body>
-</html>
+                                                                                                                                                                                                           </html>
