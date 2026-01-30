@@ -33,7 +33,7 @@
     }
     @keyframes fadeOut { 
       from { opacity: 1; } 
-      to { opacity: 0; } 
+      to { opacity: 0; }
     }
     .watch-button {
       animation: pulse 1s infinite;
@@ -372,7 +372,7 @@
       });
     }
 
-    function loadContent(api) {
+    async function loadContent(api) {
       console.log('Starting loadContent at', new Date().toISOString());
       const errorContainer = document.getElementById('errorContainer');
       const liveAnimation = document.getElementById('liveAnimation');
@@ -388,172 +388,188 @@
           errorContainer.className = 'alert alert-danger error-alert';
           errorContainer.innerHTML = 'Request timed out. Please try again.';
           const retryButton = document.getElementById('retryButton');
-          if (retryButton) {
-            retryButton.addEventListener('click', () => loadContent(api));
-          }
+          if (retryButton) retryButton.addEventListener('click', () => loadContent(api));
         }
       }, 15000);
 
-      const apiUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream` : `${api.baseUrl}/stream`;
-      fetchWithRetry(apiUrl)
-        .then(streamData => {
-          clearTimeout(timeout);
-          console.log('Stream API Response:', streamData);
-          
-          if (!streamData || !streamData.success || !Array.isArray(streamData.streams)) {
-            livecards.innerHTML = '<p>No streams are available right now. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
-            liveAnimation.classList.add('d-none');
-            errorContainer.className = 'alert alert-danger error-alert';
-            errorContainer.innerHTML = 'Invalid stream data received. Please try again.';
-            return;
-          }
+      try {
+        const catListUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream` : `${api.baseUrl}/stream`;
+        const catListRes = await fetchWithRetry(catListUrl);
+        const categoryNames = catListRes.categories || [];
 
-          const categories = {
-            football: { id: 'football', element: document.getElementById('footballcards') },
-            nba: { id: 'nba', element: document.getElementById('nbacards') },
-            fights: { id: 'fights', element: document.getElementById('fightscards') },
-            motorsports: { id: 'motorsports', element: document.getElementById('motorsportscards') },
-            nfl: { id: 'nfl', element: document.getElementById('nflcards') },
-            nhl: { id: 'nhl', element: document.getElementById('nhlcards') },
-            mlb: { id: 'mlb', element: document.getElementById('mlbcards') },
-            icehockey: { id: 'icehockey', element: document.getElementById('icehockeycards') },
-            tennis: { id: 'tennis', element: document.getElementById('tenniscards') },
-            rugby: { id: 'rugby', element: document.getElementById('rugbycards') },
-            golf: { id: 'golf', element: document.getElementById('golfcards') },
-            others: { id: 'others', element: document.getElementById('otherscards') }
-          };
-          
-          Object.values(categories).forEach(cat => {
-            if (cat.element) cat.element.innerHTML = '';
-          });
-          Object.keys(categories).forEach(key => {
-            const section = document.getElementById(categories[key].id);
-            if (section) section.classList.add('d-none');
-          });
-          livecards.innerHTML = '';
+        if (!Array.isArray(categoryNames) || categoryNames.length === 0) {
+          throw new Error("No categories defined in /api/stream.json");
+        }
 
-          let hasLiveEvents = false;
-          const now = Math.floor(Date.now() / 1000);
-          const categoryEvents = {};
-          Object.keys(categories).forEach(key => categoryEvents[key] = []);
+        const fetchPromises = categoryNames.map(cat => 
+          fetchWithRetry(`${api.baseUrl}/${cat}.json`)
+            .catch(err => {
+              console.warn(`Failed to load ${cat}.json – treating as empty`, err);
+              return { success: true, streams: [] };
+            })
+        );
 
-          // FIXED CATEGORY MAPPING
-          const categoryMap = {
-            'football': 'football',
-            'basketball': 'nba',
-            'fights': 'fights',
-            'motorsports': 'motorsports',
-            'nfl': 'nfl',
-            'nhl': 'nhl',
-            'mlb': 'mlb',
-            'icehockey': 'icehockey',
-            'tennis': 'tennis',
-            'rugby': 'rugby',
-            'golf': 'golf'
-          };
+        const allCategoryData = await Promise.all(fetchPromises);
 
-          streamData.streams.forEach(category => {
-            if (!category.streams || !Array.isArray(category.streams)) return;
+        const combined = {
+          success: true,
+          streams: allCategoryData
+            .filter(d => d && d.success && Array.isArray(d.streams))
+            .flatMap(d => d.streams)
+        };
 
-            const normalizedName = category.category.trim().toLowerCase();
-            let categoryKey = categoryMap[normalizedName] || 'others';
+        clearTimeout(timeout);
 
-            category.streams.forEach(stream => {
-              if (!stream.name || !stream.uri_name || !stream.tag || !stream.starts_at || !stream.streams || !Array.isArray(stream.streams)) {
-                console.warn(`Invalid stream data for ${stream.name || 'unknown stream'}, skipping`);
-                return;
-              }
-
-              let startTime, endTime;
-              try {
-                startTime = new Date(stream.starts_at + '+03:00').getTime() / 1000;
-                endTime = stream.ends_at 
-                  ? new Date(stream.ends_at + '+03:00').getTime() / 1000 
-                  : startTime + 3 * 3600;
-              } catch (e) {
-                startTime = now;
-                endTime = now + 3 * 3600;
-              }
-
-              const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
-              const isEnded = now > endTime;
-              if (isEnded) return;
-
-              let liveBadge = isLive ? '<span class="live-badge">LIVE</span>' : '';
-              let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
-
-              let streamHtml = {
-                html: `
-                  <a href="/live/${stream.uri_name}">
-                    <div class="card">
-                      ${liveBadge}
-                      <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/285x160?text=Image+Failed';">
-                      <div class="card-body">
-                        <h5 class="card-title">${stream.name}</h5>
-                        <p class="card-text">
-                          <span class="event-tag">${stream.tag}</span>
-                          <span class="event-timer">
-                            ${isLive 
-                              ? `<a href="/live/${stream.uri_name}" class="btn btn-danger btn-sm watch-button">Watch</a>` 
-                              : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  </a>`,
-                startTime
-              };
-
-              if (isLive) {
-                livecards.innerHTML += streamHtml.html;
-                hasLiveEvents = true;
-              } else {
-                categoryEvents[categoryKey].push(streamHtml);
-              }
-            });
-          });
-
-          // Render all categories
-          Object.keys(categories).forEach(key => {
-            if (categoryEvents[key].length > 0) {
-              categoryEvents[key].sort((a, b) => a.startTime - b.startTime);
-              categories[key].element.innerHTML = categoryEvents[key].map(item => item.html).join('');
-              const section = document.getElementById(categories[key].id);
-              if (section) section.classList.remove('d-none');
-            }
-          });
-
-          if (!hasLiveEvents) {
-            livecards.innerHTML = '<p>No streams are live right now. Check back later!</p>';
-            liveAnimation.classList.add('d-none');
-          } else {
-            liveAnimation.classList.remove('d-none');
-          }
-
-          clearError();
-          const cards = document.querySelectorAll('.card');
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-              }
-            });
-          }, { threshold: 0.1 });
-          cards.forEach(card => observer.observe(card));
-        })
-        .catch(error => {
-          clearTimeout(timeout);
-          console.error('API Fetch Error:', error.message);
-          livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
+        if (!combined || !combined.success || !Array.isArray(combined.streams)) {
+          livecards.innerHTML = '<p>No streams are available right now. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
           liveAnimation.classList.add('d-none');
           errorContainer.className = 'alert alert-danger error-alert';
-          errorContainer.innerHTML = `Failed to load streams: ${error.message}. Please try again.`;
-          const retryButton = document.getElementById('retryButton');
-          if (retryButton) {
-            retryButton.addEventListener('click', () => loadContent(api));
+          errorContainer.innerHTML = 'Invalid stream data received.';
+          return;
+        }
+
+        const categories = {
+          football: { id: 'football', element: document.getElementById('footballcards') },
+          nba: { id: 'nba', element: document.getElementById('nbacards') },
+          fights: { id: 'fights', element: document.getElementById('fightscards') },
+          motorsports: { id: 'motorsports', element: document.getElementById('motorsportscards') },
+          nfl: { id: 'nfl', element: document.getElementById('nflcards') },
+          nhl: { id: 'nhl', element: document.getElementById('nhlcards') },
+          mlb: { id: 'mlb', element: document.getElementById('mlbcards') },
+          icehockey: { id: 'icehockey', element: document.getElementById('icehockeycards') },
+          tennis: { id: 'tennis', element: document.getElementById('tenniscards') },
+          rugby: { id: 'rugby', element: document.getElementById('rugbycards') },
+          golf: { id: 'golf', element: document.getElementById('golfcards') },
+          others: { id: 'others', element: document.getElementById('otherscards') }
+        };
+        
+        Object.values(categories).forEach(cat => {
+          if (cat.element) cat.element.innerHTML = '';
+        });
+        Object.keys(categories).forEach(key => {
+          const section = document.getElementById(categories[key].id);
+          if (section) section.classList.add('d-none');
+        });
+        livecards.innerHTML = '';
+
+        let hasLiveEvents = false;
+        const now = Math.floor(Date.now() / 1000);
+        const categoryEvents = {};
+        Object.keys(categories).forEach(key => categoryEvents[key] = []);
+
+        const categoryMap = {
+          'football': 'football',
+          'basketball': 'nba',
+          'fights': 'fights',
+          'motorsports': 'motorsports',
+          'nfl': 'nfl',
+          'nhl': 'nhl',
+          'mlb': 'mlb',
+          'icehockey': 'icehockey',
+          'tennis': 'tennis',
+          'rugby': 'rugby',
+          'golf': 'golf'
+        };
+
+        combined.streams.forEach(category => {
+          if (!category.streams || !Array.isArray(category.streams)) return;
+
+          const normalizedName = category.category.trim().toLowerCase();
+          let categoryKey = categoryMap[normalizedName] || 'others';
+
+          category.streams.forEach(stream => {
+            if (!stream.name || !stream.uri_name || !stream.tag || !stream.starts_at || !stream.streams || !Array.isArray(stream.streams)) {
+              console.warn(`Invalid stream data for ${stream.name || 'unknown stream'}, skipping`);
+              return;
+            }
+
+            let startTime, endTime;
+            try {
+              startTime = new Date(stream.starts_at + '+03:00').getTime() / 1000;
+              endTime = stream.ends_at 
+                ? new Date(stream.ends_at + '+03:00').getTime() / 1000 
+                : startTime + 3 * 3600;
+            } catch (e) {
+              startTime = now;
+              endTime = now + 3 * 3600;
+            }
+
+            const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
+            const isEnded = now > endTime;
+            if (isEnded) return;
+
+            let liveBadge = isLive ? '<span class="live-badge">LIVE</span>' : '';
+            let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
+
+            let streamHtml = {
+              html: `
+                <a href="/live/${stream.uri_name}">
+                  <div class="card">
+                    ${liveBadge}
+                    <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/285x160?text=Image+Failed';">
+                    <div class="card-body">
+                      <h5 class="card-title">${stream.name}</h5>
+                      <p class="card-text">
+                        <span class="event-tag">${stream.tag}</span>
+                        <span class="event-timer">
+                          ${isLive 
+                            ? `<a href="/live/${stream.uri_name}" class="btn btn-danger btn-sm watch-button">Watch</a>` 
+                            : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </a>`,
+              startTime
+            };
+
+            if (isLive) {
+              livecards.innerHTML += streamHtml.html;
+              hasLiveEvents = true;
+            } else {
+              categoryEvents[categoryKey].push(streamHtml);
+            }
+          });
+        });
+
+        Object.keys(categories).forEach(key => {
+          if (categoryEvents[key].length > 0) {
+            categoryEvents[key].sort((a, b) => a.startTime - b.startTime);
+            categories[key].element.innerHTML = categoryEvents[key].map(item => item.html).join('');
+            const section = document.getElementById(categories[key].id);
+            if (section) section.classList.remove('d-none');
           }
         });
+
+        if (!hasLiveEvents) {
+          livecards.innerHTML = '<p>No streams are live right now. Check back later!</p>';
+          liveAnimation.classList.add('d-none');
+        } else {
+          liveAnimation.classList.remove('d-none');
+        }
+
+        clearError();
+        const cards = document.querySelectorAll('.card');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        cards.forEach(card => observer.observe(card));
+
+      } catch (error) {
+        clearTimeout(timeout);
+        console.error('API Fetch Error:', error.message);
+        livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
+        liveAnimation.classList.add('d-none');
+        errorContainer.className = 'alert alert-danger error-alert';
+        errorContainer.innerHTML = `Failed to load streams: ${error.message}. Please try again.`;
+        const retryButton = document.getElementById('retryButton');
+        if (retryButton) retryButton.addEventListener('click', () => loadContent(api));
+      }
     }
 
     function initOffcanvas() {
@@ -597,4 +613,4 @@
     document.addEventListener('DOMContentLoaded', initPage);
   </script>
 </body>
-</html>
+  </html>
