@@ -10,35 +10,40 @@
       "use": "@vercel/static"
     },
     {
-      "src": "*.json",
+      "src": "api/*.json",
       "use": "@vercel/static"
     },
     {
-      "src": "api/*.json",
+      "src": "*.json",
       "use": "@vercel/static"
     }
   ],
   "routes": [
+    // Serve static assets directly
     {
       "src": "/assets/(.*)",
       "dest": "/assets/$1"
     },
+
+    // Protect all API JSON files — serve them as-is (most important fix)
     {
-      "src": "/api/stream.json",
-      "dest": "/api/stream.json"
+      "src": "/api/(.+\\.json)",
+      "dest": "/api/$1"
     },
+
+    // Optional: keep compatibility for old /api/stream (without .json)
     {
       "src": "/api/stream",
       "dest": "/api/stream.json"
     },
-    {
-      "src": "/api/stream-24-7.json",
-      "dest": "/api/stream-24-7.json"
-    },
+
+    // Optional: if you have other 24/7 files
     {
       "src": "/api/stream-24-7",
       "dest": "/api/stream-24-7.json"
     },
+
+    // Live pages (SPA-style rewrite)
     {
       "src": "/live/(.*)",
       "dest": "/live.html"
@@ -47,6 +52,8 @@
       "src": "/live-24-7/(.*)",
       "dest": "/live-24-7.html"
     },
+
+    // Other static pages
     {
       "src": "/vip",
       "dest": "/vip.html"
@@ -55,9 +62,11 @@
       "src": "/24-7",
       "dest": "/24-7.html"
     },
+
+    // Catch-all for SPA (index.html) — MUST be last
     {
       "src": "/(.*)",
       "dest": "/index.html"
     }
   ]
-}
+    }
