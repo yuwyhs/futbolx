@@ -1,0 +1,26 @@
+{
+  "success": true,
+  "streams": [
+    {
+      "category": "Tennis",
+      "always_live": 0,
+      "streams": [
+        {
+          "name": "Sinner vs Djokovic",
+          "uri_name": "sinner-vs-djokovic",
+          "poster": "https://images.prismic.io/fft-rg-commun-news/aEIAh7h8WN-LVsef_RG25_Sinner_Djokovic_3000x2000.jpg?auto=format,compress",
+          "tag": "Semis",
+          "starts_at": "2026-01-30T13:20:00",
+          "ends_at": "2026-01-30T18:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://tg.futbol-x.site/tennis/index.m3u8"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
