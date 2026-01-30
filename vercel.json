@@ -19,31 +19,29 @@
     }
   ],
   "routes": [
-    // Serve static assets directly
     {
       "src": "/assets/(.*)",
       "dest": "/assets/$1"
     },
 
-    // Protect all API JSON files — serve them as-is (most important fix)
+    // Serve ANY file that ends with .json inside /api/ directly
     {
       "src": "/api/(.+\\.json)",
       "dest": "/api/$1"
     },
 
-    // Optional: keep compatibility for old /api/stream (without .json)
+    // Optional: redirect old /api/stream without .json
     {
       "src": "/api/stream",
       "dest": "/api/stream.json"
     },
 
-    // Optional: if you have other 24/7 files
+    // Your other 24/7 file if it exists
     {
       "src": "/api/stream-24-7",
       "dest": "/api/stream-24-7.json"
     },
 
-    // Live pages (SPA-style rewrite)
     {
       "src": "/live/(.*)",
       "dest": "/live.html"
@@ -52,8 +50,6 @@
       "src": "/live-24-7/(.*)",
       "dest": "/live-24-7.html"
     },
-
-    // Other static pages
     {
       "src": "/vip",
       "dest": "/vip.html"
@@ -63,7 +59,7 @@
       "dest": "/24-7.html"
     },
 
-    // Catch-all for SPA (index.html) — MUST be last
+    // SPA catch-all — last rule
     {
       "src": "/(.*)",
       "dest": "/index.html"
