@@ -23,25 +23,18 @@
       "src": "/assets/(.*)",
       "dest": "/assets/$1"
     },
-
-    // Serve ANY file that ends with .json inside /api/ directly
     {
       "src": "/api/(.+\\.json)",
       "dest": "/api/$1"
     },
-
-    // Optional: redirect old /api/stream without .json
     {
       "src": "/api/stream",
       "dest": "/api/stream.json"
     },
-
-    // Your other 24/7 file if it exists
     {
       "src": "/api/stream-24-7",
       "dest": "/api/stream-24-7.json"
     },
-
     {
       "src": "/live/(.*)",
       "dest": "/live.html"
@@ -58,11 +51,9 @@
       "src": "/24-7",
       "dest": "/24-7.html"
     },
-
-    // SPA catch-all — last rule
     {
       "src": "/(.*)",
       "dest": "/index.html"
     }
   ]
-    }
+}
