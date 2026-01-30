@@ -398,7 +398,7 @@
         const categoryNames = catListRes.categories || [];
 
         if (!Array.isArray(categoryNames) || categoryNames.length === 0) {
-          throw new Error("No categories defined in /api/stream.json");
+          throw new Error("No categories defined in /api/stream");
         }
 
         const fetchPromises = categoryNames.map(cat => 
@@ -532,6 +532,7 @@
           });
         });
 
+        // Render categories
         Object.keys(categories).forEach(key => {
           if (categoryEvents[key].length > 0) {
             categoryEvents[key].sort((a, b) => a.startTime - b.startTime);
@@ -549,7 +550,10 @@
         }
 
         clearError();
-        const cards = document.querySelectorAll('.card');
+
+        // ────────────────────────────────────────────────
+        // Dynamic card animation observer (fixes rough loading)
+        // ────────────────────────────────────────────────
         const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -558,7 +562,19 @@
             }
           });
         }, { threshold: 0.1 });
-        cards.forEach(card => observer.observe(card));
+
+        function observeNewCards() {
+          document.querySelectorAll('.card:not(.visible)').forEach(card => {
+            observer.observe(card);
+          });
+        }
+
+        // Run immediately after rendering
+        observeNewCards();
+
+        // Safety nets for any delayed DOM updates
+        setTimeout(observeNewCards, 300);
+        setTimeout(observeNewCards, 800);
 
       } catch (error) {
         clearTimeout(timeout);
@@ -613,4 +629,4 @@
     document.addEventListener('DOMContentLoaded', initPage);
   </script>
 </body>
-  </html>
+</html>
