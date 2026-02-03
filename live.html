@@ -152,10 +152,10 @@
 
     #online-count {
       background: rgba(0,0,0,0.5);
-      padding: 2px 8px;
+      padding: 4px 10px;
       border-radius: 50%;
       font-weight: bold;
-      min-width: 24px;
+      min-width: 28px;
       text-align: center;
       font-size: 1rem;
     }
@@ -171,41 +171,22 @@
       background: #ff4d4d;
       border: none;
       color: white;
-      font-size: 18px;
-      padding: 6px 12px;
+      font-size: 22px;
+      padding: 8px 14px;
       border-radius: 8px;
       cursor: pointer;
-    }
-
-    #send-btn {
-      align-self: flex-end;
-      padding: 10px 20px;
-      background:#ff4d4d;
-      color:white;
-      border:none;
-      border-radius:8px;
-      font-weight:bold;
-      cursor:pointer;
     }
 
     #settings-btn {
-      background: #ff4d4d;
+      background: gold;
+      color: black;
       border: none;
-      color: white;
-      font-size: 18px;
-      padding: 6px 12px;
+      padding: 8px 14px;
       border-radius: 8px;
       cursor: pointer;
+      font-weight: bold;
       margin-left: 8px;
-      display: none; /* Hidden by default - shown for owner */
-    }
-
-    .profile-menu {
-      background: #1e1e1e;
-      padding: 10px;
-      border-radius: 8px;
-      margin-top: 5px;
-      display: none;
+      display: none; /* hidden until owner/mod */
     }
 
     #statusArea {
@@ -257,6 +238,28 @@
 
     [data-bs-theme="light"] .permanent-noti strong {
       color: #1e40af;
+    }
+
+    .profile-menu {
+      background: #2a2a2a;
+      padding: 8px;
+      border-radius: 8px;
+      margin-top: 6px;
+      display: none;
+      position: absolute;
+      z-index: 10;
+    }
+
+    .profile-menu button {
+      display: block;
+      width: 100%;
+      margin: 4px 0;
+      padding: 6px;
+      background: #444;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -349,13 +352,11 @@
                 </div>
                 
                 <div id="input-section" style="display:none; padding:12px; border-top:1px solid #333; position: absolute; bottom: 0; width: 100%; box-sizing: border-box;">
-                  <div style="display: flex; gap: 8px;">
+                  <div style="display: flex; gap: 8px; align-items: center;">
                     <input id="message" placeholder="Type here..." autocomplete="off" style="flex:1; padding:10px; border:1px solid #ff4d4d; border-radius:8px; background:#1e1e1e; color:white; font-size:16px;" />
-                    <button id="settings-btn" style="display: none; padding:10px 20px; background:#ff4d4d; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Settings</button>
-                  </div>
-                  <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px;">
-                    <button id="emoji-btn" style="padding:10px 20px; background:#ff4d4d; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">😀</button>
+                    <button id="emoji-btn" style="padding:10px 14px; background:#ff4d4d; color:white; border:none; border-radius:8px; cursor:pointer; font-size:20px;">😀</button>
                     <button id="send-btn" style="padding:10px 20px; background:#ff4d4d; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Send</button>
+                    <button id="settings-btn" style="display:none; padding:10px 16px; background:gold; color:black; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Settings</button>
                   </div>
                 </div>
               </div>
@@ -486,7 +487,7 @@
               const hasQuality = hls.levels && hls.levels.length > 1;
               const hasCaptions = player.captions && player.captions.length > 0;
               if (!hasQuality && !hasCaptions) {
-                document.querySelector('.plyr__control--settings')?.style.setProperty('display', 'none', 'important');
+                document.querySelector('.plyr__control--settings')?.style.setAttribute('style', 'display:none !important');
               }
             }, 800);
           });
@@ -765,11 +766,11 @@
     });
 
     // ────────────────────────────────────────────────────────────────
-    // Supabase Realtime Chat - FINAL WITH ALL FEATURES
+    // Supabase Realtime Chat - FINAL VERSION WITH ALL YOUR FEATURES
     // ────────────────────────────────────────────────────────────────
 
     window.addEventListener('load', () => {
-      console.log('Chat script: Page fully loaded - initializing');
+      console.log('Chat script loaded');
 
       const joinBtn = document.getElementById('join-btn');
       const sendBtn = document.getElementById('send-btn');
@@ -787,7 +788,7 @@
         return;
       }
 
-      console.log('All chat elements found');
+      console.log('Chat elements ready');
 
       const supabaseClient = supabase.createClient(
         'https://ohqnxqodrxuokfbpwoih.supabase.co',
@@ -804,6 +805,7 @@
 
       if (currentUsername) {
         usernameInput.value = currentUsername;
+        setTimeout(() => joinBtn.click(), 1000);
       }
 
       let mutedUsers = new Set();
@@ -815,7 +817,6 @@
           const { data } = await supabaseClient.from('messages').select('*').order('created_at', { ascending: true });
           messagesDiv.innerHTML = '';
           data.forEach(addMessage);
-          console.log('Loaded', data.length, 'messages');
         } catch (err) {
           console.error('Load messages:', err.message);
         }
@@ -835,14 +836,14 @@
 
       async function isUserMod(username) {
         const { data } = await supabaseClient.from('mods').select('username').eq('username', username);
-        return data.length > 0;
+        return data && data.length > 0;
       }
 
       async function checkUserRole() {
         isOwner = currentUsername === 'Finest';
         isMod = await isUserMod(currentUsername);
         if (isOwner || isMod) {
-          settingsBtn.style.display = 'block';
+          settingsBtn.style.display = 'inline-block';
         }
       }
 
@@ -860,7 +861,7 @@
         userSpan.style.fontWeight = 'bold';
         userSpan.style.color = msg.color || '#FFFFFF';
         userSpan.textContent = msg.username;
-        if (msg.username === 'Futbol+') userSpan.innerHTML += ' 🤖'; // Bot icon
+        if (msg.username === 'Futbol+') userSpan.innerHTML += ' 🤖';
         if (msg.username === 'Finest') userSpan.innerHTML += ' 👑';
 
         div.appendChild(userSpan);
@@ -869,39 +870,38 @@
         if (isOwner || isMod) {
           div.style.cursor = 'pointer';
           div.addEventListener('click', () => {
-            const menu = div.querySelector('.profile-menu');
+            let menu = div.querySelector('.profile-menu');
             if (menu) {
-              menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+              menu.remove();
             } else {
-              const newMenu = document.createElement('div');
-              newMenu.className = 'profile-menu';
-              newMenu.style.display = 'block';
+              menu = document.createElement('div');
+              menu.className = 'profile-menu';
 
               if (isOwner || isMod) {
                 const muteBtn = document.createElement('button');
                 muteBtn.textContent = mutedUsers.has(msg.username) ? 'Unmute' : 'Mute';
                 muteBtn.onclick = () => toggleMute(msg.username);
-                newMenu.appendChild(muteBtn);
+                menu.appendChild(muteBtn);
 
                 const banBtn = document.createElement('button');
                 banBtn.textContent = bannedUsers.has(msg.username) ? 'Unban' : 'Ban';
                 banBtn.onclick = () => toggleBan(msg.username);
-                newMenu.appendChild(banBtn);
+                menu.appendChild(banBtn);
               }
 
               const deleteBtn = document.createElement('button');
               deleteBtn.textContent = 'Delete';
               deleteBtn.onclick = () => deleteMessage(msg.id);
-              newMenu.appendChild(deleteBtn);
+              menu.appendChild(deleteBtn);
 
               if (isOwner) {
                 const pinBtn = document.createElement('button');
                 pinBtn.textContent = msg.is_pinned ? 'Unpin' : 'Pin';
                 pinBtn.onclick = () => togglePin(msg.id, !msg.is_pinned);
-                newMenu.appendChild(pinBtn);
+                menu.appendChild(pinBtn);
               }
 
-              div.appendChild(newMenu);
+              div.appendChild(menu);
             }
           });
         }
@@ -960,10 +960,17 @@
           await checkUserRole();
           joinSection.style.display = 'none';
           inputSection.style.display = 'block';
-          addMessage({ username: 'Futbol+', text: 'Welcome, ' + username + '! Be respectful, no spam.', created_at: new Date().toISOString(), color: '#4caf50' });
+
+          addMessage({ username: 'Futbol+', text: `Welcome, ${username}! Be respectful, no spam.`, created_at: new Date().toISOString(), color: '#4caf50' });
+
           await loadMessages();
           await loadModeration();
           await channel.track({ online: true, username });
+
+          // Guest message (only shown if not joined)
+          if (!currentUsername) {
+            addMessage({ username: 'Futbol+', text: 'Create an account to chat with others!', created_at: new Date().toISOString(), color: '#ff9800' });
+          }
         } else {
           alert('Username already used - try another');
         }
@@ -971,12 +978,12 @@
 
       sendBtn.addEventListener('click', async () => {
         const text = messageInput.value.trim();
-        if (!text || !currentUsername) return;
+        if (!text || !currentUsername) return alert('Join first or type message');
 
         if (mutedUsers.has(currentUsername) || bannedUsers.has(currentUsername)) return alert('Muted or banned');
 
         const { data } = await supabaseClient.from('users').select('color').eq('username', currentUsername).single();
-        const color = data.color;
+        const color = data ? data.color : nameColors[Math.floor(Math.random() * nameColors.length)];
 
         const localMsg = {
           username: currentUsername,
@@ -991,7 +998,7 @@
           await supabaseClient.from('messages').insert({ username: currentUsername, color, text });
           messageInput.value = '';
         } catch (err) {
-          console.error('Send:', err.message);
+          console.error('Send error:', err.message);
         }
       });
 
@@ -1004,14 +1011,14 @@
 
       emojiBtn.addEventListener('click', () => {
         messageInput.focus();
-        messageInput.setAttribute('type', 'text'); // Ensure picker opens
-        // Native picker triggers on focus in some browsers
+        // Native emoji picker (browser opens picker)
+        // Fallback if no picker: add popular emoji
+        messageInput.value += '😀';
       });
 
-      // Settings for owner
       settingsBtn.addEventListener('click', () => {
-        alert('Settings: Delete all messages? Add/remove mod? Set system message? (Implement UI here)');
-        // Add full UI for delete all, mods list, etc.
+        // Simple alert for now - expand to full modal later
+        alert('Owner Settings:\n- Delete all messages\n- Add/remove mods\n- Set system message\n- View members list\n(Implement full UI here)');
       });
 
       channel.on('presence', { event: 'sync' }, () => {
@@ -1020,22 +1027,22 @@
       }).on('presence', { event: 'join' }, ({ newPresences }) => {
         if (isOwner || isMod) {
           newPresences.forEach(p => {
-            addMessage({ username: 'Futbol+', text: p.username + ' joined the chat', created_at: new Date().toISOString(), color: '#aaa' });
+            addMessage({ username: 'Futbol+', text: `${p.username} joined the chat`, created_at: new Date().toISOString(), color: '#aaa' });
           });
         }
       }).subscribe();
 
       supabaseClient.channel('public:messages')
         .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, p => addMessage(p.new))
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, () => loadMessages())
+        .on('postgres_changes', { event: ['UPDATE', 'DELETE'], schema: 'public', table: 'messages' }, () => loadMessages())
         .subscribe();
 
       // Initial load
       loadMessages();
 
-      // System message on load
+      // Initial system message
       addMessage({ username: 'Futbol+', text: 'Be respectful - don\'t spam - enjoy the stream', created_at: new Date().toISOString(), color: '#aaa' });
     });
   </script>
 </body>
-  </html>
+    </html>
