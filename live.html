@@ -276,7 +276,7 @@
 
           <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
-          <!-- Custom Supabase Chat (replaced Chatango) -->
+          <!-- Custom Supabase Chat -->
           <div class="chat-wrapper">
             <div class="chat-header">Live Chat ⚽</div>
             <div class="chat-container" style="height: 420px; background: #111; position: relative; overflow: hidden;">
@@ -317,7 +317,7 @@
   <script src="/assets/js/api.js"></script>
   <script src="/assets/js/auth.js"></script>
 
-  <!-- Supabase + Twemoji for chat -->
+  <!-- Supabase + Twemoji -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js"></script>
 
@@ -699,203 +699,228 @@
           }, 600);
         }
       }, 1000);
-    });
 
-    // ────────────────────────────────────────────────────────────────
-    // Supabase Realtime Chat Logic
-    // ────────────────────────────────────────────────────────────────
+      // ────────────────────────────────────────────────────────────────
+      // FIXED Supabase Realtime Chat
+      // ────────────────────────────────────────────────────────────────
 
-    const SUPABASE_URL = 'https://ohqnxqodrxuokfbpwoih.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_yC3FQ2FPFFErcb2BeuYqnw_K1-LmMxY';
+      const supabaseClient = supabase.createClient(
+        'https://ohqnxqodrxuokfbpwoih.supabase.co',
+        'sb_publishable_yC3FQ2FPFFErcb2BeuYqnw_K1-LmMxY'
+      );
 
-    const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    const channel = supabase.channel('futbol-chat', { config: { broadcast: { self: true } } });
-
-    let currentUsername = '';
-    let mutedUsers = new Set();
-    let bannedUsers = new Set();
-    const nameColors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#FF33A1', '#33FFF3', '#FF8C00', '#8A2BE2'];
-
-    // Load existing messages on join
-    async function loadMessages() {
-      const { data } = await supabase
-        .from('messages')
-        .select('*')
-        .order('created_at', { ascending: true });
-      if (data) data.forEach(addMessage);
-    }
-
-    // Load moderation rules
-    async function loadModeration() {
-      const { data } = await supabase.from('moderation').select('*');
-      if (data) {
-        data.forEach(mod => {
-          if (mod.action === 'mute') mutedUsers.add(mod.target_username);
-          if (mod.action === 'ban') bannedUsers.add(mod.target_username);
-        });
-      }
-    }
-
-    // Render a message
-    function addMessage(msg) {
-      const div = document.createElement('div');
-      div.style.background = '#1e1e1e';
-      div.style.padding = '10px 12px';
-      div.style.margin = '8px 0';
-      div.style.borderRadius = '10px';
-      div.style.wordBreak = 'break-word';
-
-      const userSpan = document.createElement('span');
-      userSpan.style.fontWeight = 'bold';
-      userSpan.style.color = msg.color || '#FFFFFF';
-      userSpan.textContent = msg.username;
-      if (msg.username === 'Finest') {
-        userSpan.innerHTML += ' 👑';
-      }
-
-      if (msg.is_pinned) {
-        div.style.border = '1px solid gold';
-        div.style.background = '#2a2a00';
-      }
-
-      div.appendChild(userSpan);
-      div.innerHTML += `: ${msg.text} <small style="color:#aaa; margin-left:8px;">(${new Date(msg.created_at).toLocaleTimeString()})</small>`;
-
-      // Owner controls (only visible to Finest)
-      if (currentUsername === 'Finest') {
-        const controls = document.createElement('div');
-        controls.style.marginTop = '6px';
-        controls.style.fontSize = '0.85em';
-
-        const pinBtn = document.createElement('button');
-        pinBtn.textContent = msg.is_pinned ? 'Unpin' : 'Pin';
-        pinBtn.style.marginRight = '8px';
-        pinBtn.style.background = 'gold';
-        pinBtn.style.color = 'black';
-        pinBtn.style.border = 'none';
-        pinBtn.style.padding = '4px 8px';
-        pinBtn.style.borderRadius = '4px';
-        pinBtn.style.cursor = 'pointer';
-        pinBtn.onclick = () => togglePin(msg.id, !msg.is_pinned);
-        controls.appendChild(pinBtn);
-
-        const muteBtn = document.createElement('button');
-        muteBtn.textContent = mutedUsers.has(msg.username) ? 'Unmute' : 'Mute';
-        muteBtn.style.marginRight = '8px';
-        muteBtn.style.background = '#ff9800';
-        muteBtn.style.color = 'white';
-        muteBtn.style.border = 'none';
-        muteBtn.style.padding = '4px 8px';
-        muteBtn.style.borderRadius = '4px';
-        muteBtn.style.cursor = 'pointer';
-        muteBtn.onclick = () => toggleMute(msg.username);
-        controls.appendChild(muteBtn);
-
-        const banBtn = document.createElement('button');
-        banBtn.textContent = bannedUsers.has(msg.username) ? 'Unban' : 'Ban';
-        banBtn.style.background = '#f44336';
-        banBtn.style.color = 'white';
-        banBtn.style.border = 'none';
-        banBtn.style.padding = '4px 8px';
-        banBtn.style.borderRadius = '4px';
-        banBtn.style.cursor = 'pointer';
-        banBtn.onclick = () => toggleBan(msg.username);
-        controls.appendChild(banBtn);
-
-        div.appendChild(controls);
-      }
-
-      document.getElementById('messages').appendChild(div);
-      twemoji.parse(div);
-      document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
-    }
-
-    // Join chat
-    document.getElementById('join-btn').onclick = async () => {
-      currentUsername = document.getElementById('username').value.trim();
-      if (!currentUsername) return alert('Please enter a username');
-
-      await channel.track({ online: true, username: currentUsername });
-      document.getElementById('join-section').style.display = 'none';
-      document.getElementById('input-section').style.display = 'flex';
-      await loadMessages();
-      await loadModeration();
-    };
-
-    // Send message
-    document.getElementById('send-btn').onclick = async () => {
-      const text = document.getElementById('message').value.trim();
-      if (!text || !currentUsername) return;
-      if (mutedUsers.has(currentUsername) || bannedUsers.has(currentUsername)) {
-        alert('You are muted or banned');
-        return;
-      }
-
-      const color = nameColors[Math.floor(Math.random() * nameColors.length)];
-
-      const { error } = await supabase.from('messages').insert({
-        username: currentUsername,
-        color,
-        text
+      const channel = supabaseClient.channel('futbol-chat', {
+        config: { broadcast: { self: true } }
       });
 
-      if (error) alert('Error sending message: ' + error.message);
-      else document.getElementById('message').value = '';
-    };
+      let currentUsername = '';
+      let mutedUsers = new Set();
+      let bannedUsers = new Set();
+      const nameColors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#FF33A1', '#33FFF3', '#FF8C00', '#8A2BE2'];
 
-    // Owner toggle actions
-    async function togglePin(id, pinned) {
-      await supabase.from('messages').update({ is_pinned: pinned }).eq('id', id);
-    }
-
-    async function toggleMute(username) {
-      if (mutedUsers.has(username)) {
-        mutedUsers.delete(username);
-        await supabase.from('moderation').delete().eq('target_username', username).eq('action', 'mute');
-      } else {
-        mutedUsers.add(username);
-        await supabase.from('moderation').insert({ action: 'mute', target_username: username });
+      async function loadMessages() {
+        try {
+          const { data, error } = await supabaseClient
+            .from('messages')
+            .select('*')
+            .order('created_at', { ascending: true });
+          if (error) throw error;
+          if (data) data.forEach(addMessage);
+        } catch (err) {
+          console.error('Load messages error:', err);
+        }
       }
-    }
 
-    async function toggleBan(username) {
-      if (bannedUsers.has(username)) {
-        bannedUsers.delete(username);
-        await supabase.from('moderation').delete().eq('target_username', username).eq('action', 'ban');
-      } else {
-        bannedUsers.add(username);
-        await supabase.from('moderation').insert({ action: 'ban', target_username: username });
+      async function loadModeration() {
+        try {
+          const { data, error } = await supabaseClient.from('moderation').select('*');
+          if (error) throw error;
+          if (data) {
+            data.forEach(mod => {
+              if (mod.action === 'mute') mutedUsers.add(mod.target_username);
+              if (mod.action === 'ban') bannedUsers.add(mod.target_username);
+            });
+          }
+        } catch (err) {
+          console.error('Load moderation error:', err);
+        }
       }
-    }
 
-    // Realtime listeners
-    supabase
-      .channel('public:messages')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, (payload) => {
-        document.getElementById('messages').innerHTML = '';
-        loadMessages();
-      })
-      .subscribe();
+      function addMessage(msg) {
+        const div = document.createElement('div');
+        div.style.background = '#1e1e1e';
+        div.style.padding = '10px 12px';
+        div.style.margin = '8px 0';
+        div.style.borderRadius = '10px';
+        div.style.wordBreak = 'break-word';
 
-    channel
-      .on('presence', { event: 'sync' }, () => {
-        const count = Object.keys(channel.presenceState()).length;
-        document.querySelector('.chat-header').textContent = `Live Chat ⚽ - Online: ${count}`;
-      })
-      .subscribe(async (status) => {
-        if (status === 'SUBSCRIBED') {
-          // Track presence when joined
+        const userSpan = document.createElement('span');
+        userSpan.style.fontWeight = 'bold';
+        userSpan.style.color = msg.color || '#FFFFFF';
+        userSpan.textContent = msg.username;
+        if (msg.username === 'Finest') userSpan.innerHTML += ' 👑';
+
+        if (msg.is_pinned) {
+          div.style.border = '1px solid gold';
+          div.style.background = '#2a2a00';
+        }
+
+        div.appendChild(userSpan);
+        div.innerHTML += `: ${msg.text} <small style="color:#aaa; margin-left:8px;">(${new Date(msg.created_at).toLocaleTimeString()})</small>`;
+
+        if (currentUsername === 'Finest') {
+          const controls = document.createElement('div');
+          controls.style.marginTop = '6px';
+          controls.style.fontSize = '0.85em';
+
+          const pinBtn = document.createElement('button');
+          pinBtn.textContent = msg.is_pinned ? 'Unpin' : 'Pin';
+          pinBtn.style.marginRight = '8px';
+          pinBtn.style.background = 'gold';
+          pinBtn.style.color = 'black';
+          pinBtn.style.border = 'none';
+          pinBtn.style.padding = '4px 8px';
+          pinBtn.style.borderRadius = '4px';
+          pinBtn.style.cursor = 'pointer';
+          pinBtn.onclick = () => togglePin(msg.id, !msg.is_pinned);
+          controls.appendChild(pinBtn);
+
+          const muteBtn = document.createElement('button');
+          muteBtn.textContent = mutedUsers.has(msg.username) ? 'Unmute' : 'Mute';
+          muteBtn.style.marginRight = '8px';
+          muteBtn.style.background = '#ff9800';
+          muteBtn.style.color = 'white';
+          muteBtn.style.border = 'none';
+          muteBtn.style.padding = '4px 8px';
+          muteBtn.style.borderRadius = '4px';
+          muteBtn.style.cursor = 'pointer';
+          muteBtn.onclick = () => toggleMute(msg.username);
+          controls.appendChild(muteBtn);
+
+          const banBtn = document.createElement('button');
+          banBtn.textContent = bannedUsers.has(msg.username) ? 'Unban' : 'Ban';
+          banBtn.style.background = '#f44336';
+          banBtn.style.color = 'white';
+          banBtn.style.border = 'none';
+          banBtn.style.padding = '4px 8px';
+          banBtn.style.borderRadius = '4px';
+          banBtn.style.cursor = 'pointer';
+          banBtn.onclick = () => toggleBan(msg.username);
+          controls.appendChild(banBtn);
+
+          div.appendChild(controls);
+        }
+
+        document.getElementById('messages').appendChild(div);
+        twemoji.parse(div);
+        document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+      }
+
+      document.getElementById('join-btn').onclick = async () => {
+        currentUsername = document.getElementById('username').value.trim();
+        if (!currentUsername) return alert('Please enter a username');
+
+        try {
+          await channel.track({ online: true, username: currentUsername });
+          document.getElementById('join-section').style.display = 'none';
+          document.getElementById('input-section').style.display = 'flex';
+          await loadMessages();
+          await loadModeration();
+        } catch (err) {
+          console.error('Join failed:', err);
+          alert('Join failed: ' + err.message);
+        }
+      };
+
+      document.getElementById('send-btn').onclick = async () => {
+        const text = document.getElementById('message').value.trim();
+        if (!text || !currentUsername) return;
+        if (mutedUsers.has(currentUsername) || bannedUsers.has(currentUsername)) {
+          alert('You are muted or banned');
+          return;
+        }
+
+        const color = nameColors[Math.floor(Math.random() * nameColors.length)];
+
+        try {
+          const { error } = await supabaseClient.from('messages').insert({
+            username: currentUsername,
+            color,
+            text
+          });
+          if (error) throw error;
+          document.getElementById('message').value = '';
+        } catch (err) {
+          console.error('Send error:', err);
+          alert('Error sending: ' + err.message);
+        }
+      };
+
+      async function togglePin(id, pinned) {
+        try {
+          const { error } = await supabaseClient.from('messages').update({ is_pinned: pinned }).eq('id', id);
+          if (error) throw error;
+        } catch (err) {
+          console.error('Pin error:', err);
+        }
+      }
+
+      async function toggleMute(username) {
+        try {
+          if (mutedUsers.has(username)) {
+            mutedUsers.delete(username);
+            await supabaseClient.from('moderation').delete().eq('target_username', username).eq('action', 'mute');
+          } else {
+            mutedUsers.add(username);
+            await supabaseClient.from('moderation').insert({ action: 'mute', target_username: username });
+          }
+        } catch (err) {
+          console.error('Mute error:', err);
+        }
+      }
+
+      async function toggleBan(username) {
+        try {
+          if (bannedUsers.has(username)) {
+            bannedUsers.delete(username);
+            await supabaseClient.from('moderation').delete().eq('target_username', username).eq('action', 'ban');
+          } else {
+            bannedUsers.add(username);
+            await supabaseClient.from('moderation').insert({ action: 'ban', target_username: username });
+          }
+        } catch (err) {
+          console.error('Ban error:', err);
+        }
+      }
+
+      // Realtime
+      supabaseClient
+        .channel('public:messages')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, () => {
+          document.getElementById('messages').innerHTML = '';
+          loadMessages();
+        })
+        .subscribe((status) => {
+          console.log('Messages channel status:', status);
+        });
+
+      channel
+        .on('presence', { event: 'sync' }, () => {
+          const count = Object.keys(channel.presenceState()).length;
+          document.querySelector('.chat-header').textContent = `Live Chat ⚽ Online: ${count}`;
+        })
+        .subscribe((status) => {
+          console.log('Presence channel status:', status);
+        });
+
+      // Enter key send
+      document.getElementById('message').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById('send-btn').click();
         }
       });
-
-    // Enter key to send
-    document.getElementById('message').addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        document.getElementById('send-btn').click();
-      }
     });
   </script>
 </body>
-              </html>
+                    </html>
