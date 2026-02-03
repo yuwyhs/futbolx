@@ -20,6 +20,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
 
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+
   <style>
     body {
       padding-top: 70px; /* space for fixed top bar */
@@ -117,7 +122,7 @@
     </div>
   </nav>
 
-  <!-- Sidebar – now consistent with index.html -->
+  <!-- Sidebar -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -234,17 +239,27 @@
           themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
         });
       }
-
-      // Form placeholder
-      document.getElementById('loginForm')?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('Login functionality coming soon (Firebase step next)');
-      });
     });
   </script>
 
-  <!-- Account menu visibility logic -->
+  <!-- Firebase Login Logic -->
   <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD1Fwy4A-5fDDOwNXeK3zs8qfkMP-YNhZo",
+      authDomain: "futbolx-auth.firebaseapp.com",
+      projectId: "futbolx-auth",
+      storageBucket: "futbolx-auth.firebasestorage.app",
+      messagingSenderId: "310166454358",
+      appId: "1:310166454358:web:92c6c6d20cd82fb604fbf7",
+      measurementId: "G-4QQLLW7BE5"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Account menu visibility (basic version – will be improved later)
     function updateAccountMenu(isLoggedIn) {
       const menuLogin  = document.getElementById('menuLogin');
       const menuSignup = document.getElementById('menuSignup');
@@ -263,14 +278,64 @@
       }
     }
 
-    // Logout placeholder
-    document.getElementById('menuLogout')?.addEventListener('click', (e) => {
-      e.preventDefault();
-      alert('Logout functionality coming soon (Firebase integration next)');
+    // Listen for auth state changes
+    auth.onAuthStateChanged((user) => {
+      updateAccountMenu(!!user);
+      if (user) {
+        // Optional: redirect if already logged in
+        // window.location.href = '/';
+      }
     });
 
-    // For testing right now – change to true to simulate logged in state
-    // updateAccountMenu(true);
+    // Logout handler
+    document.getElementById('menuLogout')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      auth.signOut().then(() => {
+        window.location.href = '/';
+      }).catch((error) => {
+        alert('Logout failed: ' + error.message);
+      });
+    });
+
+    // Login form handler
+    const form = document.getElementById('loginForm');
+    const errorContainer = document.getElementById('errorContainer');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      try {
+        const credential = await auth.signInWithEmailAndPassword(email, password);
+        const user = credential.user;
+
+        // Check verification status
+        const userDoc = await db.collection('users').doc(user.uid).get();
+        if (!userDoc.exists || !userDoc.data().verified) {
+          await auth.signOut();
+          throw new Error('Please verify your email with the activation code first.');
+        }
+
+        // Login successful
+        window.location.href = '/';
+      } catch (error) {
+        let message = error.message;
+        if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+          message = 'Incorrect email or password.';
+        } else if (error.code === 'auth/too-many-requests') {
+          message = 'Too many attempts. Please try again later.';
+        }
+        showError(message);
+      }
+    });
+
+    function showError(msg) {
+      errorContainer.innerHTML = msg;
+      errorContainer.classList.remove('d-none');
+      setTimeout(() => errorContainer.classList.add('d-none'), 8000);
+    }
   </script>
 
 </body>
