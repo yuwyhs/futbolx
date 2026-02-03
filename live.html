@@ -205,6 +205,20 @@
       border-color: #7c3aed !important;
       color: white !important;
     }
+
+    /* Disclaimer styling */
+    .disclaimer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #aaa;
+      padding: 20px 15px;
+      margin-top: 30px;
+      border-top: 1px solid #333;
+      background: rgba(0,0,0,0.3);
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
   </style>
 </head>
 <body>
@@ -305,15 +319,17 @@
       </div>
 
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
+        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item"><a href="/api" class="nav-link px-2 text-body-secondary">API</a></li>
-          <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">Discord</a></li>
-          <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
           <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
           <li class="nav-item"><a href="/contact" class="nav-link px-2 text-body-secondary">Contact us</a></li>
         </ul>
       </footer>
+
+      <!-- Disclaimer -->
+      <div class="disclaimer">
+        We DO NOT host nor transmit any audiovisual content itself and DO NOT control nor influence such content. We cannot accept any liability for the content transmitted by others. Any responsibility for this content lies with those who host or transmit it. We are not affiliated nor claim to be affiliated with any of the owners of streams and/or videos. All content is copyright of their respective owners.
+      </div>
     </div>
   </div>
 
@@ -665,7 +681,7 @@
       });
 
       // ────────────────────────────────────────────────────────────────
-      // Notifications: Tip → Info → Cycle Join/Discord+Telegram
+      // Notifications: Tip (10s) → Info → Cycle Join/Info every 10s
       // ────────────────────────────────────────────────────────────────
 
       const tipAlert = document.getElementById('tipAlert');
@@ -676,7 +692,7 @@
       let sec = 10;
       let showJoin = false;
 
-      // Tip countdown (only once)
+      // Tip countdown (only once per reload)
       const tipTimer = setInterval(() => {
         sec--;
         timerEl.textContent = sec + 's';
@@ -694,7 +710,7 @@
             infoAlert.style.transition = 'opacity 0.6s ease-in';
             setTimeout(() => { infoAlert.style.opacity = '1'; }, 50);
 
-            // Start cycling Info ↔ Join every 5 seconds
+            // Cycle between Info and Join every 10 seconds
             setInterval(() => {
               if (showJoin) {
                 infoAlert.style.opacity = '0';
@@ -716,11 +732,11 @@
                 }, 600);
               }
               showJoin = !showJoin;
-            }, 5000); // 5 seconds per message
+            }, 10000); // Changed to 10 seconds
           }, 600);
         }
       }, 1000);
     });
   </script>
 </body>
-  </html>
+</html>
