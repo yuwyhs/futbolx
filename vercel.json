@@ -14,8 +14,8 @@
       "use": "@vercel/static"
     },
     {
-      "src": "api/*.json",
-      "use": "@vercel/static"
+      "src": "api/*.js",
+      "use": "@vercel/node"
     },
     {
       "src": "*.json",
@@ -28,7 +28,7 @@
       "dest": "/assets/$1"
     },
     {
-      "src": "/api/(.+\\.json)",
+      "src": "/api/(.*)",
       "dest": "/api/$1"
     },
     {
@@ -46,6 +46,10 @@
     {
       "src": "/auth/signup",
       "dest": "/auth/signup.html"
+    },
+    {
+      "src": "/dashboard",
+      "dest": "/dashboard.html"
     },
     {
       "src": "/live/(.*)",
