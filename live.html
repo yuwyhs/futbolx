@@ -76,33 +76,6 @@
       box-shadow: 0 0 8px rgba(255,77,77,0.5);
     }
 
-    /* Hide volume slider, keep only speaker icon */
-    #oplayer-container .plyr__volume input[type="range"] {
-      display: none !important;
-    }
-    #oplayer-container .plyr__volume {
-      width: auto !important;
-      min-width: 40px !important;
-    }
-
-    /* Hide settings if no captions or quality */
-    #oplayer-container .plyr__control--settings:empty,
-    #oplayer-container .plyr__menu-wrapper:empty + .plyr__control--settings {
-      display: none !important;
-    }
-
-    #oplayer-container video {
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: contain;
-    }
-
-    #oplayer-container .plyr__controls {
-      padding: 0 12px 12px;
-      margin: 0;
-      bottom: 0;
-    }
-
     .live-title {
       text-align: center;
       background: linear-gradient(135deg, #1a1a1a, #2d0000);
@@ -302,8 +275,8 @@
 
           <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
-          <!-- Chatango with Futbol+ Header and Viewers Counter -->
-          <div class="chat-wrapper">
+          <!-- Futbol+ Header with Viewers Counter -->
+          <div class="chat-wrapper" style="margin-top: 1.5rem;">
             <div class="chat-header">
               <span>Futbol+</span>
               <span id="online-count">0</span>
@@ -336,7 +309,7 @@
   <script src="/assets/js/api.js"></script>
   <script src="/assets/js/auth.js"></script>
 
-  <!-- Supabase only for viewers count -->
+  <!-- Supabase for viewers count -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
@@ -712,25 +685,25 @@
     });
 
     // ────────────────────────────────────────────────────────────────
-    // Real-time Viewers Count - PER EVENT, starts immediately
+    // Real-time Viewers Count - FIXED WITH YOUR ANON KEY
     // ────────────────────────────────────────────────────────────────
 
     window.addEventListener('load', () => {
-      console.log('Viewers counter starting...');
+      console.log('Viewers counter initializing with your key...');
 
       const supabase = supabase.createClient(
         'https://ohqnxqodrxuokfbpwoih.supabase.co',
-        'sb_publishable_yC3FQ2FPFFErcb2BeuYqnw_K1-LmMxY'
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ocW54cW9kcnh1b2tmYnB3b2loIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwNzI0MDYsImV4cCI6MjA4NTY0ODQwNn0.c7f0tdoHvvQKnO2jOZaQJ3APEkMwVC5xJ1x-V_ag0ZA'
       );
 
-      // Unique channel per event (based on current URL path)
+      // Unique channel per event
       const eventPath = window.location.pathname
         .replace(/^\/live\//, '')
         .replace(/\/$/, '')
         .replace(/\//g, '-') || 'default';
 
       const channelName = `viewers-${eventPath}`;
-      console.log('Event channel:', channelName);
+      console.log('Tracking channel:', channelName);
 
       const viewersChannel = supabase.channel(channelName, {
         config: { broadcast: { self: true } }
@@ -743,24 +716,24 @@
           const presence = viewersChannel.presenceState();
           const count = Object.keys(presence).length;
           onlineCount.textContent = count;
-          console.log('Viewers:', count);
+          console.log('Current viewers count:', count);
         })
         .subscribe(async (status) => {
+          console.log('Presence status:', status);
           if (status === 'SUBSCRIBED') {
-            console.log('Viewers tracking connected');
-            // Track this viewer (anonymous)
+            console.log('Successfully connected - tracking viewer');
             await viewersChannel.track({ online: true, page: eventPath });
           }
           if (status === 'CLOSED' || status === 'CHANNEL_ERROR') {
-            console.warn('Viewers channel closed:', status);
+            console.warn('Presence channel issue:', status);
           }
         });
 
-      // Leave presence when closing tab/window
+      // Clean up on page leave
       window.addEventListener('beforeunload', () => {
         viewersChannel.untrack();
       });
     });
   </script>
 </body>
-              </html>
+                                                                                               </html>
