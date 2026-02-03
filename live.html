@@ -24,7 +24,6 @@
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
-    body { margin: 0; padding: 0; font-family: 'Kanit', sans-serif; }
     .tip-container {max-width:600px;margin:20px auto;transition:height .3s;overflow:hidden;}
     .alert-info {text-align:center;position:relative;padding-right:50px;}
     #countdownTimer {position:absolute;top:8px;right:10px;font-weight:bold;color:#ff4d4d;}
@@ -77,6 +76,33 @@
       box-shadow: 0 0 8px rgba(255,77,77,0.5);
     }
 
+    /* Hide volume slider, keep only speaker icon */
+    #oplayer-container .plyr__volume input[type="range"] {
+      display: none !important;
+    }
+    #oplayer-container .plyr__volume {
+      width: auto !important;
+      min-width: 40px !important;
+    }
+
+    /* Hide settings if no captions or quality */
+    #oplayer-container .plyr__control--settings:empty,
+    #oplayer-container .plyr__menu-wrapper:empty + .plyr__control--settings {
+      display: none !important;
+    }
+
+    #oplayer-container video {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+    }
+
+    #oplayer-container .plyr__controls {
+      padding: 0 12px 12px;
+      margin: 0;
+      bottom: 0;
+    }
+
     .live-title {
       text-align: center;
       background: linear-gradient(135deg, #1a1a1a, #2d0000);
@@ -107,24 +133,21 @@
     }
 
     .chat-wrapper {
-      max-width: 600px;
-      margin: 30px auto;
-      background: #1a1a1a;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid #333;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      max-width:600px;
+      margin:30px auto;
+      background:#1a1a1a;
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid #333;
+      box-shadow:0 10px 30px rgba(0,0,0,0.6);
     }
     .chat-header {
-      background: #ff4d4d;
-      color: white;
-      padding: 12px 20px;
-      font-weight: bold;
-      font-size: 1.2rem;
-      border-bottom: 2px solid #cc0000;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      background:#ff4d4d;
+      color:white;
+      padding:12px 20px;
+      font-weight:bold;
+      font-size:1.2rem;
+      border-bottom:2px solid #cc0000;
     }
 
     #online-count {
@@ -137,102 +160,20 @@
       font-size: 1.1rem;
     }
 
-    #input-section {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      width: 100%;
-      padding: 12px;
-      box-sizing: border-box;
-      border-top: 1px solid #333;
-    }
-
-    #message {
-      flex: 1 1 auto;
-      width: 100%;
-      min-width: 0;
-      padding: 10px;
-      border: 1px solid #ff4d4d;
-      border-radius: 8px;
-      background: #1e1e1e;
-      color: white;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
-
-    .button-group {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    #emoji-btn, #send-btn, #settings-btn {
+    #emoji-btn {
       background: #ff4d4d;
       border: none;
       color: white;
-      font-size: 18px;
-      padding: 8px 12px;
+      font-size: 22px;
+      padding: 10px;
       border-radius: 8px;
       cursor: pointer;
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    #settings-btn {
-      background: gold;
-      color: black;
-      display: none; /* controlled by JS */
-    }
-
-    .user-icon {
-      font-size: 16px;
-      margin-right: 4px;
-    }
-
-    .message {
-      padding: 10px;
-      margin: 8px 0;
-      background: #1e1e1e;
-      border-radius: 10px;
-      word-break: break-word;
-    }
-
-    .glow {
-      text-shadow: 0 0 8px currentColor, 0 0 16px currentColor;
-    }
-
-    .owner-name { color: #00008B !important; }
-    .system-name { color: #FF0000 !important; }
-    .mod-name { color: #FFD700 !important; }
-
-    .profile-menu {
-      background: #2a2a2a;
-      padding: 8px;
-      border-radius: 8px;
-      margin-top: 6px;
-      display: none;
-      position: absolute;
-      z-index: 10;
-      right: 0;
-    }
-
-    .profile-menu button {
-      display: block;
-      width: 100%;
-      margin: 4px 0;
-      padding: 6px;
-      background: #444;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    #messages {
-      padding-bottom: 100px; /* space for input */
+      margin-right: 8px;
     }
 
     #statusArea {
@@ -259,6 +200,31 @@
     .status-message {
       font-size: 1.4rem;
       color: #ddd;
+    }
+    .status-live { color: #4caf50 !important; }
+    .status-ended { color: #888 !important; }
+
+    .permanent-noti {
+      margin-top: 12px;
+      background: linear-gradient(135deg, #1e3a5f, #2a4a7a);
+      border-color: #4a8cff;
+      color: #e0f0ff;
+      text-align: center;
+      position: relative;
+    }
+
+    .permanent-noti strong {
+      color: #a5d8ff;
+    }
+
+    [data-bs-theme="light"] .permanent-noti {
+      background: linear-gradient(135deg, #e6f0ff, #d4e6ff);
+      border-color: #60a5fa;
+      color: #1e40af;
+    }
+
+    [data-bs-theme="light"] .permanent-noti strong {
+      color: #1e40af;
     }
   </style>
 </head>
@@ -343,7 +309,7 @@
             </div>
             <div class="chat-container" style="height: 420px; background: #111; position: relative; overflow: hidden;">
               <div id="chat-widget" style="width: 100%; height: 100%; background: #0f0f0f; overflow: hidden; color: white; font-family: 'Kanit', sans-serif;">
-                <div id="messages" style="height: calc(100% - 120px); overflow-y: auto; padding: 12px;"></div>
+                <div id="messages" style="height: calc(100% - 100px); overflow-y: auto; padding: 12px;"></div>
                 
                 <div id="join-section" style="display: flex; padding: 12px; gap: 8px; border-top: 1px solid #333; position: absolute; bottom: 0; width: 100%; box-sizing: border-box;">
                   <input id="username" placeholder="Enter username..." autocomplete="off" style="flex:1; padding:10px; border:1px solid #ff4d4d; border-radius:8px; background:#1e1e1e; color:white; font-size:16px;" />
@@ -353,7 +319,7 @@
                 <div id="input-section" style="display:none; padding:12px; border-top:1px solid #333; position: absolute; bottom: 0; width: 100%; box-sizing: border-box;">
                   <div style="display: flex; gap: 8px; align-items: center; width: 100%;">
                     <button id="settings-btn" title="Settings" style="display:none;">⚙︎</button>
-                    <input id="message" placeholder="Type here..." autocomplete="off" style="flex:1; width:100%; padding:10px; border:1px solid #ff4d4d; border-radius:8px; background:#1e1e1e; color:white; font-size:16px;" />
+                    <input id="message" placeholder="Type here..." autocomplete="off" style="flex:1; padding:10px; border:1px solid #ff4d4d; border-radius:8px; background:#1e1e1e; color:white; font-size:16px;" />
                     <div style="display: flex; flex-direction: column; gap: 4px;">
                       <button id="emoji-btn" title="Emoji">☻</button>
                       <button id="send-btn" title="Send">➤</button>
@@ -390,10 +356,6 @@
   <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js"></script>
 
   <script>
-    // ────────────────────────────────────────────────────────────────
-    // Main site functionality (tip timer, event countdown, theme toggle, stream loading)
-    // ────────────────────────────────────────────────────────────────
-
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
 
     let player = null;
@@ -434,10 +396,15 @@
               if (!res.ok) throw new Error(`HTTP ${res.status}`);
               return res.json();
             })
-            .then(data => resolve(data))
+            .then(data => {
+              resolve(data);
+            })
             .catch(err => {
-              if (attempts < maxRetries) setTimeout(attempt, delay);
-              else reject(err);
+              if (attempts < maxRetries) {
+                setTimeout(attempt, delay);
+              } else {
+                reject(err);
+              }
             });
         }
         attempt();
@@ -640,7 +607,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
-      console.log('Main DOMContentLoaded running');
       const uriName = window.location.pathname.split('/').pop();
       const titleEl = document.getElementById('eventTitle');
       const startBtn = document.getElementById('startLivestream');
@@ -767,11 +733,11 @@
     });
 
     // ────────────────────────────────────────────────────────────────
-    // Chat script - FIXED, no crash, full sync, persistent colors/glow
+    // Supabase Realtime Chat - FIXED WITH ALL REQUESTS
     // ────────────────────────────────────────────────────────────────
 
-    window.addEventListener('load', async () => {
-      console.log('Chat load started');
+    window.addEventListener('load', () => {
+      console.log('Chat script: Page fully loaded - initializing');
 
       const joinBtn = document.getElementById('join-btn');
       const sendBtn = document.getElementById('send-btn');
@@ -784,65 +750,145 @@
       const messagesDiv = document.getElementById('messages');
       const onlineCount = document.getElementById('online-count');
 
-      if (!joinBtn || !messagesDiv) {
-        console.error('Critical chat elements missing - chat disabled');
+      if (!joinBtn || !sendBtn || !usernameInput || !messageInput || !emojiBtn || !joinSection || !inputSection || !messagesDiv || !onlineCount) {
+        console.error('Chat elements missing - cannot initialize');
         return;
       }
 
-      console.log('Chat elements found');
+      console.log('All chat elements detected');
 
       const supabaseClient = supabase.createClient(
         'https://ohqnxqodrxuokfbpwoih.supabase.co',
         'sb_publishable_yC3FQ2FPFFErcb2BeuYqnw_K1-LmMxY'
       );
 
-      let currentUsername = localStorage.getItem('chatUsername') || '';
-      let isOwner = currentUsername === 'Finest';
-      let isMod = false;
+      const channel = supabaseClient.channel('futbol-chat', {
+        config: { broadcast: { self: true } }
+      });
 
+      let currentUsername = localStorage.getItem('chatUsername') || '';
+
+      if (currentUsername) {
+        usernameInput.value = currentUsername;
+        setTimeout(() => joinBtn.click(), 800);
+      }
+
+      let mutedUsers = new Set();
+      let bannedUsers = new Set();
       const nameColors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#FF33A1', '#33FFF3', '#FF8C00', '#8A2BE2'];
 
-      async function getUserColor(username) {
-        const { data } = await supabaseClient.from('users').select('color').eq('username', username).single();
-        return data ? data.color : '#FFFFFF';
+      async function loadMessages() {
+        try {
+          const { data, error } = await supabaseClient.from('messages').select('*').order('created_at', { ascending: true });
+          if (error) throw error;
+          messagesDiv.innerHTML = '';
+          data.forEach(addMessage);
+          console.log('Loaded', data.length, 'messages');
+        } catch (err) {
+          console.error('Load messages failed:', err.message);
+        }
       }
 
-      async function isUserMod(username) {
-        const { data } = await supabaseClient.from('mods').select('username').eq('username', username);
-        return data && data.length > 0;
+      async function loadModeration() {
+        try {
+          const { data, error } = await supabaseClient.from('moderation').select('*');
+          if (error) throw error;
+          data.forEach(mod => {
+            if (mod.action === 'mute') mutedUsers.add(mod.target_username);
+            if (mod.action === 'ban') bannedUsers.add(mod.target_username);
+          });
+          console.log('Moderation loaded');
+        } catch (err) {
+          console.error('Moderation load failed:', err.message);
+        }
       }
 
-      async function addMessage(msg) {
+      function addMessage(msg) {
+        console.log('Adding message:', msg);
         const div = document.createElement('div');
-        div.className = 'message';
+        div.style.background = '#1e1e1e';
+        div.style.padding = '10px 12px';
+        div.style.margin = '8px 0';
+        div.style.borderRadius = '8px';
+        div.style.wordBreak = 'break-word';
 
         const userSpan = document.createElement('span');
         userSpan.style.fontWeight = 'bold';
-        userSpan.style.cursor = 'pointer';
+        userSpan.style.color = msg.color || '#FFFFFF';
+        userSpan.textContent = msg.username;
+        if (msg.username === 'Finest') userSpan.innerHTML += ' 👑';
 
-        let colorClass = '';
-        let glow = '';
-        if (msg.username === 'Finest') {
-          colorClass = 'owner-name';
-          glow = 'glow';
-        } else if (msg.username === 'Futbol+') {
-          colorClass = 'system-name';
-          glow = 'glow';
-        } else if (await isUserMod(msg.username)) {
-          colorClass = 'mod-name';
+        if (msg.is_pinned) {
+          div.style.border = '1px solid gold';
+          div.style.background = '#2a2a00';
         }
 
-        userSpan.className = `${colorClass} ${glow}`;
-        userSpan.textContent = msg.username;
-        userSpan.onclick = () => {
-          messageInput.value += `@${msg.username} `;
-          messageInput.focus();
-        };
-
         div.appendChild(userSpan);
-        div.innerHTML += `: ${msg.text}`;
+        div.innerHTML += `: ${msg.text} <small style="color:#aaa; margin-left:8px;">(${new Date(msg.created_at).toLocaleTimeString()})</small>`;
+
+        if (currentUsername === 'Finest') {
+          const controls = document.createElement('div');
+          controls.style.marginTop = '6px';
+          controls.style.fontSize = '0.85em';
+
+          const pinBtn = document.createElement('button');
+          pinBtn.textContent = msg.is_pinned ? 'Unpin' : 'Pin';
+          pinBtn.style.marginRight = '8px';
+          pinBtn.style.background = 'gold';
+          pinBtn.style.color = 'black';
+          pinBtn.style.border = 'none';
+          pinBtn.style.padding = '4px 8px';
+          pinBtn.style.borderRadius = '4px';
+          pinBtn.style.cursor = 'pointer';
+          pinBtn.onclick = () => {
+            supabaseClient.from('messages').update({ is_pinned: !msg.is_pinned }).eq('id', msg.id);
+          };
+          controls.appendChild(pinBtn);
+
+          const muteBtn = document.createElement('button');
+          muteBtn.textContent = mutedUsers.has(msg.username) ? 'Unmute' : 'Mute';
+          muteBtn.style.marginRight = '8px';
+          muteBtn.style.background = '#ff9800';
+          muteBtn.style.color = 'white';
+          muteBtn.style.border = 'none';
+          muteBtn.style.padding = '4px 8px';
+          muteBtn.style.borderRadius = '4px';
+          muteBtn.style.cursor = 'pointer';
+          muteBtn.onclick = () => {
+            if (mutedUsers.has(msg.username)) {
+              mutedUsers.delete(msg.username);
+              supabaseClient.from('moderation').delete().eq('target_username', msg.username).eq('action', 'mute');
+            } else {
+              mutedUsers.add(msg.username);
+              supabaseClient.from('moderation').insert({ action: 'mute', target_username: msg.username });
+            }
+          };
+          controls.appendChild(muteBtn);
+
+          const banBtn = document.createElement('button');
+          banBtn.textContent = bannedUsers.has(msg.username) ? 'Unban' : 'Ban';
+          banBtn.style.background = '#f44336';
+          banBtn.style.color = 'white';
+          banBtn.style.border = 'none';
+          banBtn.style.padding = '4px 8px';
+          banBtn.style.borderRadius = '4px';
+          banBtn.style.cursor = 'pointer';
+          banBtn.onclick = () => {
+            if (bannedUsers.has(msg.username)) {
+              bannedUsers.delete(msg.username);
+              supabaseClient.from('moderation').delete().eq('target_username', msg.username).eq('action', 'ban');
+            } else {
+              bannedUsers.add(msg.username);
+              supabaseClient.from('moderation').insert({ action: 'ban', target_username: msg.username });
+            }
+          };
+          controls.appendChild(banBtn);
+
+          div.appendChild(controls);
+        }
 
         messagesDiv.appendChild(div);
+        twemoji.parse(div);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
       }
 
@@ -851,69 +897,118 @@
         const username = usernameInput.value.trim();
         if (!username) return alert('Enter username');
 
-        // Check if username exists
-        const { data: existing } = await supabaseClient.from('users').select('username').eq('username', username);
-        if (existing && existing.length > 0) {
-          alert('Username already used - try another');
-          return;
-        }
-
-        // Register user with persistent color
-        let color = nameColors[Math.floor(Math.random() * nameColors.length)];
-        await supabaseClient.from('users').insert({ username, color });
-
         currentUsername = username;
         localStorage.setItem('chatUsername', username);
-        joinSection.style.display = 'none';
-        inputSection.style.display = 'flex';
 
-        // Welcome + rules
-        await addMessage({ username: 'Futbol+', text: `Welcome, ${username}! Be respectful, no spam.` });
-        await addMessage({ username: 'Futbol+', text: 'Be respectful - don\'t spam - enjoy the stream' });
+        try {
+          await channel.track({ online: true, username });
+          joinSection.style.display = 'none';
+          inputSection.style.display = 'flex';
 
-        await loadMessages();
+          // Welcome message
+          const welcome = document.createElement('div');
+          welcome.style.color = '#4caf50';
+          welcome.style.padding = '10px';
+          welcome.style.margin = '10px 0';
+          welcome.textContent = `Welcome to the chat, ${username}!`;
+          messagesDiv.appendChild(welcome);
+          messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+          await loadMessages();
+          await loadModeration();
+          console.log('Joined as:', username);
+        } catch (err) {
+          console.error('Join error:', err.message);
+          alert('Join failed - see console');
+        }
       });
 
-      // Send
+      // Send - local render + Supabase save
       sendBtn.addEventListener('click', async () => {
         const text = messageInput.value.trim();
         if (!text || !currentUsername) return alert('Join first or type message');
 
-        const color = await getUserColor(currentUsername);
-        await supabaseClient.from('messages').insert({ username: currentUsername, color, text });
-        messageInput.value = '';
+        if (mutedUsers.has(currentUsername) || bannedUsers.has(currentUsername)) {
+          alert('You are muted or banned');
+          return;
+        }
+
+        const color = nameColors[Math.floor(Math.random() * nameColors.length)];
+
+        // Local render (instant feedback)
+        const localMsg = {
+          username: currentUsername,
+          color,
+          text,
+          created_at: new Date().toISOString(),
+          is_pinned: false
+        };
+        addMessage(localMsg);
+
+        // Save to Supabase
+        try {
+          const { error } = await supabaseClient.from('messages').insert({
+            username: currentUsername,
+            color,
+            text
+          });
+          if (error) throw error;
+          messageInput.value = '';
+          console.log('Message sent and saved');
+        } catch (err) {
+          console.error('Send error:', err.message);
+          alert('Message sent locally but failed to save - ' + err.message);
+        }
       });
 
       // Enter key
-      messageInput.addEventListener('keypress', e => {
+      messageInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
           sendBtn.click();
         }
       });
 
-      // Emoji
+      // Full emoji picker (native browser)
       emojiBtn.addEventListener('click', () => {
-        messageInput.value += '☻';
         messageInput.focus();
+        // Trigger native emoji picker (works on most modern browsers/mobile)
+        if ('getEmojiList' in navigator) {
+          // Future full picker if browser supports
+          navigator.getEmojiList().then(emojis => {
+            // Can build custom picker if needed
+            alert('Browser emoji picker not fully supported yet - type :smile: manually for now');
+          });
+        } else {
+          // Fallback: add popular ones or just focus input
+          messageInput.value += '😀';
+        }
       });
 
-      // Settings visibility
-      if (currentUsername === 'Finest') {
-        settingsBtn.style.display = 'inline-flex';
-      }
-
-      // Realtime sync
+      // Realtime
       supabaseClient.channel('public:messages')
-        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) => {
+          console.log('New message received:', payload.new.text);
           addMessage(payload.new);
         })
-        .subscribe();
+        .on('postgres_changes', { event: ['UPDATE', 'DELETE'], schema: 'public', table: 'messages' }, () => {
+          console.log('Message updated/deleted - reloading');
+          messagesDiv.innerHTML = '';
+          loadMessages();
+        })
+        .subscribe((status) => {
+          console.log('Messages realtime status:', status);
+        });
 
-      // Load initial messages
-      await loadMessages();
+      channel.on('presence', { event: 'sync' }, () => {
+        const count = Object.keys(channel.presenceState()).length;
+        onlineCount.textContent = count;
+        console.log('Real online count:', count);
+      }).subscribe((status) => {
+        console.log('Presence realtime status:', status);
+      });
 
-      console.log('Chat initialized successfully');
+      console.log('Chat fully initialized - join and send messages');
     });
   </script>
 </body>
