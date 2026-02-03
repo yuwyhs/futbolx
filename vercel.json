@@ -44,6 +44,10 @@
       "dest": "/auth/login.html"
     },
     {
+      "src": "/auth/signup",
+      "dest": "/auth/signup.html"
+    },
+    {
       "src": "/live/(.*)",
       "dest": "/live.html"
     },
