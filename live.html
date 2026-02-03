@@ -151,6 +151,16 @@
       border-bottom:2px solid #cc0000;
     }
 
+    #online-count {
+      background: rgba(0,0,0,0.5);
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-weight: bold;
+      min-width: 32px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
     #statusArea {
       text-align: center;
       padding: 30px 15px;
@@ -278,7 +288,10 @@
 
           <!-- Custom Supabase Chat -->
           <div class="chat-wrapper">
-            <div class="chat-header">Live Chat ⚽</div>
+            <div class="chat-header" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 20px;">
+              <span>Futbol+</span>
+              <span id="online-count">0</span>
+            </div>
             <div class="chat-container" style="height: 420px; background: #111; position: relative; overflow: hidden;">
               <div id="chat-widget" style="width: 100%; height: 100%; background: #0f0f0f; overflow: hidden; color: white; font-family: 'Kanit', sans-serif;">
                 <div id="messages" style="height: calc(100% - 100px); overflow-y: auto; padding: 12px;"></div>
@@ -701,7 +714,7 @@
       }, 1000);
 
       // ────────────────────────────────────────────────────────────────
-      // FIXED Supabase Realtime Chat
+      // Supabase Realtime Chat
       // ────────────────────────────────────────────────────────────────
 
       const supabaseClient = supabase.createClient(
@@ -907,7 +920,7 @@
       channel
         .on('presence', { event: 'sync' }, () => {
           const count = Object.keys(channel.presenceState()).length;
-          document.querySelector('.chat-header').textContent = `Live Chat ⚽ Online: ${count}`;
+          document.getElementById('online-count').textContent = count;
         })
         .subscribe((status) => {
           console.log('Presence channel status:', status);
@@ -923,4 +936,4 @@
     });
   </script>
 </body>
-                    </html>
+  </html>
