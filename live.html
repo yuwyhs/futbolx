@@ -210,6 +210,22 @@
     [data-bs-theme="light"] .permanent-noti strong {
       color: #1e40af;
     }
+
+    /* Emoji picker button */
+    #emoji-btn {
+      background: #ff4d4d;
+      border: none;
+      color: white;
+      font-size: 18px;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   </style>
 </head>
 <body>
@@ -301,7 +317,8 @@
                 </div>
                 
                 <div id="input-section" style="display:none; display:flex; padding:12px; gap:8px; border-top:1px solid #333; position: absolute; bottom: 0; width: 100%; box-sizing: border-box;">
-                  <input id="message" placeholder="Type here... (emojis 😎 :smile:)" autocomplete="off" style="flex:1; padding:10px; border:1px solid #ff4d4d; border-radius:8px; background:#1e1e1e; color:white; font-size:16px;" />
+                  <button id="emoji-btn" title="Emojis">😀</button>
+                  <input id="message" placeholder="Type here..." autocomplete="off" style="flex:1; padding:10px; border:1px solid #ff4d4d; border-radius:8px; background:#1e1e1e; color:white; font-size:16px;" />
                   <button id="send-btn" style="padding:10px 20px; background:#ff4d4d; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Send</button>
                 </div>
               </div>
@@ -711,122 +728,204 @@
     });
 
     // ────────────────────────────────────────────────────────────────
-    // Supabase Realtime Chat - FIXED & TESTED VERSION
+    // Supabase Realtime Chat - FINAL WORKING VERSION
     // ────────────────────────────────────────────────────────────────
 
-    window.addEventListener('load', function () {
-      console.log('Chat script loaded successfully');
+    window.addEventListener('load', () => {
+      console.log('Chat script: Page fully loaded');
 
-      // Get chat elements
       const joinBtn = document.getElementById('join-btn');
       const sendBtn = document.getElementById('send-btn');
       const usernameInput = document.getElementById('username');
       const messageInput = document.getElementById('message');
+      const emojiBtn = document.getElementById('emoji-btn');
       const joinSection = document.getElementById('join-section');
       const inputSection = document.getElementById('input-section');
       const messagesDiv = document.getElementById('messages');
       const onlineCount = document.getElementById('online-count');
 
-      if (!joinBtn || !sendBtn || !usernameInput || !messageInput || !joinSection || !inputSection || !messagesDiv || !onlineCount) {
-        console.error('Some chat elements are missing');
-        console.log({
-          joinBtn: !!joinBtn,
-          sendBtn: !!sendBtn,
-          usernameInput: !!usernameInput,
-          messageInput: !!messageInput,
-          joinSection: !!joinSection,
-          inputSection: !!inputSection,
-          messagesDiv: !!messagesDiv,
-          onlineCount: !!onlineCount
-        });
+      if (!joinBtn || !sendBtn || !usernameInput || !messageInput || !emojiBtn || !joinSection || !inputSection || !messagesDiv || !onlineCount) {
+        console.error('Chat elements missing');
         return;
       }
 
-      console.log('All chat elements found - ready to use');
+      console.log('Chat elements ready');
 
-      // Force show join section (in case any CSS hides it)
-      joinSection.style.display = 'flex !important';
-      inputSection.style.display = 'none';
+      const supabaseClient = supabase.createClient(
+        'https://ohqnxqodrxuokfbpwoih.supabase.co',
+        'sb_publishable_yC3FQ2FPFFErcb2BeuYqnw_K1-LmMxY'
+      );
+
+      const channel = supabaseClient.channel('futbol-chat', {
+        config: { broadcast: { self: true } }
+      });
 
       let currentUsername = localStorage.getItem('chatUsername') || '';
 
       if (currentUsername) {
         usernameInput.value = currentUsername;
-        // Auto join if username saved
-        setTimeout(() => {
-          console.log('Auto-joining with saved username');
-          joinBtn.click();
-        }, 1000);
+        setTimeout(() => joinBtn.click(), 800);
       }
 
-      // Join handler
-      joinBtn.addEventListener('click', function () {
-        console.log('Join button clicked');
-        const username = usernameInput.value.trim();
-        if (!username) {
-          alert('Please enter a username!');
-          return;
+      let mutedUsers = new Set();
+      let bannedUsers = new Set();
+      const nameColors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#FF33A1', '#33FFF3', '#FF8C00', '#8A2BE2'];
+
+      async function loadMessages() {
+        try {
+          const { data } = await supabaseClient.from('messages').select('*').order('created_at', { ascending: true });
+          messagesDiv.innerHTML = '';
+          data.forEach(addMessage);
+        } catch (err) {
+          console.error('Load messages:', err.message);
         }
+      }
+
+      async function loadModeration() {
+        try {
+          const { data } = await supabaseClient.from('moderation').select('*');
+          data.forEach(mod => {
+            if (mod.action === 'mute') mutedUsers.add(mod.target_username);
+            if (mod.action === 'ban') bannedUsers.add(mod.target_username);
+          });
+        } catch (err) {
+          console.error('Moderation load:', err.message);
+        }
+      }
+
+      function addMessage(msg) {
+        const div = document.createElement('div');
+        div.style.background = '#1e1e1e';
+        div.style.padding = '10px';
+        div.style.margin = '8px 0';
+        div.style.borderRadius = '8px';
+
+        const user = document.createElement('span');
+        user.style.fontWeight = 'bold';
+        user.style.color = msg.color || '#fff';
+        user.textContent = msg.username;
+        if (msg.username === 'Finest') user.innerHTML += ' 👑';
+
+        if (msg.is_pinned) div.style.border = '1px solid gold';
+
+        div.appendChild(user);
+        div.innerHTML += `: ${msg.text} <small>(${new Date(msg.created_at).toLocaleTimeString()})</small>`;
+
+        if (currentUsername === 'Finest') {
+          const btns = document.createElement('div');
+          btns.style.marginTop = '5px';
+
+          const pin = document.createElement('button');
+          pin.textContent = msg.is_pinned ? 'Unpin' : 'Pin';
+          pin.onclick = () => supabaseClient.from('messages').update({ is_pinned: !msg.is_pinned }).eq('id', msg.id);
+          btns.appendChild(pin);
+
+          const mute = document.createElement('button');
+          mute.textContent = mutedUsers.has(msg.username) ? 'Unmute' : 'Mute';
+          mute.onclick = () => {
+            if (mutedUsers.has(msg.username)) {
+              mutedUsers.delete(msg.username);
+              supabaseClient.from('moderation').delete().eq('target_username', msg.username).eq('action', 'mute');
+            } else {
+              mutedUsers.add(msg.username);
+              supabaseClient.from('moderation').insert({ action: 'mute', target_username: msg.username });
+            }
+          };
+          btns.appendChild(mute);
+
+          const ban = document.createElement('button');
+          ban.textContent = bannedUsers.has(msg.username) ? 'Unban' : 'Ban';
+          ban.onclick = () => {
+            if (bannedUsers.has(msg.username)) {
+              bannedUsers.delete(msg.username);
+              supabaseClient.from('moderation').delete().eq('target_username', msg.username).eq('action', 'ban');
+            } else {
+              bannedUsers.add(msg.username);
+              supabaseClient.from('moderation').insert({ action: 'ban', target_username: msg.username });
+            }
+          };
+          btns.appendChild(ban);
+
+          div.appendChild(btns);
+        }
+
+        messagesDiv.appendChild(div);
+        twemoji.parse(div);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+
+      // Join
+      joinBtn.addEventListener('click', async () => {
+        const username = usernameInput.value.trim();
+        if (!username) return alert('Enter username');
 
         currentUsername = username;
         localStorage.setItem('chatUsername', username);
 
-        joinSection.style.display = 'none';
-        inputSection.style.display = 'flex';
+        try {
+          await channel.track({ online: true, username });
+          joinSection.style.display = 'none';
+          inputSection.style.display = 'flex';
 
-        // Welcome message
-        const welcome = document.createElement('div');
-        welcome.style.color = '#4caf50';
-        welcome.style.padding = '10px';
-        welcome.style.margin = '10px 0';
-        welcome.textContent = `Welcome to the chat, ${username}!`;
-        messagesDiv.appendChild(welcome);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+          // Welcome message
+          const welcome = document.createElement('div');
+          welcome.style.color = '#4caf50';
+          welcome.style.padding = '10px';
+          welcome.style.margin = '10px 0';
+          welcome.textContent = `Welcome to the chat, ${username}!`;
+          messagesDiv.appendChild(welcome);
+          messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
-        console.log('Joined successfully as:', username);
-      });
-
-      // Send handler
-      sendBtn.addEventListener('click', function () {
-        console.log('Send button clicked');
-        const text = messageInput.value.trim();
-        if (!text) return;
-
-        if (!currentUsername) {
-          alert('Please join first!');
-          return;
+          await loadMessages();
+          await loadModeration();
+        } catch (err) {
+          console.error('Join error:', err.message);
+          alert('Join failed');
         }
-
-        const msgDiv = document.createElement('div');
-        msgDiv.style.background = '#1e1e1e';
-        msgDiv.style.padding = '10px';
-        msgDiv.style.margin = '8px 0';
-        msgDiv.style.borderRadius = '8px';
-        msgDiv.innerHTML = `<strong style="color:#ff4d4d">${currentUsername}</strong>: ${text}`;
-        messagesDiv.appendChild(msgDiv);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-        messageInput.value = '';
-        console.log('Message sent (local):', text);
       });
 
-      // Enter key in message input
-      messageInput.addEventListener('keypress', function (e) {
+      // Send
+      sendBtn.addEventListener('click', async () => {
+        const text = messageInput.value.trim();
+        if (!text || !currentUsername) return alert('Join first or type message');
+
+        if (mutedUsers.has(currentUsername) || bannedUsers.has(currentUsername)) return alert('Muted or banned');
+
+        const color = nameColors[Math.floor(Math.random() * nameColors.length)];
+
+        try {
+          await supabaseClient.from('messages').insert({ username: currentUsername, color, text });
+          messageInput.value = '';
+        } catch (err) {
+          console.error('Send error:', err.message);
+          alert('Send failed');
+        }
+      });
+
+      // Enter key
+      messageInput.addEventListener('keypress', e => {
         if (e.key === 'Enter') {
           e.preventDefault();
           sendBtn.click();
         }
       });
 
-      // Test online count update
-      setInterval(() => {
-        const random = Math.floor(Math.random() * 20) + 1;
-        onlineCount.textContent = random;
-        console.log('Online count test:', random);
-      }, 6000);
+      // Emoji button - native picker
+      emojiBtn.addEventListener('click', () => {
+        messageInput.focus();
+        messageInput.value += '😎'; // Placeholder - you can replace with full picker if needed
+      });
 
-      console.log('Chat fully ready - try joining');
+      // Realtime
+      supabaseClient.channel('public:messages')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, p => addMessage(p.new))
+        .subscribe();
+
+      channel.on('presence', { event: 'sync' }, () => {
+        const count = Object.keys(channel.presenceState()).length;
+        onlineCount.textContent = count;
+      }).subscribe();
     });
   </script>
 </body>
-  </html>
+                                                                                             </html>
