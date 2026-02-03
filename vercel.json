@@ -6,6 +6,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "auth/*.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "assets/**",
       "use": "@vercel/static"
     },
@@ -34,6 +38,10 @@
     {
       "src": "/api/stream-24-7",
       "dest": "/api/stream-24-7.json"
+    },
+    {
+      "src": "/auth/login",
+      "dest": "/auth/login.html"
     },
     {
       "src": "/live/(.*)",
