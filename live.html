@@ -24,7 +24,6 @@
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
-    body { margin: 0; padding: 0; font-family: 'Kanit', sans-serif; }
     .tip-container {max-width:600px;margin:20px auto;transition:height .3s;overflow:hidden;}
     .alert-info {text-align:center;position:relative;padding-right:50px;}
     #countdownTimer {position:absolute;top:8px;right:10px;font-weight:bold;color:#ff4d4d;}
@@ -77,6 +76,33 @@
       box-shadow: 0 0 8px rgba(255,77,77,0.5);
     }
 
+    /* Hide volume slider, keep only speaker icon */
+    #oplayer-container .plyr__volume input[type="range"] {
+      display: none !important;
+    }
+    #oplayer-container .plyr__volume {
+      width: auto !important;
+      min-width: 40px !important;
+    }
+
+    /* Hide settings if no captions or quality */
+    #oplayer-container .plyr__control--settings:empty,
+    #oplayer-container .plyr__menu-wrapper:empty + .plyr__control--settings {
+      display: none !important;
+    }
+
+    #oplayer-container video {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+    }
+
+    #oplayer-container .plyr__controls {
+      padding: 0 12px 12px;
+      margin: 0;
+      bottom: 0;
+    }
+
     .live-title {
       text-align: center;
       background: linear-gradient(135deg, #1a1a1a, #2d0000);
@@ -104,6 +130,40 @@
       0% { opacity: 1; }
       50% { opacity: 0.4; }
       100% { opacity: 1; }
+    }
+
+    .chat-wrapper {
+      max-width:600px;
+      margin:30px auto;
+      background:#1a1a1a;
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid #333;
+      box-shadow:0 10px 30px rgba(0,0,0,0.6);
+    }
+    .chat-header {
+      background:#ff4d4d;
+      color:white;
+      padding:12px 20px;
+      font-weight:bold;
+      font-size:1.2rem;
+      border-bottom:2px solid #cc0000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #online-count {
+      background: rgba(0,0,0,0.6);
+      padding: 6px 14px;
+      border-radius: 50%;
+      font-weight: bold;
+      min-width: 36px;
+      height: 36px;
+      line-height: 36px;
+      text-align: center;
+      font-size: 1.2rem;
+      color: white;
     }
 
     #statusArea {
@@ -157,29 +217,16 @@
       color: #1e40af;
     }
 
-    #online-count {
-      background: rgba(0,0,0,0.6);
-      padding: 6px 14px;
-      border-radius: 50%;
-      font-weight: bold;
-      min-width: 32px;
-      height: 32px;
-      line-height: 32px;
-      text-align: center;
-      font-size: 1.1rem;
-      color: white;
+    .chat-container {
+      height: 420px;
+      background: #111;
+      position: relative;
+      overflow: hidden;
     }
-
-    .chat-header {
-      background: #ff4d4d;
-      color: white;
-      padding: 12px 20px;
-      font-weight: bold;
-      font-size: 1.3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #cc0000;
+    .chat-container script {
+      width: 100% !important;
+      height: 100% !important;
+      border: none;
     }
   </style>
 </head>
@@ -256,10 +303,22 @@
 
           <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
-          <!-- Real-time Viewers Header (no chat) -->
-          <div class="chat-header" style="margin-top: 1.5rem;">
-            <span>Live Viewers</span>
-            <span id="online-count">0</span>
+          <!-- Real-time Viewers Counter (per event) -->
+          <div class="chat-wrapper" style="margin-top: 1.5rem;">
+            <div class="chat-header">
+              <span>Live Viewers</span>
+              <span id="online-count">0</span>
+            </div>
+          </div>
+
+          <!-- Chatango Widget -->
+          <div class="chat-wrapper" style="margin-top: 1.5rem;">
+            <div class="chat-header">Live Chat</div>
+            <div class="chat-container">
+              <script id="cid0020000430640675904" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%; height: 100%;">
+                {"handle":"futbolxc","arch":"js","styles":{"a":"000000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"000000","l":"000000","m":"000000","n":"FFFFFF","p":"10","q":"000000","r":100,"t":0,"usricon":0.86,"surl":0,"allowpm":0,"cnrs":"0.76"}}
+              </script>
+            </div>
           </div>
 
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
@@ -283,7 +342,7 @@
   <script src="/assets/js/api.js"></script>
   <script src="/assets/js/auth.js"></script>
 
-  <!-- Supabase only for viewers (no chat tables needed) -->
+  <!-- Supabase only for viewers count (no chat tables needed) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
@@ -347,8 +406,6 @@
     }
 
     async function playStream(url) {
-      // ... (your existing playStream function remains unchanged)
-      // I kept it exactly as it was since it's not related to the issue
       if (player) {
         if (player.destroy) player.destroy();
         player = null;
@@ -376,6 +433,15 @@
 
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
             video.play().catch(err => console.log('Autoplay blocked:', err));
+            setTimeout(() => {
+              if (player) player.update();
+
+              const hasQuality = hls.levels && hls.levels.length > 1;
+              const hasCaptions = player.captions && player.captions.length > 0;
+              if (!hasQuality && !hasCaptions) {
+                document.querySelector('.plyr__control--settings')?.style.setAttribute('style', 'display:none !important');
+              }
+            }, 800);
           });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
           video.src = url;
@@ -388,34 +454,50 @@
           autoplay: true,
           muted: true,
           volume: 1,
-          controls: ['play-large', 'play', 'mute', 'captions', 'settings', 'pip', 'fullscreen'],
+          controls: [
+            'play-large', 'play', 'mute', 'captions', 'settings', 'pip', 'fullscreen'
+          ],
           settings: ['captions', 'quality'],
           quality: { default: 'auto', options: ['auto', 1080, 720, 480, 360] },
           captions: { active: true },
+          tooltips: { controls: true, seek: true },
           hideControls: true,
           invertTime: false
         });
 
         player.on('error', (event) => {
           console.error('Plyr error:', event.detail);
+          document.getElementById('errorContainer').classList.remove('d-none');
+          document.getElementById('errorContainer').innerHTML = 'Stream failed – try another source or VPN';
         });
 
         player.on('playing', () => {
           clearError();
           document.getElementById('fullscreenBtn').classList.remove('d-none');
         });
+        player.on('waiting', () => console.log('Buffering...'));
+
+        setTimeout(() => {
+          const pipBtn = document.querySelector('.plyr__control--pip');
+          if (pipBtn) pipBtn.setAttribute('title', 'Picture-in-Picture (tap to float video)');
+        }, 1000);
 
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
         document.getElementById('fullscreenBtn').classList.add('d-none');
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
-        iframe.src = url + (url.includes('?') ? '&' : '?') + 'autoplay=1';
+        try {
+          const u = new URL(url);
+          u.searchParams.set('autoplay', '1');
+          iframe.src = u.toString();
+        } catch {
+          iframe.src = url;
+        }
       }
     }
 
     function populateStreamButtons(event) {
-      // ... (your existing function - unchanged)
       const container = document.getElementById('streamLinks');
       container.innerHTML = event.streams.map((s, i) => {
         const realUrl = typeof s === 'string' ? s : s.url;
@@ -510,7 +592,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
-      console.log('Main DOMContentLoaded running');
       const uriName = window.location.pathname.split('/').pop();
       const titleEl = document.getElementById('eventTitle');
       const startBtn = document.getElementById('startLivestream');
@@ -637,24 +718,29 @@
     });
 
     // ────────────────────────────────────────────────────────────────
-    // Real-time Viewers Count - PER EVENT (based on current URL)
+    // Real-time Viewers Count PER EVENT (using current URL)
     // ────────────────────────────────────────────────────────────────
 
     window.addEventListener('load', () => {
-      console.log('Viewers count initializing');
+      console.log('Viewers counter initializing');
 
       const supabase = supabase.createClient(
         'https://ohqnxqodrxuokfbpwoih.supabase.co',
         'sb_publishable_yC3FQ2FPFFErcb2BeuYqnw_K1-LmMxY'
       );
 
-      // Create unique channel name per event/page
-      const eventPath = window.location.pathname.replace(/^\/live\//, '').replace(/\/$/, '') || 'default';
-      const channelName = `live-viewers:${eventPath}`;
-      console.log('Using viewers channel:', channelName);
+      // Unique channel name based on current event URL
+      const eventSlug = window.location.pathname
+        .replace(/^\/live\//, '')
+        .replace(/\/$/, '')
+        .replace(/\//g, '-') 
+        || 'default-event';
+
+      const channelName = `viewers:${eventSlug}`;
+      console.log('Tracking viewers for event:', eventSlug);
 
       const viewersChannel = supabase.channel(channelName, {
-        config: { broadcast: { self: true }, presence: { key: 'anonymous' } }
+        config: { broadcast: { self: true } }
       });
 
       const onlineCount = document.getElementById('online-count');
@@ -664,32 +750,24 @@
           const presenceState = viewersChannel.presenceState();
           const count = Object.keys(presenceState).length;
           onlineCount.textContent = count;
-          console.log('Viewers updated:', count);
-        })
-        .on('presence', { event: 'join' }, ({ newPresences }) => {
-          console.log('Someone joined:', newPresences);
-        })
-        .on('presence', { event: 'leave' }, ({ leftPresences }) => {
-          console.log('Someone left:', leftPresences);
+          console.log('Viewers count updated:', count);
         })
         .subscribe(async (status) => {
           if (status === 'SUBSCRIBED') {
-            console.log('Viewers presence subscribed');
-            // Join presence (anonymous user)
-            await viewersChannel.track({ online: true, joined: Date.now() });
+            console.log('Viewers presence connected');
+            // Track this viewer
+            await viewersChannel.track({ online: true, page: eventSlug });
           }
           if (status === 'CLOSED' || status === 'CHANNEL_ERROR') {
-            console.warn('Viewers channel issue:', status);
+            console.warn('Viewers channel closed:', status);
           }
         });
 
-      // Leave presence when tab/window closes
+      // Clean up when leaving page
       window.addEventListener('beforeunload', () => {
         viewersChannel.untrack();
       });
-
-      console.log('Viewers tracking active for event:', eventPath);
     });
   </script>
 </body>
-                               </html>
+  </html>
