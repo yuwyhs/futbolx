@@ -151,55 +151,13 @@
     }
 
     #online-count {
-      background: rgba(0,0,0,0.6);
-      padding: 3px 9px;
-      border-radius: 50%;
+      background: rgba(0,0,0,0.5);
+      padding: 4px 12px;
+      border-radius: 16px;
       font-weight: bold;
-      min-width: 24px;
-      height: 24px;
-      line-height: 24px;
+      min-width: 32px;
       text-align: center;
-      font-size: 0.95rem;
-    }
-
-    #input-section {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    #emoji-btn {
-      align-self: flex-end;
-      background: #ff4d4d;
-      border: none;
-      color: white;
-      font-size: 20px;
-      padding: 8px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    #send-btn {
-      align-self: flex-end;
-      padding: 10px 20px;
-      background:#ff4d4d;
-      color:white;
-      border:none;
-      border-radius:8px;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    #settings-btn {
-      background: gold;
-      color: black;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      margin-left: 8px;
-      display: none;
+      font-size: 1.1rem;
     }
 
     #statusArea {
@@ -253,26 +211,64 @@
       color: #1e40af;
     }
 
-    .profile-menu {
-      background: #2a2a2a;
-      padding: 8px;
-      border-radius: 8px;
-      margin-top: 6px;
-      display: none;
-      position: absolute;
-      z-index: 10;
+    #input-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
     }
 
-    .profile-menu button {
-      display: block;
-      width: 100%;
-      margin: 4px 0;
-      padding: 6px;
-      background: #444;
-      color: white;
+    #message {
+      flex: 1 1 60%;
+      min-width: 0; /* Fit box */
+    }
+
+    #emoji-btn, #send-btn, #settings-btn {
+      flex: 0 0 auto;
+    }
+
+    #emoji-btn {
+      background: #ff4d4d;
       border: none;
-      border-radius: 4px;
+      color: white;
+      font-size: 18px;
+      padding: 8px 12px;
+      border-radius: 8px;
       cursor: pointer;
+    }
+
+    #send-btn {
+      background: #ff4d4d;
+      border: none;
+      color: white;
+      font-size: 18px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #settings-btn {
+      background: gold;
+      color: black;
+      border: none;
+      font-size: 18px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .user-icon {
+      font-size: 16px; /* Smaller badges */
+      margin-right: 4px;
+    }
+
+    .message {
+      position: relative;
+    }
+
+    .message:hover .profile-menu {
+      display: block;
     }
   </style>
 </head>
@@ -366,10 +362,12 @@
                 
                 <div id="input-section" style="display:none; padding:12px; border-top:1px solid #333; position: absolute; bottom: 0; width: 100%; box-sizing: border-box;">
                   <div style="display: flex; gap: 8px; align-items: center;">
+                    <button id="settings-btn" title="Settings">⚙️</button>
                     <input id="message" placeholder="Type here..." autocomplete="off" style="flex:1; padding:10px; border:1px solid #ff4d4d; border-radius:8px; background:#1e1e1e; color:white; font-size:16px;" />
-                    <button id="emoji-btn" style="padding:10px 14px; background:#ff4d4d; color:white; border:none; border-radius:8px; cursor:pointer; font-size:20px;">😀</button>
-                    <button id="send-btn" style="padding:10px 20px; background:#ff4d4d; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Send</button>
-                    <button id="settings-btn" style="display:none; padding:10px 16px; background:gold; color:black; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Settings</button>
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                      <button id="emoji-btn" title="Emoji">🙂</button>
+                      <button id="send-btn" title="Send">✈️</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -779,7 +777,7 @@
     });
 
     // ────────────────────────────────────────────────────────────────
-    // Supabase Realtime Chat - FIXED SYNC + SMALL BADGE + MOD CONTROLS
+    // Supabase Realtime Chat - FIXED WITH SMALL BADGES, SYNC, TAGGING, MOBILE FIT
     // ────────────────────────────────────────────────────────────────
 
     window.addEventListener('load', () => {
@@ -859,7 +857,7 @@
       async function checkUserRole() {
         isOwner = currentUsername === 'Finest';
         isMod = await isUserMod(currentUsername);
-        if (isOwner || isMod) {
+        if (isOwner) {
           settingsBtn.style.display = 'inline-block';
         } else {
           settingsBtn.style.display = 'none';
@@ -880,23 +878,30 @@
         const userSpan = document.createElement('span');
         userSpan.style.fontWeight = 'bold';
         userSpan.style.color = msg.color || '#FFFFFF';
-        userSpan.textContent = msg.username;
-        if (msg.username === 'Futbol+') userSpan.innerHTML += ' 🤖';
-        if (msg.username === 'Finest') userSpan.innerHTML += ' 👑';
+        userSpan.style.cursor = 'pointer';
+
+        let icon = '';
+        if (msg.username === 'Futbol+') icon = '<span class="user-icon">🤖</span>';
+        if (msg.username === 'Finest') icon = '<span class="user-icon">👑</span>';
+        userSpan.innerHTML = icon + msg.username;
+        userSpan.onclick = () => {
+          messageInput.value += `@${msg.username} `;
+          messageInput.focus();
+        };
 
         div.appendChild(userSpan);
         div.innerHTML += `: ${msg.text} <small style="color:#aaa; margin-left:8px;">(${new Date(msg.created_at).toLocaleTimeString()})</small>`;
 
         if (isOwner || isMod) {
           div.style.cursor = 'pointer';
-          div.addEventListener('click', () => {
+          div.addEventListener('click', (e) => {
+            if (e.target === userSpan) return; // Don't open menu on name click (that's for tagging)
             let menu = div.querySelector('.profile-menu');
             if (menu) {
               menu.remove();
             } else {
               menu = document.createElement('div');
               menu.className = 'profile-menu';
-              menu.style.display = 'block';
 
               if (isOwner || isMod) {
                 const muteBtn = document.createElement('button');
@@ -987,11 +992,11 @@
           await loadMessages();
           await loadModeration();
           await channel.track({ online: true, username });
-
-          // Only owner/mods see join notification
-          if (isOwner || isMod) {
-            addMessage({ username: 'Futbol+', text: `${username} joined the chat`, created_at: new Date().toISOString(), color: '#aaa' });
-          }
+          channel.send({
+            type: 'broadcast',
+            event: 'user_joined',
+            payload: { username }
+          });
         } else {
           alert('Username already used - try another');
         }
@@ -1006,7 +1011,6 @@
         const { data } = await supabaseClient.from('users').select('color').eq('username', currentUsername).single();
         const color = data ? data.color : nameColors[Math.floor(Math.random() * nameColors.length)];
 
-        // Local render for instant feedback
         const localMsg = {
           username: currentUsername,
           color,
@@ -1016,7 +1020,6 @@
         };
         addMessage(localMsg);
 
-        // Save to Supabase
         try {
           const { error } = await supabaseClient.from('messages').insert({
             username: currentUsername,
@@ -1041,8 +1044,7 @@
 
       emojiBtn.addEventListener('click', () => {
         messageInput.focus();
-        // Trigger native emoji picker if supported, fallback to adding one
-        messageInput.value += '😀';
+        messageInput.value += '🙂';
       });
 
       settingsBtn.addEventListener('click', () => {
@@ -1052,11 +1054,23 @@
       channel.on('presence', { event: 'sync' }, () => {
         const count = Object.keys(channel.presenceState()).length;
         onlineCount.textContent = count;
+      }).on('presence', { event: 'join' }, ({ newPresences }) => {
+        if (isOwner || isMod) {
+          newPresences.forEach(p => {
+            addMessage({ username: 'Futbol+', text: `${p.username} joined the chat`, created_at: new Date().toISOString(), color: '#aaa' });
+          });
+        }
       }).subscribe();
+
+      channel.on('broadcast', { event: 'user_joined' }, ({ payload }) => {
+        if (isOwner || isMod) {
+          addMessage({ username: 'Futbol+', text: `${payload.username} joined the chat`, created_at: new Date().toISOString(), color: '#aaa' });
+        }
+      });
 
       supabaseClient.channel('public:messages')
         .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) => {
-          console.log('New message from Supabase:', payload.new.text);
+          console.log('New message received:', payload.new.text);
           addMessage(payload.new);
         })
         .on('postgres_changes', { event: ['UPDATE', 'DELETE'], schema: 'public', table: 'messages' }, () => {
@@ -1075,4 +1089,4 @@
     });
   </script>
 </body>
-          </html>
+</html>
