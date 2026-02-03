@@ -151,13 +151,15 @@
     }
 
     #online-count {
-      background: rgba(0,0,0,0.5);
-      padding: 4px 10px;
+      background: rgba(0,0,0,0.6);
+      padding: 3px 9px;
       border-radius: 50%;
       font-weight: bold;
-      min-width: 28px;
+      min-width: 24px;
+      height: 24px;
+      line-height: 24px;
       text-align: center;
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
 
     #input-section {
@@ -171,10 +173,21 @@
       background: #ff4d4d;
       border: none;
       color: white;
-      font-size: 22px;
-      padding: 8px 14px;
+      font-size: 20px;
+      padding: 8px 12px;
       border-radius: 8px;
       cursor: pointer;
+    }
+
+    #send-btn {
+      align-self: flex-end;
+      padding: 10px 20px;
+      background:#ff4d4d;
+      color:white;
+      border:none;
+      border-radius:8px;
+      font-weight:bold;
+      cursor:pointer;
     }
 
     #settings-btn {
@@ -186,7 +199,7 @@
       cursor: pointer;
       font-weight: bold;
       margin-left: 8px;
-      display: none; /* hidden until owner/mod */
+      display: none;
     }
 
     #statusArea {
@@ -766,7 +779,7 @@
     });
 
     // ────────────────────────────────────────────────────────────────
-    // Supabase Realtime Chat - FINAL VERSION WITH ALL YOUR FEATURES
+    // Supabase Realtime Chat - FIXED SYNC + SMALL BADGE + MOD CONTROLS
     // ────────────────────────────────────────────────────────────────
 
     window.addEventListener('load', () => {
@@ -814,23 +827,27 @@
 
       async function loadMessages() {
         try {
-          const { data } = await supabaseClient.from('messages').select('*').order('created_at', { ascending: true });
+          const { data, error } = await supabaseClient.from('messages').select('*').order('created_at', { ascending: true });
+          if (error) throw error;
           messagesDiv.innerHTML = '';
           data.forEach(addMessage);
+          console.log('Loaded', data.length, 'messages');
         } catch (err) {
-          console.error('Load messages:', err.message);
+          console.error('Load messages failed:', err.message);
         }
       }
 
       async function loadModeration() {
         try {
-          const { data } = await supabaseClient.from('moderation').select('*');
+          const { data, error } = await supabaseClient.from('moderation').select('*');
+          if (error) throw error;
           data.forEach(mod => {
             if (mod.action === 'mute') mutedUsers.add(mod.target_username);
             if (mod.action === 'ban') bannedUsers.add(mod.target_username);
           });
+          console.log('Moderation loaded');
         } catch (err) {
-          console.error('Moderation load:', err.message);
+          console.error('Moderation load failed:', err.message);
         }
       }
 
@@ -844,10 +861,13 @@
         isMod = await isUserMod(currentUsername);
         if (isOwner || isMod) {
           settingsBtn.style.display = 'inline-block';
+        } else {
+          settingsBtn.style.display = 'none';
         }
       }
 
       function addMessage(msg) {
+        console.log('Adding message:', msg.username, msg.text);
         const div = document.createElement('div');
         div.style.background = '#1e1e1e';
         div.style.padding = '10px 12px';
@@ -855,7 +875,7 @@
         div.style.borderRadius = '10px';
         div.style.wordBreak = 'break-word';
         div.dataset.username = msg.username;
-        div.dataset.id = msg.id;
+        div.dataset.id = msg.id || '';
 
         const userSpan = document.createElement('span');
         userSpan.style.fontWeight = 'bold';
@@ -876,6 +896,7 @@
             } else {
               menu = document.createElement('div');
               menu.className = 'profile-menu';
+              menu.style.display = 'block';
 
               if (isOwner || isMod) {
                 const muteBtn = document.createElement('button');
@@ -967,9 +988,9 @@
           await loadModeration();
           await channel.track({ online: true, username });
 
-          // Guest message (only shown if not joined)
-          if (!currentUsername) {
-            addMessage({ username: 'Futbol+', text: 'Create an account to chat with others!', created_at: new Date().toISOString(), color: '#ff9800' });
+          // Only owner/mods see join notification
+          if (isOwner || isMod) {
+            addMessage({ username: 'Futbol+', text: `${username} joined the chat`, created_at: new Date().toISOString(), color: '#aaa' });
           }
         } else {
           alert('Username already used - try another');
@@ -985,6 +1006,7 @@
         const { data } = await supabaseClient.from('users').select('color').eq('username', currentUsername).single();
         const color = data ? data.color : nameColors[Math.floor(Math.random() * nameColors.length)];
 
+        // Local render for instant feedback
         const localMsg = {
           username: currentUsername,
           color,
@@ -994,11 +1016,19 @@
         };
         addMessage(localMsg);
 
+        // Save to Supabase
         try {
-          await supabaseClient.from('messages').insert({ username: currentUsername, color, text });
+          const { error } = await supabaseClient.from('messages').insert({
+            username: currentUsername,
+            color,
+            text
+          });
+          if (error) throw error;
           messageInput.value = '';
+          console.log('Message sent successfully');
         } catch (err) {
           console.error('Send error:', err.message);
+          alert('Message sent locally but failed to save - check console');
         }
       });
 
@@ -1011,33 +1041,33 @@
 
       emojiBtn.addEventListener('click', () => {
         messageInput.focus();
-        // Native emoji picker (browser opens picker)
-        // Fallback if no picker: add popular emoji
+        // Trigger native emoji picker if supported, fallback to adding one
         messageInput.value += '😀';
       });
 
       settingsBtn.addEventListener('click', () => {
-        // Simple alert for now - expand to full modal later
-        alert('Owner Settings:\n- Delete all messages\n- Add/remove mods\n- Set system message\n- View members list\n(Implement full UI here)');
+        alert('Settings (Owner/Mod):\n- Delete all messages\n- Add/remove mods\n- Set system message\n- View members\n(Expand this later to full modal)');
       });
 
       channel.on('presence', { event: 'sync' }, () => {
         const count = Object.keys(channel.presenceState()).length;
         onlineCount.textContent = count;
-      }).on('presence', { event: 'join' }, ({ newPresences }) => {
-        if (isOwner || isMod) {
-          newPresences.forEach(p => {
-            addMessage({ username: 'Futbol+', text: `${p.username} joined the chat`, created_at: new Date().toISOString(), color: '#aaa' });
-          });
-        }
       }).subscribe();
 
       supabaseClient.channel('public:messages')
-        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, p => addMessage(p.new))
-        .on('postgres_changes', { event: ['UPDATE', 'DELETE'], schema: 'public', table: 'messages' }, () => loadMessages())
-        .subscribe();
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) => {
+          console.log('New message from Supabase:', payload.new.text);
+          addMessage(payload.new);
+        })
+        .on('postgres_changes', { event: ['UPDATE', 'DELETE'], schema: 'public', table: 'messages' }, () => {
+          console.log('Messages changed - reloading');
+          loadMessages();
+        })
+        .subscribe((status) => {
+          console.log('Messages realtime:', status);
+        });
 
-      // Initial load
+      // Initial loads
       loadMessages();
 
       // Initial system message
@@ -1045,4 +1075,4 @@
     });
   </script>
 </body>
-    </html>
+          </html>
