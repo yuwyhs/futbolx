@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FutbolX - Sign Up</title>
+  <meta name="description" content="Create a FutbolX account - Free PPV boxing, UFC, Basketball, Football, and more.">
+
+  <meta name="keywords" content="futbolx, ppv, free ppv, boxing, ufc, basketball, football, stream, online, free">
+  <meta property="og:title" content="FutbolX - Sign Up" />
+  <meta property="og:url" content="https://futbol-x.site/auth/signup" />
+  <meta property="og:image" content="/assets/img/og-image.jpg">
+  <meta name="twitter:title" content="FutbolX - Sign Up">
+  <meta name="twitter:description" content="Create an account to access free PPV streams and more.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
+  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/assets/css/main.css?v=26">
+
+  <style>
+    body {
+      padding-top: 70px; /* space for fixed top bar */
+    }
+
+    .auth-container {
+      max-width: 460px;
+      margin: 2rem auto 4rem;
+      padding: 2.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--bs-border-color);
+      background-color: var(--bs-body-bg);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+    }
+
+    .auth-title {
+      font-size: 2.1rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      color: var(--bs-body-color);
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: var(--bs-body-color);
+    }
+
+    .form-control {
+      background-color: var(--bs-body-bg);
+      color: var(--bs-body-color);
+      border-color: var(--bs-border-color);
+    }
+
+    .form-control:focus {
+      border-color: #ff4d4d;
+      box-shadow: 0 0 0 0.25rem rgba(255, 77, 77, 0.25);
+    }
+
+    .text-muted {
+      color: var(--bs-secondary-color) !important;
+    }
+
+    a.text-danger {
+      color: #ff4d4d !important;
+    }
+
+    a.text-danger:hover {
+      color: #ff3333 !important;
+    }
+
+    .btn-auth {
+      font-size: 1.1rem;
+      padding: 0.8rem;
+      background-color: #dc3545;
+      border-color: #dc3545;
+    }
+
+    .btn-auth:hover {
+      background-color: #c82333;
+      border-color: #bd2130;
+    }
+
+    .invalid-feedback {
+      display: none;
+    }
+
+    .was-validated .form-control:invalid ~ .invalid-feedback,
+    .form-control.is-invalid ~ .invalid-feedback {
+      display: block;
+    }
+
+    [data-bs-theme="light"] .auth-container {
+      background-color: #ffffff;
+      border-color: #dee2e6;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    }
+
+    [data-bs-theme="light"] .form-control {
+      background-color: #ffffff;
+      color: #212529;
+    }
+
+    [data-bs-theme="light"] a.text-muted {
+      color: #6c757d !important;
+    }
+
+    @media (max-width: 576px) {
+      .auth-container {
+        margin: 1.5rem 1rem 3rem;
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <nav class="top-bar fixed-top">
+    <div class="container-fluid">
+      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <span class="futbolx-brand">FutbolX</span>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+    <div class="offcanvas-header">
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/request">Request</a></li>
+        <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
+        <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
+        <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
+        <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
+        <li class="nav-item"><button class="nav-link btn btn-link d-none" id="logoutButton">Logout</button></li>
+        <li class="nav-item">
+          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="container-fluid main-content">
+    <div class="container pt-3 pb-5">
+
+      <div id="errorContainer" class="d-none alert alert-danger mb-4"></div>
+
+      <div class="auth-container">
+        <h2 class="auth-title">Create Account</h2>
+        
+        <form id="signupForm" class="needs-validation" novalidate>
+          <div class="mb-4">
+            <label for="email" class="form-label">Email address</label>
+            <input 
+              type="email" 
+              class="form-control form-control-lg" 
+              id="email" 
+              placeholder="you@example.com" 
+              required 
+              autocomplete="email"
+            >
+            <div class="invalid-feedback">
+              Please enter a valid email address.
+            </div>
+          </div>
+          
+          <div class="mb-4">
+            <label for="password" class="form-label">Password</label>
+            <input 
+              type="password" 
+              class="form-control form-control-lg" 
+              id="password" 
+              required 
+              minlength="6"
+              autocomplete="new-password"
+            >
+            <div class="invalid-feedback">
+              Password must be at least 6 characters long.
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label for="passwordConfirm" class="form-label">Confirm Password</label>
+            <input 
+              type="password" 
+              class="form-control form-control-lg" 
+              id="passwordConfirm" 
+              required 
+              autocomplete="new-password"
+            >
+            <div class="invalid-feedback" id="confirmFeedback">
+              Passwords do not match.
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-danger btn-lg w-100 btn-auth" id="signupButton">Sign Up</button>
+        </form>
+
+        <div class="text-center mt-4">
+          <p class="mb-2">
+            Already have an account? 
+            <a href="/auth/login" class="text-danger">Login here</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-3 border-top mt-5">
+        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
+        <ul class="nav justify-content-center justify-content-lg-end mb-0">
+          <li class="nav-item">
+            <a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+  <!-- Theme toggle + form validation -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Theme toggle
+      const themeToggle = document.getElementById('themeToggle');
+      const htmlElement = document.documentElement;
+      let currentTheme = localStorage.getItem('theme') || 'dark';
+      htmlElement.setAttribute('data-bs-theme', currentTheme);
+      
+      if (themeToggle) {
+        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        themeToggle.addEventListener('click', () => {
+          currentTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+          htmlElement.setAttribute('data-bs-theme', currentTheme);
+          localStorage.setItem('theme', currentTheme);
+          themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        });
+      }
+
+      // Bootstrap form validation + password match
+      const form = document.getElementById('signupForm');
+      const password = document.getElementById('password');
+      const confirm = document.getElementById('passwordConfirm');
+      const confirmFeedback = document.getElementById('confirmFeedback');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Check if passwords match
+        if (password.value !== confirm.value) {
+          confirm.classList.add('is-invalid');
+          confirmFeedback.textContent = "Passwords do not match.";
+          return;
+        } else {
+          confirm.classList.remove('is-invalid');
+        }
+
+        if (!form.checkValidity()) {
+          form.classList.add('was-validated');
+          return;
+        }
+
+        // Placeholder - this will be replaced with Firebase later
+        alert('Signup functionality coming soon (Firebase step next)');
+      });
+
+      // Real-time password match feedback
+      confirm.addEventListener('input', () => {
+        if (confirm.value && password.value !== confirm.value) {
+          confirm.classList.add('is-invalid');
+          confirmFeedback.textContent = "Passwords do not match.";
+        } else {
+          confirm.classList.remove('is-invalid');
+        }
+      });
+    });
+  </script>
+</body>
+              </html>
