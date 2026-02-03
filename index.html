@@ -18,9 +18,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <!-- Firebase SDKs (loaded late to not interfere) -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
 
   <style>
     .error-alert { max-width: 500px; margin: 20px auto; }
@@ -72,9 +72,7 @@
         grid-template-columns: repeat(5, minmax(280px, 1fr));
       }
     }
-    .event-grid a {
-      text-decoration: none;
-    }
+    .event-grid a { text-decoration: none; }
     .card {
       width: 100%;
       max-width: 400px;
@@ -93,26 +91,12 @@
       border-color: #e63939;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
-    .card-img-top {
-      height: 220px;
-      object-fit: cover;
-    }
-    .card-body {
-      padding: 1rem;
-    }
-    .card-title {
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-    }
-    .event-tag {
-      font-size: 0.95rem;
-    }
-    .watch-button {
-      font-size: 0.95rem;
-      padding: 0.5rem 1.2rem;
-    }
+    .card-img-top { height: 220px; object-fit: cover; }
+    .card-body { padding: 1rem; }
+    .card-title { font-size: 1.3rem; margin-bottom: 0.5rem; }
+    .event-tag { font-size: 0.95rem; }
+    .watch-button { font-size: 0.95rem; padding: 0.5rem 1.2rem; }
 
-    /* Fixed Discord Button */
     #discordBtn {
       position: fixed;
       bottom: 20px;
@@ -123,10 +107,7 @@
       pointer-events: auto;
       cursor: pointer;
     }
-    #discordBtn:hover {
-      opacity: 1;
-      transform: scale(1.05);
-    }
+    #discordBtn:hover { opacity: 1; transform: scale(1.05); }
     #discordBtn img {
       width: 48px;
       height: 48px;
@@ -142,9 +123,7 @@
       0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.5); }
       50% { box-shadow: 0 0 18px #5865F2, 0 3px 10px rgba(88,101,242,0.3); }
     }
-    #discordBtn img {
-      animation: glowPulse 2.5s infinite ease-in-out;
-    }
+    #discordBtn img { animation: glowPulse 2.5s infinite ease-in-out; }
   </style>
 </head>
 <body>
@@ -185,12 +164,8 @@
             <i class="fas fa-user-circle me-2"></i>Account
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-            <li>
-              <a class="dropdown-item" href="/auth/login" id="menuLogin">Login</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="/auth/signup" id="menuSignup">Create account</a>
-            </li>
+            <li><a class="dropdown-item" href="/auth/login" id="menuLogin">Login</a></li>
+            <li><a class="dropdown-item" href="/auth/signup" id="menuSignup">Create account</a></li>
             <li>
               <button class="dropdown-item text-danger" id="menuLogout" style="display: none;">
                 <i class="fas fa-sign-out-alt me-2"></i>Logout
@@ -285,74 +260,21 @@
     </div>
   </div>
 
-  <!-- Fixed Discord Button -->
+  <!-- Discord Button -->
   <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener" id="discordBtn">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" 
          alt="Join Discord" width="48" height="48">
   </a>
 
-  <!-- Scripts -->
+  <!-- Core Scripts -->
   <script src="/_vercel/insights/script.js" defer></script>
   <script src="/_vercel/speed-insights/script.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="/assets/js/api.js"></script>
-  <script async src="/assets/js/auth.js"></script>
   <script defer data-domain="futbol-x.site" src="https://p.vidembed.re/js/script.js"></script>
 
-  <!-- Firebase + Sidebar Auth Logic -->
+  <!-- Your original logic – moved BEFORE Firebase to load events first -->
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBulGl-96u38wmkAs_R9FcuQMsBTkLN6ak",
-      authDomain: "futbolx-auth-31bc6.firebaseapp.com",
-      projectId: "futbolx-auth-31bc6",
-      storageBucket: "futbolx-auth-31bc6.firebasestorage.app",
-      messagingSenderId: "262628908181",
-      appId: "1:262628908181:web:c823d458e2e2685ab48f9c"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    // Update sidebar menu based on login state
-    function updateAccountMenu(isLoggedIn) {
-      const menuLogin  = document.getElementById('menuLogin');
-      const menuSignup = document.getElementById('menuSignup');
-      const menuLogout = document.getElementById('menuLogout');
-
-      if (menuLogin && menuSignup && menuLogout) {
-        if (isLoggedIn) {
-          menuLogin.style.display = 'none';
-          menuSignup.style.display = 'none';
-          menuLogout.style.display = 'block';
-        } else {
-          menuLogin.style.display = 'block';
-          menuSignup.style.display = 'block';
-          menuLogout.style.display = 'none';
-        }
-      }
-    }
-
-    // Listen for auth changes
-    auth.onAuthStateChanged((user) => {
-      updateAccountMenu(!!user);
-    });
-
-    // Logout handler
-    document.getElementById('menuLogout')?.addEventListener('click', (e) => {
-      e.preventDefault();
-      auth.signOut()
-        .then(() => {
-          window.location.href = '/';
-        })
-        .catch((error) => {
-          alert('Logout failed: ' + error.message);
-        });
-    });
-
-    // ────────────────────────────────────────────────
-    // YOUR ORIGINAL SCRIPTS BELOW (keep all your existing code)
-    // ────────────────────────────────────────────────
-
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
     
     let lastApiCall = 0;
@@ -411,9 +333,7 @@
           }
         } else if (timer <= 0 && !element.innerHTML.includes('watch-button')) {
           element.innerHTML = `<a href="${uri}" class="btn btn-danger btn-sm watch-button">Watch</a>`;
-          if (cardLink) {
-            cardLink.classList.add('clickable');
-          }
+          if (cardLink) cardLink.classList.add('clickable');
           needsRefresh = true;
         }
       });
@@ -460,8 +380,197 @@
     }
 
     async function loadContent(api) {
-      // ... your full loadContent function remains unchanged ...
-      // Keep everything exactly as you had it
+      console.log('loadContent started');
+      const errorContainer = document.getElementById('errorContainer');
+      const liveAnimation = document.getElementById('liveAnimation');
+      const livecards = document.getElementById('livecards');
+      
+      errorContainer.className = 'd-none error-alert';
+      errorContainer.innerHTML = '';
+      livecards.innerHTML = '<p>Loading streams...</p>';
+
+      const timeout = setTimeout(() => {
+        if (livecards.innerHTML.includes('Loading streams...')) {
+          livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
+          errorContainer.className = 'alert alert-danger error-alert';
+          errorContainer.innerHTML = 'Request timed out. Please try again.';
+          document.getElementById('retryButton')?.addEventListener('click', () => loadContent(api));
+        }
+      }, 15000);
+
+      try {
+        const catListUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream` : `${api.baseUrl}/stream`;
+        const catListRes = await fetchWithRetry(catListUrl);
+        const categoryNames = catListRes.categories || [];
+
+        if (!Array.isArray(categoryNames) || categoryNames.length === 0) {
+          throw new Error("No categories defined in /api/stream");
+        }
+
+        const fetchPromises = categoryNames.map(cat => 
+          fetchWithRetry(`${api.baseUrl}/${cat}.json`)
+            .catch(err => {
+              console.warn(`Failed to load ${cat}.json`, err);
+              return { success: true, streams: [] };
+            })
+        );
+
+        const allCategoryData = await Promise.all(fetchPromises);
+
+        const combined = {
+          success: true,
+          streams: allCategoryData
+            .filter(d => d && d.success && Array.isArray(d.streams))
+            .flatMap(d => d.streams)
+        };
+
+        clearTimeout(timeout);
+
+        if (!combined || !combined.success || !Array.isArray(combined.streams)) {
+          livecards.innerHTML = '<p>No streams available right now.</p>';
+          liveAnimation.classList.add('d-none');
+          return;
+        }
+
+        const categories = {
+          football: { id: 'football', element: document.getElementById('footballcards') },
+          nba: { id: 'nba', element: document.getElementById('nbacards') },
+          fights: { id: 'fights', element: document.getElementById('fightscards') },
+          motorsports: { id: 'motorsports', element: document.getElementById('motorsportscards') },
+          nfl: { id: 'nfl', element: document.getElementById('nflcards') },
+          nhl: { id: 'nhl', element: document.getElementById('nhlcards') },
+          mlb: { id: 'mlb', element: document.getElementById('mlbcards') },
+          icehockey: { id: 'icehockey', element: document.getElementById('icehockeycards') },
+          tennis: { id: 'tennis', element: document.getElementById('tenniscards') },
+          rugby: { id: 'rugby', element: document.getElementById('rugbycards') },
+          golf: { id: 'golf', element: document.getElementById('golfcards') },
+          others: { id: 'others', element: document.getElementById('otherscards') }
+        };
+
+        Object.values(categories).forEach(cat => {
+          if (cat.element) cat.element.innerHTML = '';
+        });
+        Object.keys(categories).forEach(key => {
+          const section = document.getElementById(categories[key].id);
+          if (section) section.classList.add('d-none');
+        });
+        livecards.innerHTML = '';
+
+        let hasLiveEvents = false;
+        const now = Math.floor(Date.now() / 1000);
+        const categoryEvents = {};
+        Object.keys(categories).forEach(key => categoryEvents[key] = []);
+
+        const categoryMap = {
+          'football': 'football',
+          'basketball': 'nba',
+          'fights': 'fights',
+          'motorsports': 'motorsports',
+          'nfl': 'nfl',
+          'nhl': 'nhl',
+          'mlb': 'mlb',
+          'icehockey': 'icehockey',
+          'tennis': 'tennis',
+          'rugby': 'rugby',
+          'golf': 'golf'
+        };
+
+        combined.streams.forEach(category => {
+          if (!category.streams || !Array.isArray(category.streams)) return;
+
+          const normalizedName = category.category.trim().toLowerCase();
+          let categoryKey = categoryMap[normalizedName] || 'others';
+
+          category.streams.forEach(stream => {
+            if (!stream.name || !stream.uri_name || !stream.tag || !stream.starts_at || !stream.streams || !Array.isArray(stream.streams)) {
+              console.warn(`Invalid stream: ${stream.name || 'unknown'}`);
+              return;
+            }
+
+            let startTime, endTime;
+            try {
+              startTime = new Date(stream.starts_at + '+03:00').getTime() / 1000;
+              endTime = stream.ends_at ? new Date(stream.ends_at + '+03:00').getTime() / 1000 : startTime + 3 * 3600;
+            } catch (e) {
+              startTime = now;
+              endTime = now + 3 * 3600;
+            }
+
+            const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
+            const isEnded = now > endTime;
+            if (isEnded) return;
+
+            let liveBadge = isLive ? '<span class="live-badge">LIVE</span>' : '';
+            let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
+
+            let streamHtml = {
+              html: `
+                <a href="/live/${stream.uri_name}">
+                  <div class="card">
+                    ${liveBadge}
+                    <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/285x160?text=Image+Failed';">
+                    <div class="card-body">
+                      <h5 class="card-title">${stream.name}</h5>
+                      <p class="card-text">
+                        <span class="event-tag">${stream.tag}</span>
+                        <span class="event-timer">
+                          ${isLive 
+                            ? `<a href="/live/${stream.uri_name}" class="btn btn-danger btn-sm watch-button">Watch</a>` 
+                            : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </a>`,
+              startTime
+            };
+
+            if (isLive) {
+              livecards.innerHTML += streamHtml.html;
+              hasLiveEvents = true;
+            } else {
+              categoryEvents[categoryKey].push(streamHtml);
+            }
+          });
+        });
+
+        Object.keys(categories).forEach(key => {
+          if (categoryEvents[key].length > 0) {
+            categoryEvents[key].sort((a, b) => a.startTime - b.startTime);
+            categories[key].element.innerHTML = categoryEvents[key].map(item => item.html).join('');
+            document.getElementById(categories[key].id)?.classList.remove('d-none');
+          }
+        });
+
+        if (!hasLiveEvents) {
+          livecards.innerHTML = '<p>No streams are live right now. Check back later!</p>';
+          liveAnimation.classList.add('d-none');
+        } else {
+          liveAnimation.classList.remove('d-none');
+        }
+
+        clearError();
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.card:not(.visible)').forEach(card => observer.observe(card));
+
+      } catch (error) {
+        clearTimeout(timeout);
+        console.error('API error:', error);
+        livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
+        liveAnimation.classList.add('d-none');
+        errorContainer.className = 'alert alert-danger error-alert';
+        errorContainer.innerHTML = `Failed to load streams: ${error.message}. Please try again.`;
+        document.getElementById('retryButton')?.addEventListener('click', () => loadContent(api));
+      }
     }
 
     function initOffcanvas() {
@@ -470,7 +579,7 @@
       if (!offcanvasElement || !toggler) return;
 
       if (typeof bootstrap !== 'undefined') {
-        const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+        new bootstrap.Offcanvas(offcanvasElement);
       }
     }
 
@@ -496,12 +605,57 @@
         loadContent(apiInstance);
       } catch (error) {
         console.error('API init error:', error);
+        document.getElementById('livecards').innerHTML = '<p>Failed to initialize streams. Please refresh.</p>';
       }
 
       countdown();
     }
 
     document.addEventListener('DOMContentLoaded', initPage);
+
+    // Firebase Auth – loaded last so it doesn’t block streams
+    const firebaseConfig = {
+      apiKey: "AIzaSyBulGl-96u38wmkAs_R9FcuQMsBTkLN6ak",
+      authDomain: "futbolx-auth-31bc6.firebaseapp.com",
+      projectId: "futbolx-auth-31bc6",
+      storageBucket: "futbolx-auth-31bc6.firebasestorage.app",
+      messagingSenderId: "262628908181",
+      appId: "1:262628908181:web:c823d458e2e2685ab48f9c"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function updateAccountMenu(isLoggedIn) {
+      const menuLogin  = document.getElementById('menuLogin');
+      const menuSignup = document.getElementById('menuSignup');
+      const menuLogout = document.getElementById('menuLogout');
+
+      if (menuLogin && menuSignup && menuLogout) {
+        if (isLoggedIn) {
+          menuLogin.style.display = 'none';
+          menuSignup.style.display = 'none';
+          menuLogout.style.display = 'block';
+        } else {
+          menuLogin.style.display = 'block';
+          menuSignup.style.display = 'block';
+          menuLogout.style.display = 'none';
+        }
+      }
+    }
+
+    auth.onAuthStateChanged((user) => {
+      updateAccountMenu(!!user);
+    });
+
+    document.getElementById('menuLogout')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      auth.signOut().then(() => {
+        window.location.href = '/';
+      }).catch((error) => {
+        console.error('Logout error:', error);
+      });
+    });
   </script>
 </body>
-    </html>
+                                                                              </html>
