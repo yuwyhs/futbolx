@@ -160,74 +160,30 @@
       font-size: 1.1rem;
     }
 
-    #statusArea {
-      text-align: center;
-      padding: 30px 15px;
-      background: rgba(30,30,30,0.7);
-      border-radius: 12px;
-      margin: 25px auto;
-      max-width: 720px;
-    }
-    #eventTitle {
-      font-size: 2.4rem;
-      margin-bottom: 1rem;
-      color: #ff4d4d;
-    }
-    .countdown-display {
-      font-size: 4rem;
-      font-weight: bold;
-      color: #ff4d4d;
-      letter-spacing: 5px;
-      margin: 20px 0;
-      text-shadow: 0 0 20px rgba(255,77,77,0.5);
-    }
-    .status-message {
-      font-size: 1.4rem;
-      color: #ddd;
-    }
-    .status-live { color: #4caf50 !important; }
-    .status-ended { color: #888 !important; }
-
-    .permanent-noti {
-      margin-top: 12px;
-      background: linear-gradient(135deg, #1e3a5f, #2a4a7a);
-      border-color: #4a8cff;
-      color: #e0f0ff;
-      text-align: center;
-      position: relative;
-    }
-
-    .permanent-noti strong {
-      color: #a5d8ff;
-    }
-
-    [data-bs-theme="light"] .permanent-noti {
-      background: linear-gradient(135deg, #e6f0ff, #d4e6ff);
-      border-color: #60a5fa;
-      color: #1e40af;
-    }
-
-    [data-bs-theme="light"] .permanent-noti strong {
-      color: #1e40af;
-    }
-
     #input-section {
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
       align-items: center;
+      gap: 8px;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     #message {
-      flex: 1 1 60%;
+      flex: 1 1 auto;
+      width: 100%;
       min-width: 0;
+      padding: 10px;
+      border:1px solid #ff4d4d;
+      border-radius:8px;
+      background:#1e1e1e;
+      color:white;
+      font-size:16px;
     }
 
     .button-group {
       display: flex;
       flex-direction: column;
       gap: 4px;
-      align-self: flex-end;
     }
 
     #emoji-btn, #send-btn {
@@ -258,7 +214,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      display: none; /* only for owner */
+      display: none;
     }
 
     .user-icon {
@@ -267,13 +223,20 @@
     }
 
     .message {
-      position: relative;
       padding: 10px;
       margin: 8px 0;
       background: #1e1e1e;
       border-radius: 10px;
       word-break: break-word;
     }
+
+    .glow {
+      text-shadow: 0 0 8px currentColor;
+    }
+
+    .owner-name { color: #00008B !important; }
+    .system-name { color: #FF0000 !important; }
+    .mod-name { color: #FFD700 !important; }
 
     .profile-menu {
       background: #2a2a2a;
@@ -390,7 +353,7 @@
                 <div id="input-section" style="display:none; padding:12px; border-top:1px solid #333; position: absolute; bottom: 0; width: 100%; box-sizing: border-box;">
                   <div style="display: flex; gap: 8px; align-items: center; width: 100%;">
                     <button id="settings-btn" title="Settings" style="display:none;">⚙︎</button>
-                    <input id="message" placeholder="Type here..." autocomplete="off" style="flex:1; padding:10px; border:1px solid #ff4d4d; border-radius:8px; background:#1e1e1e; color:white; font-size:16px;" />
+                    <input id="message" placeholder="Type here..." autocomplete="off" style="flex:1 1 auto; width:100%; padding:10px; border:1px solid #ff4d4d; border-radius:8px; background:#1e1e1e; color:white; font-size:16px;" />
                     <div style="display: flex; flex-direction: column; gap: 4px;">
                       <button id="emoji-btn" title="Emoji">☻</button>
                       <button id="send-btn" title="Send">➤</button>
@@ -804,7 +767,7 @@
     });
 
     // ────────────────────────────────────────────────────────────────
-    // Supabase Realtime Chat - FIXED WITH CUSTOM ICONS, SYNC, TAGGING
+    // Supabase Realtime Chat - FINAL FIXED VERSION
     // ────────────────────────────────────────────────────────────────
 
     window.addEventListener('load', () => {
@@ -894,23 +857,27 @@
       function addMessage(msg) {
         console.log('Adding message:', msg.username, msg.text);
         const div = document.createElement('div');
-        div.style.background = '#1e1e1e';
-        div.style.padding = '10px 12px';
-        div.style.margin = '8px 0';
-        div.style.borderRadius = '10px';
-        div.style.wordBreak = 'break-word';
+        div.className = 'message';
         div.dataset.username = msg.username;
         div.dataset.id = msg.id || '';
 
         const userSpan = document.createElement('span');
         userSpan.style.fontWeight = 'bold';
-        userSpan.style.color = msg.color || '#FFFFFF';
         userSpan.style.cursor = 'pointer';
 
-        let icon = '';
-        if (msg.username === 'Futbol+') icon = '<span class="user-icon">⚒</span>';
-        if (msg.username === 'Finest') icon = '<span class="user-icon">🜲</span>';
-        userSpan.innerHTML = icon + msg.username;
+        let className = '';
+        if (msg.username === 'Finest') {
+          className = 'owner-name glow';
+        } else if (msg.username === 'Futbol+') {
+          className = 'system-name glow';
+        } else if (await isUserMod(msg.username)) {
+          className = 'mod-name';
+        } else {
+          className = '';
+        }
+        userSpan.className = className;
+
+        userSpan.textContent = msg.username;
         userSpan.onclick = () => {
           messageInput.value += `@${msg.username} `;
           messageInput.focus();
@@ -922,7 +889,7 @@
         if (isOwner || isMod) {
           div.style.cursor = 'pointer';
           div.addEventListener('click', (e) => {
-            if (e.target === userSpan) return; // tagging
+            if (e.target === userSpan) return;
             let menu = div.querySelector('.profile-menu');
             if (menu) {
               menu.remove();
@@ -997,8 +964,14 @@
         return data.length === 0;
       }
 
-      async function registerUser(username, color) {
+      async function registerUser(username) {
+        let color = nameColors[Math.floor(Math.random() * nameColors.length)];
+        // Avoid owner/mod/system colors
+        while (color === '#00008B' || color === '#FFD700' || color === '#FF0000') {
+          color = nameColors[Math.floor(Math.random() * nameColors.length)];
+        }
         await supabaseClient.from('users').insert({ username, color });
+        return color;
       }
 
       joinBtn.addEventListener('click', async () => {
@@ -1006,15 +979,14 @@
         if (!username) return alert('Enter username');
 
         if (await checkUsernameUnique(username)) {
-          const color = nameColors[Math.floor(Math.random() * nameColors.length)];
-          await registerUser(username, color);
+          const color = await registerUser(username);
           currentUsername = username;
           localStorage.setItem('chatUsername', username);
           await checkUserRole();
           joinSection.style.display = 'none';
           inputSection.style.display = 'block';
 
-          addMessage({ username: 'Futbol+', text: `Welcome, ${username}! Be respectful, no spam.`, created_at: new Date().toISOString(), color: '#4caf50' });
+          addMessage({ username: 'Futbol+', text: `Welcome, ${username}! Be respectful, no spam.`, created_at: new Date().toISOString(), color: '#FF0000' });
 
           await loadMessages();
           await loadModeration();
@@ -1035,7 +1007,7 @@
         if (mutedUsers.has(currentUsername) || bannedUsers.has(currentUsername)) return alert('Muted or banned');
 
         const { data } = await supabaseClient.from('users').select('color').eq('username', currentUsername).single();
-        const color = data ? data.color : nameColors[Math.floor(Math.random() * nameColors.length)];
+        const color = data ? data.color : '#FFFFFF';
 
         const localMsg = {
           username: currentUsername,
@@ -1094,9 +1066,24 @@
       // Initial loads
       loadMessages();
 
-      // Initial system message
-      addMessage({ username: 'Futbol+', text: 'Be respectful - don\'t spam - enjoy the stream', created_at: new Date().toISOString(), color: '#aaa' });
+      // Persistent system messages
+      const rulesMsg = { username: 'Futbol+', text: 'Be respectful - don\'t spam - enjoy the stream', created_at: new Date().toISOString(), color: '#FF0000' };
+      const guestMsg = { username: 'Futbol+', text: 'Create an account to chat with others!', created_at: new Date().toISOString(), color: '#FF0000' };
+
+      addMessage(rulesMsg);
+
+      if (!currentUsername) {
+        addMessage(guestMsg);
+      }
+
+      // Re-send system messages if scrolled out (simple interval check)
+      setInterval(() => {
+        if (messagesDiv.scrollTop < 100) {
+          addMessage(rulesMsg);
+          if (!currentUsername) addMessage(guestMsg);
+        }
+      }, 30000); // every 30s check
     });
   </script>
 </body>
-          </html>
+  </html>
