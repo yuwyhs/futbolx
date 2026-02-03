@@ -154,7 +154,7 @@
     </div>
   </nav>
 
-  <!-- Left Sidebar -->
+  <!-- Left Sidebar – updated with Account dropdown -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -167,8 +167,34 @@
         <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
         <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
-        <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
-        <li class="nav-item"><button class="nav-link btn btn-link d-none" id="logoutButton">Logout</button></li>
+
+        <!-- Account Dropdown -->
+        <li class="nav-item dropdown">
+          <a 
+            class="nav-link dropdown-toggle" 
+            href="#" 
+            id="accountDropdown" 
+            role="button" 
+            data-bs-toggle="dropdown" 
+            aria-expanded="false"
+          >
+            <i class="fas fa-user-circle me-2"></i>Account
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+            <li>
+              <a class="dropdown-item" href="/auth/login" id="menuLogin">Login</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/auth/signup" id="menuSignup">Create account</a>
+            </li>
+            <li>
+              <button class="dropdown-item text-danger" id="menuLogout" style="display: none;">
+                <i class="fas fa-sign-out-alt me-2"></i>Logout
+              </button>
+            </li>
+          </ul>
+        </li>
+
         <li class="nav-item">
           <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
             <i class="fas fa-moon"></i>
@@ -243,7 +269,7 @@
         <div id="otherscards" class="event-grid py-3"></div>
       </div>
 
-      <!-- Updated Footer -->
+      <!-- Footer -->
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
         <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
@@ -267,6 +293,7 @@
   <script src="/assets/js/api.js"></script>
   <script async src="/assets/js/auth.js"></script>
   <script defer data-domain="futbol-x.site" src="https://p.vidembed.re/js/script.js"></script>
+
   <script>
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
     
@@ -553,9 +580,7 @@
 
         clearError();
 
-        // ────────────────────────────────────────────────
-        // Dynamic card animation observer (fixes rough loading)
-        // ────────────────────────────────────────────────
+        // Dynamic card animation observer
         const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -571,10 +596,7 @@
           });
         }
 
-        // Run immediately after rendering
         observeNewCards();
-
-        // Safety nets for any delayed DOM updates
         setTimeout(observeNewCards, 300);
         setTimeout(observeNewCards, 800);
 
@@ -624,11 +646,41 @@
         console.error('API init error:', error);
       }
 
-      if (typeof checkAuthStatus === 'function') checkAuthStatus();
       countdown();
     }
 
     document.addEventListener('DOMContentLoaded', initPage);
+
+    // ────────────────────────────────────────────────
+    // Account menu visibility logic (temporary – will connect to Firebase later)
+    // ────────────────────────────────────────────────
+    function updateAccountMenu(isLoggedIn) {
+      const menuLogin  = document.getElementById('menuLogin');
+      const menuSignup = document.getElementById('menuSignup');
+      const menuLogout = document.getElementById('menuLogout');
+
+      if (!menuLogin || !menuSignup || !menuLogout) return;
+
+      if (isLoggedIn) {
+        menuLogin.style.display = 'none';
+        menuSignup.style.display = 'none';
+        menuLogout.style.display = 'block';
+      } else {
+        menuLogin.style.display = 'block';
+        menuSignup.style.display = 'block';
+        menuLogout.style.display = 'none';
+      }
+    }
+
+    // For testing right now – change to true to see logged-in state
+    // updateAccountMenu(true);
+
+    // Logout placeholder
+    document.getElementById('menuLogout')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('Logout coming soon (Firebase integration next)');
+      // Later: firebase.auth().signOut().then(() => location.href = '/');
+    });
   </script>
 </body>
-    </html>
+</html>
