@@ -76,6 +76,46 @@
       box-shadow: 0 0 8px rgba(255,77,77,0.5);
     }
 
+    /* Hide volume slider, keep only speaker icon */
+    #oplayer-container .plyr__volume input[type="range"] {
+      display: none !important;
+    }
+    #oplayer-container .plyr__volume {
+      width: auto !important;
+      min-width: 40px !important;
+    }
+
+    /* Hide settings if no captions or quality */
+    #oplayer-container .plyr__control--settings:empty,
+    #oplayer-container .plyr__menu-wrapper:empty + .plyr__control--settings {
+      display: none !important;
+    }
+
+    #oplayer-container video {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+    }
+
+    #oplayer-container .plyr__controls {
+      padding: 0 12px 12px;
+      margin: 0;
+      bottom: 0;
+    }
+
+    /* Chatango fit container */
+    .chat-container {
+      height: 420px;
+      background: #111;
+      position: relative;
+      overflow: hidden;
+    }
+    .chat-container script {
+      width: 100% !important;
+      height: 100% !important;
+      border: none;
+    }
+
     .live-title {
       text-align: center;
       background: linear-gradient(135deg, #1a1a1a, #2d0000);
@@ -120,34 +160,8 @@
       padding:12px 20px;
       font-weight:bold;
       font-size:1.2rem;
+      text-align:center;
       border-bottom:2px solid #cc0000;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    #online-count {
-      background: rgba(0,0,0,0.6);
-      padding: 6px 14px;
-      border-radius: 50%;
-      font-weight: bold;
-      min-width: 36px;
-      height: 36px;
-      line-height: 36px;
-      text-align: center;
-      font-size: 1.1rem;
-    }
-
-    .chat-container {
-      height: 420px;
-      background: #111;
-      position: relative;
-      overflow: hidden;
-    }
-    .chat-container script {
-      width: 100% !important;
-      height: 100% !important;
-      border: none;
     }
 
     #statusArea {
@@ -275,12 +289,9 @@
 
           <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
-          <!-- Futbol+ Header with Viewers Counter -->
-          <div class="chat-wrapper" style="margin-top: 1.5rem;">
-            <div class="chat-header">
-              <span>Futbol+</span>
-              <span id="online-count">0</span>
-            </div>
+          <!-- Latest Chatango embed -->
+          <div class="chat-wrapper">
+            <div class="chat-header">Live Chat</div>
             <div class="chat-container">
               <script id="cid0020000430640675904" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%; height: 100%;">
                 {"handle":"futbolxc","arch":"js","styles":{"a":"000000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"000000","l":"000000","m":"000000","n":"FFFFFF","p":"10","q":"000000","r":100,"t":0,"usricon":0.86,"surl":0,"allowpm":0,"cnrs":"0.76"}}
@@ -308,9 +319,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="/assets/js/api.js"></script>
   <script src="/assets/js/auth.js"></script>
-
-  <!-- Supabase for viewers count -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
@@ -353,10 +361,15 @@
               if (!res.ok) throw new Error(`HTTP ${res.status}`);
               return res.json();
             })
-            .then(data => resolve(data))
+            .then(data => {
+              resolve(data);
+            })
             .catch(err => {
-              if (attempts < maxRetries) setTimeout(attempt, delay);
-              else reject(err);
+              if (attempts < maxRetries) {
+                setTimeout(attempt, delay);
+              } else {
+                reject(err);
+              }
             });
         }
         attempt();
@@ -406,7 +419,7 @@
               const hasQuality = hls.levels && hls.levels.length > 1;
               const hasCaptions = player.captions && player.captions.length > 0;
               if (!hasQuality && !hasCaptions) {
-                document.querySelector('.plyr__control--settings')?.style.setProperty('display', 'none', 'important');
+                document.querySelector('.plyr__control--settings')?.style.setAttribute('style', 'display:none !important');
               }
             }, 800);
           });
@@ -564,6 +577,7 @@
       const startBtn = document.getElementById('startLivestream');
 
       try {
+        // 1. Get category list from /api/stream
         const catListRes = await fetchWithRetry('/api/stream');
         const categoryNames = catListRes.categories || [];
 
@@ -571,6 +585,7 @@
           throw new Error("No categories defined");
         }
 
+        // 2. Fetch all category JSON files in parallel
         const fetchPromises = categoryNames.map(cat => 
           fetchWithRetry(`/api/${cat}.json`)
             .catch(err => {
@@ -581,6 +596,7 @@
 
         const allCategoryData = await Promise.all(fetchPromises);
 
+        // 3. Search for the event across all categories
         let foundEvent = null;
 
         for (const data of allCategoryData) {
@@ -683,57 +699,6 @@
         }
       }, 1000);
     });
-
-    // ────────────────────────────────────────────────────────────────
-    // Real-time Viewers Count - FIXED WITH YOUR ANON KEY
-    // ────────────────────────────────────────────────────────────────
-
-    window.addEventListener('load', () => {
-      console.log('Viewers counter initializing with your key...');
-
-      const supabase = supabase.createClient(
-        'https://ohqnxqodrxuokfbpwoih.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ocW54cW9kcnh1b2tmYnB3b2loIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwNzI0MDYsImV4cCI6MjA4NTY0ODQwNn0.c7f0tdoHvvQKnO2jOZaQJ3APEkMwVC5xJ1x-V_ag0ZA'
-      );
-
-      // Unique channel per event
-      const eventPath = window.location.pathname
-        .replace(/^\/live\//, '')
-        .replace(/\/$/, '')
-        .replace(/\//g, '-') || 'default';
-
-      const channelName = `viewers-${eventPath}`;
-      console.log('Tracking channel:', channelName);
-
-      const viewersChannel = supabase.channel(channelName, {
-        config: { broadcast: { self: true } }
-      });
-
-      const onlineCount = document.getElementById('online-count');
-
-      viewersChannel
-        .on('presence', { event: 'sync' }, () => {
-          const presence = viewersChannel.presenceState();
-          const count = Object.keys(presence).length;
-          onlineCount.textContent = count;
-          console.log('Current viewers count:', count);
-        })
-        .subscribe(async (status) => {
-          console.log('Presence status:', status);
-          if (status === 'SUBSCRIBED') {
-            console.log('Successfully connected - tracking viewer');
-            await viewersChannel.track({ online: true, page: eventPath });
-          }
-          if (status === 'CLOSED' || status === 'CHANNEL_ERROR') {
-            console.warn('Presence channel issue:', status);
-          }
-        });
-
-      // Clean up on page leave
-      window.addEventListener('beforeunload', () => {
-        viewersChannel.untrack();
-      });
-    });
   </script>
 </body>
-                                                                                               </html>
+                                         </html>
