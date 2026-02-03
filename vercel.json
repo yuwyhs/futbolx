@@ -1,7 +1,6 @@
 {
   "version": 2,
   "builds": [
-    // Static HTML files (root + auth folder)
     {
       "src": "*.html",
       "use": "@vercel/static"
@@ -10,9 +9,12 @@
       "src": "auth/*.html",
       "use": "@vercel/static"
     },
-    // Assets, API, and other static files
     {
       "src": "assets/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "api/*.json",
       "use": "@vercel/static"
     },
     {
@@ -25,17 +27,14 @@
     }
   ],
   "routes": [
-    // Serve static assets
     {
       "src": "/assets/(.*)",
       "dest": "/assets/$1"
     },
-    // Serve API routes
     {
-      "src": "/api/(.*)",
+      "src": "/api/(.+\\.json)",
       "dest": "/api/$1"
     },
-    // Specific static JSON endpoints
     {
       "src": "/api/stream",
       "dest": "/api/stream.json"
@@ -44,7 +43,10 @@
       "src": "/api/stream-24-7",
       "dest": "/api/stream-24-7.json"
     },
-    // Auth pages
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
     {
       "src": "/auth/login",
       "dest": "/auth/login.html"
@@ -53,12 +55,10 @@
       "src": "/auth/signup",
       "dest": "/auth/signup.html"
     },
-    // Dashboard page
     {
       "src": "/dashboard",
       "dest": "/dashboard.html"
     },
-    // Live stream pages
     {
       "src": "/live/(.*)",
       "dest": "/live.html"
@@ -67,7 +67,6 @@
       "src": "/live-24-7/(.*)",
       "dest": "/live-24-7.html"
     },
-    // Other static pages
     {
       "src": "/vip",
       "dest": "/vip.html"
@@ -76,10 +75,9 @@
       "src": "/24-7",
       "dest": "/24-7.html"
     },
-    // Catch-all: send everything else to index.html (SPA-style)
     {
       "src": "/(.*)",
       "dest": "/index.html"
     }
   ]
-    }
+}
