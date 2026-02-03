@@ -18,10 +18,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
 
-  <!-- Firebase SDKs (loaded late to not interfere) -->
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
-
   <style>
     .error-alert { max-width: 500px; margin: 20px auto; }
     .card { 
@@ -151,7 +147,6 @@
         <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
 
-        <!-- Account Dropdown -->
         <li class="nav-item dropdown">
           <a 
             class="nav-link dropdown-toggle" 
@@ -273,7 +268,7 @@
   <script src="/assets/js/api.js"></script>
   <script defer data-domain="futbol-x.site" src="https://p.vidembed.re/js/script.js"></script>
 
-  <!-- Your original logic – moved BEFORE Firebase to load events first -->
+  <!-- Your original stream loading logic -->
   <script>
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
     
@@ -380,11 +375,16 @@
     }
 
     async function loadContent(api) {
-      console.log('loadContent started');
+      console.log('Starting loadContent');
       const errorContainer = document.getElementById('errorContainer');
       const liveAnimation = document.getElementById('liveAnimation');
       const livecards = document.getElementById('livecards');
       
+      if (!livecards) {
+        console.error('livecards element not found');
+        return;
+      }
+
       errorContainer.className = 'd-none error-alert';
       errorContainer.innerHTML = '';
       livecards.innerHTML = '<p>Loading streams...</p>';
@@ -399,16 +399,20 @@
       }, 15000);
 
       try {
-        const catListUrl = api.baseUrl.endsWith('/') ? `${api.baseUrl}stream` : `${api.baseUrl}/stream`;
+        const baseUrl = api.baseUrl || `${window.location.origin}/api`;
+        const catListUrl = baseUrl.endsWith('/') ? `${baseUrl}stream` : `${baseUrl}/stream`;
+        console.log('Fetching categories from:', catListUrl);
+        
         const catListRes = await fetchWithRetry(catListUrl);
+        console.log('Categories response:', catListRes);
+        
         const categoryNames = catListRes.categories || [];
-
         if (!Array.isArray(categoryNames) || categoryNames.length === 0) {
-          throw new Error("No categories defined in /api/stream");
+          throw new Error("No categories found in /stream");
         }
 
         const fetchPromises = categoryNames.map(cat => 
-          fetchWithRetry(`${api.baseUrl}/${cat}.json`)
+          fetchWithRetry(`${baseUrl}/${cat}.json`)
             .catch(err => {
               console.warn(`Failed to load ${cat}.json`, err);
               return { success: true, streams: [] };
@@ -416,6 +420,7 @@
         );
 
         const allCategoryData = await Promise.all(fetchPromises);
+        console.log('All category data loaded');
 
         const combined = {
           success: true,
@@ -426,7 +431,7 @@
 
         clearTimeout(timeout);
 
-        if (!combined || !combined.success || !Array.isArray(combined.streams)) {
+        if (!combined || !combined.success || !Array.isArray(combined.streams) || combined.streams.length === 0) {
           livecards.innerHTML = '<p>No streams available right now.</p>';
           liveAnimation.classList.add('d-none');
           return;
@@ -483,7 +488,7 @@
 
           category.streams.forEach(stream => {
             if (!stream.name || !stream.uri_name || !stream.tag || !stream.starts_at || !stream.streams || !Array.isArray(stream.streams)) {
-              console.warn(`Invalid stream: ${stream.name || 'unknown'}`);
+              console.warn(`Invalid stream data: ${stream.name || 'unknown'}`);
               return;
             }
 
@@ -551,6 +556,7 @@
 
         clearError();
 
+        // Card animation observer
         const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -564,11 +570,11 @@
 
       } catch (error) {
         clearTimeout(timeout);
-        console.error('API error:', error);
+        console.error('loadContent error:', error);
         livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
         liveAnimation.classList.add('d-none');
         errorContainer.className = 'alert alert-danger error-alert';
-        errorContainer.innerHTML = `Failed to load streams: ${error.message}. Please try again.`;
+        errorContainer.innerHTML = `Failed to load streams: ${error.message || 'Unknown error'}. Please try again.`;
         document.getElementById('retryButton')?.addEventListener('click', () => loadContent(api));
       }
     }
@@ -584,6 +590,8 @@
     }
 
     function initPage() {
+      console.log('initPage called');
+
       const themeToggle = document.getElementById('themeToggle');
       const htmlElement = document.documentElement;
       const currentTheme = localStorage.getItem('theme') || 'dark';
@@ -602,18 +610,23 @@
 
       try {
         apiInstance = typeof Api !== 'undefined' ? new Api(`${window.location.origin}/api`) : { baseUrl: window.location.origin + '/api' };
+        console.log('API instance created:', apiInstance);
         loadContent(apiInstance);
       } catch (error) {
-        console.error('API init error:', error);
-        document.getElementById('livecards').innerHTML = '<p>Failed to initialize streams. Please refresh.</p>';
+        console.error('Failed to initialize API:', error);
+        document.getElementById('livecards').innerHTML = '<p>Failed to initialize stream loader. Please refresh.</p>';
       }
 
       countdown();
     }
 
-    document.addEventListener('DOMContentLoaded', initPage);
+    // Start everything when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM fully loaded – starting initPage');
+      initPage();
+    });
 
-    // Firebase Auth – loaded last so it doesn’t block streams
+    // Firebase Auth – loaded last
     const firebaseConfig = {
       apiKey: "AIzaSyBulGl-96u38wmkAs_R9FcuQMsBTkLN6ak",
       authDomain: "futbolx-auth-31bc6.firebaseapp.com",
@@ -645,12 +658,14 @@
     }
 
     auth.onAuthStateChanged((user) => {
+      console.log('Auth state changed:', user ? 'Logged in' : 'Logged out');
       updateAccountMenu(!!user);
     });
 
     document.getElementById('menuLogout')?.addEventListener('click', (e) => {
       e.preventDefault();
       auth.signOut().then(() => {
+        console.log('User signed out');
         window.location.href = '/';
       }).catch((error) => {
         console.error('Logout error:', error);
@@ -658,4 +673,4 @@
     });
   </script>
 </body>
-                                                                              </html>
+  </html>
