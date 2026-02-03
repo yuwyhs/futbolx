@@ -206,18 +206,28 @@
       color: white !important;
     }
 
-    /* Disclaimer styling */
+    /* Disclaimer styling - visible in both themes */
     .disclaimer {
       text-align: center;
       font-size: 0.85rem;
-      color: #aaa;
       padding: 20px 15px;
       margin-top: 30px;
-      border-top: 1px solid #333;
-      background: rgba(0,0,0,0.3);
+      border-top: 1px solid #444;
       max-width: 900px;
       margin-left: auto;
       margin-right: auto;
+    }
+
+    [data-bs-theme="dark"] .disclaimer {
+      color: #aaa;
+      background: rgba(0,0,0,0.3);
+      border-top-color: #444;
+    }
+
+    [data-bs-theme="light"] .disclaimer {
+      color: #555;
+      background: rgba(255,255,255,0.7);
+      border-top-color: #ccc;
     }
   </style>
 </head>
@@ -272,7 +282,7 @@
               <strong>Info:</strong> If stream is not loading on your end, try using a VPN to bypass your ISP restrictions.
             </div>
 
-            <!-- Join Discord & Telegram message (cycles with Info) -->
+            <!-- Join Discord & Telegram message (cycles with Info every 10s) -->
             <div class="alert alert-info permanent-noti d-none" id="joinAlert">
               <strong>Join us</strong> on 
               <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener">Discord</a> and 
@@ -322,7 +332,6 @@
         <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
           <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
-          <li class="nav-item"><a href="/contact" class="nav-link px-2 text-body-secondary">Contact us</a></li>
         </ul>
       </footer>
 
@@ -732,7 +741,7 @@
                 }, 600);
               }
               showJoin = !showJoin;
-            }, 10000); // Changed to 10 seconds
+            }, 10000); // 10 seconds per message
           }, 600);
         }
       }, 1000);
