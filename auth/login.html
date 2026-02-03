@@ -20,16 +20,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
 
-  <!-- Firebase SDKs -->
+  <!-- Firebase Compat SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 
   <style>
-    body {
-      padding-top: 70px; /* space for fixed top bar */
-    }
-
+    body { padding-top: 70px; }
     .auth-container {
       max-width: 460px;
       margin: 2rem auto 4rem;
@@ -39,74 +35,46 @@
       background-color: var(--bs-body-bg);
       box-shadow: 0 6px 24px rgba(0,0,0,0.25);
     }
-
     .auth-title {
       font-size: 2.1rem;
       margin-bottom: 2rem;
       text-align: center;
       color: var(--bs-body-color);
     }
-
-    .form-label {
-      font-weight: 500;
-      color: var(--bs-body-color);
-    }
-
+    .form-label { font-weight: 500; color: var(--bs-body-color); }
     .form-control {
       background-color: var(--bs-body-bg);
       color: var(--bs-body-color);
       border-color: var(--bs-border-color);
     }
-
     .form-control:focus {
       border-color: #ff4d4d;
       box-shadow: 0 0 0 0.25rem rgba(255, 77, 77, 0.25);
     }
-
-    .text-muted {
-      color: var(--bs-secondary-color) !important;
-    }
-
-    a.text-danger {
-      color: #ff4d4d !important;
-    }
-
-    a.text-danger:hover {
-      color: #ff3333 !important;
-    }
-
+    .text-muted { color: var(--bs-secondary-color) !important; }
+    a.text-danger { color: #ff4d4d !important; }
+    a.text-danger:hover { color: #ff3333 !important; }
     .btn-auth {
       font-size: 1.1rem;
       padding: 0.8rem;
       background-color: #dc3545;
       border-color: #dc3545;
     }
-
     .btn-auth:hover {
       background-color: #c82333;
       border-color: #bd2130;
     }
-
     [data-bs-theme="light"] .auth-container {
       background-color: #ffffff;
       border-color: #dee2e6;
       box-shadow: 0 6px 24px rgba(0,0,0,0.12);
     }
-
     [data-bs-theme="light"] .form-control {
       background-color: #ffffff;
       color: #212529;
     }
-
-    [data-bs-theme="light"] a.text-muted {
-      color: #6c757d !important;
-    }
-
     @media (max-width: 576px) {
-      .auth-container {
-        margin: 1.5rem 1rem 3rem;
-        padding: 2rem 1.5rem;
-      }
+      .auth-container { margin: 1.5rem 1rem 3rem; padding: 2rem 1.5rem; }
     }
   </style>
 </head>
@@ -136,25 +104,13 @@
         <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
 
-        <!-- Account Dropdown -->
         <li class="nav-item dropdown">
-          <a 
-            class="nav-link dropdown-toggle" 
-            href="#" 
-            id="accountDropdown" 
-            role="button" 
-            data-bs-toggle="dropdown" 
-            aria-expanded="false"
-          >
+          <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-user-circle me-2"></i>Account
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-            <li>
-              <a class="dropdown-item" href="/auth/login" id="menuLogin">Login</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="/auth/signup" id="menuSignup">Create account</a>
-            </li>
+            <li><a class="dropdown-item" href="/auth/login" id="menuLogin">Login</a></li>
+            <li><a class="dropdown-item" href="/auth/signup" id="menuSignup">Create account</a></li>
             <li>
               <button class="dropdown-item text-danger" id="menuLogout" style="display: none;">
                 <i class="fas fa-sign-out-alt me-2"></i>Logout
@@ -175,7 +131,6 @@
   <!-- Main content -->
   <div class="container-fluid main-content">
     <div class="container pt-3 pb-5">
-
       <div id="errorContainer" class="d-none alert alert-danger mb-4"></div>
 
       <div class="auth-container">
@@ -206,7 +161,6 @@
         </div>
       </div>
 
-      <!-- Footer -->
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-3 border-top mt-5">
         <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
@@ -215,7 +169,6 @@
           </li>
         </ul>
       </footer>
-
     </div>
   </div>
 
@@ -245,59 +198,50 @@
   <!-- Firebase Login Logic -->
   <script>
     const firebaseConfig = {
-      apiKey: "AIzaSyD1Fwy4A-5fDDOwNXeK3zs8qfkMP-YNhZo",
-      authDomain: "futbolx-auth.firebaseapp.com",
-      projectId: "futbolx-auth",
-      storageBucket: "futbolx-auth.firebasestorage.app",
-      messagingSenderId: "310166454358",
-      appId: "1:310166454358:web:92c6c6d20cd82fb604fbf7",
-      measurementId: "G-4QQLLW7BE5"
+      apiKey: "AIzaSyBulGl-96u38wmkAs_R9FcuQMsBTkLN6ak",
+      authDomain: "futbolx-auth-31bc6.firebaseapp.com",
+      projectId: "futbolx-auth-31bc6",
+      storageBucket: "futbolx-auth-31bc6.firebasestorage.app",
+      messagingSenderId: "262628908181",
+      appId: "1:262628908181:web:c823d458e2e2685ab48f9c"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    const db = firebase.firestore();
 
-    // Account menu visibility (basic version – will be improved later)
+    // Sidebar menu update
     function updateAccountMenu(isLoggedIn) {
       const menuLogin  = document.getElementById('menuLogin');
       const menuSignup = document.getElementById('menuSignup');
       const menuLogout = document.getElementById('menuLogout');
 
-      if (!menuLogin || !menuSignup || !menuLogout) return;
-
-      if (isLoggedIn) {
-        menuLogin.style.display = 'none';
-        menuSignup.style.display = 'none';
-        menuLogout.style.display = 'block';
-      } else {
-        menuLogin.style.display = 'block';
-        menuSignup.style.display = 'block';
-        menuLogout.style.display = 'none';
+      if (menuLogin && menuSignup && menuLogout) {
+        if (isLoggedIn) {
+          menuLogin.style.display = 'none';
+          menuSignup.style.display = 'none';
+          menuLogout.style.display = 'block';
+        } else {
+          menuLogin.style.display = 'block';
+          menuSignup.style.display = 'block';
+          menuLogout.style.display = 'none';
+        }
       }
     }
 
-    // Listen for auth state changes
     auth.onAuthStateChanged((user) => {
       updateAccountMenu(!!user);
-      if (user) {
-        // Optional: redirect if already logged in
-        // window.location.href = '/';
-      }
     });
 
-    // Logout handler
     document.getElementById('menuLogout')?.addEventListener('click', (e) => {
       e.preventDefault();
       auth.signOut().then(() => {
         window.location.href = '/';
-      }).catch((error) => {
-        alert('Logout failed: ' + error.message);
+      }).catch(err => {
+        alert('Logout failed: ' + err.message);
       });
     });
 
-    // Login form handler
+    // Login handler
     const form = document.getElementById('loginForm');
     const errorContainer = document.getElementById('errorContainer');
 
@@ -308,34 +252,20 @@
       const password = document.getElementById('password').value;
 
       try {
-        const credential = await auth.signInWithEmailAndPassword(email, password);
-        const user = credential.user;
-
-        // Check verification status
-        const userDoc = await db.collection('users').doc(user.uid).get();
-        if (!userDoc.exists || !userDoc.data().verified) {
-          await auth.signOut();
-          throw new Error('Please verify your email with the activation code first.');
-        }
-
-        // Login successful
+        await auth.signInWithEmailAndPassword(email, password);
         window.location.href = '/';
       } catch (error) {
-        let message = error.message;
+        let msg = error.message;
         if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-          message = 'Incorrect email or password.';
+          msg = 'Incorrect email or password.';
         } else if (error.code === 'auth/too-many-requests') {
-          message = 'Too many attempts. Please try again later.';
+          msg = 'Too many attempts. Try again later.';
         }
-        showError(message);
+        errorContainer.innerHTML = msg;
+        errorContainer.classList.remove('d-none');
+        setTimeout(() => errorContainer.classList.add('d-none'), 8000);
       }
     });
-
-    function showError(msg) {
-      errorContainer.innerHTML = msg;
-      errorContainer.classList.remove('d-none');
-      setTimeout(() => errorContainer.classList.add('d-none'), 8000);
-    }
   </script>
 
 </body>
