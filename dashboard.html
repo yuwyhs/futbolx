@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FutbolX - Dashboard</title>
+  <meta name="description" content="Your FutbolX account dashboard">
+
+  <meta name="keywords" content="futbolx, dashboard, account, vip">
+  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
+  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/assets/css/main.css?v=26">
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+
+  <style>
+    body { padding-top: 70px; }
+    .dashboard-container {
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 2.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--bs-border-color);
+      background-color: var(--bs-body-bg);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+    }
+    .profile-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .profile-icon {
+      font-size: 4rem;
+      color: #ff4d4d;
+    }
+    .info-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .btn-vip {
+      background: linear-gradient(45deg, #ff4d4d, #ff8c8c);
+      border: none;
+    }
+    .btn-vip:hover { background: linear-gradient(45deg, #ff3333, #ff6666); }
+    [data-bs-theme="light"] .info-card {
+      background: rgba(0,0,0,0.05);
+    }
+    @media (max-width: 576px) {
+      .dashboard-container { margin: 1.5rem 1rem; padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <nav class="top-bar fixed-top">
+    <div class="container-fluid">
+      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <span class="futbolx-brand">FutbolX</span>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+    <div class="offcanvas-header">
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/request">Request</a></li>
+        <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
+        <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
+        <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user-circle me-2"></i>Account
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+            <li><a class="dropdown-item" href="/dashboard" id="menuDashboard">Dashboard</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <button class="dropdown-item text-danger" id="menuLogout">
+                <i class="fas fa-sign-out-alt me-2"></i>Logout
+              </button>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div class="container-fluid main-content">
+    <div class="container py-5">
+      <div class="dashboard-container">
+        <div class="profile-header">
+          <i class="fas fa-user-circle profile-icon"></i>
+          <h2 id="displayName" class="mt-3">Loading...</h2>
+          <p id="userEmail" class="text-muted"></p>
+          <span id="membershipBadge" class="badge bg-secondary fs-6 mt-2">Loading...</span>
+        </div>
+
+        <div class="info-card">
+          <h5><i class="fas fa-calendar-alt me-2"></i>Join Date</h5>
+          <p id="joinDate">Loading...</p>
+        </div>
+
+        <div class="info-card">
+          <h5><i class="fas fa-user-edit me-2"></i>Username</h5>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="usernameInput" placeholder="Enter your username" maxlength="20">
+            <button class="btn btn-danger" id="saveUsernameBtn">Save</button>
+          </div>
+          <small class="text-muted">Username is optional and can be changed anytime.</small>
+        </div>
+
+        <div class="info-card">
+          <h5><i class="fas fa-key me-2"></i>Change Password</h5>
+          <button class="btn btn-outline-danger w-100" id="resetPasswordBtn">
+            Send Password Reset Email
+          </button>
+          <small class="text-muted mt-2 d-block">
+            You'll receive a link to reset your password.
+          </small>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-3 border-top mt-5">
+        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
+        <ul class="nav justify-content-center justify-content-lg-end mb-0">
+          <li class="nav-item">
+            <a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a>
+          </li>
+        </ul>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+  <!-- Theme toggle -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const themeToggle = document.getElementById('themeToggle');
+      const htmlElement = document.documentElement;
+      let currentTheme = localStorage.getItem('theme') || 'dark';
+      htmlElement.setAttribute('data-bs-theme', currentTheme);
+      
+      if (themeToggle) {
+        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        themeToggle.addEventListener('click', () => {
+          currentTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+          htmlElement.setAttribute('data-bs-theme', currentTheme);
+          localStorage.setItem('theme', currentTheme);
+          themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        });
+      }
+    });
+  </script>
+
+  <!-- Firebase Dashboard Logic -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBulGl-96u38wmkAs_R9FcuQMsBTkLN6ak",
+      authDomain: "futbolx-auth-31bc6.firebaseapp.com",
+      projectId: "futbolx-auth-31bc6",
+      storageBucket: "futbolx-auth-31bc6.firebasestorage.app",
+      messagingSenderId: "262628908181",
+      appId: "1:262628908181:web:c823d458e2e2685ab48f9c"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Redirect if not logged in
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = '/auth/login';
+        return;
+      }
+
+      // User is logged in
+      document.getElementById('userEmail').textContent = user.email;
+
+      // Load extra user data from Firestore
+      db.collection('users').doc(user.uid).get().then((doc) => {
+        if (doc.exists) {
+          const data = doc.data();
+
+          // Username
+          const username = data.username || 'Not set';
+          document.getElementById('displayName').textContent = username;
+          document.getElementById('usernameInput').value = username;
+
+          // Join date
+          if (data.createdAt) {
+            const joinDate = new Date(data.createdAt.seconds * 1000);
+            document.getElementById('joinDate').textContent = joinDate.toLocaleDateString('en-US', {
+              year: 'numeric', month: 'long', day: 'numeric'
+            });
+          } else {
+            document.getElementById('joinDate').textContent = 'Unknown';
+          }
+
+          // Membership
+          const isVip = data.isVip === true;
+          const badge = document.getElementById('membershipBadge');
+          badge.textContent = isVip ? 'VIP Member' : 'Free Member';
+          badge.className = `badge fs-6 mt-2 ${isVip ? 'bg-success' : 'bg-secondary'}`;
+        } else {
+          // First time – create user doc
+          db.collection('users').doc(user.uid).set({
+            email: user.email,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            username: '',
+            isVip: false
+          });
+          document.getElementById('displayName').textContent = 'Not set';
+          document.getElementById('joinDate').textContent = 'Just now';
+          document.getElementById('membershipBadge').textContent = 'Free Member';
+          document.getElementById('membershipBadge').className = 'badge bg-secondary fs-6 mt-2';
+        }
+      }).catch(err => {
+        console.error('Firestore error:', err);
+      });
+    });
+
+    // Save username
+    document.getElementById('saveUsernameBtn')?.addEventListener('click', () => {
+      const newUsername = document.getElementById('usernameInput').value.trim();
+      if (!newUsername) {
+        alert('Username cannot be empty');
+        return;
+      }
+
+      auth.currentUser.getIdToken().then(idToken => {
+        fetch('/api/update-username', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${idToken}`
+          },
+          body: JSON.stringify({ username: newUsername })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            document.getElementById('displayName').textContent = newUsername;
+            alert('Username updated!');
+          } else {
+            alert('Failed to update: ' + (data.error || 'Unknown error'));
+          }
+        })
+        .catch(err => alert('Error: ' + err.message));
+      });
+    });
+
+    // Password reset
+    document.getElementById('resetPasswordBtn')?.addEventListener('click', () => {
+      const email = auth.currentUser.email;
+      auth.sendPasswordResetEmail(email)
+        .then(() => {
+          alert('Password reset email sent! Check your inbox.');
+        })
+        .catch(err => {
+          alert('Failed to send reset email: ' + err.message);
+        });
+    });
+
+    // Logout
+    document.getElementById('menuLogout')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      auth.signOut().then(() => {
+        window.location.href = '/';
+      });
+    });
+  </script>
+</body>
+  </html>
