@@ -145,7 +145,7 @@
   <div class="container-fluid main-content">
     <div class="container pt-3 pb-5">
 
-      <div id="errorContainer" class="d-none error-alert alert alert-danger mb-4"></div>
+      <div id="errorContainer" class="d-none alert alert-danger mb-4"></div>
 
       <div class="auth-container">
         <h2 class="auth-title">Sign In</h2>
@@ -167,7 +167,7 @@
         <div class="text-center mt-4">
           <p class="mb-2">
             Don't have an account? 
-            <a href="#" class="text-danger" id="switchToSignup">Sign up here</a>
+            <a href="/auth/signup" class="text-danger">Create account</a>
           </p>
           <p class="text-muted small">
             <a href="#" class="text-muted">Forgot password?</a>
@@ -191,7 +191,7 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
-  <!-- Theme toggle + sidebar behavior -->
+  <!-- Theme toggle + basic form placeholder -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Theme toggle
@@ -215,12 +215,7 @@
         e.preventDefault();
         alert('Login functionality coming soon (Firebase step next)');
       });
-
-      document.getElementById('switchToSignup')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        alert('Signup form will be added in the next version');
-      });
     });
   </script>
 </body>
-                               </html>
+        </html>
