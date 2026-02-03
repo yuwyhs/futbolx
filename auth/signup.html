@@ -20,11 +20,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
 
-  <style>
-    body {
-      padding-top: 70px; /* space for fixed top bar */
-    }
+  <!-- Firebase Compat SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 
+  <style>
+    body { padding-top: 70px; }
     .auth-container {
       max-width: 460px;
       margin: 2rem auto 4rem;
@@ -34,83 +35,46 @@
       background-color: var(--bs-body-bg);
       box-shadow: 0 6px 24px rgba(0,0,0,0.25);
     }
-
     .auth-title {
       font-size: 2.1rem;
       margin-bottom: 2rem;
       text-align: center;
       color: var(--bs-body-color);
     }
-
-    .form-label {
-      font-weight: 500;
-      color: var(--bs-body-color);
-    }
-
+    .form-label { font-weight: 500; color: var(--bs-body-color); }
     .form-control {
       background-color: var(--bs-body-bg);
       color: var(--bs-body-color);
       border-color: var(--bs-border-color);
     }
-
     .form-control:focus {
       border-color: #ff4d4d;
       box-shadow: 0 0 0 0.25rem rgba(255, 77, 77, 0.25);
     }
-
-    .text-muted {
-      color: var(--bs-secondary-color) !important;
-    }
-
-    a.text-danger {
-      color: #ff4d4d !important;
-    }
-
-    a.text-danger:hover {
-      color: #ff3333 !important;
-    }
-
+    .text-muted { color: var(--bs-secondary-color) !important; }
+    a.text-danger { color: #ff4d4d !important; }
+    a.text-danger:hover { color: #ff3333 !important; }
     .btn-auth {
       font-size: 1.1rem;
       padding: 0.8rem;
       background-color: #dc3545;
       border-color: #dc3545;
     }
-
     .btn-auth:hover {
       background-color: #c82333;
       border-color: #bd2130;
     }
-
-    .invalid-feedback {
-      display: none;
-    }
-
+    .invalid-feedback { display: none; }
     .was-validated .form-control:invalid ~ .invalid-feedback,
-    .form-control.is-invalid ~ .invalid-feedback {
-      display: block;
-    }
-
+    .form-control.is-invalid ~ .invalid-feedback { display: block; }
     [data-bs-theme="light"] .auth-container {
       background-color: #ffffff;
       border-color: #dee2e6;
       box-shadow: 0 6px 24px rgba(0,0,0,0.12);
     }
-
-    [data-bs-theme="light"] .form-control {
-      background-color: #ffffff;
-      color: #212529;
-    }
-
-    [data-bs-theme="light"] a.text-muted {
-      color: #6c757d !important;
-    }
-
+    [data-bs-theme="light"] .form-control { background-color: #ffffff; color: #212529; }
     @media (max-width: 576px) {
-      .auth-container {
-        margin: 1.5rem 1rem 3rem;
-        padding: 2rem 1.5rem;
-      }
+      .auth-container { margin: 1.5rem 1rem 3rem; padding: 2rem 1.5rem; }
     }
   </style>
 </head>
@@ -126,7 +90,7 @@
     </div>
   </nav>
 
-  <!-- Sidebar – now consistent with index.html -->
+  <!-- Sidebar -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -140,25 +104,13 @@
         <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
 
-        <!-- Account Dropdown -->
         <li class="nav-item dropdown">
-          <a 
-            class="nav-link dropdown-toggle" 
-            href="#" 
-            id="accountDropdown" 
-            role="button" 
-            data-bs-toggle="dropdown" 
-            aria-expanded="false"
-          >
+          <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-user-circle me-2"></i>Account
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-            <li>
-              <a class="dropdown-item" href="/auth/login" id="menuLogin">Login</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="/auth/signup" id="menuSignup">Create account</a>
-            </li>
+            <li><a class="dropdown-item" href="/auth/login" id="menuLogin">Login</a></li>
+            <li><a class="dropdown-item" href="/auth/signup" id="menuSignup">Create account</a></li>
             <li>
               <button class="dropdown-item text-danger" id="menuLogout" style="display: none;">
                 <i class="fas fa-sign-out-alt me-2"></i>Logout
@@ -179,7 +131,6 @@
   <!-- Main content -->
   <div class="container-fluid main-content">
     <div class="container pt-3 pb-5">
-
       <div id="errorContainer" class="d-none alert alert-danger mb-4"></div>
 
       <div class="auth-container">
@@ -188,46 +139,20 @@
         <form id="signupForm" class="needs-validation" novalidate>
           <div class="mb-4">
             <label for="email" class="form-label">Email address</label>
-            <input 
-              type="email" 
-              class="form-control form-control-lg" 
-              id="email" 
-              placeholder="you@example.com" 
-              required 
-              autocomplete="email"
-            >
-            <div class="invalid-feedback">
-              Please enter a valid email address.
-            </div>
+            <input type="email" class="form-control form-control-lg" id="email" placeholder="you@example.com" required autocomplete="email">
+            <div class="invalid-feedback">Please enter a valid email address.</div>
           </div>
           
           <div class="mb-4">
             <label for="password" class="form-label">Password</label>
-            <input 
-              type="password" 
-              class="form-control form-control-lg" 
-              id="password" 
-              required 
-              minlength="6"
-              autocomplete="new-password"
-            >
-            <div class="invalid-feedback">
-              Password must be at least 6 characters long.
-            </div>
+            <input type="password" class="form-control form-control-lg" id="password" required minlength="6" autocomplete="new-password">
+            <div class="invalid-feedback">Password must be at least 6 characters long.</div>
           </div>
 
           <div class="mb-4">
             <label for="passwordConfirm" class="form-label">Confirm Password</label>
-            <input 
-              type="password" 
-              class="form-control form-control-lg" 
-              id="passwordConfirm" 
-              required 
-              autocomplete="new-password"
-            >
-            <div class="invalid-feedback" id="confirmFeedback">
-              Passwords do not match.
-            </div>
+            <input type="password" class="form-control form-control-lg" id="passwordConfirm" required autocomplete="new-password">
+            <div class="invalid-feedback" id="confirmFeedback">Passwords do not match.</div>
           </div>
 
           <button type="submit" class="btn btn-danger btn-lg w-100 btn-auth" id="signupButton">Sign Up</button>
@@ -241,7 +166,6 @@
         </div>
       </div>
 
-      <!-- Footer -->
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-3 border-top mt-5">
         <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
@@ -250,17 +174,15 @@
           </li>
         </ul>
       </footer>
-
     </div>
   </div>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
-  <!-- Theme toggle + form validation -->
+  <!-- Theme toggle -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Theme toggle
       const themeToggle = document.getElementById('themeToggle');
       const htmlElement = document.documentElement;
       let currentTheme = localStorage.getItem('theme') || 'dark';
@@ -275,73 +197,120 @@
           themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
         });
       }
-
-      // Bootstrap form validation + password match
-      const form = document.getElementById('signupForm');
-      const password = document.getElementById('password');
-      const confirm = document.getElementById('passwordConfirm');
-      const confirmFeedback = document.getElementById('confirmFeedback');
-
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (password.value !== confirm.value) {
-          confirm.classList.add('is-invalid');
-          confirmFeedback.textContent = "Passwords do not match.";
-          return;
-        } else {
-          confirm.classList.remove('is-invalid');
-        }
-
-        if (!form.checkValidity()) {
-          form.classList.add('was-validated');
-          return;
-        }
-
-        alert('Signup functionality coming soon (Firebase step next)');
-      });
-
-      // Real-time password match feedback
-      confirm.addEventListener('input', () => {
-        if (confirm.value && password.value !== confirm.value) {
-          confirm.classList.add('is-invalid');
-          confirmFeedback.textContent = "Passwords do not match.";
-        } else {
-          confirm.classList.remove('is-invalid');
-        }
-      });
     });
   </script>
 
-  <!-- Account menu visibility logic -->
+  <!-- Firebase + Signup Logic -->
   <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBulGl-96u38wmkAs_R9FcuQMsBTkLN6ak",
+      authDomain: "futbolx-auth-31bc6.firebaseapp.com",
+      projectId: "futbolx-auth-31bc6",
+      storageBucket: "futbolx-auth-31bc6.firebasestorage.app",
+      messagingSenderId: "262628908181",
+      appId: "1:262628908181:web:c823d458e2e2685ab48f9c"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Common disposable email domains
+    const disposableDomains = [
+      'tempmail.com', '10minutemail.com', 'throwawaymail.com', 'mailinator.com',
+      'guerrillamail.com', 'yopmail.com', 'sharklasers.com', 'dispostable.com',
+      'maildrop.cc', 'getnada.com', 'trashmail.com', 'temp-mail.org',
+      'fakeinbox.com', 'mohmal.com', '33mail.com', 'armyspy.com', 'cuvox.de',
+      'dayrep.com', 'einrot.com', 'fleckens.hu', 'gustr.com', 'jourrapide.com',
+      'rhyta.com', 'superrito.com', 'teleworm.us'
+    ];
+
+    function isDisposableEmail(email) {
+      const domain = email.split('@')[1]?.toLowerCase();
+      if (!domain) return false;
+      return disposableDomains.some(d => domain.includes(d) || domain.endsWith('.' + d));
+    }
+
+    // Sidebar menu update
     function updateAccountMenu(isLoggedIn) {
       const menuLogin  = document.getElementById('menuLogin');
       const menuSignup = document.getElementById('menuSignup');
       const menuLogout = document.getElementById('menuLogout');
 
-      if (!menuLogin || !menuSignup || !menuLogout) return;
-
-      if (isLoggedIn) {
-        menuLogin.style.display = 'none';
-        menuSignup.style.display = 'none';
-        menuLogout.style.display = 'block';
-      } else {
-        menuLogin.style.display = 'block';
-        menuSignup.style.display = 'block';
-        menuLogout.style.display = 'none';
+      if (menuLogin && menuSignup && menuLogout) {
+        if (isLoggedIn) {
+          menuLogin.style.display = 'none';
+          menuSignup.style.display = 'none';
+          menuLogout.style.display = 'block';
+        } else {
+          menuLogin.style.display = 'block';
+          menuSignup.style.display = 'block';
+          menuLogout.style.display = 'none';
+        }
       }
     }
 
-    // Logout placeholder
-    document.getElementById('menuLogout')?.addEventListener('click', (e) => {
-      e.preventDefault();
-      alert('Logout functionality coming soon (Firebase integration next)');
+    auth.onAuthStateChanged((user) => {
+      updateAccountMenu(!!user);
     });
 
-    // For testing right now – change to true to simulate logged in state
-    // updateAccountMenu(true);
+    document.getElementById('menuLogout')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      auth.signOut().then(() => {
+        window.location.href = '/';
+      }).catch(err => {
+        alert('Logout failed: ' + err.message);
+      });
+    });
+
+    // Signup handler
+    const form = document.getElementById('signupForm');
+    const errorContainer = document.getElementById('errorContainer');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('passwordConfirm').value;
+
+      if (password !== confirm) {
+        showError('Passwords do not match.');
+        return;
+      }
+
+      if (!form.checkValidity()) {
+        form.classList.add('was-validated');
+        return;
+      }
+
+      if (isDisposableEmail(email)) {
+        showError('Temporary or disposable email addresses are not allowed. Please use a real email (Gmail, Outlook, Yahoo, etc.).');
+        return;
+      }
+
+      try {
+        await auth.createUserWithEmailAndPassword(email, password);
+        alert('Account created successfully! You can now log in.');
+        window.location.href = '/auth/login';
+      } catch (error) {
+        let msg = error.message;
+        if (error.code === 'auth/email-already-in-use') {
+          msg = 'This email is already registered. Please log in.';
+        } else if (error.code === 'auth/weak-password') {
+          msg = 'Password is too weak. Use at least 6 characters.';
+        } else if (error.code === 'auth/invalid-email') {
+          msg = 'Please enter a valid email address.';
+        }
+        showError(msg);
+      }
+    });
+
+    function showError(message) {
+      errorContainer.innerHTML = message;
+      errorContainer.classList.remove('d-none');
+      setTimeout(() => errorContainer.classList.add('d-none'), 8000);
+    }
   </script>
 
 </body>
