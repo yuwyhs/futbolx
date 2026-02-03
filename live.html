@@ -76,46 +76,6 @@
       box-shadow: 0 0 8px rgba(255,77,77,0.5);
     }
 
-    /* Hide volume slider, keep only speaker icon */
-    #oplayer-container .plyr__volume input[type="range"] {
-      display: none !important;
-    }
-    #oplayer-container .plyr__volume {
-      width: auto !important;
-      min-width: 40px !important;
-    }
-
-    /* Hide settings if no captions or quality */
-    #oplayer-container .plyr__control--settings:empty,
-    #oplayer-container .plyr__menu-wrapper:empty + .plyr__control--settings {
-      display: none !important;
-    }
-
-    #oplayer-container video {
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: contain;
-    }
-
-    #oplayer-container .plyr__controls {
-      padding: 0 12px 12px;
-      margin: 0;
-      bottom: 0;
-    }
-
-    /* Chatango fit container */
-    .chat-container {
-      height: 420px;
-      background: #111;
-      position: relative;
-      overflow: hidden;
-    }
-    .chat-container script {
-      width: 100% !important;
-      height: 100% !important;
-      border: none;
-    }
-
     .live-title {
       text-align: center;
       background: linear-gradient(135deg, #1a1a1a, #2d0000);
@@ -162,6 +122,54 @@
       font-size:1.2rem;
       text-align:center;
       border-bottom:2px solid #cc0000;
+    }
+
+    .chat-container {
+      height: 420px;
+      background: #111;
+      position: relative;
+      overflow: hidden;
+    }
+    .chat-container script {
+      width: 100% !important;
+      height: 100% !important;
+      border: none;
+    }
+
+    /* Desktop layout: side-by-side player + chat */
+    @media (min-width: 992px) {
+      .main-content-row {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 1.5rem;
+      }
+      .video-section {
+        flex: 0 0 70%;
+        max-width: 70%;
+      }
+      .chat-section {
+        flex: 0 0 30%;
+        max-width: 30%;
+        margin-top: 0; /* align top with video */
+      }
+      .chat-wrapper {
+        margin: 0; /* remove auto margin on desktop */
+      }
+      .chat-container {
+        height: 600px; /* taller on desktop to match video height */
+      }
+    }
+
+    @media (max-width: 991px) {
+      .main-content-row {
+        flex-direction: column;
+      }
+      .video-section, .chat-section {
+        width: 100%;
+      }
+      .chat-container {
+        height: 420px;
+      }
     }
 
     #statusArea {
@@ -282,20 +290,29 @@
             <p id="statusMessage" class="status-message">Loading event...</p>
           </div>
 
-          <div class="video-container">
-            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-presentation" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-            <div id="oplayer-container"></div>
-          </div>
+          <!-- Main content row: video left, chat right on desktop -->
+          <div class="row main-content-row">
+            <!-- Video + stream links section (left on desktop) -->
+            <div class="col-12 col-lg-8 video-section">
+              <div class="video-container">
+                <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-presentation" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                <div id="oplayer-container"></div>
+              </div>
 
-          <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
+              <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
+            </div>
 
-          <!-- Latest Chatango embed -->
-          <div class="chat-wrapper">
-            <div class="chat-header">Live Chat</div>
-            <div class="chat-container">
-              <script id="cid0020000430640675904" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%; height: 100%;">
-                {"handle":"futbolxc","arch":"js","styles":{"a":"000000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"000000","l":"000000","m":"000000","n":"FFFFFF","p":"10","q":"000000","r":100,"t":0,"usricon":0.86,"surl":0,"allowpm":0,"cnrs":"0.76"}}
-              </script>
+            <!-- Chat section (right on desktop) -->
+            <div class="col-12 col-lg-4 chat-section">
+              <!-- Latest Chatango embed -->
+              <div class="chat-wrapper">
+                <div class="chat-header">Live Chat</div>
+                <div class="chat-container">
+                  <script id="cid0020000430640675904" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%; height: 100%;">
+                    {"handle":"futbolxc","arch":"js","styles":{"a":"000000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"000000","l":"000000","m":"000000","n":"FFFFFF","p":"10","q":"000000","r":100,"t":0,"usricon":0.86,"surl":0,"allowpm":0,"cnrs":"0.76"}}
+                  </script>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -577,7 +594,6 @@
       const startBtn = document.getElementById('startLivestream');
 
       try {
-        // 1. Get category list from /api/stream
         const catListRes = await fetchWithRetry('/api/stream');
         const categoryNames = catListRes.categories || [];
 
@@ -585,7 +601,6 @@
           throw new Error("No categories defined");
         }
 
-        // 2. Fetch all category JSON files in parallel
         const fetchPromises = categoryNames.map(cat => 
           fetchWithRetry(`/api/${cat}.json`)
             .catch(err => {
@@ -596,7 +611,6 @@
 
         const allCategoryData = await Promise.all(fetchPromises);
 
-        // 3. Search for the event across all categories
         let foundEvent = null;
 
         for (const data of allCategoryData) {
@@ -701,4 +715,4 @@
     });
   </script>
 </body>
-                                         </html>
+    </html>
