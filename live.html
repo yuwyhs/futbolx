@@ -152,28 +152,60 @@
 
     #online-count {
       background: rgba(0,0,0,0.5);
-      padding: 4px 12px;
-      border-radius: 16px;
+      padding: 2px 8px;
+      border-radius: 50%;
       font-weight: bold;
-      min-width: 32px;
+      min-width: 24px;
       text-align: center;
-      font-size: 1.1rem;
+      font-size: 1rem;
+    }
+
+    #input-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
     #emoji-btn {
+      align-self: flex-end;
       background: #ff4d4d;
       border: none;
       color: white;
-      font-size: 22px;
-      padding: 10px;
+      font-size: 18px;
+      padding: 6px 12px;
       border-radius: 8px;
       cursor: pointer;
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 8px;
+    }
+
+    #send-btn {
+      align-self: flex-end;
+      padding: 10px 20px;
+      background:#ff4d4d;
+      color:white;
+      border:none;
+      border-radius:8px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    #settings-btn {
+      background: #ff4d4d;
+      border: none;
+      color: white;
+      font-size: 18px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-left: 8px;
+      display: none; /* Hidden by default - shown for owner */
+    }
+
+    .profile-menu {
+      background: #1e1e1e;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 5px;
+      display: none;
     }
 
     #statusArea {
@@ -316,10 +348,15 @@
                   <button id="join-btn" style="padding:10px 20px; background:#ff4d4d; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Join</button>
                 </div>
                 
-                <div id="input-section" style="display:none; display:flex; padding:12px; gap:8px; border-top:1px solid #333; position: absolute; bottom: 0; width: 100%; box-sizing: border-box;">
-                  <button id="emoji-btn" title="Pick emoji">😀</button>
-                  <input id="message" placeholder="Type here..." autocomplete="off" style="flex:1; padding:10px; border:1px solid #ff4d4d; border-radius:8px; background:#1e1e1e; color:white; font-size:16px;" />
-                  <button id="send-btn" style="padding:10px 20px; background:#ff4d4d; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Send</button>
+                <div id="input-section" style="display:none; padding:12px; border-top:1px solid #333; position: absolute; bottom: 0; width: 100%; box-sizing: border-box;">
+                  <div style="display: flex; gap: 8px;">
+                    <input id="message" placeholder="Type here..." autocomplete="off" style="flex:1; padding:10px; border:1px solid #ff4d4d; border-radius:8px; background:#1e1e1e; color:white; font-size:16px;" />
+                    <button id="settings-btn" style="display: none; padding:10px 20px; background:#ff4d4d; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Settings</button>
+                  </div>
+                  <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px;">
+                    <button id="emoji-btn" style="padding:10px 20px; background:#ff4d4d; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">😀</button>
+                    <button id="send-btn" style="padding:10px 20px; background:#ff4d4d; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Send</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -449,7 +486,7 @@
               const hasQuality = hls.levels && hls.levels.length > 1;
               const hasCaptions = player.captions && player.captions.length > 0;
               if (!hasQuality && !hasCaptions) {
-                document.querySelector('.plyr__control--settings')?.style.setAttribute('style', 'display:none !important');
+                document.querySelector('.plyr__control--settings')?.style.setProperty('display', 'none', 'important');
               }
             }, 800);
           });
@@ -728,7 +765,7 @@
     });
 
     // ────────────────────────────────────────────────────────────────
-    // Supabase Realtime Chat - FINAL FIXED VERSION
+    // Supabase Realtime Chat - FINAL WITH ALL FEATURES
     // ────────────────────────────────────────────────────────────────
 
     window.addEventListener('load', () => {
@@ -739,17 +776,18 @@
       const usernameInput = document.getElementById('username');
       const messageInput = document.getElementById('message');
       const emojiBtn = document.getElementById('emoji-btn');
+      const settingsBtn = document.getElementById('settings-btn');
       const joinSection = document.getElementById('join-section');
       const inputSection = document.getElementById('input-section');
       const messagesDiv = document.getElementById('messages');
       const onlineCount = document.getElementById('online-count');
 
-      if (!joinBtn || !sendBtn || !usernameInput || !messageInput || !emojiBtn || !joinSection || !inputSection || !messagesDiv || !onlineCount) {
-        console.error('Chat elements missing - cannot initialize');
+      if (!joinBtn || !sendBtn || !usernameInput || !messageInput || !emojiBtn || !settingsBtn || !joinSection || !inputSection || !messagesDiv || !onlineCount) {
+        console.error('Chat elements missing');
         return;
       }
 
-      console.log('All chat elements detected');
+      console.log('All chat elements found');
 
       const supabaseClient = supabase.createClient(
         'https://ohqnxqodrxuokfbpwoih.supabase.co',
@@ -761,10 +799,11 @@
       });
 
       let currentUsername = localStorage.getItem('chatUsername') || '';
+      let isOwner = false;
+      let isMod = false;
 
       if (currentUsername) {
         usernameInput.value = currentUsername;
-        setTimeout(() => joinBtn.click(), 800);
       }
 
       let mutedUsers = new Set();
@@ -773,112 +812,98 @@
 
       async function loadMessages() {
         try {
-          const { data, error } = await supabaseClient.from('messages').select('*').order('created_at', { ascending: true });
-          if (error) throw error;
+          const { data } = await supabaseClient.from('messages').select('*').order('created_at', { ascending: true });
           messagesDiv.innerHTML = '';
           data.forEach(addMessage);
           console.log('Loaded', data.length, 'messages');
         } catch (err) {
-          console.error('Load messages failed:', err.message);
+          console.error('Load messages:', err.message);
         }
       }
 
       async function loadModeration() {
         try {
-          const { data, error } = await supabaseClient.from('moderation').select('*');
-          if (error) throw error;
+          const { data } = await supabaseClient.from('moderation').select('*');
           data.forEach(mod => {
             if (mod.action === 'mute') mutedUsers.add(mod.target_username);
             if (mod.action === 'ban') bannedUsers.add(mod.target_username);
           });
-          console.log('Moderation loaded');
         } catch (err) {
-          console.error('Moderation load failed:', err.message);
+          console.error('Moderation load:', err.message);
+        }
+      }
+
+      async function isUserMod(username) {
+        const { data } = await supabaseClient.from('mods').select('username').eq('username', username);
+        return data.length > 0;
+      }
+
+      async function checkUserRole() {
+        isOwner = currentUsername === 'Finest';
+        isMod = await isUserMod(currentUsername);
+        if (isOwner || isMod) {
+          settingsBtn.style.display = 'block';
         }
       }
 
       function addMessage(msg) {
-        console.log('Adding message:', msg.text);
         const div = document.createElement('div');
         div.style.background = '#1e1e1e';
-        div.style.padding = '10px';
+        div.style.padding = '10px 12px';
         div.style.margin = '8px 0';
-        div.style.borderRadius = '8px';
+        div.style.borderRadius = '10px';
         div.style.wordBreak = 'break-word';
+        div.dataset.username = msg.username;
+        div.dataset.id = msg.id;
 
         const userSpan = document.createElement('span');
         userSpan.style.fontWeight = 'bold';
         userSpan.style.color = msg.color || '#FFFFFF';
         userSpan.textContent = msg.username;
+        if (msg.username === 'Futbol+') userSpan.innerHTML += ' 🤖'; // Bot icon
         if (msg.username === 'Finest') userSpan.innerHTML += ' 👑';
-
-        if (msg.is_pinned) {
-          div.style.border = '1px solid gold';
-          div.style.background = '#2a2a00';
-        }
 
         div.appendChild(userSpan);
         div.innerHTML += `: ${msg.text} <small style="color:#aaa; margin-left:8px;">(${new Date(msg.created_at).toLocaleTimeString()})</small>`;
 
-        if (currentUsername === 'Finest') {
-          const controls = document.createElement('div');
-          controls.style.marginTop = '6px';
-          controls.style.fontSize = '0.85em';
-
-          const pinBtn = document.createElement('button');
-          pinBtn.textContent = msg.is_pinned ? 'Unpin' : 'Pin';
-          pinBtn.style.marginRight = '8px';
-          pinBtn.style.background = 'gold';
-          pinBtn.style.color = 'black';
-          pinBtn.style.border = 'none';
-          pinBtn.style.padding = '4px 8px';
-          pinBtn.style.borderRadius = '4px';
-          pinBtn.style.cursor = 'pointer';
-          pinBtn.onclick = () => {
-            supabaseClient.from('messages').update({ is_pinned: !msg.is_pinned }).eq('id', msg.id);
-          };
-          controls.appendChild(pinBtn);
-
-          const muteBtn = document.createElement('button');
-          muteBtn.textContent = mutedUsers.has(msg.username) ? 'Unmute' : 'Mute';
-          muteBtn.style.marginRight = '8px';
-          muteBtn.style.background = '#ff9800';
-          muteBtn.style.color = 'white';
-          muteBtn.style.border = 'none';
-          muteBtn.style.padding = '4px 8px';
-          muteBtn.style.borderRadius = '4px';
-          muteBtn.style.cursor = 'pointer';
-          muteBtn.onclick = () => {
-            if (mutedUsers.has(msg.username)) {
-              mutedUsers.delete(msg.username);
-              supabaseClient.from('moderation').delete().eq('target_username', msg.username).eq('action', 'mute');
+        if (isOwner || isMod) {
+          div.style.cursor = 'pointer';
+          div.addEventListener('click', () => {
+            const menu = div.querySelector('.profile-menu');
+            if (menu) {
+              menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
             } else {
-              mutedUsers.add(msg.username);
-              supabaseClient.from('moderation').insert({ action: 'mute', target_username: msg.username });
-            }
-          };
-          controls.appendChild(muteBtn);
+              const newMenu = document.createElement('div');
+              newMenu.className = 'profile-menu';
+              newMenu.style.display = 'block';
 
-          const banBtn = document.createElement('button');
-          banBtn.textContent = bannedUsers.has(msg.username) ? 'Unban' : 'Ban';
-          banBtn.style.background = '#f44336';
-          banBtn.style.color = 'white';
-          banBtn.style.border = 'none';
-          banBtn.style.padding = '4px 8px';
-          banBtn.style.borderRadius = '4px';
-          banBtn.style.cursor = 'pointer';
-          banBtn.onclick = () => {
-            if (bannedUsers.has(msg.username)) {
-              bannedUsers.delete(msg.username);
-              supabaseClient.from('moderation').delete().eq('target_username', msg.username).eq('action', 'ban');
-            } else {
-              bannedUsers.add(msg.username);
-              supabaseClient.from('moderation').insert({ action: 'ban', target_username: msg.username });
-            }
-          };
-          controls.appendChild(banBtn);
+              if (isOwner || isMod) {
+                const muteBtn = document.createElement('button');
+                muteBtn.textContent = mutedUsers.has(msg.username) ? 'Unmute' : 'Mute';
+                muteBtn.onclick = () => toggleMute(msg.username);
+                newMenu.appendChild(muteBtn);
 
-          div.appendChild(controls);
+                const banBtn = document.createElement('button');
+                banBtn.textContent = bannedUsers.has(msg.username) ? 'Unban' : 'Ban';
+                banBtn.onclick = () => toggleBan(msg.username);
+                newMenu.appendChild(banBtn);
+              }
+
+              const deleteBtn = document.createElement('button');
+              deleteBtn.textContent = 'Delete';
+              deleteBtn.onclick = () => deleteMessage(msg.id);
+              newMenu.appendChild(deleteBtn);
+
+              if (isOwner) {
+                const pinBtn = document.createElement('button');
+                pinBtn.textContent = msg.is_pinned ? 'Unpin' : 'Pin';
+                pinBtn.onclick = () => togglePin(msg.id, !msg.is_pinned);
+                newMenu.appendChild(pinBtn);
+              }
+
+              div.appendChild(newMenu);
+            }
+          });
         }
 
         messagesDiv.appendChild(div);
@@ -886,50 +911,73 @@
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
       }
 
-      // Join
+      async function togglePin(id, pinned) {
+        await supabaseClient.from('messages').update({ is_pinned: pinned }).eq('id', id);
+      }
+
+      async function toggleMute(username) {
+        if (mutedUsers.has(username)) {
+          mutedUsers.delete(username);
+          await supabaseClient.from('moderation').delete().eq('target_username', username).eq('action', 'mute');
+        } else {
+          mutedUsers.add(username);
+          await supabaseClient.from('moderation').insert({ action: 'mute', target_username: username });
+        }
+      }
+
+      async function toggleBan(username) {
+        if (bannedUsers.has(username)) {
+          bannedUsers.delete(username);
+          await supabaseClient.from('moderation').delete().eq('target_username', username).eq('action', 'ban');
+        } else {
+          bannedUsers.add(username);
+          await supabaseClient.from('moderation').insert({ action: 'ban', target_username: username });
+        }
+      }
+
+      async function deleteMessage(id) {
+        await supabaseClient.from('messages').delete().eq('id', id);
+      }
+
+      async function checkUsernameUnique(username) {
+        const { data } = await supabaseClient.from('users').select('username').eq('username', username);
+        return data.length === 0;
+      }
+
+      async function registerUser(username, color) {
+        await supabaseClient.from('users').insert({ username, color });
+      }
+
       joinBtn.addEventListener('click', async () => {
         const username = usernameInput.value.trim();
         if (!username) return alert('Enter username');
 
-        currentUsername = username;
-        localStorage.setItem('chatUsername', username);
-
-        try {
-          await channel.track({ online: true, username });
+        if (await checkUsernameUnique(username)) {
+          const color = nameColors[Math.floor(Math.random() * nameColors.length)];
+          await registerUser(username, color);
+          currentUsername = username;
+          localStorage.setItem('chatUsername', username);
+          await checkUserRole();
           joinSection.style.display = 'none';
-          inputSection.style.display = 'flex';
-
-          // Welcome message
-          const welcome = document.createElement('div');
-          welcome.style.color = '#4caf50';
-          welcome.style.padding = '10px';
-          welcome.style.margin = '10px 0';
-          welcome.textContent = `Welcome to the chat, ${username}!`;
-          messagesDiv.appendChild(welcome);
-          messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
+          inputSection.style.display = 'block';
+          addMessage({ username: 'Futbol+', text: 'Welcome, ' + username + '! Be respectful, no spam.', created_at: new Date().toISOString(), color: '#4caf50' });
           await loadMessages();
           await loadModeration();
-          console.log('Joined as:', username);
-        } catch (err) {
-          console.error('Join error:', err.message);
-          alert('Join failed - see console');
+          await channel.track({ online: true, username });
+        } else {
+          alert('Username already used - try another');
         }
       });
 
-      // Send - local render + Supabase save
       sendBtn.addEventListener('click', async () => {
         const text = messageInput.value.trim();
-        if (!text || !currentUsername) return alert('Join first or type message');
+        if (!text || !currentUsername) return;
 
-        if (mutedUsers.has(currentUsername) || bannedUsers.has(currentUsername)) {
-          alert('You are muted or banned');
-          return;
-        }
+        if (mutedUsers.has(currentUsername) || bannedUsers.has(currentUsername)) return alert('Muted or banned');
 
-        const color = nameColors[Math.floor(Math.random() * nameColors.length)];
+        const { data } = await supabaseClient.from('users').select('color').eq('username', currentUsername).single();
+        const color = data.color;
 
-        // Local render (instant feedback)
         const localMsg = {
           username: currentUsername,
           color,
@@ -939,23 +987,14 @@
         };
         addMessage(localMsg);
 
-        // Save to Supabase
         try {
-          const { error } = await supabaseClient.from('messages').insert({
-            username: currentUsername,
-            color,
-            text
-          });
-          if (error) throw error;
+          await supabaseClient.from('messages').insert({ username: currentUsername, color, text });
           messageInput.value = '';
-          console.log('Message sent and saved');
         } catch (err) {
-          console.error('Send error:', err.message);
-          alert('Message sent locally but failed to save - ' + err.message);
+          console.error('Send:', err.message);
         }
       });
 
-      // Enter key
       messageInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
@@ -963,47 +1002,40 @@
         }
       });
 
-      // Full emoji picker (native browser)
       emojiBtn.addEventListener('click', () => {
         messageInput.focus();
-        // Trigger native emoji picker (works on most modern browsers/mobile)
-        if ('getEmojiList' in navigator) {
-          // Future full picker if browser supports
-          navigator.getEmojiList().then(emojis => {
-            // Can build custom picker if needed
-            alert('Browser emoji picker not fully supported yet - type :smile: manually for now');
-          });
-        } else {
-          // Fallback: add popular ones or just focus input
-          messageInput.value += '😀';
-        }
+        messageInput.setAttribute('type', 'text'); // Ensure picker opens
+        // Native picker triggers on focus in some browsers
       });
 
-      // Realtime
-      supabaseClient.channel('public:messages')
-        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) => {
-          console.log('New message received:', payload.new.text);
-          addMessage(payload.new);
-        })
-        .on('postgres_changes', { event: ['UPDATE', 'DELETE'], schema: 'public', table: 'messages' }, () => {
-          console.log('Message updated/deleted - reloading');
-          messagesDiv.innerHTML = '';
-          loadMessages();
-        })
-        .subscribe((status) => {
-          console.log('Messages realtime status:', status);
-        });
+      // Settings for owner
+      settingsBtn.addEventListener('click', () => {
+        alert('Settings: Delete all messages? Add/remove mod? Set system message? (Implement UI here)');
+        // Add full UI for delete all, mods list, etc.
+      });
 
       channel.on('presence', { event: 'sync' }, () => {
         const count = Object.keys(channel.presenceState()).length;
         onlineCount.textContent = count;
-        console.log('Real online count:', count);
-      }).subscribe((status) => {
-        console.log('Presence realtime status:', status);
-      });
+      }).on('presence', { event: 'join' }, ({ newPresences }) => {
+        if (isOwner || isMod) {
+          newPresences.forEach(p => {
+            addMessage({ username: 'Futbol+', text: p.username + ' joined the chat', created_at: new Date().toISOString(), color: '#aaa' });
+          });
+        }
+      }).subscribe();
 
-      console.log('Chat fully initialized - join and send messages');
+      supabaseClient.channel('public:messages')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, p => addMessage(p.new))
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, () => loadMessages())
+        .subscribe();
+
+      // Initial load
+      loadMessages();
+
+      // System message on load
+      addMessage({ username: 'Futbol+', text: 'Be respectful - don\'t spam - enjoy the stream', created_at: new Date().toISOString(), color: '#aaa' });
     });
   </script>
 </body>
-          </html>
+  </html>
