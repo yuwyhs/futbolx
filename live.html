@@ -147,7 +147,6 @@
       padding:12px 20px;
       font-weight:bold;
       font-size:1.2rem;
-      text-align:center;
       border-bottom:2px solid #cc0000;
     }
 
@@ -591,7 +590,6 @@
       const startBtn = document.getElementById('startLivestream');
 
       try {
-        // 1. Get category list from /api/stream
         const catListRes = await fetchWithRetry('/api/stream');
         const categoryNames = catListRes.categories || [];
 
@@ -599,7 +597,6 @@
           throw new Error("No categories defined");
         }
 
-        // 2. Fetch all category JSON files in parallel
         const fetchPromises = categoryNames.map(cat => 
           fetchWithRetry(`/api/${cat}.json`)
             .catch(err => {
@@ -610,7 +607,6 @@
 
         const allCategoryData = await Promise.all(fetchPromises);
 
-        // 3. Search for the event across all categories
         let foundEvent = null;
 
         for (const data of allCategoryData) {
@@ -712,225 +708,242 @@
           }, 600);
         }
       }, 1000);
+    });
 
-      // ────────────────────────────────────────────────────────────────
-      // Supabase Realtime Chat - FINAL VERSION
-      // ────────────────────────────────────────────────────────────────
+    // ────────────────────────────────────────────────────────────────
+    // Supabase Realtime Chat - FINAL SAFE VERSION
+    // ────────────────────────────────────────────────────────────────
 
-      window.addEventListener('load', () => {
-        console.log('Page fully loaded - initializing chat');
+    window.addEventListener('load', () => {
+      console.log('FULL PAGE LOADED - STARTING CHAT SCRIPT');
 
-        const joinBtn = document.getElementById('join-btn');
-        const sendBtn = document.getElementById('send-btn');
-        const usernameInput = document.getElementById('username');
-        const messageInput = document.getElementById('message');
-        const joinSection = document.getElementById('join-section');
-        const inputSection = document.getElementById('input-section');
-        const messagesDiv = document.getElementById('messages');
-        const onlineCount = document.getElementById('online-count');
+      // Get all chat elements
+      const joinBtn = document.getElementById('join-btn');
+      const sendBtn = document.getElementById('send-btn');
+      const usernameInput = document.getElementById('username');
+      const messageInput = document.getElementById('message');
+      const joinSection = document.getElementById('join-section');
+      const inputSection = document.getElementById('input-section');
+      const messagesDiv = document.getElementById('messages');
+      const onlineCount = document.getElementById('online-count');
 
-        if (!joinBtn || !sendBtn || !usernameInput || !messageInput || !joinSection || !inputSection || !messagesDiv || !onlineCount) {
-          console.error('Chat elements missing');
+      if (!joinBtn || !sendBtn || !usernameInput || !messageInput || !joinSection || !inputSection || !messagesDiv || !onlineCount) {
+        console.error('CHAT ELEMENTS MISSING - CHECK HTML IDS');
+        console.log('joinBtn:', !!joinBtn);
+        console.log('sendBtn:', !!sendBtn);
+        console.log('usernameInput:', !!usernameInput);
+        return;
+      }
+
+      console.log('ALL CHAT ELEMENTS FOUND - READY');
+
+      // Supabase client
+      if (typeof supabase === 'undefined') {
+        console.error('Supabase library not loaded from CDN');
+        alert('Chat failed to load (Supabase not available). Refresh page.');
+        return;
+      }
+
+      const supabaseClient = supabase.createClient(
+        'https://ohqnxqodrxuokfbpwoih.supabase.co',
+        'sb_publishable_yC3FQ2FPFFErcb2BeuYqnw_K1-LmMxY'
+      );
+
+      console.log('Supabase client created successfully');
+
+      const channel = supabaseClient.channel('futbol-chat', {
+        config: { broadcast: { self: true } }
+      });
+
+      let currentUsername = localStorage.getItem('chatUsername') || '';
+
+      if (currentUsername) {
+        usernameInput.value = currentUsername;
+      }
+
+      let mutedUsers = new Set();
+      let bannedUsers = new Set();
+      const nameColors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#FF33A1', '#33FFF3', '#FF8C00', '#8A2BE2'];
+
+      async function loadMessages() {
+        try {
+          const { data, error } = await supabaseClient
+            .from('messages')
+            .select('*')
+            .order('created_at', { ascending: true });
+          if (error) throw error;
+          messagesDiv.innerHTML = '';
+          data.forEach(addMessage);
+          console.log('Loaded', data.length, 'messages');
+        } catch (err) {
+          console.error('Load messages failed:', err.message);
+        }
+      }
+
+      async function loadModeration() {
+        try {
+          const { data, error } = await supabaseClient.from('moderation').select('*');
+          if (error) throw error;
+          data.forEach(mod => {
+            if (mod.action === 'mute') mutedUsers.add(mod.target_username);
+            if (mod.action === 'ban') bannedUsers.add(mod.target_username);
+          });
+          console.log('Moderation loaded');
+        } catch (err) {
+          console.error('Moderation load failed:', err.message);
+        }
+      }
+
+      function addMessage(msg) {
+        const div = document.createElement('div');
+        div.style.background = '#1e1e1e';
+        div.style.padding = '10px 12px';
+        div.style.margin = '8px 0';
+        div.style.borderRadius = '10px';
+        div.style.wordBreak = 'break-word';
+
+        const userSpan = document.createElement('span');
+        userSpan.style.fontWeight = 'bold';
+        userSpan.style.color = msg.color || '#FFFFFF';
+        userSpan.textContent = msg.username;
+        if (msg.username === 'Finest') userSpan.innerHTML += ' 👑';
+
+        if (msg.is_pinned) {
+          div.style.border = '1px solid gold';
+          div.style.background = '#2a2a00';
+        }
+
+        div.appendChild(userSpan);
+        div.innerHTML += `: ${msg.text} <small style="color:#aaa; margin-left:8px;">(${new Date(msg.created_at).toLocaleTimeString()})</small>`;
+
+        if (currentUsername === 'Finest') {
+          const controls = document.createElement('div');
+          controls.style.marginTop = '6px';
+          controls.style.fontSize = '0.85em';
+
+          const pinBtn = document.createElement('button');
+          pinBtn.textContent = msg.is_pinned ? 'Unpin' : 'Pin';
+          pinBtn.style.marginRight = '8px';
+          pinBtn.style.background = 'gold';
+          pinBtn.style.color = 'black';
+          pinBtn.style.border = 'none';
+          pinBtn.style.padding = '4px 8px';
+          pinBtn.style.borderRadius = '4px';
+          pinBtn.style.cursor = 'pointer';
+          pinBtn.onclick = () => togglePin(msg.id, !msg.is_pinned);
+          controls.appendChild(pinBtn);
+
+          const muteBtn = document.createElement('button');
+          muteBtn.textContent = mutedUsers.has(msg.username) ? 'Unmute' : 'Mute';
+          muteBtn.style.marginRight = '8px';
+          muteBtn.style.background = '#ff9800';
+          muteBtn.style.color = 'white';
+          muteBtn.style.border = 'none';
+          muteBtn.style.padding = '4px 8px';
+          muteBtn.style.borderRadius = '4px';
+          muteBtn.style.cursor = 'pointer';
+          muteBtn.onclick = () => toggleMute(msg.username);
+          controls.appendChild(muteBtn);
+
+          const banBtn = document.createElement('button');
+          banBtn.textContent = bannedUsers.has(msg.username) ? 'Unban' : 'Ban';
+          banBtn.style.background = '#f44336';
+          banBtn.style.color = 'white';
+          banBtn.style.border = 'none';
+          banBtn.style.padding = '4px 8px';
+          banBtn.style.borderRadius = '4px';
+          banBtn.style.cursor = 'pointer';
+          banBtn.onclick = () => toggleBan(msg.username);
+          controls.appendChild(banBtn);
+
+          div.appendChild(controls);
+        }
+
+        messagesDiv.appendChild(div);
+        twemoji.parse(div);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+
+      // Join
+      joinBtn.addEventListener('click', async () => {
+        const username = usernameInput.value.trim();
+        if (!username) return alert('Enter username');
+
+        currentUsername = username;
+        localStorage.setItem('chatUsername', username);
+
+        try {
+          await channel.track({ online: true, username });
+          joinSection.style.display = 'none';
+          inputSection.style.display = 'flex';
+          await loadMessages();
+          await loadModeration();
+          console.log('Joined as:', username);
+        } catch (err) {
+          console.error('Join failed:', err.message);
+          alert('Join failed - see console');
+        }
+      });
+
+      // Send
+      sendBtn.addEventListener('click', async () => {
+        const text = messageInput.value.trim();
+        if (!text || !currentUsername) return alert('Join first or type message');
+
+        if (mutedUsers.has(currentUsername) || bannedUsers.has(currentUsername)) {
+          alert('You are muted or banned');
           return;
         }
 
-        console.log('Chat elements found');
+        const color = nameColors[Math.floor(Math.random() * nameColors.length)];
 
-        const supabaseClient = supabase.createClient(
-          'https://ohqnxqodrxuokfbpwoih.supabase.co',
-          'sb_publishable_yC3FQ2FPFFErcb2BeuYqnw_K1-LmMxY'
-        );
-
-        const channel = supabaseClient.channel('futbol-chat', {
-          config: { broadcast: { self: true } }
-        });
-
-        let currentUsername = localStorage.getItem('chatUsername') || '';
-        if (currentUsername) {
-          usernameInput.value = currentUsername;
-        }
-
-        let mutedUsers = new Set();
-        let bannedUsers = new Set();
-        const nameColors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#FF33A1', '#33FFF3', '#FF8C00', '#8A2BE2'];
-
-        async function loadMessages() {
-          try {
-            const { data, error } = await supabaseClient
-              .from('messages')
-              .select('*')
-              .order('created_at', { ascending: true });
-            if (error) throw error;
-            if (data) {
-              messagesDiv.innerHTML = '';
-              data.forEach(addMessage);
-            }
-          } catch (err) {
-            console.error('Load messages error:', err.message);
-          }
-        }
-
-        async function loadModeration() {
-          try {
-            const { data, error } = await supabaseClient.from('moderation').select('*');
-            if (error) throw error;
-            if (data) data.forEach(mod => {
-              if (mod.action === 'mute') mutedUsers.add(mod.target_username);
-              if (mod.action === 'ban') bannedUsers.add(mod.target_username);
-            });
-          } catch (err) {
-            console.error('Moderation load error:', err.message);
-          }
-        }
-
-        function addMessage(msg) {
-          const div = document.createElement('div');
-          div.style.background = '#1e1e1e';
-          div.style.padding = '10px 12px';
-          div.style.margin = '8px 0';
-          div.style.borderRadius = '10px';
-          div.style.wordBreak = 'break-word';
-
-          const userSpan = document.createElement('span');
-          userSpan.style.fontWeight = 'bold';
-          userSpan.style.color = msg.color || '#FFFFFF';
-          userSpan.textContent = msg.username;
-          if (msg.username === 'Finest') userSpan.innerHTML += ' 👑';
-
-          if (msg.is_pinned) {
-            div.style.border = '1px solid gold';
-            div.style.background = '#2a2a00';
-          }
-
-          div.appendChild(userSpan);
-          div.innerHTML += `: ${msg.text} <small style="color:#aaa; margin-left:8px;">(${new Date(msg.created_at).toLocaleTimeString()})</small>`;
-
-          if (currentUsername === 'Finest') {
-            const controls = document.createElement('div');
-            controls.style.marginTop = '6px';
-            controls.style.fontSize = '0.85em';
-
-            const pinBtn = document.createElement('button');
-            pinBtn.textContent = msg.is_pinned ? 'Unpin' : 'Pin';
-            pinBtn.style.marginRight = '8px';
-            pinBtn.style.background = 'gold';
-            pinBtn.style.color = 'black';
-            pinBtn.style.border = 'none';
-            pinBtn.style.padding = '4px 8px';
-            pinBtn.style.borderRadius = '4px';
-            pinBtn.style.cursor = 'pointer';
-            pinBtn.onclick = () => togglePin(msg.id, !msg.is_pinned);
-            controls.appendChild(pinBtn);
-
-            const muteBtn = document.createElement('button');
-            muteBtn.textContent = mutedUsers.has(msg.username) ? 'Unmute' : 'Mute';
-            muteBtn.style.marginRight = '8px';
-            muteBtn.style.background = '#ff9800';
-            muteBtn.style.color = 'white';
-            muteBtn.style.border = 'none';
-            muteBtn.style.padding = '4px 8px';
-            muteBtn.style.borderRadius = '4px';
-            muteBtn.style.cursor = 'pointer';
-            muteBtn.onclick = () => toggleMute(msg.username);
-            controls.appendChild(muteBtn);
-
-            const banBtn = document.createElement('button');
-            banBtn.textContent = bannedUsers.has(msg.username) ? 'Unban' : 'Ban';
-            banBtn.style.background = '#f44336';
-            banBtn.style.color = 'white';
-            banBtn.style.border = 'none';
-            banBtn.style.padding = '4px 8px';
-            banBtn.style.borderRadius = '4px';
-            banBtn.style.cursor = 'pointer';
-            banBtn.onclick = () => toggleBan(msg.username);
-            controls.appendChild(banBtn);
-
-            div.appendChild(controls);
-          }
-
-          messagesDiv.appendChild(div);
-          twemoji.parse(div);
-          messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-
-        joinBtn.addEventListener('click', async () => {
-          currentUsername = usernameInput.value.trim();
-          if (!currentUsername) return alert('Enter username');
-
-          localStorage.setItem('chatUsername', currentUsername);
-
-          try {
-            await channel.track({ online: true, username: currentUsername });
-            joinSection.style.display = 'none';
-            inputSection.style.display = 'flex';
-            await loadMessages();
-            await loadModeration();
-            console.log('Joined as:', currentUsername);
-          } catch (err) {
-            console.error('Join error:', err);
-            alert('Join failed - check console');
-          }
-        });
-
-        sendBtn.addEventListener('click', async () => {
-          const text = messageInput.value.trim();
-          if (!text || !currentUsername) return;
-          if (mutedUsers.has(currentUsername) || bannedUsers.has(currentUsername)) {
-            alert('You are muted or banned');
-            return;
-          }
-
-          const color = nameColors[Math.floor(Math.random() * nameColors.length)];
-
-          try {
-            const { error } = await supabaseClient.from('messages').insert({
-              username: currentUsername,
-              color,
-              text
-            });
-            if (error) throw error;
-            messageInput.value = '';
-          } catch (err) {
-            console.error('Send error:', err);
-            alert('Send failed - ' + err.message);
-          }
-        });
-
-        messageInput.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            sendBtn.click();
-          }
-        });
-
-        supabaseClient
-          .channel('public:messages')
-          .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) => {
-            addMessage(payload.new);
-          })
-          .on('postgres_changes', { event: ['UPDATE', 'DELETE'], schema: 'public', table: 'messages' }, () => {
-            messagesDiv.innerHTML = '';
-            loadMessages();
-          })
-          .subscribe((status) => {
-            console.log('Messages subscription:', status);
+        try {
+          const { error } = await supabaseClient.from('messages').insert({
+            username: currentUsername,
+            color,
+            text
           });
-
-        channel
-          .on('presence', { event: 'sync' }, () => {
-            const count = Object.keys(channel.presenceState()).length;
-            onlineCount.textContent = count;
-          })
-          .subscribe((status) => {
-            console.log('Presence subscription:', status);
-          });
-
-        // Auto-join if username saved
-        if (currentUsername) {
-          setTimeout(() => joinBtn.click(), 1000);
+          if (error) throw error;
+          messageInput.value = '';
+        } catch (err) {
+          console.error('Send failed:', err.message);
+          alert('Send failed - see console');
         }
       });
+
+      messageInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          sendBtn.click();
+        }
+      });
+
+      // Realtime messages
+      supabaseClient.channel('public:messages')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) => {
+          addMessage(payload.new);
+        })
+        .on('postgres_changes', { event: ['UPDATE', 'DELETE'], schema: 'public', table: 'messages' }, () => {
+          messagesDiv.innerHTML = '';
+          loadMessages();
+        })
+        .subscribe((status) => {
+          console.log('Messages subscription status:', status);
+        });
+
+      // Presence (online count)
+      channel
+        .on('presence', { event: 'sync' }, () => {
+          const count = Object.keys(channel.presenceState()).length;
+          onlineCount.textContent = count;
+          console.log('Online count updated:', count);
+        })
+        .subscribe((status) => {
+          console.log('Presence subscription status:', status);
+        });
+
+      console.log('Chat script fully initialized');
     });
   </script>
 </body>
-</html>
+  </html>
