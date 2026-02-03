@@ -76,6 +76,33 @@
       box-shadow: 0 0 8px rgba(255,77,77,0.5);
     }
 
+    /* Hide volume slider, keep only speaker icon */
+    #oplayer-container .plyr__volume input[type="range"] {
+      display: none !important;
+    }
+    #oplayer-container .plyr__volume {
+      width: auto !important;
+      min-width: 40px !important;
+    }
+
+    /* Hide settings if no captions or quality */
+    #oplayer-container .plyr__control--settings:empty,
+    #oplayer-container .plyr__menu-wrapper:empty + .plyr__control--settings {
+      display: none !important;
+    }
+
+    #oplayer-container video {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+    }
+
+    #oplayer-container .plyr__controls {
+      padding: 0 12px 12px;
+      margin: 0;
+      bottom: 0;
+    }
+
     .live-title {
       text-align: center;
       background: linear-gradient(135deg, #1a1a1a, #2d0000);
@@ -127,12 +154,13 @@
     }
 
     #online-count {
-      background: rgba(0,0,0,0.7);
-      color: white;
+      background: rgba(0,0,0,0.6);
+      padding: 6px 14px;
+      border-radius: 50%;
       font-weight: bold;
-      padding: 4px 12px;
-      border-radius: 12px;
-      min-width: 32px;
+      min-width: 36px;
+      height: 36px;
+      line-height: 36px;
       text-align: center;
       font-size: 1.1rem;
     }
@@ -274,16 +302,12 @@
 
           <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
-          <!-- Futbol+ Header with Viewers Counter -->
-          <div class="chat-wrapper" style="margin-top: 1.5rem;">
+          <!-- Chatango with Futbol+ Header and Viewers Counter -->
+          <div class="chat-wrapper">
             <div class="chat-header">
               <span>Futbol+</span>
               <span id="online-count">0</span>
             </div>
-          </div>
-
-          <!-- Chatango Widget -->
-          <div class="chat-wrapper">
             <div class="chat-container">
               <script id="cid0020000430640675904" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%; height: 100%;">
                 {"handle":"futbolxc","arch":"js","styles":{"a":"000000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"000000","l":"000000","m":"000000","n":"FFFFFF","p":"10","q":"000000","r":100,"t":0,"usricon":0.86,"surl":0,"allowpm":0,"cnrs":"0.76"}}
@@ -312,7 +336,7 @@
   <script src="/assets/js/api.js"></script>
   <script src="/assets/js/auth.js"></script>
 
-  <!-- Supabase only for per-event viewers count -->
+  <!-- Supabase only for viewers count -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
@@ -409,7 +433,7 @@
               const hasQuality = hls.levels && hls.levels.length > 1;
               const hasCaptions = player.captions && player.captions.length > 0;
               if (!hasQuality && !hasCaptions) {
-                document.querySelector('.plyr__control--settings')?.style.setAttribute('style', 'display:none !important');
+                document.querySelector('.plyr__control--settings')?.style.setProperty('display', 'none', 'important');
               }
             }, 800);
           });
@@ -688,7 +712,7 @@
     });
 
     // ────────────────────────────────────────────────────────────────
-    // Real-time per-event viewers count (starts immediately)
+    // Real-time Viewers Count - PER EVENT, starts immediately
     // ────────────────────────────────────────────────────────────────
 
     window.addEventListener('load', () => {
@@ -739,4 +763,4 @@
     });
   </script>
 </body>
-</html>
+              </html>
