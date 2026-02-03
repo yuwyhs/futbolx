@@ -136,42 +136,6 @@
       border: none;
     }
 
-    /* Desktop layout: side-by-side player + chat */
-    @media (min-width: 992px) {
-      .main-content-row {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 1.5rem;
-      }
-      .video-section {
-        flex: 0 0 70%;
-        max-width: 70%;
-      }
-      .chat-section {
-        flex: 0 0 30%;
-        max-width: 30%;
-        margin-top: 0; /* align top with video */
-      }
-      .chat-wrapper {
-        margin: 0; /* remove auto margin on desktop */
-      }
-      .chat-container {
-        height: 600px; /* taller on desktop to match video height */
-      }
-    }
-
-    @media (max-width: 991px) {
-      .main-content-row {
-        flex-direction: column;
-      }
-      .video-section, .chat-section {
-        width: 100%;
-      }
-      .chat-container {
-        height: 420px;
-      }
-    }
-
     #statusArea {
       text-align: center;
       padding: 30px 15px;
@@ -200,6 +164,7 @@
     .status-live { color: #4caf50 !important; }
     .status-ended { color: #888 !important; }
 
+    /* Notification alerts styling */
     .permanent-noti {
       margin-top: 12px;
       background: linear-gradient(135deg, #1e3a5f, #2a4a7a);
@@ -207,10 +172,22 @@
       color: #e0f0ff;
       text-align: center;
       position: relative;
+      transition: opacity 0.6s ease-in;
     }
 
     .permanent-noti strong {
       color: #a5d8ff;
+    }
+
+    #joinAlert {
+      background: linear-gradient(135deg, #6b48ff, #00ddeb) !important;
+      border-color: #8b5cf6 !important;
+      color: white !important;
+    }
+
+    #joinAlert a {
+      color: #e0f7ff !important;
+      text-decoration: underline;
     }
 
     [data-bs-theme="light"] .permanent-noti {
@@ -221,6 +198,12 @@
 
     [data-bs-theme="light"] .permanent-noti strong {
       color: #1e40af;
+    }
+
+    [data-bs-theme="light"] #joinAlert {
+      background: linear-gradient(135deg, #7c3aed, #06b6d4) !important;
+      border-color: #7c3aed !important;
+      color: white !important;
     }
   </style>
 </head>
@@ -262,15 +245,25 @@
       <div class="row">
         <div class="col-12">
           <div class="tip-container">
-            <div class="alert alert-info" id="tempTipAlert">
+            <!-- Tip message (shown once, 10s countdown) -->
+            <div class="alert alert-info" id="tipAlert">
               <strong>Tip:</strong> For an ad-free experience, consider installing an ad blocker like
               <a href="https://ublockorigin.com" target="_blank" rel="noopener">uBlock Origin</a> or
               <a href="https://adguard.com" target="_blank" rel="noopener">AdGuard</a>.
               <span id="countdownTimer">10s</span>
             </div>
 
-            <div class="alert alert-info permanent-noti d-none" id="permanentNoti">
+            <!-- Permanent Info message -->
+            <div class="alert alert-info permanent-noti d-none" id="infoAlert">
               <strong>Info:</strong> If stream is not loading on your end, try using a VPN to bypass your ISP restrictions.
+            </div>
+
+            <!-- Join Discord & Telegram message (cycles with Info) -->
+            <div class="alert alert-info permanent-noti d-none" id="joinAlert">
+              <strong>Join us</strong> on 
+              <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener">Discord</a> and 
+              <a href="https://t.me/+nqTL3Hx9NIAxZTRk" target="_blank" rel="noopener">Telegram</a> 
+              to get schedule updates, report site issues, or request streams!
             </div>
           </div>
 
@@ -290,29 +283,20 @@
             <p id="statusMessage" class="status-message">Loading event...</p>
           </div>
 
-          <!-- Main content row: video left, chat right on desktop -->
-          <div class="row main-content-row">
-            <!-- Video + stream links section (left on desktop) -->
-            <div class="col-12 col-lg-8 video-section">
-              <div class="video-container">
-                <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-presentation" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-                <div id="oplayer-container"></div>
-              </div>
+          <div class="video-container">
+            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-presentation" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+            <div id="oplayer-container"></div>
+          </div>
 
-              <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
-            </div>
+          <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
-            <!-- Chat section (right on desktop) -->
-            <div class="col-12 col-lg-4 chat-section">
-              <!-- Latest Chatango embed -->
-              <div class="chat-wrapper">
-                <div class="chat-header">Live Chat</div>
-                <div class="chat-container">
-                  <script id="cid0020000430640675904" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%; height: 100%;">
-                    {"handle":"futbolxc","arch":"js","styles":{"a":"000000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"000000","l":"000000","m":"000000","n":"FFFFFF","p":"10","q":"000000","r":100,"t":0,"usricon":0.86,"surl":0,"allowpm":0,"cnrs":"0.76"}}
-                  </script>
-                </div>
-              </div>
+          <!-- Chatango -->
+          <div class="chat-wrapper">
+            <div class="chat-header">Live Chat</div>
+            <div class="chat-container">
+              <script id="cid0020000430640675904" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%; height: 100%;">
+                {"handle":"futbolxc","arch":"js","styles":{"a":"000000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"000000","l":"000000","m":"000000","n":"FFFFFF","p":"10","q":"000000","r":100,"t":0,"usricon":0.86,"surl":0,"allowpm":0,"cnrs":"0.76"}}
+              </script>
             </div>
           </div>
 
@@ -378,15 +362,10 @@
               if (!res.ok) throw new Error(`HTTP ${res.status}`);
               return res.json();
             })
-            .then(data => {
-              resolve(data);
-            })
+            .then(data => resolve(data))
             .catch(err => {
-              if (attempts < maxRetries) {
-                setTimeout(attempt, delay);
-              } else {
-                reject(err);
-              }
+              if (attempts < maxRetries) setTimeout(attempt, delay);
+              else reject(err);
             });
         }
         attempt();
@@ -685,34 +664,63 @@
         else if (container.msRequestFullscreen) container.msRequestFullscreen();
       });
 
-      // Ad tip countdown
-      let sec = 10;
-      const timer = document.getElementById('countdownTimer');
-      const tempAlert = document.getElementById('tempTipAlert');
-      const permanentNoti = document.getElementById('permanentNoti');
+      // ────────────────────────────────────────────────────────────────
+      // Notifications: Tip → Info → Cycle Join/Discord+Telegram
+      // ────────────────────────────────────────────────────────────────
 
-      const iv = setInterval(() => {
+      const tipAlert = document.getElementById('tipAlert');
+      const infoAlert = document.getElementById('infoAlert');
+      const joinAlert = document.getElementById('joinAlert');
+      const timerEl = document.getElementById('countdownTimer');
+
+      let sec = 10;
+      let showJoin = false;
+
+      // Tip countdown (only once)
+      const tipTimer = setInterval(() => {
         sec--;
-        timer.textContent = sec + 's';
+        timerEl.textContent = sec + 's';
 
         if (sec <= 0) {
-          clearInterval(iv);
-          
-          tempAlert.classList.add('fade-out');
-          
+          clearInterval(tipTimer);
+          tipAlert.classList.add('fade-out');
+
           setTimeout(() => {
-            tempAlert.style.display = 'none';
-            
-            permanentNoti.classList.remove('d-none');
-            permanentNoti.style.opacity = '0';
-            permanentNoti.style.transition = 'opacity 0.6s ease-in';
-            setTimeout(() => {
-              permanentNoti.style.opacity = '1';
-            }, 50);
+            tipAlert.style.display = 'none';
+
+            // Show Info first
+            infoAlert.classList.remove('d-none');
+            infoAlert.style.opacity = '0';
+            infoAlert.style.transition = 'opacity 0.6s ease-in';
+            setTimeout(() => { infoAlert.style.opacity = '1'; }, 50);
+
+            // Start cycling Info ↔ Join every 5 seconds
+            setInterval(() => {
+              if (showJoin) {
+                infoAlert.style.opacity = '0';
+                setTimeout(() => {
+                  infoAlert.classList.add('d-none');
+                  joinAlert.classList.remove('d-none');
+                  joinAlert.style.opacity = '0';
+                  joinAlert.style.transition = 'opacity 0.6s ease-in';
+                  setTimeout(() => { joinAlert.style.opacity = '1'; }, 50);
+                }, 600);
+              } else {
+                joinAlert.style.opacity = '0';
+                setTimeout(() => {
+                  joinAlert.classList.add('d-none');
+                  infoAlert.classList.remove('d-none');
+                  infoAlert.style.opacity = '0';
+                  infoAlert.style.transition = 'opacity 0.6s ease-in';
+                  setTimeout(() => { infoAlert.style.opacity = '1'; }, 50);
+                }, 600);
+              }
+              showJoin = !showJoin;
+            }, 5000); // 5 seconds per message
           }, 600);
         }
       }, 1000);
     });
   </script>
 </body>
-    </html>
+  </html>
