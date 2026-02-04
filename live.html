@@ -22,6 +22,9 @@
   <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
+  <!-- Google Cast SDK -->
+  <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
     .tip-container {max-width:600px;margin:20px auto;transition:height .3s;overflow:hidden;}
@@ -229,6 +232,16 @@
       background: rgba(255,255,255,0.7);
       border-top-color: #ccc;
     }
+
+    /* Optional: make cast button more noticeable */
+    .plyr__control--cast {
+      color: #ff4d4d !important;
+    }
+    .plyr__control--cast:hover,
+    .plyr__control--cast[aria-pressed="true"] {
+      color: white !important;
+      background: rgba(255, 77, 77, 0.3) !important;
+    }
   </style>
 </head>
 <body>
@@ -347,6 +360,40 @@
   <script src="/assets/js/auth.js"></script>
 
   <script>
+    // ────────────────────────────────────────────────────────────────
+    // Google Cast initialization
+    // ────────────────────────────────────────────────────────────────
+    window['__onGCastApiAvailable'] = function(isAvailable) {
+      if (isAvailable) {
+        initializeCastApi();
+      }
+    };
+
+    function initializeCastApi() {
+      try {
+        const sessionRequest = new chrome.cast.SessionRequest(
+          chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
+        );
+        const apiConfig = new chrome.cast.ApiConfig(
+          sessionRequest,
+          () => {}, // sessionListener
+          () => {}, // receiverListener
+          chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+        );
+        chrome.cast.initialize(apiConfig, () => {
+          console.log("Google Cast SDK initialized");
+        }, (err) => {
+          console.error("Cast initialization failed", err);
+        });
+      } catch (e) {
+        console.error("Cast setup error", e);
+      }
+    }
+
+    // ────────────────────────────────────────────────────────────────
+    // Rest of your original script
+    // ────────────────────────────────────────────────────────────────
+
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
 
     let player = null;
@@ -456,14 +503,27 @@
           muted: true,
           volume: 1,
           controls: [
-            'play-large', 'play', 'mute', 'captions', 'settings', 'pip', 'fullscreen'
+            'play-large',
+            'play',
+            'mute',
+            'volume',
+            'captions',
+            'settings',
+            'pip',
+            'airplay',
+            'cast',           // ← Cast button enabled here
+            'fullscreen'
           ],
           settings: ['captions', 'quality'],
           quality: { default: 'auto', options: ['auto', 1080, 720, 480, 360] },
           captions: { active: true },
           tooltips: { controls: true, seek: true },
           hideControls: true,
-          invertTime: false
+          invertTime: false,
+          cast: {
+            enabled: true,
+            appId: null     // default Chromecast receiver
+          }
         });
 
         player.on('error', (event) => {
