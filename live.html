@@ -131,8 +131,8 @@
       overflow: hidden;
     }
 
-    /* Twitch chat specific styles */
-    #twitch-chat-container {
+    /* Custom chat styles */
+    #chat-messages {
       height: 100%;
       overflow-y: auto;
       padding: 12px;
@@ -141,22 +141,51 @@
       font-size: 0.95rem;
     }
 
-    #twitch-chat-container::-webkit-scrollbar {
+    #chat-messages::-webkit-scrollbar {
       width: 6px;
     }
 
-    #twitch-chat-container::-webkit-scrollbar-thumb {
+    #chat-messages::-webkit-scrollbar-thumb {
       background: #ff4d4d44;
       border-radius: 3px;
     }
 
-    #twitch-chat-container .message {
+    #chat-messages .message {
       margin: 6px 0;
-      padding: 6px 10px;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.04);
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.06);
       word-break: break-word;
       line-height: 1.4;
+    }
+
+    #chat-messages .system {
+      color: #ffaa00;
+      font-style: italic;
+      text-align: center;
+      padding: 12px 0;
+      background: rgba(255,170,0,0.1);
+      border-radius: 6px;
+    }
+
+    #chat-messages .owner {
+      background: rgba(255, 77, 77, 0.18);
+      border-left: 4px solid #ff4d4d;
+    }
+
+    .chat-input-area {
+      background: #1a1a1a;
+      padding: 12px;
+      border-top: 1px solid #333;
+    }
+
+    #status {
+      color: #ff4d4d;
+      font-weight: 500;
+    }
+
+    #status b {
+      color: #ff7777;
     }
 
     #statusArea {
@@ -337,11 +366,20 @@
 
           <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
-          <!-- Twitch Chat (replaces Chatango) -->
+          <!-- Custom Chat -->
           <div class="chat-wrapper">
             <div class="chat-header">Live Chat</div>
-            <div class="chat-container" id="twitch-chat-container">
+            <div class="chat-container" id="chat-messages">
               <!-- Messages appear here -->
+            </div>
+
+            <div class="chat-input-area">
+              <div class="input-group">
+                <input type="text" id="username-input" class="form-control" placeholder="Your username..." style="max-width: 180px;" />
+                <input type="text" id="message-input" class="form-control" placeholder="Type a message..." />
+                <button id="send-btn" class="btn btn-danger">Send</button>
+              </div>
+              <small id="status" class="text-muted mt-1 d-block"></small>
             </div>
           </div>
 
@@ -367,66 +405,116 @@
   <script src="/assets/js/api.js"></script>
   <script src="/assets/js/auth.js"></script>
 
-  <!-- Twitch chat script (read-only) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tmi.js/1.8.5/tmi.min.js"></script>
+  <!-- Custom Chat Script -->
   <script>
     // ────────────────────────────────────────────────
-    //   Custom Twitch Chat – read-only version
+    //   Custom Chat – Username required, Optimus = Owner
     // ────────────────────────────────────────────────
 
-    const TWITCH_CHANNEL = "optimusys";
+    const chatMessages = document.getElementById('chat-messages');
+    const messageInput = document.getElementById('message-input');
+    const usernameInput = document.getElementById('username-input');
+    const sendBtn = document.getElementById('send-btn');
+    const statusEl = document.getElementById('status');
 
-    const chatContainer = document.getElementById("twitch-chat-container");
+    let username = localStorage.getItem('chatUsername') || '';
+    let isOwner = false;
 
-    if (chatContainer && TWITCH_CHANNEL) {
-      const client = new tmi.Client({
-        channels: [TWITCH_CHANNEL],
-        connection: {
-          reconnect: true,
-          secure: true
-        }
-      });
+    // Restore username if saved
+    if (username) {
+      usernameInput.value = username;
+      statusEl.textContent = `Logged in as: ${username}`;
+      if (username.toLowerCase() === 'optimus') {
+        isOwner = true;
+        statusEl.innerHTML = `Logged in as: <b>Optimus (Owner)</b>`;
+      }
+    } else {
+      statusEl.textContent = 'Enter username to chat';
+      usernameInput.focus();
+    }
 
-      client.connect().catch(err => {
-        console.error("Twitch chat connection failed:", err);
-        chatContainer.innerHTML = '<div style="color:#ff5555; padding:20px; text-align:center; font-weight:bold;">Failed to connect to chat</div>';
-      });
-
-      client.on("message", (channel, tags, message, self) => {
-        const msgDiv = document.createElement("div");
-        msgDiv.className = "message";
-
-        let usernameStyle = "font-weight:600;";
-        let usernameColor = tags.color || "#ffffff";
-
-        if (tags.mod) {
-          usernameStyle += " color:#00ff41;";
-        } else if (tags.subscriber) {
-          usernameStyle += " color:#ff69b4;";
-        } else if (tags.vip) {
-          usernameStyle += " color:#e60073;";
+    // Save username when changed
+    usernameInput.addEventListener('change', () => {
+      username = usernameInput.value.trim();
+      if (username) {
+        localStorage.setItem('chatUsername', username);
+        statusEl.textContent = `Logged in as: ${username}`;
+        if (username.toLowerCase() === 'optimus') {
+          isOwner = true;
+          statusEl.innerHTML = `Logged in as: <b>Optimus (Owner)</b>`;
         } else {
-          usernameStyle += ` color:${usernameColor};`;
+          isOwner = false;
         }
+      }
+    });
 
-        msgDiv.innerHTML = `
-          <span style="${usernameStyle}">@${tags["display-name"] || "unknown"}</span>
-          <span style="color:#e0e0e0;">${escapeHtml(message)}</span>
-        `;
+    // Connect to SSE for real-time messages
+    const eventSource = new EventSource('/api/chat-stream');
 
-        chatContainer.appendChild(msgDiv);
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-      });
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      addMessage(data);
+    };
 
-      // Basic XSS protection
-      function escapeHtml(text) {
-        const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-        return text.replace(/[&<>"']/g, m => map[m]);
+    eventSource.onerror = () => {
+      statusEl.textContent = 'Connection lost — reconnecting...';
+    };
+
+    function addMessage(data) {
+      const div = document.createElement('div');
+      div.className = 'message';
+
+      if (data.type === 'system') {
+        div.className = 'system';
+        div.textContent = data.text;
+      } else {
+        const senderIsOwner = data.username.toLowerCase() === 'optimus';
+        if (senderIsOwner) div.classList.add('owner');
+
+        div.innerHTML = `<strong style="color: ${senderIsOwner ? '#ff4d4d' : '#9146ff'}">@${data.username}</strong> ${escapeHtml(data.text)}`;
       }
 
-      client.on("connected", () => {
-        console.log("Connected to Twitch chat");
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Send message / command
+    sendBtn.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    function sendMessage() {
+      if (!username) {
+        statusEl.textContent = 'Please enter a username first';
+        usernameInput.focus();
+        return;
+      }
+
+      const text = messageInput.value.trim();
+      if (!text) return;
+
+      fetch('/api/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, text })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          statusEl.textContent = data.error;
+        } else {
+          messageInput.value = '';
+          statusEl.textContent = '';
+        }
+      })
+      .catch(() => {
+        statusEl.textContent = 'Error sending message';
       });
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/[&<>"']/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' }[m]));
     }
   </script>
 
