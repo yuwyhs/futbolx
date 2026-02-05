@@ -10,7 +10,7 @@
         "streams": [
           {
             "label": "Nba Tv Usa",
-            "url": "http://83.229.84.218/test/index.m3u8"
+            "url": "https://dbrb49pjoymg4.cloudfront.net/manifest/3fec3e5cac39a52b2132f9c66c83dae043dc17d4/prod_default_xumo-ams-aws/59e3f124-6fdd-4b3e-9846-83e9b1f39ab5/0.m3u8"
           },
           {
             "label": "Stream 2",
