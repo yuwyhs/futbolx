@@ -6,47 +6,167 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Nice vs Montpellier",
-          "uri_name": "nice-vs-montpellier",
-          "poster": "https://i.postimg.cc/h49H36vs/1770164675757.png",
-          "tag": "Coupe de France",
-          "starts_at": "2026-02-04T22:30:00",
-          "ends_at": "2026-02-05T00:40:00",
+          "name": "Man United vs Tottenham",
+          "uri_name": "man-united-vs-tottenham",
+          "poster": "https://i.postimg.cc/ZRsv486x/1770458268650.png",
+          "tag": "EPL",
+          "starts_at": "2026-02-07T15:30:00",
+          "ends_at": "2026-02-07T17:40:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://dontsteal.futbol-x.site/nice/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-man-united-vs-tottenham/1"
             }
           ]
         },
         {
-          "name": "Lyon vs Stade Lavalloi",
-          "uri_name": "lyon-vs-stade-lavalloi",
-          "poster": "https://i.postimg.cc/BQSw7vd3/1770164408449.png",
-          "tag": "Coupe de France",
-          "starts_at": "2026-02-04T22:30:00",
-          "ends_at": "2026-02-05T00:40:00",
+          "name": "VfL Wolfsburg vs Borussia Dortmund",
+          "uri_name": "vfl-wolfsburg-vs-borussia-dortmund",
+          "poster": "https://i.postimg.cc/QMQYVtMB/1770458281384.png",
+          "tag": "Bundesliga",
+          "starts_at": "2026-02-07T17:30:00",
+          "ends_at": "2026-02-07T19:40:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://dontsteal.futbol-x.site/lyon/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-vfl-wolfsburg-vs-borussia-dortmund/1"
             }
           ]
         },
         {
-          "name": "Man City vs Newcastle",
-          "uri_name": "man-city-vs-newcastle",
-          "poster": "https://i.postimg.cc/x8xG49b4/1770165748016.png",
-          "tag": "Carabao Cup",
-          "starts_at": "2026-02-04T23:00:00",
-          "ends_at": "2026-02-05T01:05:00",
+          "name": "Arsenal vs Sunderland",
+          "uri_name": "arsenal-vs-sunderland",
+          "poster": "https://i.postimg.cc/Gm0jYCVM/1770458334866.png",
+          "tag": "EPL",
+          "starts_at": "2026-02-07T18:00:00",
+          "ends_at": "2026-02-07T20:10:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://dontsteal.futbol-x.site/city/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-arsenal-vs-sunderland/1"
+            }
+          ]
+        },
+        {
+          "name": "Bournemouth vs Aston Villa",
+          "uri_name": "bournemouth-vs-aston-villa",
+          "poster": "https://i.postimg.cc/fydNbdVh/1770458297480.png",
+          "tag": "EPL",
+          "starts_at": "2026-02-07T18:00:00",
+          "ends_at": "2026-02-07T20:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-bournemouth-vs-aston-villa/1"
+            }
+          ]
+        },
+        {
+          "name": "Burnley vs West Ham",
+          "uri_name": "burnley-vs-west-ham",
+          "poster": "https://i.postimg.cc/qvk9PSxq/1770458359475.png",
+          "tag": "EPL",
+          "starts_at": "2026-02-07T18:00:00",
+          "ends_at": "2026-02-07T20:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-burnley-vs-west-ham/1"
+            }
+          ]
+        },
+        {
+          "name": "Fulham vs Everton",
+          "uri_name": "fulham-vs-everton",
+          "poster": "https://i.postimg.cc/kg1hk458/1770458394614.png",
+          "tag": "EPL",
+          "starts_at": "2026-02-07T18:00:00",
+          "ends_at": "2026-02-07T20:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-fulham-vs-everton/1"
+            }
+          ]
+        },
+        {
+          "name": "Wolves vs Chelsea",
+          "uri_name": "wolves-vs-chelsea",
+          "poster": "https://i.postimg.cc/9XbPxk0B/1770458403517.png",
+          "tag": "EPL",
+          "starts_at": "2026-02-07T18:00:00",
+          "ends_at": "2026-02-07T20:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-wolves-vs-chelsea/1"
+            }
+          ]
+        },
+        {
+          "name": "Barcelona vs Mallorca",
+          "uri_name": "barcelona-vs-mallorca",
+          "poster": "https://i.postimg.cc/1zK49LkQ/1770458417025.png",
+          "tag": "LaLiga",
+          "starts_at": "2026-02-07T18:15:00",
+          "ends_at": "2026-02-07T20:20:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-barcelona-vs-mallorca/1"
+            }
+          ]
+        },
+        {
+          "name": "Lens vs Rennais",
+          "uri_name": "lens-vs-rennais",
+          "poster": "https://i.postimg.cc/XYSv9jWR/1770458426433.png",
+          "tag": "Ligue 1",
+          "starts_at": "2026-02-07T19:00:00",
+          "ends_at": "2026-02-07T21:05:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-lens-vs-rennais/1"
+            }
+          ]
+        },
+        {
+          "name": "Sevilla vs Girona",
+          "uri_name": "sevilla-vs-girona",
+          "poster": "https://i.postimg.cc/Qds8Yfyw/1770458436636.png",
+          "tag": "LaLiga",
+          "starts_at": "2026-02-07T20:30:00",
+          "ends_at": "2026-02-07T22:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-sevilla-vs-girona/1"
+            }
+          ]
+        },
+        {
+          "name": "Newcastle vs Brentford",
+          "uri_name": "newcastle-vs-brentford",
+          "poster": "https://i.postimg.cc/15yRJW2P/1770458505965.png",
+          "tag": "EPL",
+          "starts_at": "2026-02-07T20:30:00",
+          "ends_at": "2026-02-07T22:40:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-newcastle-vs-brentford/1"
             }
           ]
         }
