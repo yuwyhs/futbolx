@@ -130,8 +130,8 @@
           "uri_name": "lens-vs-rennais",
           "poster": "https://i.postimg.cc/XYSv9jWR/1770458426433.png",
           "tag": "Ligue 1",
-          "starts_at": "2026-02-07T19:00:00",
-          "ends_at": "2026-02-07T21:05:00",
+          "starts_at": "2026-02-06T19:00:00",
+          "ends_at": "2026-02-06T21:05:00",
           "always_live": 0,
           "streams": [
             {
@@ -145,8 +145,8 @@
           "uri_name": "sevilla-vs-girona",
           "poster": "https://i.postimg.cc/Qds8Yfyw/1770458436636.png",
           "tag": "LaLiga",
-          "starts_at": "2026-02-07T20:30:00",
-          "ends_at": "2026-02-07T22:40:00",
+          "starts_at": "2026-02-06T20:30:00",
+          "ends_at": "2026-02-06T22:40:00",
           "always_live": 0,
           "streams": [
             {
@@ -160,8 +160,8 @@
           "uri_name": "newcastle-vs-brentford",
           "poster": "https://i.postimg.cc/15yRJW2P/1770458505965.png",
           "tag": "EPL",
-          "starts_at": "2026-02-07T20:30:00",
-          "ends_at": "2026-02-07T22:40:00",
+          "starts_at": "2026-02-06T20:30:00",
+          "ends_at": "2026-02-06T22:40:00",
           "always_live": 0,
           "streams": [
             {
