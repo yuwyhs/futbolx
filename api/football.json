@@ -16,7 +16,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://vip.futbol-x.site/city/index.m3u8"
+              "url": "https://cdn-live.tv/api/v1/channels/player/?name=sky+sports+main+event&code=gb&user=cdnlivetv&plan=free"
             }
           ]
         },
