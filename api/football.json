@@ -6,96 +6,6 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Brighton vs Crystal Palace",
-          "uri_name": "brighton-vs-crystal-palace",
-          "poster": "https://i.postimg.cc/yY5TH3z5/1770556704546.png",
-          "tag": "EPL",
-          "starts_at": "2026-02-08T17:00:00",
-          "ends_at": "2026-02-08T19:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://go.futbol-x.site/cry/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Nice vs Monaco",
-          "uri_name": "nice-vs-monaco",
-          "poster": "https://i.postimg.cc/FRBYLcGN/1770556715329.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-08T17:00:00",
-          "ends_at": "2026-02-08T19:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-nice-vs-monaco/1"
-            }
-          ]
-        },
-        {
-          "name": "Auxerre vs Paris FC",
-          "uri_name": "auxerre-vs-paris-fc",
-          "poster": "https://i.postimg.cc/QdhcsQy7/1770556723501.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-08T19:15:00",
-          "ends_at": "2026-02-08T21:20:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-auxerre-vs-paris-fc/1"
-            }
-          ]
-        },
-        {
-          "name": "Angers vs Toulouse",
-          "uri_name": "angers-vs-toulouse",
-          "poster": "https://i.postimg.cc/63v8CqPp/1770556748932.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-08T19:15:00",
-          "ends_at": "2026-02-08T21:20:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-angers-vs-toulouse/1"
-            }
-          ]
-        },
-        {
-          "name": "Le Havre vs Strasbourg",
-          "uri_name": "le-havre-vs-strasbourg",
-          "poster": "https://i.postimg.cc/yYVN8L7S/1770556757204.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-08T19:15:00",
-          "ends_at": "2026-02-08T21:20:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-le-havre-vs-strasbourg/1"
-            }
-          ]
-        },
-        {
-          "name": "Bayern Munich vs TSG Hoffenheim",
-          "uri_name": "bayern-munich-vs-tsg-hoffenheim",
-          "poster": "https://i.postimg.cc/G90Jv6zB/1770556767026.png",
-          "tag": "Bundesliga",
-          "starts_at": "2026-02-08T19:30:00",
-          "ends_at": "2026-02-08T21:40:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-bayern-munich-vs-tsg-hoffenheim/1"
-            }
-          ]
-        },
-        {
           "name": "Liverpool vs Man City",
           "uri_name": "liverpool-vs-man-city",
           "poster": "https://i.postimg.cc/8ccny8hM/1770556778284.png",
@@ -111,17 +21,17 @@
           ]
         },
         {
-          "name": "Atlético Madrid vs Real Betis",
-          "uri_name": "atletico-madrid-vs-real-betis",
-          "poster": "https://i.postimg.cc/bJhZHpfC/1770556787636.png",
+          "name": "Valencia vs Real Madrid",
+          "uri_name": "valencia-vs-real-madrid",
+          "poster": "https://i.postimg.cc/wBKXZKdL/1770556808760.png",
           "tag": "LaLiga",
-          "starts_at": "2026-02-08T20:30:00",
-          "ends_at": "2026-02-08T22:40:00",
+          "starts_at": "2026-02-08T23:00:00",
+          "ends_at": "2026-02-09T01:05:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-atletico-madrid-vs-real-betis/1"
+              "url": "https://embedsports.top/embed/admin/ppv-valencia-vs-real-madrid/1"
             }
           ]
         },
@@ -141,17 +51,17 @@
           ]
         },
         {
-          "name": "Valencia vs Real Madrid",
-          "uri_name": "valencia-vs-real-madrid",
-          "poster": "https://i.postimg.cc/wBKXZKdL/1770556808760.png",
+          "name": "Atlético Madrid vs Real Betis",
+          "uri_name": "atletico-madrid-vs-real-betis",
+          "poster": "https://i.postimg.cc/bJhZHpfC/1770556787636.png",
           "tag": "LaLiga",
-          "starts_at": "2026-02-08T23:00:00",
-          "ends_at": "2026-02-09T01:05:00",
+          "starts_at": "2026-02-08T20:30:00",
+          "ends_at": "2026-02-08T22:40:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-valencia-vs-real-madrid/1"
+              "url": "https://embedsports.top/embed/admin/ppv-atletico-madrid-vs-real-betis/1"
             }
           ]
         }
