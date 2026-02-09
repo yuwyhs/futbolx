@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
+  
+  <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+
   <style>
     /* Big Screen Adaptation */
     .player-container {
@@ -63,12 +66,6 @@
       z-index: 1050 !important;
       background-color: rgba(0, 0, 0, 0.5);
     }
-    .offcanvas .nav-link, .offcanvas .btn-link, .offcanvas button {
-      cursor: pointer !important;
-    }
-    .offcanvas .nav-item {
-      position: relative;
-    }
   </style>
 </head>
 <body>
@@ -80,7 +77,8 @@
       <span class="futbolx-brand">FutbolX</span>
     </div>
   </nav>
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
     <div class="offcanvas-header">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
@@ -93,15 +91,15 @@
         <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
         <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
-        <li class="nav-item"><button class="nav-link btn btn-link d-none" id="logoutButton">Logout</button></li>
         <li class="nav-item">
-          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
+          <button id="themeToggle" class="nav-link btn btn-link">
             <i class="fas fa-moon"></i>
           </button>
         </li>
       </ul>
     </div>
   </div>
+
   <div class="container-fluid main-content">
     <div class="container mt-4">
       <div class="row">
@@ -120,11 +118,10 @@
             </div>
             <div class="stream-dropdown d-flex align-items-center justify-content-between mt-3">
               <div class="dropdown">
-                <button class="btn btn-stream dropdown-toggle" type="button" id="streamDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-stream dropdown-toggle" type="button" id="streamDropdown" data-bs-toggle="dropdown">
                   Select Stream
                 </button>
-                <ul class="dropdown-menu" id="streamDropdownMenu" aria-labelledby="streamDropdown">
-                </ul>
+                <ul class="dropdown-menu" id="streamDropdownMenu"></ul>
               </div>
               <button id="castBtn" class="btn btn-cast d-none"><i class="fas fa-tv"></i> Cast Stream</button>
             </div>
@@ -133,194 +130,103 @@
         </div>
       </div>
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
-        <ul class="nav justify-content-center justify-content-lg-end mb-0">
+        <p class="mb-2 mb-lg-0 text-body-secondary">FutbolX 2026</p>
+        <ul class="nav">
           <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">Discord</a></li>
         </ul>
       </footer>
     </div>
   </div>
+
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-  <script defer src="/assets/js/api.js"></script>
-  <script defer src="/assets/js/auth.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
-    let embedPlayer = null;
     let videoPlayerInstance = null;
     let streamData = null;
-    let currentStreamIndex = 0;
 
-    const originalOpen = window.open;
-    window.open = function(url) {
-      console.log('Blocked popup attempt to:', url);
-      return null;
-    };
-
-    function clearError() {
-      const errorContainer = document.getElementById('errorContainer');
-      if (errorContainer && !errorContainer.classList.contains('d-none')) {
-        errorContainer.classList.add('fade-out');
-        setTimeout(() => {
-          errorContainer.className = 'alert alert-danger error-alert mt-3 d-none';
-          errorContainer.innerHTML = '';
-        }, 500);
-      }
-    }
-
-    function initOffcanvas() {
-      const offcanvasElement = document.getElementById('sidebarMenu');
-      const toggler = document.getElementById('sidebarToggler');
-      if (!offcanvasElement || !toggler) return;
-      try {
-        const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
-          backdrop: true,
-          keyboard: true,
-          scroll: false
-        });
-        const navLinks = offcanvasElement.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-          link.addEventListener('click', () => {
-            const href = link.getAttribute('href');
-            if (href) {
-              window.location.href = href;
-              offcanvas.hide();
-            }
-          });
-        });
-      } catch (error) { console.error('Offcanvas error:', error); }
-    }
-
-    function initThemeToggle() {
+    // THEME & NAV LOGIC
+    function initTheme() {
       const themeToggle = document.getElementById('themeToggle');
-      const htmlElement = document.documentElement;
-      if (!themeToggle || !htmlElement) return;
+      const html = document.documentElement;
       const currentTheme = localStorage.getItem('theme') || 'dark';
-      htmlElement.setAttribute('data-bs-theme', currentTheme);
+      html.setAttribute('data-bs-theme', currentTheme);
       themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-      themeToggle.addEventListener('click', () => {
-        const currentTheme = htmlElement.getAttribute('data-bs-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        htmlElement.setAttribute('data-bs-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-      });
+      themeToggle.onclick = () => {
+        const next = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-bs-theme', next);
+        localStorage.setItem('theme', next);
+        themeToggle.innerHTML = next === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+      };
     }
 
-    function recreateVideoElement(isM3U8) {
-      const videoContainer = document.getElementById('videoPlayerContainer');
-      if (!videoContainer) return null;
-      videoContainer.innerHTML = '';
-      const videoElement = isM3U8 ? document.createElement('div') : document.createElement('video');
-      videoElement.id = 'videoPlayer';
-      videoElement.className = isM3U8 ? 'jwplayer d-none' : 'd-none';
-      if (!isM3U8) {
-        videoElement.controls = true;
-        videoElement.muted = true;
-        videoElement.autoplay = true;
-        videoElement.style.width = '100%';
-        videoElement.style.height = '100%';
-        videoElement.addEventListener('play', () => { videoElement.muted = false; });
+    async function initPlayer(event, index) {
+      const url = event.streams[index].url;
+      const embed = document.getElementById('embedPlayer');
+      const container = document.getElementById('videoPlayerContainer');
+      const fsBtn = document.getElementById('fullscreenBtn');
+      const castBtn = document.getElementById('castBtn');
+
+      if (url.includes('.m3u8')) {
+        embed.style.display = 'none';
+        container.style.display = 'block';
+        videoPlayerInstance = jwplayer('videoPlayer').setup({
+          file: url, autostart: true, mute: true, width: '100%', aspectratio: '16:9'
+        });
+        videoPlayerInstance.on('ready', () => { videoPlayerInstance.setMute(false); });
+      } else {
+        container.style.display = 'none';
+        embed.style.display = 'block';
+        embed.src = url + (url.includes('?') ? '&' : '?') + 'autoplay=1';
       }
-      videoContainer.appendChild(videoElement);
-      return videoElement;
-    }
 
-    async function isM3U8Stream(url) {
-      if (url.toLowerCase().includes('.m3u8')) return true;
-      try {
-        const response = await fetch(url, { method: 'GET', headers: { 'Range': 'bytes=0-1023' }, signal: AbortSignal.timeout(5000) });
-        const content = await response.text();
-        return content.includes('#EXTM3U');
-      } catch (e) { return false; }
-    }
+      fsBtn.classList.remove('d-none');
+      castBtn.classList.remove('d-none');
 
-    async function initPlayer(event, streamIndex, errorContainer) {
-      try {
-        clearError();
-        embedPlayer = document.getElementById('embedPlayer');
-        const videoContainer = document.getElementById('videoPlayerContainer');
-        const stream = event.streams[streamIndex];
-        const streamUrl = stream.url;
-        const isM3U8 = await isM3U8Stream(streamUrl);
-        
-        if (isM3U8) {
-          embedPlayer.style.display = 'none';
-          let videoPlayer = document.getElementById('videoPlayer') || recreateVideoElement(true);
-          videoPlayer.classList.remove('d-none');
-          videoContainer.style.display = 'block';
-          videoPlayerInstance = jwplayer('videoPlayer').setup({
-            file: streamUrl, autostart: true, mute: true, width: '100%', aspectratio: '16:9', controls: true
-          });
-          videoPlayerInstance.on('ready', () => { videoPlayerInstance.play(); videoPlayerInstance.setMute(false); });
+      // FULLSCREEN & CAST LINKS
+      fsBtn.onclick = () => {
+        const target = url.includes('.m3u8') ? document.getElementById('videoPlayer') : embed;
+        if (target.requestFullscreen) target.requestFullscreen();
+        else if (target.webkitRequestFullscreen) target.webkitRequestFullscreen();
+      };
+
+      castBtn.onclick = () => {
+        // Trigger Cast Prompt
+        if (window.chrome && chrome.cast && chrome.cast.isAvailable) {
+            const sessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);
+            const apiConfig = new chrome.cast.ApiConfig(sessionRequest, () => {}, () => {});
+            chrome.cast.initialize(apiConfig, () => {
+                chrome.cast.requestSession(s => console.log("Success"), e => console.log(e));
+            }, e => console.log(e));
         } else {
-          videoContainer.style.display = 'none';
-          embedPlayer.style.display = 'block';
-          if (videoPlayerInstance) { videoPlayerInstance.destroy(); videoPlayerInstance = null; recreateVideoElement(false); }
-          embedPlayer.src = streamUrl + (streamUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+            // Fallback for Safari/Native
+            const target = document.querySelector('video') || embed;
+            if (target.remote && target.remote.prompt) target.remote.prompt();
+            else alert("Please use Chrome or Safari on a Cast-ready device.");
         }
-
-        const fsBtn = document.getElementById('fullscreenBtn');
-        const castBtn = document.getElementById('castBtn');
-        [fsBtn, castBtn].forEach(btn => btn.classList.remove('d-none'));
-
-        fsBtn.onclick = () => {
-          const target = isM3U8 ? (videoPlayerInstance.getContainer ? videoPlayerInstance.getContainer() : document.getElementById('videoPlayer')) : embedPlayer;
-          if (target.requestFullscreen) target.requestFullscreen();
-          else if (target.webkitRequestFullscreen) target.webkitRequestFullscreen();
-        };
-
-        castBtn.onclick = () => {
-          const target = isM3U8 ? document.querySelector('video') : embedPlayer;
-          if (target.remote && target.remote.prompt) {
-              target.remote.prompt();
-          } else if (target.webkitShowPlaybackTargetPicker) {
-              target.webkitShowPlaybackTargetPicker();
-          } else {
-              alert("Casting is not supported on this browser or device.");
-          }
-        };
-
-      } catch (err) { errorContainer.classList.remove('d-none'); errorContainer.innerText = 'Error: ' + err.message; }
-    }
-
-    function populateStreamDropdown(streams) {
-      const menu = document.getElementById('streamDropdownMenu');
-      const btn = document.getElementById('streamDropdown');
-      menu.innerHTML = '';
-      streams.forEach((stream, index) => {
-        const li = document.createElement('li');
-        li.innerHTML = `<a class="dropdown-item" href="#">${stream.label || `Stream ${index + 1}`}</a>`;
-        li.querySelector('a').onclick = (e) => {
-          e.preventDefault();
-          currentStreamIndex = index;
-          btn.textContent = stream.label || `Stream ${index + 1}`;
-          initPlayer(streamData, index, document.getElementById('errorContainer'));
-        };
-        menu.appendChild(li);
-      });
-      btn.textContent = streams[0].label || 'Stream 1';
+      };
     }
 
     function initPage() {
       const uriName = window.location.pathname.split('/').pop();
-      fetch('/api/stream-24-7').then(res => res.json()).then(data => {
-        const streams = [];
-        Object.keys(data.streams).forEach(cat => streams.push(...data.streams[cat]));
-        const event = streams.find(s => s.uri_name === uriName);
+      fetch('/api/stream-24-7').then(r => r.json()).then(data => {
+        const all = [];
+        Object.keys(data.streams).forEach(cat => all.push(...data.streams[cat]));
+        const event = all.find(s => s.uri_name === uriName);
         if (event) {
           document.getElementById('eventTitle').innerText = event.name;
           streamData = event;
-          populateStreamDropdown(event.streams);
-          initPlayer(event, 0, document.getElementById('errorContainer'));
+          const menu = document.getElementById('streamDropdownMenu');
+          menu.innerHTML = event.streams.map((s, i) => `<li><a class="dropdown-item" href="#" onclick="initPlayer(streamData, ${i}); document.getElementById('streamDropdown').innerText='${s.label || 'Stream '+(i+1)}'; return false;">${s.label || 'Stream '+(i+1)}</a></li>`).join('');
+          initPlayer(event, 0);
         }
       });
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      initThemeToggle();
-      initOffcanvas();
+      initTheme();
       initPage();
+      const offcanvas = new bootstrap.Offcanvas(document.getElementById('sidebarMenu'));
+      document.getElementById('sidebarToggler').onclick = () => offcanvas.show();
     });
   </script>
 </body>
