@@ -3,67 +3,107 @@
   "streams": [
     {
       "category": "Football",
-      "always_live": 0,
+      "always_live": 1,
       "streams": [
         {
           "name": "Liverpool vs Man City",
-          "uri_name": "liverpool-vs-man-city",
+          "uri_name": "liverpool-vs-man-city-1",
           "poster": "https://i.postimg.cc/8ccny8hM/1770556778284.png",
           "tag": "EPL",
-          "starts_at": "2026-02-08T19:30:00",
-          "ends_at": "2026-02-08T21:40:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://cdn-live.tv/api/v1/channels/player/?name=sky+sports+main+event&code=gb&user=cdnlivetv&plan=free"
-            }
-          ]
+          "starts_at": "2026-02-10T00:00:00",
+          "ends_at": "2026-02-10T04:00:00",
+          "always_live": 1,
+          "streams": [{"title": "Main Feed", "url": "https://cdn-live.tv/api/v1/channels/player/?name=sky+sports+main+event"}]
         },
         {
           "name": "Valencia vs Real Madrid",
-          "uri_name": "valencia-vs-real-madrid",
+          "uri_name": "valencia-vs-real-madrid-2",
           "poster": "https://i.postimg.cc/wBKXZKdL/1770556808760.png",
           "tag": "LaLiga",
-          "starts_at": "2026-02-08T23:00:00",
-          "ends_at": "2026-02-09T01:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://fubo.fuckchina.online/real/index.m3u8"
-            }
-          ]
+          "starts_at": "2026-02-10T00:00:00",
+          "ends_at": "2026-02-10T04:00:00",
+          "always_live": 1,
+          "streams": [{"title": "Main Feed", "url": "https://fubo.fuckchina.online/real/index.m3u8"}]
         },
         {
           "name": "PSG vs Marseille",
-          "uri_name": "psg-vs-marseille",
+          "uri_name": "psg-vs-marseille-3",
           "poster": "https://i.postimg.cc/cJZWFH6t/1770556795443.png",
           "tag": "Ligue 1",
-          "starts_at": "2026-02-08T22:45:00",
-          "ends_at": "2026-02-09T00:50:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://fubo.fuckchina.online/psg/index.m3u8"
-            }
-          ]
+          "starts_at": "2026-02-10T00:00:00",
+          "ends_at": "2026-02-10T04:00:00",
+          "always_live": 1,
+          "streams": [{"title": "Main Feed", "url": "https://fubo.fuckchina.online/psg/index.m3u8"}]
         },
         {
           "name": "Atlético Madrid vs Real Betis",
-          "uri_name": "atletico-madrid-vs-real-betis",
+          "uri_name": "atletico-madrid-vs-real-betis-4",
           "poster": "https://i.postimg.cc/bJhZHpfC/1770556787636.png",
           "tag": "LaLiga",
-          "starts_at": "2026-02-06T20:30:00",
-          "ends_at": "2026-02-06T22:40:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-atletico-madrid-vs-real-betis/1"
-            }
-          ]
+          "starts_at": "2026-02-10T00:00:00",
+          "ends_at": "2026-02-10T04:00:00",
+          "always_live": 1,
+          "streams": [{"title": "Main Feed", "url": "https://embedsports.top/embed/admin/ppv-atletico-madrid-vs-real-betis/1"}]
+        },
+        {
+          "name": "Arsenal vs Chelsea",
+          "uri_name": "arsenal-vs-chelsea-5",
+          "poster": "https://i.postimg.cc/8ccny8hM/1770556778284.png",
+          "tag": "EPL",
+          "starts_at": "2026-02-10T00:00:00",
+          "ends_at": "2026-02-10T04:00:00",
+          "always_live": 1,
+          "streams": [{"title": "Main Feed", "url": "#"}]
+        },
+        {
+          "name": "Barcelona vs Sevilla",
+          "uri_name": "barcelona-vs-sevilla-6",
+          "poster": "https://i.postimg.cc/wBKXZKdL/1770556808760.png",
+          "tag": "LaLiga",
+          "starts_at": "2026-02-10T00:00:00",
+          "ends_at": "2026-02-10T04:00:00",
+          "always_live": 1,
+          "streams": [{"title": "Main Feed", "url": "#"}]
+        },
+        {
+          "name": "AC Milan vs Inter",
+          "uri_name": "milan-vs-inter-7",
+          "poster": "https://i.postimg.cc/cJZWFH6t/1770556795443.png",
+          "tag": "Serie A",
+          "starts_at": "2026-02-10T00:00:00",
+          "ends_at": "2026-02-10T04:00:00",
+          "always_live": 1,
+          "streams": [{"title": "Main Feed", "url": "#"}]
+        },
+        {
+          "name": "Bayern Munich vs Dortmund",
+          "uri_name": "bayern-vs-dortmund-8",
+          "poster": "https://i.postimg.cc/bJhZHpfC/1770556787636.png",
+          "tag": "Bundesliga",
+          "starts_at": "2026-02-10T00:00:00",
+          "ends_at": "2026-02-10T04:00:00",
+          "always_live": 1,
+          "streams": [{"title": "Main Feed", "url": "#"}]
+        },
+        {
+          "name": "Man United vs Spurs",
+          "uri_name": "united-vs-spurs-9",
+          "poster": "https://i.postimg.cc/8ccny8hM/1770556778284.png",
+          "tag": "EPL",
+          "starts_at": "2026-02-10T00:00:00",
+          "ends_at": "2026-02-10T04:00:00",
+          "always_live": 1,
+          "streams": [{"title": "Main Feed", "url": "#"}]
+        },
+        {
+          "name": "Juventus vs Napoli",
+          "uri_name": "juve-vs-napoli-10",
+          "poster": "https://i.postimg.cc/cJZWFH6t/1770556795443.png",
+          "tag": "Serie A",
+          "starts_at": "2026-02-10T00:00:00",
+          "ends_at": "2026-02-10T04:00:00",
+          "always_live": 1,
+          "streams": [{"title": "Main Feed", "url": "#"}]
         }
       ]
     }
