@@ -20,13 +20,6 @@
     .main-player-col { flex: 1 1 65%; min-width: 350px; }
     .side-epg-col { flex: 1 1 30%; min-width: 320px; }
 
-    .tip-container { max-width:600px; margin:20px auto; transition:height .3s; overflow:hidden; }
-    .alert-info { text-align:center; position:relative; padding-right:50px; }
-    #countdownTimer { position:absolute; top:8px; right:10px; font-weight:bold; color:#ff4d4d; }
-    
-    .permanent-noti { margin-top: 12px; background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; transition: opacity 0.6s ease-in; }
-    #joinAlert { background: linear-gradient(135deg, #6b48ff, #00ddeb) !important; border-color: #8b5cf6 !important; color: white !important; }
-
     .btn-fullscreen { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: #ff4d4d; color: #fff; border: none; border-radius: 20px; transition: .3s; }
     .btn-fullscreen:hover { transform: scale(1.05); background: #e63939; }
 
@@ -34,6 +27,16 @@
     #oplayer-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
     .plyr { --plyr-color-main: #ff4d4d; font-family: 'Kanit', sans-serif; height: 100%; }
+    
+    /* SCROLLABLE QUALITY MENU FIX */
+    .plyr__menu__container .plyr__menu__container {
+      max-height: 250px;
+      overflow-y: auto;
+    }
+    
+    /* Force Cast Button Visibility */
+    .plyr__control[data-plyr="cast"] { display: flex !important; opacity: 1 !important; }
+
     .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 900px; margin-left: auto; margin-right: auto; color: #aaa; }
   </style>
 </head>
@@ -48,12 +51,6 @@
   <div class="container-fluid main-content">
     <div class="container mt-4">
       
-      <div class="tip-container">
-        <div class="alert alert-info" id="tipAlert"><strong>Tip:</strong> Use an ad blocker. <span id="countdownTimer">10s</span></div>
-        <div class="alert alert-info permanent-noti d-none" id="infoAlert"><strong>Info:</strong> Try a VPN if the stream is laggy.</div>
-        <div class="alert alert-info permanent-noti d-none" id="joinAlert"><strong>Join us</strong> on <a href="#" style="color:white;">Discord</a>!</div>
-      </div>
-
       <div class="d-flex align-items-center mb-3">
         <a href="/24-7" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back</a>
         <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
@@ -61,7 +58,7 @@
 
       <div class="theater-container">
         <div class="main-player-col">
-          <h2 id="eventTitle" class="mb-3">Loading...</h2>
+          <h2 id="eventTitle" class="mb-3"></h2>
           
           <div class="video-container">
             <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="display:none; width:100%; height:100%;"></iframe>
@@ -75,7 +72,7 @@
               <button class="btn btn-stream dropdown-toggle" type="button" id="streamDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 Select Channel
               </button>
-              <ul class="dropdown-menu" id="streamDropdownMenu" aria-labelledby="streamDropdown"></ul>
+              <ul class="dropdown-menu" id="streamDropdownMenu"></ul>
             </div>
           </div>
         </div>
@@ -101,8 +98,12 @@
     let hls = null;
     let streamData = null;
 
+    function isHLS(url) {
+      return url.split('?')[0].toLowerCase().endsWith('.m3u8') || url.toLowerCase().includes('.m3u8?');
+    }
+
     async function initPlayer(url) {
-      const isM3U8 = url.toLowerCase().includes('.m3u8');
+      const isM3U8 = isHLS(url);
       const embed = document.getElementById('embedPlayer');
       const container = document.getElementById('oplayer-container');
       const video = document.getElementById('plyr-player');
@@ -117,33 +118,38 @@
         fsBtn.classList.remove('d-none');
 
         if (Hls.isSupported()) {
-          hls = new Hls();
+          hls = new Hls({ xhrSetup: function(xhr) { xhr.withCredentials = false; } });
           hls.loadSource(url);
           hls.attachMedia(video);
           
           hls.on(Hls.Events.MANIFEST_PARSED, function () {
-            // Quality labels (fixes the 0p bug)
             const availableQualities = hls.levels.map((l) => l.height);
             
+            // Labels map to fix 0p -> Auto
+            const qualityLabels = { 0: 'Auto' };
+            availableQualities.forEach(h => { qualityLabels[h] = h + 'p'; });
+
             player = new Plyr(video, {
               quality: {
                 default: 0,
                 options: [0, ...availableQualities],
                 forced: true,
-                onChange: (newQuality) => {
-                  if (newQuality === 0) hls.currentLevel = -1; // Auto
-                  else hls.currentLevel = hls.levels.findIndex(l => l.height === newQuality);
+                onChange: (q) => {
+                  if (q === 0) hls.currentLevel = -1;
+                  else hls.currentLevel = hls.levels.findIndex(l => l.height === q);
                 }
               },
-              // Speed removed here
+              i18n: { quality: 'Quality' },
               controls: ['play-large', 'play', 'mute', 'volume', 'captions', 'settings', 'pip', 'cast', 'fullscreen'],
-              settings: ['quality', 'captions'], 
-              captions: { active: true, update: true, language: 'auto' }
+              settings: ['quality', 'captions'],
+              quality: { default: 0, options: [0, ...availableQualities], labels: qualityLabels }
             });
 
-            // Set the label for Auto
-            player.config.i18n.quality = 'Quality';
-            player.config.quality.labels = { 0: 'Auto' };
+            // Double force label update for Plyr's UI
+            player.on('ready', () => {
+              const qBtn = document.querySelector('.plyr__menu__container [data-plyr="quality"] span');
+              if (qBtn && player.quality === 0) qBtn.textContent = 'Auto';
+            });
           });
         } else {
           video.src = url;
@@ -159,26 +165,22 @@
 
     document.getElementById('fullscreenBtn').onclick = () => {
       if(player) player.fullscreen.enter();
-      else if(document.getElementById('embedPlayer').style.display !== 'none') document.getElementById('embedPlayer').requestFullscreen();
+      else document.getElementById('embedPlayer').requestFullscreen();
     };
 
     function populateDropdown(streams) {
       const menu = document.getElementById('streamDropdownMenu');
       const btn = document.getElementById('streamDropdown');
-      
       menu.innerHTML = streams.map((s, i) => 
-        `<li><a class="dropdown-item" href="#" data-url="${s.url}" data-label="${s.label || 'Stream ' + (i+1)}">${s.label || 'Stream ' + (i+1)}</a></li>`
+        `<li><a class="dropdown-item" href="#" data-url="${s.url}" data-label="${s.label || 'Channel ' + (i+1)}">${s.label || 'Channel ' + (i+1)}</a></li>`
       ).join('');
 
-      // Fixed: Adding event listener to menu instead of relying on onclick
       menu.querySelectorAll('.dropdown-item').forEach(item => {
-        item.addEventListener('click', (e) => {
+        item.onclick = (e) => {
           e.preventDefault();
-          const url = item.getAttribute('data-url');
-          const label = item.getAttribute('data-label');
-          btn.textContent = label;
-          initPlayer(url);
-        });
+          btn.textContent = item.getAttribute('data-label');
+          initPlayer(item.getAttribute('data-url'));
+        };
       });
     }
 
@@ -195,25 +197,6 @@
           initPlayer(event.streams[0].url);
         }
       });
-
-      // Simple Notification Timer
-      let sec = 10;
-      const timer = setInterval(() => {
-        sec--; 
-        const t = document.getElementById('countdownTimer');
-        if(t) t.textContent = sec + 's';
-        if(sec <= 0) {
-          clearInterval(timer);
-          const tip = document.getElementById('tipAlert');
-          if(tip) {
-            tip.classList.add('fade-out');
-            setTimeout(() => {
-              tip.style.display = 'none';
-              document.getElementById('infoAlert').classList.remove('d-none');
-            }, 500);
-          }
-        }
-      }, 1000);
     });
   </script>
 </body>
