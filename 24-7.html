@@ -4,153 +4,255 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FutbolX - 24/7 Streams</title>
+  <meta name="description" content="FutbolX - Watch 24/7 live sports streams including boxing, UFC, Basketball, Football, and more.">
+  <meta name="keywords" content="futbolx, 24/7, live streams, boxing, ufc, basketball, football, stream, online, free">
+  <meta property="og:title" content="FutbolX - 24/7 Streams" />
+  <meta property="og:url" content="https://your-futbolx-site.vercel.app/24-7" />
+  <meta property="og:image" content="/assets/img/og-image.jpg">
+  <meta name="twitter:title" content="FutbolX - 24/7 Streams">
+  <meta name="twitter:description" content="Watch 24/7 live sports streams on FutbolX.">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
-    /* 1. FORCED 3-COLUMN LAYOUT */
-    .event-grid {
+    .error-alert { max-width: 500px; margin: 20px auto; }
+    .card { 
+      opacity: 0; 
+      transform: translateY(50px); 
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
+    }
+    .card.visible { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+    .fade-out { 
+      animation: fadeOut 0.5s ease-out forwards; 
+    }
+    @keyframes fadeOut { 
+      from { opacity: 1; } 
+      to { opacity: 0; } 
+    }
+    .watch-button {
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    /* MODIFIED: FORCED 3-COLUMN GRID */
+    .event-grid, #livecards.event-grid {
       display: grid;
       gap: 1.5rem;
       padding: 1rem;
       grid-template-columns: 1fr; /* Mobile */
     }
+
     @media (min-width: 768px) {
-      .event-grid { grid-template-columns: repeat(2, 1fr); } /* Tablet */
-    }
-    @media (min-width: 992px) {
-      .event-grid { 
-        /* FORCED 3 COLUMNS */
-        grid-template-columns: repeat(3, 1fr) !important; 
+      .event-grid, #livecards.event-grid {
+        /* Force 3 columns on tablets and desktops */
+        grid-template-columns: repeat(3, 1fr) !important;
       }
     }
 
-    /* 2. ORIGINAL SITE UI RESTORED */
-    .top-bar { 
-      background: linear-gradient(90deg, #c53030 0%, #000000 100%); 
-      height: 60px;
-    }
-    .futbolx-brand { font-weight: 800; font-size: 1.5rem; color: white; margin-left: 10px; }
-    
-    /* Card Styles from your original code */
+    /* Fixed card sizing to allow 3-columns to fit side-by-side */
     .card {
       width: 100%;
-      margin: 0 auto;
+      max-width: none; /* Removed the 400px limit to let them align in 3s */
+      margin: 0;
       transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
       border-radius: 10px;
       overflow: hidden;
       border: 2px solid transparent;
-      background: #1a1d21;
-      opacity: 0; transform: translateY(50px);
-    }
-    .card.visible { opacity: 1; transform: translateY(0); transition: 0.6s ease-out; }
-    .card:hover { transform: translateY(-8px); border-color: #ff4d4d; box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
-    
-    .card-img-top { height: 220px; object-fit: cover; }
-    .card-title { font-size: 1.3rem; color: #3b82f6; margin-bottom: 0.5rem; }
-    
-    .live-badge {
-      position: absolute; top: 10px; right: 10px;
-      background: #dc3545; color: white; padding: 2px 10px;
-      border-radius: 15px; font-size: 0.75rem; font-weight: bold; z-index: 5;
-    }
-    .watch-button {
-      background-color: #c53030; color: white; border: none;
-      padding: 0.5rem 1.2rem; border-radius: 8px; font-size: 0.95rem; float: right;
+      position: relative;
     }
 
-    /* Sidebar Styling */
-    .offcanvas { background-color: #111; width: 280px !important; }
-    .nav-link { color: #ccc !important; font-size: 1.1rem; padding: 12px 20px; border-bottom: 1px solid #222; }
-    .nav-link:hover { background: #222; color: white !important; }
+    .event-grid a {
+      text-decoration: none;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      border-color: #ff4d4d;
+    }
+    [data-bs-theme="light"] .card:hover {
+      border-color: #e63939;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+    .card-img-top {
+      height: 220px;
+      object-fit: cover;
+    }
+    .card-body {
+      padding: 1rem;
+    }
+    .card-title {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .event-tag {
+      font-size: 0.95rem;
+    }
+    .watch-button {
+      font-size: 0.95rem;
+      padding: 0.5rem 1.2rem;
+    }
+    .category-dropdown {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+    .category-dropdown .dropdown-menu {
+      background-color: var(--bs-body-bg);
+      border: 1px solid var(--bs-border-color);
+    }
+    .category-dropdown .dropdown-item:hover {
+      background-color: var(--bs-primary);
+      color: var(--bs-white);
+    }
+
+    /* RESTORED LIVE BADGE */
+    .live-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #ff4d4d;
+      color: white;
+      padding: 2px 10px;
+      border-radius: 15px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      z-index: 5;
+    }
   </style>
 </head>
 <body>
-
-  <nav class="top-bar fixed-top d-flex align-items-center px-3">
-    <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
-      <i class="fas fa-bars"></i>
-    </button>
-    <span class="futbolx-brand">FutbolX</span>
+  <nav class="top-bar fixed-top">
+    <div class="container-fluid">
+      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <span class="futbolx-brand">FutbolX</span>
+    </div>
   </nav>
 
-  <div class="offcanvas offcanvas-start" id="sidebarMenu">
-    <div class="offcanvas-header border-bottom">
-      <h5 class="text-white mb-0">Navigation</h5>
-      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+    <div class="offcanvas-header">
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body p-0">
+    <div class="offcanvas-body">
       <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home me-2"></i> Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/request"><i class="fas fa-paper-plane me-2"></i> Request</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vods"><i class="fas fa-film me-2"></i> VODs</a></li>
-        <li class="nav-item"><a class="nav-link" href="/24-7"><i class="fas fa-clock me-2"></i> 24/7</a></li>
-        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k"><i class="fab fa-discord me-2"></i> Discord</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vip"><i class="fas fa-gem me-2"></i> VIP</a></li>
-        <li class="nav-item"><a class="nav-link" href="/auth/login"><i class="fas fa-user me-2"></i> Login</a></li>
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/request">Request</a></li>
+        <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
+        <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
+        <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
+        <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
+        <li class="nav-item"><button class="nav-link btn btn-link d-none" id="logoutButton">Logout</button></li>
+        <li class="nav-item">
+          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
+        </li>
       </ul>
     </div>
   </div>
 
-  <div class="container-fluid mt-5 pt-4">
-    <div class="text-center my-4">
-      <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown">
-          Select Category
-        </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#" data-category="All">All</a></li>
-          <li><a class="dropdown-item" href="#" data-category="Sports">Sports</a></li>
-          <li><a class="dropdown-item" href="#" data-category="Entertainment">Entertainment</a></li>
-          <li><a class="dropdown-item" href="#" data-category="Kids">Kids</a></li>
-          <li><a class="dropdown-item" href="#" data-category="Music">Music</a></li>
-          <li><a class="dropdown-item" href="#" data-category="Movies VOD">Movies VOD</a></li>
-          <li><a class="dropdown-item" href="#" data-category="News">News</a></li>
-          <li><a class="dropdown-item" href="#" data-category="Religion">Religion</a></li>
-          <li><a class="dropdown-item" href="#" data-category="Anime">Anime</a></li>
-        </ul>
+  <div class="container-fluid main-content">
+    <div class="container pt-2">
+      <div class="category-dropdown">
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Category
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+            <li><a class="dropdown-item" href="#" data-category="All">All</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Sports">Sports</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Entertainment">Entertainment</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Kids">Kids</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Music">Music</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Movies VOD">Movies VOD</a></li>
+            <li><a class="dropdown-item" href="#" data-category="News">News</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Religion">Religion</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Anime">Anime</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Movies Live">Movies Live</a></li>
+          </ul>
+        </div>
       </div>
-    </div>
 
-    <div id="livecards" class="event-grid">
-      <p class="text-center">Loading streams...</p>
+      <div id="errorContainer" class="d-none error-alert"></div>
+      <div id="live" class="mt-4">
+        <h2 class="m-0">
+          24/7 Streams <span id="liveAnimation" class="live-animation"></span>
+        </h2>
+        <div id="livecards" class="event-grid py-3">
+          <p>Loading streams...</p>
+        </div>
+      </div>
+
+      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
+        <ul class="nav justify-content-center justify-content-lg-end mb-0">
+          <li class="nav-item"><a href="/api" class="nav-link px-2 text-body-secondary">API</a></li>
+          <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">Discord</a></li>
+          <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
+          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
+          <li class="nav-item"><a href="/contact" class="nav-link px-2 text-body-secondary">Contact us</a></li>
+        </ul>
+      </footer>
     </div>
   </div>
+
+  <div id="snow-container"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     let allStreams = [];
 
     function renderStreams(streams) {
-      const container = document.getElementById('livecards');
-      container.innerHTML = '';
-      
+      const livecards = document.getElementById('livecards');
+      const liveAnimation = document.getElementById('liveAnimation');
+      livecards.innerHTML = '';
+
+      if (streams.length === 0) {
+        livecards.innerHTML = '<p>No streams available for this category.</p>';
+        liveAnimation.classList.add('d-none');
+        return;
+      }
+
       streams.forEach(stream => {
-        const poster = stream.poster || 'https://via.placeholder.com/285x160?text=FutbolX';
-        container.innerHTML += `
-          <a href="/live-24-7/${stream.uri_name}" style="text-decoration:none">
+        let poster = stream.poster || 'https://via.placeholder.com/285x160?text=FutbolX';
+        let streamHtml = `
+          <a href="/live-24-7/${stream.uri_name}">
             <div class="card">
               <span class="live-badge">LIVE</span>
-              <img src="${poster}" class="card-img-top" alt="${stream.name}">
+              <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
               <div class="card-body">
-                <h5 class="card-title">${stream.name}</h5>
-                <div>
-                  <span style="color:#888">${stream.category}</span>
-                  <button class="watch-button">Watch</button>
-                </div>
+                <h5 class="card-title" style="color: #3b82f6;">${stream.name}</h5>
+                <p class="card-text">
+                  <span class="event-tag" style="color: #888;">${stream.category}</span>
+                  <span class="float-end">
+                    <span class="btn btn-danger btn-sm watch-button">Watch</span>
+                  </span>
+                </p>
               </div>
             </div>
           </a>`;
+        livecards.innerHTML += streamHtml;
       });
 
-      // Original visibility animation
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
       }, { threshold: 0.1 });
       document.querySelectorAll('.card').forEach(c => observer.observe(c));
     }
 
+    // This part should handle your real API data logic as per your original file
     function loadContent() {
       fetch('/api/stream-24-7')
         .then(res => res.json())
@@ -167,11 +269,12 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       loadContent();
+      // Restoration of Category Dropdown Filter
       document.querySelectorAll('.dropdown-item').forEach(item => {
         item.addEventListener('click', (e) => {
-          const cat = e.target.getAttribute('data-category');
-          document.getElementById('categoryDropdown').textContent = cat;
-          renderStreams(cat === 'All' ? allStreams : allStreams.filter(s => s.category === cat));
+          const category = item.getAttribute('data-category');
+          document.getElementById('categoryDropdown').textContent = category;
+          renderStreams(category === 'All' ? allStreams : allStreams.filter(s => s.category === category));
         });
       });
     });
