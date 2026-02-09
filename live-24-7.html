@@ -20,7 +20,7 @@
     .main-player-col { flex: 1 1 65%; min-width: 350px; }
     .side-epg-col { flex: 1 1 30%; min-width: 320px; }
 
-    .btn-fullscreen { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: #ff4d4d; color: #fff; border: none; border-radius: 20px; transition: .3s; }
+    .btn-fullscreen { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: #ff4d4d; color: #fff; border: none; border-radius: 20px; transition: .3s; cursor: pointer; }
     .btn-fullscreen:hover { transform: scale(1.05); background: #e63939; }
 
     .video-container { position: relative; width: 100%; height: 0; padding-bottom: 56.25%; background: #000; border-radius: 10px; overflow: hidden; margin-bottom: 1rem; }
@@ -28,14 +28,43 @@
 
     .plyr { --plyr-color-main: #ff4d4d; font-family: 'Kanit', sans-serif; height: 100%; }
     
-    /* SCROLLABLE QUALITY MENU FIX */
-    .plyr__menu__container .plyr__menu__container {
-      max-height: 250px;
+    /* VERTICAL VOLUME CONTROL */
+    .plyr__volume { min-width: unset; position: relative; }
+    .plyr__volume input[type=range] {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: rotate(-90deg) translateX(50%);
+      transform-origin: left center;
+      width: 80px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all .2s ease;
+      background: rgba(26, 26, 26, 0.9);
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .plyr__volume:hover input[type=range], 
+    .plyr__volume:focus-within input[type=range] {
+      opacity: 1;
+      visibility: visible;
+      bottom: 120%;
+    }
+
+    /* SCROLLABLE QUALITY MENU */
+    .plyr__menu__container [role=menu] {
+      max-height: 200px;
       overflow-y: auto;
     }
     
-    /* Force Cast Button Visibility */
-    .plyr__control[data-plyr="cast"] { display: flex !important; opacity: 1 !important; }
+    /* FORCE CAST & BUTTON VISIBILITY */
+    .plyr__control[data-plyr="cast"], 
+    .plyr__control[data-plyr="captions"],
+    .plyr__control[data-plyr="settings"] { 
+      display: flex !important; 
+      opacity: 1 !important; 
+      visibility: visible !important;
+    }
 
     .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 900px; margin-left: auto; margin-right: auto; color: #aaa; }
   </style>
@@ -87,7 +116,7 @@
       </footer>
 
       <div class="disclaimer">
-        We DO NOT host nor transmit any audiovisual content itself... All content is copyright of their respective owners.
+        We DO NOT host nor transmit any audiovisual content... All content is copyright of their respective owners.
       </div>
     </div>
   </div>
@@ -96,7 +125,6 @@
   <script>
     let player = null;
     let hls = null;
-    let streamData = null;
 
     function isHLS(url) {
       return url.split('?')[0].toLowerCase().endsWith('.m3u8') || url.toLowerCase().includes('.m3u8?');
@@ -118,37 +146,38 @@
         fsBtn.classList.remove('d-none');
 
         if (Hls.isSupported()) {
-          hls = new Hls({ xhrSetup: function(xhr) { xhr.withCredentials = false; } });
+          hls = new Hls();
           hls.loadSource(url);
           hls.attachMedia(video);
           
           hls.on(Hls.Events.MANIFEST_PARSED, function () {
-            const availableQualities = hls.levels.map((l) => l.height);
+            const levels = hls.levels;
+            const qualities = levels.map(l => l.height);
             
-            // Labels map to fix 0p -> Auto
-            const qualityLabels = { 0: 'Auto' };
-            availableQualities.forEach(h => { qualityLabels[h] = h + 'p'; });
-
             player = new Plyr(video, {
+              controls: ['play-large', 'play', 'mute', 'volume', 'captions', 'settings', 'pip', 'cast', 'fullscreen'],
+              settings: ['quality', 'captions'],
               quality: {
                 default: 0,
-                options: [0, ...availableQualities],
+                options: [0, ...qualities],
                 forced: true,
                 onChange: (q) => {
                   if (q === 0) hls.currentLevel = -1;
-                  else hls.currentLevel = hls.levels.findIndex(l => l.height === q);
+                  else hls.currentLevel = levels.findIndex(l => l.height === q);
                 }
               },
-              i18n: { quality: 'Quality' },
-              controls: ['play-large', 'play', 'mute', 'volume', 'captions', 'settings', 'pip', 'cast', 'fullscreen'],
-              settings: ['quality', 'captions'],
-              quality: { default: 0, options: [0, ...availableQualities], labels: qualityLabels }
+              i18n: { quality: 'Quality' }
             });
 
-            // Double force label update for Plyr's UI
+            // Set specific labels to kill "0p"
+            const labels = { 0: 'Auto' };
+            qualities.forEach(q => { labels[q] = q + 'p'; });
+            player.config.quality.labels = labels;
+
+            // Immediate UI refresh for "Auto"
             player.on('ready', () => {
-              const qBtn = document.querySelector('.plyr__menu__container [data-plyr="quality"] span');
-              if (qBtn && player.quality === 0) qBtn.textContent = 'Auto';
+              const span = document.querySelector('.plyr__menu__container [data-plyr="quality"] span');
+              if (span && player.quality === 0) span.textContent = 'Auto';
             });
           });
         } else {
@@ -192,7 +221,6 @@
         const event = all.find(s => s.uri_name === uriName);
         if (event) {
           document.getElementById('eventTitle').innerText = event.name;
-          streamData = event;
           populateDropdown(event.streams);
           initPlayer(event.streams[0].url);
         }
