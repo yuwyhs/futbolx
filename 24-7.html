@@ -12,54 +12,43 @@
   <meta name="twitter:title" content="FutbolX - 24/7 Streams">
   <meta name="twitter:description" content="Watch 24/7 live sports streams on FutbolX.">
   <meta name="twitter:card" content="summary_large_image">
-
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+  <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
-    :root {
-      --bg: #0a0a0f;
-      --card-bg: #111117;
-      --card-border: rgba(230, 57, 70, 0.12);
-      --accent: #e63946;
-      --accent-glow: rgba(230, 57, 70, 0.35);
-      --text: #f2f2f7;
-      --text-muted: #a0a0b5;
+    .error-alert { max-width: 500px; margin: 20px auto; }
+    .card { 
+      opacity: 0; 
+      transform: translateY(50px); 
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
     }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
+    .card.visible { 
+      opacity: 1; 
+      transform: translateY(0); 
     }
-
-    /* Top bar - slimmer & more premium */
-    .top-bar {
-      background: rgba(15,15,25,0.94);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(230,57,70,0.15);
-      height: 54px;
-      padding: 0;
+    .fade-out { 
+      animation: fadeOut 0.5s ease-out forwards; 
     }
-
-    .futbolx-brand {
-      font-weight: 900;
-      font-size: 1.8rem;
-      letter-spacing: -1px;
-      background: linear-gradient(90deg, #ff5a5f, #e63946);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    @keyframes fadeOut { 
+      from { opacity: 1; } 
+      to { opacity: 0; } 
     }
-
-    /* Cards - VIP feel */
+    .watch-button {
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    /* Responsive grid layout for all screen sizes */
     .event-grid, #livecards.event-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.6rem;
-      padding: 1.5rem 1rem;
+      gap: 1.5rem;
+      padding: 1rem;
     }
 
     @media (min-width: 768px) {
@@ -79,132 +68,71 @@
         grid-template-columns: repeat(5, minmax(280px, 1fr));
       }
     }
-
+    .event-grid a {
+      text-decoration: none;
+    }
     .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      border-radius: 10px;
       overflow: hidden;
-      transition: all 0.28s ease;
-      box-shadow: 0 6px 22px rgba(0,0,0,0.5);
+      border: 2px solid transparent;
     }
-
     .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 18px 50px rgba(0,0,0,0.65),
-                  0 0 0 2px var(--accent-glow);
-      border-color: rgba(230,57,70,0.45);
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      border-color: #ff4d4d;
     }
-
+    [data-bs-theme="light"] .card:hover {
+      border-color: #e63939;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
     .card-img-top {
-      height: 185px;
+      height: 220px;
       object-fit: cover;
-      transition: transform 0.45s ease;
     }
-
-    .card:hover .card-img-top {
-      transform: scale(1.07);
-    }
-
-    .live-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background: var(--accent);
-      color: white;
-      padding: 0.38rem 0.95rem;
-      border-radius: 50px;
-      font-size: 0.86rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      box-shadow: 0 3px 14px rgba(230,57,70,0.7);
-      animation: pulse 2s infinite ease-in-out;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.04); opacity: 0.9; }
-    }
-
     .card-body {
-      padding: 1.1rem 1.25rem;
+      padding: 1rem;
     }
-
     .card-title {
-      font-size: 1.32rem;
-      font-weight: 700;
-      margin-bottom: 0.55rem;
-      line-height: 1.25;
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
     }
-
     .event-tag {
-      font-size: 0.97rem;
-      color: var(--text-muted);
-      background: rgba(230,57,70,0.08);
-      padding: 0.28rem 0.7rem;
-      border-radius: 6px;
+      font-size: 0.95rem;
     }
-
     .watch-button {
-      border-radius: 50px;
-      font-weight: 700;
-      padding: 0.55rem 1.4rem;
-      background: linear-gradient(145deg, #e63946, #c51d2e);
-      border: none;
-      transition: all 0.25s ease;
-      animation: subtle-pulse 3s infinite ease-in-out;
+      font-size: 0.95rem;
+      padding: 0.5rem 1.2rem;
     }
-
-    .watch-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(230,57,70,0.5);
+    .category-dropdown {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0;
     }
-
-    @keyframes subtle-pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(230,57,70,0.4); }
-      50% { box-shadow: 0 0 0 12px rgba(230,57,70,0); }
-    }
-
-    .category-dropdown .btn {
-      background: rgba(230,57,70,0.12);
-      border: 1px solid rgba(230,57,70,0.3);
-      color: white;
-      font-weight: 600;
-    }
-
     .category-dropdown .dropdown-menu {
-      background: #111117;
-      border: 1px solid rgba(230,57,70,0.3);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      background-color: var(--bs-body-bg);
+      border: 1px solid var(--bs-border-color);
     }
-
     .category-dropdown .dropdown-item:hover {
-      background: var(--accent);
-      color: white;
-    }
-
-    /* Snow - toned down for premium feel */
-    #snow-container .snow {
-      color: rgba(255,255,255,0.28);
-      font-size: 1rem;
-      animation-duration: 22s !important;
-      animation-timing-function: linear;
+      background-color: var(--bs-primary);
+      color: var(--bs-white);
     }
   </style>
 </head>
 <body>
-
   <!-- Top Bar -->
   <nav class="top-bar fixed-top">
-    <div class="container-fluid h-100 px-3 d-flex align-items-center">
-      <button class="btn btn-dark border-0 me-3" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
-        <i class="fas fa-bars fa-lg"></i>
+    <div class="container-fluid">
+      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+        <i class="fas fa-bars"></i>
       </button>
       <span class="futbolx-brand">FutbolX</span>
     </div>
   </nav>
-
-  <!-- Left Sidebar (unchanged structure) -->
+  <!-- Left Sidebar -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -227,15 +155,13 @@
       </ul>
     </div>
   </div>
-
   <!-- Main Content -->
-  <div class="container-fluid main-content pt-5">
-    <div class="container">
-
+  <div class="container-fluid main-content">
+    <div class="container pt-2">
       <!-- Category Dropdown -->
-      <div class="category-dropdown mb-4 text-center">
+      <div class="category-dropdown">
         <div class="dropdown">
-          <button class="btn dropdown-toggle px-5 py-2" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             Select Category
           </button>
           <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
@@ -251,26 +177,23 @@
           </ul>
         </div>
       </div>
-
       <div id="errorContainer" class="d-none error-alert"></div>
-
-      <div id="live" class="mt-3">
-        <h2 class="mb-4 fw-bold">
+      <div id="live" class="mt-4">
+        <h2 class="m-0">
           24/7 Streams <span id="liveAnimation" class="live-animation"></span>
         </h2>
         <div id="livecards" class="event-grid py-3">
           <p>Loading streams...</p>
         </div>
       </div>
-
-      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-4 border-top mt-5 text-muted">
-        <p class="mb-3 mb-lg-0">FutbolX 2025</p>
+      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item"><a href="/api" class="nav-link px-3 text-muted">API</a></li>
-          <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-3 text-muted">Discord</a></li>
-          <li class="nav-item"><a href="/changelog" class="nav-link px-3 text-muted">Changelog</a></li>
-          <li class="nav-item"><a href="/vip" class="nav-link px-3 text-muted">Donate / VIP Access</a></li>
-          <li class="nav-item"><a href="/contact" class="nav-link px-3 text-muted">Contact us</a></li>
+          <li class="nav-item"><a href="/api" class="nav-link px-2 text-body-secondary">API</a></li>
+          <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">Discord</a></li>
+          <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
+          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
+          <li class="nav-item"><a href="/contact" class="nav-link px-2 text-body-secondary">Contact us</a></li>
         </ul>
       </footer>
     </div>
@@ -285,15 +208,7 @@
   <script src="/assets/js/api.js"></script>
   <script async src="/assets/js/auth.js"></script>
   <script defer data-domain="your-futbolx-site.vercel.app" src="https://p.vidembed.re/js/script.js"></script>
-
-  <!-- Your original <script> block stays exactly the same -->
   <script>
-    // ───────────────────────────────────────────────────────────────
-    // KEEP EVERYTHING BELOW THIS LINE 100% UNCHANGED
-    // We only touched CSS — the logic, IDs, class names for cards etc.
-    // all remain exactly as in your original code
-    // ───────────────────────────────────────────────────────────────
-
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
 
     let apiInstance = null;
@@ -389,33 +304,236 @@
       cards.forEach(card => observer.observe(card));
     }
 
-    // ... the rest of your original script (loadContent, initOffcanvas, initCategoryDropdown, initPage, etc.) ...
-    // remains completely unchanged
+    function loadContent() {
+      console.log('Starting loadContent');
+      const errorContainer = document.getElementById('errorContainer');
+      const livecards = document.getElementById('livecards');
+      const liveAnimation = document.getElementById('liveAnimation');
 
-    // Only the snow part is slightly adjusted for better premium feel
+      errorContainer.className = 'd-none error-alert';
+      errorContainer.innerHTML = '';
+      livecards.innerHTML = '<p>Loading streams...</p>';
+
+      const timeout = setTimeout(() => {
+        if (livecards.innerHTML.includes('Loading streams...')) {
+          livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
+          errorContainer.className = 'alert alert-danger error-alert';
+          errorContainer.innerHTML = 'Request timed out. Please check your connection or try again.';
+          const retryButton = document.getElementById('retryButton');
+          if (retryButton) {
+            retryButton.addEventListener('click', () => loadContent());
+          }
+        }
+      }, 15000);
+
+      const apiUrl = '/api/stream-24-7';
+      fetchWithRetry(apiUrl)
+        .then(data => {
+          clearTimeout(timeout);
+          console.log('24/7 Stream API Response:', data);
+
+          if (!data || !data.success) {
+            console.warn('Invalid stream data received:', data);
+            livecards.innerHTML = '<p>No streams are available right now. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
+            liveAnimation.classList.add('d-none');
+            errorContainer.className = 'alert alert-danger error-alert';
+            errorContainer.innerHTML = 'Invalid stream data received. Please try again.';
+            const retryButton = document.getElementById('retryButton');
+            if (retryButton) {
+              retryButton.addEventListener('click', () => loadContent());
+            }
+            return;
+          }
+
+          allStreams = [];
+          Object.keys(data.streams).forEach(category => {
+            data.streams[category].forEach(stream => {
+              allStreams.push({ ...stream, category });
+            });
+          });
+
+          allStreams = allStreams.filter(stream => 
+            stream.name && stream.uri_name && stream.tag && stream.streams && Array.isArray(stream.streams)
+          );
+          renderStreams(allStreams);
+        })
+        .catch(error => {
+          clearTimeout(timeout);
+          console.error('API Fetch Error:', error.message, error.stack);
+          livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
+          liveAnimation.classList.add('d-none');
+          errorContainer.className = 'alert alert-danger error-alert';
+          errorContainer.innerHTML = `Failed to load streams: ${error.message}. Please check your connection or try again.`;
+          const retryButton = document.getElementById('retryButton');
+          if (retryButton) {
+            retryButton.addEventListener('click', () => loadContent());
+          }
+        });
+    }
+
+    function initOffcanvas() {
+      const offcanvasElement = document.getElementById('sidebarMenu');
+      const toggler = document.getElementById('sidebarToggler');
+      
+      if (!offcanvasElement || !toggler) {
+        console.error('Offcanvas or toggler not found');
+        return;
+      }
+
+      console.log('Initializing offcanvas');
+      if (typeof bootstrap === 'undefined') {
+        console.warn('Bootstrap not loaded. Relying on data attributes.');
+        return;
+      }
+
+      try {
+        const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+          console.log('Offcanvas closed');
+        });
+
+        const navLinks = offcanvasElement.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          link.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const href = link.getAttribute('href');
+            if (href) {
+              console.log('Nav link clicked:', href);
+              window.location.href = href;
+            }
+          });
+        });
+
+        const logoutButton = document.getElementById('logoutButton');
+        if (logoutButton) {
+          logoutButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            console.log('Logout button clicked');
+          });
+        }
+      } catch (error) {
+        console.error('Offcanvas initialization error:', error);
+      }
+    }
+
+    function initCategoryDropdown() {
+      const dropdownItems = document.querySelectorAll('.dropdown-item');
+      const dropdownButton = document.getElementById('categoryDropdown');
+
+      dropdownItems.forEach(item => {
+        item.removeEventListener('click', null);
+        item.addEventListener('click', (event) => {
+          event.preventDefault();
+          const category = item.getAttribute('data-category');
+          dropdownButton.textContent = category;
+          const filteredStreams = category === 'All' 
+            ? allStreams 
+            : allStreams.filter(stream => stream.category === category);
+          renderStreams(filteredStreams);
+        });
+      });
+
+      if (typeof bootstrap !== 'undefined') {
+        try {
+          new bootstrap.Dropdown(dropdownButton);
+          console.log('Category dropdown initialized');
+        } catch (error) {
+          console.error('Category dropdown initialization error:', error);
+        }
+      } else {
+        console.error('Bootstrap not loaded for category dropdown');
+      }
+    }
+
+    function initPage() {
+      console.log('Initializing page');
+      const errorContainer = document.getElementById('errorContainer');
+      const livecards = document.getElementById('livecards');
+      const themeToggle = document.getElementById('themeToggle');
+      const htmlElement = document.documentElement;
+
+      const currentTheme = localStorage.getItem('theme') || 'dark';
+      htmlElement.setAttribute('data-bs-theme', currentTheme);
+      if (themeToggle) {
+        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        themeToggle.addEventListener('click', () => {
+          console.log('Theme toggle clicked');
+          const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+          htmlElement.setAttribute('data-bs-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+          themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        });
+      } else {
+        console.error('Theme toggle element not found');
+      }
+
+      try {
+        initOffcanvas();
+      } catch (error) {
+        console.error('Offcanvas initialization error:', error);
+      }
+
+      try {
+        initCategoryDropdown();
+      } catch (error) {
+        console.error('Category dropdown initialization error:', error);
+      }
+
+      try {
+        loadContent();
+      } catch (error) {
+        console.error('Load content error:', error, error.stack);
+        livecards.innerHTML = '<p>Failed to load streams. <button id="retryButton" class="btn btn-primary btn-sm">Retry</button></p>';
+        errorContainer.className = 'alert alert-danger error-alert';
+        errorContainer.innerHTML = 'Failed to initialize streams: ' + error.message + '. Please try again.';
+        const retryButton = document.getElementById('retryButton');
+        if (retryButton) {
+          retryButton.addEventListener('click', () => loadContent());
+        }
+      }
+
+      try {
+        checkAuthStatus();
+      } catch (error) {
+        console.warn('Auth status check failed:', error);
+      }
+
+      console.log('Page initialized successfully');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM loaded');
+      try {
+        initPage();
+      } catch (error) {
+        console.error('DOMContentLoaded error:', error);
+      }
+    });
+  </script>
+  <!-- Snow Script -->
+  <script>
     const snowContainer = document.getElementById("snow-container");
-    const snowContent = ["❄︎", "✦", "✧"];
+    const snowContent = ["&#10052;", "&#10053;", "&#10054;"];
 
     const random = (num) => Math.floor(Math.random() * num);
 
     const getRandomStyles = () => {
       const top = random(100);
       const left = random(100);
-      const dur = random(15) + 18;
-      const size = random(18) + 14;
+      const dur = random(10) + 10;
+      const size = random(25) + 25;
       return `
         top: -${top}%;
         left: ${left}%;
         font-size: ${size}px;
         animation-duration: ${dur}s;
-        opacity: ${Math.random() * 0.35 + 0.25};
       `;
     };
 
     const createSnow = (num) => {
       for (var i = num; i > 0; i--) {
         var snow = document.createElement("div");
-        snow.className = "snow position-absolute";
+        snow.className = "snow";
         snow.style.cssText = getRandomStyles();
         snow.innerHTML = snowContent[random(3)];
         snowContainer.append(snow);
@@ -423,9 +541,8 @@
     };
 
     window.addEventListener("load", () => {
-      createSnow(22);
+      createSnow(30);
     });
   </script>
-
 </body>
   </html>
