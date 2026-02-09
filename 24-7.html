@@ -8,9 +8,11 @@
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
-    .error-alert { max-width: 500px; margin: 20px auto; }
+    /* Theme Syncing: Prevent "flash" of white/dark by checking theme immediately */
+    :root[data-bs-theme="dark"] { --bg-color: #000; }
+    :root[data-bs-theme="light"] { --bg-color: #fff; }
+
     .card { 
       opacity: 0; 
       transform: translateY(50px); 
@@ -25,7 +27,6 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
-    /* FORCED 3-COLUMN GRID - NO SQUEEZING */
     .event-grid, #livecards.event-grid {
       display: grid;
       gap: 1.5rem;
@@ -34,21 +35,16 @@
     }
 
     @media (min-width: 768px) {
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .event-grid, #livecards.event-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (min-width: 1024px) {
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(3, 1fr) !important;
-      }
+      .event-grid, #livecards.event-grid { grid-template-columns: repeat(3, 1fr) !important; }
     }
 
     .card {
       width: 100%;
-      max-width: none; /* Allows cards to fill the 3-column space properly */
-      margin: 0;
+      max-width: none;
       transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
       border-radius: 10px;
       overflow: hidden;
@@ -69,6 +65,13 @@
       border-radius: 15px; font-size: 0.75rem; font-weight: bold; z-index: 5;
     }
   </style>
+  <script>
+    // THEME SYNC ENGINE: Run this before the body loads to prevent flickering
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-bs-theme', savedTheme);
+    })();
+  </script>
 </head>
 <body>
   <nav class="top-bar fixed-top">
@@ -129,13 +132,9 @@
       </div>
 
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
+        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item"><a href="/api" class="nav-link px-2 text-body-secondary">API</a></li>
-          <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">Discord</a></li>
-          <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
           <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
-          <li class="nav-item"><a href="/contact" class="nav-link px-2 text-body-secondary">Contact us</a></li>
         </ul>
       </footer>
     </div>
@@ -145,14 +144,25 @@
   <script>
     let allStreams = [];
 
-    // Theme Toggle Logic
+    // Theme Toggle Sync Logic
     const themeToggle = document.getElementById('themeToggle');
     const htmlElement = document.documentElement;
+
+    // Set initial icon based on synced theme
+    function updateIcon() {
+      const isDark = htmlElement.getAttribute('data-bs-theme') === 'dark';
+      themeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+    }
+    updateIcon();
+
     themeToggle.addEventListener('click', () => {
       const currentTheme = htmlElement.getAttribute('data-bs-theme');
       const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      // Apply and Save to localStorage for all pages to see
       htmlElement.setAttribute('data-bs-theme', newTheme);
-      themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+      localStorage.setItem('theme', newTheme);
+      updateIcon();
     });
 
     function renderStreams(streams) {
