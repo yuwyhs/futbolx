@@ -18,26 +18,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
-    .tip-container {
-      max-width: 600px;
-      margin: 20px auto;
-      transition: height 0.3s ease-out;
-      overflow: hidden;
-    }
-    .alert-info {
-      text-align: center;
-      position: relative;
-      padding-right: 50px;
-    }
-    #countdownTimer {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      font-weight: bold;
-      color: #ff4d4d;
-    }
-    [data-bs-theme="light"] #countdownTimer {
-      color: #e63939;
+    /* Big Screen Adaptation */
+    .player-container {
+      max-width: 1200px;
+      margin: 0 auto;
     }
     .error-alert {
       max-width: 500px;
@@ -50,7 +34,7 @@
       from { opacity: 1; }
       to { opacity: 0; }
     }
-    .btn-fullscreen {
+    .btn-fullscreen, .btn-cast {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -61,17 +45,16 @@
       border-radius: 20px;
       margin-left: 10px;
       transition: transform 0.3s, background 0.3s;
+      font-weight: 500;
     }
-    [data-bs-theme="light"] .btn-fullscreen {
+    [data-bs-theme="light"] .btn-fullscreen, [data-bs-theme="light"] .btn-cast {
       background: #e63939;
-      color: #333;
+      color: #fff;
     }
-    .btn-fullscreen:hover {
+    .btn-fullscreen:hover, .btn-cast:hover {
       transform: scale(1.05);
       background: #e63939;
-    }
-    [data-bs-theme="light"] .btn-fullscreen:hover {
-      background: #cc3333;
+      color: #fff;
     }
     .offcanvas {
       z-index: 1055 !important;
@@ -123,14 +106,6 @@
     <div class="container mt-4">
       <div class="row">
         <div class="col-12">
-          <div class="tip-container">
-            <div class="alert alert-info">
-              <strong>Tip:</strong> For an ad-free experience, consider installing an ad blocker like
-              <a href="https://ublockorigin.com" target="_blank" rel="noopener">uBlock Origin</a> or
-              <a href="https://adguard.com" target="_blank" rel="noopener">AdGuard</a>.
-              <span id="countdownTimer">10s</span>
-            </div>
-          </div>
           <div class="d-flex align-items-center mb-3">
             <a href="/24-7" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to 24/7 Streams</a>
             <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
@@ -143,28 +118,24 @@
                 <video id="videoPlayer" class="d-none" controls></video>
               </div>
             </div>
-            <div class="stream-dropdown">
+            <div class="stream-dropdown d-flex align-items-center justify-content-between mt-3">
               <div class="dropdown">
                 <button class="btn btn-stream dropdown-toggle" type="button" id="streamDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                   Select Stream
                 </button>
                 <ul class="dropdown-menu" id="streamDropdownMenu" aria-labelledby="streamDropdown">
-                  <!-- Stream options will be populated dynamically -->
                 </ul>
               </div>
+              <button id="castBtn" class="btn btn-cast d-none"><i class="fas fa-tv"></i> Cast Stream</button>
             </div>
           </div>
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
         </div>
       </div>
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
+        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item"><a href="/api" class="nav-link px-2 text-body-secondary">API</a></li>
           <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">Discord</a></li>
-          <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
-          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
-          <li class="nav-item"><a href="/contact" class="nav-link px-2 text-body-secondary">Contact us</a></li>
         </ul>
       </footer>
     </div>
@@ -179,16 +150,13 @@
     let videoPlayerInstance = null;
     let streamData = null;
     let currentStreamIndex = 0;
-    let countdownInterval = null;
 
-    // Block popups
     const originalOpen = window.open;
     window.open = function(url) {
       console.log('Blocked popup attempt to:', url);
       return null;
     };
 
-    // Clear error messages
     function clearError() {
       const errorContainer = document.getElementById('errorContainer');
       if (errorContainer && !errorContainer.classList.contains('d-none')) {
@@ -200,127 +168,48 @@
       }
     }
 
-    // Tip countdown
-    function startTipCountdown() {
-      const tipContainer = document.querySelector('.tip-container');
-      const tipAlert = document.querySelector('.alert-info');
-      const countdownTimer = document.getElementById('countdownTimer');
-      if (!tipContainer || !tipAlert || !countdownTimer) {
-        console.warn('Tip container or elements not found');
-        return;
-      }
-      // Clear any existing interval to prevent duplicates
-      if (countdownInterval) {
-        clearInterval(countdownInterval);
-      }
-      let seconds = 10;
-      countdownTimer.textContent = `${seconds}s`;
-      tipContainer.style.height = `${tipAlert.offsetHeight}px`;
-      countdownInterval = setInterval(() => {
-        seconds--;
-        if (seconds >= 0) {
-          countdownTimer.textContent = `${seconds}s`;
-        }
-        if (seconds <= 0) {
-          clearInterval(countdownInterval);
-          countdownInterval = null;
-          tipAlert.classList.add('fade-out');
-          setTimeout(() => {
-            tipContainer.style.height = '0';
-            tipAlert.style.display = 'none';
-          }, 500);
-        }
-      }, 1000);
-    }
-
-    // Initialize offcanvas
     function initOffcanvas() {
       const offcanvasElement = document.getElementById('sidebarMenu');
       const toggler = document.getElementById('sidebarToggler');
-      const themeToggle = document.getElementById('themeToggle');
-      const logoutButton = document.getElementById('logoutButton');
-      if (!offcanvasElement || !toggler || !themeToggle) {
-        console.error('Offcanvas, toggler, or theme toggle not found');
-        return;
-      }
-      if (typeof bootstrap === 'undefined') {
-        console.error('Bootstrap not loaded');
-        return;
-      }
+      if (!offcanvasElement || !toggler) return;
       try {
         const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
           backdrop: true,
           keyboard: true,
           scroll: false
         });
-        offcanvasElement.addEventListener('shown.bs.offcanvas', () => {
-          console.log('Offcanvas shown');
-        });
-        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
-          console.log('Offcanvas hidden');
-        });
         const navLinks = offcanvasElement.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
-          link.addEventListener('click', (event) => {
+          link.addEventListener('click', () => {
             const href = link.getAttribute('href');
             if (href) {
-              console.log('Nav link clicked:', href);
               window.location.href = href;
               offcanvas.hide();
             }
           });
         });
-        if (logoutButton) {
-          logoutButton.addEventListener('click', () => {
-            console.log('Logout button clicked');
-            offcanvas.hide();
-            if (typeof logout === 'function') {
-              logout();
-            }
-          });
-        }
-      } catch (error) {
-        console.error('Offcanvas initialization error:', error);
-      }
+      } catch (error) { console.error('Offcanvas error:', error); }
     }
 
-    // Initialize theme toggle
     function initThemeToggle() {
       const themeToggle = document.getElementById('themeToggle');
       const htmlElement = document.documentElement;
-      if (!themeToggle || !htmlElement) {
-        console.error('Theme toggle or HTML element not found');
-        return;
-      }
-      try {
-        const currentTheme = localStorage.getItem('theme') || 'dark';
-        htmlElement.setAttribute('data-bs-theme', currentTheme);
-        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-        console.log('Theme initialized to:', currentTheme);
-        themeToggle.addEventListener('click', () => {
-          try {
-            const currentTheme = htmlElement.getAttribute('data-bs-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            htmlElement.setAttribute('data-bs-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-            console.log('Theme toggled to:', newTheme);
-          } catch (error) {
-            console.error('Theme toggle error:', error);
-          }
-        });
-      } catch (error) {
-        console.error('Theme toggle initialization error:', error);
-      }
+      if (!themeToggle || !htmlElement) return;
+      const currentTheme = localStorage.getItem('theme') || 'dark';
+      htmlElement.setAttribute('data-bs-theme', currentTheme);
+      themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = htmlElement.getAttribute('data-bs-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        htmlElement.setAttribute('data-bs-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+      });
     }
 
-    // Recreate video element
     function recreateVideoElement(isM3U8) {
       const videoContainer = document.getElementById('videoPlayerContainer');
-      if (!videoContainer) {
-        console.error('Video player container not found');
-        return null;
-      }
+      if (!videoContainer) return null;
       videoContainer.innerHTML = '';
       const videoElement = isM3U8 ? document.createElement('div') : document.createElement('video');
       videoElement.id = 'videoPlayer';
@@ -331,347 +220,108 @@
         videoElement.autoplay = true;
         videoElement.style.width = '100%';
         videoElement.style.height = '100%';
-        videoElement.addEventListener('play', () => {
-          try {
-            videoElement.muted = false;
-            console.log('Non-M3U8 video unmuted');
-          } catch (e) {
-            console.warn('Failed to unmute non-M3U8 video:', e);
-          }
-        });
+        videoElement.addEventListener('play', () => { videoElement.muted = false; });
       }
       videoContainer.appendChild(videoElement);
       return videoElement;
     }
 
-    // Detect M3U8 stream by content
     async function isM3U8Stream(url) {
-      if (url.toLowerCase().includes('.m3u8')) {
-        return true;
-      }
+      if (url.toLowerCase().includes('.m3u8')) return true;
       try {
-        const response = await fetch(url, { 
-          method: 'GET', 
-          headers: { 'Range': 'bytes=0-1023' },
-          signal: AbortSignal.timeout(5000)
-        });
-        if (!response.ok) return false;
+        const response = await fetch(url, { method: 'GET', headers: { 'Range': 'bytes=0-1023' }, signal: AbortSignal.timeout(5000) });
         const content = await response.text();
-        return content.includes('#EXTM3U') || content.includes('.ts');
-      } catch (error) {
-        console.warn(`M3U8 detection fetch failed for ${url}:`, error);
-        return false;
-      }
+        return content.includes('#EXTM3U');
+      } catch (e) { return false; }
     }
 
-    // Initialize player
     async function initPlayer(event, streamIndex, errorContainer) {
-      console.log('initPlayer called with event:', event, 'streamIndex:', streamIndex);
       try {
         clearError();
         embedPlayer = document.getElementById('embedPlayer');
         const videoContainer = document.getElementById('videoPlayerContainer');
-        if (!embedPlayer || !videoContainer) {
-          throw new Error('Player elements not found');
-        }
         const stream = event.streams[streamIndex];
         const streamUrl = stream.url;
-        if (!streamUrl || !/^https?:/.test(streamUrl)) {
-          throw new Error('Invalid or missing stream URL');
-        }
-        console.log('Stream URL:', streamUrl);
         const isM3U8 = await isM3U8Stream(streamUrl);
-        console.log('Is M3U8 stream:', isM3U8);
+        
         if (isM3U8) {
           embedPlayer.style.display = 'none';
-          let videoPlayer = document.getElementById('videoPlayer');
-          if (!videoPlayer) {
-            videoPlayer = recreateVideoElement(true);
-          }
+          let videoPlayer = document.getElementById('videoPlayer') || recreateVideoElement(true);
           videoPlayer.classList.remove('d-none');
           videoContainer.style.display = 'block';
-          if (typeof jwplayer === 'undefined') {
-            console.error('JW Player not loaded');
-            throw new Error('JW Player library not loaded');
-          }
           videoPlayerInstance = jwplayer('videoPlayer').setup({
-            file: streamUrl,
-            autostart: true,
-            mute: true,
-            width: '100%',
-            aspectratio: '16:9',
-            controls: true,
-            displaytitle: false,
-            pipIcon: 'enabled',
-            captions: {
-              color: '#ffffff',
-              backgroundOpacity: 50
-            }
+            file: streamUrl, autostart: true, mute: true, width: '100%', aspectratio: '16:9', controls: true
           });
-          videoPlayerInstance.on('ready', () => {
-            console.log('JW Player ready for HLS');
-            clearError();
-            videoPlayerInstance.play();
-            try {
-              videoPlayerInstance.setMute(false);
-              console.log('JW Player unmuted');
-            } catch (e) {
-              console.warn('Failed to unmute JW Player:', e);
-            }
-          });
-          videoPlayerInstance.on('error', (e) => {
-            console.error('JW Player error:', e);
-            let errorMessage = 'Failed to load M3U8 stream: ';
-            if (e.code === 232011 || e.code === 232001) {
-              errorMessage += `Failed to load playlist (Code: ${e.code}). The stream may be down or blocked.`;
-            } else if (e.code === 230001) {
-              errorMessage += `Network error loading stream (Code: ${e.code}). Check your connection or stream URL.`;
-            } else {
-              errorMessage += e.message || 'Unknown error';
-            }
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = errorMessage;
-            console.log('JW Player error details:', {
-              code: e.code,
-              message: e.message,
-              sourceError: e.sourceError
-            });
-          });
+          videoPlayerInstance.on('ready', () => { videoPlayerInstance.play(); videoPlayerInstance.setMute(false); });
         } else {
           videoContainer.style.display = 'none';
           embedPlayer.style.display = 'block';
-          if (videoPlayerInstance) {
-            if (videoPlayerInstance.destroy) {
-              videoPlayerInstance.destroy();
-            }
-            videoPlayerInstance = null;
-            recreateVideoElement(false);
+          if (videoPlayerInstance) { videoPlayerInstance.destroy(); videoPlayerInstance = null; recreateVideoElement(false); }
+          embedPlayer.src = streamUrl + (streamUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+        }
+
+        const fsBtn = document.getElementById('fullscreenBtn');
+        const castBtn = document.getElementById('castBtn');
+        [fsBtn, castBtn].forEach(btn => btn.classList.remove('d-none'));
+
+        fsBtn.onclick = () => {
+          const target = isM3U8 ? (videoPlayerInstance.getContainer ? videoPlayerInstance.getContainer() : document.getElementById('videoPlayer')) : embedPlayer;
+          if (target.requestFullscreen) target.requestFullscreen();
+          else if (target.webkitRequestFullscreen) target.webkitRequestFullscreen();
+        };
+
+        castBtn.onclick = () => {
+          const target = isM3U8 ? document.querySelector('video') : embedPlayer;
+          if (target.remote && target.remote.prompt) {
+              target.remote.prompt();
+          } else if (target.webkitShowPlaybackTargetPicker) {
+              target.webkitShowPlaybackTargetPicker();
+          } else {
+              alert("Casting is not supported on this browser or device.");
           }
-          const url = new URL(streamUrl);
-          url.searchParams.append('autoplay', '1');
-          embedPlayer.src = url.toString();
-          embedPlayer.muted = true;
-          console.log('Embed initialized successfully');
-          embedPlayer.addEventListener('load', () => {
-            console.log('Embed loaded successfully');
-            clearError();
-            try {
-              embedPlayer.contentWindow.postMessage({ type: 'play' }, '*');
-              embedPlayer.contentWindow.postMessage({ type: 'unmute' }, '*');
-              embedPlayer.muted = false;
-              console.log('Iframe unmuted');
-            } catch (e) {
-              console.warn('Iframe play/unmute message failed:', e);
-            }
-          });
-          embedPlayer.addEventListener('error', () => {
-            console.error('Embed load error');
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = 'Failed to load stream. The stream may be invalid or restricted.';
-          });
-        }
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        if (fullscreenBtn) {
-          fullscreenBtn.classList.remove('d-none');
-          fullscreenBtn.addEventListener('click', () => {
-            if (isM3U8 && videoPlayerInstance) {
-              const container = videoPlayerInstance.getContainer ? videoPlayerInstance.getContainer() : videoPlayer;
-              if (container.requestFullscreen) {
-                container.requestFullscreen().catch(err => {
-                  console.error('Fullscreen failed:', err);
-                  errorContainer.className = 'alert alert-danger error-alert mt-3';
-                  errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
-                });
-              } else if (container.webkitRequestFullscreen) {
-                container.webkitRequestFullscreen();
-              } else if (container.msRequestFullscreen) {
-                container.msRequestFullscreen();
-              }
-            } else if (embedPlayer.requestFullscreen) {
-              embedPlayer.requestFullscreen().catch(err => {
-                console.error('Fullscreen request failed:', err);
-                errorContainer.innerText = 'Failed to enter fullscreen: ' + (err.message || 'Not supported');
-              });
-            } else if (embedPlayer.webkitRequestFullscreen) {
-              embedPlayer.webkitRequestFullscreen();
-            } else if (embedPlayer.msRequestFullscreen) {
-              embedPlayer.msRequestFullscreen();
-            } else {
-              console.error('Fullscreen API not supported');
-              errorContainer.innerText = 'Fullscreen is not supported in this browser.';
-            }
-          });
-        }
-      } catch (err) {
-        console.error('Player init error:', err);
-        errorContainer.className = 'alert alert-danger error-alert mt-3';
-        errorContainer.innerText = 'Failed to initialize stream: ' + (err.message || 'Unknown error');
-      }
+        };
+
+      } catch (err) { errorContainer.classList.remove('d-none'); errorContainer.innerText = 'Error: ' + err.message; }
     }
 
-    // Populate stream dropdown
     function populateStreamDropdown(streams) {
-      const dropdownMenu = document.getElementById('streamDropdownMenu');
-      const dropdownButton = document.getElementById('streamDropdown');
-      if (!dropdownMenu || !dropdownButton) {
-        console.error('Stream dropdown elements not found');
-        return;
-      }
-      dropdownMenu.innerHTML = '';
-      if (streams.length === 0) {
-        dropdownMenu.innerHTML = '<li><span class="dropdown-item disabled">No streams available</span></li>';
-        dropdownButton.textContent = 'No Streams';
-        dropdownButton.disabled = true;
-        return;
-      }
+      const menu = document.getElementById('streamDropdownMenu');
+      const btn = document.getElementById('streamDropdown');
+      menu.innerHTML = '';
       streams.forEach((stream, index) => {
         const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.className = 'dropdown-item';
-        a.href = '#';
-        a.textContent = stream.label || `Stream ${index + 1}`;
-        a.dataset.streamIndex = index;
-        li.appendChild(a);
-        dropdownMenu.appendChild(li);
+        li.innerHTML = `<a class="dropdown-item" href="#">${stream.label || `Stream ${index + 1}`}</a>`;
+        li.querySelector('a').onclick = (e) => {
+          e.preventDefault();
+          currentStreamIndex = index;
+          btn.textContent = stream.label || `Stream ${index + 1}`;
+          initPlayer(streamData, index, document.getElementById('errorContainer'));
+        };
+        menu.appendChild(li);
       });
-      dropdownButton.textContent = streams[currentStreamIndex].label || `Stream ${currentStreamIndex + 1}`;
-      dropdownButton.disabled = streams.length === 1;
-      const dropdownItems = dropdownMenu.querySelectorAll('.dropdown-item');
-      dropdownItems.forEach(item => {
-        item.removeEventListener('click', null); // Remove any existing listeners
-        item.addEventListener('click', (event) => {
-          event.preventDefault();
-          const streamIndex = parseInt(item.dataset.streamIndex);
-          if (streamIndex !== currentStreamIndex) {
-            currentStreamIndex = streamIndex;
-            dropdownButton.textContent = streams[streamIndex].label || `Stream ${streamIndex + 1}`;
-            initPlayer(streamData, streamIndex, document.getElementById('errorContainer'));
-          }
-        });
-      });
-      if (typeof bootstrap !== 'undefined') {
-        try {
-          new bootstrap.Dropdown(dropdownButton);
-          console.log('Dropdown initialized');
-        } catch (error) {
-          console.error('Dropdown initialization error:', error);
-        }
-      } else {
-        console.error('Bootstrap not loaded for dropdown');
-      }
+      btn.textContent = streams[0].label || 'Stream 1';
     }
 
-    // Fetch stream data with retry
-    function fetchWithRetry(url, maxRetries = 3, delay = 1000) {
-      return new Promise((resolve, reject) => {
-        let attempts = 0;
-        function attempt() {
-          attempts++;
-          console.log(`Fetching ${url}, attempt ${attempts}`);
-          fetch(url, { signal: AbortSignal.timeout(10000) })
-            .then(res => {
-              console.log(`Fetch status: ${res.status} ${res.statusText}`);
-              if (!res.ok) {
-                return res.text().then(text => {
-                  throw new Error(`HTTP error ${res.status}: ${res.statusText} - ${text}`);
-                });
-              }
-              return res.json();
-            })
-            .then(data => {
-              clearError();
-              resolve(data);
-            })
-            .catch(error => {
-              console.error(`Fetch attempt ${attempts} failed:`, error);
-              if (attempts < maxRetries) {
-                setTimeout(() => attempt(), delay);
-              } else {
-                console.error('All fetch attempts failed:', error);
-                reject(error);
-              }
-            });
-        }
-        attempt();
-      });
-    }
-
-    // Initialize page
     function initPage() {
-      console.log('Initializing page');
-      const errorContainer = document.getElementById('errorContainer');
-      const eventTitle = document.getElementById('eventTitle');
-      if (!errorContainer || !eventTitle) {
-        console.error('Error container or event title not found');
-        return;
-      }
-      try {
-        const uriName = window.location.pathname.split('/').pop();
-        const playerContainer = document.querySelector('.video-container');
-        if (!playerContainer) {
-          throw new Error('Player container not found');
+      const uriName = window.location.pathname.split('/').pop();
+      fetch('/api/stream-24-7').then(res => res.json()).then(data => {
+        const streams = [];
+        Object.keys(data.streams).forEach(cat => streams.push(...data.streams[cat]));
+        const event = streams.find(s => s.uri_name === uriName);
+        if (event) {
+          document.getElementById('eventTitle').innerText = event.name;
+          streamData = event;
+          populateStreamDropdown(event.streams);
+          initPlayer(event, 0, document.getElementById('errorContainer'));
         }
-        const apiUrl = '/api/stream-24-7';
-        fetchWithRetry(apiUrl)
-          .then(data => {
-            console.log('Stream API Response:', data);
-            if (!data || !data.success) {
-              throw new Error('Invalid stream data');
-            }
-            const streams = [];
-            Object.keys(data.streams).forEach(category => {
-              data.streams[category].forEach(stream => {
-                streams.push({ ...stream, category });
-              });
-            });
-            const event = streams.find(s => s.uri_name === uriName);
-            if (!event || !event.streams || !Array.isArray(event.streams) || event.streams.length === 0) {
-              throw new Error(`Stream not found for uri_name: ${uriName}`);
-            }
-            if (!event.name) {
-              throw new Error('Missing required event fields');
-            }
-            eventTitle.innerText = event.name;
-            streamData = event;
-            playerContainer.classList.add('fade-in');
-            populateStreamDropdown(event.streams);
-            initPlayer(streamData, currentStreamIndex, errorContainer);
-          })
-          .catch(error => {
-            console.error('API Fetch Error:', error.message, error.stack);
-            eventTitle.innerText = 'Error: Stream Not Found';
-            errorContainer.className = 'alert alert-danger error-alert mt-3';
-            errorContainer.innerText = error.message.includes('Stream not found')
-              ? `The requested stream "${uriName}" was not found. Redirecting to 24/7 streams...`
-              : 'Failed to load stream data: ' + error.message + '. Please try again.';
-            setTimeout(() => window.location.href = '/24-7', 3000);
-          });
-        try {
-          checkAuthStatus();
-        } catch (error) {
-          console.warn('Auth status check failed:', error);
-        }
-        console.log('Page initialized successfully');
-      } catch (error) {
-        console.error('Init page error:', error, error.stack);
-        eventTitle.innerText = 'Error: Failed to Initialize';
-        errorContainer.className = 'alert alert-danger error-alert mt-3';
-        errorContainer.innerText = 'An error occurred while initializing the page: ' + error.message + '. Please try again.';
-      }
+      });
     }
 
-    // Wait for DOM content to load
     document.addEventListener('DOMContentLoaded', () => {
-      console.log('DOM content loaded');
-      try {
-        initThemeToggle();
-        initOffcanvas();
-        startTipCountdown();
-        initPage();
-      } catch (error) {
-        console.error('DOMContentLoaded error:', error);
-      }
+      initThemeToggle();
+      initOffcanvas();
+      initPage();
     });
   </script>
 </body>
-  </html>
+</html>
