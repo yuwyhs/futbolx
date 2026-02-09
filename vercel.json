@@ -24,6 +24,10 @@
     {
       "src": "*.json",
       "use": "@vercel/static"
+    },
+    {
+      "src": "watch/*.php",
+      "use": "@vercel/php"
     }
   ],
   "routes": [
@@ -39,6 +43,7 @@
     { "src": "/live-24-7/(.*)", "dest": "/live-24-7.html" },
     { "src": "/vip", "dest": "/vip.html" },
     { "src": "/24-7", "dest": "/24-7.html" },
+    { "src": "/watch/(.*\\.php)", "dest": "/watch/$1" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
