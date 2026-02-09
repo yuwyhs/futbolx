@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FutbolX - 24/7 Streams</title>
-  <meta name="description" content="FutbolX - Watch 24/7 live sports streams including boxing, UFC, Basketball, Football, and more.">
-  <meta name="keywords" content="futbolx, 24/7, live streams, boxing, ufc, basketball, football, stream, online, free">
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
@@ -27,6 +25,25 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
+    /* THE RED DOT ANIMATION */
+    .live-dot {
+      height: 12px;
+      width: 12px;
+      background-color: #ff4d4d;
+      border-radius: 50%;
+      display: inline-block;
+      margin-left: 8px;
+      box-shadow: 0 0 0 rgba(255, 77, 77, 0.7);
+      animation: pulse-red 2s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes pulse-red {
+      0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(255, 77, 77, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
+    }
+
     /* GRID FIX */
     .event-grid, #livecards.event-grid {
       display: grid;
@@ -44,7 +61,6 @@
     .card {
       width: 100%;
       max-width: none;
-      margin: 0 auto;
       transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
       border-radius: 10px;
       overflow: hidden;
@@ -53,28 +69,7 @@
     }
     .card:hover { transform: translateY(-8px); border-color: #ff4d4d; box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
     .card-img-top { height: 220px; object-fit: cover; }
-
-    /* UNIFIED LIVE BADGE STYLE */
-    .live-badge {
-      background-color: #dc3545;
-      color: white;
-      padding: 2px 10px;
-      border-radius: 15px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      text-transform: uppercase;
-      display: inline-block;
-      vertical-align: middle;
-    }
-
-    /* Card-specific positioning */
-    .card .live-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 5;
-    }
-
+    .live-badge { position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; padding: 2px 10px; border-radius: 15px; font-size: 0.75rem; font-weight: bold; z-index: 5; }
     .category-dropdown { display: flex; justify-content: center; margin: 1rem 0; }
   </style>
   <script>
@@ -137,7 +132,7 @@
       </div>
 
       <div id="live" class="mt-4">
-        <h2>24/7 Streams <span id="liveAnimation" class="live-badge ms-2">LIVE</span></h2>
+        <h2>24/7 Streams <span id="liveAnimation" class="live-dot"></span></h2>
         <div id="livecards" class="event-grid py-3">
           <p>Loading streams...</p>
         </div>
