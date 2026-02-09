@@ -47,15 +47,15 @@
       50% { transform: scale(1.1); opacity: 0.7; }
       100% { transform: scale(1); opacity: 1; }
     }
-
-    /* FIX: ADAPTIVE GRID - REPLACED FIXED BREAKPOINTS */
+    
+    /* FIX: ADAPTIVE GRID ONLY - NO MORE MEDIA QUERY BREAKPOINTS */
     .event-grid, #livecards.event-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1.5rem;
       padding: 1rem;
     }
-    
+
     .event-grid a { text-decoration: none; }
     .card {
       width: 100%;
@@ -137,18 +137,12 @@
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
             <li><a class="dropdown-item" href="/auth/login" id="menuLogin">Login</a></li>
             <li><a class="dropdown-item" href="/auth/signup" id="menuSignup">Create account</a></li>
-            <li>
-              <button class="dropdown-item text-danger" id="menuLogout" style="display: none;">
-                <i class="fas fa-sign-out-alt me-2"></i>Logout
-              </button>
-            </li>
+            <li><button class="dropdown-item text-danger" id="menuLogout" style="display: none;"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li>
           </ul>
         </li>
 
         <li class="nav-item">
-          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
-            <i class="fas fa-moon"></i>
-          </button>
+          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
         </li>
       </ul>
     </div>
@@ -162,68 +156,27 @@
     <div class="container pt-2">
       <div id="errorContainer" class="d-none error-alert"></div>
       <div id="live" class="mt-4">
-        <h2 class="m-0">
-          Live Now <span id="liveAnimation" class="live-animation d-none"></span>
-        </h2>
-        <div id="livecards" class="event-grid py-3">
-          <p>Loading streams...</p>
-        </div>
+        <h2 class="m-0">Live Now <span id="liveAnimation" class="live-animation d-none"></span></h2>
+        <div id="livecards" class="event-grid py-3"><p>Loading streams...</p></div>
       </div>
-      <div id="football" class="mt-5 d-none">
-        <h2 class="m-0">Football</h2>
-        <div id="footballcards" class="event-grid py-3"></div>
-      </div>
-      <div id="nba" class="mt-5 d-none">
-        <h2 class="m-0">Basketball</h2>
-        <div id="nbacards" class="event-grid py-3"></div>
-      </div>
-      <div id="fights" class="mt-5 d-none">
-        <h2 class="m-0">Fights</h2>
-        <div id="fightscards" class="event-grid py-3"></div>
-      </div>
-      <div id="motorsports" class="mt-5 d-none">
-        <h2 class="m-0">Motorsports</h2>
-        <div id="motorsportscards" class="event-grid py-3"></div>
-      </div>
-      <div id="nfl" class="mt-5 d-none">
-        <h2 class="m-0">NFL</h2>
-        <div id="nflcards" class="event-grid py-3"></div>
-      </div>
-      <div id="nhl" class="mt-5 d-none">
-        <h2 class="m-0">NHL</h2>
-        <div id="nhlcards" class="event-grid py-3"></div>
-      </div>
-      <div id="mlb" class="mt-5 d-none">
-        <h2 class="m-0">MLB</h2>
-        <div id="mlbcards" class="event-grid py-3"></div>
-      </div>
-      <div id="icehockey" class="mt-5 d-none">
-        <h2 class="m-0">Ice Hockey</h2>
-        <div id="icehockeycards" class="event-grid py-3"></div>
-      </div>
-      <div id="tennis" class="mt-5 d-none">
-        <h2 class="m-0">Tennis</h2>
-        <div id="tenniscards" class="event-grid py-3"></div>
-      </div>
-      <div id="rugby" class="mt-5 d-none">
-        <h2 class="m-0">Rugby</h2>
-        <div id="rugbycards" class="event-grid py-3"></div>
-      </div>
-      <div id="golf" class="mt-5 d-none">
-        <h2 class="m-0">Golf</h2>
-        <div id="golfcards" class="event-grid py-3"></div>
-      </div>
-      <div id="others" class="mt-5 d-none">
-        <h2 class="m-0">Others</h2>
-        <div id="otherscards" class="event-grid py-3"></div>
-      </div>
+
+      <div id="football" class="mt-5 d-none"><h2 class="m-0">Football</h2><div id="footballcards" class="event-grid py-3"></div></div>
+      <div id="nba" class="mt-5 d-none"><h2 class="m-0">Basketball</h2><div id="nbacards" class="event-grid py-3"></div></div>
+      <div id="fights" class="mt-5 d-none"><h2 class="m-0">Fights</h2><div id="fightscards" class="event-grid py-3"></div></div>
+      <div id="motorsports" class="mt-5 d-none"><h2 class="m-0">Motorsports</h2><div id="motorsportscards" class="event-grid py-3"></div></div>
+      <div id="nfl" class="mt-5 d-none"><h2 class="m-0">NFL</h2><div id="nflcards" class="event-grid py-3"></div></div>
+      <div id="nhl" class="mt-5 d-none"><h2 class="m-0">NHL</h2><div id="nhlcards" class="event-grid py-3"></div></div>
+      <div id="mlb" class="mt-5 d-none"><h2 class="m-0">MLB</h2><div id="mlbcards" class="event-grid py-3"></div></div>
+      <div id="icehockey" class="mt-5 d-none"><h2 class="m-0">Ice Hockey</h2><div id="icehockeycards" class="event-grid py-3"></div></div>
+      <div id="tennis" class="mt-5 d-none"><h2 class="m-0">Tennis</h2><div id="tenniscards" class="event-grid py-3"></div></div>
+      <div id="rugby" class="mt-5 d-none"><h2 class="m-0">Rugby</h2><div id="rugbycards" class="event-grid py-3"></div></div>
+      <div id="golf" class="mt-5 d-none"><h2 class="m-0">Golf</h2><div id="golfcards" class="event-grid py-3"></div></div>
+      <div id="others" class="mt-5 d-none"><h2 class="m-0">Others</h2><div id="otherscards" class="event-grid py-3"></div></div>
 
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
         <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item">
-            <a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a>
-          </li>
+          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
         </ul>
       </footer>
     </div>
@@ -233,17 +186,14 @@
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" alt="Join Discord" width="48" height="48">
   </a>
 
-  <script src="/_vercel/insights/script.js" defer></script>
-  <script src="/_vercel/speed-insights/script.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="/assets/js/api.js"></script>
-  <script defer data-domain="futbol-x.site" src="https://p.vidembed.re/js/script.js"></script>
 
   <script>
+    /* ALL YOUR ORIGINAL TIMER AND LOADING LOGIC */
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
     let lastApiCall = 0;
     let apiInstance = null;
-
     function zeropad(num) { return num > 9 ? num : '0' + num; }
 
     function clearError() {
@@ -260,18 +210,35 @@
     function countdown() {
       const now = Math.floor(Date.now() / 1000);
       let needsRefresh = false;
-      document.querySelectorAll('.countdown').forEach(element => {
+      const countdownElements = document.querySelectorAll('.countdown');
+      countdownElements.forEach(element => {
         const startTime = parseInt(element.getAttribute('data-start'), 10);
         const uri = element.getAttribute('data-uri');
         const cardLink = element.closest('a[href]');
         let timer = startTime - now;
         if (timer > 0) {
+          let days = Math.floor(timer / 86400);
+          let weeks = Math.floor(days / 7);
+          let hours = Math.floor(timer / 3600);
+          let mins = Math.floor(timer / 60);
+          let secs = Math.floor(timer);
+          let displayText = '';
           const startDate = new Date(startTime * 1000);
-          const localTimeString = startDate.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-          let hh = Math.floor(timer / 3600);
-          let mm = Math.floor((timer % 3600) / 60);
-          let ss = timer % 60;
-          element.innerHTML = `${zeropad(hh)}:${zeropad(mm)}:${zeropad(ss)} (${localTimeString})`;
+          const localTimeString = startDate.toLocaleString('en-US', {
+            hour: 'numeric', minute: '2-digit', hour12: true,
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+          });
+          if (days >= 7) {
+            displayText = `Starting in ${weeks} week${weeks > 1 ? 's' : ''} (${localTimeString})`;
+          } else if (days >= 1) {
+            displayText = `Starting in ${days} day${days > 1 ? 's' : ''} (${localTimeString})`;
+          } else {
+            let hh = hours - days * 24;
+            let mm = mins - hours * 60;
+            let ss = secs - mins * 60;
+            displayText = `${zeropad(hh)}:${zeropad(mm)}:${zeropad(ss)} (${localTimeString})`;
+          }
+          if (element.innerHTML !== displayText) { element.innerHTML = displayText; }
         } else if (timer <= 0 && !element.innerHTML.includes('watch-button')) {
           element.innerHTML = `<a href="${uri}" class="btn btn-danger btn-sm watch-button">Watch</a>`;
           if (cardLink) cardLink.classList.add('clickable');
@@ -307,7 +274,6 @@
       const liveAnimation = document.getElementById('liveAnimation');
       const livecards = document.getElementById('livecards');
       if (!livecards) return;
-
       livecards.innerHTML = '<p>Loading streams...</p>';
 
       try {
@@ -376,7 +342,7 @@
                       <h5 class="card-title">${stream.name}</h5>
                       <p class="card-text">
                         <span class="event-tag">${stream.tag}</span>
-                        <span class="float-end">
+                        <span class="event-timer float-end">
                           ${isLive ? `<button class="btn btn-danger btn-sm watch-button">Watch</button>` : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
                         </span>
                       </p>
@@ -409,9 +375,7 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.card').forEach(card => observer.observe(card));
 
-      } catch (error) {
-        livecards.innerHTML = '<p>Failed to load streams. Please refresh.</p>';
-      }
+      } catch (error) { livecards.innerHTML = '<p>Failed to load streams.</p>'; }
     }
 
     function initPage() {
@@ -438,15 +402,10 @@
   <script>
     const firebaseConfig = { apiKey: "AIzaSyBulGl-96u38wmkAs_R9FcuQMsBTkLN6ak", authDomain: "futbolx-auth-31bc6.firebaseapp.com", projectId: "futbolx-auth-31bc6", storageBucket: "futbolx-auth-31bc6.firebasestorage.app", messagingSenderId: "262628908181", appId: "1:262628908181:web:c823d458e2e2685ab48f9c" };
     firebase.initializeApp(firebaseConfig);
-    firebase.auth().onAuthStateChanged((user) => {
-      const menuLogin  = document.getElementById('menuLogin');
-      const menuSignup = document.getElementById('menuSignup');
-      const menuLogout = document.getElementById('menuLogout');
-      if (menuLogin) {
-        menuLogin.style.display = user ? 'none' : 'block';
-        menuSignup.style.display = user ? 'none' : 'block';
-        menuLogout.style.display = user ? 'block' : 'none';
-      }
+    firebase.auth().onAuthStateChanged(user => {
+      document.getElementById('menuLogin').style.display = user ? 'none' : 'block';
+      document.getElementById('menuSignup').style.display = user ? 'none' : 'block';
+      document.getElementById('menuLogout').style.display = user ? 'block' : 'none';
     });
     document.getElementById('menuLogout')?.addEventListener('click', () => firebase.auth().signOut().then(() => window.location.href = '/'));
   </script>
