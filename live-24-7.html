@@ -16,55 +16,45 @@
 
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
-    .theater-container { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
-    .main-player-col { flex: 1 1 65%; min-width: 350px; }
-    .side-epg-col { flex: 1 1 30%; min-width: 320px; }
-
-    /* Control Buttons */
-    .btn-control { display: inline-flex; align-items: center; justify-content: center; padding: 8px 16px; background: #ff4d4d; color: #fff; border: none; border-radius: 20px; transition: .3s; cursor: pointer; text-decoration: none; height: 40px; }
-    .btn-control:hover { background: #e63939; color: #fff; }
-    
-    /* Cast Icon - Visible on Light/Dark */
-    .btn-cast-icon { width: 45px; background: #222; border: 1px solid #ff4d4d; color: #fff !important; }
-    .btn-cast-icon:hover { background: #ff4d4d; }
-
+    /* UI Structure */
     .video-container { position: relative; width: 100%; height: 0; padding-bottom: 56.25%; background: #000; border-radius: 10px; overflow: hidden; margin-bottom: 1rem; }
     #oplayer-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .plyr { font-family: 'Kanit', sans-serif; height: 100%; --plyr-color-main: #ff4d4d; }
 
-    .plyr { --plyr-color-main: #ff4d4d; font-family: 'Kanit', sans-serif; height: 100%; }
-    
-    /* VERTICAL VOLUME - ATTACHED & SMOOTH */
-    .plyr__volume { min-width: unset !important; position: relative !important; display: flex !important; }
+    /* Vertical Attached Volume */
+    .plyr__volume { min-width: unset !important; position: relative !important; }
     .plyr__volume input[type=range] {
       position: absolute !important;
       bottom: 50px !important;
       left: 50% !important;
       transform: translateX(-50%) rotate(-90deg) !important;
-      width: 100px !important;
+      width: 90px !important;
       opacity: 0;
       visibility: hidden;
       transition: all 0.2s ease;
-      z-index: 1000;
-      background: rgba(0,0,0,0.8) !important;
+      z-index: 100;
+      background: rgba(0,0,0,0.85) !important;
     }
     .plyr__volume:hover input[type=range], .plyr__volume--active input[type=range] {
-      opacity: 1;
+      opacity: 1; 
       visibility: visible;
-      bottom: 65px !important;
+      bottom: 60px !important;
     }
 
-    .plyr__menu__container [role=menu] { max-height: 180px; overflow-y: auto; }
-    .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; color: #aaa; }
-    
-    /* Sidebar styling to ensure it's on top */
-    #sidebarMenu { z-index: 9999; }
+    /* Scrollable Quality Menu */
+    .plyr__menu__container [role=menu] { max-height: 200px; overflow-y: auto; }
+
+    /* Cast Text Button Styling */
+    .btn-cast-text { background: transparent; border: 1px solid #444; color: #fff; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-family: 'Kanit'; font-size: 0.9rem; transition: 0.3s; }
+    .btn-cast-text:hover { background: #ff4d4d; border-color: #ff4d4d; }
+
+    .offcanvas { z-index: 1055 !important; }
   </style>
 </head>
 <body>
-
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
-      <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
         <i class="fas fa-bars"></i>
       </button>
       <span class="futbolx-brand">FutbolX</span>
@@ -73,89 +63,90 @@
 
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title">Navigation</h5>
-      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
     <div class="offcanvas-body">
       <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link text-white" href="/"><i class="fas fa-home me-2"></i> Home</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="/24-7"><i class="fas fa-tv me-2"></i> 24/7 Channels</a></li>
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
+        <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
+        <li class="nav-item">
+            <button id="themeToggle" class="nav-link btn btn-link"><i class="fas fa-moon"></i></button>
+        </li>
       </ul>
     </div>
   </div>
 
   <div class="container-fluid main-content">
     <div class="container mt-4">
-      <div class="d-flex align-items-center mb-3 gap-2">
-        <a href="/24-7" class="btn-control"><i class="fas fa-arrow-left"></i> Back</a>
-        <button id="fullscreenBtn" class="btn-control d-none"><i class="fas fa-expand"></i> Fullscreen</button>
+      <div class="d-flex align-items-center mb-3">
+        <a href="/24-7" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to 24/7</a>
+        <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
       </div>
 
-      <div class="theater-container">
-        <div class="main-player-col">
-          <h2 id="eventTitle" class="mb-3">Loading...</h2>
-          <div class="video-container">
-            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="display:none; width:100%; height:100%;"></iframe>
-            <div id="oplayer-container" style="display:none;">
-              <video id="plyr-player" playsinline controls crossorigin></video>
-            </div>
-          </div>
-          
-          <div class="d-flex align-items-center mt-3 gap-3">
-            <div class="dropdown">
-              <button class="btn btn-stream dropdown-toggle" type="button" id="streamDropdown" data-bs-toggle="dropdown">Select Channel</button>
-              <ul class="dropdown-menu" id="streamDropdownMenu"></ul>
-            </div>
-            <button id="externalCastBtn" class="btn-control btn-cast-icon d-none" title="Cast"><i class="fas fa-cast"></i></button>
-          </div>
-        </div>
-        <div class="side-epg-col"></div>
-      </div>
+      <h2 id="eventTitle" class="mb-3"></h2>
       
-      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary">FutbolX 2026</p>
-        <ul class="nav justify-content-center">
-          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
-        </ul>
+      <div class="video-container">
+        <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="display:none; width:100%; height:100%;"></iframe>
+        <div id="oplayer-container" style="display:none;">
+          <video id="videoPlayer" playsinline controls crossorigin></video>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="dropdown">
+          <button class="btn btn-stream dropdown-toggle" type="button" id="streamDropdown" data-bs-toggle="dropdown">
+            Select Stream
+          </button>
+          <ul class="dropdown-menu" id="streamDropdownMenu"></ul>
+        </div>
+        <button id="externalCastBtn" class="btn-cast-text d-none">CAST</button>
+      </div>
+
+      <div id="errorContainer" class="alert alert-danger mt-3 d-none"></div>
+
+      <footer class="py-2 border-top mt-5">
+        <p class="text-body-secondary">FutbolX 2026</p>
       </footer>
-      <div class="disclaimer">We DO NOT host nor transmit any audiovisual content... All content is copyright of their respective owners.</div>
     </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.bundle.min.js"></script>
-  
   <script>
     let player = null;
     let hls = null;
+    let streamData = null;
 
-    function isHLS(url) { return url.split('?')[0].toLowerCase().endsWith('.m3u8') || url.toLowerCase().includes('.m3u8?'); }
+    function isHLS(url) {
+        return url.split('?')[0].toLowerCase().endsWith('.m3u8') || url.toLowerCase().includes('.m3u8?');
+    }
 
-    async function initPlayer(url) {
-      const video = document.getElementById('plyr-player');
+    async function initPlayer(event, streamIndex) {
+      const streamUrl = event.streams[streamIndex].url;
+      const video = document.getElementById('videoPlayer');
       const container = document.getElementById('oplayer-container');
       const embed = document.getElementById('embedPlayer');
-      const fsBtn = document.getElementById('fullscreenBtn');
       const castBtn = document.getElementById('externalCastBtn');
+      const fsBtn = document.getElementById('fullscreenBtn');
 
       if (player) player.destroy();
       if (hls) hls.destroy();
 
-      if (isHLS(url)) {
+      if (isHLS(streamUrl)) {
         embed.style.display = 'none';
         container.style.display = 'block';
-        fsBtn.classList.remove('d-none');
         castBtn.classList.remove('d-none');
+        fsBtn.classList.remove('d-none');
 
         if (Hls.isSupported()) {
           hls = new Hls();
-          hls.loadSource(url);
+          hls.loadSource(streamUrl);
           hls.attachMedia(video);
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
             const qualities = hls.levels.map(l => l.height);
             player = new Plyr(video, {
               autoplay: true,
               controls: ['play-large', 'play', 'mute', 'volume', 'captions', 'settings', 'pip', 'fullscreen'],
-              settings: ['quality', 'captions'],
               quality: {
                 default: 0,
                 options: [0, ...qualities],
@@ -165,49 +156,52 @@
             });
 
             player.on('ready', () => {
-              // Quality Labels Fix
+              // 0p to Auto Fix
               const labels = { 0: 'Auto' };
               qualities.forEach(q => { labels[q] = q + 'p'; });
               player.config.quality.labels = labels;
 
-              // Hide Caption button if no tracks
-              const capBtn = document.querySelector('.plyr__control[data-plyr="captions"]');
-              if (video.textTracks.length === 0 && capBtn) capBtn.style.display = 'none';
+              // Hide captions if empty
+              if (video.textTracks.length === 0) {
+                const cBtn = document.querySelector('.plyr__control[data-plyr="captions"]');
+                if (cBtn) cBtn.style.display = 'none';
+              }
 
-              // VOLUME STABILITY: Prevent jumping/muting
-              const volBtn = document.querySelector('.plyr__control[data-plyr="mute"]');
-              if(volBtn) volBtn.addEventListener('click', (e) => e.stopPropagation(), true);
+              // Volume Stability - Stop click-to-mute
+              const muteBtn = document.querySelector('.plyr__control[data-plyr="mute"]');
+              if(muteBtn) muteBtn.addEventListener('click', (e) => e.stopPropagation(), true);
             });
-            
-            video.play().catch(() => { player.muted = true; video.play(); });
+            video.play();
           });
         }
       } else {
         container.style.display = 'none';
         embed.style.display = 'block';
-        embed.src = url;
-        fsBtn.classList.add('d-none');
-        castBtn.classList.add('d-none');
+        embed.src = streamUrl;
       }
     }
 
-    document.getElementById('fullscreenBtn').onclick = () => player ? player.fullscreen.enter() : document.getElementById('embedPlayer').requestFullscreen();
-    
+    // External Cast Trigger
     document.getElementById('externalCastBtn').onclick = () => {
-      if (window.chrome && window.chrome.cast) {
-        chrome.cast.requestSession(s => console.log("Casting..."), e => console.error(e));
-      } else { alert("Use Chrome/Edge for casting."); }
+        if (window.chrome && window.chrome.cast) {
+            chrome.cast.requestSession(s => console.log("Cast Session started"), e => console.log(e));
+        } else {
+            alert("Please use Chrome or Edge for casting.");
+        }
     };
+
+    document.getElementById('fullscreenBtn').onclick = () => player ? player.fullscreen.enter() : document.getElementById('embedPlayer').requestFullscreen();
 
     function populateDropdown(streams) {
       const menu = document.getElementById('streamDropdownMenu');
       const btn = document.getElementById('streamDropdown');
-      menu.innerHTML = streams.map((s, i) => `<li><a class="dropdown-item" href="#" data-url="${s.url}" data-label="${s.label || 'Channel ' + (i+1)}">${s.label || 'Channel ' + (i+1)}</a></li>`).join('');
+      menu.innerHTML = streams.map((s, i) => `<li><a class="dropdown-item" href="#" data-index="${i}">${s.label || 'Stream '+(i+1)}</a></li>`).join('');
       menu.querySelectorAll('.dropdown-item').forEach(item => {
         item.onclick = (e) => {
-          e.preventDefault();
-          btn.textContent = item.getAttribute('data-label');
-          initPlayer(item.getAttribute('data-url'));
+            e.preventDefault();
+            const idx = item.dataset.index;
+            btn.textContent = item.textContent;
+            initPlayer(streamData, idx);
         };
       });
     }
@@ -220,8 +214,9 @@
         const event = all.find(s => s.uri_name === uriName);
         if (event) {
           document.getElementById('eventTitle').innerText = event.name;
+          streamData = event;
           populateDropdown(event.streams);
-          initPlayer(event.streams[0].url);
+          initPlayer(event, 0);
         }
       });
     });
