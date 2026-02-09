@@ -16,41 +16,32 @@
 
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
-    /* HIDE TIPS AS REQUESTED */
-    .tip-container { display: none !important; }
-
-    /* HIDE VOLUME BAR ONLY */
+    /* Prevent Player Flash */
+    #videoPlayerContainer { background: #000; display: none; }
+    .plyr--loading { opacity: 0; }
+    
+    /* Hide Volume Bar strictly */
     .plyr__volume input[type=range] { display: none !important; }
     .plyr__volume { min-width: unset !important; }
     
-    /* QUALITY MENU SCROLLABLE */
-    .plyr__menu__container [role=menu] { max-height: 200px; overflow-y: auto; }
-
-    /* EXTERNAL CAST TEXT */
+    /* Original Layout Positioning */
+    .stream-dropdown { margin-top: 15px; display: flex; align-items: center; justify-content: flex-start; }
+    
     .btn-cast-link {
         color: #fff;
         text-decoration: none;
         font-weight: 500;
-        margin-left: 15px;
+        margin-left: 20px;
         cursor: pointer;
         text-transform: uppercase;
         font-size: 0.9rem;
+        display: inline-block;
+        padding: 5px;
     }
     [data-bs-theme="light"] .btn-cast-link { color: #333; }
-
-    /* FULLSCREEN BUTTON STYLE */
-    .btn-fullscreen {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: #ff4d4d;
-      color: #fff;
-      border: none;
-      border-radius: 20px;
-      margin-left: 10px;
-      transition: transform 0.3s, background 0.3s;
-    }
+    
+    .plyr__menu__container [role=menu] { max-height: 200px; overflow-y: auto; }
+    .offcanvas { z-index: 1055 !important; }
   </style>
 </head>
 <body>
@@ -65,16 +56,19 @@
 
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
     <div class="offcanvas-header">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
     <div class="offcanvas-body">
       <ul class="nav flex-column">
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/request">Request</a></li>
         <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
         <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
+        <li class="nav-item"><a class="nav-link" href="/auth/login">Login</a></li>
         <li class="nav-item">
-          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
+          <button id="themeToggle" class="nav-link btn btn-link">
             <i class="fas fa-moon"></i>
           </button>
         </li>
@@ -94,12 +88,12 @@
       <div class="player-container">
         <div class="video-container">
           <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width:100%; height:100%; display:none;"></iframe>
-          <div id="videoPlayerContainer" style="width:100%; height:100%;">
+          <div id="videoPlayerContainer">
             <video id="videoPlayer" playsinline controls crossorigin></video>
           </div>
         </div>
         
-        <div class="stream-dropdown d-flex align-items-center">
+        <div class="stream-dropdown">
           <div class="dropdown">
             <button class="btn btn-stream dropdown-toggle" type="button" id="streamDropdown" data-bs-toggle="dropdown">
               Select Stream
@@ -109,8 +103,6 @@
           <span id="castTrigger" class="btn-cast-link d-none">Cast</span>
         </div>
       </div>
-
-      <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
 
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
         <p class="mb-2 mb-lg-0 text-body-secondary">FutbolX 2026</p>
@@ -124,7 +116,6 @@
     let hls = null;
     let streamData = null;
 
-    // THEME TOGGLE FIX
     function initTheme() {
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
@@ -141,8 +132,6 @@
         };
     }
 
-    function isM3U8(url) { return url.includes('.m3u8'); }
-
     async function initPlayer(event, index) {
       const url = event.streams[index].url;
       const video = document.getElementById('videoPlayer');
@@ -152,9 +141,10 @@
       if (player) player.destroy();
       if (hls) hls.destroy();
 
-      if (isM3U8(url)) {
+      if (url.includes('.m3u8')) {
         embed.style.display = 'none';
         container.style.display = 'block';
+        
         if (Hls.isSupported()) {
           hls = new Hls();
           hls.loadSource(url);
@@ -164,37 +154,30 @@
             player = new Plyr(video, {
               autoplay: true,
               controls: ['play-large', 'play', 'mute', 'volume', 'captions', 'settings', 'pip', 'fullscreen'],
-              settings: ['quality', 'captions'],
-              quality: {
-                default: 0,
-                options: [0, ...qualities],
-                forced: true,
-                onChange: (q) => { hls.currentLevel = q === 0 ? -1 : hls.levels.findIndex(l => l.height === q); }
-              }
+              settings: ['quality', 'captions']
             });
 
             player.on('ready', () => {
-              // QUALITY LABEL FIX
-              const labels = { 0: 'Auto' };
-              qualities.forEach(q => { labels[q] = q + 'p'; });
-              player.config.quality.labels = labels;
-
-              // VOLUME TOGGLE FIX
+              // Fix labels and hide volume bar
+              player.config.quality.labels = { 0: 'Auto' };
+              qualities.forEach(q => { player.config.quality.labels[q] = q + 'p'; });
+              
+              // Toggle Mute/Full 100%
               const muteBtn = document.querySelector('.plyr__control[data-plyr="mute"]');
               if(muteBtn) {
-                  muteBtn.addEventListener('click', (e) => {
+                  muteBtn.onclick = (e) => {
                       e.preventDefault();
-                      e.stopPropagation();
                       if (player.muted || player.volume === 0) {
                           player.muted = false;
                           player.volume = 1;
                       } else {
                           player.muted = true;
                       }
-                  }, true);
+                  };
               }
+              container.style.opacity = "1";
             });
-            video.play().catch(() => { player.muted = true; video.play(); });
+            video.play();
           });
         }
         document.getElementById('fullscreenBtn').classList.remove('d-none');
@@ -206,10 +189,10 @@
       }
     }
 
-    // CAST FIX
+    // Fixed Cast Click
     document.getElementById('castTrigger').onclick = () => {
-        if (!window.chrome || !window.chrome.cast) return alert("Chrome/Edge required.");
-        chrome.cast.requestSession(s => console.log("Cast success"), e => console.log(e));
+        if (!window.chrome || !window.chrome.cast) return alert("Please use Chrome or Edge on HTTPS to Cast.");
+        chrome.cast.requestSession(s => console.log("Casting"), e => console.log("Error", e));
     };
 
     document.getElementById('fullscreenBtn').onclick = () => player ? player.fullscreen.enter() : document.getElementById('embedPlayer').requestFullscreen();
