@@ -10,10 +10,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
-    /* 1. ARRANGEMENT LOGIC (3 Columns on Big Screens) */
+    /* 1. GRID ARRANGEMENT: FIXED FOR 3 COLUMNS */
     .event-grid, #livecards.event-grid {
       display: grid;
-      gap: 20px;
+      gap: 1.5rem;
       padding: 1rem 0;
       grid-template-columns: 1fr; /* Mobile */
     }
@@ -26,74 +26,80 @@
 
     @media (min-width: 1100px) {
       .event-grid, #livecards.event-grid {
-        /* This forces exactly 3 columns like ppv.to */
+        /* This forces 3 columns like the reference image */
         grid-template-columns: repeat(3, 1fr); 
       }
     }
 
-    /* 2. RETAINED CARD DESIGN */
+    /* 2. ORIGINAL CARD DESIGN RESTORED */
     .event-grid a { text-decoration: none; color: inherit; }
     
     .card {
       width: 100%;
+      /* Removed strict max-width to allow 3-column fit */
       margin: 0 auto;
-      border-radius: 12px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      border-radius: 10px;
       overflow: hidden;
+      border: 2px solid transparent;
       background: #1a1d21;
-      border: 1px solid rgba(255,255,255,0.1);
-      transition: transform 0.3s ease;
-      position: relative;
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    
-    .card.visible { opacity: 1; transform: translateY(0); }
-    .card:hover { transform: translateY(-5px); border-color: #ff4d4d; }
-
-    /* The "LIVE" Badge */
-    .live-badge {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: #dc3545;
-      color: white;
-      padding: 2px 10px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      z-index: 2;
+      opacity: 0; 
+      transform: translateY(50px); 
     }
 
+    .card.visible { 
+      opacity: 1; 
+      transform: translateY(0); 
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      border-color: #ff4d4d;
+    }
+
+    /* Original Image Aspect Ratio */
     .card-img-top {
-      width: 100%;
-      height: 240px; /* Keep your original card size proportions */
+      height: 220px;
       object-fit: cover;
-      display: block;
     }
 
-    .card-body { padding: 1.25rem; }
+    .card-body { padding: 1rem; }
     
     .card-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #3b82f6; /* Blue title from your screenshot */
+      font-size: 1.3rem;
       margin-bottom: 0.5rem;
+      color: #3b82f6; /* Blue title from your site */
     }
 
-    .event-tag { font-size: 0.9rem; color: #888; }
+    /* LIVE BADGE RESTORED */
+    .live-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #ff4d4d;
+      color: white;
+      padding: 2px 10px;
+      border-radius: 15px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      z-index: 5;
+    }
 
-    /* The "Watch" Button */
+    /* WATCH BUTTON RESTORED */
     .watch-button {
-      float: right;
+      font-size: 0.95rem;
+      padding: 0.5rem 1.2rem;
       background-color: #c53030;
       border: none;
-      padding: 8px 20px;
-      border-radius: 12px;
+      border-radius: 8px;
       color: white;
-      font-size: 0.9rem;
+      float: right;
     }
 
-    .category-dropdown { display: flex; justify-content: center; margin: 1.5rem 0; }
+    .event-tag { font-size: 0.95rem; color: #888; }
+    .category-dropdown { display: flex; justify-content: center; margin: 1rem 0; }
   </style>
 </head>
 <body>
@@ -106,15 +112,6 @@
     </div>
   </nav>
 
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
-    <div class="offcanvas-body">
-      <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
-      </ul>
-    </div>
-  </div>
-
   <div class="container-fluid main-content pt-5">
     <div class="container">
       <div class="category-dropdown">
@@ -125,6 +122,14 @@
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#" data-category="All">All</a></li>
             <li><a class="dropdown-item" href="#" data-category="Sports">Sports</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Entertainment">Entertainment</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Kids">Kids</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Music">Music</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Movies VOD">Movies VOD</a></li>
+            <li><a class="dropdown-item" href="#" data-category="News">News</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Religion">Religion</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Anime">Anime</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Movies Live">Movies Live</a></li>
           </ul>
         </div>
       </div>
@@ -152,8 +157,7 @@
       }
 
       streams.forEach(stream => {
-        let poster = stream.poster || 'https://via.placeholder.com/400x240?text=FutbolX';
-        // HTML Structure restored to match your screenshot exactly
+        let poster = stream.poster || 'https://via.placeholder.com/285x160?text=FutbolX';
         livecards.innerHTML += `
           <a href="/live-24-7/${stream.uri_name}">
             <div class="card">
@@ -161,15 +165,16 @@
               <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
               <div class="card-body">
                 <h5 class="card-title">${stream.name}</h5>
-                <div class="d-flex justify-content-between align-items-center">
+                <p class="card-text">
                   <span class="event-tag">${stream.category}</span>
                   <button class="watch-button">Watch</button>
-                </div>
+                </p>
               </div>
             </div>
           </a>`;
       });
 
+      // Observer for scroll animation
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -181,7 +186,23 @@
       document.querySelectorAll('.card').forEach(card => observer.observe(card));
     }
 
-    // Replace this with your actual API fetch call
+    // Fixed filtering logic
+    function initCategoryDropdown() {
+      document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          const category = item.getAttribute('data-category');
+          document.getElementById('categoryDropdown').textContent = category;
+          
+          const filtered = (category === 'All') 
+            ? allStreams 
+            : allStreams.filter(s => s.category === category);
+          
+          renderStreams(filtered);
+        });
+      });
+    }
+
     function loadContent() {
       fetch('/api/stream-24-7')
         .then(res => res.json())
@@ -196,7 +217,10 @@
         }).catch(err => console.error(err));
     }
 
-    document.addEventListener('DOMContentLoaded', loadContent);
+    document.addEventListener('DOMContentLoaded', () => {
+      loadContent();
+      initCategoryDropdown();
+    });
   </script>
 </body>
 </html>
