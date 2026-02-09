@@ -1,167 +1,97 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FutbolX • 24/7 Premium Streams</title>
-  <meta name="description" content="Watch 24/7 live sports, entertainment, music and more in premium quality." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FutbolX • 24/7 Streams</title>
+  <meta name="description" content="FutbolX - Watch 24/7 live sports streams including boxing, UFC, Basketball, Football, and more.">
 
-  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous" />
-  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
+  <link href="https://fonts.bunny.net/css?family=kanit:300,400,500,600,700,800,900" rel="stylesheet">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7nVjiIVsz47i0zVxGEz0SiCKA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
     :root {
-      --bg: #0a0a0e;
-      --card: #111115;
-      --card-hover: #1a1a20;
-      --accent: #c41e3a;
-      --accent-dark: #a1162c;
-      --gold: #d4af37;
-      --text: #f0f0f5;
-      --text-muted: #a0a0b8;
+      --bg-main: #0b0b10;
+      --bg-card: #111118;
+      --accent: #e63946;
+      --accent-dark: #c51d2e;
+      --accent-glow: rgba(230, 57, 70, 0.4);
+      --text-main: #f0f0f5;
+      --text-muted: #a8a8c0;
     }
 
     body {
-      background: var(--bg);
-      color: var(--text);
+      background: var(--bg-main);
+      color: var(--text-main);
       font-family: 'Kanit', sans-serif;
-      overflow-x: hidden;
     }
 
-    /* Top Bar */
+    /* Top bar */
     .top-bar {
-      background: rgba(0,0,0,0.7);
+      background: rgba(15, 15, 25, 0.92);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      height: 56px;
-      padding: 0 1rem;
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(230, 57, 70, 0.15);
+      height: 58px;
       z-index: 1030;
     }
 
     .futbolx-brand {
       font-weight: 800;
-      font-size: 1.5rem;
-      letter-spacing: -0.5px;
-      background: linear-gradient(90deg, #ff4d4d, #c41e3a);
+      font-size: 1.75rem;
+      letter-spacing: -0.8px;
+      background: linear-gradient(90deg, #ff5e6b, var(--accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    /* Hero */
-    .hero {
+    /* Category selector - sticky */
+    .category-bar {
+      position: sticky;
+      top: 58px;
+      z-index: 1020;
+      background: rgba(11, 11, 16, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(230, 57, 70, 0.12);
+      padding: 1rem 0;
+    }
+
+    /* Cards */
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.6rem;
+      padding: 1.5rem 1rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid rgba(230, 57, 70, 0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.45);
       position: relative;
-      height: 65vh;
-      min-height: 480px;
-      background: linear-gradient(to bottom, #1a1a2e, var(--bg));
-      overflow: hidden;
     }
 
-    .hero-backdrop {
-      position: absolute;
-      inset: 0;
-      background: url('https://images.unsplash.com/photo-1552664730-d307ca884978?w=1600') center/cover;
-      filter: brightness(0.4) contrast(1.15);
-      z-index: 1;
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 18px 48px rgba(0,0,0,0.6),
+                  0 0 0 2px var(--accent-glow);
+      border-color: rgba(230, 57, 70, 0.45);
     }
 
-    .hero-content {
-      position: absolute;
-      bottom: 18%;
-      left: 5%;
-      right: 5%;
-      z-index: 3;
-      max-width: 780px;
-    }
-
-    .hero-title {
-      font-size: clamp(2.8rem, 7vw, 5.5rem);
-      font-weight: 900;
-      line-height: 0.95;
-      margin-bottom: 0.6rem;
-      text-shadow: 0 4px 12px rgba(0,0,0,0.8);
-    }
-
-    .hero-subtitle {
-      font-size: clamp(1.3rem, 3.5vw, 2rem);
-      font-weight: 500;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-    }
-
-    .btn-play {
-      background: var(--accent);
-      border: none;
-      padding: 0.9rem 2.2rem;
-      font-size: 1.25rem;
-      font-weight: 700;
-      border-radius: 50px;
-      transition: all 0.25s ease;
-    }
-
-    .btn-play:hover {
-      background: var(--accent-dark);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(196, 30, 58, 0.45);
-    }
-
-    /* Section Titles */
-    .section-title {
-      font-size: 2.1rem;
-      font-weight: 700;
-      margin: 2.5rem 0 1.2rem;
-      padding-left: 1rem;
-      border-left: 5px solid var(--accent);
-    }
-
-    /* Horizontal Scroll */
-    .horizontal-scroller {
-      display: flex;
-      gap: 1.1rem;
-      overflow-x: auto;
-      padding: 0.8rem 1rem 2rem;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-    }
-
-    .horizontal-scroller::-webkit-scrollbar {
-      display: none;
-    }
-
-    .channel-card {
-      flex: 0 0 300px;
-      width: 300px;
-      background: var(--card);
-      border-radius: 14px;
-      overflow: hidden;
-      transition: all 0.28s ease;
-      border: 1px solid rgba(255,255,255,0.06);
-      scroll-snap-align: start;
-    }
-
-    .channel-card:hover {
-      transform: scale(1.07) translateY(-12px);
-      z-index: 10;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 0 2px rgba(196,30,58,0.25);
-    }
-
-    .poster-wrapper {
-      position: relative;
-      height: 168px;
-      overflow: hidden;
-    }
-
-    .poster-wrapper img {
-      width: 100%;
-      height: 100%;
+    .card-img-top {
+      height: 175px;
       object-fit: cover;
-      transition: transform 0.4s ease;
+      transition: transform 0.45s ease;
     }
 
-    .channel-card:hover .poster-wrapper img {
-      transform: scale(1.08);
+    .card:hover .card-img-top {
+      transform: scale(1.07);
     }
 
     .live-badge {
@@ -170,48 +100,63 @@
       left: 12px;
       background: var(--accent);
       color: white;
-      padding: 0.35rem 0.9rem;
+      padding: 0.4rem 1rem;
       border-radius: 50px;
-      font-size: 0.82rem;
+      font-size: 0.88rem;
       font-weight: 700;
       letter-spacing: 0.4px;
-      box-shadow: 0 2px 10px rgba(196,30,58,0.6);
+      box-shadow: 0 3px 14px rgba(230, 57, 70, 0.65);
+      animation: pulse 2.2s infinite ease-in-out;
     }
 
-    .card-info {
-      padding: 1rem 1.1rem;
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%      { transform: scale(1.04); opacity: 0.92; }
+    }
+
+    .card-body {
+      padding: 1.1rem;
     }
 
     .card-title {
-      font-size: 1.25rem;
+      font-size: 1.32rem;
       font-weight: 600;
-      margin-bottom: 0.35rem;
-      line-height: 1.3;
+      margin-bottom: 0.5rem;
+      line-height: 1.28;
     }
 
-    .card-meta {
-      font-size: 0.92rem;
+    .event-tag {
+      font-size: 0.96rem;
       color: var(--text-muted);
+      background: rgba(230,57,70,0.08);
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
     }
 
-    .watch-btn {
-      margin-top: 0.9rem;
-      width: 100%;
+    .btn-watch {
       border-radius: 50px;
       font-weight: 600;
+      padding: 0.55rem 1.5rem;
+      transition: all 0.25s ease;
     }
 
-    /* Snow */
+    .btn-watch:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Snow - much lighter & elegant */
     #snow-container {
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 9999;
+      overflow: hidden;
     }
 
     .snow {
       position: absolute;
-      color: #ffffff88;
+      color: rgba(255,255,255,0.25);
+      font-size: 1.1rem;
       animation: fall linear infinite;
       user-select: none;
     }
@@ -220,198 +165,106 @@
       to { transform: translateY(110vh); }
     }
 
-    @media (min-width: 576px) {
-      .channel-card { flex: 0 0 340px; width: 340px; }
-      .poster-wrapper { height: 190px; }
+    @media (min-width: 768px) {
+      .event-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
     }
 
-    @media (min-width: 992px) {
-      .channel-card { flex: 0 0 380px; width: 380px; }
-      .poster-wrapper { height: 214px; }
-      .hero { height: 80vh; min-height: 620px; }
+    @media (min-width: 1200px) {
+      .event-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
     }
   </style>
 </head>
 <body>
 
   <!-- Top Bar -->
-  <nav class="top-bar fixed-top d-flex align-items-center">
-    <div class="container-fluid px-0">
-      <div class="d-flex align-items-center justify-content-between w-100">
-        <button class="btn btn-dark btn-lg border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
-          <i class="fas fa-bars fa-lg"></i>
-        </button>
-        <span class="futbolx-brand">FutbolX</span>
-        <div style="width: 48px;"></div> <!-- spacer -->
-      </div>
+  <nav class="top-bar fixed-top">
+    <div class="container-fluid h-100 px-3 d-flex align-items-center">
+      <button class="btn btn-dark border-0 me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+        <i class="fas fa-bars fa-lg"></i>
+      </button>
+      <span class="futbolx-brand">FutbolX</span>
     </div>
   </nav>
 
-  <!-- Sidebar (same as before - kept minimal) -->
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
+  <!-- Sidebar -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title">Menu</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+      <h5 class="offcanvas-title" id="sidebarMenuLabel">FutbolX</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-      <ul class="nav flex-column fs-5">
+      <ul class="nav flex-column">
         <li class="nav-item"><a class="nav-link py-3" href="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link py-3" href="/24-7">24/7 Streams</a></li>
+        <li class="nav-item"><a class="nav-link py-3" href="/request">Request</a></li>
         <li class="nav-item"><a class="nav-link py-3" href="/vods">VODs</a></li>
-        <li class="nav-item"><a class="nav-link py-3" href="/vip">VIP Access</a></li>
+        <li class="nav-item"><a class="nav-link py-3 active" href="/24-7">24/7</a></li>
         <li class="nav-item"><a class="nav-link py-3" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
+        <li class="nav-item"><a class="nav-link py-3 text-danger fw-bold" href="/vip">VIP</a></li>
         <li class="nav-item mt-4">
-          <button id="themeToggle" class="btn btn-link nav-link py-3" aria-label="Toggle theme">
-            <i class="fas fa-moon fa-lg"></i>
+          <button id="themeToggle" class="btn btn-link nav-link" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i> Theme
           </button>
         </li>
       </ul>
     </div>
   </div>
 
-  <!-- Main Content -->
-  <main class="pt-5">
-
-    <!-- Hero -->
-    <section class="hero">
-      <div class="hero-backdrop"></div>
-      <div class="hero-content">
-        <h1 class="hero-title">Premier 24/7 Sports</h1>
-        <p class="hero-subtitle">Live football, UFC, NBA, boxing and more — non-stop premium streams</p>
-        <div class="d-flex gap-3 flex-wrap">
-          <a href="/live-24-7/premier" class="btn btn-play text-white">
-            <i class="fas fa-play me-2"></i> Watch Now
-          </a>
-          <button class="btn btn-outline-light btn-lg px-4">Explore Channels</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Category selector (optional - can be removed for more TV-like feel) -->
-    <div class="container-fluid px-3">
-      <div class="category-dropdown my-4 text-center">
-        <div class="dropdown d-inline-block">
-          <button class="btn btn-outline-light dropdown-toggle px-4 py-2" type="button" data-bs-toggle="dropdown">
-            All Categories
-          </button>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="#" data-category="all">All Channels</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#" data-category="Sports">Sports</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Entertainment">Entertainment</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Music">Music</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Movies Live">Movies Live</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div id="errorContainer" class="alert alert-danger d-none my-4"></div>
-
-      <!-- Content Rows -->
-      <div id="streams-container">
-
-        <!-- Will be filled by JavaScript -->
-        <div class="text-center py-5">
-          <div class="spinner-border text-danger" style="width: 3.5rem; height: 3.5rem;" role="status"></div>
-          <p class="mt-3 fs-5">Loading premium channels...</p>
-        </div>
-
+  <!-- Category Selector (sticky) -->
+  <div class="category-bar">
+    <div class="container-fluid px-3 text-center">
+      <div class="dropdown d-inline-block">
+        <button class="btn btn-outline-light dropdown-toggle px-5 py-2 fw-medium" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          Select Category
+        </button>
+        <ul class="dropdown-menu dropdown-menu-dark shadow-lg" aria-labelledby="categoryDropdown">
+          <li><a class="dropdown-item" href="#" data-category="all">All Channels</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#" data-category="Sports">Sports</a></li>
+          <li><a class="dropdown-item" href="#" data-category="Entertainment">Entertainment</a></li>
+          <li><a class="dropdown-item" href="#" data-category="Music">Music</a></li>
+          <li><a class="dropdown-item" href="#" data-category="Movies VOD">Movies VOD</a></li>
+          <li><a class="dropdown-item" href="#" data-category="News">News</a></li>
+          <li><a class="dropdown-item" href="#" data-category="Anime">Anime</a></li>
+          <li><a class="dropdown-item" href="#" data-category="Movies Live">Movies Live</a></li>
+        </ul>
       </div>
     </div>
+  </div>
 
+  <!-- Main Content -->
+  <main class="container-fluid pt-4 pb-5">
+    <div id="errorContainer" class="alert alert-danger d-none mx-3 my-3"></div>
+
+    <div id="livecards" class="event-grid">
+      <!-- cards loaded here by JS -->
+    </div>
   </main>
 
-  <!-- Snow -->
+  <!-- Snow container -->
   <div id="snow-container"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+  <!-- Your existing scripts (api.js, auth.js, etc.) should still work -->
+  <!-- Just keep your original JS logic for loading and rendering cards -->
+
   <script>
-    // ────────────────────────────────────────────────
-    //  You should keep your original api.js / auth.js
-    //  Only the rendering part is changed here
-    // ────────────────────────────────────────────────
-
-    const container = document.getElementById('streams-container');
-
-    function renderStreams(streams) {
-      container.innerHTML = '';
-
-      // Group by category (or show all in one big row)
-      const groups = {};
-
-      streams.forEach(s => {
-        const cat = s.category || 'Other';
-        if (!groups[cat]) groups[cat] = [];
-        groups[cat].push(s);
-      });
-
-      Object.entries(groups).forEach(([category, items]) => {
-        if (items.length === 0) return;
-
-        const section = document.createElement('div');
-        section.innerHTML = `<h2 class="section-title">${category}</h2>`;
-
-        const scroller = document.createElement('div');
-        scroller.className = 'horizontal-scroller';
-
-        items.forEach(stream => {
-          const poster = stream.poster || 'https://via.placeholder.com/380x214?text=' + encodeURIComponent(stream.name);
-
-          const card = document.createElement('a');
-          card.href = `/live-24-7/${stream.uri_name}`;
-          card.className = 'channel-card text-decoration-none text-white';
-          card.innerHTML = `
-            <div class="poster-wrapper">
-              <img src="${poster}" alt="${stream.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/380x214?text=Error'">
-              <div class="live-badge">LIVE 24/7</div>
-            </div>
-            <div class="card-info">
-              <div class="card-title">${stream.name}</div>
-              <div class="card-meta">${stream.category || 'Premium Channel'}</div>
-              <button class="btn btn-danger watch-btn mt-2">Watch Stream</button>
-            </div>
-          `;
-          scroller.appendChild(card);
-        });
-
-        section.appendChild(scroller);
-        container.appendChild(section);
-      });
-    }
-
-    // Your existing fetch logic should call renderStreams(allStreams) when done
-    // Example:
-    // fetch('/api/stream-24-7')
-    //   .then(r => r.json())
-    //   .then(data => {
-    //     // flatten your streams...
-    //     const all = [];
-    //     Object.values(data.streams || {}).forEach(arr => all.push(...arr));
-    //     renderStreams(all);
-    //   })
-    //   .catch(err => {
-    //     container.innerHTML = `<div class="alert alert-danger">Failed to load channels</div>`;
-    //   });
-
-    // Snow effect (same as before)
-    const snowContainer = document.getElementById("snow-container");
-    const snowflakes = ["❄","✧","✦"];
-
-    function createSnow() {
-      for (let i = 0; i < 40; i++) {
-        const s = document.createElement("div");
-        s.className = "snow";
-        s.innerHTML = snowflakes[Math.floor(Math.random()*snowflakes.length)];
-        s.style.left = Math.random() * 100 + "%";
-        s.style.fontSize = (Math.random() * 1.2 + 0.8) + "rem";
-        s.style.animationDuration = (Math.random() * 12 + 10) + "s";
-        s.style.opacity = Math.random() * 0.6 + 0.4;
-        snowContainer.appendChild(s);
+    // Light elegant snow
+    function initSnow() {
+      const container = document.getElementById('snow-container');
+      const symbols = ['❄︎', '✦', '✧', '❅'];
+      for (let i = 0; i < 28; i++) {
+        const el = document.createElement('div');
+        el.className = 'snow';
+        el.style.left = Math.random() * 100 + '%';
+        el.style.animationDuration = (Math.random() * 20 + 18) + 's';
+        el.style.opacity = Math.random() * 0.4 + 0.25;
+        el.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+        container.appendChild(el);
       }
     }
 
-    window.addEventListener("load", createSnow);
+    window.addEventListener('load', initSnow);
   </script>
 
 </body>
