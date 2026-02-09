@@ -20,15 +20,15 @@
     .main-player-col { flex: 1 1 65%; min-width: 350px; }
     .side-epg-col { flex: 1 1 30%; min-width: 320px; }
 
-    .btn-fullscreen { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: #ff4d4d; color: #fff; border: none; border-radius: 20px; transition: .3s; cursor: pointer; }
-    .btn-fullscreen:hover { transform: scale(1.05); background: #e63939; }
+    .btn-control { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: #ff4d4d; color: #fff; border: none; border-radius: 20px; transition: .3s; cursor: pointer; text-decoration: none; }
+    .btn-control:hover { transform: scale(1.05); background: #e63939; color: #fff; }
 
     .video-container { position: relative; width: 100%; height: 0; padding-bottom: 56.25%; background: #000; border-radius: 10px; overflow: hidden; margin-bottom: 1rem; }
     #oplayer-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
     .plyr { --plyr-color-main: #ff4d4d; font-family: 'Kanit', sans-serif; height: 100%; }
     
-    /* VERTICAL VOLUME CONTROL */
+    /* VERTICAL SMOOTH VOLUME */
     .plyr__volume { min-width: unset; position: relative; }
     .plyr__volume input[type=range] {
       position: absolute;
@@ -36,37 +36,27 @@
       left: 50%;
       transform: rotate(-90deg) translateX(50%);
       transform-origin: left center;
-      width: 80px;
+      width: 100px;
       opacity: 0;
       visibility: hidden;
-      transition: all .2s ease;
-      background: rgba(26, 26, 26, 0.9);
-      padding: 10px;
-      border-radius: 5px;
+      transition: opacity 0.3s ease, visibility 0.3s ease, bottom 0.3s ease;
+      background: rgba(26, 26, 26, 0.95);
+      padding: 12px 8px;
+      border-radius: 8px;
+      z-index: 10;
     }
     .plyr__volume:hover input[type=range], 
-    .plyr__volume:focus-within input[type=range] {
+    .plyr__volume:focus-within input[type=range],
+    .plyr--is-ios .plyr__volume--active input[type=range] {
       opacity: 1;
       visibility: visible;
-      bottom: 120%;
+      bottom: 150%;
     }
 
     /* SCROLLABLE QUALITY MENU */
-    .plyr__menu__container [role=menu] {
-      max-height: 200px;
-      overflow-y: auto;
-    }
-    
-    /* FORCE CAST & BUTTON VISIBILITY */
-    .plyr__control[data-plyr="cast"], 
-    .plyr__control[data-plyr="captions"],
-    .plyr__control[data-plyr="settings"] { 
-      display: flex !important; 
-      opacity: 1 !important; 
-      visibility: visible !important;
-    }
+    .plyr__menu__container [role=menu] { max-height: 180px; overflow-y: auto; }
 
-    .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 900px; margin-left: auto; margin-right: auto; color: #aaa; }
+    .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; color: #aaa; }
   </style>
 </head>
 <body>
@@ -79,45 +69,36 @@
 
   <div class="container-fluid main-content">
     <div class="container mt-4">
-      
-      <div class="d-flex align-items-center mb-3">
-        <a href="/24-7" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back</a>
-        <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
+      <div class="d-flex align-items-center mb-3 gap-2">
+        <a href="/24-7" class="btn-control"><i class="fas fa-arrow-left"></i> Back</a>
+        <button id="externalCastBtn" class="btn-control d-none"><i class="fas fa-cast"></i> Cast</button>
+        <button id="fullscreenBtn" class="btn-control d-none"><i class="fas fa-expand"></i> Fullscreen</button>
       </div>
 
       <div class="theater-container">
         <div class="main-player-col">
           <h2 id="eventTitle" class="mb-3"></h2>
-          
           <div class="video-container">
             <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="display:none; width:100%; height:100%;"></iframe>
             <div id="oplayer-container" style="display:none;">
               <video id="plyr-player" playsinline controls crossorigin></video>
             </div>
           </div>
-
           <div class="stream-dropdown mt-3">
             <div class="dropdown">
-              <button class="btn btn-stream dropdown-toggle" type="button" id="streamDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                Select Channel
-              </button>
+              <button class="btn btn-stream dropdown-toggle" type="button" id="streamDropdown" data-bs-toggle="dropdown">Select Channel</button>
               <ul class="dropdown-menu" id="streamDropdownMenu"></ul>
             </div>
           </div>
         </div>
         <div class="side-epg-col"></div>
       </div>
-
+      
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
         <p class="mb-2 mb-lg-0 text-body-secondary">FutbolX 2026</p>
-        <ul class="nav justify-content-center">
-          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
-        </ul>
+        <ul class="nav justify-content-center"><li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li></ul>
       </footer>
-
-      <div class="disclaimer">
-        We DO NOT host nor transmit any audiovisual content... All content is copyright of their respective owners.
-      </div>
+      <div class="disclaimer">We DO NOT host nor transmit any audiovisual content... All content is copyright of their respective owners.</div>
     </div>
   </div>
 
@@ -126,9 +107,7 @@
     let player = null;
     let hls = null;
 
-    function isHLS(url) {
-      return url.split('?')[0].toLowerCase().endsWith('.m3u8') || url.toLowerCase().includes('.m3u8?');
-    }
+    function isHLS(url) { return url.split('?')[0].toLowerCase().endsWith('.m3u8') || url.toLowerCase().includes('.m3u8?'); }
 
     async function initPlayer(url) {
       const isM3U8 = isHLS(url);
@@ -136,6 +115,7 @@
       const container = document.getElementById('oplayer-container');
       const video = document.getElementById('plyr-player');
       const fsBtn = document.getElementById('fullscreenBtn');
+      const castBtn = document.getElementById('externalCastBtn');
 
       if (player) player.destroy();
       if (hls) hls.destroy();
@@ -144,6 +124,7 @@
         embed.style.display = 'none';
         container.style.display = 'block';
         fsBtn.classList.remove('d-none');
+        castBtn.classList.remove('d-none');
 
         if (Hls.isSupported()) {
           hls = new Hls();
@@ -151,59 +132,73 @@
           hls.attachMedia(video);
           
           hls.on(Hls.Events.MANIFEST_PARSED, function () {
-            const levels = hls.levels;
-            const qualities = levels.map(l => l.height);
+            const qualities = hls.levels.map(l => l.height);
             
             player = new Plyr(video, {
-              controls: ['play-large', 'play', 'mute', 'volume', 'captions', 'settings', 'pip', 'cast', 'fullscreen'],
+              autoplay: true,
+              muted: false,
+              clickToPlay: true,
+              // Removed 'cast' from internal controls
+              controls: ['play-large', 'play', 'mute', 'volume', 'captions', 'settings', 'pip', 'fullscreen'],
               settings: ['quality', 'captions'],
               quality: {
                 default: 0,
                 options: [0, ...qualities],
                 forced: true,
-                onChange: (q) => {
-                  if (q === 0) hls.currentLevel = -1;
-                  else hls.currentLevel = levels.findIndex(l => l.height === q);
-                }
-              },
-              i18n: { quality: 'Quality' }
+                onChange: (q) => { hls.currentLevel = q === 0 ? -1 : hls.levels.findIndex(l => l.height === q); }
+              }
             });
 
-            // Set specific labels to kill "0p"
+            // QUALITY LABELS FIX
             const labels = { 0: 'Auto' };
             qualities.forEach(q => { labels[q] = q + 'p'; });
             player.config.quality.labels = labels;
 
-            // Immediate UI refresh for "Auto"
+            // CAPTION LOGIC: Only show button if tracks exist
             player.on('ready', () => {
-              const span = document.querySelector('.plyr__menu__container [data-plyr="quality"] span');
-              if (span && player.quality === 0) span.textContent = 'Auto';
+              const tracks = video.textTracks;
+              const capBtn = document.querySelector('.plyr__control[data-plyr="captions"]');
+              if (tracks.length === 0 && capBtn) capBtn.style.display = 'none';
+              
+              // Smooth Volume - Disable click to mute
+              const volBtn = document.querySelector('.plyr__control[data-plyr="mute"]');
+              if(volBtn) volBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Stops Plyr from muting
+                document.querySelector('.plyr__volume').classList.toggle('plyr__volume--active');
+              }, true);
             });
+
+            // Autostart engine
+            video.play().catch(() => { player.muted = true; video.play(); });
           });
-        } else {
-          video.src = url;
-          player = new Plyr(video);
         }
       } else {
         container.style.display = 'none';
         embed.style.display = 'block';
         embed.src = url;
         fsBtn.classList.add('d-none');
+        castBtn.classList.add('d-none');
       }
     }
 
-    document.getElementById('fullscreenBtn').onclick = () => {
-      if(player) player.fullscreen.enter();
-      else document.getElementById('embedPlayer').requestFullscreen();
+    // External Controls
+    document.getElementById('fullscreenBtn').onclick = () => player ? player.fullscreen.enter() : document.getElementById('embedPlayer').requestFullscreen();
+    document.getElementById('externalCastBtn').onclick = () => {
+        if (window.chrome && window.chrome.cast) {
+            const sessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);
+            const apiConfig = new chrome.cast.ApiConfig(sessionRequest, () => {}, () => {});
+            chrome.cast.initialize(apiConfig, () => {
+                chrome.cast.requestSession((s) => console.log("Cast Session Started"), (e) => console.log("Cast Error", e));
+            });
+        } else {
+            alert("Casting requires a supported browser (Chrome/Edge) and a secure connection.");
+        }
     };
 
     function populateDropdown(streams) {
       const menu = document.getElementById('streamDropdownMenu');
       const btn = document.getElementById('streamDropdown');
-      menu.innerHTML = streams.map((s, i) => 
-        `<li><a class="dropdown-item" href="#" data-url="${s.url}" data-label="${s.label || 'Channel ' + (i+1)}">${s.label || 'Channel ' + (i+1)}</a></li>`
-      ).join('');
-
+      menu.innerHTML = streams.map((s, i) => `<li><a class="dropdown-item" href="#" data-url="${s.url}" data-label="${s.label || 'Channel ' + (i+1)}">${s.label || 'Channel ' + (i+1)}</a></li>`).join('');
       menu.querySelectorAll('.dropdown-item').forEach(item => {
         item.onclick = (e) => {
           e.preventDefault();
