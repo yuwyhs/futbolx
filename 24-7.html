@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FutbolX - 24/7 Streams</title>
-  <meta name="description" content="FutbolX - Watch 24/7 live sports streams including boxing, UFC, Basketball, Football, and more.">
-  <meta name="keywords" content="futbolx, 24/7, live streams, boxing, ufc, basketball, football, stream, online, free">
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
@@ -18,43 +16,38 @@
       transform: translateY(50px); 
       transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
     }
-    .card.visible { 
-      opacity: 1; 
-      transform: translateY(0); 
-    }
-    .watch-button {
-      animation: pulse 1s infinite;
-    }
+    .card.visible { opacity: 1; transform: translateY(0); }
+    
+    .watch-button { animation: pulse 1s infinite; }
     @keyframes pulse {
       0% { transform: scale(1); opacity: 1; }
       50% { transform: scale(1.1); opacity: 0.7; }
       100% { transform: scale(1); opacity: 1; }
     }
 
-    /* GRID FIX: COOL LOOKING 3-COLUMNS */
+    /* FORCED 3-COLUMN GRID - NO SQUEEZING */
     .event-grid, #livecards.event-grid {
       display: grid;
       gap: 1.5rem;
       padding: 1rem;
-      grid-template-columns: 1fr; /* Mobile */
+      grid-template-columns: 1fr;
     }
 
     @media (min-width: 768px) {
       .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(2, 1fr); /* Tablet */
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
     @media (min-width: 1024px) {
       .event-grid, #livecards.event-grid {
-        /* Force 3 columns and let them expand to look cool */
         grid-template-columns: repeat(3, 1fr) !important;
       }
     }
 
     .card {
       width: 100%;
-      max-width: none; /* REMOVED 400px so they don't look squeezed */
+      max-width: none; /* Allows cards to fill the 3-column space properly */
       margin: 0;
       transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
       border-radius: 10px;
@@ -69,22 +62,11 @@
       border-color: #ff4d4d;
     }
 
-    .card-img-top {
-      height: 220px;
-      object-fit: cover;
-    }
-
+    .card-img-top { height: 220px; object-fit: cover; }
     .live-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #ff4d4d;
-      color: white;
-      padding: 2px 10px;
-      border-radius: 15px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      z-index: 5;
+      position: absolute; top: 10px; right: 10px;
+      background-color: #ff4d4d; color: white; padding: 2px 10px;
+      border-radius: 15px; font-size: 0.75rem; font-weight: bold; z-index: 5;
     }
   </style>
 </head>
@@ -133,6 +115,11 @@
             <li><a class="dropdown-item" href="#" data-category="Entertainment">Entertainment</a></li>
             <li><a class="dropdown-item" href="#" data-category="Kids">Kids</a></li>
             <li><a class="dropdown-item" href="#" data-category="Music">Music</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Movies VOD">Movies VOD</a></li>
+            <li><a class="dropdown-item" href="#" data-category="News">News</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Religion">Religion</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Anime">Anime</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Movies Live">Movies Live</a></li>
           </ul>
         </div>
       </div>
@@ -140,6 +127,17 @@
       <div id="livecards" class="event-grid">
         <p>Loading streams...</p>
       </div>
+
+      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
+        <ul class="nav justify-content-center justify-content-lg-end mb-0">
+          <li class="nav-item"><a href="/api" class="nav-link px-2 text-body-secondary">API</a></li>
+          <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">Discord</a></li>
+          <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
+          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
+          <li class="nav-item"><a href="/contact" class="nav-link px-2 text-body-secondary">Contact us</a></li>
+        </ul>
+      </footer>
     </div>
   </div>
 
@@ -147,10 +145,9 @@
   <script>
     let allStreams = [];
 
-    // FIXED THEME TOGGLE LOGIC
+    // Theme Toggle Logic
     const themeToggle = document.getElementById('themeToggle');
     const htmlElement = document.documentElement;
-
     themeToggle.addEventListener('click', () => {
       const currentTheme = htmlElement.getAttribute('data-bs-theme');
       const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -180,7 +177,6 @@
             </div>
           </a>`;
       });
-      // Visibility Observer
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
       }, { threshold: 0.1 });
