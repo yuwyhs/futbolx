@@ -24,7 +24,7 @@
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
-    /* THEATER MODE LAYOUT - Side by Side on Big Screens & Phone Desktop Mode */
+    /* THEATER MODE LAYOUT */
     .theater-container {
       display: flex;
       flex-wrap: wrap;
@@ -39,13 +39,12 @@
       flex: 1 1 30%;
       min-width: 320px;
     }
-    /* Fixing the chat wrapper for the side column */
     .side-chat-col .chat-wrapper {
       margin: 0 !important;
       max-width: 100%;
     }
 
-    /* ALL YOUR ORIGINAL STYLES */
+    /* ORIGINAL STYLES */
     .tip-container {max-width:600px;margin:20px auto;transition:height .3s;overflow:hidden;}
     .alert-info {text-align:center;position:relative;padding-right:50px;}
     #countdownTimer {position:absolute;top:8px;right:10px;font-weight:bold;color:#ff4d4d;}
@@ -71,11 +70,13 @@
       font-family: 'Kanit', sans-serif;
       height: 100%;
     }
+
     #oplayer-container .plyr__progress,
     #oplayer-container .plyr__time + .plyr__time,
     #oplayer-container .plyr__time--current,
     #oplayer-container .plyr__time--duration,
     #oplayer-container .plyr__time-divider { display: none !important; }
+
     #oplayer-container .plyr__video-wrapper::after {
       content: "● LIVE";
       position: absolute;
@@ -120,6 +121,9 @@
     #eventTitle { font-size: 2.4rem; margin-bottom: 1rem; color: #ff4d4d; }
     .countdown-display { font-size: 4rem; font-weight: bold; color: #ff4d4d; letter-spacing: 5px; margin: 20px 0; text-shadow: 0 0 20px rgba(255,77,77,0.5); }
     .status-message { font-size: 1.4rem; color: #ddd; }
+    .status-live { color: #4caf50 !important; }
+    .status-ended { color: #888 !important; }
+
     .permanent-noti { margin-top: 12px; background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; transition: opacity 0.6s ease-in; }
     .permanent-noti strong { color: #a5d8ff; }
     #joinAlert { background: linear-gradient(135deg, #6b48ff, #00ddeb) !important; border-color: #8b5cf6 !important; color: white !important; }
@@ -189,7 +193,6 @@
       </div>
 
       <div class="theater-container">
-        
         <div class="main-player-col">
           <div id="liveStreamTitle" class="live-title d-none">
             <h3 id="currentStreamName"></h3>
@@ -219,8 +222,9 @@
             </div>
           </div>
         </div>
+      </div>
 
-      </div> <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
+      <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
 
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
         <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
@@ -240,7 +244,6 @@
   <script src="/assets/js/auth.js"></script>
 
   <script>
-    /* YOUR ORIGINAL JAVASCRIPT LOGIC - REPLACED WITHOUT EDITS */
     window['__onGCastApiAvailable'] = function(isAvailable) { if (isAvailable) initializeCastApi(); };
     function initializeCastApi() {
       try {
@@ -308,17 +311,38 @@
     function formatTimeLeft(seconds) {
       if (seconds <= 0) return "Starting now!";
       const d = Math.floor(seconds / 86400), h = Math.floor((seconds % 86400) / 3600), m = Math.floor((seconds % 3600) / 60), s = seconds % 60;
-      return d > 0 ? `${d}d ${h}h ${m}m` : `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+      if (d > 0) return `${d}d ${h.toString().padStart(2,'0')}h ${m.toString().padStart(2,'0')}m`;
+      return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
     }
 
     function updatePreStreamStatus() {
       const now = Math.floor(Date.now() / 1000);
-      if (!eventStartTime || streamStarted) return;
-      if (now >= eventStartTime && now <= eventEndTime) {
-        document.getElementById('statusArea').style.display = 'none';
-        document.getElementById('startLivestream').style.display = 'inline-block';
+      const statusArea = document.getElementById('statusArea');
+      const countdownEl = document.getElementById('countdownDisplay');
+      const messageEl = document.getElementById('statusMessage');
+      const startBtn = document.getElementById('startLivestream');
+
+      if (!eventStartTime || !eventEndTime) return;
+      if (streamStarted) { statusArea.style.display = 'none'; startBtn.style.display = 'none'; return; }
+
+      const timeLeft = eventStartTime - now;
+      const isLive = now >= eventStartTime && now <= eventEndTime;
+      const isEnded = now > eventEndTime;
+
+      if (isLive) {
+        statusArea.style.display = 'none';
+        startBtn.style.display = 'inline-block';
       } else {
-        document.getElementById('countdownDisplay').textContent = formatTimeLeft(eventStartTime - now);
+        statusArea.style.display = 'block';
+        startBtn.style.display = 'none';
+        if (isEnded) {
+          countdownEl.textContent = "";
+          messageEl.textContent = "This event has ended";
+          messageEl.classList.add('status-ended');
+        } else {
+          countdownEl.textContent = formatTimeLeft(timeLeft);
+          messageEl.textContent = "Stream has not started yet";
+        }
       }
     }
 
@@ -327,27 +351,31 @@
       try {
         const catRes = await fetch('/api/stream').then(r => r.json());
         const data = await Promise.all(catRes.categories.map(c => fetch(`/api/${c}.json`).then(r => r.json())));
-        let event = null;
-        data.forEach(d => d.streams.forEach(cs => { const found = cs.streams.find(e => e.uri_name === uriName); if(found) event = found; }));
-        if(event) {
-            streamData = event;
-            document.getElementById('eventTitle').textContent = event.name;
-            eventStartTime = new Date(event.starts_at + '+03:00').getTime() / 1000;
-            eventEndTime = event.ends_at ? new Date(event.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
-            updatePreStreamStatus(); setInterval(updatePreStreamStatus, 1000);
-            document.getElementById('startLivestream').onclick = () => {
-                document.querySelector('.video-container').style.display = 'block';
-                document.getElementById('streamLinks').style.display = 'block';
-                document.getElementById('startLivestream').style.display = 'none';
-                document.getElementById('liveStreamTitle').classList.remove('d-none');
-                document.getElementById('currentStreamName').textContent = event.name;
-                playStream(event.streams[0].url); populateStreamButtons(event);
-                streamStarted = true;
-            };
+        let foundEvent = null;
+        data.forEach(d => { if(d.streams) d.streams.forEach(cs => { if(cs.streams) { const found = cs.streams.find(e => e.uri_name === uriName); if(found) foundEvent = found; } }); });
+        
+        if(foundEvent) {
+          streamData = foundEvent;
+          document.getElementById('eventTitle').textContent = foundEvent.name;
+          eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
+          eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
+          
+          updatePreStreamStatus();
+          setInterval(updatePreStreamStatus, 1000);
+
+          document.getElementById('startLivestream').onclick = () => {
+            document.querySelector('.video-container').style.display = 'block';
+            document.getElementById('streamLinks').style.display = 'block';
+            document.getElementById('startLivestream').style.display = 'none';
+            document.getElementById('liveStreamTitle').classList.remove('d-none');
+            document.getElementById('currentStreamName').textContent = foundEvent.name;
+            playStream(foundEvent.streams[0].url); populateStreamButtons(foundEvent);
+            streamStarted = true;
+          };
         }
       } catch (e) {}
 
-      // ORIGINAL SMOOTH ALERT LOGIC
+      // NOTIFICATIONS CYCLE
       const tipAlert = document.getElementById('tipAlert'), infoAlert = document.getElementById('infoAlert'), joinAlert = document.getElementById('joinAlert'), timerEl = document.getElementById('countdownTimer');
       let sec = 10; let showJoin = false;
       const tipTimer = setInterval(() => {
