@@ -8,138 +8,129 @@
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
-    /* 1. GRID ARRANGEMENT: FIXED FOR 3 COLUMNS */
-    .event-grid, #livecards.event-grid {
+    /* FORCED 3-COLUMN GRID LOGIC */
+    .event-grid {
       display: grid;
-      gap: 1.5rem;
+      gap: 15px;
       padding: 1rem 0;
-      grid-template-columns: 1fr; /* Mobile */
+      grid-template-columns: 1fr; /* Mobile default */
     }
 
     @media (min-width: 768px) {
-      .event-grid, #livecards.event-grid {
+      .event-grid {
         grid-template-columns: repeat(2, 1fr); /* Tablet */
       }
     }
 
-    @media (min-width: 1100px) {
-      .event-grid, #livecards.event-grid {
-        /* This forces 3 columns like the reference image */
-        grid-template-columns: repeat(3, 1fr); 
+    @media (min-width: 992px) {
+      .event-grid {
+        /* FORCING 3 COLUMNS HERE */
+        grid-template-columns: repeat(3, 1fr) !important; 
       }
     }
 
-    /* 2. ORIGINAL CARD DESIGN RESTORED */
-    .event-grid a { text-decoration: none; color: inherit; }
-    
+    /* RETAINED CARD STYLING */
     .card {
       width: 100%;
-      /* Removed strict max-width to allow 3-column fit */
-      margin: 0 auto;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 2px solid transparent;
       background: #1a1d21;
-      opacity: 0; 
-      transform: translateY(50px); 
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.3s ease;
+      /* Animation properties */
+      opacity: 0;
+      transform: translateY(30px);
     }
+    .card.visible { opacity: 1; transform: translateY(0); transition: 0.5s ease-out; }
+    .card:hover { transform: translateY(-5px); border-color: #ff4d4d; }
 
-    .card.visible { 
-      opacity: 1; 
-      transform: translateY(0); 
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
-    }
-
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-      border-color: #ff4d4d;
-    }
-
-    /* Original Image Aspect Ratio */
     .card-img-top {
-      height: 220px;
+      width: 100%;
+      height: 200px;
       object-fit: cover;
     }
 
-    .card-body { padding: 1rem; }
-    
-    .card-title {
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-      color: #3b82f6; /* Blue title from your site */
-    }
-
-    /* LIVE BADGE RESTORED */
     .live-badge {
       position: absolute;
       top: 10px;
       right: 10px;
-      background-color: #ff4d4d;
+      background: #dc3545;
       color: white;
       padding: 2px 10px;
-      border-radius: 15px;
-      font-size: 0.75rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
       font-weight: bold;
-      z-index: 5;
     }
 
-    /* WATCH BUTTON RESTORED */
+    .card-body { padding: 1rem; }
+    .card-title { font-size: 1.1rem; color: #3b82f6; margin-bottom: 5px; }
+    .event-tag { color: #888; font-size: 0.85rem; }
+    
     .watch-button {
-      font-size: 0.95rem;
-      padding: 0.5rem 1.2rem;
-      background-color: #c53030;
-      border: none;
-      border-radius: 8px;
+      background: #c53030;
       color: white;
+      border: none;
+      padding: 5px 15px;
+      border-radius: 8px;
+      font-size: 0.85rem;
       float: right;
     }
 
-    .event-tag { font-size: 0.95rem; color: #888; }
-    .category-dropdown { display: flex; justify-content: center; margin: 1rem 0; }
+    /* SIDEBAR & TOP BAR */
+    .top-bar { background: linear-gradient(90deg, #dc3545 0%, #000000 100%); padding: 10px; }
+    .offcanvas { background-color: #1a1d21; }
+    .nav-link { color: white !important; padding: 15px; border-bottom: 1px solid #333; }
   </style>
 </head>
 <body>
-  <nav class="top-bar fixed-top">
-    <div class="container-fluid">
-      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
-        <i class="fas fa-bars"></i>
-      </button>
-      <span class="futbolx-brand">FutbolX</span>
-    </div>
+
+  <nav class="top-bar fixed-top d-flex align-items-center">
+    <button class="btn text-white me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+      <i class="fas fa-bars"></i>
+    </button>
+    <h4 class="mb-0 text-white fw-bold">FutbolX</h4>
   </nav>
 
-  <div class="container-fluid main-content pt-5">
-    <div class="container">
-      <div class="category-dropdown">
-        <div class="dropdown">
-          <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown">
-            Select Category
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#" data-category="All">All</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Sports">Sports</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Entertainment">Entertainment</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Kids">Kids</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Music">Music</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Movies VOD">Movies VOD</a></li>
-            <li><a class="dropdown-item" href="#" data-category="News">News</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Religion">Religion</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Anime">Anime</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Movies Live">Movies Live</a></li>
-          </ul>
-        </div>
-      </div>
+  <div class="offcanvas offcanvas-start" id="sidebarMenu">
+    <div class="offcanvas-header border-bottom">
+      <h5 class="offcanvas-title">Menu</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home me-2"></i> Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/request"><i class="fas fa-plus me-2"></i> Request</a></li>
+        <li class="nav-item"><a class="nav-link" href="/vods"><i class="fas fa-video me-2"></i> VODs</a></li>
+        <li class="nav-item"><a class="nav-link" href="/24-7"><i class="fas fa-clock me-2"></i> 24/7</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k"><i class="fab fa-discord me-2"></i> Discord</a></li>
+        <li class="nav-item"><a class="nav-link" href="/vip"><i class="fas fa-star me-2"></i> VIP</a></li>
+      </ul>
+    </div>
+  </div>
 
-      <div id="live" class="mt-4">
-        <h2>24/7 Streams <span id="liveAnimation" class="live-animation"></span></h2>
-        <div id="livecards" class="event-grid">
-          <p>Loading streams...</p>
-        </div>
+  <div class="container mt-5 pt-5">
+    <div class="text-center mb-4">
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown">
+          Select Category
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#" data-category="All">All</a></li>
+          <li><a class="dropdown-item" href="#" data-category="Sports">Sports</a></li>
+          <li><a class="dropdown-item" href="#" data-category="Entertainment">Entertainment</a></li>
+          <li><a class="dropdown-item" href="#" data-category="Kids">Kids</a></li>
+          <li><a class="dropdown-item" href="#" data-category="Music">Music</a></li>
+          <li><a class="dropdown-item" href="#" data-category="Movies VOD">Movies VOD</a></li>
+          <li><a class="dropdown-item" href="#" data-category="News">News</a></li>
+          <li><a class="dropdown-item" href="#" data-category="Anime">Anime</a></li>
+        </ul>
       </div>
+    </div>
+
+    <div id="livecards" class="event-grid">
+      <p class="text-center">Loading streams...</p>
     </div>
   </div>
 
@@ -152,29 +143,29 @@
       livecards.innerHTML = '';
 
       if (streams.length === 0) {
-        livecards.innerHTML = '<p>No streams available.</p>';
+        livecards.innerHTML = '<p class="text-center">No streams found.</p>';
         return;
       }
 
       streams.forEach(stream => {
-        let poster = stream.poster || 'https://via.placeholder.com/285x160?text=FutbolX';
+        let poster = stream.poster || 'https://via.placeholder.com/400x200?text=FutbolX';
         livecards.innerHTML += `
-          <a href="/live-24-7/${stream.uri_name}">
+          <a href="/live-24-7/${stream.uri_name}" style="text-decoration:none;">
             <div class="card">
               <span class="live-badge">LIVE</span>
-              <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
+              <img src="${poster}" class="card-img-top" alt="${stream.name}">
               <div class="card-body">
                 <h5 class="card-title">${stream.name}</h5>
-                <p class="card-text">
+                <div class="d-flex justify-content-between align-items-center">
                   <span class="event-tag">${stream.category}</span>
                   <button class="watch-button">Watch</button>
-                </p>
+                </div>
               </div>
             </div>
           </a>`;
       });
 
-      // Observer for scroll animation
+      // Simple observer for entry animation
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -186,23 +177,7 @@
       document.querySelectorAll('.card').forEach(card => observer.observe(card));
     }
 
-    // Fixed filtering logic
-    function initCategoryDropdown() {
-      document.querySelectorAll('.dropdown-item').forEach(item => {
-        item.addEventListener('click', (e) => {
-          e.preventDefault();
-          const category = item.getAttribute('data-category');
-          document.getElementById('categoryDropdown').textContent = category;
-          
-          const filtered = (category === 'All') 
-            ? allStreams 
-            : allStreams.filter(s => s.category === category);
-          
-          renderStreams(filtered);
-        });
-      });
-    }
-
+    // LOAD ACTUAL CONTENT
     function loadContent() {
       fetch('/api/stream-24-7')
         .then(res => res.json())
@@ -217,9 +192,18 @@
         }).catch(err => console.error(err));
     }
 
+    // DROPDOWN FILTERING
     document.addEventListener('DOMContentLoaded', () => {
       loadContent();
-      initCategoryDropdown();
+      document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          const category = item.getAttribute('data-category');
+          document.getElementById('categoryDropdown').textContent = category;
+          const filtered = (category === 'All') ? allStreams : allStreams.filter(s => s.category === category);
+          renderStreams(filtered);
+        });
+      });
     });
   </script>
 </body>
