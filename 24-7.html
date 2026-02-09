@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FutbolX - 24/7 Streams</title>
+  <meta name="description" content="FutbolX - Watch 24/7 live sports streams including boxing, UFC, Basketball, Football, and more.">
+  <meta name="keywords" content="futbolx, 24/7, live streams, boxing, ufc, basketball, football, stream, online, free">
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
@@ -25,7 +27,7 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
-    /* THE RED DOT ANIMATION */
+    /* THE PULSING RED DOT */
     .live-dot {
       height: 12px;
       width: 12px;
@@ -37,25 +39,19 @@
       animation: pulse-red 2s infinite;
       vertical-align: middle;
     }
-
     @keyframes pulse-red {
       0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7); }
       70% { box-shadow: 0 0 0 10px rgba(255, 77, 77, 0); }
       100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
     }
 
-    /* GRID FIX */
+    /* ADAPTIVE GRID SYSTEM */
     .event-grid, #livecards.event-grid {
       display: grid;
       gap: 1.5rem;
       padding: 1rem;
-      grid-template-columns: 1fr;
-    }
-    @media (min-width: 768px) {
-      .event-grid, #livecards.event-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (min-width: 1024px) {
-      .event-grid, #livecards.event-grid { grid-template-columns: repeat(3, 1fr) !important; }
+      /* Adjusts from 1 to 6+ columns based on screen width automatically */
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     }
 
     .card {
@@ -73,6 +69,7 @@
     .category-dropdown { display: flex; justify-content: center; margin: 1rem 0; }
   </style>
   <script>
+    /* THEME SYNC ENGINE */
     (function() {
       const savedTheme = localStorage.getItem('theme') || 'dark';
       document.documentElement.setAttribute('data-bs-theme', savedTheme);
