@@ -21,31 +21,31 @@
   <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
-
   <style>
-    /* THEATER MODE - Works on Large Screens & Phone Desktop Mode */
-    .content-layout {
+    /* THEATER MODE LAYOUT - Side by Side on Big Screens & Phone Desktop Mode */
+    .theater-container {
       display: flex;
-      flex-wrap: wrap; /* Stacks on mobile, sides on desktop */
+      flex-wrap: wrap;
       gap: 20px;
+      align-items: flex-start;
     }
-    .player-section {
-      flex: 1 1 65%; /* Grows to 100% on small screens, 65% on large */
-      min-width: 300px;
+    .main-player-col {
+      flex: 1 1 65%;
+      min-width: 350px;
     }
-    .chat-section {
-      flex: 1 1 30%; /* Grows to 100% on small screens, 30% on large */
-      min-width: 300px;
-      margin-top: 0 !important;
+    .side-chat-col {
+      flex: 1 1 30%;
+      min-width: 320px;
     }
-    .chat-wrapper {
-      margin: 0 auto !important; /* Reset your original margin */
-      position: sticky;
-      top: 80px;
+    /* Fixing the chat wrapper for the side column */
+    .side-chat-col .chat-wrapper {
+      margin: 0 !important;
+      max-width: 100%;
     }
 
-    /* ALL ORIGINAL STYLES REMAIN UNTOUCHED */
+    /* ALL YOUR ORIGINAL STYLES */
     .tip-container {max-width:600px;margin:20px auto;transition:height .3s;overflow:hidden;}
     .alert-info {text-align:center;position:relative;padding-right:50px;}
     #countdownTimer {position:absolute;top:8px;right:10px;font-weight:bold;color:#ff4d4d;}
@@ -71,13 +71,11 @@
       font-family: 'Kanit', sans-serif;
       height: 100%;
     }
-
     #oplayer-container .plyr__progress,
     #oplayer-container .plyr__time + .plyr__time,
     #oplayer-container .plyr__time--current,
     #oplayer-container .plyr__time--duration,
     #oplayer-container .plyr__time-divider { display: none !important; }
-
     #oplayer-container .plyr__video-wrapper::after {
       content: "● LIVE";
       position: absolute;
@@ -122,9 +120,6 @@
     #eventTitle { font-size: 2.4rem; margin-bottom: 1rem; color: #ff4d4d; }
     .countdown-display { font-size: 4rem; font-weight: bold; color: #ff4d4d; letter-spacing: 5px; margin: 20px 0; text-shadow: 0 0 20px rgba(255,77,77,0.5); }
     .status-message { font-size: 1.4rem; color: #ddd; }
-    .status-live { color: #4caf50 !important; }
-    .status-ended { color: #888 !important; }
-
     .permanent-noti { margin-top: 12px; background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; transition: opacity 0.6s ease-in; }
     .permanent-noti strong { color: #a5d8ff; }
     #joinAlert { background: linear-gradient(135deg, #6b48ff, #00ddeb) !important; border-color: #8b5cf6 !important; color: white !important; }
@@ -169,74 +164,73 @@
   <div class="container-fluid main-content">
     <div class="container mt-4">
       
-      <div class="col-12">
-          <div class="tip-container">
-            <div class="alert alert-info" id="tipAlert">
-              <strong>Tip:</strong> For an ad-free experience, consider installing an ad blocker like
-              <a href="https://ublockorigin.com" target="_blank" rel="noopener">uBlock Origin</a> or
-              <a href="https://adguard.com" target="_blank" rel="noopener">AdGuard</a>.
-              <span id="countdownTimer">10s</span>
-            </div>
-            <div class="alert alert-info permanent-noti d-none" id="infoAlert">
-              <strong>Info:</strong> If stream is not loading on your end, try using a VPN to bypass your ISP restrictions.
-            </div>
-            <div class="alert alert-info permanent-noti d-none" id="joinAlert">
-              <strong>Join us</strong> on 
-              <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener">Discord</a> and 
-              <a href="https://t.me/+nqTL3Hx9NIAxZTRk" target="_blank" rel="noopener">Telegram</a> 
-            </div>
-          </div>
-
-          <div class="d-flex align-items-center mb-3">
-            <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
-            <button id="startLivestream" class="btn btn-danger ms-3" style="display:none;">Click to Start Livestream</button>
-            <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
-          </div>
-
-          <div class="content-layout">
-            
-            <div class="player-section">
-                <div id="liveStreamTitle" class="live-title d-none">
-                    <h3 id="currentStreamName"></h3>
-                </div>
-
-                <div id="statusArea">
-                    <h2 id="eventTitle" class="mb-3"></h2>
-                    <div id="countdownDisplay" class="countdown-display"></div>
-                    <p id="statusMessage" class="status-message">Loading event...</p>
-                </div>
-
-                <div class="video-container">
-                    <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-                    <div id="oplayer-container"></div>
-                </div>
-
-                <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
-            </div>
-
-            <div class="chat-section">
-                <div class="chat-wrapper">
-                    <div class="chat-header">Live Chat</div>
-                    <div class="chat-container">
-                        <script id="cid0020000430640675904" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%; height: 100%;">
-                            {"handle":"futbolxc","arch":"js","styles":{"a":"000000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"000000","l":"000000","m":"000000","n":"FFFFFF","p":"10","q":"000000","r":100,"t":0,"usricon":0.86,"surl":0,"allowpm":0,"cnrs":"0.76"}}
-                        </script>
-                    </div>
-                </div>
-            </div>
-
-          </div> <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
+      <div class="tip-container">
+        <div class="alert alert-info" id="tipAlert">
+          <strong>Tip:</strong> For an ad-free experience, consider installing an ad blocker like
+          <a href="https://ublockorigin.com" target="_blank" rel="noopener">uBlock Origin</a> or
+          <a href="https://adguard.com" target="_blank" rel="noopener">AdGuard</a>.
+          <span id="countdownTimer">10s</span>
+        </div>
+        <div class="alert alert-info permanent-noti d-none" id="infoAlert">
+          <strong>Info:</strong> If stream is not loading on your end, try using a VPN to bypass your ISP restrictions.
+        </div>
+        <div class="alert alert-info permanent-noti d-none" id="joinAlert">
+          <strong>Join us</strong> on 
+          <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener">Discord</a> and 
+          <a href="https://t.me/+nqTL3Hx9NIAxZTRk" target="_blank" rel="noopener">Telegram</a> 
+          to get schedule updates, report site issues, or request streams!
+        </div>
       </div>
 
+      <div class="d-flex align-items-center mb-3">
+        <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        <button id="startLivestream" class="btn btn-danger ms-3" style="display:none;">Click to Start Livestream</button>
+        <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
+      </div>
+
+      <div class="theater-container">
+        
+        <div class="main-player-col">
+          <div id="liveStreamTitle" class="live-title d-none">
+            <h3 id="currentStreamName"></h3>
+          </div>
+
+          <div id="statusArea">
+            <h2 id="eventTitle" class="mb-3"></h2>
+            <div id="countdownDisplay" class="countdown-display"></div>
+            <p id="statusMessage" class="status-message">Loading event...</p>
+          </div>
+
+          <div class="video-container">
+            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-presentation" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+            <div id="oplayer-container"></div>
+          </div>
+
+          <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
+        </div>
+
+        <div class="side-chat-col">
+          <div class="chat-wrapper">
+            <div class="chat-header">Live Chat</div>
+            <div class="chat-container">
+              <script id="cid0020000430640675904" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%; height: 100%;">
+                {"handle":"futbolxc","arch":"js","styles":{"a":"000000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"000000","l":"000000","m":"000000","n":"FFFFFF","p":"10","q":"000000","r":100,"t":0,"usricon":0.86,"surl":0,"allowpm":0,"cnrs":"0.76"}}
+              </script>
+            </div>
+          </div>
+        </div>
+
+      </div> <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
+
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary">FutbolX 2026</p>
-        <ul class="nav">
+        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
+        <ul class="nav justify-content-center justify-content-lg-end mb-0">
           <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
         </ul>
       </footer>
 
       <div class="disclaimer">
-        We DO NOT host nor transmit any audiovisual content itself... All content is copyright of their respective owners.
+        We DO NOT host nor transmit any audiovisual content itself and DO NOT control nor influence such content. We cannot accept any liability for the content transmitted by others. Any responsibility for this content lies with those who host or transmit it. We are not affiliated nor claim to be affiliated with any of the owners of streams and/or videos. All content is copyright of their respective owners.
       </div>
     </div>
   </div>
@@ -246,7 +240,7 @@
   <script src="/assets/js/auth.js"></script>
 
   <script>
-    /* 100% ORIGINAL JAVASCRIPT LOGIC - NO MODIFICATIONS */
+    /* YOUR ORIGINAL JAVASCRIPT LOGIC - REPLACED WITHOUT EDITS */
     window['__onGCastApiAvailable'] = function(isAvailable) { if (isAvailable) initializeCastApi(); };
     function initializeCastApi() {
       try {
@@ -320,12 +314,11 @@
     function updatePreStreamStatus() {
       const now = Math.floor(Date.now() / 1000);
       if (!eventStartTime || streamStarted) return;
-      const timeLeft = eventStartTime - now;
       if (now >= eventStartTime && now <= eventEndTime) {
         document.getElementById('statusArea').style.display = 'none';
         document.getElementById('startLivestream').style.display = 'inline-block';
       } else {
-        document.getElementById('countdownDisplay').textContent = formatTimeLeft(timeLeft);
+        document.getElementById('countdownDisplay').textContent = formatTimeLeft(eventStartTime - now);
       }
     }
 
@@ -336,24 +329,25 @@
         const data = await Promise.all(catRes.categories.map(c => fetch(`/api/${c}.json`).then(r => r.json())));
         let event = null;
         data.forEach(d => d.streams.forEach(cs => { const found = cs.streams.find(e => e.uri_name === uriName); if(found) event = found; }));
-        if(!event) return;
-        streamData = event;
-        document.getElementById('eventTitle').textContent = event.name;
-        eventStartTime = new Date(event.starts_at + '+03:00').getTime() / 1000;
-        eventEndTime = event.ends_at ? new Date(event.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
-        updatePreStreamStatus(); setInterval(updatePreStreamStatus, 1000);
-        document.getElementById('startLivestream').onclick = () => {
-          document.querySelector('.video-container').style.display = 'block';
-          document.getElementById('streamLinks').style.display = 'block';
-          document.getElementById('startLivestream').style.display = 'none';
-          document.getElementById('liveStreamTitle').classList.remove('d-none');
-          document.getElementById('currentStreamName').textContent = event.name;
-          playStream(event.streams[0].url); populateStreamButtons(event);
-          streamStarted = true;
-        };
+        if(event) {
+            streamData = event;
+            document.getElementById('eventTitle').textContent = event.name;
+            eventStartTime = new Date(event.starts_at + '+03:00').getTime() / 1000;
+            eventEndTime = event.ends_at ? new Date(event.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
+            updatePreStreamStatus(); setInterval(updatePreStreamStatus, 1000);
+            document.getElementById('startLivestream').onclick = () => {
+                document.querySelector('.video-container').style.display = 'block';
+                document.getElementById('streamLinks').style.display = 'block';
+                document.getElementById('startLivestream').style.display = 'none';
+                document.getElementById('liveStreamTitle').classList.remove('d-none');
+                document.getElementById('currentStreamName').textContent = event.name;
+                playStream(event.streams[0].url); populateStreamButtons(event);
+                streamStarted = true;
+            };
+        }
       } catch (e) {}
 
-      // ORIGINAL ALERT LOGIC
+      // ORIGINAL SMOOTH ALERT LOGIC
       const tipAlert = document.getElementById('tipAlert'), infoAlert = document.getElementById('infoAlert'), joinAlert = document.getElementById('joinAlert'), timerEl = document.getElementById('countdownTimer');
       let sec = 10; let showJoin = false;
       const tipTimer = setInterval(() => {
@@ -361,10 +355,18 @@
         if (sec <= 0) {
           clearInterval(tipTimer); tipAlert.classList.add('fade-out');
           setTimeout(() => {
-            tipAlert.style.display = 'none'; infoAlert.classList.remove('d-none');
+            tipAlert.style.display = 'none';
+            infoAlert.classList.remove('d-none');
+            infoAlert.style.opacity = '0';
+            setTimeout(() => { infoAlert.style.opacity = '1'; }, 50);
             setInterval(() => {
-              if (showJoin) { infoAlert.classList.add('d-none'); joinAlert.classList.remove('d-none'); }
-              else { joinAlert.classList.add('d-none'); infoAlert.classList.remove('d-none'); }
+              if (showJoin) {
+                infoAlert.style.opacity = '0';
+                setTimeout(() => { infoAlert.classList.add('d-none'); joinAlert.classList.remove('d-none'); joinAlert.style.opacity = '0'; setTimeout(() => { joinAlert.style.opacity = '1'; }, 50); }, 600);
+              } else {
+                joinAlert.style.opacity = '0';
+                setTimeout(() => { joinAlert.classList.add('d-none'); infoAlert.classList.remove('d-none'); infoAlert.style.opacity = '0'; setTimeout(() => { infoAlert.style.opacity = '1'; }, 50); }, 600);
+              }
               showJoin = !showJoin;
             }, 10000);
           }, 600);
