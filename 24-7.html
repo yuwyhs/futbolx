@@ -4,72 +4,76 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FutbolX - 24/7 Streams</title>
-  <meta name="description" content="FutbolX - Watch 24/7 live sports streams including boxing, UFC, Basketball, Football, and more.">
-  <meta name="keywords" content="futbolx, 24/7, live streams, boxing, ufc, basketball, football, stream, online, free">
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
-    .error-alert { max-width: 500px; margin: 20px auto; }
+    /* Premium Look Enhancements */
+    body { font-family: 'Kanit', sans-serif; transition: background-color 0.3s ease; }
+    
     .card { 
       opacity: 0; 
-      transform: translateY(50px); 
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
+      transform: translateY(30px); 
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(5px);
     }
     .card.visible { opacity: 1; transform: translateY(0); }
     
-    .watch-button { animation: pulse 1s infinite; }
+    .watch-button { animation: pulse 1s infinite; font-weight: 600; }
     @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.7; }
-      100% { transform: scale(1); opacity: 1; }
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
 
-    /* THE PULSING RED DOT */
+    /* THE PULSING LIVE DOT */
     .live-dot {
-      height: 12px;
-      width: 12px;
-      background-color: #ff4d4d;
-      border-radius: 50%;
-      display: inline-block;
-      margin-left: 8px;
+      height: 12px; width: 12px; background-color: #ff4d4d;
+      border-radius: 50%; display: inline-block; margin-left: 10px;
       box-shadow: 0 0 0 rgba(255, 77, 77, 0.7);
-      animation: pulse-red 2s infinite;
-      vertical-align: middle;
+      animation: pulse-red 2s infinite; vertical-align: middle;
     }
     @keyframes pulse-red {
       0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(255, 77, 77, 0); }
+      70% { box-shadow: 0 0 0 12px rgba(255, 77, 77, 0); }
       100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
     }
 
-    /* ADAPTIVE GRID SYSTEM */
-    .event-grid, #livecards.event-grid {
+    /* ADAPTIVE SMART GRID */
+    .event-grid {
       display: grid;
-      gap: 1.5rem;
-      padding: 1rem;
-      /* Adjusts from 1 to 6+ columns based on screen width automatically */
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+      padding: 1.5rem;
+      /* Dynamic column count: fills based on available width, min card size 320px */
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     }
 
     .card {
-      width: 100%;
-      max-width: none;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 2px solid transparent;
-      position: relative;
+      width: 100%; border-radius: 12px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1); position: relative;
     }
-    .card:hover { transform: translateY(-8px); border-color: #ff4d4d; box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
-    .card-img-top { height: 220px; object-fit: cover; }
-    .live-badge { position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; padding: 2px 10px; border-radius: 15px; font-size: 0.75rem; font-weight: bold; z-index: 5; }
-    .category-dropdown { display: flex; justify-content: center; margin: 1rem 0; }
+    
+    .card:hover { 
+      transform: scale(1.03); 
+      border-color: #ff4d4d; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(255, 77, 77, 0.2);
+    }
+    
+    .card-img-top { height: 200px; object-fit: cover; transition: transform 0.5s ease; }
+    .card:hover .card-img-top { transform: scale(1.1); }
+    
+    .live-badge { 
+      position: absolute; top: 12px; right: 12px; 
+      background: #dc3545; color: white; padding: 3px 12px; 
+      border-radius: 6px; font-size: 0.7rem; font-weight: 800; z-index: 5; 
+    }
+    
+    .category-dropdown { margin: 2rem 0; }
   </style>
   <script>
-    /* THEME SYNC ENGINE */
     (function() {
       const savedTheme = localStorage.getItem('theme') || 'dark';
       document.documentElement.setAttribute('data-bs-theme', savedTheme);
@@ -88,6 +92,7 @@
 
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
     <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Menu</h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
     <div class="offcanvas-body">
@@ -108,13 +113,15 @@
     </div>
   </div>
 
-  <div class="container-fluid main-content">
-    <div class="container pt-2">
-      <div class="category-dropdown">
+  <div class="container-fluid main-content pt-5">
+    <div class="container">
+      <div class="category-dropdown text-center">
         <div class="dropdown">
-          <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown">Select Category</button>
+          <button class="btn btn-outline-primary dropdown-toggle px-4" type="button" id="categoryDropdown" data-bs-toggle="dropdown">
+            Browse Categories
+          </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#" data-category="All">All</a></li>
+            <li><a class="dropdown-item" href="#" data-category="All">All Streams</a></li>
             <li><a class="dropdown-item" href="#" data-category="Sports">Sports</a></li>
             <li><a class="dropdown-item" href="#" data-category="Entertainment">Entertainment</a></li>
             <li><a class="dropdown-item" href="#" data-category="Kids">Kids</a></li>
@@ -129,16 +136,16 @@
       </div>
 
       <div id="live" class="mt-4">
-        <h2>24/7 Streams <span id="liveAnimation" class="live-dot"></span></h2>
-        <div id="livecards" class="event-grid py-3">
-          <p>Loading streams...</p>
+        <h2 class="fw-bold mb-4">24/7 Global Streams <span class="live-dot"></span></h2>
+        <div id="livecards" class="event-grid">
+          <p class="text-muted">Loading streams...</p>
         </div>
       </div>
 
-      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary">FutbolX 2026</p>
-        <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
+      <footer class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-4 border-top mt-5">
+        <p class="mb-0 text-body-secondary">© FutbolX 2026</p>
+        <ul class="nav">
+          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-primary fw-bold">Donate / VIP Access</a></li>
         </ul>
       </footer>
     </div>
@@ -168,28 +175,27 @@
       const livecards = document.getElementById('livecards');
       livecards.innerHTML = '';
       if (streams.length === 0) {
-        livecards.innerHTML = '<p>No streams available for this category.</p>';
+        livecards.innerHTML = '<div class="col-12"><p class="text-center py-5">No streams found in this category.</p></div>';
         return;
       }
       streams.forEach(stream => {
-        let poster = stream.poster || 'https://via.placeholder.com/285x160?text=FutbolX';
+        let poster = stream.poster || 'https://via.placeholder.com/350x200?text=FutbolX';
         livecards.innerHTML += `
           <a href="/live-24-7/${stream.uri_name}" style="text-decoration:none">
-            <div class="card">
+            <div class="card h-100">
               <span class="live-badge">LIVE</span>
               <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
-              <div class="card-body">
-                <h5 class="card-title" style="color: #3b82f6;">${stream.name}</h5>
-                <p class="card-text">
-                  <span class="event-tag" style="color: #888;">${stream.category}</span>
-                  <span class="float-end">
-                    <button class="btn btn-danger btn-sm watch-button">Watch</button>
-                  </span>
-                </p>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title text-truncate" style="color: #3b82f6;">${stream.name}</h5>
+                <div class="mt-auto d-flex justify-content-between align-items-center">
+                  <small class="text-muted">${stream.category}</small>
+                  <button class="btn btn-danger btn-sm watch-button px-3">Watch</button>
+                </div>
               </div>
             </div>
           </a>`;
       });
+      
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
       }, { threshold: 0.1 });
@@ -216,7 +222,7 @@
         item.addEventListener('click', (e) => {
           e.preventDefault();
           const category = item.getAttribute('data-category');
-          document.getElementById('categoryDropdown').textContent = category;
+          document.getElementById('categoryDropdown').textContent = item.textContent;
           renderStreams(category === 'All' ? allStreams : allStreams.filter(s => s.category === category));
         });
       });
