@@ -161,12 +161,13 @@
       </div>
 
       <div id="football" class="mt-5 d-none"><h2 class="m-0">Football</h2><div id="footballcards" class="event-grid py-3"></div></div>
-      <div id="basketball" class="mt-5 d-none"><h2 class="m-0">Basketball</h2><div id="basketballcards" class="event-grid py-3"></div></div>
+      <div id="nba" class="mt-5 d-none"><h2 class="m-0">Basketball</h2><div id="nbacards" class="event-grid py-3"></div></div>
       <div id="fights" class="mt-5 d-none"><h2 class="m-0">Fights</h2><div id="fightscards" class="event-grid py-3"></div></div>
       <div id="motorsports" class="mt-5 d-none"><h2 class="m-0">Motorsports</h2><div id="motorsportscards" class="event-grid py-3"></div></div>
       <div id="nfl" class="mt-5 d-none"><h2 class="m-0">NFL</h2><div id="nflcards" class="event-grid py-3"></div></div>
       <div id="nhl" class="mt-5 d-none"><h2 class="m-0">NHL</h2><div id="nhlcards" class="event-grid py-3"></div></div>
       <div id="mlb" class="mt-5 d-none"><h2 class="m-0">MLB</h2><div id="mlbcards" class="event-grid py-3"></div></div>
+      <div id="icehockey" class="mt-5 d-none"><h2 class="m-0">Ice Hockey</h2><div id="icehockeycards" class="event-grid py-3"></div></div>
       <div id="tennis" class="mt-5 d-none"><h2 class="m-0">Tennis</h2><div id="tenniscards" class="event-grid py-3"></div></div>
       <div id="rugby" class="mt-5 d-none"><h2 class="m-0">Rugby</h2><div id="rugbycards" class="event-grid py-3"></div></div>
       <div id="golf" class="mt-5 d-none"><h2 class="m-0">Golf</h2><div id="golfcards" class="event-grid py-3"></div></div>
@@ -189,6 +190,7 @@
   <script src="/assets/js/api.js"></script>
 
   <script>
+    /* ALL YOUR ORIGINAL TIMER AND LOADING LOGIC */
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
     let lastApiCall = 0;
     let apiInstance = null;
@@ -268,53 +270,65 @@
     }
 
     async function loadContent(api) {
+      const errorContainer = document.getElementById('errorContainer');
       const liveAnimation = document.getElementById('liveAnimation');
       const livecards = document.getElementById('livecards');
       if (!livecards) return;
       livecards.innerHTML = '<p>Loading streams...</p>';
 
-      // Define ALL categories based on your repo files
-      const categoryList = [
-        'football', 'basketball', 'fights', 'motorsports', 'nfl', 
-        'nhl', 'mlb', 'tennis', 'rugby', 'golf', 'others'
-      ];
-
       try {
         const baseUrl = api.baseUrl || `${window.location.origin}/api`;
+        const catListUrl = baseUrl.endsWith('/') ? `${baseUrl}stream` : `${baseUrl}/stream`;
+        const catListRes = await fetchWithRetry(catListUrl);
+        const categoryNames = catListRes.categories || [];
+
+        const fetchPromises = categoryNames.map(cat => fetchWithRetry(`${baseUrl}/${cat}.json`).catch(() => ({ success: true, streams: [] })));
+        const allCategoryData = await Promise.all(fetchPromises);
+
+        const combined = {
+          success: true,
+          streams: allCategoryData.filter(d => d && d.success && Array.isArray(d.streams)).flatMap(d => d.streams || [])
+        };
+
+        if (combined.streams.length === 0) {
+          livecards.innerHTML = '<p>No streams available right now.</p>';
+          liveAnimation.classList.add('d-none');
+          return;
+        }
+
+        const categories = {
+          football: { id: 'football', element: document.getElementById('footballcards') },
+          nba: { id: 'nba', element: document.getElementById('nbacards') },
+          fights: { id: 'fights', element: document.getElementById('fightscards') },
+          motorsports: { id: 'motorsports', element: document.getElementById('motorsportscards') },
+          nfl: { id: 'nfl', element: document.getElementById('nflcards') },
+          nhl: { id: 'nhl', element: document.getElementById('nhlcards') },
+          mlb: { id: 'mlb', element: document.getElementById('mlbcards') },
+          icehockey: { id: 'icehockey', element: document.getElementById('icehockeycards') },
+          tennis: { id: 'tennis', element: document.getElementById('tenniscards') },
+          rugby: { id: 'rugby', element: document.getElementById('rugbycards') },
+          golf: { id: 'golf', element: document.getElementById('golfcards') },
+          others: { id: 'others', element: document.getElementById('otherscards') }
+        };
+
+        Object.values(categories).forEach(cat => { if (cat.element) cat.element.innerHTML = ''; });
+        Object.keys(categories).forEach(key => document.getElementById(categories[key].id)?.classList.add('d-none'));
         livecards.innerHTML = '';
-        
-        // Hide all sections initially
-        categoryList.forEach(cat => {
-            const section = document.getElementById(cat);
-            const container = document.getElementById(cat + 'cards');
-            if (section) section.classList.add('d-none');
-            if (container) container.innerHTML = '';
-        });
 
         let hasLiveEvents = false;
         const now = Math.floor(Date.now() / 1000);
+        const categoryEvents = {};
+        Object.keys(categories).forEach(key => categoryEvents[key] = []);
 
-        // Fetch each category file individually
-        const fetchPromises = categoryList.map(cat => 
-          fetchWithRetry(`${baseUrl}/${cat}.json`)
-            .then(data => ({ cat, data }))
-            .catch(() => ({ cat, data: null }))
-        );
+        const categoryMap = { 'football': 'football', 'basketball': 'nba', 'fights': 'fights', 'motorsports': 'motorsports', 'nfl': 'nfl', 'nhl': 'nhl', 'mlb': 'mlb', 'icehockey': 'icehockey', 'tennis': 'tennis', 'rugby': 'rugby', 'golf': 'golf' };
 
-        const results = await Promise.all(fetchPromises);
-
-        results.forEach(result => {
-          if (!result.data || !result.data.streams) return;
-
-          const section = document.getElementById(result.cat);
-          const container = document.getElementById(result.cat + 'cards');
-          let hasUpcomingInCat = false;
-
-          result.data.streams.forEach(stream => {
+        combined.streams.forEach(category => {
+          const normalizedName = category.category?.trim().toLowerCase() || '';
+          let categoryKey = categoryMap[normalizedName] || 'others';
+          category.streams.forEach(stream => {
             let startTime = new Date(stream.starts_at + '+03:00').getTime() / 1000;
             let endTime = stream.ends_at ? new Date(stream.ends_at + '+03:00').getTime() / 1000 : startTime + 10800;
-            
-            if (now > endTime) return; // Skip finished events
+            if (now > endTime) return;
 
             const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
             let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
@@ -327,7 +341,7 @@
                     <div class="card-body">
                       <h5 class="card-title">${stream.name}</h5>
                       <p class="card-text">
-                        <span class="event-tag">${stream.tag || ''}</span>
+                        <span class="event-tag">${stream.tag}</span>
                         <span class="event-timer float-end">
                           ${isLive ? `<button class="btn btn-danger btn-sm watch-button">Watch</button>` : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
                         </span>
@@ -336,18 +350,16 @@
                   </div>
                 </a>`;
 
-            if (isLive) { 
-                livecards.innerHTML += html; 
-                hasLiveEvents = true; 
-            } else {
-                if (container) container.innerHTML += html;
-                hasUpcomingInCat = true;
-            }
+            if (isLive) { livecards.innerHTML += html; hasLiveEvents = true; } 
+            else { categoryEvents[categoryKey].push({ html, startTime }); }
           });
+        });
 
-          // Show category section ONLY if events were added to it
-          if (hasUpcomingInCat && section) {
-              section.classList.remove('d-none');
+        Object.keys(categories).forEach(key => {
+          if (categoryEvents[key].length > 0) {
+            categoryEvents[key].sort((a, b) => a.startTime - b.startTime);
+            categories[key].element.innerHTML = categoryEvents[key].map(item => item.html).join('');
+            document.getElementById(categories[key].id)?.classList.remove('d-none');
           }
         });
 
@@ -398,4 +410,4 @@
     document.getElementById('menuLogout')?.addEventListener('click', () => firebase.auth().signOut().then(() => window.location.href = '/'));
   </script>
 </body>
-</html>
+  </html>
