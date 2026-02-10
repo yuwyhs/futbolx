@@ -32,6 +32,7 @@
     .btn-fullscreen {display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#ff4d4d;color:#fff;border:none;border-radius:20px;transition:.3s;}
     [data-bs-theme="light"] .btn-fullscreen {background:#e63939;color:#333;}
     .btn-fullscreen:hover {transform:scale(1.05);background:#e63939;}
+    
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
@@ -64,15 +65,17 @@
       100% { opacity: 1; }
     }
 
+    /* Adaptive Chat Styling */
     .chat-wrapper {
-      max-width:600px;
-      margin:30px auto;
+      width: 100%;
       background:#1a1a1a;
       border-radius:16px;
       overflow:hidden;
       border:1px solid #333;
       box-shadow:0 10px 30px rgba(0,0,0,0.6);
+      margin-top: 0;
     }
+    
     .chat-header {
       background:#ff4d4d;
       color:white;
@@ -84,15 +87,16 @@
     }
 
     .chat-container {
-      height: 420px;
+      height: 500px; /* Fixed height for chat */
       background: #111;
       position: relative;
       overflow: hidden;
     }
-    .chat-container script {
-      width: 100% !important;
-      height: 100% !important;
-      border: none;
+
+    @media (min-width: 992px) {
+      .chat-container {
+        height: 600px; /* Taller on big screens */
+      }
     }
 
     #statusArea {
@@ -116,12 +120,6 @@
       margin: 20px 0;
       text-shadow: 0 0 20px rgba(255,77,77,0.5);
     }
-    .status-message {
-      font-size: 1.4rem;
-      color: #ddd;
-    }
-    .status-live { color: #4caf50 !important; }
-    .status-ended { color: #888 !important; }
 
     .permanent-noti {
       margin-top: 12px;
@@ -133,29 +131,13 @@
       transition: opacity 0.6s ease-in;
     }
 
-    .permanent-noti strong { color: #a5d8ff; }
-
-    #joinAlert {
-      background: linear-gradient(135deg, #6b48ff, #00ddeb) !important;
-      border-color: #8b5cf6 !important;
-      color: white !important;
-    }
-
-    #joinAlert a { color: #e0f7ff !important; text-decoration: underline; }
-
-    [data-bs-theme="light"] .permanent-noti {
-      background: linear-gradient(135deg, #e6f0ff, #d4e6ff);
-      border-color: #60a5fa;
-      color: #1e40af;
-    }
-
     .disclaimer {
       text-align: center;
       font-size: 0.85rem;
       padding: 20px 15px;
       margin-top: 30px;
       border-top: 1px solid #444;
-      max-width: 900px;
+      max-width: 1200px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -164,12 +146,6 @@
       color: #aaa;
       background: rgba(0,0,0,0.3);
       border-top-color: #444;
-    }
-
-    [data-bs-theme="light"] .disclaimer {
-      color: #555;
-      background: rgba(255,255,255,0.7);
-      border-top-color: #ccc;
     }
   </style>
 </head>
@@ -207,8 +183,7 @@
   </div>
 
   <div class="container-fluid main-content">
-    <div class="container mt-4">
-      <div class="row">
+    <div class="container-xl mt-4"> <div class="row">
         <div class="col-12">
           <div class="tip-container">
             <div class="alert alert-info" id="tipAlert">
@@ -224,7 +199,6 @@
               <strong>Join us</strong> on 
               <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener">Discord</a> and 
               <a href="https://t.me/+nqTL3Hx9NIAxZTRk" target="_blank" rel="noopener">Telegram</a> 
-              to get schedule updates, report site issues, or request streams!
             </div>
           </div>
 
@@ -244,22 +218,26 @@
             <p id="statusMessage" class="status-message">Loading event...</p>
           </div>
 
-          <div class="video-container">
-            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-presentation" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-            <div id="oplayer-container"></div>
-          </div>
+          <div class="row g-4 mt-2">
+            <div class="col-12 col-lg-8">
+              <div class="video-container" id="mainVideoContainer">
+                <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-presentation" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                <div id="oplayer-container"></div>
+              </div>
+              <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
+            </div>
 
-          <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
-
-          <div class="chat-wrapper">
-            <div class="chat-header">Live Chat</div>
-            <div class="chat-container">
-              <script id="cid0020000430640675904" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%; height: 100%;">
-                {"handle":"futbolxc","arch":"js","styles":{"a":"000000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"000000","l":"000000","m":"000000","n":"FFFFFF","p":"10","q":"000000","r":100,"t":0,"usricon":0.86,"surl":0,"allowpm":0,"cnrs":"0.76"}}
-              </script>
+            <div class="col-12 col-lg-4">
+              <div class="chat-wrapper">
+                <div class="chat-header">Live Chat</div>
+                <div class="chat-container">
+                  <script id="cid0020000430640675904" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%; height: 100%;">
+                    {"handle":"futbolxc","arch":"js","styles":{"a":"000000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"000000","l":"000000","m":"000000","n":"FFFFFF","p":"10","q":"000000","r":100,"t":0,"usricon":0.86,"surl":0,"allowpm":0,"cnrs":"0.76"}}
+                  </script>
+                </div>
+              </div>
             </div>
           </div>
-
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
         </div>
       </div>
@@ -272,7 +250,7 @@
       </footer>
 
       <div class="disclaimer">
-        We DO NOT host nor transmit any audiovisual content itself and DO NOT control nor influence such content. We cannot accept any liability for the content transmitted by others. Any responsibility for this content lies with those who host or transmit it. We are not affiliated nor claim to be affiliated with any of the owners of streams and/or videos. All content is copyright of their respective owners.
+        We DO NOT host nor transmit any audiovisual content itself and DO NOT control nor influence such content...
       </div>
     </div>
   </div>
@@ -370,7 +348,6 @@
         });
 
         playerInstance.on('error', (e) => {
-          console.error('JW Player error:', e);
           document.getElementById('errorContainer').classList.remove('d-none');
           document.getElementById('errorContainer').innerHTML = 'Stream failed – try another source or VPN';
         });
@@ -446,11 +423,10 @@
       } else {
         statusArea.style.display = 'block';
         startBtn.style.display = 'none';
-        document.querySelector('.video-container').style.display = 'none';
+        document.getElementById('mainVideoContainer').style.display = 'none';
         if (isEnded) {
           countdownEl.textContent = "";
           messageEl.textContent = "This event has ended";
-          messageEl.classList.add('status-ended');
         } else {
           countdownEl.textContent = formatTimeLeft(timeLeft);
           messageEl.textContent = "Stream has not started yet";
@@ -489,7 +465,7 @@
         setInterval(updatePreStreamStatus, 1000);
 
         startBtn.onclick = () => {
-          document.querySelector('.video-container').style.display = 'block';
+          document.getElementById('mainVideoContainer').style.display = 'block';
           document.getElementById('streamLinks').style.display = 'block';
           startBtn.style.display = 'none';
           document.getElementById('liveStreamTitle').classList.remove('d-none');
@@ -510,7 +486,7 @@
         else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
       });
 
-      // Notification cycle
+      // Notification logic
       const tipAlert = document.getElementById('tipAlert');
       const infoAlert = document.getElementById('infoAlert');
       const joinAlert = document.getElementById('joinAlert');
@@ -520,7 +496,7 @@
 
       const tipTimer = setInterval(() => {
         sec--;
-        timerEl.textContent = sec + 's';
+        if(timerEl) timerEl.textContent = sec + 's';
         if (sec <= 0) {
           clearInterval(tipTimer);
           tipAlert.classList.add('fade-out');
