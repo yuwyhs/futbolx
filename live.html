@@ -17,12 +17,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
-  <!-- Plyr + hls.js -->
-  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-  <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
 
-  <!-- Google Cast SDK -->
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
@@ -38,46 +34,6 @@
     .btn-fullscreen:hover {transform:scale(1.05);background:#e63939;}
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
-
-    /* Plyr theme */
-    #oplayer-container .plyr {
-      --plyr-color-main: #ff4d4d;
-      --plyr-control-bar-background: rgba(0,0,0,0.75);
-      --plyr-control-bar-background-hover: rgba(30,30,30,0.9);
-      --plyr-control-color: #ffffff;
-      --plyr-control-color-hover: #ff4d4d;
-      --plyr-range-fill-background: #ff4d4d;
-      --plyr-range-thumb-background: #ff4d4d;
-      --plyr-control-spacing: 12px;
-      --plyr-control-padding: 8px;
-      font-family: 'Kanit', sans-serif;
-      height: 100%;
-    }
-
-    /* Hide time/progress for live feel */
-    #oplayer-container .plyr__progress,
-    #oplayer-container .plyr__time + .plyr__time,
-    #oplayer-container .plyr__time--current,
-    #oplayer-container .plyr__time--duration,
-    #oplayer-container .plyr__time-divider {
-      display: none !important;
-    }
-
-    /* LIVE badge - top right */
-    #oplayer-container .plyr__video-wrapper::after {
-      content: "● LIVE";
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: #ff4d4d;
-      color: white;
-      font-size: 0.8rem;
-      font-weight: bold;
-      padding: 4px 10px;
-      border-radius: 12px;
-      z-index: 10;
-      box-shadow: 0 0 8px rgba(255,77,77,0.5);
-    }
 
     .live-title {
       text-align: center;
@@ -167,7 +123,6 @@
     .status-live { color: #4caf50 !important; }
     .status-ended { color: #888 !important; }
 
-    /* Notification alerts styling */
     .permanent-noti {
       margin-top: 12px;
       background: linear-gradient(135deg, #1e3a5f, #2a4a7a);
@@ -178,9 +133,7 @@
       transition: opacity 0.6s ease-in;
     }
 
-    .permanent-noti strong {
-      color: #a5d8ff;
-    }
+    .permanent-noti strong { color: #a5d8ff; }
 
     #joinAlert {
       background: linear-gradient(135deg, #6b48ff, #00ddeb) !important;
@@ -188,10 +141,7 @@
       color: white !important;
     }
 
-    #joinAlert a {
-      color: #e0f7ff !important;
-      text-decoration: underline;
-    }
+    #joinAlert a { color: #e0f7ff !important; text-decoration: underline; }
 
     [data-bs-theme="light"] .permanent-noti {
       background: linear-gradient(135deg, #e6f0ff, #d4e6ff);
@@ -199,17 +149,6 @@
       color: #1e40af;
     }
 
-    [data-bs-theme="light"] .permanent-noti strong {
-      color: #1e40af;
-    }
-
-    [data-bs-theme="light"] #joinAlert {
-      background: linear-gradient(135deg, #7c3aed, #06b6d4) !important;
-      border-color: #7c3aed !important;
-      color: white !important;
-    }
-
-    /* Disclaimer styling - visible in both themes */
     .disclaimer {
       text-align: center;
       font-size: 0.85rem;
@@ -231,16 +170,6 @@
       color: #555;
       background: rgba(255,255,255,0.7);
       border-top-color: #ccc;
-    }
-
-    /* Optional: make cast button more noticeable */
-    .plyr__control--cast {
-      color: #ff4d4d !important;
-    }
-    .plyr__control--cast:hover,
-    .plyr__control--cast[aria-pressed="true"] {
-      color: white !important;
-      background: rgba(255, 77, 77, 0.3) !important;
     }
   </style>
 </head>
@@ -282,20 +211,15 @@
       <div class="row">
         <div class="col-12">
           <div class="tip-container">
-            <!-- Tip message (shown once, 10s countdown) -->
             <div class="alert alert-info" id="tipAlert">
               <strong>Tip:</strong> For an ad-free experience, consider installing an ad blocker like
               <a href="https://ublockorigin.com" target="_blank" rel="noopener">uBlock Origin</a> or
               <a href="https://adguard.com" target="_blank" rel="noopener">AdGuard</a>.
               <span id="countdownTimer">10s</span>
             </div>
-
-            <!-- Permanent Info message -->
             <div class="alert alert-info permanent-noti d-none" id="infoAlert">
               <strong>Info:</strong> If stream is not loading on your end, try using a VPN to bypass your ISP restrictions.
             </div>
-
-            <!-- Join Discord & Telegram message (cycles with Info every 10s) -->
             <div class="alert alert-info permanent-noti d-none" id="joinAlert">
               <strong>Join us</strong> on 
               <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener">Discord</a> and 
@@ -327,7 +251,6 @@
 
           <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
 
-          <!-- Chatango -->
           <div class="chat-wrapper">
             <div class="chat-header">Live Chat</div>
             <div class="chat-container">
@@ -348,7 +271,6 @@
         </ul>
       </footer>
 
-      <!-- Disclaimer -->
       <div class="disclaimer">
         We DO NOT host nor transmit any audiovisual content itself and DO NOT control nor influence such content. We cannot accept any liability for the content transmitted by others. Any responsibility for this content lies with those who host or transmit it. We are not affiliated nor claim to be affiliated with any of the owners of streams and/or videos. All content is copyright of their respective owners.
       </div>
@@ -360,48 +282,13 @@
   <script src="/assets/js/auth.js"></script>
 
   <script>
-    // ────────────────────────────────────────────────────────────────
-    // Google Cast initialization
-    // ────────────────────────────────────────────────────────────────
-    window['__onGCastApiAvailable'] = function(isAvailable) {
-      if (isAvailable) {
-        initializeCastApi();
-      }
-    };
-
-    function initializeCastApi() {
-      try {
-        const sessionRequest = new chrome.cast.SessionRequest(
-          chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
-        );
-        const apiConfig = new chrome.cast.ApiConfig(
-          sessionRequest,
-          () => {}, // sessionListener
-          () => {}, // receiverListener
-          chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
-        );
-        chrome.cast.initialize(apiConfig, () => {
-          console.log("Google Cast SDK initialized");
-        }, (err) => {
-          console.error("Cast initialization failed", err);
-        });
-      } catch (e) {
-        console.error("Cast setup error", e);
-      }
-    }
-
-    // ────────────────────────────────────────────────────────────────
-    // Rest of your original script
-    // ────────────────────────────────────────────────────────────────
-
-    window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
-
-    let player = null;
+    let playerInstance = null;
     let streamData = null;
     let eventStartTime = null;
     let eventEndTime = null;
     let streamStarted = false;
 
+    // Theme logic
     const htmlEl = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -449,99 +336,44 @@
       try {
         const r = await fetch(url, {method:'HEAD'});
         const ct = r.headers.get('content-type') || '';
-        return ct.includes('application/vnd.apple.mpegurl') || ct.includes('mpegurl');
+        return ct.includes('mpegurl');
       } catch { return false; }
     }
 
     async function playStream(url) {
-      if (player) {
-        if (player.destroy) player.destroy();
-        player = null;
+      if (playerInstance) {
+        playerInstance.remove();
+        playerInstance = null;
       }
 
-      const usePlyr = await isM3U8(url);
+      const useJW = await isM3U8(url);
 
-      if (usePlyr) {
+      if (useJW) {
         document.getElementById('embedPlayer').style.display = 'none';
         const container = document.getElementById('oplayer-container');
         container.style.display = 'block';
-        container.innerHTML = '<video id="plyr-player" playsinline controls preload="metadata"></video>';
+        container.innerHTML = '<div id="jw-player"></div>';
 
-        const video = document.getElementById('plyr-player');
-        let hls = null;
-
-        if (Hls.isSupported()) {
-          hls = new Hls({
-            liveSyncDurationCount: 3,
-            maxBufferLength: 20,
-            lowLatencyMode: true
-          });
-          hls.loadSource(url);
-          hls.attachMedia(video);
-
-          hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            video.play().catch(err => console.log('Autoplay blocked:', err));
-            setTimeout(() => {
-              if (player) player.update();
-
-              const hasQuality = hls.levels && hls.levels.length > 1;
-              const hasCaptions = player.captions && player.captions.length > 0;
-              if (!hasQuality && !hasCaptions) {
-                document.querySelector('.plyr__control--settings')?.style.setAttribute('style', 'display:none !important');
-              }
-            }, 800);
-          });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          video.src = url;
-          video.addEventListener('loadedmetadata', () => {
-            video.play().catch(err => console.log('Autoplay blocked:', err));
-          });
-        }
-
-        player = new Plyr('#plyr-player', {
-          autoplay: true,
-          muted: true,
-          volume: 1,
-          controls: [
-            'play-large',
-            'play',
-            'mute',
-            'volume',
-            'captions',
-            'settings',
-            'pip',
-            'airplay',
-            'cast',           // ← Cast button enabled here
-            'fullscreen'
-          ],
-          settings: ['captions', 'quality'],
-          quality: { default: 'auto', options: ['auto', 1080, 720, 480, 360] },
-          captions: { active: true },
-          tooltips: { controls: true, seek: true },
-          hideControls: true,
-          invertTime: false,
-          cast: {
-            enabled: true,
-            appId: null     // default Chromecast receiver
-          }
+        playerInstance = jwplayer("jw-player").setup({
+          file: url,
+          autostart: true,
+          mute: true,
+          width: "100%",
+          aspectratio: "16:9",
+          cast: {}
         });
 
-        player.on('error', (event) => {
-          console.error('Plyr error:', event.detail);
-          document.getElementById('errorContainer').classList.remove('d-none');
-          document.getElementById('errorContainer').innerHTML = 'Stream failed – try another source or VPN';
-        });
-
-        player.on('playing', () => {
+        playerInstance.on('ready', () => {
+          playerInstance.setMute(false);
           clearError();
           document.getElementById('fullscreenBtn').classList.remove('d-none');
         });
-        player.on('waiting', () => console.log('Buffering...'));
 
-        setTimeout(() => {
-          const pipBtn = document.querySelector('.plyr__control--pip');
-          if (pipBtn) pipBtn.setAttribute('title', 'Picture-in-Picture (tap to float video)');
-        }, 1000);
+        playerInstance.on('error', (e) => {
+          console.error('JW Player error:', e);
+          document.getElementById('errorContainer').classList.remove('d-none');
+          document.getElementById('errorContainer').innerHTML = 'Stream failed – try another source or VPN';
+        });
 
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
@@ -565,39 +397,20 @@
         const junk = Math.random().toString(36).slice(2, 10);
         const payload = btoa(realUrl) + '||' + junk;
         const protectedValue = btoa(payload);
-        
         const title = s.title || `Stream ${i+1}`;
-        return `
-          <button class="btn btn-stream ${i===0?'active':''}" 
-                  data-p="${protectedValue}">
-            ${title}
-          </button>`;
+        return `<button class="btn btn-stream ${i===0?'active':''}" data-p="${protectedValue}">${title}</button>`;
       }).join('');
 
       container.addEventListener('click', e => {
         const btn = e.target.closest('.btn-stream');
         if (!btn) return;
-
-        const protectedStr = btn.dataset.p;
-        
         try {
-          const payload = atob(protectedStr);
-          const parts = payload.split('||');
-          if (parts.length !== 2) throw new Error('Invalid format');
-          
-          const realUrl = atob(parts[0]);
-          
+          const realUrl = atob(atob(btn.dataset.p).split('||')[0]);
           playStream(realUrl);
-          
           document.getElementById('currentStreamName').textContent = btn.textContent.trim();
-          
           container.querySelectorAll('.btn-stream').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
-        } catch (err) {
-          console.error('Stream decode error:', err);
-          document.getElementById('errorContainer').classList.remove('d-none');
-          document.getElementById('errorContainer').innerHTML = 'Failed to load stream';
-        }
+        } catch (err) { console.error('Stream decode error:', err); }
       });
     }
 
@@ -617,9 +430,7 @@
       const countdownEl = document.getElementById('countdownDisplay');
       const messageEl = document.getElementById('statusMessage');
       const startBtn = document.getElementById('startLivestream');
-
       if (!eventStartTime || !eventEndTime) return;
-
       const timeLeft = eventStartTime - now;
       const isLive = now >= eventStartTime && now <= eventEndTime;
       const isEnded = now > eventEndTime;
@@ -629,7 +440,6 @@
         startBtn.style.display = 'none';
         return;
       }
-
       if (isLive) {
         statusArea.style.display = 'none';
         startBtn.style.display = 'inline-block';
@@ -637,10 +447,6 @@
         statusArea.style.display = 'block';
         startBtn.style.display = 'none';
         document.querySelector('.video-container').style.display = 'none';
-        document.getElementById('streamLinks').style.display = 'none';
-        document.getElementById('fullscreenBtn').classList.add('d-none');
-        document.getElementById('liveStreamTitle').classList.add('d-none');
-
         if (isEnded) {
           countdownEl.textContent = "";
           messageEl.textContent = "This event has ended";
@@ -660,53 +466,24 @@
       try {
         const catListRes = await fetchWithRetry('/api/stream');
         const categoryNames = catListRes.categories || [];
-
-        if (!Array.isArray(categoryNames) || categoryNames.length === 0) {
-          throw new Error("No categories defined");
-        }
-
-        const fetchPromises = categoryNames.map(cat => 
-          fetchWithRetry(`/api/${cat}.json`)
-            .catch(err => {
-              console.warn(`Failed to load /api/${cat}.json`, err);
-              return { success: true, streams: [] };
-            })
-        );
-
+        const fetchPromises = categoryNames.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ success: true, streams: [] })));
         const allCategoryData = await Promise.all(fetchPromises);
-
         let foundEvent = null;
 
         for (const data of allCategoryData) {
-          if (!data.success || !Array.isArray(data.streams)) continue;
+          if (!data.success) continue;
           for (const catObj of data.streams) {
-            if (!Array.isArray(catObj.streams)) continue;
             const match = catObj.streams.find(ev => ev.uri_name === uriName);
-            if (match) {
-              foundEvent = match;
-              break;
-            }
+            if (match) { foundEvent = match; break; }
           }
           if (foundEvent) break;
         }
 
-        if (!foundEvent) {
-          throw new Error('Event not found');
-        }
-
+        if (!foundEvent) throw new Error('Event not found');
         titleEl.textContent = foundEvent.name;
         streamData = foundEvent;
-
-        try {
-          eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
-          eventEndTime = foundEvent.ends_at 
-            ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 
-            : eventStartTime + 3 * 3600;
-        } catch (e) {
-          console.warn('Date parsing failed, using fallback', e);
-          eventStartTime = Date.now() / 1000;
-          eventEndTime = eventStartTime + 3 * 3600;
-        }
+        eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
+        eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 3 * 3600;
 
         updatePreStreamStatus();
         setInterval(updatePreStreamStatus, 1000);
@@ -715,29 +492,14 @@
           document.querySelector('.video-container').style.display = 'block';
           document.getElementById('streamLinks').style.display = 'block';
           startBtn.style.display = 'none';
-          document.getElementById('fullscreenBtn').classList.remove('d-none');
-          
           document.getElementById('liveStreamTitle').classList.remove('d-none');
           document.getElementById('currentStreamName').textContent = foundEvent.name;
-
           const firstUrl = foundEvent.streams?.[0]?.url;
-          if (firstUrl) {
-            playStream(firstUrl);
-            populateStreamButtons(foundEvent);
-          } else {
-            document.getElementById('errorContainer').classList.remove('d-none');
-            document.getElementById('errorContainer').innerHTML = 'No stream URLs available';
-          }
-
+          if (firstUrl) { playStream(firstUrl); populateStreamButtons(foundEvent); }
           streamStarted = true;
         };
-
       } catch (err) {
-        console.error('Live page error:', err);
         titleEl.textContent = 'Stream Not Found';
-        document.getElementById('statusMessage').textContent = 'This stream is not available.';
-        document.getElementById('errorContainer').classList.remove('d-none');
-        document.getElementById('errorContainer').innerHTML = `Event not found or unavailable: ${err.message}`;
       }
 
       document.getElementById('fullscreenBtn').addEventListener('click', () => {
@@ -746,66 +508,40 @@
           : document.getElementById('embedPlayer');
         if (container.requestFullscreen) container.requestFullscreen();
         else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
-        else if (container.msRequestFullscreen) container.msRequestFullscreen();
       });
 
-      // ────────────────────────────────────────────────────────────────
-      // Notifications: Tip (10s) → Info → Cycle Join/Info every 10s
-      // ────────────────────────────────────────────────────────────────
-
+      // Notification cycle
       const tipAlert = document.getElementById('tipAlert');
       const infoAlert = document.getElementById('infoAlert');
       const joinAlert = document.getElementById('joinAlert');
       const timerEl = document.getElementById('countdownTimer');
-
       let sec = 10;
       let showJoin = false;
 
-      // Tip countdown (only once per reload)
       const tipTimer = setInterval(() => {
         sec--;
         timerEl.textContent = sec + 's';
-
         if (sec <= 0) {
           clearInterval(tipTimer);
           tipAlert.classList.add('fade-out');
-
           setTimeout(() => {
             tipAlert.style.display = 'none';
-
-            // Show Info first
             infoAlert.classList.remove('d-none');
-            infoAlert.style.opacity = '0';
-            infoAlert.style.transition = 'opacity 0.6s ease-in';
-            setTimeout(() => { infoAlert.style.opacity = '1'; }, 50);
-
-            // Cycle between Info and Join every 10 seconds
+            infoAlert.style.opacity = '1';
             setInterval(() => {
               if (showJoin) {
                 infoAlert.style.opacity = '0';
-                setTimeout(() => {
-                  infoAlert.classList.add('d-none');
-                  joinAlert.classList.remove('d-none');
-                  joinAlert.style.opacity = '0';
-                  joinAlert.style.transition = 'opacity 0.6s ease-in';
-                  setTimeout(() => { joinAlert.style.opacity = '1'; }, 50);
-                }, 600);
+                setTimeout(() => { infoAlert.classList.add('d-none'); joinAlert.classList.remove('d-none'); joinAlert.style.opacity = '1'; }, 600);
               } else {
                 joinAlert.style.opacity = '0';
-                setTimeout(() => {
-                  joinAlert.classList.add('d-none');
-                  infoAlert.classList.remove('d-none');
-                  infoAlert.style.opacity = '0';
-                  infoAlert.style.transition = 'opacity 0.6s ease-in';
-                  setTimeout(() => { infoAlert.style.opacity = '1'; }, 50);
-                }, 600);
+                setTimeout(() => { joinAlert.classList.add('d-none'); infoAlert.classList.remove('d-none'); infoAlert.style.opacity = '1'; }, 600);
               }
               showJoin = !showJoin;
-            }, 10000); // 10 seconds per message
+            }, 10000);
           }, 600);
         }
       }, 1000);
     });
   </script>
 </body>
-  </html>
+</html>
