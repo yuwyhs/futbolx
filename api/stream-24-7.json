@@ -37,14 +37,14 @@
         "always_live": 1
       },
       {
-        "name": "CBS Sports Network",
-        "uri_name": "cbs-sports-network",
+        "name": "Sky Sports News",
+        "uri_name": "sky-sports-news",
         "tag": "Sports",
-        "poster": "https://www.cabletv.com/app/uploads/2024/09/CBS-Sports-Network-CTV-jpg.webp",
+        "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGskAJmHOwSj7jiRWINDE_UOfgNzogS6ayOxbqjPU-Xw&s=10",
         "streams": [
           {
             "label": "Stream 1",
-            "url": "https://cdn-live.tv/api/v1/channels/player/?name=CBS%20Sports%20Network&code=us&user=cdnlivetv&plan=free"
+            "url": "https://futbol-x.fuckchina.online/skysports/index.m3u8"
           }
         ],
         "always_live": 1
