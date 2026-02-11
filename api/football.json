@@ -6,62 +6,77 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Chelsea vs Leeds",
-          "uri_name": "chelsea-vs-leeds",
-          "poster": "https://i.postimg.cc/TY4pPFS4/1770727785908.png",
+          "name": "Man City vs Fulham",
+          "uri_name": "man-city-vs-fulham",
+          "poster": "https://i.postimg.cc/RVcyhNvf/1770807267339.png",
           "tag": "EPL",
-          "starts_at": "2026-02-10T22:30:00",
-          "ends_at": "2026-02-11T00:40:00",
+          "starts_at": "2026-02-11T22:30:00",
+          "ends_at": "2026-02-12T00:40:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://futbol-x.fuckchina.online/che/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-man-city-vs-fulham/1"
             }
           ]
         },
         {
-          "name": "Tottenham vs Newcastle",
-          "uri_name": "tottenham-vs-newcastle",
-          "poster": "https://i.postimg.cc/HshVLRKM/1770727817424.png",
+          "name": "Aston Villa vs Brighton",
+          "uri_name": "aston-villa-vs-brighton",
+          "poster": "https://i.postimg.cc/9Xwv3LSs/1770807284651.png",
           "tag": "EPL",
-          "starts_at": "2026-02-10T22:30:00",
-          "ends_at": "2026-02-11T00:40:00",
+          "starts_at": "2026-02-11T22:30:00",
+          "ends_at": "2026-02-12T00:40:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://futbol-x.fuckchina.online/totte/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-aston-villa-vs-brighton/1"
             }
           ]
         },
         {
-          "name": "Everton vs Bournemouth",
-          "uri_name": "everton-vs-bournemouth",
-          "poster": "https://i.postimg.cc/ncPCLg5w/1770727794816.png",
+          "name": "Crystal Palace vs Burnley",
+          "uri_name": "crystal-palace-vs-burnley",
+          "poster": "https://i.postimg.cc/Mpq4QqGh/1770807291933.png",
           "tag": "EPL",
-          "starts_at": "2026-02-10T22:30:00",
-          "ends_at": "2026-02-11T00:40:00",
+          "starts_at": "2026-02-11T22:30:00",
+          "ends_at": "2026-02-12T00:40:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://futbol-x.fuckchina.online/ever/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-crystal-palace-vs-burnley/1"
             }
           ]
         },
         {
-          "name": "West Ham vs Man United",
-          "uri_name": "west-ham-vs-man-united",
-          "poster": "https://i.postimg.cc/28KV5MJc/1770727777875.png",
+          "name": "Nottingham Forest vs Wolves",
+          "uri_name": "nottingham-forest-vs-wolves",
+          "poster": "https://i.postimg.cc/jdzm2LRf/1770807274833.png",
           "tag": "EPL",
-          "starts_at": "2026-02-10T23:15:00",
-          "ends_at": "2026-02-11T01:20:00",
+          "starts_at": "2026-02-11T22:30:00",
+          "ends_at": "2026-02-12T00:40:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://futbol-x.fuckchina.online/manu/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-nottingham-forest-vs-wolves/1"
+            }
+          ]
+        },
+        {
+          "name": "Sunderland vs Liverpool",
+          "uri_name": "sunderland-vs-liverpool",
+          "poster": "https://i.postimg.cc/VvtTjNnJ/1770807240456.png",
+          "tag": "EPL",
+          "starts_at": "2026-02-11T23:15:00",
+          "ends_at": "2026-02-12T01:20:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-sunderland-vs-liverpool/1"
             }
           ]
         }
