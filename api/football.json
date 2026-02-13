@@ -31,7 +31,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "http://damn.futbol-x.site:8080/dor/index.m3u8"
+              "url": "https://damn.futbol-x.site/dor/index.m3u8"
             }
           ]
         },
