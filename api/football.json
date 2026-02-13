@@ -6,32 +6,77 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Brentford vs Arsenal",
-          "uri_name": "brentford-vs-arsenal",
-          "poster": "https://i.postimg.cc/SKjmrVjZ/1770862281718.png",
-          "tag": "EPL",
-          "starts_at": "2026-02-12T23:00:00",
-          "ends_at": "2026-02-13T01:05:00",
+          "name": "Stade Rennais vs PSG",
+          "uri_name": "stade-rennais-vs-psg",
+          "poster": "https://i.postimg.cc/8znqwbL8/1770973723763.png",
+          "tag": "Ligue 1",
+          "starts_at": "2026-02-13T21:00:00",
+          "ends_at": "2026-02-13T23:05:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://futbol-x.fuckchina.online/ars/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-stade-rennais-vs-psg/1"
             }
           ]
         },
         {
-          "name": "Atletico Madrid vs Barcelona",
-          "uri_name": "atletico-madrid-vs-barcelona",
-          "poster": "https://i.postimg.cc/yNW7PnWr/1770862273457.png",
-          "tag": "Copa Del Rey",
-          "starts_at": "2026-02-12T23:00:00",
-          "ends_at": "2026-02-13T01:05:00",
+          "name": "Dortmund vs Mainz 05",
+          "uri_name": "dortmund-vs-mainz-05",
+          "poster": "https://i.postimg.cc/4xFrw1VD/1770973712834.png",
+          "tag": "Bundesliga",
+          "starts_at": "2026-02-13T22:30:00",
+          "ends_at": "2026-02-14T00:40:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://futbol-x.fuckchina.online/barca/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-dortmund-vs-mainz-05/1"
+            }
+          ]
+        },
+        {
+          "name": "Pisa vs AC Milan",
+          "uri_name": "pisa-vs-ac-milan",
+          "poster": "https://i.postimg.cc/vZmJWKxY/1770973695606.png",
+          "tag": "Serie A",
+          "starts_at": "2026-02-13T22:45:00",
+          "ends_at": "2026-02-14T00:50:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-pisa-vs-ac-milan/1"
+            }
+          ]
+        },
+        {
+          "name": "Hull City vs Chelsea",
+          "uri_name": "hull-city-vs-chelsea",
+          "poster": "https://i.postimg.cc/HkF4zSsK/1770977504136.png",
+          "tag": "FA Cup",
+          "starts_at": "2026-02-13T22:45:00",
+          "ends_at": "2026-02-14T00:50:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-hull-city-vs-chelsea/1"
+            }
+          ]
+        },
+        {
+          "name": "Monaco vs Nantes",
+          "uri_name": "monaco-vs-nantes",
+          "poster": "https://i.postimg.cc/cL5VTcwP/1770973703480.png",
+          "tag": "Ligue 1",
+          "starts_at": "2026-02-13T23:05:00",
+          "ends_at": "2026-02-14T00:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-monaco-vs-nantes/1"
             }
           ]
         }
