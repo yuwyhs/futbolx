@@ -3,37 +3,19 @@
   "category": "Anime",
   "streams": [
     {
-      "name": "Animax",
-      "uri_name": "animax",
+      "name": "Anime TV",
+      "uri_name": "anime-tv",
       "tag": "Anime",
       "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvYH2wGCSxxZj4mZW0KnHbQMGXEGpTn1WWT_Wje5nNhivpLKwq5fWfzQ1_&s=10",
       "streams": [
         {
           "label": "Animax Korean",
           "url": "https://ads.its-newid.net/api/manifest.m3u8?tp=samsung_tvplus&channel_name=animax%EC%9A%94%EB%A6%AC%EC%99%95%EB%B9%84%EB%A3%A1%EB%8D%94%EB%A7%88%EC%8A%A4%ED%84%B0&channel_id=newid_024&apikey=b97c7a7d0c82424bb607e141ef215779&auth=e9963ef1-e25f558f-49451fd9-38ec4fb9&ads.live=[CONTENT_LIVE]&ads.device_did=%7BPSID%7D&ads.ifa=[IFA]&ads.ifatype=[IFA_TYPE]&ads.lat=[LMT]&ads.donotsell=[DNS]&ads.ip=[IP]&ads.gdpr=[GDPR]&ads.gdprconsent=[GDPR_CONSENT]&ads.country=[COUNTRY]&ads.us_privacy=[US_PRIVACY]&ads.appstoreurl=[APP_STOREURL]&ads.bundleid=[APP_BUNDLE]&ads.app.name=%7BAPP_NAME%7D&ads.appversion=[APP_VERSION]&ads.devicetype=[DEVICE_TYPE]&ads.devicemake=[DEVICE_MAKE]&ads.devicemodel=[DEVICE_MODEL]&ads.targetad=[TARGETAD_ALLOWED]&ads.content_title=[PROGRAM_TITLE]&ads.content_series=[SERIES_TITLE]&ads.content_season=[SEASON_TITLE]&ads.content_episode=[EPISODE_NO]&ads.content_length=[CONTENT_LENGTH]&ads.device.dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&nh=true&ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&ads.ssai_vendor=SSSLIVE&ads.service_id=KRBC3200001VC"
-        }
-      ],
-      "always_live": 1
-    },
-    {
-      "name": "Anime Vision Classic",
-      "uri_name": "anime-vision-classic",
-      "tag": "Anime",
-      "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvYH2wGCSxxZj4mZW0KnHbQMGXEGpTn1WWT_Wje5nNhivpLKwq5fWfzQ1_&s=10",
-      "streams": [
+        },
         {
-          "label": "Stream 1",
+          "label": "Anime Vision Classic",
           "url": "https://d82pyvmcw2kdc.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-swfivzrzwamaq/live/fast-channel-animevisionclassics-efc8dc6d/fast-channel-animevisionclassics-efc8dc6d.m3u8?ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&ads.consent=%7BTC_STRING%7D&ads.ssai_vendor=SSSLIVE&ads.service_id=ES3000288I"
-        }
-      ],
-      "always_live": 1
-    },
-    {
-      "name": "Crunchyroll",
-      "uri_name": "crunchyroll",
-      "tag": "Anime",
-      "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvYH2wGCSxxZj4mZW0KnHbQMGXEGpTn1WWT_Wje5nNhivpLKwq5fWfzQ1_&s=10",
-      "streams": [
+        },
         {
           "label": "Crunchyroll Live",
           "url": "https://a3c4ecbd.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/TEdfQ3J1bmNoeXJvbGxfSExT/playlist.m3u8"
