@@ -1,37 +1,139 @@
 {
   "success": true,
-  "categories": [
-    {
-      "name": "Sports",
-      "path": "/api/24-7/sports.json"
-    },
-    {
-      "name": "Entertainment",
-      "path": "/api/24-7/entertainment.json"
-    },
-    {
-      "name": "Kids",
-      "path": "/api/24-7/kids.json"
-    },
-    {
-      "name": "Music",
-      "path": "/api/24-7/music.json"
-    },
-    {
-      "name": "News",
-      "path": "/api/24-7/news.json"
-    },
-    {
-      "name": "Religion",
-      "path": "/api/24-7/religion.json"
-    },
-    {
-      "name": "Anime",
-      "path": "/api/24-7/anime.json"
-    },
-    {
-      "name": "Movies",
-      "path": "/api/24-7/movies.json"
-    }
-  ]
+  "streams": {
+    "Sports": [
+      {
+        "name": "NBA Tv",
+        "uri_name": "nba-tv",
+        "tag": "NBA",
+        "poster": "https://www.basketusa.com/app/uploads/2019/11/2208453.jpg",
+        "streams": [
+          {
+            "label": "Nba Tv Usa",
+            "url": "https://damn.futbol-x.site/psg/embed.html"
+          },
+          {
+            "label": "Stream 2",
+            "url": "https://damn.futbol-x.site/psg/index.m3u8?token=psg-test-2026-finest-1402"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Goal Tv",
+        "uri_name": "goal-tv",
+        "tag": "Sports",
+        "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAANmuET_eYcvdWFygws63EIYSUofNOMfsjA&s",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://streams2.sofast.tv/sofastplayout/WiseM3U8_1/master.m3u8"
+          },
+          {
+            "label": "Stream 2",
+            "url": "https://stream.futbol-x.site/sky/index.m3u8"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Sky Sports News",
+        "uri_name": "sky-sports-news",
+        "tag": "Sports",
+        "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGskAJmHOwSj7jiRWINDE_UOfgNzogS6ayOxbqjPU-Xw&s=10",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://futbol-x.fuckchina.online/skysports/index.m3u8"
+          }
+        ],
+        "always_live": 1
+      }
+    ],
+    "Entertainment": [
+      {
+        "name": "Swimrewind",
+        "uri_name": "swimrewind",
+        "tag": "Entertainment",
+        "poster": "https://static.wixstatic.com/media/80923f_8c41cc922b46429885d8a5700a557ac6~mv2.png/v1/fill/w_980,h_549,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/80923f_8c41cc922b46429885d8a5700a557ac6~mv2.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://swimrewind.com/hls/stream.m3u8"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Comedy Central",
+        "uri_name": "comedy-central",
+        "tag": "Comedy",
+        "poster": "https://images.paramount.tech/uri/mgid:arc:imageassetref:en-gb.ws.cc.co.uk:659465e0-b6ff-416d-98e2-a9969431b816?quality=0.7&gen=ntrn&format=webp&width=320",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://fl1.moveonjoy.com/Comedy_TV/index.m3u8"
+          }
+        ],
+        "always_live": 1
+      }
+    ],
+    "Kids": [
+      {
+        "name": "Nickelodeon",
+        "uri_name": "nickelodeon",
+        "tag": "Cartoons",
+        "poster": "https://cdn.mos.cms.futurecdn.net/u3xQKM9WfmqKc8FPXbcqyY.jpg",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://stream.futbol-x.site/test/index.m3u8"
+          }
+        ],
+        "always_live": 1
+      }
+    ],
+    "Music": [
+      {
+        "name": "MTV Live",
+        "uri_name": "mtv-live",
+        "tag": "Music",
+        "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXvbNshlpj4xvKcWDuEGM2AbgKL9-eMwOWqQ&s",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://fl1.moveonjoy.com/MTV_LIVE/index.m3u8"
+          }
+        ],
+        "always_live": 1
+      }
+    ],
+    "Movies VOD": [],
+    "News": [],
+    "Religion": [],
+    "Anime": [
+      {
+        "name": "Anime Channel",
+        "uri_name": "anime-channel",
+        "tag": "Anime",
+        "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvYH2wGCSxxZj4mZW0KnHbQMGXEGpTn1WWT_Wje5nNhivpLKwq5fWfzQ1_&s=10",
+        "streams": [
+          {
+            "label": "Animax",
+            "url": "https://ads.its-newid.net/api/manifest.m3u8?tp=samsung_tvplus&channel_name=animax%EC%9A%94%EB%A6%AC%EC%99%95%EB%B9%84%EB%A3%A1%EB%8D%94%EB%A7%88%EC%8A%A4%ED%84%B0&channel_id=newid_024&apikey=b97c7a7d0c82424bb607e141ef215779&auth=e9963ef1-e25f558f-49451fd9-38ec4fb9&ads.live=[CONTENT_LIVE]&ads.device_did=%7BPSID%7D&ads.ifa=[IFA]&ads.ifatype=[IFA_TYPE]&ads.lat=[LMT]&ads.donotsell=[DNS]&ads.ip=[IP]&ads.gdpr=[GDPR]&ads.gdprconsent=[GDPR_CONSENT]&ads.country=[COUNTRY]&ads.us_privacy=[US_PRIVACY]&ads.appstoreurl=[APP_STOREURL]&ads.bundleid=[APP_BUNDLE]&ads.app.name=%7BAPP_NAME%7D&ads.appversion=[APP_VERSION]&ads.devicetype=[DEVICE_TYPE]&ads.devicemake=[DEVICE_MAKE]&ads.devicemodel=[DEVICE_MODEL]&ads.targetad=[TARGETAD_ALLOWED]&ads.content_title=[PROGRAM_TITLE]&ads.content_series=[SERIES_TITLE]&ads.content_season=[SEASON_TITLE]&ads.content_episode=[EPISODE_NO]&ads.content_length=[CONTENT_LENGTH]&ads.device.dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&nh=true&ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&ads.ssai_vendor=SSSLIVE&ads.service_id=KRBC3200001VC"
+          },
+          {
+            "label": "Anime Vision Classic",
+            "url": "https://d82pyvmcw2kdc.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-swfivzrzwamaq/live/fast-channel-animevisionclassics-efc8dc6d/fast-channel-animevisionclassics-efc8dc6d.m3u8?ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&ads.consent=%7BTC_STRING%7D&ads.ssai_vendor=SSSLIVE&ads.service_id=ES3000288I"
+          },
+          {
+            "label": "Crunchyroll",
+            "url": "https://a3c4ecbd.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/TEdfQ3J1bmNoeXJvbGxfSExT/playlist.m3u8"
+          }
+        ],
+        "always_live": 1
+      }
+    ],
+    "Movies Live": []
+  }
 }
