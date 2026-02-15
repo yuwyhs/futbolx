@@ -10,8 +10,8 @@
           "uri_name": "le-havre-vs-toulouse",
           "poster": "https://i.postimg.cc/G9whym5W/1771155596872.png",
           "tag": "Ligue 1",
-          "starts_at": "2026-02-15T17:00:00",
-          "ends_at": "2026-02-15T19:05:00",
+          "starts_at": "2026-02-14T17:00:00",
+          "ends_at": "2026-02-14T19:05:00",
           "always_live": 0,
           "streams": [
             {
@@ -31,7 +31,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-rayo-vallecano-vs-atletico-madrid/1"
+              "url": "https://damn.futbol-x.site/atleti/index.m3u8"
             }
           ]
         },
@@ -40,8 +40,8 @@
           "uri_name": "lorient-vs-angers",
           "poster": "https://i.postimg.cc/3NDxNvn9/1771155575138.png",
           "tag": "Ligue 1",
-          "starts_at": "2026-02-15T19:15:00",
-          "ends_at": "2026-02-15T21:22:00",
+          "starts_at": "2026-02-14T19:15:00",
+          "ends_at": "2026-02-14T21:22:00",
           "always_live": 0,
           "streams": [
             {
@@ -55,8 +55,8 @@
           "uri_name": "fc-metz-vs-auxerre",
           "poster": "https://i.postimg.cc/C5fx5qmq/1771155566446.png",
           "tag": "Ligue 1",
-          "starts_at": "2026-02-15T19:15:00",
-          "ends_at": "2026-02-15T21:22:00",
+          "starts_at": "2026-02-14T19:15:00",
+          "ends_at": "2026-02-14T21:22:00",
           "always_live": 0,
           "streams": [
             {
@@ -76,7 +76,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-arsenal-vs-wigan-athletic/1"
+              "url": "https://damn.futbol-x.site/ars/index.m3u8"
             }
           ]
         },
@@ -91,7 +91,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-napoli-vs-roma/1"
+              "url": "https://damn.futbol-x.site/napoli/index.m3u8"
             }
           ]
         },
@@ -106,7 +106,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-lyon-vs-nice/1"
+              "url": "https://damn.futbol-x.site/lyon/index.m3u8"
             }
           ]
         }
