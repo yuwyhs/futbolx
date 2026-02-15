@@ -20,10 +20,16 @@
     {
       "src": "api/*.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "*.json",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/api/(.+\\.json)", "dest": "/api/$1" },
+    { "src": "/api/stream", "dest": "/api/stream.json" },
     { "src": "/api/stream-24-7", "dest": "/api/stream-24-7.json" },
     { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/auth/login", "dest": "/auth/login.html" },
