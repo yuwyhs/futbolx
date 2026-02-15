@@ -202,29 +202,17 @@
         const response = await fetch('/api/stream-24-7');
         const data = await response.json();
         
-        if (data && data.success && data.categories) {
+        if (data && data.success && data.streams) {
           allStreams = [];
-          
-          // Map each category to a fetch request
-          const fetchPromises = data.categories.map(cat => 
-            fetch(cat.path)
-              .then(res => res.json())
-              .then(catData => {
-                if (catData.streams) {
-                  catData.streams.forEach(s => {
-                    allStreams.push({ ...s, category: cat.name });
-                  });
-                }
-              })
-              .catch(err => console.error(`Error loading category ${cat.name}:`, err))
-          );
-
-          // Wait for all individual category files to load
-          await Promise.all(fetchPromises);
+          Object.keys(data.streams).forEach(cat => {
+            data.streams[cat].forEach(stream => {
+              allStreams.push({ ...stream, category: cat });
+            });
+          });
           renderStreams(allStreams);
         }
       } catch (error) {
-        console.error("Error loading index:", error);
+        console.error("Error loading content:", error);
       }
     }
 
