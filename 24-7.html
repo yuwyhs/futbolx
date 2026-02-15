@@ -197,24 +197,35 @@
       document.querySelectorAll('.card').forEach(card => observer.observe(card));
     }
 
-    function loadContent() {
-      fetch('/api/stream-24-7')
-        .then(res => res.json())
-        .then(data => {
-          if (data && data.success) {
-            allStreams = [];
-            // This logic allows you to either have one big object or separate path links
-            if (data.streams) {
-              Object.keys(data.streams).forEach(cat => {
-                data.streams[cat].forEach(s => allStreams.push({ ...s, category: cat }));
-              });
-            } else if (data.categories) {
-                // If you use the modular "Master Index" approach later
-                console.log("Categories mode active");
-            }
-            renderStreams(allStreams);
-          }
-        });
+    async function loadContent() {
+      try {
+        const response = await fetch('/api/stream-24-7');
+        const data = await response.json();
+        
+        if (data && data.success && data.categories) {
+          allStreams = [];
+          
+          // Map each category to a fetch request
+          const fetchPromises = data.categories.map(cat => 
+            fetch(cat.path)
+              .then(res => res.json())
+              .then(catData => {
+                if (catData.streams) {
+                  catData.streams.forEach(s => {
+                    allStreams.push({ ...s, category: cat.name });
+                  });
+                }
+              })
+              .catch(err => console.error(`Error loading category ${cat.name}:`, err))
+          );
+
+          // Wait for all individual category files to load
+          await Promise.all(fetchPromises);
+          renderStreams(allStreams);
+        }
+      } catch (error) {
+        console.error("Error loading index:", error);
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -224,8 +235,7 @@
           e.preventDefault();
           const category = item.getAttribute('data-category');
           document.getElementById('categoryDropdown').textContent = item.textContent;
-          // Filter logic: Handles 'Movies Live' name change seamlessly
-          renderStreams(category === 'All' ? allStreams : allStreams.filter(s => s.category === category || (category === 'Movies' && s.category === 'Movies Live')));
+          renderStreams(category === 'All' ? allStreams : allStreams.filter(s => s.category === category));
         });
       });
     });
