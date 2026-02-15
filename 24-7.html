@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
-    /* Premium Look Enhancements */
     body { font-family: 'Kanit', sans-serif; transition: background-color 0.3s ease; }
     
     .card { 
@@ -29,7 +28,6 @@
       100% { transform: scale(1); }
     }
 
-    /* THE PULSING LIVE DOT */
     .live-dot {
       height: 12px; width: 12px; background-color: #ff4d4d;
       border-radius: 50%; display: inline-block; margin-left: 10px;
@@ -42,12 +40,10 @@
       100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
     }
 
-    /* ADAPTIVE SMART GRID */
     .event-grid {
       display: grid;
       gap: 2rem;
       padding: 1.5rem;
-      /* Dynamic column count: fills based on available width, min card size 320px */
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     }
 
@@ -126,11 +122,10 @@
             <li><a class="dropdown-item" href="#" data-category="Entertainment">Entertainment</a></li>
             <li><a class="dropdown-item" href="#" data-category="Kids">Kids</a></li>
             <li><a class="dropdown-item" href="#" data-category="Music">Music</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Movies VOD">Movies VOD</a></li>
             <li><a class="dropdown-item" href="#" data-category="News">News</a></li>
             <li><a class="dropdown-item" href="#" data-category="Religion">Religion</a></li>
             <li><a class="dropdown-item" href="#" data-category="Anime">Anime</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Movies Live">Movies Live</a></li>
+            <li><a class="dropdown-item" href="#" data-category="Movies">Movies</a></li>
           </ul>
         </div>
       </div>
@@ -208,9 +203,15 @@
         .then(data => {
           if (data && data.success) {
             allStreams = [];
-            Object.keys(data.streams).forEach(cat => {
-              data.streams[cat].forEach(s => allStreams.push({ ...s, category: cat }));
-            });
+            // This logic allows you to either have one big object or separate path links
+            if (data.streams) {
+              Object.keys(data.streams).forEach(cat => {
+                data.streams[cat].forEach(s => allStreams.push({ ...s, category: cat }));
+              });
+            } else if (data.categories) {
+                // If you use the modular "Master Index" approach later
+                console.log("Categories mode active");
+            }
             renderStreams(allStreams);
           }
         });
@@ -223,7 +224,8 @@
           e.preventDefault();
           const category = item.getAttribute('data-category');
           document.getElementById('categoryDropdown').textContent = item.textContent;
-          renderStreams(category === 'All' ? allStreams : allStreams.filter(s => s.category === category));
+          // Filter logic: Handles 'Movies Live' name change seamlessly
+          renderStreams(category === 'All' ? allStreams : allStreams.filter(s => s.category === category || (category === 'Movies' && s.category === 'Movies Live')));
         });
       });
     });
