@@ -1,0 +1,14 @@
+{
+  "success": true,
+  "category": "Kids",
+  "streams": [
+    {
+      "name": "Nickelodeon",
+      "uri_name": "nickelodeon",
+      "tag": "Cartoons",
+      "poster": "https://cdn.mos.cms.futurecdn.net/u3xQKM9WfmqKc8FPXbcqyY.jpg",
+      "streams": [{ "label": "Stream 1", "url": "https://stream.futbol-x.site/test/index.m3u8" }],
+      "always_live": 1
+    }
+  ]
+}
