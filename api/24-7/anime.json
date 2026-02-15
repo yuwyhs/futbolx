@@ -1,0 +1,14 @@
+{
+  "success": true,
+  "category": "Anime",
+  "streams": [
+    {
+      "name": "Crunchyroll",
+      "uri_name": "crunchyroll",
+      "tag": "Anime",
+      "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvYH2wGCSxxZj4mZW0KnHbQMGXEGpTn1WWT_Wje5nNhivpLKwq5fWfzQ1_&s=10",
+      "streams": [{ "label": "Crunchyroll", "url": "https://a3c4ecbd.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/TEdfQ3J1bmNoeXJvbGxfSExT/playlist.m3u8" }],
+      "always_live": 1
+    }
+  ]
+}
