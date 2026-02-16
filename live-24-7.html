@@ -14,7 +14,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
   
@@ -144,7 +144,6 @@
     let videoPlayerInstance = null;
     let streamData = null;
 
-    // THEME & NAV LOGIC
     function initTheme() {
       const themeToggle = document.getElementById('themeToggle');
       const html = document.documentElement;
@@ -169,20 +168,25 @@
       if (url.includes('.m3u8')) {
         embed.style.display = 'none';
         container.style.display = 'block';
+        
+        // SETUP: Always start muted to comply with browser autoplay policies
         videoPlayerInstance = jwplayer('videoPlayer').setup({
-          file: url, autostart: true, mute: true, width: '100%', aspectratio: '16:9'
+          file: url, 
+          autostart: true, 
+          mute: true, 
+          width: '100%', 
+          aspectratio: '16:9'
         });
-        videoPlayerInstance.on('ready', () => { videoPlayerInstance.setMute(false); });
       } else {
         container.style.display = 'none';
         embed.style.display = 'block';
-        embed.src = url + (url.includes('?') ? '&' : '?') + 'autoplay=1';
+        // Note: Embeds usually follow their own provider's mute/autoplay rules
+        embed.src = url + (url.includes('?') ? '&' : '?') + 'autoplay=1&mute=1';
       }
 
       fsBtn.classList.remove('d-none');
       castBtn.classList.remove('d-none');
 
-      // FULLSCREEN & CAST LINKS
       fsBtn.onclick = () => {
         const target = url.includes('.m3u8') ? document.getElementById('videoPlayer') : embed;
         if (target.requestFullscreen) target.requestFullscreen();
@@ -190,7 +194,6 @@
       };
 
       castBtn.onclick = () => {
-        // Trigger Cast Prompt
         if (window.chrome && chrome.cast && chrome.cast.isAvailable) {
             const sessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);
             const apiConfig = new chrome.cast.ApiConfig(sessionRequest, () => {}, () => {});
@@ -198,7 +201,6 @@
                 chrome.cast.requestSession(s => console.log("Success"), e => console.log(e));
             }, e => console.log(e));
         } else {
-            // Fallback for Safari/Native
             const target = document.querySelector('video') || embed;
             if (target.remote && target.remote.prompt) target.remote.prompt();
             else alert("Please use Chrome or Safari on a Cast-ready device.");
