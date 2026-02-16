@@ -6,12 +6,12 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Le Havre vs Toulouse",
-          "uri_name": "le-havre-vs-toulouse",
-          "poster": "https://i.postimg.cc/G9whym5W/1771155596872.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-14T17:00:00",
-          "ends_at": "2026-02-14T19:05:00",
+          "name": "Girona vs Barcelona",
+          "uri_name": "vjs82",
+          "poster": "https://i.postimg.cc/Zq7x46X2/1771256354125.png",
+          "tag": "Laliga",
+          "starts_at": "2026-02-16T23:00:00",
+          "ends_at": "2026-02-16T01:05:00",
           "always_live": 0,
           "streams": [
             {
