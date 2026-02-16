@@ -335,14 +335,14 @@
         playerInstance = jwplayer("jw-player").setup({
           file: url,
           autostart: true,
-          mute: true,
+          mute: true, // FIXED: Ensure muted on start
           width: "100%",
           aspectratio: "16:9",
           cast: {}
         });
 
         playerInstance.on('ready', () => {
-          playerInstance.setMute(false);
+          // REMOVED auto-unmute to comply with browser policy
           clearError();
           document.getElementById('fullscreenBtn').classList.remove('d-none');
         });
@@ -360,6 +360,7 @@
         try {
           const u = new URL(url);
           u.searchParams.set('autoplay', '1');
+          u.searchParams.set('mute', '1'); // Fixed embed as well
           iframe.src = u.toString();
         } catch {
           iframe.src = url;
