@@ -106,6 +106,19 @@
           }
         ],
         "always_live": 1
+      },
+      {
+        "name": "Trace Urban",
+        "uri_name": "trace-urban",
+        "tag": "Music",
+        "poster": "https://pbs.twimg.com/media/GsW1Lk9WMAAxUVc.jpg",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://amg01131-tracetv-traceurban-klowdtv-utiqd.amagi.tv/ts-us-w2-n1/playlist/amg01131-tracetv-traceurban-klowdtv/cb543d1b7f6c648b93d43d65d7ef44a5f94d1fde1d6988693eb5518975d10725dce2b48be65b9e3608dd4087351a6c545677a864c30d01c2db0cb141453c5728cfffe729a2c05616b7db083429b56a062a866a68ac39437ed0e21f48a238b6720a5aa82a66443d80b846ac7256db80148c7a2c82b3dc623b6d2700cd0401b0b03df2a9b01f1cc769a2b6024b933d51b28143c0811befd5c95bcf178e6bf015cb93ed828144829b9232fb54b6350d5a73299dd64b8ba332de0c190243fe5a0d047b7ee3ad8aff3c4dec25627a88354f22078575ef8f37886336c16df086475bf80c8408aef341a2a4f9a52a87facfb6393277da958e8bf2273cbf6fbb92fbd2657597f51132279b28b0aa4c49662fa70548288149cfe91406441f30e2b10ff5bcb491e6b38c05b224c3d5fb9a347880026e19ab52b89361d728922de69e536970444ab8820e84a7d75a226d4682c00f81485b8af6c6a28f5b6eec295b7bf870d55e3269ce1f6568aa78aacd723fdf6642ae1d09d67479c04ef5b329b580dee60d34fc9ee44aed60e2b04583a256e73d720e57e6ab620e161e3dfde164043c7c8376e5d5cbf37e4655bfa083ad9621556d5e365c0899edee74e9ec917c6756ab3415617903029803a40eec0144133bc71991c0247b870f2d28a697375254699caae5d667b714c81cd3b55d54485803262df5e063be5ad2b93276/47/1280x720_2657600/index.m3u8"
+          }
+        ],
+        "always_live": 1
       }
     ],
     "Movies VOD": [],
