@@ -91,6 +91,19 @@
           }
         ],
         "always_live": 1
+      },
+      {
+        "name": "KidsFlix",
+        "uri_name": "kidsflix",
+        "tag": "Kids",
+        "poster": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/70/df/5a/70df5a45-d3af-e622-114a-bce9b42f2b1c/AppIcon-0-0-1x_U007emarketing-0-7-0-0-85-220.png/1200x630wa.jpg",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://stream.ads.ottera.tv/cl/260216d697ocu22a3u9c5rrebg/640x360_350000_2_f.m3u8?i=475_50"
+          }
+        ],
+        "always_live": 1
       }
     ],
     "Music": [
@@ -162,4 +175,4 @@
     ],
     "Movies Live": []
   }
-}
+      }
