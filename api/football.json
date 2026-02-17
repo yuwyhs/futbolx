@@ -6,107 +6,62 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Girona vs Barcelona",
-          "uri_name": "vjs82",
-          "poster": "https://i.postimg.cc/Zq7x46X2/1771256354125.png",
-          "tag": "Laliga",
-          "starts_at": "2026-02-16T23:00:00",
-          "ends_at": "2026-02-17T01:05:00",
+          "name": "Galatasaray vs Juventus",
+          "uri_name": "galatasaray-vs-juventus",
+          "poster": "https://i.postimg.cc/yNPmkZxZ/1771333837834.png",
+          "tag": "UCL",
+          "starts_at": "2026-02-18T20:45:00",
+          "ends_at": "2026-02-18T22:50:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://fun.futbol-x.site/streams/test/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-galatasaray-vs-juventus/1"
             }
           ]
         },
         {
-          "name": "Rayo Vallecano vs Atletico Madrid",
-          "uri_name": "rayo-vallecano-vs-atletico-madrid",
-          "poster": "https://i.postimg.cc/6TJ5vpPq/1771155589484.png",
-          "tag": "LaLiga",
-          "starts_at": "2026-02-15T18:15:00",
-          "ends_at": "2026-02-15T20:22:00",
+          "name": "Benfica vs Real Madrid",
+          "uri_name": "benfica-vs-real-madrid",
+          "poster": "https://i.postimg.cc/NMj1Tj2P/1771334107440.png",
+          "tag": "UCL",
+          "starts_at": "2026-02-18T23:00:00",
+          "ends_at": "2026-02-19T01:05:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://damn.futbol-x.site/atleti/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-benfica-vs-real-madrid/1"
             }
           ]
         },
         {
-          "name": "Lorient vs Angers",
-          "uri_name": "lorient-vs-angers",
-          "poster": "https://i.postimg.cc/3NDxNvn9/1771155575138.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-14T19:15:00",
-          "ends_at": "2026-02-14T21:22:00",
+          "name": "Monaco vs PSG",
+          "uri_name": "monaco-vs-psg",
+          "poster": "https://i.postimg.cc/KYNPRMj0/1771334125229.png",
+          "tag": "UCL",
+          "starts_at": "2026-02-18T23:00:00",
+          "ends_at": "2026-02-19T01:05:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-lorient-vs-angers/1"
+              "url": "https://embedsports.top/embed/admin/ppv-monaco-vs-psg/1"
             }
           ]
         },
         {
-          "name": "FC Metz vs Auxerre",
-          "uri_name": "fc-metz-vs-auxerre",
-          "poster": "https://i.postimg.cc/C5fx5qmq/1771155566446.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-14T19:15:00",
-          "ends_at": "2026-02-14T21:22:00",
+          "name": "Dortmund vs Atalanta",
+          "uri_name": "dortmund-vs-atalanta",
+          "poster": "https://i.postimg.cc/26S4vSL9/1771334116715.png",
+          "tag": "UCL",
+          "starts_at": "2026-02-18T23:00:00",
+          "ends_at": "2026-02-19T01:05:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-fc-metz-vs-auxerre/1"
-            }
-          ]
-        },
-        {
-          "name": "Arsenal vs Wigan Athletic",
-          "uri_name": "arsenal-vs-wigan-athletic",
-          "poster": "https://i.postimg.cc/QCWdCT01/1771154350343.png",
-          "tag": "FA Cup",
-          "starts_at": "2026-02-15T19:30:00",
-          "ends_at": "2026-02-15T21:35:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://damn.futbol-x.site/ars/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Napoli vs Roma",
-          "uri_name": "napoli-vs-roma",
-          "poster": "https://i.postimg.cc/Kjg8jMJ7/1771155560100.png",
-          "tag": "Serie A",
-          "starts_at": "2026-02-15T22:45:00",
-          "ends_at": "2026-02-16T00:50:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://damn.futbol-x.site/napoli/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Lyon vs Nice",
-          "uri_name": "lyon-vs-nice",
-          "poster": "https://i.postimg.cc/j2JS27ZN/1771155552680.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-15T22:45:00",
-          "ends_at": "2026-02-16T00:50:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://damn.futbol-x.site/lyon/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-dortmund-vs-atalanta/1"
             }
           ]
         }
