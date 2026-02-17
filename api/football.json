@@ -16,7 +16,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-galatasaray-vs-juventus/1"
+              "url": "https://fun.futbol-x.site/streams/juve/index.m3u8"
             }
           ]
         },
@@ -31,7 +31,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-benfica-vs-real-madrid/1"
+              "url": "https://fun.futbol-x.site/streams/real/index.m3u8"
             }
           ]
         },
@@ -46,7 +46,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-monaco-vs-psg/1"
+              "url": "https://fun.futbol-x.site/streams/psg/index.m3u8"
             }
           ]
         },
@@ -61,7 +61,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-dortmund-vs-atalanta/1"
+              "url": "https://fun.futbol-x.site/streams/dortmund/index.m3u8"
             }
           ]
         }
