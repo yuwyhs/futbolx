@@ -113,7 +113,7 @@
             <div class="video-container">
               <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
               <div id="videoPlayerContainer" style="width: 100%; height: 100%;">
-                <video id="videoPlayer" class="d-none" controls></video>
+                <div id="videoPlayer"></div>
               </div>
             </div>
             <div class="stream-dropdown d-flex align-items-center justify-content-between mt-3">
@@ -172,11 +172,10 @@
         videoPlayerInstance = jwplayer('videoPlayer').setup({
           file: url, 
           autostart: true, 
-          mute: true, // FIXED: Always start muted to prevent browser audio block
+          mute: true, 
           width: '100%', 
           aspectratio: '16:9'
         });
-        // Removed the auto-unmute listener to prevent the "silent load" error.
       } else {
         container.style.display = 'none';
         embed.style.display = 'block';
@@ -186,7 +185,6 @@
       fsBtn.classList.remove('d-none');
       castBtn.classList.remove('d-none');
 
-      // FULLSCREEN & CAST LINKS
       fsBtn.onclick = () => {
         const target = url.includes('.m3u8') ? document.getElementById('videoPlayer') : embed;
         if (target.requestFullscreen) target.requestFullscreen();
@@ -194,7 +192,6 @@
       };
 
       castBtn.onclick = () => {
-        // Trigger Cast Prompt
         if (window.chrome && chrome.cast && chrome.cast.isAvailable) {
             const sessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);
             const apiConfig = new chrome.cast.ApiConfig(sessionRequest, () => {}, () => {});
@@ -202,7 +199,6 @@
                 chrome.cast.requestSession(s => console.log("Success"), e => console.log(e));
             }, e => console.log(e));
         } else {
-            // Fallback for Safari/Native
             const target = document.querySelector('video') || embed;
             if (target.remote && target.remote.prompt) target.remote.prompt();
             else alert("Please use Chrome or Safari on a Cast-ready device.");
@@ -229,8 +225,8 @@
     document.addEventListener('DOMContentLoaded', () => {
       initTheme();
       initPage();
-      const offcanvas = new bootstrap.Offcanvas(document.getElementById('sidebarMenu'));
-      document.getElementById('sidebarToggler').onclick = () => offcanvas.show();
+      // Side bar fix: Bootstrap handles the toggle via data-attributes. 
+      // Manual JS initialization here was causing the "refuse to close" bug.
     });
   </script>
 </body>
