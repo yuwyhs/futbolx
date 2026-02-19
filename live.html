@@ -480,11 +480,15 @@
       }
 
       document.getElementById('fullscreenBtn').addEventListener('click', () => {
-        const container = document.getElementById('oplayer-container').style.display !== 'none'
-          ? document.getElementById('oplayer-container')
-          : document.getElementById('embedPlayer');
-        if (container.requestFullscreen) container.requestFullscreen();
-        else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+        if (playerInstance) {
+          playerInstance.setFullscreen(true);
+        } else {
+          const container = document.getElementById('oplayer-container').style.display !== 'none'
+            ? document.getElementById('oplayer-container')
+            : document.getElementById('embedPlayer');
+          if (container.requestFullscreen) container.requestFullscreen();
+          else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+        }
       });
 
       // Notification logic
