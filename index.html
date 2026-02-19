@@ -163,6 +163,8 @@
       <div id="football" class="mt-5 d-none"><h2 class="m-0">Football</h2><div id="footballcards" class="event-grid py-3"></div></div>
       <div id="nba" class="mt-5 d-none"><h2 class="m-0">Basketball</h2><div id="nbacards" class="event-grid py-3"></div></div>
       <div id="fights" class="mt-5 d-none"><h2 class="m-0">Fights</h2><div id="fightscards" class="event-grid py-3"></div></div>
+      <div id="wrestling" class="mt-5 d-none"><h2 class="m-0">Wrestling</h2><div id="wrestlingcards" class="event-grid py-3"></div></div>
+      <div id="darts" class="mt-5 d-none"><h2 class="m-0">Darts</h2><div id="dartscards" class="event-grid py-3"></div></div>
       <div id="motorsports" class="mt-5 d-none"><h2 class="m-0">Motorsports</h2><div id="motorsportscards" class="event-grid py-3"></div></div>
       <div id="nfl" class="mt-5 d-none"><h2 class="m-0">NFL</h2><div id="nflcards" class="event-grid py-3"></div></div>
       <div id="nhl" class="mt-5 d-none"><h2 class="m-0">NHL</h2><div id="nhlcards" class="event-grid py-3"></div></div>
@@ -300,6 +302,8 @@
           football: { id: 'football', element: document.getElementById('footballcards') },
           nba: { id: 'nba', element: document.getElementById('nbacards') },
           fights: { id: 'fights', element: document.getElementById('fightscards') },
+          wrestling: { id: 'wrestling', element: document.getElementById('wrestlingcards') },
+          darts: { id: 'darts', element: document.getElementById('dartscards') },
           motorsports: { id: 'motorsports', element: document.getElementById('motorsportscards') },
           nfl: { id: 'nfl', element: document.getElementById('nflcards') },
           nhl: { id: 'nhl', element: document.getElementById('nhlcards') },
@@ -320,7 +324,7 @@
         const categoryEvents = {};
         Object.keys(categories).forEach(key => categoryEvents[key] = []);
 
-        const categoryMap = { 'football': 'football', 'basketball': 'nba', 'fights': 'fights', 'motorsports': 'motorsports', 'nfl': 'nfl', 'nhl': 'nhl', 'mlb': 'mlb', 'icehockey': 'icehockey', 'tennis': 'tennis', 'rugby': 'rugby', 'golf': 'golf' };
+        const categoryMap = { 'football': 'football', 'basketball': 'nba', 'fights': 'fights', 'wrestling': 'wrestling', 'darts': 'darts', 'motorsports': 'motorsports', 'nfl': 'nfl', 'nhl': 'nhl', 'mlb': 'mlb', 'icehockey': 'icehockey', 'tennis': 'tennis', 'rugby': 'rugby', 'golf': 'golf' };
 
         combined.streams.forEach(category => {
           const normalizedName = category.category?.trim().toLowerCase() || '';
@@ -410,4 +414,4 @@
     document.getElementById('menuLogout')?.addEventListener('click', () => firebase.auth().signOut().then(() => window.location.href = '/'));
   </script>
 </body>
-  </html>
+</html>
