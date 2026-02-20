@@ -1,1 +1,26 @@
-
+{
+  "success": true,
+  "streams": [
+    {
+      "category": "Wrestling",
+      "always_live": 0,
+      "streams": [
+        {
+          "name": "WWE SmackDown",
+          "uri_name": "wwe-smackdown",
+          "poster": "https://i.postimg.cc/4xLrhw90/1771552234915.png",
+          "tag": "WWE",
+          "starts_at": "2026-02-21T04:00:00",
+          "ends_at": "2026-02-21T07:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-wwe-smackdown/1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
