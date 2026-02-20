@@ -6,77 +6,17 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Qarabag FK vs Newcastle",
-          "uri_name": "qarabag-fk-vs-newcastle",
-          "poster": "https://www.thesportsdb.com/images/media/event/thumb/3p8vtw1770188559.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-02-18T16:45:00",
-          "ends_at": "2026-02-18T22:50:00",
+          "name": "Brest vs Marseille",
+          "uri_name": "brest-vs-marseille",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/c7s2rd1754808657.jpg/medium",
+          "tag": "Ligue 1",
+          "starts_at": "2026-02-20T22:45:00",
+          "ends_at": "2026-02-21T00:50:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://sixseven.futbol-x.site/test/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Wolves vs Arsenal",
-          "uri_name": "wolves-vs-arsenal",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/ztmy3l1750320902.jpg",
-          "tag": "EPL",
-          "starts_at": "2026-02-18T23:00:00",
-          "ends_at": "2026-02-19T01:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://fun.futbol-x.site/streams/wolves/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Bodø/Glimt vs Inter",
-          "uri_name": "bodo-glimt-vs-inter",
-          "poster": "https://www.thesportsdb.com/images/media/event/thumb/dx199p1770188563.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-02-18T23:00:00",
-          "ends_at": "2026-02-19T01:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://fun.futbol-x.site/streams/inter/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Club Brugge vs Atletico Madrid",
-          "uri_name": "club-brugge-vs-atletico-madrid",
-          "poster": "https://www.thesportsdb.com/images/media/event/thumb/bmvcqk1770188567.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-02-18T23:00:00",
-          "ends_at": "2026-02-19T01:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://fun.futbol-x.site/streams/atleti/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Olympiacos vs Leverkusen",
-          "uri_name": "olympiacos-vs-leverkusen",
-          "poster": "https://www.thesportsdb.com/images/media/event/thumb/sfjq7i1770188570.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-02-18T23:00:00",
-          "ends_at": "2026-02-19T01:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://fun.futbol-x.site/streams/leverkusen/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-brest-vs-marseille/1"
             }
           ]
         }
