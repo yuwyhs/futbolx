@@ -10,7 +10,7 @@
         "streams": [
           {
             "label": "Nba Tv Usa",
-            "url": "https://fun.futbol-x.site/streams/test/index.m3u8"
+            "url": "https://futbol-x.site/api/get-stream?stream=city"
           },
           {
             "label": "Stream 2",
