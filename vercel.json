@@ -1,19 +1,37 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/*.js", "use": "@vercel/node" },
-    { "src": "*.html", "use": "@vercel/static" },
-    { "src": "auth/*.html", "use": "@vercel/static" },
-    { "src": "assets/**", "use": "@vercel/static" },
-    { "src": "api/*.json", "use": "@vercel/static" },
-    { "src": "*.json", "use": "@vercel/static" }
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "auth/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "assets/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "api/*.json",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "api/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "*.json",
+      "use": "@vercel/static"
+    }
   ],
   "routes": [
-    { "src": "/api/get-stream", "dest": "/api/get-stream.js" },
+    { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/api/(.+\\.json)", "dest": "/api/$1" },
     { "src": "/api/stream", "dest": "/api/stream.json" },
     { "src": "/api/stream-24-7", "dest": "/api/stream-24-7.json" },
-    { "src": "/api/(.*\\.json)", "dest": "/api/$1" },
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/auth/login", "dest": "/auth/login.html" },
     { "src": "/auth/signup", "dest": "/auth/signup.html" },
     { "src": "/dashboard", "dest": "/dashboard.html" },
