@@ -6,152 +6,17 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Nottingham Forest vs Liverpool",
-          "uri_name": "nottingham-forest-vs-liverpool",
-          "poster": "https://i.postimg.cc/YCtsydP8/1771766161652.png",
+          "name": "Everton vs Manchester United",
+          "uri_name": "everton-vs-manchester-united",
+          "poster": "https://i.postimg.cc/XN1Z3L64/1771869695778.png",
           "tag": "EPL",
-          "starts_at": "2026-02-22T17:00:00",
-          "ends_at": "2026-02-22T19:05:00",
+          "starts_at": "2026-02-23T23:00:00",
+          "ends_at": "2026-02-24T01:10:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://sixseven.futbol-x.site/liverpool/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Crystal Palace vs Wolves",
-          "uri_name": "crystal-palace-vs-wolves",
-          "poster": "https://i.postimg.cc/JzR2dpFp/1771766165164.png",
-          "tag": "EPL",
-          "starts_at": "2026-02-22T17:00:00",
-          "ends_at": "2026-02-22T19:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://sixseven.futbol-x.site/wolves/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Sunderland vs Fulham",
-          "uri_name": "sunderland-vs-fulham",
-          "poster": "https://i.postimg.cc/4xXSFW0P/1771766157173.png",
-          "tag": "EPL",
-          "starts_at": "2026-02-22T17:00:00",
-          "ends_at": "2026-02-22T19:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://sixseven.futbol-x.site/fulham/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "AJ Auxerre vs Stade Rennais",
-          "uri_name": "aj-auxerre-vs-stade-rennais",
-          "poster": "https://i.postimg.cc/x194F6Zt/1771766151713.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-22T17:00:00",
-          "ends_at": "2026-02-22T19:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://sixseven.futbol-x.site/rennais/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Barcelona vs Levante",
-          "uri_name": "barcelona-vs-levante",
-          "poster": "https://i.postimg.cc/P5KRGmGm/1771766147505.png",
-          "tag": "LaLiga",
-          "starts_at": "2026-02-22T18:15:00",
-          "ends_at": "2026-02-22T20:20:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://sixseven.futbol-x.site/barca/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Angers vs Lille",
-          "uri_name": "angers-vs-lille",
-          "poster": "https://i.postimg.cc/52pRcwcB/1771766143642.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-20T19:15:00",
-          "ends_at": "2026-02-20T21:20:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-angers-vs-lille/1"
-            }
-          ]
-        },
-        {
-          "name": "FC Nantes vs Le Havre",
-          "uri_name": "fc-nantes-vs-le-havre",
-          "poster": "https://i.postimg.cc/x1g4rKrG/1771766139763.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-20T19:15:00",
-          "ends_at": "2026-02-20T21:20:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-fc-nantes-vs-le-havre/1"
-            }
-          ]
-        },
-        {
-          "name": "Nice vs Lorient",
-          "uri_name": "nice-vs-lorient",
-          "poster": "https://i.postimg.cc/2STKp4pG/1771766135540.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-20T19:15:00",
-          "ends_at": "2026-02-20T21:20:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-nice-vs-lorient/1"
-            }
-          ]
-        },
-        {
-          "name": "Tottenham vs Arsenal",
-          "uri_name": "tottenham-vs-arsenal",
-          "poster": "https://i.postimg.cc/t4DM0h02/1771765802331.png",
-          "tag": "EPL",
-          "starts_at": "2026-02-22T19:30:00",
-          "ends_at": "2026-02-22T21:40:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://sixseven.futbol-x.site/totte/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Strasbourg vs Lyon",
-          "uri_name": "strasbourg-vs-lyon",
-          "poster": "https://i.postimg.cc/y8nbqFqf/1771765784026.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-20T22:45:00",
-          "ends_at": "2026-02-20T00:50:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-strasbourg-vs-lyon/1"
+              "url": "https://embedsports.top/embed/admin/ppv-everton-vs-manchester-united/1"
             }
           ]
         }
