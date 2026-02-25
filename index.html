@@ -28,31 +28,93 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
 
   <style>
+    /* --- SPLASH SCREEN STYLES --- */
+    #splash-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #000000;
+      z-index: 11000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.8s ease-out;
+    }
+
+    .splash-logo {
+      width: 120px;
+      border-radius: 20%;
+      margin-bottom: 30px;
+      animation: scaleUp 0.6s ease-out forwards;
+    }
+
+    .unfolding-text {
+      text-align: center;
+      perspective: 1000px;
+    }
+
+    .unfolding-text span {
+      display: block;
+      color: #ff4d4d;
+      font-weight: 800;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: rotateX(-90deg);
+      animation: unfold 2s ease-in-out forwards;
+      margin-bottom: 5px;
+    }
+
+    .unfolding-text span:nth-child(2) { animation-delay: 0.4s; }
+    .unfolding-text span:nth-child(3) { animation-delay: 0.8s; }
+    .unfolding-text span:nth-child(4) { animation-delay: 1.2s; }
+
+    .loader-container {
+      position: absolute;
+      bottom: 12%;
+      width: 220px;
+      height: 4px;
+      background: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .loader-bar {
+      width: 0%;
+      height: 100%;
+      background: #ff4d4d;
+      box-shadow: 0 0 15px #ff4d4d;
+      animation: loadProgress 3.5s ease-in-out forwards;
+    }
+
+    @keyframes scaleUp {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes unfold {
+      0% { transform: rotateX(-90deg); opacity: 0; }
+      100% { transform: rotateX(0deg); opacity: 1; }
+    }
+
+    @keyframes loadProgress {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+
+    /* --- ORIGINAL SITE STYLES --- */
     .error-alert { max-width: 500px; margin: 20px auto; }
     .card { 
       opacity: 0; 
       transform: translateY(50px); 
       transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
     }
-    .card.visible { 
-      opacity: 1; 
-      transform: translateY(0); 
-    }
-    .fade-out { 
-      animation: fadeOut 0.5s ease-out forwards; 
-    }
-    @keyframes fadeOut { 
-      from { opacity: 1; } 
-      to { opacity: 0; }
-    }
-    .watch-button {
-      animation: pulse 1s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.7; }
-      100% { transform: scale(1); opacity: 1; }
-    }
+    .card.visible { opacity: 1; transform: translateY(0); }
+    .fade-out { animation: fadeOut 0.5s ease-out forwards; }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    .watch-button { animation: pulse 1s infinite; }
+    @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
     
     .event-grid, #livecards.event-grid {
       display: grid;
@@ -63,93 +125,63 @@
 
     .event-grid a { text-decoration: none; }
     .card {
-      width: 100%;
-      max-width: 400px;
-      margin: 0 auto;
+      width: 100%; max-width: 400px; margin: 0 auto;
       transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 2px solid transparent;
+      border-radius: 10px; overflow: hidden; border: 2px solid transparent;
     }
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-      border-color: #ff4d4d;
-    }
-    [data-bs-theme="light"] .card:hover {
-      border-color: #e63939;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); border-color: #ff4d4d; }
+    [data-bs-theme="light"] .card:hover { border-color: #e63939; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); }
     .card-img-top { height: 220px; object-fit: cover; }
     .card-body { padding: 1rem; }
     .card-title { font-size: 1.3rem; margin-bottom: 0.5rem; }
     .event-tag { font-size: 0.95rem; }
     .watch-button { font-size: 0.95rem; padding: 0.5rem 1.2rem; }
-    
-    /* Discord Button */
-    #discordBtn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
-      opacity: 0.92;
-      transition: opacity .3s, transform .2s;
-    }
-    #discordBtn img {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: block;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.5);
-      animation: glowPulse 2.5s infinite ease-in-out;
-    }
-    @keyframes glowPulse {
-      0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.5); }
-      50% { box-shadow: 0 0 18px #5865F2, 0 3px 10px rgba(88,101,242,0.3); }
-    }
 
-    /* PWA Install Button Layout */
+    /* Floating Buttons Container */
+    #discordBtn {
+      position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+      opacity: 0.92; transition: opacity .3s, transform .2s;
+    }
+    #discordBtn:hover { opacity: 1; transform: scale(1.05); }
+    #discordBtn img {
+      width: 48px; height: 48px; border-radius: 50%; display: block;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.5); animation: glowPulse 2.5s infinite ease-in-out;
+    }
+    @keyframes glowPulse { 0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.5); } 50% { box-shadow: 0 0 18px #5865F2, 0 3px 10px rgba(88,101,242,0.3); } }
+
     #pwaWrapper {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      z-index: 9999;
-      display: none; /* Controlled by JS */
-      align-items: center;
+      position: fixed; bottom: 20px; left: 20px; z-index: 9999;
+      display: none; align-items: center;
     }
     #installAppBtn {
-      background: #ff4d4d;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 10px 18px;
-      font-weight: bold;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.5);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.9rem;
+      background: #ff4d4d; color: white; border: none; border-radius: 50px;
+      padding: 10px 18px; font-weight: bold; box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+      cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;
     }
     #closePwa {
-      background: rgba(0,0,0,0.7);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      font-size: 10px;
-      margin-left: -8px;
-      margin-top: -28px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10000;
+      background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%;
+      width: 22px; height: 22px; font-size: 12px; margin-left: -10px; margin-top: -30px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
   </style>
 </head>
 <body>
+
+  <div id="splash-screen">
+    <div class="splash-content">
+      <img src="https://i.postimg.cc/gkfNSFPv/lqo4nv.jpg" class="splash-logo" alt="FutbolX">
+      <div class="unfolding-text">
+        <span>Free PPV</span>
+        <span>Sports Everywhere</span>
+        <span>Anytime</span>
+        <span>On the Go</span>
+      </div>
+    </div>
+    <div class="loader-container">
+      <div class="loader-bar"></div>
+    </div>
+  </div>
 
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
@@ -229,17 +261,31 @@
 
   <div id="pwaWrapper">
     <button id="installAppBtn"><i class="fas fa-download"></i> Download App</button>
-    <button id="closePwa">✕</button>
+    <button id="closePwa" aria-label="Dismiss">✕</button>
   </div>
 
   <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener" id="discordBtn">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" alt="Join Discord" width="48" height="48">
+    <img src="https://i.postimg.cc/gkfNSFPv/lqo4nv.jpg" alt="Join Discord" width="48" height="48">
   </a>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="/assets/js/api.js"></script>
 
   <script>
+    // --- SPLASH SCREEN & PWA INIT ---
+    window.addEventListener('load', () => {
+      const splash = document.getElementById('splash-screen');
+      setTimeout(() => {
+        splash.style.opacity = '0';
+        setTimeout(() => { splash.style.display = 'none'; }, 800);
+      }, 3500); 
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+      }
+    });
+
+    // --- STREAMING LOGIC ---
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
     let lastApiCall = 0;
     let apiInstance = null;
@@ -463,40 +509,27 @@
 
   <script>
     let deferredPrompt;
-    const pwaWrapper = document.getElementById('pwaWrapper');
-    const installBtn = document.getElementById('installAppBtn');
-    const closeBtn = document.getElementById('closePwa');
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js');
-      });
-    }
-
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      // Show button if not dismissed in this session
       if (!sessionStorage.getItem('pwaDismissed')) {
-        pwaWrapper.style.display = 'flex';
+        document.getElementById('pwaWrapper').style.display = 'flex';
       }
     });
 
-    installBtn.addEventListener('click', () => {
-      pwaWrapper.style.display = 'none';
+    document.getElementById('installAppBtn').addEventListener('click', () => {
+      document.getElementById('pwaWrapper').style.display = 'none';
       deferredPrompt.prompt();
-      deferredPrompt.userChoice.then(() => {
-        deferredPrompt = null;
-      });
+      deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
     });
 
-    closeBtn.addEventListener('click', () => {
-      pwaWrapper.style.display = 'none';
+    document.getElementById('closePwa').addEventListener('click', () => {
+      document.getElementById('pwaWrapper').style.display = 'none';
       sessionStorage.setItem('pwaDismissed', 'true');
     });
 
     window.addEventListener('appinstalled', () => {
-      pwaWrapper.style.display = 'none';
+      document.getElementById('pwaWrapper').style.display = 'none';
     });
   </script>
 </body>
