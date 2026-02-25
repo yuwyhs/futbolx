@@ -28,7 +28,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
 
   <style>
-    /* --- NEW APP SPLASH STYLES --- */
+    /* --- REDESIGNED APP SPLASH --- */
     #splash-screen {
       position: fixed;
       top: 0; left: 0;
@@ -42,31 +42,40 @@
       transition: opacity 0.8s ease-out;
     }
     .splash-logo { 
-      width: 140px; 
-      border-radius: 20%; 
-      margin-bottom: 25px; 
-      animation: splashFadeIn 0.8s ease-out forwards; 
-    }
-    .slogan-line { 
-      color: #ff4d4d; 
-      font-weight: 700; 
-      font-size: 0.9rem; 
-      text-transform: uppercase; 
-      letter-spacing: 1px;
-      opacity: 0;
-      animation: splashFadeIn 1s ease-out 0.5s forwards;
+      width: 130px; 
+      border-radius: 22%; 
+      margin-bottom: 20px; 
+      filter: drop-shadow(0 0 10px rgba(255, 77, 77, 0.2));
     }
     
-    /* Bouncing Text Loader */
+    /* Cycling Text Style */
+    .slogan-container {
+      height: 24px;
+      overflow: hidden;
+      text-align: center;
+    }
+    #cycling-text {
+      color: #ff4d4d;
+      font-weight: 600;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: block;
+      animation: textSlide 0.5s ease-out;
+    }
+
+    /* Lowered Bouncing Loader */
     .bouncing-loader {
       display: flex;
-      margin-top: 40px;
+      position: absolute;
+      bottom: 10%; /* Moved way down */
     }
     .bouncing-loader span {
       color: #ff4d4d;
-      font-size: 1.2rem;
-      font-weight: 900;
-      margin: 0 2px;
+      font-size: 1rem;
+      font-weight: 800;
+      margin: 0 3px;
+      opacity: 0.6;
       animation: bounceText 0.6s infinite alternate;
     }
     .bouncing-loader span:nth-child(2) { animation-delay: 0.1s; }
@@ -76,8 +85,8 @@
     .bouncing-loader span:nth-child(6) { animation-delay: 0.5s; }
     .bouncing-loader span:nth-child(7) { animation-delay: 0.6s; }
 
-    @keyframes splashFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes bounceText { from { transform: translateY(0); } to { transform: translateY(-15px); } }
+    @keyframes textSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes bounceText { from { transform: translateY(0); } to { transform: translateY(-10px); } }
 
     /* --- YOUR ORIGINAL STYLES --- */
     .error-alert { max-width: 500px; margin: 20px auto; }
@@ -109,8 +118,9 @@
 
   <div id="splash-screen">
       <img src="https://i.postimg.cc/gkfNSFPv/lqo4nv.jpg" class="splash-logo" alt="Logo">
-      <div class="slogan-line">
-        Free PPV | Sports Everywhere | Anytime | On the Go
+      
+      <div class="slogan-container">
+        <span id="cycling-text">Free PPV</span>
       </div>
       
       <div class="bouncing-loader">
@@ -293,7 +303,6 @@
         const catListUrl = baseUrl.endsWith('/') ? `${baseUrl}stream` : `${baseUrl}/stream`;
         const catListRes = await fetchWithRetry(catListUrl);
         const categoryNames = catListRes.categories || [];
-
         const fetchPromises = categoryNames.map(cat => fetchWithRetry(`${baseUrl}/${cat}.json`).catch(() => ({ success: true, streams: [] })));
         const allCategoryData = await Promise.all(fetchPromises);
 
@@ -414,11 +423,29 @@
       const isApp = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
       if (isApp) {
         const splash = document.getElementById('splash-screen');
+        const cycle = document.getElementById('cycling-text');
+        const slogans = ["Free PPV", "Sports Everywhere", "Anytime", "On the Go"];
+        let sloganIdx = 0;
+        
         splash.style.display = 'flex';
+
+        // Cycle through slogans
+        const sloganTimer = setInterval(() => {
+          sloganIdx++;
+          if(sloganIdx < slogans.length) {
+            cycle.style.animation = 'none';
+            cycle.offsetHeight; // Trigger reflow
+            cycle.style.animation = 'textSlide 0.5s ease-out';
+            cycle.innerText = slogans[sloganIdx];
+          } else {
+            clearInterval(sloganTimer);
+          }
+        }, 700);
+
         setTimeout(() => {
           splash.style.opacity = '0';
           setTimeout(() => splash.style.display = 'none', 800);
-        }, 3000); // Shown for 3 seconds
+        }, 4000); // Extended for the cycle
       }
     }
     document.addEventListener('DOMContentLoaded', initPage);
