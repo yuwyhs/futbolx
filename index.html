@@ -48,7 +48,6 @@
       filter: drop-shadow(0 0 10px rgba(255, 77, 77, 0.2));
     }
     
-    /* Cycling Text Style */
     .slogan-container {
       height: 24px;
       overflow: hidden;
@@ -61,14 +60,14 @@
       text-transform: uppercase;
       letter-spacing: 2px;
       display: block;
-      animation: textSlide 0.5s ease-out;
+      animation: textSlide 0.6s ease-out;
     }
 
     /* Lowered Bouncing Loader */
     .bouncing-loader {
       display: flex;
       position: absolute;
-      bottom: 10%; /* Moved way down */
+      bottom: 10%; 
     }
     .bouncing-loader span {
       color: #ff4d4d;
@@ -88,7 +87,7 @@
     @keyframes textSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes bounceText { from { transform: translateY(0); } to { transform: translateY(-10px); } }
 
-    /* --- YOUR ORIGINAL STYLES --- */
+    /* --- ORIGINAL STYLES --- */
     .error-alert { max-width: 500px; margin: 20px auto; }
     .card { opacity: 0; transform: translateY(50px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
     .card.visible { opacity: 1; transform: translateY(0); }
@@ -118,11 +117,9 @@
 
   <div id="splash-screen">
       <img src="https://i.postimg.cc/gkfNSFPv/lqo4nv.jpg" class="splash-logo" alt="Logo">
-      
       <div class="slogan-container">
         <span id="cycling-text">Free PPV</span>
       </div>
-      
       <div class="bouncing-loader">
         <span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span>
       </div>
@@ -429,23 +426,23 @@
         
         splash.style.display = 'flex';
 
-        // Cycle through slogans
+        // Slowed down text cycle (1.5 seconds)
         const sloganTimer = setInterval(() => {
           sloganIdx++;
           if(sloganIdx < slogans.length) {
             cycle.style.animation = 'none';
-            cycle.offsetHeight; // Trigger reflow
-            cycle.style.animation = 'textSlide 0.5s ease-out';
+            cycle.offsetHeight; // Reflow
+            cycle.style.animation = 'textSlide 0.6s ease-out';
             cycle.innerText = slogans[sloganIdx];
           } else {
             clearInterval(sloganTimer);
           }
-        }, 700);
+        }, 1500);
 
         setTimeout(() => {
           splash.style.opacity = '0';
           setTimeout(() => splash.style.display = 'none', 800);
-        }, 4000); // Extended for the cycle
+        }, 6500); // Wait for the cycle to finish
       }
     }
     document.addEventListener('DOMContentLoaded', initPage);
