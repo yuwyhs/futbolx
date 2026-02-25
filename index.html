@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FutbolX - Free PPV and More</title>
+  
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  
   <meta name="description" content="FutbolX - Free PPV boxing, UFC, Basketball, Football, and more available live and on-demand.">
   <meta name="keywords" content="futbolx, ppv, free ppv, boxing, ufc, basketball, football, stream, online, free">
   <meta property="og:title" content="FutbolX - Free PPV and More" />
@@ -48,7 +53,6 @@
       100% { transform: scale(1); opacity: 1; }
     }
     
-    /* FIX: ADAPTIVE GRID ONLY - NO MORE MEDIA QUERY BREAKPOINTS */
     .event-grid, #livecards.event-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -192,7 +196,7 @@
   <script src="/assets/js/api.js"></script>
 
   <script>
-    /* ALL YOUR ORIGINAL TIMER AND LOADING LOGIC */
+    /* ALL YOUR ORIGINAL TIMER AND LOADING LOGIC - UNCHANGED */
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
     let lastApiCall = 0;
     let apiInstance = null;
@@ -412,6 +416,16 @@
       document.getElementById('menuLogout').style.display = user ? 'block' : 'none';
     });
     document.getElementById('menuLogout')?.addEventListener('click', () => firebase.auth().signOut().then(() => window.location.href = '/'));
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('PWA Registered'))
+          .catch(err => console.log('PWA Registration Failed', err));
+      });
+    }
   </script>
 </body>
 </html>
