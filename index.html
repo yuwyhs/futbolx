@@ -35,154 +35,87 @@
       width: 100%; height: 100%;
       background: #000000;
       z-index: 11000;
-      display: none; /* Hidden on web */
+      display: none; 
       flex-direction: column;
       justify-content: center;
       align-items: center;
       transition: opacity 0.8s ease-out;
     }
-    .splash-logo { width: 120px; border-radius: 20%; margin-bottom: 30px; animation: splashScale 0.6s ease-out forwards; }
-    .unfold-item { display: block; color: #ff4d4d; font-weight: 800; font-size: 1.3rem; text-transform: uppercase; opacity: 0; transform: rotateX(-90deg); margin-bottom: 5px; }
-    .unfold-active { animation: unfoldAnim 1.5s ease-in-out forwards; }
-    .loader-container { position: absolute; bottom: 12%; width: 220px; height: 4px; background: #1a1a1a; border-radius: 10px; overflow: hidden; }
-    .loader-bar { width: 0%; height: 100%; background: #ff4d4d; box-shadow: 0 0 15px #ff4d4d; }
-    @keyframes splashScale { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    @keyframes unfoldAnim { 0% { transform: rotateX(-90deg); opacity: 0; } 100% { transform: rotateX(0deg); opacity: 1; } }
-    @keyframes barLoad { from { width: 0%; } to { width: 100%; } }
+    .splash-logo { 
+      width: 140px; 
+      border-radius: 20%; 
+      margin-bottom: 25px; 
+      animation: splashFadeIn 0.8s ease-out forwards; 
+    }
+    .slogan-line { 
+      color: #ff4d4d; 
+      font-weight: 700; 
+      font-size: 0.9rem; 
+      text-transform: uppercase; 
+      letter-spacing: 1px;
+      opacity: 0;
+      animation: splashFadeIn 1s ease-out 0.5s forwards;
+    }
+    
+    /* Bouncing Text Loader */
+    .bouncing-loader {
+      display: flex;
+      margin-top: 40px;
+    }
+    .bouncing-loader span {
+      color: #ff4d4d;
+      font-size: 1.2rem;
+      font-weight: 900;
+      margin: 0 2px;
+      animation: bounceText 0.6s infinite alternate;
+    }
+    .bouncing-loader span:nth-child(2) { animation-delay: 0.1s; }
+    .bouncing-loader span:nth-child(3) { animation-delay: 0.2s; }
+    .bouncing-loader span:nth-child(4) { animation-delay: 0.3s; }
+    .bouncing-loader span:nth-child(5) { animation-delay: 0.4s; }
+    .bouncing-loader span:nth-child(6) { animation-delay: 0.5s; }
+    .bouncing-loader span:nth-child(7) { animation-delay: 0.6s; }
+
+    @keyframes splashFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes bounceText { from { transform: translateY(0); } to { transform: translateY(-15px); } }
 
     /* --- YOUR ORIGINAL STYLES --- */
     .error-alert { max-width: 500px; margin: 20px auto; }
-    .card { 
-      opacity: 0; 
-      transform: translateY(50px); 
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
-    }
-    .card.visible { 
-      opacity: 1; 
-      transform: translateY(0); 
-    }
-    .fade-out { 
-      animation: fadeOut 0.5s ease-out forwards; 
-    }
-    @keyframes fadeOut { 
-      from { opacity: 1; } 
-      to { opacity: 0; }
-    }
-    .watch-button {
-      animation: pulse 1s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.7; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    
-    .event-grid, #livecards.event-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-      padding: 1rem;
-    }
-
+    .card { opacity: 0; transform: translateY(50px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+    .card.visible { opacity: 1; transform: translateY(0); }
+    .fade-out { animation: fadeOut 0.5s ease-out forwards; }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    .watch-button { animation: pulse 1s infinite; }
+    @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
+    .event-grid, #livecards.event-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; padding: 1rem; }
     .event-grid a { text-decoration: none; }
-    .card {
-      width: 100%;
-      max-width: 400px;
-      margin: 0 auto;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 2px solid transparent;
-    }
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-      border-color: #ff4d4d;
-    }
-    [data-bs-theme="light"] .card:hover {
-      border-color: #e63939;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    }
+    .card { width: 100%; max-width: 400px; margin: 0 auto; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; border-radius: 10px; overflow: hidden; border: 2px solid transparent; }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); border-color: #ff4d4d; }
+    [data-bs-theme="light"] .card:hover { border-color: #e63939; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); }
     .card-img-top { height: 220px; object-fit: cover; }
     .card-body { padding: 1rem; }
     .card-title { font-size: 1.3rem; margin-bottom: 0.5rem; }
     .event-tag { font-size: 0.95rem; }
     .watch-button { font-size: 0.95rem; padding: 0.5rem 1.2rem; }
-    
-    #discordBtn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
-      opacity: 0.92;
-      transition: opacity .3s, transform .2s;
-    }
-    #discordBtn img {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: block;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.5);
-      animation: glowPulse 2.5s infinite ease-in-out;
-    }
-    @keyframes glowPulse {
-      0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.5); }
-      50% { box-shadow: 0 0 18px #5865F2, 0 3px 10px rgba(88,101,242,0.3); }
-    }
-
-    #pwaWrapper {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      z-index: 9999;
-      display: none;
-      align-items: center;
-    }
-    #installAppBtn {
-      background: #ff4d4d;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 10px 18px;
-      font-weight: bold;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.5);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.9rem;
-    }
-    #closePwa {
-      background: rgba(0,0,0,0.7);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      font-size: 10px;
-      margin-left: -8px;
-      margin-top: -28px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10000;
-    }
+    #discordBtn { position: fixed; bottom: 20px; right: 20px; z-index: 9999; opacity: 0.92; transition: opacity .3s, transform .2s; }
+    #discordBtn img { width: 48px; height: 48px; border-radius: 50%; display: block; box-shadow: 0 3px 10px rgba(0,0,0,0.5); animation: glowPulse 2.5s infinite ease-in-out; }
+    @keyframes glowPulse { 0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.5); } 50% { box-shadow: 0 0 18px #5865F2, 0 3px 10px rgba(88,101,242,0.3); } }
+    #pwaWrapper { position: fixed; bottom: 20px; left: 20px; z-index: 9999; display: none; align-items: center; }
+    #installAppBtn { background: #ff4d4d; color: white; border: none; border-radius: 50px; padding: 10px 18px; font-weight: bold; box-shadow: 0 3px 10px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+    #closePwa { background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; margin-left: -8px; margin-top: -28px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10000; }
   </style>
 </head>
 <body>
 
   <div id="splash-screen">
-    <div class="splash-content">
       <img src="https://i.postimg.cc/gkfNSFPv/lqo4nv.jpg" class="splash-logo" alt="Logo">
-      <div class="unfolding-text">
-        <span class="unfold-item">Free PPV</span>
-        <span class="unfold-item">Sports Everywhere</span>
-        <span class="unfold-item">Anytime</span>
-        <span class="unfold-item">On the Go</span>
+      <div class="slogan-line">
+        Free PPV | Sports Everywhere | Anytime | On the Go
       </div>
-    </div>
-    <div class="loader-container"><div class="loader-bar" id="splash-bar"></div></div>
+      
+      <div class="bouncing-loader">
+        <span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span>
+      </div>
   </div>
 
   <nav class="top-bar fixed-top">
@@ -206,7 +139,6 @@
         <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
         <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
-
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-user-circle me-2"></i>Account
@@ -217,7 +149,6 @@
             <li><button class="dropdown-item text-danger" id="menuLogout" style="display: none;"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li>
           </ul>
         </li>
-
         <li class="nav-item">
           <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
         </li>
@@ -311,11 +242,9 @@
             hour: 'numeric', minute: '2-digit', hour12: true,
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
           });
-          if (days >= 7) {
-            displayText = `Starting in ${weeks} week${weeks > 1 ? 's' : ''} (${localTimeString})`;
-          } else if (days >= 1) {
-            displayText = `Starting in ${days} day${days > 1 ? 's' : ''} (${localTimeString})`;
-          } else {
+          if (days >= 7) { displayText = `Starting in ${weeks} week${weeks > 1 ? 's' : ''} (${localTimeString})`; } 
+          else if (days >= 1) { displayText = `Starting in ${days} day${days > 1 ? 's' : ''} (${localTimeString})`; } 
+          else {
             let hh = hours - days * 24;
             let mm = mins - hours * 60;
             let ss = secs - mins * 60;
@@ -481,21 +410,15 @@
       loadContent(apiInstance);
       countdown();
 
-      /* --- NEW: APP DETECTION LOGIC --- */
+      /* --- APP DETECTION & SPLASH --- */
       const isApp = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
       if (isApp) {
         const splash = document.getElementById('splash-screen');
-        const bar = document.getElementById('splash-bar');
-        const items = document.querySelectorAll('.unfold-item');
         splash.style.display = 'flex';
-        bar.style.animation = 'barLoad 3s ease-in-out forwards';
-        items.forEach((item, i) => {
-          setTimeout(() => item.classList.add('unfold-active'), i * 400);
-        });
         setTimeout(() => {
           splash.style.opacity = '0';
           setTimeout(() => splash.style.display = 'none', 800);
-        }, 3500);
+        }, 3000); // Shown for 3 seconds
       }
     }
     document.addEventListener('DOMContentLoaded', initPage);
@@ -518,36 +441,14 @@
     const installBtn = document.getElementById('installAppBtn');
     const closeBtn = document.getElementById('closePwa');
 
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js');
-      });
-    }
-
+    if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js'); }); }
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      if (!sessionStorage.getItem('pwaDismissed')) {
-        pwaWrapper.style.display = 'flex';
-      }
+      if (!sessionStorage.getItem('pwaDismissed')) { pwaWrapper.style.display = 'flex'; }
     });
-
-    installBtn.addEventListener('click', () => {
-      pwaWrapper.style.display = 'none';
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then(() => {
-        deferredPrompt = null;
-      });
-    });
-
-    closeBtn.addEventListener('click', () => {
-      pwaWrapper.style.display = 'none';
-      sessionStorage.setItem('pwaDismissed', 'true');
-    });
-
-    window.addEventListener('appinstalled', () => {
-      pwaWrapper.style.display = 'none';
-    });
+    installBtn.addEventListener('click', () => { pwaWrapper.style.display = 'none'; deferredPrompt.prompt(); });
+    closeBtn.addEventListener('click', () => { pwaWrapper.style.display = 'none'; sessionStorage.setItem('pwaDismissed', 'true'); });
   </script>
 </body>
 </html>
