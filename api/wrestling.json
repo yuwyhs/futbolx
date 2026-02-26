@@ -8,30 +8,15 @@
         {
           "name": "WWE SmackDown",
           "uri_name": "wwe-smackdown",
-          "poster": "https://usanetwork.asset.viewlift.com/images/2026/02/14/p17350979_b_h8_bk.jpg?impolicy=resize&w=1920&h=1080",
+          "poster": "https://www.wrestleview.com/wp-content/uploads/2025/04/WWE-SmackDown.jpg",
           "tag": "WWE",
-          "starts_at": "2026-02-21T04:00:00",
-          "ends_at": "2026-02-21T07:00:00",
+          "starts_at": "2026-02-27T04:00:00",
+          "ends_at": "2026-02-27T07:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://sixseven.futbol-x.site/ppv/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "AEW Saturday Night Collision",
-          "uri_name": "aew-saturday-night-collision",
-          "poster": "https://i.postimg.cc/CxZ6pTcW/1771638770453.png",
-          "tag": "WWE",
-          "starts_at": "2026-02-21T04:00:00",
-          "ends_at": "2026-02-21T07:00:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-aew-saturday-night-collision/1"
+              "url": "https://embedsports.top/embed/admin/ppv-wwe-smackdown/1"
             }
           ]
         }
