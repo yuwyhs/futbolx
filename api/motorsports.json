@@ -6,17 +6,77 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "F1 Pre-Season Testing - Day 3",
-          "uri_name": "f1-pre-season-testing-day-3",
-          "poster": "https://i.postimg.cc/WpqdmhtN/1771589852087.png",
+          "name": "Australian Grand Prix - Practice 1",
+          "uri_name": "australian-grand-prix-practice-1",
+          "poster": "https://i.postimg.cc/j2VxCrKL/1772069089039.png",
           "tag": "F1",
-          "starts_at": "2026-02-20T15:00:00",
-          "ends_at": "2026-02-20T20:30:00",
+          "starts_at": "2026-03-06T04:30:00",
+          "ends_at": "2026-03-06T07:30:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://sixseven.futbol-x.site/f1/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-australian-grand-prix-practice-1/1"
+            }
+          ]
+        },
+        {
+          "name": "Australian Grand Prix - Practice 2",
+          "uri_name": "australian-grand-prix-practice-2",
+          "poster": "https://i.postimg.cc/C5yhdVYd/1772069097295.png",
+          "tag": "F1",
+          "starts_at": "2026-03-06T08:00:00",
+          "ends_at": "2026-03-06T10:30:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-australian-grand-prix-practice-2/1"
+            }
+          ]
+        },
+        {
+          "name": "Australian Grand Prix - Practice 3",
+          "uri_name": "australian-grand-prix-practice-3",
+          "poster": "https://i.postimg.cc/j2VxCrK5/1772069111787.png",
+          "tag": "F1",
+          "starts_at": "2026-03-07T04:30:00",
+          "ends_at": "2026-03-07T07:30:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-australian-grand-prix-practice-3/1"
+            }
+          ]
+        },
+        {
+          "name": "Australian Grand Prix - Qualifying",
+          "uri_name": "australian-grand-prix-qualifying",
+          "poster": "https://i.postimg.cc/j2VxCrK5/1772069111787.png",
+          "tag": "F1",
+          "starts_at": "2026-03-07T08:00:00",
+          "ends_at": "2026-03-07T10:30:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-australian-grand-prix-qualifying/1"
+            }
+          ]
+        },
+        {
+          "name": "Australian Grand Prix - Main Event",
+          "uri_name": "australian-grand-prix-main-event",
+          "poster": "https://i.postimg.cc/L5zH1063/1772069123480.png",
+          "tag": "F1",
+          "starts_at": "2026-03-08T08:00:00",
+          "ends_at": "2026-03-08T11:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-australian-grand-prix-main-event/1"
             }
           ]
         }
