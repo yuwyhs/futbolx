@@ -24,9 +24,7 @@
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
     .tip-container {max-width:600px;margin:20px auto;transition:height .3s;overflow:hidden;}
-    .alert-info {text-align:center;position:relative;padding-right:50px;}
-    #countdownTimer {position:absolute;top:8px;right:10px;font-weight:bold;color:#ff4d4d;}
-    [data-bs-theme="light"] #countdownTimer {color:#e63939;}
+    .alert-info {text-align:center;position:relative;padding-right:10px;}
     .error-alert {max-width:500px;margin:20px auto;}
     .fade-out {animation:fadeOut .5s forwards;} @keyframes fadeOut {from{opacity:1}to{opacity:0}}
     .btn-fullscreen {display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#ff4d4d;color:#fff;border:none;border-radius:20px;transition:.3s;}
@@ -36,7 +34,7 @@
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
-    /* --- ADDED FAKE PLAYER STYLES --- */
+    /* --- FAKE PLAYER STYLES --- */
     #fakePlayerLayer {
       position: absolute; top:0; left:0; width:100%; height:100%;
       background: #000; z-index: 999; display: flex; align-items: center; justify-content: center; cursor: pointer;
@@ -45,7 +43,6 @@
       width: 80px; height: 80px; background: rgba(255, 77, 77, 0.9); border-radius: 50%;
       display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;
     }
-    /* -------------------------------- */
 
     .live-title {
       text-align: center;
@@ -76,7 +73,6 @@
       100% { opacity: 1; }
     }
 
-    /* Adaptive Chat Styling */
     .chat-wrapper {
       width: 100%;
       background:#1a1a1a;
@@ -98,7 +94,7 @@
     }
 
     .chat-container {
-      height: 500px; /* Fixed height for chat */
+      height: 500px;
       background: #111;
       position: relative;
       overflow: hidden;
@@ -106,7 +102,7 @@
 
     @media (min-width: 992px) {
       .chat-container {
-        height: 600px; /* Taller on big screens */
+        height: 600px;
       }
     }
 
@@ -197,13 +193,7 @@
     <div class="container-xl mt-4"> <div class="row">
         <div class="col-12">
           <div class="tip-container">
-            <div class="alert alert-info" id="tipAlert">
-              <strong>Tip:</strong> For an ad-free experience, consider installing an ad blocker like
-              <a href="https://ublockorigin.com" target="_blank" rel="noopener">uBlock Origin</a> or
-              <a href="https://adguard.com" target="_blank" rel="noopener">AdGuard</a>.
-              <span id="countdownTimer">10s</span>
-            </div>
-            <div class="alert alert-info permanent-noti d-none" id="infoAlert">
+            <div class="alert alert-info permanent-noti" id="infoAlert">
               <strong>Info:</strong> If stream is not loading on your end, try using a VPN to bypass your ISP restrictions.
             </div>
             <div class="alert alert-info permanent-noti d-none" id="joinAlert">
@@ -264,17 +254,16 @@
       </footer>
 
       <div class="disclaimer">
-        We DO NOT host nor transmit any audiovisual content itself and DO NOT control nor influence such content...
+        We DO NOT host nor transmit any audiovisual content itself...
       </div>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/assets/js/api.js"></script>
   <script src="/assets/js/auth.js"></script>
 
   <script>
-    // --- MONETAG CONFIG ---
     const AD_URL = "https://omg10.com/4/10664814";
     let adClickedStart = false;
     let adClickedFullscreen = false;
@@ -286,7 +275,6 @@
     let eventEndTime = null;
     let streamStarted = false;
 
-    // Theme logic
     const htmlEl = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -339,14 +327,8 @@
     }
 
     async function playStream(url) {
-      if (playerInstance) {
-        playerInstance.remove();
-        playerInstance = null;
-      }
-
+      if (playerInstance) { playerInstance.remove(); playerInstance = null; }
       const useJW = await isM3U8(url);
-      
-      // RESET FAKE PLAYER ON STREAM CHANGE
       const fakeLayer = document.getElementById('fakePlayerLayer');
       fakeLayer.style.display = 'flex';
       adClickedFakePlayer = false;
@@ -361,46 +343,21 @@
       };
     }
 
-    // Moved actual player logic to a function so it triggers after ad
     function initActualPlayer(url, useJW) {
       if (useJW) {
         document.getElementById('embedPlayer').style.display = 'none';
         const container = document.getElementById('oplayer-container');
         container.style.display = 'block';
         container.innerHTML = '<div id="jw-player"></div>';
-
         playerInstance = jwplayer("jw-player").setup({
-          file: url,
-          autostart: true,
-          mute: true,
-          width: "100%",
-          aspectratio: "16:9",
-          cast: {}
+          file: url, autostart: true, mute: true, width: "100%", aspectratio: "16:9", cast: {}
         });
-
-        playerInstance.on('ready', () => {
-          clearError();
-          document.getElementById('fullscreenBtn').classList.remove('d-none');
-        });
-
-        playerInstance.on('error', (e) => {
-          document.getElementById('errorContainer').classList.remove('d-none');
-          document.getElementById('errorContainer').innerHTML = 'Stream failed – try another source or VPN';
-        });
-
+        playerInstance.on('ready', () => { clearError(); document.getElementById('fullscreenBtn').classList.remove('d-none'); });
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
-        document.getElementById('fullscreenBtn').classList.add('d-none');
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
-        try {
-          const u = new URL(url);
-          u.searchParams.set('autoplay', '1');
-          u.searchParams.set('mute', '1');
-          iframe.src = u.toString();
-        } catch {
-          iframe.src = url;
-        }
+        try { const u = new URL(url); u.searchParams.set('autoplay', '1'); iframe.src = u.toString(); } catch { iframe.src = url; }
       }
     }
 
@@ -408,11 +365,8 @@
       const container = document.getElementById('streamLinks');
       container.innerHTML = event.streams.map((s, i) => {
         const realUrl = typeof s === 'string' ? s : s.url;
-        const junk = Math.random().toString(36).slice(2, 10);
-        const payload = btoa(realUrl) + '||' + junk;
-        const protectedValue = btoa(payload);
-        const title = s.title || `Stream ${i+1}`;
-        return `<button class="btn btn-stream ${i===0?'active':''}" data-p="${protectedValue}">${title}</button>`;
+        const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
+        return `<button class="btn btn-stream ${i===0?'active':''}" data-p="${payload}">${s.title || `Stream ${i+1}`}</button>`;
       }).join('');
 
       container.addEventListener('click', e => {
@@ -424,152 +378,90 @@
           document.getElementById('currentStreamName').textContent = btn.textContent.trim();
           container.querySelectorAll('.btn-stream').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
-        } catch (err) { console.error('Stream decode error:', err); }
+        } catch (err) {}
       });
     }
 
     function formatTimeLeft(seconds) {
       if (seconds <= 0) return "Starting now!";
-      const d = Math.floor(seconds / 86400);
       const h = Math.floor((seconds % 86400) / 3600);
       const m = Math.floor((seconds % 3600) / 60);
       const s = seconds % 60;
-      if (d > 0) return `${d}d ${h.toString().padStart(2,'0')}h ${m.toString().padStart(2,'0')}m`;
       return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
     }
 
     function updatePreStreamStatus() {
       const now = Math.floor(Date.now() / 1000);
-      const statusArea = document.getElementById('statusArea');
-      const countdownEl = document.getElementById('countdownDisplay');
-      const messageEl = document.getElementById('statusMessage');
       const startBtn = document.getElementById('startLivestream');
-      if (!eventStartTime || !eventEndTime) return;
-      const timeLeft = eventStartTime - now;
-      const isLive = now >= eventStartTime && now <= eventEndTime;
-      const isEnded = now > eventEndTime;
-
-      if (streamStarted) {
-        statusArea.style.display = 'none';
-        startBtn.style.display = 'none';
-        return;
-      }
-      if (isLive) {
-        statusArea.style.display = 'none';
+      if (!eventStartTime) return;
+      if (streamStarted) { startBtn.style.display = 'none'; return; }
+      if (now >= eventStartTime && now <= eventEndTime) {
+        document.getElementById('statusArea').style.display = 'none';
         startBtn.style.display = 'inline-block';
       } else {
-        statusArea.style.display = 'block';
-        startBtn.style.display = 'none';
-        document.getElementById('mainVideoContainer').style.display = 'none';
-        if (isEnded) {
-          countdownEl.textContent = "";
-          messageEl.textContent = "This event has ended";
-        } else {
-          countdownEl.textContent = formatTimeLeft(timeLeft);
-          messageEl.textContent = "Stream has not started yet";
-        }
+        document.getElementById('countdownDisplay').textContent = formatTimeLeft(eventStartTime - now);
       }
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
       const uriName = window.location.pathname.split('/').pop();
-      const titleEl = document.getElementById('eventTitle');
       const startBtn = document.getElementById('startLivestream');
 
       try {
         const catListRes = await fetchWithRetry('/api/stream');
-        const categoryNames = catListRes.categories || [];
-        const fetchPromises = categoryNames.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ success: true, streams: [] })));
+        const fetchPromises = catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ success: true, streams: [] })));
         const allCategoryData = await Promise.all(fetchPromises);
         let foundEvent = null;
 
         for (const data of allCategoryData) {
-          if (!data.success) continue;
           for (const catObj of data.streams) {
-            const match = catObj.streams.find(ev => ev.uri_name === uriName);
-            if (match) { foundEvent = match; break; }
+            foundEvent = catObj.streams.find(ev => ev.uri_name === uriName);
+            if (foundEvent) break;
           }
           if (foundEvent) break;
         }
 
-        if (!foundEvent) throw new Error('Event not found');
-        titleEl.textContent = foundEvent.name;
-        streamData = foundEvent;
-        eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
-        eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 3 * 3600;
-
-        updatePreStreamStatus();
-        setInterval(updatePreStreamStatus, 1000);
+        if (foundEvent) {
+          document.getElementById('eventTitle').textContent = foundEvent.name;
+          eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
+          eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
+          updatePreStreamStatus();
+          setInterval(updatePreStreamStatus, 1000);
+        }
 
         startBtn.onclick = () => {
-          // TRIGGER AD ON FIRST CLICK
-          if (!adClickedStart) {
-            window.open(AD_URL, '_blank');
-            adClickedStart = true;
-          }
-
+          if (!adClickedStart) { window.open(AD_URL, '_blank'); adClickedStart = true; }
           document.getElementById('mainVideoContainer').style.display = 'block';
           document.getElementById('streamLinks').style.display = 'block';
           startBtn.style.display = 'none';
           document.getElementById('liveStreamTitle').classList.remove('d-none');
           document.getElementById('currentStreamName').textContent = foundEvent.name;
-          const firstUrl = foundEvent.streams?.[0]?.url;
-          if (firstUrl) { playStream(firstUrl); populateStreamButtons(foundEvent); }
+          playStream(foundEvent.streams[0].url);
+          populateStreamButtons(foundEvent);
           streamStarted = true;
         };
-      } catch (err) {
-        titleEl.textContent = 'Stream Not Found';
-      }
+      } catch (err) {}
 
-      document.getElementById('fullscreenBtn').addEventListener('click', () => {
-        // TRIGGER AD ON FIRST CLICK
-        if (!adClickedFullscreen) {
-            window.open(AD_URL, '_blank');
-            adClickedFullscreen = true;
-        }
-
-        if (playerInstance) {
-          playerInstance.setFullscreen(true);
-        } else {
-          const container = document.getElementById('oplayer-container').style.display !== 'none'
-            ? document.getElementById('oplayer-container')
-            : document.getElementById('embedPlayer');
-          if (container.requestFullscreen) container.requestFullscreen();
-          else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
-        }
-      });
+      document.getElementById('fullscreenBtn').onclick = () => {
+        if (!adClickedFullscreen) { window.open(AD_URL, '_blank'); adClickedFullscreen = true; }
+        if (playerInstance) playerInstance.setFullscreen(true);
+      };
 
       // Notification logic
-      const tipAlert = document.getElementById('tipAlert');
       const infoAlert = document.getElementById('infoAlert');
       const joinAlert = document.getElementById('joinAlert');
-      const timerEl = document.getElementById('countdownTimer');
-      let sec = 10;
-      let showJoin = false;
+      let showJoin = true;
 
-      const tipTimer = setInterval(() => {
-        sec--;
-        if(timerEl) timerEl.textContent = sec + 's';
-        if (sec <= 0) {
-          clearInterval(tipTimer);
-          tipAlert.classList.add('fade-out');
-          setTimeout(() => {
-            tipAlert.style.display = 'none';
-            infoAlert.classList.remove('d-none');
-            infoAlert.style.opacity = '1';
-            setInterval(() => {
-              if (showJoin) {
-                infoAlert.style.opacity = '0';
-                setTimeout(() => { infoAlert.classList.add('d-none'); joinAlert.classList.remove('d-none'); joinAlert.style.opacity = '1'; }, 600);
-              } else {
-                joinAlert.style.opacity = '0';
-                setTimeout(() => { joinAlert.classList.add('d-none'); infoAlert.classList.remove('d-none'); infoAlert.style.opacity = '1'; }, 600);
-              }
-              showJoin = !showJoin;
-            }, 10000);
-          }, 600);
+      setInterval(() => {
+        if (showJoin) {
+          infoAlert.style.opacity = '0';
+          setTimeout(() => { infoAlert.classList.add('d-none'); joinAlert.classList.remove('d-none'); joinAlert.style.opacity = '1'; }, 600);
+        } else {
+          joinAlert.style.opacity = '0';
+          setTimeout(() => { joinAlert.classList.add('d-none'); infoAlert.classList.remove('d-none'); infoAlert.style.opacity = '1'; }, 600);
         }
-      }, 1000);
+        showJoin = !showJoin;
+      }, 10000);
     });
   </script>
 </body>
