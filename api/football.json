@@ -55,8 +55,8 @@
           "uri_name": "paris-fc-vs-nice",
           "poster": "https://i.postimg.cc/bw1zqWbX/1772331098312.png",
           "tag": "Ligue 1",
-          "starts_at": "2026-03-01T17:00:00",
-          "ends_at": "2026-03-01T19:05:00",
+          "starts_at": "2026-02-01T17:00:00",
+          "ends_at": "2026-02-01T19:05:00",
           "always_live": 0,
           "streams": [
             {
@@ -70,8 +70,8 @@
           "uri_name": "lille-vs-nantes",
           "poster": "https://i.postimg.cc/3x2K3VGs/1772331108894.png",
           "tag": "Ligue 1",
-          "starts_at": "2026-03-01T19:15:00",
-          "ends_at": "2026-03-01T21:15:00",
+          "starts_at": "2026-02-01T19:15:00",
+          "ends_at": "2026-02-01T21:15:00",
           "always_live": 0,
           "streams": [
             {
@@ -85,8 +85,8 @@
           "uri_name": "lorient-vs-aj-auxerre",
           "poster": "https://i.postimg.cc/t4FX9wPQ/1772331116505.png",
           "tag": "Ligue 1",
-          "starts_at": "2026-03-01T19:15:00",
-          "ends_at": "2026-03-01T21:15:00",
+          "starts_at": "2026-02-01T19:15:00",
+          "ends_at": "2026-02-01T21:15:00",
           "always_live": 0,
           "streams": [
             {
@@ -100,8 +100,8 @@
           "uri_name": "metz-vs-brestois",
           "poster": "https://i.postimg.cc/cLfsd2YG/1772331128182.png",
           "tag": "Ligue 1",
-          "starts_at": "2026-03-01T19:15:00",
-          "ends_at": "2026-03-01T21:15:00",
+          "starts_at": "2026-02-01T19:15:00",
+          "ends_at": "2026-02-01T21:15:00",
           "always_live": 0,
           "streams": [
             {
