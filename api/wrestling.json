@@ -6,12 +6,12 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "WWE Monday Night RAW",
+          "name": "WWE: Monday Night RAW",
           "uri_name": "wwe-monday-night-raw",
           "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfIEx58qoUykhgCpim5okl4CPDc9oKHjCteBpDbxngmA&s=10",
           "tag": "WWE",
-          "starts_at": "2026-03-02T04:00:00",
-          "ends_at": "2026-03-02T07:00:00",
+          "starts_at": "2026-03-03T04:00:00",
+          "ends_at": "2026-03-03T07:00:00",
           "always_live": 0,
           "streams": [
             {
@@ -21,12 +21,12 @@
           ]
         },
         {
-          "name": "WWE NXT",
+          "name": "WWE: NXT",
           "uri_name": "wwe-nxt",
           "poster": "https://static.wikia.nocookie.net/infinitywrestling/images/1/18/NXT-Logo-2016.jpg/revision/latest?cb=20161011112522",
           "tag": "WWE",
-          "starts_at": "2026-03-03T04:00:00",
-          "ends_at": "2026-03-03T07:00:00",
+          "starts_at": "2026-03-04T04:00:00",
+          "ends_at": "2026-03-04T07:00:00",
           "always_live": 0,
           "streams": [
             {
@@ -36,12 +36,12 @@
           ]
         },
         {
-          "name": "AEW Wednesday Night Dynamite",
+          "name": "AEW: Wednesday Night Dynamite",
           "uri_name": "aew-wednesday-night-dynamite",
           "poster": "https://static.wixstatic.com/media/815952_4d9aff75fc6147aca61c95f2e6e74589~mv2.jpg/v1/fill/w_1920,h_1080,al_c/815952_4d9aff75fc6147aca61c95f2e6e74589~mv2.jpg",
           "tag": "AEW",
-          "starts_at": "2026-03-04T04:00:00",
-          "ends_at": "2026-03-04T07:00:00",
+          "starts_at": "2026-03-05T04:00:00",
+          "ends_at": "2026-03-05T07:00:00",
           "always_live": 0,
           "streams": [
             {
@@ -51,12 +51,12 @@
           ]
         },
         {
-          "name": "TNA Impact",
+          "name": "TNA: Impact",
           "uri_name": "tna-impact",
           "poster": "https://www.wrestleview.com/wp-content/uploads/2026/01/tna-wrestling.jpg",
           "tag": "TNA",
-          "starts_at": "2026-03-05T04:00:00",
-          "ends_at": "2026-03-05T07:00:00",
+          "starts_at": "2026-03-06T04:00:00",
+          "ends_at": "2026-03-06T07:00:00",
           "always_live": 0,
           "streams": [
             {
@@ -66,12 +66,12 @@
           ]
         },
         {
-          "name": "WWE Friday Night SmackDown",
+          "name": "WWE: Friday Night Smackdown",
           "uri_name": "wwe-friday-night-smackdown",
           "poster": "https://progresswrestling.com/wp-content/uploads/2025/05/How-To-Watch-WWE-Smackdown.png",
           "tag": "WWE",
-          "starts_at": "2026-03-06T04:00:00",
-          "ends_at": "2026-03-06T07:00:00",
+          "starts_at": "2026-03-07T04:00:00",
+          "ends_at": "2026-03-07T07:00:00",
           "always_live": 0,
           "streams": [
             {
@@ -81,12 +81,12 @@
           ]
         },
         {
-          "name": "AEW Saturday Night Collision",
+          "name": "AEW: Saturday Night Collision",
           "uri_name": "aew-saturday-night-collision",
           "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDVjTm4kSqiMHk2l1zDPlmQ4gepPaVXljMxRAstPx5RAoN-fO8AGNHoQs&s=10",
           "tag": "AEW",
-          "starts_at": "2026-03-07T04:00:00",
-          "ends_at": "2026-03-07T07:00:00",
+          "starts_at": "2026-03-08T04:00:00",
+          "ends_at": "2026-03-08T07:00:00",
           "always_live": 0,
           "streams": [
             {
