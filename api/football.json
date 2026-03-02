@@ -6,152 +6,17 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Manchester United vs Crystal Palace",
-          "uri_name": "manchester-united-vs-crystal-palace",
-          "poster": "https://i.postimg.cc/0y789FSV/1772331083398.png",
-          "tag": "EPL",
-          "starts_at": "2026-03-01T17:00:00",
-          "ends_at": "2026-03-01T19:05:00",
+          "name": "Real Madrid vs Getafe",
+          "uri_name": "real-madrid-vs-getafe",
+          "poster": "https://i.postimg.cc/sgV1JDPr/f6f1cc34ffde3aa61e50f8a2a894f5ff-thumbnail.jpg",
+          "tag": "LaLiga",
+          "starts_at": "2026-03-02T23:00:00",
+          "ends_at": "2026-03-03T01:10:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://dc.futbol-x.site/manu/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Fulham vs Tottenham",
-          "uri_name": "fulham-vs-tottenham",
-          "poster": "https://i.postimg.cc/g23YGQhs/1772331076607.png",
-          "tag": "EPL",
-          "starts_at": "2026-03-01T17:00:00",
-          "ends_at": "2026-03-01T19:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://dc.futbol-x.site/ful/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Brighton vs Nottingham Forest",
-          "uri_name": "brighton-vs-nottingham-forest",
-          "poster": "https://i.postimg.cc/sg5V3qWw/1772331067992.png",
-          "tag": "EPL",
-          "starts_at": "2026-03-01T17:00:00",
-          "ends_at": "2026-03-01T19:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://dc.futbol-x.site/bha/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Paris FC vs Nice",
-          "uri_name": "paris-fc-vs-nice",
-          "poster": "https://i.postimg.cc/bw1zqWbX/1772331098312.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-01T17:00:00",
-          "ends_at": "2026-02-01T19:05:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-paris-fc-vs-nice/1"
-            }
-          ]
-        },
-        {
-          "name": "Lille vs Nantes",
-          "uri_name": "lille-vs-nantes",
-          "poster": "https://i.postimg.cc/3x2K3VGs/1772331108894.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-01T19:15:00",
-          "ends_at": "2026-02-01T21:15:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-lille-vs-nantes/1"
-            }
-          ]
-        },
-        {
-          "name": "Lorient vs AJ Auxerre",
-          "uri_name": "lorient-vs-aj-auxerre",
-          "poster": "https://i.postimg.cc/t4FX9wPQ/1772331116505.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-01T19:15:00",
-          "ends_at": "2026-02-01T21:15:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-lorient-vs-aj-auxerre/1"
-            }
-          ]
-        },
-        {
-          "name": "Metz vs Brestois",
-          "uri_name": "metz-vs-brestois",
-          "poster": "https://i.postimg.cc/cLfsd2YG/1772331128182.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-02-01T19:15:00",
-          "ends_at": "2026-02-01T21:15:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-metz-vs-brestois/1"
-            }
-          ]
-        },
-        {
-          "name": "Arsenal vs Chelsea",
-          "uri_name": "arsenal-vs-chelsea",
-          "poster": "https://i.postimg.cc/pLK2P4jk/1772329969748.png",
-          "tag": "EPL",
-          "starts_at": "2026-03-01T19:30:00",
-          "ends_at": "2026-03-01T21:40:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://dc.futbol-x.site/ars/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Roma vs Juventus",
-          "uri_name": "roma-vs-juventus",
-          "poster": "https://i.postimg.cc/cJZdCh7b/1772331137401.png",
-          "tag": "Serie A",
-          "starts_at": "2026-03-01T22:45:00",
-          "ends_at": "2026-03-02T00:50:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://dc.futbol-x.site/juve/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Marseille vs Lyon",
-          "uri_name": "marseille-vs-lyon",
-          "poster": "https://i.postimg.cc/fbZMyC7F/1772331150872.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-03-01T22:45:00",
-          "ends_at": "2026-03-02T00:50:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://dc.futbol-x.site/ol/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-real-madrid-vs-getafe/1"
             }
           ]
         }
