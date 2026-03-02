@@ -5,11 +5,11 @@
   "main": "index.html",
   "scripts": {
     "start": "serve .",
-    "build": "echo 'No build step required for static site'"
+    "build": "echo 'Static deployment'" 
   },
   "author": "Futbol-x",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {}, 
   "devDependencies": {
     "serve": "^14.2.1"
   }
