@@ -1,16 +1,8 @@
 [build]
-  # If you don't have a build step (just raw HTML), leave command empty
   command = "" 
   publish = "."
-  functions = "api" # This tells Netlify your JS functions are in the /api folder
+  functions = "api"
 
-# 1. Handle JS API Functions
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-
-# 2. Specific JSON Rewrites
 [[redirects]]
   from = "/api/stream"
   to = "/api/stream.json"
@@ -21,7 +13,11 @@
   to = "/api/stream-24-7.json"
   status = 200
 
-# 3. Auth and Dashboard Pages
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
 [[redirects]]
   from = "/auth/login"
   to = "/auth/login.html"
@@ -37,7 +33,6 @@
   to = "/dashboard.html"
   status = 200
 
-# 4. Live Streaming Wildcards
 [[redirects]]
   from = "/live/*"
   to = "/live.html"
@@ -48,7 +43,6 @@
   to = "/live-24-7.html"
   status = 200
 
-# 5. General Pages
 [[redirects]]
   from = "/vip"
   to = "/vip.html"
@@ -59,8 +53,6 @@
   to = "/24-7.html"
   status = 200
 
-# 6. Fallback (Single Page App routing)
-# This catches everything else and sends it to index.html
 [[redirects]]
   from = "/*"
   to = "/index.html"
