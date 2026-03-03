@@ -6,17 +6,17 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "UFC Fight Night: Strickland vs Hernandez",
-          "uri_name": "ufc-fight-night-strickland-vs-hernandez",
-          "poster": "https://i.postimg.cc/PrhWmjbT/1771553410775.png",
+          "name": "UFC 326: Holloway vs Oliveira 2",
+          "uri_name": "ufc-326-holloway-vs-oliveira-2",
+          "poster": "https://images.discovery-prod.axs.com/2026/01/ufc-326-tickets_03-07-26_17_697bd5b3d03b1.jpg",
           "tag": "UFC",
-          "starts_at": "2026-02-22T01:00:00",
-          "ends_at": "2026-02-22T08:00:00",
+          "starts_at": "2026-03-08T01:00:00",
+          "ends_at": "2026-03-08T07:50:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://sixseven.futbol-x.site/ufc/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-ufc-326-holloway-vs-oliveira-2/1"
             }
           ]
         }
