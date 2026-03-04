@@ -1,10 +1,19 @@
+# API Rewrites (Force specific files for paths)
 /api/stream          /api/stream.json    200
 /api/stream-24-7     /api/stream-24-7.json 200
+
+# Auth and Dashboard pages
 /auth/login          /auth/login.html    200
 /auth/signup         /auth/signup.html   200
 /dashboard           /dashboard.html     200
+
+# Live Match dynamic paths (Splat)
 /live/* /live.html          200
 /live-24-7/* /live-24-7.html     200
+
+# Simple page rewrites
 /vip                 /vip.html           200
 /24-7                /24-7.html          200
+
+# Single Page App (SPA) fallback - MUST be at the very bottom
 /* /index.html         200
