@@ -1,0 +1,12 @@
+[
+  { "from": "/api/stream", "to": "/api/stream.json", "status": 200 },
+  { "from": "/api/stream-24-7", "to": "/api/stream-24-7.json", "status": 200 },
+  { "from": "/auth/login", "to": "/auth/login.html", "status": 200 },
+  { "from": "/auth/signup", "to": "/auth/signup.html", "status": 200 },
+  { "from": "/dashboard", "to": "/dashboard.html", "status": 200 },
+  { "from": "/vip", "to": "/vip.html", "status": 200 },
+  { "from": "/24-7", "to": "/24-7.html", "status": 200 },
+  { "from": "/live/*", "to": "/live.html", "status": 200 },
+  { "from": "/live-24-7/*", "to": "/live-24-7.html", "status": 200 },
+  { "from": "/*", "to": "/index.html", "status": 200 }
+]
