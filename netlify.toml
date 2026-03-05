@@ -1,0 +1,76 @@
+[build]
+  publish = "."
+  functions = "api"
+
+[[redirects]]
+  from = "/sw.js"
+  to = "/sw.js"
+  status = 200
+
+[[redirects]]
+  from = "/manifest.json"
+  to = "/manifest.json"
+  status = 200
+
+[[redirects]]
+  from = "/assets/*"
+  to = "/assets/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/*.json"
+  to = "/api/:splat.json"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/stream"
+  to = "/api/stream.json"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/stream-24-7"
+  to = "/api/stream-24-7.json"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/auth/login"
+  to = "/auth/login.html"
+  status = 200
+
+[[redirects]]
+  from = "/auth/signup"
+  to = "/auth/signup.html"
+  status = 200
+
+[[redirects]]
+  from = "/dashboard"
+  to = "/dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/live/*"
+  to = "/live.html"
+  status = 200
+
+[[redirects]]
+  from = "/live-24-7/*"
+  to = "/live-24-7.html"
+  status = 200
+
+[[redirects]]
+  from = "/vip"
+  to = "/vip.html"
+  status = 200
+
+[[redirects]]
+  from = "/24-7"
+  to = "/24-7.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
