@@ -1,1 +1,18 @@
-
+{
+  "success": true,
+  "categories": [
+    "football",
+    "tennis",
+    "basketball",
+    "fights",
+    "motorsports",
+    "nfl",
+    "nhl",
+    "mlb",
+    "rugby",
+    "golf",
+    "others",
+    "wrestling",
+    "darts"
+  ]
+}
