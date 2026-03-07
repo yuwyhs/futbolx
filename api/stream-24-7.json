@@ -1,0 +1,178 @@
+{
+  "success": true,
+  "streams": {
+    "Sports": [
+      {
+        "name": "NBA Tv",
+        "uri_name": "nba-tv",
+        "tag": "NBA",
+        "poster": "https://www.basketusa.com/app/uploads/2019/11/2208453.jpg",
+        "streams": [
+          {
+            "label": "Nba Tv Usa",
+            "url": "https://anym3u8player.com/ultimate-player-generator/player.php?player=jwplayer&url=https%3A%2F%2Fstream.ecable.tv%2Fafrobeats%2Ftracks-v3a1%2Fmono.m3u8&autoplay=1&controls=auto&theme=default&buffer=30&quality=1&pip=1&fullscreen=1&no_download=1&width=responsive&aspect=16%3A9&domain_restrict=1&domains=https%3A%2F%2Fwww.futbol-tv.online%2F%2Canym3u8player.com"
+          },
+          {
+            "label": "Stream 2",
+            "url": "https://cstream.fit/embed/5bc5938033cf11fd95ac05804011196b"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Goal Tv",
+        "uri_name": "goal-tv",
+        "tag": "Sports",
+        "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAANmuET_eYcvdWFygws63EIYSUofNOMfsjA&s",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://streams2.sofast.tv/sofastplayout/WiseM3U8_1/master.m3u8"
+          },
+          {
+            "label": "Stream 2",
+            "url": "https://stream.futbol-x.site/sky/index.m3u8"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Sky Sports News",
+        "uri_name": "sky-sports-news",
+        "tag": "Sports",
+        "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGskAJmHOwSj7jiRWINDE_UOfgNzogS6ayOxbqjPU-Xw&s=10",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://fun.futbol-x.site/streams/skynews/index.m3u8"
+          }
+        ],
+        "always_live": 1
+      }
+    ],
+    "Entertainment": [
+      {
+        "name": "Swimrewind",
+        "uri_name": "swimrewind",
+        "tag": "Entertainment",
+        "poster": "https://static.wixstatic.com/media/80923f_8c41cc922b46429885d8a5700a557ac6~mv2.png/v1/fill/w_980,h_549,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/80923f_8c41cc922b46429885d8a5700a557ac6~mv2.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://swimrewind.com/hls/stream.m3u8"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Comedy Central",
+        "uri_name": "comedy-central",
+        "tag": "Comedy",
+        "poster": "https://images.paramount.tech/uri/mgid:arc:imageassetref:en-gb.ws.cc.co.uk:659465e0-b6ff-416d-98e2-a9969431b816?quality=0.7&gen=ntrn&format=webp&width=320",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://fl1.moveonjoy.com/Comedy_TV/index.m3u8"
+          }
+        ],
+        "always_live": 1
+      }
+    ],
+    "Kids": [
+      {
+        "name": "Nickelodeon",
+        "uri_name": "nickelodeon",
+        "tag": "Cartoons",
+        "poster": "https://cdn.mos.cms.futurecdn.net/u3xQKM9WfmqKc8FPXbcqyY.jpg",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://stream.futbol-x.site/test/index.m3u8"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "KidsFlix",
+        "uri_name": "kidsflix",
+        "tag": "Kids",
+        "poster": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/70/df/5a/70df5a45-d3af-e622-114a-bce9b42f2b1c/AppIcon-0-0-1x_U007emarketing-0-7-0-0-85-220.png/1200x630wa.jpg",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://stream.ads.ottera.tv/cl/260220d6c8eefug2bb7dadc0eg/640x360_350000_2_f.m3u8?i=475_50"
+          }
+        ],
+        "always_live": 1
+      }
+    ],
+    "Music": [
+      {
+        "name": "MTV Live",
+        "uri_name": "mtv-live",
+        "tag": "Music",
+        "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXvbNshlpj4xvKcWDuEGM2AbgKL9-eMwOWqQ&s",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "http://fl12.moveonjoy.com/MTV/index.m3u8"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Trace Urban",
+        "uri_name": "trace-urban",
+        "tag": "Music",
+        "poster": "https://pbs.twimg.com/media/GsW1Lk9WMAAxUVc.jpg",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://amg01131-tracetv-traceurban-klowdtv-utiqd.amagi.tv/ts-us-w2-n1/playlist/amg01131-tracetv-traceurban-klowdtv/cb543d1b7f6c648b93d43d65d7ef44a5f94d1fde1d6988693eb5518975d10725dce2b48be65b9e3608dd4087351a6c545677a864c30d01c2db0cb141453c5728cfffe729a2c05616b7db083429b56a062a866a68ac39437ed0e21f48a238b6720a5aa82a66443d80b846ac7256db80148c7a2c82b3dc623b6d2700cd0401b0b03df2a9b01f1cc769a2b6024b933d51b28143c0811befd5c95bcf178e6bf015cb93ed828144829b9232fb54b6350d5a73299dd64b8ba332de0c190243fe5a0d047b7ee3ad8aff3c4dec25627a88354f22078575ef8f37886336c16df086475bf80c8408aef341a2a4f9a52a87facfb6393277da958e8bf2273cbf6fbb92fbd2657597f51132279b28b0aa4c49662fa70548288149cfe91406441f30e2b10ff5bcb491e6b38c05b224c3d5fb9a347880026e19ab52b89361d728922de69e536970444ab8820e84a7d75a226d4682c00f81485b8af6c6a28f5b6eec295b7bf870d55e3269ce1f6568aa78aacd723fdf6642ae1d09d67479c04ef5b329b580dee60d34fc9ee44aed60e2b04583a256e73d720e57e6ab620e161e3dfde164043c7c8376e5d5cbf37e4655bfa083ad9621556d5e365c0899edee74e9ec917c6756ab3415617903029803a40eec0144133bc71991c0247b870f2d28a697375254699caae5d667b714c81cd3b55d54485803262df5e063be5ad2b93276/47/1280x720_2657600/index.m3u8"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Afro Beats Tv",
+        "uri_name": "afro-beats-tv",
+        "tag": "Music",
+        "poster": "https://mytv256.com/upload/afrobeats%20tv.jpg",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://stream.ecable.tv/afrobeats/tracks-v3a1/mono.m3u8"
+          }
+        ],
+        "always_live": 1
+      }
+    ],
+    "Movies VOD": [],
+    "News": [],
+    "Religion": [],
+    "Anime": [
+      {
+        "name": "Anime Channel",
+        "uri_name": "anime-channel",
+        "tag": "Anime",
+        "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvYH2wGCSxxZj4mZW0KnHbQMGXEGpTn1WWT_Wje5nNhivpLKwq5fWfzQ1_&s=10",
+        "streams": [
+          {
+            "label": "Animax",
+            "url": "https://ads.its-newid.net/api/manifest.m3u8?tp=samsung_tvplus&channel_name=animax%EC%9A%94%EB%A6%AC%EC%99%95%EB%B9%84%EB%A3%A1%EB%8D%94%EB%A7%88%EC%8A%A4%ED%84%B0&channel_id=newid_024&apikey=b97c7a7d0c82424bb607e141ef215779&auth=e9963ef1-e25f558f-49451fd9-38ec4fb9&ads.live=[CONTENT_LIVE]&ads.device_did=%7BPSID%7D&ads.ifa=[IFA]&ads.ifatype=[IFA_TYPE]&ads.lat=[LMT]&ads.donotsell=[DNS]&ads.ip=[IP]&ads.gdpr=[GDPR]&ads.gdprconsent=[GDPR_CONSENT]&ads.country=[COUNTRY]&ads.us_privacy=[US_PRIVACY]&ads.appstoreurl=[APP_STOREURL]&ads.bundleid=[APP_BUNDLE]&ads.app.name=%7BAPP_NAME%7D&ads.appversion=[APP_VERSION]&ads.devicetype=[DEVICE_TYPE]&ads.devicemake=[DEVICE_MAKE]&ads.devicemodel=[DEVICE_MODEL]&ads.targetad=[TARGETAD_ALLOWED]&ads.content_title=[PROGRAM_TITLE]&ads.content_series=[SERIES_TITLE]&ads.content_season=[SEASON_TITLE]&ads.content_episode=[EPISODE_NO]&ads.content_length=[CONTENT_LENGTH]&ads.device.dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&nh=true&ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&ads.ssai_vendor=SSSLIVE&ads.service_id=KRBC3200001VC"
+          },
+          {
+            "label": "Anime Vision Classic",
+            "url": "https://d82pyvmcw2kdc.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-swfivzrzwamaq/live/fast-channel-animevisionclassics-efc8dc6d/fast-channel-animevisionclassics-efc8dc6d.m3u8?ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&ads.consent=%7BTC_STRING%7D&ads.ssai_vendor=SSSLIVE&ads.service_id=ES3000288I"
+          },
+          {
+            "label": "Crunchyroll",
+            "url": "https://a3c4ecbd.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/TEdfQ3J1bmNoeXJvbGxfSExT/playlist.m3u8"
+          }
+        ],
+        "always_live": 1
+      }
+    ],
+    "Movies Live": []
+  }
+}
