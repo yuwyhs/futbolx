@@ -1,0 +1,21 @@
+# PWA and Static Assets
+/sw.js            /sw.js            200
+/manifest.json    /manifest.json    200
+/assets/*         /assets/:splat    200
+
+# API Redirects (Mapping clean URLs to .json files)
+/api/stream       /api/stream.json  200
+/api/stream-24-7  /api/stream-24-7.json 200
+/api/*            /api/:splat       200
+
+# Auth and Page Rewrites
+/auth/login       /auth/login.html  200
+/auth/signup      /auth/signup.html 200
+/dashboard        /dashboard.html   200
+/live/*           /live.html        200
+/live-24-7/*      /live-24-7.html   200
+/vip              /vip.html         200
+/24-7             /24-7.html        200
+
+# SPA Catch-all (Must be the last line)
+/*                /index.html       200
