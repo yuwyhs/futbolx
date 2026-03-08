@@ -1,0 +1,41 @@
+{
+  "success": true,
+  "streams": [
+    {
+      "category": "Football",
+      "always_live": 0,
+      "streams": [
+        {
+          "name": "Ac Milan vs Inter Milan",
+          "uri_name": "a1b2c3d4",
+          "poster": "https://i.postimg.cc/kGRRYVw4/1772997278949.png",
+          "tag": "Serie A",
+          "starts_at": "2026-03-08T22:45:00",
+          "ends_at": "2026-03-09T00:50:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-a1b2c3d4/1"
+            }
+          ]
+        },
+        {
+          "name": "Lyon vs Paris Fc",
+          "uri_name": "e5f6g7h8",
+          "poster": "https://i.postimg.cc/vTxx21Xm/1772997294911.png",
+          "tag": "Ligue 1",
+          "starts_at": "2026-03-08T22:45:00",
+          "ends_at": "2026-03-09T00:50:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedsports.top/embed/admin/ppv-e5f6g7h8/1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
