@@ -18,7 +18,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
-
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
@@ -34,7 +33,6 @@
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
-    /* --- FAKE PLAYER STYLES --- */
     #fakePlayerLayer {
       position: absolute; top:0; left:0; width:100%; height:100%;
       background: #000; z-index: 999; display: flex; align-items: center; justify-content: center; cursor: pointer;
@@ -234,11 +232,8 @@
             <div class="col-12 col-lg-4">
               <div class="chat-wrapper">
                 <div class="chat-header">Live Chat</div>
-                <div class="chat-container">
-                  <script id="cid0020000430640675904" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%; height: 100%;">
-                    {"handle":"futbolxc","arch":"js","styles":{"a":"000000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"000000","l":"000000","m":"000000","n":"FFFFFF","p":"10","q":"000000","r":100,"t":0,"usricon":0.86,"surl":0,"allowpm":0,"cnrs":"0.76"}}
-                  </script>
-                </div>
+                <div class="chat-container" id="chatContainer">
+                  </div>
               </div>
             </div>
           </div>
@@ -264,7 +259,21 @@
   <script src="/assets/js/auth.js"></script>
 
   <script>
+    // Inject Chat Dynamically to hide URL
+    document.addEventListener("DOMContentLoaded", function() {
+        const container = document.getElementById('chatContainer');
+        const iframe = document.createElement('iframe');
+        const urlParts = ['https://chat-sable', '-iota.vercel.app/'];
+        iframe.src = urlParts.join('');
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = 'none';
+        iframe.allow = "autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share";
+        container.appendChild(iframe);
+    });
+
     const AD_URL = "https://omg10.com/4/10699047";
+    // ... [Remaining original scripts kept intact] ...
     let adClickedStart = false;
     let adClickedFullscreen = false;
     let adClickedFakePlayer = false;
@@ -447,7 +456,6 @@
         if (playerInstance) playerInstance.setFullscreen(true);
       };
 
-      // Notification logic
       const infoAlert = document.getElementById('infoAlert');
       const joinAlert = document.getElementById('joinAlert');
       let showJoin = true;
