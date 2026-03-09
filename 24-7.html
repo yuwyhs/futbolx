@@ -47,7 +47,6 @@
       display: grid;
       gap: 2rem;
       padding: 1.5rem;
-      /* Dynamic column count: fills based on available width, min card size 320px */
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     }
 
@@ -72,6 +71,30 @@
     }
     
     .category-dropdown { margin: 2rem 0; }
+
+    /* COMING SOON OVERLAY STYLES */
+    .coming-soon-overlay {
+      position: fixed;
+      top: 56px; /* Nav height */
+      left: 0;
+      width: 100%;
+      height: calc(100% - 56px);
+      z-index: 1040;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      pointer-events: none; /* Allows scrolling and sidebar access */
+    }
+    .coming-soon-text {
+      font-size: clamp(3rem, 10vw, 7rem);
+      font-weight: 900;
+      color: white;
+      text-transform: uppercase;
+      text-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
   </style>
   <script>
     (function() {
@@ -81,6 +104,10 @@
   </script>
 </head>
 <body>
+  <div class="coming-soon-overlay">
+    <div class="coming-soon-text">Coming Soon</div>
+  </div>
+
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
       <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
