@@ -79,6 +79,8 @@
       border:1px solid #333;
       box-shadow:0 10px 30px rgba(0,0,0,0.6);
       margin-top: 0;
+      display: flex;
+      flex-direction: column;
     }
     
     .chat-header {
@@ -89,21 +91,31 @@
       font-size:1.2rem;
       text-align:center;
       border-bottom:2px solid #cc0000;
+      flex-shrink: 0;
     }
 
-    /* FIX: Added overflow:hidden and block display to prevent scrolling */
+    /* FIX: Set height and allow internal scrolling */
     .chat-container {
       height: 500px;
       background: #111;
       position: relative;
-      overflow: hidden;
+      overflow-y: auto; /* Forces internal scroll */
       display: block;
+      width: 100%;
     }
 
     @media (min-width: 992px) {
       .chat-container {
         height: 600px;
       }
+    }
+
+    /* Ensure iframe fills container perfectly */
+    #chatContainer iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
     }
 
     #statusArea {
@@ -234,8 +246,7 @@
             <div class="col-12 col-lg-4">
               <div class="chat-wrapper">
                 <div class="chat-header">Live Chat</div>
-                <div class="chat-container" id="chatContainer">
-                  </div>
+                <div class="chat-container" id="chatContainer"></div>
               </div>
             </div>
           </div>
@@ -261,27 +272,20 @@
   <script src="/assets/js/auth.js"></script>
 
   <script>
-    // FIX: Inject Chat Dynamically with absolute positioning to prevent page scroll
+    // Optimized Chat Injection
     document.addEventListener("DOMContentLoaded", function() {
         const container = document.getElementById('chatContainer');
         const iframe = document.createElement('iframe');
-        const urlParts = ['https://chat-sable', '-iota.vercel.app/'];
-        iframe.src = urlParts.join('');
-        
-        // Force absolute positioning
-        iframe.style.position = 'absolute';
-        iframe.style.top = '0';
-        iframe.style.left = '0';
+        iframe.src = 'https://chat-sable-iota.vercel.app/';
         iframe.style.width = '100%';
         iframe.style.height = '100%';
         iframe.style.border = 'none';
-        
+        iframe.setAttribute('scrolling', 'yes');
         iframe.allow = "autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share";
         container.appendChild(iframe);
     });
 
     const AD_URL = "https://omg10.com/4/10699047";
-    // ... [Your original logic remains below] ...
     let adClickedStart = false;
     let adClickedFullscreen = false;
     let adClickedFakePlayer = false;
