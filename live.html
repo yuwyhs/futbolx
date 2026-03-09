@@ -19,7 +19,6 @@
   
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
-
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
     .tip-container {max-width:600px;margin:20px auto;transition:height .3s;overflow:hidden;}
@@ -71,18 +70,18 @@
       100% { opacity: 1; }
     }
 
+    /* Updated Chat Layout */
     .chat-wrapper {
-      width: 100%;
-      background:#1a1a1a;
-      border-radius:16px;
-      overflow:hidden;
-      border:1px solid #333;
-      box-shadow:0 10px 30px rgba(0,0,0,0.6);
-      margin-top: 0;
       display: flex;
       flex-direction: column;
+      width: 100%;
+      background: #1a1a1a;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #333;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      height: 500px;
     }
-    
     .chat-header {
       background:#ff4d4d;
       color:white;
@@ -91,31 +90,16 @@
       font-size:1.2rem;
       text-align:center;
       border-bottom:2px solid #cc0000;
-      flex-shrink: 0;
     }
-
-    /* FIX: Set height and allow internal scrolling */
     .chat-container {
-      height: 500px;
+      flex-grow: 1;
+      width: 100%;
+      overflow: hidden;
       background: #111;
       position: relative;
-      overflow-y: auto; /* Forces internal scroll */
-      display: block;
-      width: 100%;
     }
-
     @media (min-width: 992px) {
-      .chat-container {
-        height: 600px;
-      }
-    }
-
-    /* Ensure iframe fills container perfectly */
-    #chatContainer iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-        display: block;
+      .chat-wrapper { height: 600px; }
     }
 
     #statusArea {
@@ -139,7 +123,6 @@
       margin: 20px 0;
       text-shadow: 0 0 20px rgba(255,77,77,0.5);
     }
-
     .permanent-noti {
       margin-top: 12px;
       background: linear-gradient(135deg, #1e3a5f, #2a4a7a);
@@ -149,7 +132,6 @@
       position: relative;
       transition: opacity 0.6s ease-in;
     }
-
     .disclaimer {
       text-align: center;
       font-size: 0.85rem;
@@ -160,7 +142,6 @@
       margin-left: auto;
       margin-right: auto;
     }
-
     [data-bs-theme="dark"] .disclaimer {
       color: #aaa;
       background: rgba(0,0,0,0.3);
@@ -246,7 +227,8 @@
             <div class="col-12 col-lg-4">
               <div class="chat-wrapper">
                 <div class="chat-header">Live Chat</div>
-                <div class="chat-container" id="chatContainer"></div>
+                <div class="chat-container" id="chatContainer">
+                  </div>
               </div>
             </div>
           </div>
@@ -272,7 +254,7 @@
   <script src="/assets/js/auth.js"></script>
 
   <script>
-    // Optimized Chat Injection
+    // Inject chat iframe
     document.addEventListener("DOMContentLoaded", function() {
         const container = document.getElementById('chatContainer');
         const iframe = document.createElement('iframe');
@@ -280,8 +262,8 @@
         iframe.style.width = '100%';
         iframe.style.height = '100%';
         iframe.style.border = 'none';
-        iframe.setAttribute('scrolling', 'yes');
-        iframe.allow = "autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share";
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allowfullscreen', 'true');
         container.appendChild(iframe);
     });
 
@@ -289,9 +271,7 @@
     let adClickedStart = false;
     let adClickedFullscreen = false;
     let adClickedFakePlayer = false;
-
     let playerInstance = null;
-    let streamData = null;
     let eventStartTime = null;
     let eventEndTime = null;
     let streamStarted = false;
