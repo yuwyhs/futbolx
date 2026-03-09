@@ -72,10 +72,10 @@
     
     .category-dropdown { margin: 2rem 0; }
 
-    /* COMING SOON OVERLAY STYLES */
+    /* COMING SOON OVERLAY - Non-interactive and Blurry */
     .coming-soon-overlay {
       position: fixed;
-      top: 56px; /* Nav height */
+      top: 56px;
       left: 0;
       width: 100%;
       height: calc(100% - 56px);
@@ -86,8 +86,11 @@
       background: rgba(0, 0, 0, 0.2);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      pointer-events: none; /* Allows scrolling and sidebar access */
+      pointer-events: none; 
     }
+    /* Locks the main content from clicks */
+    .no-click-mode { pointer-events: none; }
+    
     .coming-soon-text {
       font-size: clamp(3rem, 10vw, 7rem);
       font-weight: 900;
@@ -140,7 +143,7 @@
     </div>
   </div>
 
-  <div class="container-fluid main-content pt-5">
+  <div class="container-fluid main-content pt-5 no-click-mode">
     <div class="container">
       <div class="category-dropdown text-center">
         <div class="dropdown">
