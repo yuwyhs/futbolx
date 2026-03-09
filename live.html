@@ -91,11 +91,13 @@
       border-bottom:2px solid #cc0000;
     }
 
+    /* FIX: Added overflow:hidden and block display to prevent scrolling */
     .chat-container {
       height: 500px;
       background: #111;
       position: relative;
       overflow: hidden;
+      display: block;
     }
 
     @media (min-width: 992px) {
@@ -259,21 +261,27 @@
   <script src="/assets/js/auth.js"></script>
 
   <script>
-    // Inject Chat Dynamically to hide URL
+    // FIX: Inject Chat Dynamically with absolute positioning to prevent page scroll
     document.addEventListener("DOMContentLoaded", function() {
         const container = document.getElementById('chatContainer');
         const iframe = document.createElement('iframe');
         const urlParts = ['https://chat-sable', '-iota.vercel.app/'];
         iframe.src = urlParts.join('');
+        
+        // Force absolute positioning
+        iframe.style.position = 'absolute';
+        iframe.style.top = '0';
+        iframe.style.left = '0';
         iframe.style.width = '100%';
         iframe.style.height = '100%';
         iframe.style.border = 'none';
+        
         iframe.allow = "autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share";
         container.appendChild(iframe);
     });
 
     const AD_URL = "https://omg10.com/4/10699047";
-    // ... [Remaining original scripts kept intact] ...
+    // ... [Your original logic remains below] ...
     let adClickedStart = false;
     let adClickedFullscreen = false;
     let adClickedFakePlayer = false;
