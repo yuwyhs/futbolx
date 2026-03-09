@@ -4,11 +4,54 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FutbolX - VIP Membership</title>
+  <meta name="description" content="FutbolX - Unlock premium sports streaming with VIP membership. Watch PPV boxing, UFC, Basketball, Football, and more in HD.">
+  <meta name="keywords" content="futbolx, vip, premium streaming, ppv, boxing, ufc, basketball, football, stream, online">
+  <meta property="og:title" content="FutbolX - VIP Membership" />
+  <meta property="og:url" content="https://your-futbolx-site.vercel.app/vip" />
+  <meta property="og:image" content="/assets/img/og-image.jpg">
+  <meta name="twitter:title" content="FutbolX - VIP Membership">
+  <meta name="twitter:description" content="Unlock premium sports streaming with FutbolX VIP membership.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet"> 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
+  
+  <style>
+    /* Overlay that allows scroll but blocks all clicks */
+    .coming-soon-overlay {
+      position: fixed;
+      top: 56px; /* Keeps the navbar visible */
+      left: 0;
+      width: 100%;
+      height: calc(100% - 56px);
+      z-index: 1040; /* High enough to cover, but allows Sidebar (1050) to slide over */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      /* pointer-events: none makes it unclickable. 
+         To allow scrolling, we set body to overflow-y: scroll 
+         but we need the overlay to NOT intercept clicks. */
+      pointer-events: none; 
+    }
+    .coming-soon-text {
+      font-size: clamp(2rem, 8vw, 5rem);
+      font-weight: 900;
+      color: #ffffff;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    }
+  </style>
 </head>
 <body>
+  <div class="coming-soon-overlay">
+    <div class="coming-soon-text">Coming Soon</div>
+  </div>
+
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
       <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
@@ -55,38 +98,139 @@
           </div>
         </div>
       </section>
+
+      <h2 id="pricing" class="mt-5">Choose Your Plan</h2>
+      <div class="event-grid pricing-plans mb-5">
+        <div class="card plan classic-card">
+          <h3 class="card-title">Silver Package</h3>
+          <p class="price">$8.00 <span>per month</span></p>
+          <p class="duration">1 Month Subscription</p>
+          <a href="#admin" class="btn btn-danger">Choose Plan</a>
+        </div>
+        <div class="card plan classic-card">
+          <h3 class="card-title">Golden Package</h3>
+          <p class="price">$21.00 <span>3 Months</span></p>
+          <p class="duration">Save 13% ($7.00/month)</p>
+          <a href="#admin" class="btn btn-danger">Choose Plan</a>
+        </div>
+        <div class="card plan classic-card position-relative">
+          <span class="live-badge" style="background: #ff4d4d;">MOST POPULAR</span>
+          <h3 class="card-title">VIP Package</h3>
+          <p class="price">$50.00 <span>12 Months</span></p>
+          <p class="duration">Save 48% ($4.17/month)</p>
+          <a href="#admin" class="btn btn-danger">Choose Plan</a>
+        </div>
       </div>
+
+      <h2>Secure Payment Methods</h2>
+      <div class="event-grid payment-methods mb-5">
+        <div class="card method">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
+          <p>PayPal</p>
+        </div>
+        <div class="card method">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
+          <p>Credit/Debit</p>
+        </div>
+        <div class="card method">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg" alt="Bitcoin">
+          <p>Crypto</p>
+        </div>
+      </div>
+
+      <div class="row info-section mb-5">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <div class="card instructions">
+            <h3 class="card-title text-center">How To Subscribe</h3>
+            <ul>
+              <li>Contact the admin on Telegram</li>
+              <li>The admin will send you payment links</li>
+              <li>After payment, send a screenshot and payment email</li>
+              <li>The admin will send you login details</li>
+              <li>Enjoy unlimited sports streaming!</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card benefits">
+            <h3 class="card-title text-center">Premium Benefits</h3>
+            <ul>
+              <li>No ads or popups - pure streaming</li>
+              <li>Up to Full HD and 4K quality</li>
+              <li>The membership renews manually, not automatically</li>
+              <li>Multiple language audio options</li>
+              <li>Global CDN for fastest streaming</li>
+              <li>Works on all devices</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="admin" class="card admin-section mb-5">
+        <h3 class="card-title text-center">Want To Buy Account?</h3>
+        <div class="contact-card card">
+          <div class="contact-header">
+            <i class="fas fa-headset"></i>
+            <span>Contact The Admin On Telegram</span>
+          </div>
+          <a href="https://t.me/iniccur1" class="telegram-btn btn btn-danger" target="_blank">
+            <i class="fab fa-telegram"></i> 
+            <span>Message on Telegram</span>
+            <i class="fas fa-paper-plane"></i>
+          </a>
+        </div>
+        <p class="support-text text-center text-muted"><i class="fas fa-clock"></i> 24/7 support available</p>
+      </div>
+
+      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
+        <ul class="nav justify-content-center justify-content-lg-end mb-0">
+          <li class="nav-item"><a href="/api" class="nav-link px-2 text-body-secondary">API</a></li>
+          <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">Discord</a></li>
+          <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
+          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
+          <li class="nav-item"><a href="/contact" class="nav-link px-2 text-body-secondary">Contact us</a></li>
+        </ul>
+      </footer>
+    </div>
   </div>
 
-  <style>
-    .coming-soon-overlay {
-      position: fixed;
-      top: 56px; /* Matches your navbar height to keep top visible */
-      left: 0;
-      width: 100%;
-      height: calc(100% - 56px);
-      z-index: 1000; /* Lower than offcanvas (1050) to allow sidebar to sit on top */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      pointer-events: none; /* Makes the overlay ignore mouse clicks */
-    }
-    .coming-soon-text {
-      font-size: clamp(2rem, 8vw, 5rem);
-      font-weight: 900;
-      color: #ffffff;
-      text-transform: uppercase;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-    }
-  </style>
-  <div class="coming-soon-overlay">
-    <div class="coming-soon-text">Coming Soon</div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="/assets/js/auth.js" async></script>
-  </body>
+  <script>
+    function initPage() {
+      try {
+        console.log('Initializing page at', new Date().toISOString());
+        const htmlElement = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        htmlElement.setAttribute('data-bs-theme', currentTheme);
+        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        themeToggle.addEventListener('click', () => {
+          const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+          htmlElement.setAttribute('data-bs-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+          themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        });
+        const offcanvasElement = document.getElementById('sidebarMenu');
+        document.addEventListener('click', (event) => {
+          const toggler = document.querySelector('[data-bs-toggle="offcanvas"]');
+          const isOffcanvasOpen = offcanvasElement.classList.contains('show');
+          const clickedInside = offcanvasElement.contains(event.target) || toggler.contains(event.target);
+          if (isOffcanvasOpen && !clickedInside) {
+            bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement).hide();
+          }
+        });
+        checkAuthStatus();
+        console.log('Page initialized successfully');
+      } catch (error) {
+        console.error('Init page error:', error);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM loaded at', new Date().toISOString());
+      initPage();
+    });
+  </script>
+</body>
 </html>
