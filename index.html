@@ -30,6 +30,46 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
 
   <style>
+    /* --- DISCLAIMER OVERLAY --- */
+    #disclaimer-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 12000;
+      display: none; 
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      transition: opacity 0.5s ease;
+    }
+    .disclaimer-content {
+      max-width: 550px;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      border: 1px solid rgba(255, 77, 77, 0.3);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    }
+    [data-bs-theme="dark"] .disclaimer-content { background: #121212; color: #e0e0e0; }
+    [data-bs-theme="light"] .disclaimer-content { background: #ffffff; color: #212529; }
+    
+    .disclaimer-content p { font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; }
+    .btn-understood {
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 12px 40px;
+      border-radius: 50px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+    .btn-understood:hover { background: #e63939; transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 77, 77, 0.4); }
+    .site-blurred { filter: blur(8px); pointer-events: none; user-select: none; }
+
     /* --- REDESIGNED APP SPLASH --- */
     #splash-screen {
       position: fixed;
@@ -65,7 +105,6 @@
       animation: textSlide 0.6s ease-out;
     }
 
-    /* Lowered Bouncing Loader */
     .bouncing-loader {
       display: flex;
       position: absolute;
@@ -116,6 +155,23 @@
   </style>
 </head>
 <body>
+
+  <div id="disclaimer-overlay">
+    <div class="disclaimer-content">
+      <h4 class="mb-3" style="color: #ff4d4d; font-weight: 800;">IMPORTANT NOTICE</h4>
+      <p>
+        We DO NOT host nor transmit any audiovisual content itself and DO NOT control nor influence such content. 
+        We cannot accept any liability for the content transmitted by others. Any responsibility for this content 
+        lies with those who host or transmit it. We are not affiliated nor claim to be affiliated with any of 
+        the owners of streams and/or videos. All content is copyright of their respective owners.
+      </p>
+      <p class="small opacity-75">
+        Incase of copyrights issue or any other inquiry contact us at: <br>
+        <span style="color: #ff4d4d; font-weight: bold;">support@futbol-x.top</span>
+      </p>
+      <button id="btn-understood" class="btn-understood">Understood</button>
+    </div>
+  </div>
 
   <div id="splash-screen">
       <img src="https://i.postimg.cc/gkfNSFPv/lqo4nv.jpg" class="splash-logo" alt="Logo">
@@ -214,6 +270,37 @@
   <script src="/assets/js/api.js"></script>
 
   <script>
+    /* --- DISCLAIMER LOGIC --- */
+    (function() {
+      const overlay = document.getElementById('disclaimer-overlay');
+      const btn = document.getElementById('btn-understood');
+      const mainContent = document.querySelector('.main-content');
+      const navBar = document.querySelector('.top-bar');
+      const storageKey = 'futbolx_disclaimer_timestamp';
+      const twentyFourHours = 24 * 60 * 60 * 1000;
+
+      function initDisclaimer() {
+        const lastSeen = localStorage.getItem(storageKey);
+        const now = new Date().getTime();
+
+        if (!lastSeen || (now - lastSeen) > twentyFourHours) {
+          overlay.style.display = 'flex';
+          mainContent.classList.add('site-blurred');
+          if(navBar) navBar.classList.add('site-blurred');
+        }
+      }
+
+      btn.addEventListener('click', () => {
+        localStorage.setItem(storageKey, new Date().getTime());
+        overlay.style.opacity = '0';
+        mainContent.classList.remove('site-blurred');
+        if(navBar) navBar.classList.remove('site-blurred');
+        setTimeout(() => overlay.style.display = 'none', 500);
+      });
+
+      initDisclaimer();
+    })();
+
     window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
     let lastApiCall = 0;
     let apiInstance = null;
@@ -428,12 +515,11 @@
         
         splash.style.display = 'flex';
 
-        // Slowed down text cycle (1.5 seconds)
         const sloganTimer = setInterval(() => {
           sloganIdx++;
           if(sloganIdx < slogans.length) {
             cycle.style.animation = 'none';
-            cycle.offsetHeight; // Reflow
+            cycle.offsetHeight; 
             cycle.style.animation = 'textSlide 0.6s ease-out';
             cycle.innerText = slogans[sloganIdx];
           } else {
@@ -444,7 +530,7 @@
         setTimeout(() => {
           splash.style.opacity = '0';
           setTimeout(() => splash.style.display = 'none', 800);
-        }, 6500); // Wait for the cycle to finish
+        }, 6500); 
       }
     }
     document.addEventListener('DOMContentLoaded', initPage);
