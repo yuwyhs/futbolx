@@ -6,66 +6,17 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Leverkusen vs Arsenal",
-          "uri_name": "j9k2l5m7",
-          "poster": "https://i.postimg.cc/W14w9ZKm/1000142759.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-03-11T20:45:00",
-          "ends_at": "2026-03-11T22:50:00",
+          "name": "Marseille vs Auxerre",
+          "uri_name": "h7j9k2m5",
+          "poster": "https://i.postimg.cc/NfL5Qhny/1000143193.jpg",
+          "tag": "Ligue 1",
+          "starts_at": "2026-03-13T22:45:00",
+          "ends_at": "2026-03-14T00:50:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://hotel-bice-zeta.vercel.app/?id=4n7ph"
-            }
-          ]
-        },
-        {
-          "name": "Real Madrid vs Manchester City",
-          "uri_name": "n4p6q8r3",
-          "poster": "https://i.postimg.cc/nrgp6B2v/1000142761.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-03-11T23:00:00",
-          "ends_at": "2026-03-12T01:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotel-bice-zeta.vercel.app/?id=v7n2q"
-            }
-          ]
-        },
-        {
-          "name": "PSG vs Chelsea",
-          "uri_name": "t7v1w9x4",
-          "poster": "https://i.postimg.cc/rwdt0N72/1000142760.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-03-11T23:00:00",
-          "ends_at": "2026-03-12T01:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed (En)",
-              "url": "https://hotel-bice-zeta.vercel.app/?id=b3r8w"
-            },
-            {
-              "title": "Alt Feed (Fr)",
-              "url": "https://hotel-bice-zeta.vercel.app/?id=k9m4p"
-            }
-          ]
-        },
-        {
-          "name": "Bodø/Glimt vs Sporting CP",
-          "uri_name": "z2a5b8c6",
-          "poster": "https://i.postimg.cc/C1dySdzW/1000142762.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-03-11T23:00:00",
-          "ends_at": "2026-03-12T01:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotel-bice-zeta.vercel.app/?id=f5t1z"
+              "url": "https://embedsports.top/embed/admin/ppv-h7j9k2m5/1"
             }
           ]
         }
