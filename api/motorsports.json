@@ -6,77 +6,77 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Australian Grand Prix - Practice 1",
-          "uri_name": "australian-grand-prix-practice-1",
-          "poster": "https://i.postimg.cc/j2VxCrKL/1772069089039.png",
+          "name": "Chinese Grand Prix - Practice 1",
+          "uri_name": "q2w8e9r4",
+          "poster": "https://i.postimg.cc/DzHbJNdB/1000143066.jpg",
           "tag": "F1",
-          "starts_at": "2026-03-06T04:30:00",
-          "ends_at": "2026-03-06T07:30:00",
+          "starts_at": "2026-03-13T04:30:00",
+          "ends_at": "2026-03-13T07:30:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://premium.futbol-x.site/f1/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-q2w8e9r4/1"
             }
           ]
         },
         {
-          "name": "Australian Grand Prix - Practice 2",
-          "uri_name": "australian-grand-prix-practice-2",
-          "poster": "https://i.postimg.cc/C5yhdVYd/1772069097295.png",
+          "name": "Chinese Grand Prix - Sprint Qualifying",
+          "uri_name": "t5y1u6i3",
+          "poster": "https://i.postimg.cc/CMHzS5ts/1000143067.jpg",
           "tag": "F1",
-          "starts_at": "2026-03-06T08:00:00",
-          "ends_at": "2026-03-06T10:30:00",
+          "starts_at": "2026-03-13T10:30:00",
+          "ends_at": "2026-03-13T13:30:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://premium.futbol-x.site/f1/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-t5y1u6i3/1"
             }
           ]
         },
         {
-          "name": "Australian Grand Prix - Practice 3",
-          "uri_name": "australian-grand-prix-practice-3",
-          "poster": "https://i.postimg.cc/j2VxCrK5/1772069111787.png",
+          "name": "Chinese Grand Prix - Sprint",
+          "uri_name": "o9p4a7s2",
+          "poster": "https://i.postimg.cc/DZQyvpCm/1000143068.jpg",
           "tag": "F1",
-          "starts_at": "2026-03-07T04:30:00",
-          "ends_at": "2026-03-07T07:30:00",
+          "starts_at": "2026-03-14T06:00:00",
+          "ends_at": "2026-03-14T09:40:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://premium.futbol-x.site/jdkdon/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-o9p4a7s2/1"
             }
           ]
         },
         {
-          "name": "Australian Grand Prix - Qualifying",
-          "uri_name": "australian-grand-prix-qualifying",
-          "poster": "https://i.postimg.cc/j2VxCrK5/1772069111787.png",
+          "name": "Chinese Grand Prix - Qualifying",
+          "uri_name": "z8x3c6v1",
+          "poster": "https://i.postimg.cc/5tLfgkWG/1000143069.jpg",
           "tag": "F1",
-          "starts_at": "2026-03-07T08:00:00",
-          "ends_at": "2026-03-07T10:30:00",
+          "starts_at": "2026-03-14T10:00:00",
+          "ends_at": "2026-03-14T13:30:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://premium.futbol-x.site/jdkdon/index.m3u8"
+              "url": "https://embedsports.top/embed/admin/ppv-z8x3c6v1/1"
             }
           ]
         },
         {
-          "name": "Australian Grand Prix - Main Event",
-          "uri_name": "australian-grand-prix-main-event",
-          "poster": "https://i.postimg.cc/L5zH1063/1772069123480.png",
+          "name": "Chinese Grand Prix - Race",
+          "uri_name": "b7n2m5k9",
+          "poster": "https://i.postimg.cc/NfnYcwgz/1000143070.jpg",
           "tag": "F1",
-          "starts_at": "2026-03-08T07:00:00",
-          "ends_at": "2026-03-08T11:00:00",
+          "starts_at": "2026-03-15T10:00:00",
+          "ends_at": "2026-03-15T13:40:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-australian-grand-prix-main-event/1"
+              "url": "https://embedsports.top/embed/admin/ppv-b7n2m5k9/1"
             }
           ]
         }
