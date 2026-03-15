@@ -1,0 +1,17 @@
+[
+  { "from": "/sw.js", "to": "/sw.js" },
+  { "from": "/manifest.json", "to": "/manifest.json" },
+  { "from": "/assets/(.*)", "to": "/assets/$1" },
+  { "from": "/api/(.+\\.json)", "to": "/api/$1" },
+  { "from": "/api/stream", "to": "/api/stream.json" },
+  { "from": "/api/stream-24-7", "to": "/api/stream-24-7.json" },
+  { "from": "/api/(.*)", "to": "/api/$1" },
+  { "from": "/auth/login", "to": "/auth/login.html" },
+  { "from": "/auth/signup", "to": "/auth/signup.html" },
+  { "from": "/dashboard", "to": "/dashboard.html" },
+  { "from": "/live/(.*)", "to": "/live.html" },
+  { "from": "/live-24-7/(.*)", "to": "/live-24-7.html" },
+  { "from": "/vip", "to": "/vip.html" },
+  { "from": "/24-7", "to": "/24-7.html" },
+  { "from": "/(.*)", "to": "/index.html" }
+]
