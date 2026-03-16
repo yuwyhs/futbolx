@@ -404,16 +404,20 @@
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
-      const uriName = window.location.pathname.split('/').pop();
+      // Improved URI extraction to handle Cloudflare routing
+      const pathParts = window.location.pathname.split('/').filter(p => p !== "");
+      const uriName = pathParts[pathParts.length - 1];
       const startBtn = document.getElementById('startLivestream');
 
       try {
+        // Absolute path fetching to avoid /live/ prefix errors
         const catListRes = await fetchWithRetry('/api/stream');
         const fetchPromises = catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ success: true, streams: [] })));
         const allCategoryData = await Promise.all(fetchPromises);
         let foundEvent = null;
 
         for (const data of allCategoryData) {
+          if (!data.streams) continue;
           for (const catObj of data.streams) {
             foundEvent = catObj.streams.find(ev => ev.uri_name === uriName);
             if (foundEvent) break;
@@ -427,20 +431,25 @@
           eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
           updatePreStreamStatus();
           setInterval(updatePreStreamStatus, 1000);
-        }
 
-        startBtn.onclick = () => {
-          if (!adClickedStart) { window.open(AD_URL, '_blank'); adClickedStart = true; }
-          document.getElementById('mainVideoContainer').style.display = 'block';
-          document.getElementById('streamLinks').style.display = 'block';
-          startBtn.style.display = 'none';
-          document.getElementById('liveStreamTitle').classList.remove('d-none');
-          document.getElementById('currentStreamName').textContent = foundEvent.name;
-          playStream(foundEvent.streams[0].url);
-          populateStreamButtons(foundEvent);
-          streamStarted = true;
-        };
-      } catch (err) {}
+          startBtn.onclick = () => {
+            if (!adClickedStart) { window.open(AD_URL, '_blank'); adClickedStart = true; }
+            document.getElementById('mainVideoContainer').style.display = 'block';
+            document.getElementById('streamLinks').style.display = 'block';
+            startBtn.style.display = 'none';
+            document.getElementById('statusArea').style.display = 'none';
+            document.getElementById('liveStreamTitle').classList.remove('d-none');
+            document.getElementById('currentStreamName').textContent = foundEvent.name;
+            playStream(foundEvent.streams[0].url);
+            populateStreamButtons(foundEvent);
+            streamStarted = true;
+          };
+        } else {
+          document.getElementById('statusMessage').textContent = "Event not found or has ended.";
+        }
+      } catch (err) {
+        document.getElementById('statusMessage').textContent = "Error loading event data.";
+      }
 
       document.getElementById('fullscreenBtn').onclick = () => {
         if (!adClickedFullscreen) { window.open(AD_URL, '_blank'); adClickedFullscreen = true; }
@@ -465,4 +474,4 @@
     });
   </script>
 </body>
-  </html>
+</html>
