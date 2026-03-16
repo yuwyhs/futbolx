@@ -1,23 +1,17 @@
-# Static Files & PWA (Prevent these from being caught by index.html)
-/sw.js           /sw.js           200
-/manifest.json   /manifest.json   200
-/assets/* /assets/:splat   200
+# Specific API redirects
+/api/stream           /api/stream.json    200
+/api/stream-24-7      /api/stream-24-7.json 200
 
-# API Endpoints
-/api/stream      /api/stream.json 200
-/api/stream-24-7 /api/stream-24-7.json 200
-/api/* /api/:splat      200
+# Force dynamic paths to the live handler
+/live/* /live.html          200
+/live-24-7/* /live-24-7.html     200
 
-# Auth & Dashboard
-/auth/login      /auth/login.html 200
-/auth/signup     /auth/signup.html 200
-/dashboard       /dashboard.html 200
-/vip             /vip.html        200
-/24-7            /24-7.html       200
+# Clean URLs for other pages
+/auth/login           /auth/login.html    200
+/auth/signup          /auth/signup.html   200
+/dashboard            /dashboard.html     200
+/vip                  /vip.html           200
+/24-7                 /24-7.html          200
 
-# Live Match Routing (The Vercel /live/(.*) equivalent)
-/live/* /live.html       200
-/live-24-7/* /live-24-7.html  200
-
-# Fallback (The Vercel /(.*) equivalent)
-/* /index.html      200
+# Global fallback
+/* /index.html         200
