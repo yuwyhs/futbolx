@@ -34,7 +34,6 @@
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
-    /* --- FAKE PLAYER STYLES --- */
     #fakePlayerLayer {
       position: absolute; top:0; left:0; width:100%; height:100%;
       background: #000; z-index: 999; display: flex; align-items: center; justify-content: center; cursor: pointer;
@@ -270,7 +269,6 @@
     let adClickedFakePlayer = false;
 
     let playerInstance = null;
-    let streamData = null;
     let eventStartTime = null;
     let eventEndTime = null;
     let streamStarted = false;
@@ -289,29 +287,15 @@
       themeToggle.innerHTML = next === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
     });
 
-    function clearError() {
-      const e = document.getElementById('errorContainer');
-      if (e && !e.classList.contains('d-none')) {
-        e.classList.add('fade-out');
-        setTimeout(() => { e.className = 'alert alert-danger error-alert mt-3 d-none'; e.innerHTML = ''; }, 500);
-      }
-    }
-
     async function fetchWithRetry(url, maxRetries = 3, delay = 1000) {
       return new Promise((resolve, reject) => {
         let attempts = 0;
         function attempt() {
           attempts++;
           fetch(url, { signal: AbortSignal.timeout(5000) })
-            .then(res => {
-              if (!res.ok) throw new Error(`HTTP ${res.status}`);
-              return res.json();
-            })
+            .then(res => { if (!res.ok) throw new Error(`HTTP ${res.status}`); return res.json(); })
             .then(data => resolve(data))
-            .catch(err => {
-              if (attempts < maxRetries) setTimeout(attempt, delay);
-              else reject(err);
-            });
+            .catch(err => { if (attempts < maxRetries) setTimeout(attempt, delay); else reject(err); });
         }
         attempt();
       });
@@ -321,8 +305,7 @@
       if (url.toLowerCase().includes('.m3u8')) return true;
       try {
         const r = await fetch(url, {method:'HEAD'});
-        const ct = r.headers.get('content-type') || '';
-        return ct.includes('mpegurl');
+        return (r.headers.get('content-type') || '').includes('mpegurl');
       } catch { return false; }
     }
 
@@ -350,14 +333,14 @@
         container.style.display = 'block';
         container.innerHTML = '<div id="jw-player"></div>';
         playerInstance = jwplayer("jw-player").setup({
-          file: url, autostart: true, mute: true, width: "100%", aspectratio: "16:9", cast: {}
+          file: url, autostart: true, mute: true, width: "100%", aspectratio: "16:9"
         });
-        playerInstance.on('ready', () => { clearError(); document.getElementById('fullscreenBtn').classList.remove('d-none'); });
+        playerInstance.on('ready', () => { document.getElementById('fullscreenBtn').classList.remove('d-none'); });
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
-        try { const u = new URL(url); u.searchParams.set('autoplay', '1'); iframe.src = u.toString(); } catch { iframe.src = url; }
+        iframe.src = url.includes('?') ? `${url}&autoplay=1` : `${url}?autoplay=1`;
       }
     }
 
@@ -372,13 +355,11 @@
       container.addEventListener('click', e => {
         const btn = e.target.closest('.btn-stream');
         if (!btn) return;
-        try {
-          const realUrl = atob(atob(btn.dataset.p).split('||')[0]);
-          playStream(realUrl);
-          document.getElementById('currentStreamName').textContent = btn.textContent.trim();
-          container.querySelectorAll('.btn-stream').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-        } catch (err) {}
+        const realUrl = atob(atob(btn.dataset.p).split('||')[0]);
+        playStream(realUrl);
+        document.getElementById('currentStreamName').textContent = btn.textContent.trim();
+        container.querySelectorAll('.btn-stream').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
       });
     }
 
@@ -393,8 +374,7 @@
     function updatePreStreamStatus() {
       const now = Math.floor(Date.now() / 1000);
       const startBtn = document.getElementById('startLivestream');
-      if (!eventStartTime) return;
-      if (streamStarted) { startBtn.style.display = 'none'; return; }
+      if (!eventStartTime || streamStarted) return;
       if (now >= eventStartTime && now <= eventEndTime) {
         document.getElementById('statusArea').style.display = 'none';
         startBtn.style.display = 'inline-block';
@@ -404,18 +384,19 @@
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
-      // Improved URI extraction to handle Cloudflare routing
-      const pathParts = window.location.pathname.split('/').filter(p => p !== "");
-      const uriName = pathParts[pathParts.length - 1];
+      // FIX: Improved path extraction for Cloudflare /live/slug routing
+      const segments = window.location.pathname.split('/').filter(s => s.length > 0);
+      const uriName = segments.length > 1 ? segments[segments.length - 1] : segments[0];
+      
       const startBtn = document.getElementById('startLivestream');
 
       try {
-        // Absolute path fetching to avoid /live/ prefix errors
         const catListRes = await fetchWithRetry('/api/stream');
-        const fetchPromises = catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ success: true, streams: [] })));
-        const allCategoryData = await Promise.all(fetchPromises);
+        const allCategoryData = await Promise.all(
+          catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ streams: [] })))
+        );
+        
         let foundEvent = null;
-
         for (const data of allCategoryData) {
           if (!data.streams) continue;
           for (const catObj of data.streams) {
@@ -429,6 +410,7 @@
           document.getElementById('eventTitle').textContent = foundEvent.name;
           eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
           eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
+          
           updatePreStreamStatus();
           setInterval(updatePreStreamStatus, 1000);
 
@@ -445,10 +427,10 @@
             streamStarted = true;
           };
         } else {
-          document.getElementById('statusMessage').textContent = "Event not found or has ended.";
+          document.getElementById('statusMessage').textContent = "Event ended or not found.";
         }
       } catch (err) {
-        document.getElementById('statusMessage').textContent = "Error loading event data.";
+        document.getElementById('statusMessage').textContent = "Connection error.";
       }
 
       document.getElementById('fullscreenBtn').onclick = () => {
@@ -456,11 +438,9 @@
         if (playerInstance) playerInstance.setFullscreen(true);
       };
 
-      // Notification logic
       const infoAlert = document.getElementById('infoAlert');
       const joinAlert = document.getElementById('joinAlert');
       let showJoin = true;
-
       setInterval(() => {
         if (showJoin) {
           infoAlert.style.opacity = '0';
