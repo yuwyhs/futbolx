@@ -2,16 +2,16 @@
 /api/stream           /api/stream.json    200
 /api/stream-24-7      /api/stream-24-7.json 200
 
-# Force dynamic paths to the live handler
+# Force dynamic paths to the live handler (using :splat)
 /live/* /live.html          200
 /live-24-7/* /live-24-7.html     200
 
-# Clean URLs for other pages
+# Auth & Pages
 /auth/login           /auth/login.html    200
 /auth/signup          /auth/signup.html   200
 /dashboard            /dashboard.html     200
 /vip                  /vip.html           200
 /24-7                 /24-7.html          200
 
-# Global fallback
+# Catch-all for SPA-like behavior
 /* /index.html         200
