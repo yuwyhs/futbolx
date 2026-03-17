@@ -18,141 +18,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
-
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
-    .tip-container {max-width:600px;margin:20px auto;transition:height .3s;overflow:hidden;}
-    .alert-info {text-align:center;position:relative;padding-right:10px;}
-    .error-alert {max-width:500px;margin:20px auto;}
-    .fade-out {animation:fadeOut .5s forwards;} @keyframes fadeOut {from{opacity:1}to{opacity:0}}
-    .btn-fullscreen {display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#ff4d4d;color:#fff;border:none;border-radius:20px;transition:.3s;}
-    [data-bs-theme="light"] .btn-fullscreen {background:#e63939;color:#333;}
-    .btn-fullscreen:hover {transform:scale(1.05);background:#e63939;}
-    
-    .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
-    #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
-
-    #fakePlayerLayer {
-      position: absolute; top:0; left:0; width:100%; height:100%;
-      background: #000; z-index: 999; display: flex; align-items: center; justify-content: center; cursor: pointer;
+    .debug-panel {
+      background: #1a1a1a; color: #0f0; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; margin-bottom: 20px;
     }
-    .fake-play-btn {
-      width: 80px; height: 80px; background: rgba(255, 77, 77, 0.9); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;
-    }
-
-    .live-title {
-      text-align: center;
-      background: linear-gradient(135deg, #1a1a1a, #2d0000);
-      padding: 12px 20px;
-      border-radius: 12px;
-      border: 2px solid #ff4d4d;
-      box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
-      margin: 1rem 0;
-    }
-    .live-title h3 {
-      margin: 0;
-      color: #fff;
-      font-size: 1.8rem;
-      font-weight: 600;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-    }
-    .live-title::before {
-      content: "● LIVE";
-      color: #ff4d4d;
-      font-weight: bold;
-      margin-right: 10px;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.4; }
-      100% { opacity: 1; }
-    }
-
-    .chat-wrapper {
-      width: 100%;
-      background:#1a1a1a;
-      border-radius:16px;
-      overflow:hidden;
-      border:1px solid #333;
-      box-shadow:0 10px 30px rgba(0,0,0,0.6);
-      margin-top: 0;
-    }
-    
-    .chat-header {
-      background:#ff4d4d;
-      color:white;
-      padding:12px 20px;
-      font-weight:bold;
-      font-size:1.2rem;
-      text-align:center;
-      border-bottom:2px solid #cc0000;
-    }
-
-    .chat-container {
-      height: 500px;
-      background: #111;
-      position: relative;
-      overflow: hidden;
-    }
-
-    @media (min-width: 992px) {
-      .chat-container {
-        height: 600px;
-      }
-    }
-
-    #statusArea {
-      text-align: center;
-      padding: 30px 15px;
-      background: rgba(30,30,30,0.7);
-      border-radius: 12px;
-      margin: 25px auto;
-      max-width: 720px;
-    }
-    #eventTitle {
-      font-size: 2.4rem;
-      margin-bottom: 1rem;
-      color: #ff4d4d;
-    }
-    .countdown-display {
-      font-size: 4rem;
-      font-weight: bold;
-      color: #ff4d4d;
-      letter-spacing: 5px;
-      margin: 20px 0;
-      text-shadow: 0 0 20px rgba(255,77,77,0.5);
-    }
-
-    .permanent-noti {
-      margin-top: 12px;
-      background: linear-gradient(135deg, #1e3a5f, #2a4a7a);
-      border-color: #4a8cff;
-      color: #e0f0ff;
-      text-align: center;
-      position: relative;
-      transition: opacity 0.6s ease-in;
-    }
-
-    .disclaimer {
-      text-align: center;
-      font-size: 0.85rem;
-      padding: 20px 15px;
-      margin-top: 30px;
-      border-top: 1px solid #444;
-      max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    [data-bs-theme="dark"] .disclaimer {
-      color: #aaa;
-      background: rgba(0,0,0,0.3);
-      border-top-color: #444;
-    }
+    .debug-panel strong { color: #ff4d4d; }
   </style>
 </head>
 <body>
@@ -189,8 +62,19 @@
   </div>
 
   <div class="container-fluid main-content">
-    <div class="container-xl mt-4"> <div class="row">
+    <div class="container-xl mt-4">
+      <div class="row">
         <div class="col-12">
+
+          <!-- VISIBLE DEBUG PANEL -->
+          <div id="debugPanel" class="debug-panel alert alert-warning">
+            <strong>DEBUG INFO (will disappear once fixed):</strong><br>
+            Current URL: <span id="debugUrl">loading...</span><br>
+            Extracted ID: <span id="debugId">loading...</span><br>
+            Events loaded: <span id="debugCount">0</span><br>
+            Status: <span id="debugStatus">Searching...</span>
+          </div>
+
           <div class="tip-container">
             <div class="alert alert-info permanent-noti" id="infoAlert">
               <strong>Info:</strong> If stream is not loading on your end, try using a VPN to bypass your ISP restrictions.
@@ -384,23 +268,24 @@
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
-      console.log('=== LIVE PAGE LOADED ===');
-      console.log('Full pathname from browser:', window.location.pathname);
+      const debugUrl = document.getElementById('debugUrl');
+      const debugId = document.getElementById('debugId');
+      const debugCount = document.getElementById('debugCount');
+      const debugStatus = document.getElementById('debugStatus');
+      const statusMessage = document.getElementById('statusMessage');
 
-      // Stronger path extraction (works even if someone types /live/ or /live/uri)
+      debugUrl.textContent = window.location.pathname;
+
       let pathname = window.location.pathname.replace(/\/$/, '');
       const segments = pathname.split('/').filter(s => s.length > 0);
       const uriName = segments[segments.length - 1];
-      console.log('Extracted uriName:', uriName);
+      debugId.textContent = uriName || 'NONE';
 
-      // Safety check
       if (!uriName || uriName === 'live') {
-        document.getElementById('statusMessage').innerHTML = `No event ID found in URL.<br><strong>Click "Watch" from the homepage</strong>`;
-        console.warn('No uri_name in URL - probably came from a broken link on homepage');
+        debugStatus.textContent = '❌ NO ID IN URL';
+        statusMessage.innerHTML = 'No event ID in URL.<br><strong>Go back to homepage and click a Watch button.</strong>';
         return;
       }
-
-      const startBtn = document.getElementById('startLivestream');
 
       try {
         const catListRes = await fetchWithRetry('/api/stream');
@@ -408,24 +293,27 @@
           catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ streams: [] })))
         );
 
-        // Exact flattening for YOUR JSON structure (football.json example)
         const allEvents = allCategoryData.flatMap(data => 
           (data.streams || []).flatMap(catObj => (catObj.streams || []))
         );
 
-        console.log('Total events loaded from API:', allEvents.length);
+        debugCount.textContent = allEvents.length;
+        debugStatus.textContent = 'Searching...';
 
         const foundEvent = allEvents.find(ev => ev.uri_name === uriName);
-        console.log('Search result for', uriName, ':', foundEvent ? 'FOUND → ' + foundEvent.name : 'NOT FOUND');
 
         if (foundEvent) {
+          debugStatus.textContent = '✅ EVENT FOUND!';
           document.getElementById('eventTitle').textContent = foundEvent.name;
+
           eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
           eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
 
           updatePreStreamStatus();
           setInterval(updatePreStreamStatus, 1000);
 
+          const startBtn = document.getElementById('startLivestream');
+          startBtn.style.display = 'inline-block';
           startBtn.onclick = () => {
             if (!adClickedStart) { window.open(AD_URL, '_blank'); adClickedStart = true; }
             document.getElementById('mainVideoContainer').style.display = 'block';
@@ -439,34 +327,14 @@
             streamStarted = true;
           };
         } else {
-          document.getElementById('statusMessage').textContent = `Event "${uriName}" ended or not found.`;
+          debugStatus.textContent = '❌ NOT FOUND';
+          statusMessage.textContent = `Event "${uriName}" not found.`;
         }
       } catch (err) {
-        document.getElementById('statusMessage').textContent = "Connection error.";
-        document.getElementById('errorContainer').classList.remove('d-none');
-        document.getElementById('errorContainer').textContent = `Error: ${err.message}`;
-        console.error('API fetch failed:', err);
+        debugStatus.textContent = '❌ API ERROR';
+        statusMessage.textContent = "Connection error.";
       }
-
-      document.getElementById('fullscreenBtn').onclick = () => {
-        if (!adClickedFullscreen) { window.open(AD_URL, '_blank'); adClickedFullscreen = true; }
-        if (playerInstance) playerInstance.setFullscreen(true);
-      };
-
-      const infoAlert = document.getElementById('infoAlert');
-      const joinAlert = document.getElementById('joinAlert');
-      let showJoin = true;
-      setInterval(() => {
-        if (showJoin) {
-          infoAlert.style.opacity = '0';
-          setTimeout(() => { infoAlert.classList.add('d-none'); joinAlert.classList.remove('d-none'); joinAlert.style.opacity = '1'; }, 600);
-        } else {
-          joinAlert.style.opacity = '0';
-          setTimeout(() => { joinAlert.classList.add('d-none'); infoAlert.classList.remove('d-none'); infoAlert.style.opacity = '1'; }, 600);
-        }
-        showJoin = !showJoin;
-      }, 10000);
     });
   </script>
 </body>
-  </html>
+</html>
