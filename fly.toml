@@ -1,0 +1,45 @@
+{$SITE_ADDRESS} {   # Fly will auto-fill this with your domain
+
+    root * /usr/share/caddy
+    encode gzip zstd
+
+    # Exact Vercel rewrites
+    rewrite /auth/login   /auth/login.html
+    rewrite /auth/signup  /auth/signup.html
+    rewrite /dashboard    /dashboard.html
+    rewrite /vip          /vip.html
+    rewrite /24-7         /24-7.html
+
+    # Live pages (catch-all path)
+    handle /live/* {
+        rewrite * /live.html
+    }
+    handle /live-24-7/* {
+        rewrite * /live-24-7.html
+    }
+
+    # API routes (your static JSON + any .js files)
+    handle /api/* {
+        rewrite /api/stream      /api/stream.json
+        rewrite /api/stream-24-7 /api/stream-24-7.json
+        try_files {path} {path}.json {path}.js {path}/index.json
+        file_server
+    }
+
+    # Special static files
+    handle /sw.js {
+        file_server
+    }
+    handle /manifest.json {
+        file_server
+    }
+    handle /assets/* {
+        file_server
+    }
+
+    # Everything else → SPA index.html (your main catch-all)
+    handle {
+        try_files {path} /index.html
+        file_server
+    }
+}
