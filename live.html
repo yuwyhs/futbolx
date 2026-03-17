@@ -340,7 +340,7 @@
         document.getElementById('oplayer-container').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
-        iframe.src = url.includes('?') ? `${url}&autoplay=1` : `${url}?autoplay=1`;
+        iframe.src = url.includes('?') ? `\( {url}&autoplay=1` : ` \){url}?autoplay=1`;
       }
     }
 
@@ -349,7 +349,7 @@
       container.innerHTML = event.streams.map((s, i) => {
         const realUrl = typeof s === 'string' ? s : s.url;
         const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
-        return `<button class="btn btn-stream ${i===0?'active':''}" data-p="${payload}">${s.title || `Stream ${i+1}`}</button>`;
+        return `<button class="btn btn-stream \( {i===0?'active':''}" data-p=" \){payload}">${s.title || `Stream ${i+1}`}</button>`;
       }).join('');
 
       container.addEventListener('click', e => {
@@ -368,7 +368,7 @@
       const h = Math.floor((seconds % 86400) / 3600);
       const m = Math.floor((seconds % 3600) / 60);
       const s = seconds % 60;
-      return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+      return `\( {h.toString().padStart(2,'0')}: \){m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
     }
 
     function updatePreStreamStatus() {
@@ -395,22 +395,18 @@
         const allCategoryData = await Promise.all(
           catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ streams: [] })))
         );
-        
-        let foundEvent = null;
-        for (const data of allCategoryData) {
-          if (!data.streams) continue;
-          for (const catObj of data.streams) {
-            foundEvent = catObj.streams.find(ev => ev.uri_name === uriName);
-            if (foundEvent) break;
-          }
-          if (foundEvent) break;
-        }
+
+        // Flatten all events across categories
+        const allEvents = allCategoryData.flatMap(data => data.streams || []);
+
+        // Find the matching event by uri_name
+        const foundEvent = allEvents.find(ev => ev.uri_name === uriName);
 
         if (foundEvent) {
           document.getElementById('eventTitle').textContent = foundEvent.name;
           eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
           eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
-          
+
           updatePreStreamStatus();
           setInterval(updatePreStreamStatus, 1000);
 
@@ -422,15 +418,19 @@
             document.getElementById('statusArea').style.display = 'none';
             document.getElementById('liveStreamTitle').classList.remove('d-none');
             document.getElementById('currentStreamName').textContent = foundEvent.name;
-            playStream(foundEvent.streams[0].url);
+            playStream(foundEvent.streams[0].url);  // Assuming streams[0] is the default
             populateStreamButtons(foundEvent);
             streamStarted = true;
           };
         } else {
           document.getElementById('statusMessage').textContent = "Event ended or not found.";
+          console.error(`No event found for uri_name: ${uriName}`);
         }
       } catch (err) {
         document.getElementById('statusMessage').textContent = "Connection error.";
+        document.getElementById('errorContainer').classList.remove('d-none');
+        document.getElementById('errorContainer').textContent = `Error loading event: ${err.message}`;
+        console.error('API fetch failed:', err);
       }
 
       document.getElementById('fullscreenBtn').onclick = () => {
