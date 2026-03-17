@@ -1,0 +1,41 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Vercel
+.vercel/
+.output/
+
+# Editor and OS files
+.DS_Store
+*.log
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Environment and sensitive files
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.backup
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# Build artifacts
+dist/
+build/
+
+# Firebase-specific files
+.firebase/              # Firebase CLI cache and temporary files
+.firebaserc            # Firebase project configuration
+firebase.json          # Firebase hosting configuration (if you add Firebase Hosting later)
