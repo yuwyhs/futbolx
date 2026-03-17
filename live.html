@@ -384,10 +384,22 @@
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
-      // FIX: Improved path extraction for Cloudflare /live/slug routing
-      const segments = window.location.pathname.split('/').filter(s => s.length > 0);
-      const uriName = segments.length > 1 ? segments[segments.length - 1] : segments[0];
-      
+      console.log('=== LIVE PAGE LOADED ===');
+      console.log('Full pathname from browser:', window.location.pathname);
+
+      // Stronger path extraction (works even if someone types /live/ or /live/uri)
+      let pathname = window.location.pathname.replace(/\/$/, '');
+      const segments = pathname.split('/').filter(s => s.length > 0);
+      const uriName = segments[segments.length - 1];
+      console.log('Extracted uriName:', uriName);
+
+      // Safety check
+      if (!uriName || uriName === 'live') {
+        document.getElementById('statusMessage').innerHTML = `No event ID found in URL.<br><strong>Click "Watch" from the homepage</strong>`;
+        console.warn('No uri_name in URL - probably came from a broken link on homepage');
+        return;
+      }
+
       const startBtn = document.getElementById('startLivestream');
 
       try {
@@ -396,13 +408,15 @@
           catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ streams: [] })))
         );
 
-        // Flatten to the event level: allCategoryData -> data.streams (category objects) -> catObj.streams (events)
+        // Exact flattening for YOUR JSON structure (football.json example)
         const allEvents = allCategoryData.flatMap(data => 
-          (data.streams || []).flatMap(catObj => catObj.streams || [])
+          (data.streams || []).flatMap(catObj => (catObj.streams || []))
         );
 
-        // Find the matching event by uri_name
+        console.log('Total events loaded from API:', allEvents.length);
+
         const foundEvent = allEvents.find(ev => ev.uri_name === uriName);
+        console.log('Search result for', uriName, ':', foundEvent ? 'FOUND → ' + foundEvent.name : 'NOT FOUND');
 
         if (foundEvent) {
           document.getElementById('eventTitle').textContent = foundEvent.name;
@@ -420,18 +434,17 @@
             document.getElementById('statusArea').style.display = 'none';
             document.getElementById('liveStreamTitle').classList.remove('d-none');
             document.getElementById('currentStreamName').textContent = foundEvent.name;
-            playStream(foundEvent.streams[0].url);  // Assuming streams[0] is the default
+            playStream(foundEvent.streams[0].url);
             populateStreamButtons(foundEvent);
             streamStarted = true;
           };
         } else {
-          document.getElementById('statusMessage').textContent = "Event ended or not found.";
-          console.error(`No event found for uri_name: ${uriName}`);
+          document.getElementById('statusMessage').textContent = `Event "${uriName}" ended or not found.`;
         }
       } catch (err) {
         document.getElementById('statusMessage').textContent = "Connection error.";
         document.getElementById('errorContainer').classList.remove('d-none');
-        document.getElementById('errorContainer').textContent = `Error loading event: ${err.message}`;
+        document.getElementById('errorContainer').textContent = `Error: ${err.message}`;
         console.error('API fetch failed:', err);
       }
 
@@ -456,4 +469,4 @@
     });
   </script>
 </body>
-</html>
+  </html>
