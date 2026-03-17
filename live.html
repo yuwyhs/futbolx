@@ -396,8 +396,10 @@
           catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ streams: [] })))
         );
 
-        // Flatten all events across categories
-        const allEvents = allCategoryData.flatMap(data => data.streams || []);
+        // Flatten to the event level: allCategoryData -> data.streams (category objects) -> catObj.streams (events)
+        const allEvents = allCategoryData.flatMap(data => 
+          (data.streams || []).flatMap(catObj => catObj.streams || [])
+        );
 
         // Find the matching event by uri_name
         const foundEvent = allEvents.find(ev => ev.uri_name === uriName);
