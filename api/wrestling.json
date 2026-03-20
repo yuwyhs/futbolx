@@ -70,13 +70,13 @@
           "uri_name": "wwe-friday-night-smackdown",
           "poster": "https://progresswrestling.com/wp-content/uploads/2025/05/How-To-Watch-WWE-Smackdown.png",
           "tag": "WWE",
-          "starts_at": "2026-03-14T03:00:00",
-          "ends_at": "2026-03-14T06:00:00",
+          "starts_at": "2026-03-21T03:00:00",
+          "ends_at": "2026-03-21T06:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://hotel-bice-zeta.vercel.app/?id=k9m4p8"
+              "url": "https://premium.futbol-tv.online/ppv/embed.html"
             }
           ]
         },
