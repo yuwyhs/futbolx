@@ -1,10 +1,10 @@
-app = 'testk'
-primary_region = 'ams'
+app = 'futbolx'
+primary_region = 'fra'
 
 [build]
 
 [http_service]
-  internal_port = 80  # Fixed: Nginx uses 80
+  internal_port = 8080
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
@@ -12,6 +12,7 @@ primary_region = 'ams'
   processes = ['app']
 
 [[vm]]
+  memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
-  memory_mb = 256     
+  memory_mb = 256
