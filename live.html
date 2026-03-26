@@ -216,7 +216,7 @@
           <div id="statusArea">
             <h2 id="eventTitle" class="mb-3"></h2>
             <div id="countdownDisplay" class="countdown-display"></div>
-            <p id="statusMessage" class="status-message">Loading event...</p>
+            <p id="statusMessage" class="status-message">This event has not started yet.</p>
           </div>
 
           <div class="row g-4 mt-2">
@@ -274,6 +274,8 @@
     let eventStartTime = null;
     let eventEndTime = null;
     let streamStarted = false;
+    let foundEvent = null; 
+    const PRE_LIVE_BUFFER = 300; // 5 minutes in seconds
 
     const htmlEl = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
@@ -393,13 +395,23 @@
     function updatePreStreamStatus() {
       const now = Math.floor(Date.now() / 1000);
       const startBtn = document.getElementById('startLivestream');
+      const statusArea = document.getElementById('statusArea');
+      const countdownDisp = document.getElementById('countdownDisplay');
+      
       if (!eventStartTime) return;
-      if (streamStarted) { startBtn.style.display = 'none'; return; }
-      if (now >= eventStartTime && now <= eventEndTime) {
-        document.getElementById('statusArea').style.display = 'none';
+      if (streamStarted) { 
+          startBtn.style.display = 'none'; 
+          statusArea.style.display = 'none';
+          return; 
+      }
+
+      // Live 5 minutes (300s) early
+      if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
+        statusArea.style.display = 'none';
         startBtn.style.display = 'inline-block';
       } else {
-        document.getElementById('countdownDisplay').textContent = formatTimeLeft(eventStartTime - now);
+        statusArea.style.display = 'block';
+        countdownDisp.textContent = formatTimeLeft(eventStartTime - now);
       }
     }
 
@@ -411,7 +423,6 @@
         const catListRes = await fetchWithRetry('/api/stream');
         const fetchPromises = catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ success: true, streams: [] })));
         const allCategoryData = await Promise.all(fetchPromises);
-        let foundEvent = null;
 
         for (const data of allCategoryData) {
           for (const catObj of data.streams) {
@@ -430,13 +441,16 @@
         }
 
         startBtn.onclick = () => {
+          if (!foundEvent) return;
           if (!adClickedStart) { window.open(AD_URL, '_blank'); adClickedStart = true; }
           document.getElementById('mainVideoContainer').style.display = 'block';
           document.getElementById('streamLinks').style.display = 'block';
           startBtn.style.display = 'none';
           document.getElementById('liveStreamTitle').classList.remove('d-none');
           document.getElementById('currentStreamName').textContent = foundEvent.name;
-          playStream(foundEvent.streams[0].url);
+          
+          const firstStreamUrl = typeof foundEvent.streams[0] === 'string' ? foundEvent.streams[0] : foundEvent.streams[0].url;
+          playStream(firstStreamUrl);
           populateStreamButtons(foundEvent);
           streamStarted = true;
         };
@@ -465,4 +479,4 @@
     });
   </script>
 </body>
-                                                                                             </html>
+</html>
