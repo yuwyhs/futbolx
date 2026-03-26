@@ -7,7 +7,7 @@
       "streams": [
         {
           "name": "Brazil vs France",
-          "uri_name": "khs8jb8",
+          "uri_name": "n8p4q2r7",
           "poster": "https://i.postimg.cc/h40ChPxL/1000145825.jpg",
           "tag": "Friendly",
           "starts_at": "2026-03-26T23:00:00",
@@ -15,23 +15,12 @@
           "always_live": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": "https://premium.futbol-tv.online/len/embed.html"
-            }
-          ]
-        },
-        {
-          "name": "Bournemouth vs Manchester United",
-          "uri_name": "r5t1u8v3",
-          "poster": "https://i.postimg.cc/J7Zk96DV/1000144487.jpg",
-          "tag": "EPL",
-          "starts_at": "2026-03-20T23:00:00",
-          "ends_at": "2026-03-21T01:05:00",
-          "always_live": 0,
-          "streams": [
+              "title": "Main Feed (En)",
+              "url": "https://embedsports.top/embed/admin/ppv-n8p4q2r7/1"
+            },
             {
-              "title": "Main Feed",
-              "url": "https://premium.futbol-tv.online/mnu/embed.html"
+              "title": "Alt Feed (Fr)",
+              "url": "https://embedsports.top/embed/admin/ppv-n8p4q2r7/2"
             }
           ]
         }
