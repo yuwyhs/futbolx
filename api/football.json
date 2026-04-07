@@ -6,47 +6,36 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Wrexham vs Southampton",
-          "uri_name": "v8x4y2z7",
-          "poster": "https://i.postimg.cc/GmDtDzP4/1000147818.jpg",
-          "tag": "EFL",
-          "starts_at": "2026-04-07T22:00:00",
-          "ends_at": "2026-04-08T00:10:00",
+          "name": "PSG vs Liverpool",
+          "uri_name": "p9q2r5t8",
+          "poster": "https://i.postimg.cc/nrPrbL2w/1000147896.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-04-08T22:00:00",
+          "ends_at": "2026-04-09T00:10:00",
           "always_live": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": "https://skip.futbol-x.site/wre/embed.html"
+              "title": "Main Feed (En)",
+              "url": "https://embedsports.top/embed/admin/ppv-p9q2r5t8/1"
+            },
+            {
+              "title": "Alt Feed (Fr)",
+              "url": "https://embedsports.top/embed/admin/ppv-p9q2r5t8/2"
             }
           ]
         },
         {
-          "name": "Real Madrid vs Bayern Munich",
-          "uri_name": "m5n9q3r6",
-          "poster": "https://i.postimg.cc/nhmrmTKj/1000147819.jpg",
+          "name": "Barcelona vs Atletico Madrid",
+          "uri_name": "m4n7o1p6",
+          "poster": "https://i.postimg.cc/T141MP0k/1000147895.jpg",
           "tag": "UCL",
-          "starts_at": "2026-04-07T22:00:00",
-          "ends_at": "2026-04-08T00:10:00",
+          "starts_at": "2026-04-08T22:00:00",
+          "ends_at": "2026-04-09T00:10:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://skip.futbol-x.site/bay/embed.html"
-            }
-          ]
-        },
-        {
-          "name": "Sporting Cp vs Arsenal",
-          "uri_name": "k1l7o4p8",
-          "poster": "https://i.postimg.cc/7ZzhzX1C/1000147820.jpg",
-          "tag": "UCL",
-          "starts_at": "2026-04-07T22:00:00",
-          "ends_at": "2026-04-08T00:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://skip.futbol-x.site/spo/embed.html"
+              "url": "https://embedsports.top/embed/admin/ppv-m4n7o1p6/1"
             }
           ]
         }
