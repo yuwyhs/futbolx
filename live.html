@@ -34,6 +34,31 @@
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
+    /* --- SOCIAL OVERLAY STYLES --- */
+    #socialOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.95); z-index: 10000;
+      display: none; align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+    .social-card {
+      background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+      border: 2px solid #ff4d4d; border-radius: 20px;
+      padding: 40px; text-align: center; max-width: 500px; width: 90%;
+      box-shadow: 0 0 30px rgba(255, 77, 77, 0.2);
+    }
+    .social-card h2 { color: #ff4d4d; font-weight: 800; margin-bottom: 20px; }
+    .social-card p { color: #ddd; font-size: 1.1rem; margin-bottom: 30px; line-height: 1.6; }
+    .social-btns { display: flex; flex-direction: column; gap: 15px; }
+    .btn-social {
+      padding: 12px; border-radius: 12px; font-weight: 600; text-decoration: none;
+      transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .btn-discord { background: #5865F2; color: white; }
+    .btn-telegram { background: #0088cc; color: white; }
+    .btn-social:hover { transform: scale(1.03); opacity: 0.9; color: white; }
+
+    /* --- FAKE PLAYER STYLES --- */
     #fakePlayerLayer {
       position: absolute; top:0; left:0; width:100%; height:100%;
       background: #000; z-index: 999; display: flex; align-items: center; justify-content: center; cursor: pointer;
@@ -156,6 +181,21 @@
   </style>
 </head>
 <body>
+  <div id="socialOverlay">
+    <div class="social-card">
+      <h2>Join Our Community</h2>
+      <p>Join us on our socials for live updates, event requests, and to report any site issues. You'll get full access once you join!</p>
+      <div class="social-btns">
+        <a href="https://discord.gg/6Rm347EkV2" target="_blank" class="btn-social btn-discord social-join-btn">
+          <i class="fab fa-discord"></i> Join Our Discord
+        </a>
+        <a href="https://t.me/+Zl3TcRw1iXo2NmRl" target="_blank" class="btn-social btn-telegram social-join-btn">
+          <i class="fab fa-telegram"></i> Join Our Telegram
+        </a>
+      </div>
+    </div>
+  </div>
+
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
       <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
@@ -263,6 +303,31 @@
   <script src="/assets/js/auth.js"></script>
 
   <script>
+    // --- 24 HOUR OVERLAY LOGIC ---
+    const OVERLAY_KEY = 'futbolx_social_join';
+    const overlay = document.getElementById('socialOverlay');
+    
+    function checkOverlay() {
+      const lastJoin = localStorage.getItem(OVERLAY_KEY);
+      const now = Date.now();
+      
+      // If no timestamp or older than 24 hours (86,400,000 ms)
+      if (!lastJoin || (now - lastJoin > 86400000)) {
+        overlay.style.display = 'flex';
+      }
+    }
+
+    document.querySelectorAll('.social-join-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        localStorage.setItem(OVERLAY_KEY, Date.now());
+        overlay.style.display = 'none';
+      });
+    });
+
+    // Run check on load
+    checkOverlay();
+
+    // AD CONFIGURATION
     const AD_URLS = [
         "https://omg10.com/4/10664814",
         "https://omg10.com/4/10858386",
@@ -354,7 +419,6 @@
     }
 
     function initActualPlayer(url, useJW) {
-      document.getElementById('fullscreenBtn').classList.remove('d-none');
       if (useJW) {
         document.getElementById('embedPlayer').style.display = 'none';
         const container = document.getElementById('oplayer-container');
@@ -363,7 +427,7 @@
         playerInstance = jwplayer("jw-player").setup({
           file: url, autostart: true, mute: true, width: "100%", aspectratio: "16:9", cast: {}
         });
-        playerInstance.on('ready', () => { clearError(); });
+        playerInstance.on('ready', () => { clearError(); document.getElementById('fullscreenBtn').classList.remove('d-none'); });
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
@@ -392,7 +456,7 @@
 
         try {
           const realUrl = atob(atob(btn.dataset.p).split('||')[0]);
-          clicksSwitch = 0; 
+          clicksSwitch = 0;
           playStream(realUrl);
           document.getElementById('currentStreamName').textContent = btn.textContent.trim();
           container.querySelectorAll('.btn-stream').forEach(b => b.classList.remove('active'));
@@ -478,27 +542,9 @@
         };
       } catch (err) {}
 
-      // ENHANCED FULLSCREEN LOGIC FOR BOTH JW AND IFRAME
       document.getElementById('fullscreenBtn').onclick = () => {
-        if (!adClickedFullscreen) { 
-            window.open(AD_URLS[0], '_blank'); 
-            adClickedFullscreen = true; 
-        }
-        
-        if (playerInstance) {
-          // JW Player fullscreen
-          playerInstance.setFullscreen(true);
-        } else {
-          // Iframe fullscreen
-          const iframe = document.getElementById('embedPlayer');
-          if (iframe.requestFullscreen) {
-            iframe.requestFullscreen();
-          } else if (iframe.webkitRequestFullscreen) { /* Safari */
-            iframe.webkitRequestFullscreen();
-          } else if (iframe.msRequestFullscreen) { /* IE11 */
-            iframe.msRequestFullscreen();
-          }
-        }
+        if (!adClickedFullscreen) { window.open(AD_URLS[0], '_blank'); adClickedFullscreen = true; }
+        if (playerInstance) playerInstance.setFullscreen(true);
       };
 
       const infoAlert = document.getElementById('infoAlert');
