@@ -34,7 +34,6 @@
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
-    /* --- FAKE PLAYER STYLES --- */
     #fakePlayerLayer {
       position: absolute; top:0; left:0; width:100%; height:100%;
       background: #000; z-index: 999; display: flex; align-items: center; justify-content: center; cursor: pointer;
@@ -264,14 +263,12 @@
   <script src="/assets/js/auth.js"></script>
 
   <script>
-    // AD CONFIGURATION
     const AD_URLS = [
         "https://omg10.com/4/10664814",
         "https://omg10.com/4/10858386",
         "https://omg10.com/4/10858385"
     ];
 
-    // COUNTERS FOR 3-CLICK SYSTEM
     let clicksStart = 0;
     let clicksFakePlayer = 0;
     let clicksSwitch = 0;
@@ -341,7 +338,6 @@
       const useJW = await isM3U8(url);
       const fakeLayer = document.getElementById('fakePlayerLayer');
       
-      // Reset fake player when switching streams
       fakeLayer.style.display = 'flex';
       clicksFakePlayer = 0;
 
@@ -358,6 +354,7 @@
     }
 
     function initActualPlayer(url, useJW) {
+      document.getElementById('fullscreenBtn').classList.remove('d-none');
       if (useJW) {
         document.getElementById('embedPlayer').style.display = 'none';
         const container = document.getElementById('oplayer-container');
@@ -366,7 +363,7 @@
         playerInstance = jwplayer("jw-player").setup({
           file: url, autostart: true, mute: true, width: "100%", aspectratio: "16:9", cast: {}
         });
-        playerInstance.on('ready', () => { clearError(); document.getElementById('fullscreenBtn').classList.remove('d-none'); });
+        playerInstance.on('ready', () => { clearError(); });
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
@@ -387,16 +384,15 @@
         const btn = e.target.closest('.btn-stream');
         if (!btn) return;
         
-        // 3 Clicks for stream switching
         if (clicksSwitch < 3) {
             window.open(AD_URLS[clicksSwitch], '_blank');
             clicksSwitch++;
-            return; // Don't switch yet
+            return;
         }
 
         try {
           const realUrl = atob(atob(btn.dataset.p).split('||')[0]);
-          clicksSwitch = 0; // Reset for next interaction
+          clicksSwitch = 0; 
           playStream(realUrl);
           document.getElementById('currentStreamName').textContent = btn.textContent.trim();
           container.querySelectorAll('.btn-stream').forEach(b => b.classList.remove('active'));
@@ -466,7 +462,7 @@
           if (clicksStart < 3) {
               window.open(AD_URLS[clicksStart], '_blank');
               clicksStart++;
-              if (clicksStart < 3) return; // Wait for 3rd click
+              if (clicksStart < 3) return;
           }
 
           document.getElementById('mainVideoContainer').style.display = 'block';
@@ -482,9 +478,27 @@
         };
       } catch (err) {}
 
+      // ENHANCED FULLSCREEN LOGIC FOR BOTH JW AND IFRAME
       document.getElementById('fullscreenBtn').onclick = () => {
-        if (!adClickedFullscreen) { window.open(AD_URLS[0], '_blank'); adClickedFullscreen = true; }
-        if (playerInstance) playerInstance.setFullscreen(true);
+        if (!adClickedFullscreen) { 
+            window.open(AD_URLS[0], '_blank'); 
+            adClickedFullscreen = true; 
+        }
+        
+        if (playerInstance) {
+          // JW Player fullscreen
+          playerInstance.setFullscreen(true);
+        } else {
+          // Iframe fullscreen
+          const iframe = document.getElementById('embedPlayer');
+          if (iframe.requestFullscreen) {
+            iframe.requestFullscreen();
+          } else if (iframe.webkitRequestFullscreen) { /* Safari */
+            iframe.webkitRequestFullscreen();
+          } else if (iframe.msRequestFullscreen) { /* IE11 */
+            iframe.msRequestFullscreen();
+          }
+        }
       };
 
       const infoAlert = document.getElementById('infoAlert');
