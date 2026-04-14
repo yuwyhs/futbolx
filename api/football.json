@@ -16,11 +16,11 @@
           "streams": [
             {
               "title": "Main feed(En)",
-              "url": ""
+              "url": "https://hotel.futbol-x.top/liv/embed.html"
             },
             {
               "title": "Alt Feed (fr)",
-              "url": ""
+              "url": "https://hotel.futbol-x.top/psg/embed.html"
             }
           ]
         },
@@ -35,7 +35,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotel.futbol-x.top/bar/embed.html"
             }
           ]
         },
