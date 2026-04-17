@@ -6,66 +6,32 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Liverpool vs Psg",
-          "uri_name": "v9n2w4k8",
-          "poster": "https://i.postimg.cc/43Rk86K7/8cbd3ddefa94c4437d0f74df98bad7dc_thumbnail.jpg",
-          "tag": "Ucl",
-          "starts_at": "2026-04-14T22:00:00",
-          "ends_at": "2026-04-15T00:15:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main feed(En)",
-              "url": "https://hotel.futbol-x.top/liv/embed.html"
-            },
-            {
-              "title": "Alt Feed (fr)",
-              "url": "https://hotel.futbol-x.top/psg/embed.html"
-            }
-          ]
-        },
-        {
-          "name": "Atletico Madrid vs Barcelona",
-          "uri_name": "x7b3m1p5",
-          "poster": "https://i.postimg.cc/FKX5Pyff/0b3f5d03423e6fa3e8cd56c08876c340_thumbnail.jpg",
-          "tag": "Ucl",
-          "starts_at": "2026-04-14T22:00:00",
-          "ends_at": "2026-04-15T00:15:00",
+          "name": "Inter Milan vs Cagliari",
+          "uri_name": "z7m3v9k2",
+          "poster": "https://i.postimg.cc/VLCgZJT7/c39e25c7a7d3c3c772fa7d4b1eade6ca-thumbnail.jpg",
+          "tag": "Seria A",
+          "starts_at": "2026-04-17T21:45:00",
+          "ends_at": "2026-04-17T23:50:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://hotel.futbol-x.top/bar/embed.html"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Bayern Munich vs Real Madrid",
-          "uri_name": "q2t8h4j0",
-          "poster": "https://i.postimg.cc/yNC4fmJk/d93899862a4855d2d8d2c1efa81f191c_thumbnail.jpg",
-          "tag": "Ucl",
-          "starts_at": "2026-04-15T22:00:00",
-          "ends_at": "2026-04-16T00:15:00",
+          "name": "Lens vs Toulouse",
+          "uri_name": "q1w8n4p0",
+          "poster": "https://i.postimg.cc/9F7bgDS1/5b9b87369107f13fcc4fd6a34b64b8c8-thumbnail.jpg",
+          "tag": "Ligue 1",
+          "starts_at": "2026-04-17T21:45:00",
+          "ends_at": "2026-04-17T23:50:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://hotel.futbol-x.top/bay/embed.html"
-            }
-          ]
-        },
-        {
-          "name": "Arsenal vs Sporting Cp",
-          "uri_name": "l5s9f3d1",
-          "poster": "https://i.postimg.cc/8CgQyRFs/3c8cb5700183b9187fde3113e4dd532b_thumbnail.jpg",
-          "tag": "Ucl",
-          "starts_at": "2026-04-15T22:00:00",
-          "ends_at": "2026-04-16T00:15:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotel.futbol-x.top/spo/embed.html"
+              "url": ""
             }
           ]
         }
