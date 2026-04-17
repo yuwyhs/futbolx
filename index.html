@@ -228,6 +228,16 @@
         font-size: 0.65rem !important;
         padding: 2px 8px !important;
       }
+
+      /* NEW: Clean vertical spacing for multi-day countdowns (days/weeks) */
+      .countdown {
+        line-height: 1.2 !important;
+      }
+      .time-small {
+        font-size: 0.65rem !important;
+        opacity: 0.85 !important;
+        display: block;
+      }
     }
   </style>
 </head>
@@ -415,14 +425,21 @@
             hour: 'numeric', minute: '2-digit', hour12: true,
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
           });
-          if (days >= 7) { displayText = `Starting in ${weeks}w (${localTimeString})`; } 
-          else if (days >= 1) { displayText = `Starting in ${days}d (${localTimeString})`; } 
+          
+          /* ONLY CHANGE: Better vertical spacing for times past a day (exactly as you asked) */
+          if (days >= 7) { 
+            displayText = `Starting in \( {weeks}w<br><span class="time-small">( \){localTimeString})</span>`; 
+          } 
+          else if (days >= 1) { 
+            displayText = `Starting in \( {days}d<br><span class="time-small">( \){localTimeString})</span>`; 
+          } 
           else {
             let hh = hours - days * 24;
             let mm = mins - hours * 60;
             let ss = secs - mins * 60;
-            displayText = `${zeropad(hh)}:${zeropad(mm)}:${zeropad(ss)}`;
+            displayText = `\( {zeropad(hh)}: \){zeropad(mm)}:${zeropad(ss)}`;
           }
+          
           if (element.innerHTML !== displayText) { element.innerHTML = displayText; }
         } else if (timer <= 0 && !element.innerHTML.includes('watch-button')) {
           element.innerHTML = `<span class="btn btn-danger btn-sm watch-button">Watch</span>`;
@@ -463,10 +480,10 @@
 
       try {
         const baseUrl = api.baseUrl || `${window.location.origin}/api`;
-        const catListUrl = baseUrl.endsWith('/') ? `${baseUrl}stream` : `${baseUrl}/stream`;
+        const catListUrl = baseUrl.endsWith('/') ? `\( {baseUrl}stream` : ` \){baseUrl}/stream`;
         const catListRes = await fetchWithRetry(catListUrl);
         const categoryNames = catListRes.categories || [];
-        const fetchPromises = categoryNames.map(cat => fetchWithRetry(`${baseUrl}/${cat}.json`).catch(() => ({ success: true, streams: [] })));
+        const fetchPromises = categoryNames.map(cat => fetchWithRetry(`\( {baseUrl}/ \){cat}.json`).catch(() => ({ success: true, streams: [] })));
         const allCategoryData = await Promise.all(fetchPromises);
 
         const combined = {
@@ -523,13 +540,13 @@
                 <a href="/live/${stream.uri_name}">
                   <div class="card">
                     ${isLive ? '<span class="live-badge" style="position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; padding: 2px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; z-index: 10;">LIVE</span>' : ''}
-                    <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
+                    <img src="\( {poster}" class="card-img-top" alt=" \){stream.name}" loading="lazy">
                     <div class="card-body">
                       <h5 class="card-title">${stream.name}</h5>
                       <div class="card-text">
                         <span class="event-tag">${stream.tag}</span>
                         <span class="event-timer">
-                          ${isLive ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
+                          \( {isLive ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` : `<span class="countdown" data-start=" \){startTime}" data-uri="/live/${stream.uri_name}"></span>`}
                         </span>
                       </div>
                     </div>
@@ -640,4 +657,4 @@
     closeBtn.addEventListener('click', () => { pwaWrapper.style.display = 'none'; sessionStorage.setItem('pwaDismissed', 'true'); });
   </script>
 </body>
-                                                                      </html>
+</html>
