@@ -21,17 +21,17 @@
           ]
         },
         {
-          "name": "UFC 327: Procházka vs Ulberg",
+          "name": "UFC Fight Night: Burns vs Malott",
           "uri_name": "q7m3n4p0",
-          "poster": "https://i.postimg.cc/ydjPScNX/1000148436.jpg",
+          "poster": "https://i.postimg.cc/J0nKMCLg/75d0304d512c952fd2aa7f9d79aa7025-thumbnail.jpg",
           "tag": "UFC",
-          "starts_at": "2026-04-12T01:00:00",
-          "ends_at": "2026-04-12T08:00:00",
+          "starts_at": "2026-04-19T01:00:00",
+          "ends_at": "2026-04-19T08:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://hotel.futbol-x.top/ufc/index.m3u8"
+              "url": "https://hotel.futbol-x.top/uf/embed.html"
             }
           ]
         }
