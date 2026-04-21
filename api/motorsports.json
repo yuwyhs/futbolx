@@ -6,77 +6,17 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Japanese Grand Prix - Practice 1",
-          "uri_name": "n2v8w5x0",
-          "poster": "https://i.postimg.cc/2ypzMGfY/1000145146.jpg",
-          "tag": "F1",
-          "starts_at": "2026-03-27T05:30:00",
-          "ends_at": "2026-03-27T08:50:00",
+          "name": "The Interstate Batteries High Limit Racing",
+          "uri_name": "m8x2k1v5",
+          "poster": "https://cdn.myracepass.com/images/v2/1200x1200-H6bvK7M8p4eNnQ9x1200158.jpg",
+          "tag": "ppv",
+          "starts_at": "2026-04-22T01:45:00",
+          "ends_at": "2026-04-22T04:30:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-n2v8w5x0/1"
-            }
-          ]
-        },
-        {
-          "name": "Japanese Grand Prix - Practice 2",
-          "uri_name": "c6d1e9f4",
-          "poster": "https://i.postimg.cc/d3Mqp6KJ/1000145142.jpg",
-          "tag": "F1",
-          "starts_at": "2026-03-27T09:00:00",
-          "ends_at": "2026-03-27T12:00:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedsports.top/embed/admin/ppv-c6d1e9f4/1"
-            }
-          ]
-        },
-        {
-          "name": "Japanese Grand Prix - Practice 3",
-          "uri_name": "g7h2i0j5",
-          "poster": "https://i.postimg.cc/fy4wpChz/1000145143.jpg",
-          "tag": "F1",
-          "starts_at": "2026-03-28T05:30:00",
-          "ends_at": "2026-03-28T07:30:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://skip.futbol-x.site/pv/embed.html"
-            }
-          ]
-        },
-        {
-          "name": "Japanese Grand Prix - Qualifying",
-          "uri_name": "k3l9m6n1",
-          "poster": "https://i.postimg.cc/wMK6Z2dj/1000145144.jpg",
-          "tag": "F1",
-          "starts_at": "2026-03-28T09:00:00",
-          "ends_at": "2026-03-28T12:00:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://skip.futbol-x.site/pv/embed.html"
-            }
-          ]
-        },
-        {
-          "name": "Japanese Grand Prix - Race",
-          "uri_name": "o8p4q2r7",
-          "poster": "https://i.postimg.cc/4yCJqPTy/1000145145.jpg",
-          "tag": "F1",
-          "starts_at": "2026-03-29T08:00:00",
-          "ends_at": "2026-03-29T12:00:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://skip.futbol-x.site/skip/embed.html"
+              "url": ""
             }
           ]
         }
