@@ -407,10 +407,11 @@
       clicksFakePlayer = 0;
 
       fakeLayer.onclick = () => {
-        if (clicksFakePlayer < 3) {
+        // Reduced to 1 click
+        if (clicksFakePlayer < 1) {
           window.open(AD_URLS[clicksFakePlayer], '_blank');
           clicksFakePlayer++;
-          if (clicksFakePlayer === 3) {
+          if (clicksFakePlayer === 1) {
             fakeLayer.style.display = 'none';
             initActualPlayer(url, useJW);
           }
@@ -448,7 +449,8 @@
         const btn = e.target.closest('.btn-stream');
         if (!btn) return;
         
-        if (clicksSwitch < 3) {
+        // Reduced to 1 click for stream switching
+        if (clicksSwitch < 1) {
             window.open(AD_URLS[clicksSwitch], '_blank');
             clicksSwitch++;
             return;
@@ -521,8 +523,7 @@
         }
 
         startBtn.onclick = () => {
-          if (!foundEvent) return;
-          
+          // Kept at 3 clicks
           if (clicksStart < 3) {
               window.open(AD_URLS[clicksStart], '_blank');
               clicksStart++;
