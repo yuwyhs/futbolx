@@ -407,7 +407,6 @@
       clicksFakePlayer = 0;
 
       fakeLayer.onclick = () => {
-        // Reduced to 1 click
         if (clicksFakePlayer < 1) {
           window.open(AD_URLS[clicksFakePlayer], '_blank');
           clicksFakePlayer++;
@@ -449,7 +448,6 @@
         const btn = e.target.closest('.btn-stream');
         if (!btn) return;
         
-        // Reduced to 1 click for stream switching
         if (clicksSwitch < 1) {
             window.open(AD_URLS[clicksSwitch], '_blank');
             clicksSwitch++;
@@ -523,7 +521,6 @@
         }
 
         startBtn.onclick = () => {
-          // Kept at 3 clicks
           if (clicksStart < 3) {
               window.open(AD_URLS[clicksStart], '_blank');
               clicksStart++;
@@ -563,13 +560,6 @@
         showJoin = !showJoin;
       }, 10000);
     });
-
-    // PREVENTION AGAINST AGGRESSIVE REDIRECTS
-    window.onbeforeunload = function() {
-        if (streamStarted) {
-            return "Do you want to leave the stream?";
-        }
-    };
   </script>
 </body>
 </html>
