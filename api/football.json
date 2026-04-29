@@ -6,21 +6,17 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Psg vs Bayern Munich",
-          "uri_name": "p7g3b9m1",
-          "poster": "https://i.postimg.cc/ZnL2RSw2/57166c2365107c14893f59b7b5147afb-thumbnail.jpg",
+          "name": "Atletico Madrid vs Arsenal",
+          "uri_name": "a9m4r1n8",
+          "poster": "https://i.postimg.cc/28xkfvY3/1c48186496213f8d187e68ac984f460a-thumbnail.jpg",
           "tag": "UCL",
-          "starts_at": "2026-04-28T22:00:00",
-          "ends_at": "2026-04-29T00:10:00",
+          "starts_at": "2026-04-29T22:00:00",
+          "ends_at": "2026-04-30T00:20:00",
           "always_live": 0,
           "streams": [
             {
-              "title": "Main Feed(En)",
-              "url": "https://pooembed.eu/embed/ucl/2026-04-28/psg-mun"
-            },
-            {
-              "title": "Alt Feed(Fr)",
-              "url": "https://hotel.futbol-x.top/live/index.m3u8"
+              "title": "Main Feed",
+              "url": ""
             }
           ]
         }
