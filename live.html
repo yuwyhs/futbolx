@@ -18,9 +18,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
-  <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
-  
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
@@ -35,6 +34,7 @@
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
+    /* --- SOCIAL OVERLAY STYLES --- */
     #socialOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.95); z-index: 10000;
@@ -58,6 +58,7 @@
     .btn-telegram { background: #0088cc; color: white; }
     .btn-social:hover { transform: scale(1.03); opacity: 0.9; color: white; }
 
+    /* --- FAKE PLAYER STYLES --- */
     #fakePlayerLayer {
       position: absolute; top:0; left:0; width:100%; height:100%;
       background: #000; z-index: 999; display: flex; align-items: center; justify-content: center; cursor: pointer;
@@ -68,62 +69,129 @@
     }
 
     .live-title {
-      text-align: center; background: linear-gradient(135deg, #1a1a1a, #2d0000);
-      padding: 12px 20px; border-radius: 12px; border: 2px solid #ff4d4d;
-      box-shadow: 0 0 20px rgba(255, 77, 77, 0.3); margin: 1rem 0;
+      text-align: center;
+      background: linear-gradient(135deg, #1a1a1a, #2d0000);
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: 2px solid #ff4d4d;
+      box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
+      margin: 1rem 0;
     }
-    .live-title h3 { margin: 0; color: #fff; font-size: 1.8rem; font-weight: 600; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
-    .live-title::before { content: "● LIVE"; color: #ff4d4d; font-weight: bold; margin-right: 10px; animation: pulse 2s infinite; }
-    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+    .live-title h3 {
+      margin: 0;
+      color: #fff;
+      font-size: 1.8rem;
+      font-weight: 600;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+    .live-title::before {
+      content: "● LIVE";
+      color: #ff4d4d;
+      font-weight: bold;
+      margin-right: 10px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
 
-    /* --- CUSTOM CHAT UI STYLES --- */
+    /* --- CUSTOM CHAT ENGINE STYLES --- */
     .chat-wrapper {
-      width: 100%; background:#111; border-radius:16px; overflow:hidden;
-      border:1px solid #333; box-shadow:0 10px 30px rgba(0,0,0,0.6);
-      display: flex; flex-direction: column; position: relative;
+      width: 100%;
+      background:#1a1a1a;
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid #333;
+      box-shadow:0 10px 30px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      position: relative;
     }
     .chat-header {
-      background:#ff4d4d; color:white; padding:12px; font-weight:bold;
-      text-align:center; border-bottom:2px solid #cc0000;
+      background:#ff4d4d;
+      color:white;
+      padding:12px 20px;
+      font-weight:bold;
+      font-size:1.2rem;
+      text-align:center;
+      border-bottom:2px solid #cc0000;
     }
     .chat-container {
-      height: 500px; background: #0d0d0d; overflow-y: auto;
-      padding: 15px; display: flex; flex-direction: column; gap: 8px;
+      height: 500px;
+      background: #111;
+      overflow-y: auto;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
-    .msg-row { font-size: 0.9rem; margin-bottom: 4px; }
-    .username { font-weight: 800; color: #ff4d4d; margin-right: 6px; }
-    .msg-text { color: #eee; }
-
     #userOverlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: #111; z-index: 100; display: none; flex-direction: column;
-      padding: 20px; align-items: center; justify-content: center; text-align: center;
+      background: #111; z-index: 10; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 20px;
     }
-    #userOverlay h4 { color: #ff4d4d; margin-bottom: 15px; }
     #userOverlay input {
       width: 80%; padding: 10px; border-radius: 8px; border: 1px solid #ff4d4d;
-      background: #000; color: white; margin-bottom: 15px; outline: none;
+      background: #000; color: #fff; margin-bottom: 10px;
     }
-    .security-note { font-size: 0.75rem; color: #888; margin-top: 15px; line-height: 1.4; }
+    .msg-row { font-size: 0.9rem; color: #eee; padding: 4px 8px; border-radius: 4px; }
+    .msg-noti { color: #888; font-style: italic; border-left: 3px solid #ff4d4d; padding-left: 8px; margin: 5px 0; }
+    .username { font-weight: 800; margin-right: 5px; color: #00ffcc; }
+    .chat-footer { padding: 10px; background: #151515; border-top: 1px solid #333; display: flex; gap: 8px; }
+    #chatInput { flex: 1; background: #000; border: 1px solid #444; color: #fff; padding: 8px; border-radius: 8px; outline: none; }
+    #sendBtn { background: none; border: none; color: #ff4d4d; font-size: 1.2rem; cursor: pointer; }
 
-    .chat-footer {
-      padding: 10px; background: #1a1a1a; border-top: 1px solid #333;
-      display: flex; gap: 8px; align-items: center;
+    @media (min-width: 992px) {
+      .chat-container { height: 600px; }
     }
-    #chatInput {
-      flex: 1; background: #000; border: 1px solid #444; border-radius: 8px;
-      color: white; padding: 8px; outline: none;
+
+    #statusArea {
+      text-align: center;
+      padding: 30px 15px;
+      background: rgba(30,30,30,0.7);
+      border-radius: 12px;
+      margin: 25px auto;
+      max-width: 720px;
     }
-    .chat-btns button { background: none; border: none; color: #ff4d4d; font-size: 1.2rem; cursor: pointer; }
-
-    @media (min-width: 992px) { .chat-container { height: 600px; } }
-
-    #statusArea { text-align: center; padding: 30px 15px; background: rgba(30,30,30,0.7); border-radius: 12px; margin: 25px auto; max-width: 720px; }
-    #eventTitle { font-size: 2.4rem; margin-bottom: 1rem; color: #ff4d4d; }
-    .countdown-display { font-size: 4rem; font-weight: bold; color: #ff4d4d; letter-spacing: 5px; margin: 20px 0; text-shadow: 0 0 20px rgba(255,77,77,0.5); }
-    .permanent-noti { margin-top: 12px; background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; transition: opacity 0.6s ease-in; }
-    .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 1200px; margin-left: auto; margin-right: auto; }
-    [data-bs-theme="dark"] .disclaimer { color: #aaa; background: rgba(0,0,0,0.3); border-top-color: #444; }
+    #eventTitle {
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+      color: #ff4d4d;
+    }
+    .countdown-display {
+      font-size: 4rem;
+      font-weight: bold;
+      color: #ff4d4d;
+      letter-spacing: 5px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px rgba(255,77,77,0.5);
+    }
+    .permanent-noti {
+      margin-top: 12px;
+      background: linear-gradient(135deg, #1e3a5f, #2a4a7a);
+      border-color: #4a8cff;
+      color: #e0f0ff;
+      text-align: center;
+      position: relative;
+      transition: opacity 0.6s ease-in;
+    }
+    .disclaimer {
+      text-align: center;
+      font-size: 0.85rem;
+      padding: 20px 15px;
+      margin-top: 30px;
+      border-top: 1px solid #444;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    [data-bs-theme="dark"] .disclaimer {
+      color: #aaa;
+      background: rgba(0,0,0,0.3);
+      border-top-color: #444;
+    }
   </style>
 </head>
 <body>
@@ -175,8 +243,7 @@
   </div>
 
   <div class="container-fluid main-content">
-    <div class="container-xl mt-4"> 
-      <div class="row">
+    <div class="container-xl mt-4"> <div class="row">
         <div class="col-12">
           <div class="tip-container">
             <div class="alert alert-info permanent-noti" id="infoAlert">
@@ -222,24 +289,16 @@
                 <div class="chat-header" id="chatTitle">Live Chat</div>
                 
                 <div id="userOverlay">
-                  <h4>Choose Your Identity</h4>
+                  <h4 style="color:#ff4d4d">Identify Yourself</h4>
                   <input type="text" id="usernameInput" placeholder="Enter Username..." maxlength="15">
                   <button class="btn btn-danger w-75" id="saveUsernameBtn">Set Username</button>
-                  <div class="security-note">
-                    Please keep your username safe; you will need it to appeal or log back in. 
-                    One username per user. No one can login using your username once created. 
-                    Your safety is our priority.
-                  </div>
                 </div>
 
                 <div class="chat-container" id="chatDisplay"></div>
 
                 <div class="chat-footer">
                   <input type="text" id="chatInput" placeholder="Set username to chat..." readonly>
-                  <div class="chat-btns">
-                    <button id="emoteBtn"><i class="fas fa-smile"></i></button>
-                    <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
-                  </div>
+                  <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
                 </div>
               </div>
             </div>
@@ -267,88 +326,79 @@
 
   <script>
     // --- SUPABASE CONFIG ---
-    const SUPABASE_URL = 'https://zmhifgtbijfecvoesugt.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptaGlmZ3RiaWpmZWN2b2VzdWd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1OTc3NDMsImV4cCI6MjA5MzE3Mzc0M30.i656DT2i-TpD3dKhJ0CS1GL7hneOke6Pwq6bPWCCZNo';
-    let sbClient;
-    try {
-      sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    } catch(e) { console.error("Supabase Error:", e); }
+    const _supabaseUrl = 'https://zmhifgtbijfecvoesugt.supabase.co';
+    const _supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptaGlmZ3RiaWpmZWN2b2VzdWd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1OTc3NDMsImV4cCI6MjA5MzE3Mzc0M30.i656DT2i-TpD3dKhJ0CS1GL7hneOke6Pwq6bPWCCZNo';
+    const supabaseClient = supabase.createClient(_supabaseUrl, _supabaseKey);
 
-    const pageUri = window.location.pathname.split('/').pop();
-    let currentUser = localStorage.getItem('fx_username');
+    let currentUser = localStorage.getItem('fx_user');
+    const uriName = window.location.pathname.split('/').pop();
 
-    // --- CHAT LOGIC ---
-    function updateChatState() {
-      const input = document.getElementById('chatInput');
+    function updateChatUI() {
       const overlay = document.getElementById('userOverlay');
+      const input = document.getElementById('chatInput');
       if (currentUser) {
+        overlay.style.display = 'none';
         input.placeholder = "Write a message...";
         input.readOnly = false;
-        overlay.style.display = 'none';
-        input.onclick = null;
-      } else {
-        input.placeholder = "Set username to chat...";
-        input.readOnly = true;
-        overlay.style.display = 'flex';
-        input.onclick = () => { overlay.style.display = 'flex'; };
       }
     }
 
-    function renderMessage(msg) {
+    function renderMessage(user, text) {
       const display = document.getElementById('chatDisplay');
-      if(!display) return;
       const div = document.createElement('div');
       div.className = 'msg-row';
-      div.innerHTML = `<span class="username">${msg.username}:</span><span class="msg-text">${msg.content}</span>`;
+      const color = (user === 'Optimus') ? '#ff4d4d' : '#00ffcc';
+      div.innerHTML = `<span class="username" style="color:${color}">${user}:</span> ${text}`;
       display.appendChild(div);
       display.scrollTop = display.scrollHeight;
     }
 
-    // Save Username Logic
-    document.getElementById('saveUsernameBtn').onclick = async () => {
+    async function loadMessages() {
+      const { data, error } = await supabaseClient
+        .from('messages')
+        .select('*')
+        .eq('room', uriName)
+        .order('created_at', { ascending: true })
+        .limit(50);
+      if (data) data.forEach(m => renderMessage(m.username, m.content));
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const val = input.value.trim();
+      if (!val || !currentUser) return;
+      await supabaseClient.from('messages').insert([{ username: currentUser, content: val, room: uriName }]);
+      input.value = '';
+    }
+
+    // Subscribe to real-time updates
+    supabaseClient
+      .channel('room1')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `room=eq.${uriName}` }, payload => {
+        renderMessage(payload.new.username, payload.new.content);
+      })
+      .subscribe();
+
+    document.getElementById('saveUsernameBtn').onclick = () => {
       const val = document.getElementById('usernameInput').value.trim();
-      const saveBtn = document.getElementById('saveUsernameBtn');
-      if (val.length > 2 && sbClient) {
-        saveBtn.disabled = true;
-        saveBtn.innerText = "Checking...";
-        // Check if taken
-        const { data: existing } = await sbClient.from('profiles').select('username').eq('username', val).single();
-        if (existing) {
-          alert("Username taken. Choose another.");
-          saveBtn.disabled = false;
-          saveBtn.innerText = "Set Username";
-          return;
-        }
-        // Save new
-        await sbClient.from('profiles').insert([{ username: val }]);
-        localStorage.setItem('fx_username', val);
+      if (val.length > 2) {
+        localStorage.setItem('fx_user', val);
         currentUser = val;
-        updateChatState();
+        updateChatUI();
       }
     };
 
-    // Send Message Logic
-    document.getElementById('sendBtn').onclick = async () => {
-      const inp = document.getElementById('chatInput');
-      if (inp.value.trim() && currentUser && sbClient) {
-        const text = inp.value.trim();
-        const { error } = await sbClient.from('messages').insert([
-          { username: currentUser, content: text, event_uri: pageUri }
-        ]);
-        if (!error) inp.value = "";
-      }
-    };
+    document.getElementById('sendBtn').onclick = sendMessage;
+    document.getElementById('chatInput').onkeydown = (e) => { if(e.key === 'Enter') sendMessage(); };
 
-    // --- ORIGINAL SITE LOGIC ---
+    // --- 24 HOUR OVERLAY LOGIC ---
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
     
     function checkOverlay() {
       const lastJoin = localStorage.getItem(OVERLAY_KEY);
       const now = Date.now();
-      if (!lastJoin || (now - lastJoin > 86400000)) {
-        overlay.style.display = 'flex';
-      }
+      if (!lastJoin || (now - lastJoin > 86400000)) { overlay.style.display = 'flex'; }
     }
 
     document.querySelectorAll('.social-join-btn').forEach(btn => {
@@ -360,22 +410,15 @@
 
     checkOverlay();
 
+    // AD CONFIGURATION
     const AD_URLS = [
         "https://www.profitablecpmratenetwork.com/bgx385dt?key=570a422270e074afbc58506bf1030ae4",
         "https://www.profitablecpmratenetwork.com/g1yq1jpz3?key=cd1df924cb59e3a00865a760d1fc509e",
         "https://www.profitablecpmratenetwork.com/pt2cpxsy?key=95503223709f1dae246e94013437dcfe"
     ];
 
-    let clicksStart = 0;
-    let clicksFakePlayer = 0;
-    let clicksSwitch = 0;
-    let adClickedFullscreen = false;
-
-    let playerInstance = null;
-    let eventStartTime = null;
-    let eventEndTime = null;
-    let streamStarted = false;
-    let foundEvent = null; 
+    let clicksStart = 0, clicksFakePlayer = 0, clicksSwitch = 0, adClickedFullscreen = false;
+    let playerInstance = null, eventStartTime = null, eventEndTime = null, streamStarted = false, foundEvent = null; 
     const PRE_LIVE_BUFFER = 300; 
 
     const htmlEl = document.documentElement;
@@ -406,15 +449,9 @@
         function attempt() {
           attempts++;
           fetch(url, { signal: AbortSignal.timeout(5000) })
-            .then(res => {
-              if (!res.ok) throw new Error(`HTTP ${res.status}`);
-              return res.json();
-            })
+            .then(res => { if (!res.ok) throw new Error(`HTTP ${res.status}`); return res.json(); })
             .then(data => resolve(data))
-            .catch(err => {
-              if (attempts < maxRetries) setTimeout(attempt, delay);
-              else reject(err);
-            });
+            .catch(err => { if (attempts < maxRetries) setTimeout(attempt, delay); else reject(err); });
         }
         attempt();
       });
@@ -439,10 +476,7 @@
         if (clicksFakePlayer < 1) {
           window.open(AD_URLS[clicksFakePlayer], '_blank');
           clicksFakePlayer++;
-          if (clicksFakePlayer === 1) {
-            fakeLayer.style.display = 'none';
-            initActualPlayer(url, useJW);
-          }
+          if (clicksFakePlayer === 1) { fakeLayer.style.display = 'none'; initActualPlayer(url, useJW); }
         }
       };
     }
@@ -453,9 +487,7 @@
         const container = document.getElementById('oplayer-container');
         container.style.display = 'block';
         container.innerHTML = '<div id="jw-player"></div>';
-        playerInstance = jwplayer("jw-player").setup({
-          file: url, autostart: true, mute: true, width: "100%", aspectratio: "16:9", cast: {}
-        });
+        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: true, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
         playerInstance.on('ready', () => { clearError(); document.getElementById('fullscreenBtn').classList.remove('d-none'); });
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
@@ -489,65 +521,45 @@
 
     function formatTimeLeft(seconds) {
       if (seconds <= 0) return "Starting now!";
-      const h = Math.floor((seconds % 86400) / 3600);
-      const m = Math.floor((seconds % 3600) / 60);
-      const s = seconds % 60;
+      const h = Math.floor((seconds % 86400) / 3600), m = Math.floor((seconds % 3600) / 60), s = seconds % 60;
       return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
     }
 
     function updatePreStreamStatus() {
-      const now = Math.floor(Date.now() / 1000);
-      const startBtn = document.getElementById('startLivestream');
-      const statusArea = document.getElementById('statusArea');
-      const countdownDisp = document.getElementById('countdownDisplay');
+      const now = Math.floor(Date.now() / 1000), startBtn = document.getElementById('startLivestream');
+      const statusArea = document.getElementById('statusArea'), countdownDisp = document.getElementById('countdownDisplay');
       if (!eventStartTime) return;
       if (streamStarted) { startBtn.style.display = 'none'; statusArea.style.display = 'none'; return; }
       if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
-        statusArea.style.display = 'none';
-        startBtn.style.display = 'inline-block';
+        statusArea.style.display = 'none'; startBtn.style.display = 'inline-block';
       } else {
-        statusArea.style.display = 'block';
-        countdownDisp.textContent = formatTimeLeft(eventStartTime - now);
+        statusArea.style.display = 'block'; countdownDisp.textContent = formatTimeLeft(eventStartTime - now);
       }
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
-      updateChatState();
-
-      // Setup Chat Realtime & History
-      if (sbClient) {
-        const { data: history } = await sbClient.from('messages').select('*').eq('event_uri', pageUri).order('id', { ascending: true }).limit(50);
-        if (history) history.forEach(renderMessage);
-        
-        sbClient.channel('live-room').on('postgres_changes', { 
-          event: 'INSERT', schema: 'public', table: 'messages', filter: `event_uri=eq.${pageUri}` 
-        }, p => { renderMessage(p.new); }).subscribe();
-      }
-
-      // Stream Logic
+      updateChatUI();
+      loadMessages();
+      const uriName = window.location.pathname.split('/').pop();
+      const startBtn = document.getElementById('startLivestream');
       try {
         const catListRes = await fetchWithRetry('/api/stream');
         const fetchPromises = catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ success: true, streams: [] })));
         const allCategoryData = await Promise.all(fetchPromises);
-
         for (const data of allCategoryData) {
           for (const catObj of data.streams) {
-            foundEvent = catObj.streams.find(ev => ev.uri_name === pageUri);
+            foundEvent = catObj.streams.find(ev => ev.uri_name === uriName);
             if (foundEvent) break;
           }
           if (foundEvent) break;
         }
-
         if (foundEvent) {
           document.getElementById('eventTitle').textContent = foundEvent.name;
           document.getElementById('chatTitle').textContent = foundEvent.name + " Chat";
           eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
           eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
-          updatePreStreamStatus();
-          setInterval(updatePreStreamStatus, 1000);
+          updatePreStreamStatus(); setInterval(updatePreStreamStatus, 1000);
         }
-
-        const startBtn = document.getElementById('startLivestream');
         startBtn.onclick = () => {
           if (clicksStart < 3) { window.open(AD_URLS[clicksStart], '_blank'); clicksStart++; if (clicksStart < 3) return; }
           document.getElementById('mainVideoContainer').style.display = 'block';
@@ -556,29 +568,18 @@
           document.getElementById('liveStreamTitle').classList.remove('d-none');
           document.getElementById('currentStreamName').textContent = foundEvent.name;
           const firstStreamUrl = typeof foundEvent.streams[0] === 'string' ? foundEvent.streams[0] : foundEvent.streams[0].url;
-          playStream(firstStreamUrl);
-          populateStreamButtons(foundEvent);
-          streamStarted = true;
+          playStream(firstStreamUrl); populateStreamButtons(foundEvent); streamStarted = true;
         };
       } catch (err) {}
-
       document.getElementById('fullscreenBtn').onclick = () => {
         if (!adClickedFullscreen) { window.open(AD_URLS[0], '_blank'); adClickedFullscreen = true; }
         if (playerInstance) playerInstance.setFullscreen(true);
       };
-
-      // Banner Switcher
-      const infoAlert = document.getElementById('infoAlert');
-      const joinAlert = document.getElementById('joinAlert');
+      const infoAlert = document.getElementById('infoAlert'), joinAlert = document.getElementById('joinAlert');
       let showJoin = true;
       setInterval(() => {
-        if (showJoin) {
-          infoAlert.style.opacity = '0';
-          setTimeout(() => { infoAlert.classList.add('d-none'); joinAlert.classList.remove('d-none'); joinAlert.style.opacity = '1'; }, 600);
-        } else {
-          joinAlert.style.opacity = '0';
-          setTimeout(() => { joinAlert.classList.add('d-none'); infoAlert.classList.remove('d-none'); infoAlert.style.opacity = '1'; }, 600);
-        }
+        if (showJoin) { infoAlert.style.opacity = '0'; setTimeout(() => { infoAlert.classList.add('d-none'); joinAlert.classList.remove('d-none'); joinAlert.style.opacity = '1'; }, 600); }
+        else { joinAlert.style.opacity = '0'; setTimeout(() => { joinAlert.classList.add('d-none'); infoAlert.classList.remove('d-none'); infoAlert.style.opacity = '1'; }, 600); }
         showJoin = !showJoin;
       }, 10000);
     });
