@@ -18,7 +18,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
-
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
   
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -36,7 +35,6 @@
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
-    /* --- SOCIAL OVERLAY STYLES --- */
     #socialOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.95); z-index: 10000;
@@ -60,7 +58,6 @@
     .btn-telegram { background: #0088cc; color: white; }
     .btn-social:hover { transform: scale(1.03); opacity: 0.9; color: white; }
 
-    /* --- FAKE PLAYER STYLES --- */
     #fakePlayerLayer {
       position: absolute; top:0; left:0; width:100%; height:100%;
       background: #000; z-index: 999; display: flex; align-items: center; justify-content: center; cursor: pointer;
@@ -99,7 +96,6 @@
       100% { opacity: 1; }
     }
 
-    /* --- CUSTOM CHAT UI STYLES --- */
     .chat-wrapper {
       width: 100%; background:#111; border-radius:16px; overflow:hidden;
       border:1px solid #333; box-shadow:0 10px 30px rgba(0,0,0,0.6);
@@ -117,7 +113,6 @@
     .username { font-weight: 800; color: #ff4d4d; margin-right: 6px; }
     .msg-text { color: #eee; }
 
-    /* Username Overlay */
     #userOverlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background: #111; z-index: 100; display: none; flex-direction: column;
@@ -332,15 +327,15 @@
   <script src="/assets/js/auth.js"></script>
 
   <script>
-    // --- SUPABASE SETUP ---
+    // --- SUPABASE CONFIG ---
     const SUPABASE_URL = 'https://zmhifgtbijfecvoesugt.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptaGlmZ3RiaWpmZWN2b2VzdWd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1OTc3NDMsImV4cCI6MjA5MzE3Mzc0M30.i656DT2i-TpD3dKhJ0CS1GL7hneOke6Pwq6bPWCCZNo';
-    const supabase = libSupabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    const uriName = window.location.pathname.split('/').pop();
-    let currentUser = localStorage.getItem('fx_username');
+    const sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const pageUri = window.location.pathname.split('/').pop();
 
     // --- CHAT LOGIC ---
+    let currentUser = localStorage.getItem('fx_username');
+
     function updateChatState() {
       const input = document.getElementById('chatInput');
       const overlay = document.getElementById('userOverlay');
@@ -356,27 +351,23 @@
     }
 
     document.getElementById('saveUsernameBtn').onclick = async () => {
-      const username = document.getElementById('usernameInput').value.trim();
-      if (username.length < 3) return alert("Username too short!");
-
-      // Step 1: Register unique username in Supabase
-      const { error } = await supabase.from('profiles').insert([{ username }]);
-
-      if (error) {
-        if (error.code === '23505') {
-          alert("This username is already taken. Please choose another.");
-        } else {
-          console.error(error);
+      const val = document.getElementById('usernameInput').value.trim();
+      if (val.length > 2) {
+        // Check if username already exists in profiles
+        const { data: existing } = await sbClient.from('profiles').select('username').eq('username', val).single();
+        if (existing) {
+            alert("Username already taken. Please pick another.");
+            return;
         }
-        return;
+        // Save to Supabase and LocalStorage
+        await sbClient.from('profiles').insert([{ username: val }]);
+        localStorage.setItem('fx_username', val);
+        currentUser = val;
+        updateChatState();
       }
-
-      localStorage.setItem('fx_username', username);
-      currentUser = username;
-      updateChatState();
     };
 
-    function renderMessage(msg) {
+    function renderChatMessage(msg) {
       const display = document.getElementById('chatDisplay');
       const div = document.createElement('div');
       div.className = 'msg-row';
@@ -385,43 +376,18 @@
       display.scrollTop = display.scrollHeight;
     }
 
-    async function sendMessage() {
+    document.getElementById('sendBtn').onclick = async () => {
       const inp = document.getElementById('chatInput');
-      const content = inp.value.trim();
-      if (!content || !currentUser) return;
-
-      const { error } = await supabase.from('messages').insert([
-        { username: currentUser, content: content, event_uri: uriName }
-      ]);
-
-      if (!error) inp.value = "";
-    }
-
-    document.getElementById('sendBtn').onclick = sendMessage;
-    document.getElementById('chatInput').onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
-
-    async function initChat() {
-      // 1. Fetch History
-      const { data: history } = await supabase
-        .from('messages')
-        .select('*')
-        .eq('event_uri', uriName)
-        .order('created_at', { ascending: true })
-        .limit(50);
-
-      if (history) history.forEach(renderMessage);
-
-      // 2. Real-time Subscription
-      supabase
-        .channel('public:messages')
-        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_uri=eq.${uriName}` }, 
-          payload => renderMessage(payload.new)
-        )
-        .subscribe();
-    }
+      if (inp.value.trim() && currentUser) {
+        const text = inp.value.trim();
+        const { error } = await sbClient.from('messages').insert([
+            { username: currentUser, content: text, event_uri: pageUri }
+        ]);
+        if (!error) inp.value = "";
+      }
+    };
 
     updateChatState();
-    initChat();
 
     // --- ORIGINAL SITE LOGIC ---
     const OVERLAY_KEY = 'futbolx_social_join';
@@ -598,6 +564,23 @@
     document.addEventListener('DOMContentLoaded', async () => {
       const uriName = window.location.pathname.split('/').pop();
       const startBtn = document.getElementById('startLivestream');
+
+      // --- SUPABASE CHAT SYNC ---
+      // 1. Fetch historical messages
+      const { data: messages } = await sbClient
+          .from('messages')
+          .select('*')
+          .eq('event_uri', uriName)
+          .order('id', { ascending: true })
+          .limit(50);
+      if (messages) messages.forEach(renderChatMessage);
+
+      // 2. Realtime subscription
+      sbClient.channel('live-chat')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_uri=eq.${uriName}` }, payload => {
+          renderChatMessage(payload.new);
+      })
+      .subscribe();
 
       try {
         const catListRes = await fetchWithRetry('/api/stream');
