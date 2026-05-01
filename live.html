@@ -330,12 +330,15 @@
     // --- SUPABASE CONFIG ---
     const SUPABASE_URL = 'https://zmhifgtbijfecvoesugt.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptaGlmZ3RiaWpmZWN2b2VzdWd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1OTc3NDMsImV4cCI6MjA5MzE3Mzc0M30.i656DT2i-TpD3dKhJ0CS1GL7hneOke6Pwq6bPWCCZNo';
-    const sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    const pageUri = window.location.pathname.split('/').pop();
+    let sbClient;
+    try {
+        sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    } catch(e) { console.error("Supabase Error:", e); }
 
-    // --- CHAT LOGIC ---
+    const pageUri = window.location.pathname.split('/').pop();
     let currentUser = localStorage.getItem('fx_username');
 
+    // --- CHAT LOGIC ---
     function updateChatState() {
       const input = document.getElementById('chatInput');
       const overlay = document.getElementById('userOverlay');
@@ -346,29 +349,14 @@
       } else {
         input.placeholder = "Set username to chat...";
         input.readOnly = true;
+        overlay.style.display = 'flex';
         input.onclick = () => { overlay.style.display = 'flex'; };
       }
     }
 
-    document.getElementById('saveUsernameBtn').onclick = async () => {
-      const val = document.getElementById('usernameInput').value.trim();
-      if (val.length > 2) {
-        // Check if username already exists in profiles
-        const { data: existing } = await sbClient.from('profiles').select('username').eq('username', val).single();
-        if (existing) {
-            alert("Username already taken. Please pick another.");
-            return;
-        }
-        // Save to Supabase and LocalStorage
-        await sbClient.from('profiles').insert([{ username: val }]);
-        localStorage.setItem('fx_username', val);
-        currentUser = val;
-        updateChatState();
-      }
-    };
-
     function renderChatMessage(msg) {
       const display = document.getElementById('chatDisplay');
+      if(!display) return;
       const div = document.createElement('div');
       div.className = 'msg-row';
       div.innerHTML = `<span class="username">${msg.username}:</span><span class="msg-text">${msg.content}</span>`;
@@ -376,12 +364,27 @@
       display.scrollTop = display.scrollHeight;
     }
 
+    document.getElementById('saveUsernameBtn').onclick = async () => {
+      const val = document.getElementById('usernameInput').value.trim();
+      if (val.length > 2 && sbClient) {
+        const { data: existing } = await sbClient.from('profiles').select('username').eq('username', val).single();
+        if (existing) {
+          alert("Username taken.");
+          return;
+        }
+        await sbClient.from('profiles').insert([{ username: val }]);
+        localStorage.setItem('fx_username', val);
+        currentUser = val;
+        updateChatState();
+      }
+    };
+
     document.getElementById('sendBtn').onclick = async () => {
       const inp = document.getElementById('chatInput');
-      if (inp.value.trim() && currentUser) {
+      if (inp.value.trim() && currentUser && sbClient) {
         const text = inp.value.trim();
         const { error } = await sbClient.from('messages').insert([
-            { username: currentUser, content: text, event_uri: pageUri }
+          { username: currentUser, content: text, event_uri: pageUri }
         ]);
         if (!error) inp.value = "";
       }
@@ -391,20 +394,20 @@
 
     // --- ORIGINAL SITE LOGIC ---
     const OVERLAY_KEY = 'futbolx_social_join';
-    const overlay = document.getElementById('socialOverlay');
+    const overlaySoc = document.getElementById('socialOverlay');
     
     function checkOverlay() {
       const lastJoin = localStorage.getItem(OVERLAY_KEY);
       const now = Date.now();
       if (!lastJoin || (now - lastJoin > 86400000)) {
-        overlay.style.display = 'flex';
+        overlaySoc.style.display = 'flex';
       }
     }
 
     document.querySelectorAll('.social-join-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         localStorage.setItem(OVERLAY_KEY, Date.now());
-        overlay.style.display = 'none';
+        overlaySoc.style.display = 'none';
       });
     });
 
@@ -565,22 +568,12 @@
       const uriName = window.location.pathname.split('/').pop();
       const startBtn = document.getElementById('startLivestream');
 
-      // --- SUPABASE CHAT SYNC ---
-      // 1. Fetch historical messages
-      const { data: messages } = await sbClient
-          .from('messages')
-          .select('*')
-          .eq('event_uri', uriName)
-          .order('id', { ascending: true })
-          .limit(50);
-      if (messages) messages.forEach(renderChatMessage);
-
-      // 2. Realtime subscription
-      sbClient.channel('live-chat')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_uri=eq.${uriName}` }, payload => {
-          renderChatMessage(payload.new);
-      })
-      .subscribe();
+      // Sync Chat
+      if (sbClient) {
+        const { data: messages } = await sbClient.from('messages').select('*').eq('event_uri', uriName).order('id', { ascending: true }).limit(50);
+        if (messages) messages.forEach(renderChatMessage);
+        sbClient.channel('live-chat').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_uri=eq.${uriName}` }, p => { renderChatMessage(p.new); }).subscribe();
+      }
 
       try {
         const catListRes = await fetchWithRetry('/api/stream');
