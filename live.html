@@ -99,89 +99,46 @@
 
     /* --- CUSTOM CHAT UI STYLES --- */
     .chat-wrapper {
-      width: 100%;
-      background: #0a0a0a !important; /* Locked Dark */
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid #333;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-      margin-top: 0;
-      display: flex;
-      flex-direction: column;
-      height: 600px;
+      width: 100%; background:#111; border-radius:16px; overflow:hidden;
+      border:1px solid #333; box-shadow:0 10px 30px rgba(0,0,0,0.6);
+      display: flex; flex-direction: column; position: relative;
     }
-    
-    .chat-header-noti {
-      background: rgba(255, 77, 77, 0.1);
-      color: #ff4d4d;
-      padding: 10px;
-      font-size: 0.85rem;
-      text-align: center;
-      border-bottom: 1px solid #222;
+    .chat-header {
+      background:#ff4d4d; color:white; padding:12px; font-weight:bold;
+      text-align:center; border-bottom:2px solid #cc0000;
     }
-
     .chat-container {
-      flex-grow: 1;
-      background: #0d0d0d;
-      position: relative;
-      overflow-y: auto;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+      height: 500px; background: #0d0d0d; overflow-y: auto;
+      padding: 15px; display: flex; flex-direction: column; gap: 8px;
     }
+    .msg-row { font-size: 0.9rem; margin-bottom: 4px; }
+    .username { font-weight: 800; color: #ff4d4d; margin-right: 6px; }
+    .msg-text { color: #eee; }
 
-    .msg-row { font-size: 0.95rem; cursor: pointer; transition: 0.2s; padding: 2px 5px; border-radius: 4px; }
-    .msg-row:hover { background: rgba(255,255,255,0.05); }
-    .username { font-weight: 800; margin-right: 5px; }
-    .msg-content { color: #eee; }
-    
-    .badge-tag { font-size: 0.65rem; padding: 2px 5px; border-radius: 4px; margin-right: 5px; vertical-align: middle; font-weight: 900; }
-    .tag-owner { background: #ff4d4d; color: white; }
-    .tag-mod { background: #5865F2; color: white; }
-
-    @keyframes sparkle {
-      0%, 100% { text-shadow: 0 0 5px #ff4d4d, 0 0 10px #ff4d4d; filter: brightness(1); }
-      50% { text-shadow: 0 0 20px #ff4d4d, 0 0 30px #ff4d4d; filter: brightness(1.5); }
+    /* Username Overlay */
+    #userOverlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: #111; z-index: 100; display: none; flex-direction: column;
+      padding: 20px; align-items: center; justify-content: center; text-align: center;
     }
-    .sparkle-text { animation: sparkle 1.5s infinite; color: #ff4d4d !important; }
+    #userOverlay h4 { color: #ff4d4d; margin-bottom: 15px; }
+    #userOverlay input {
+      width: 80%; padding: 10px; border-radius: 8px; border: 1px solid #ff4d4d;
+      background: #000; color: white; margin-bottom: 15px; outline: none;
+    }
+    .security-note { font-size: 0.75rem; color: #888; margin-top: 15px; line-height: 1.4; }
 
     .chat-footer {
-      background: #111;
-      padding: 12px;
-      border-top: 1px solid #222;
+      padding: 10px; background: #1a1a1a; border-top: 1px solid #333;
+      display: flex; gap: 8px; align-items: center;
     }
-    .reply-preview {
-      background: #1a1a1a;
-      border-left: 3px solid #ff4d4d;
-      padding: 5px 10px;
-      font-size: 0.8rem;
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
+    #chatInput {
+      flex: 1; background: #000; border: 1px solid #444; border-radius: 8px;
+      color: white; padding: 8px; outline: none;
     }
-    .input-box-wrapper {
-      display: flex;
-      background: #1a1a1a;
-      border-radius: 8px;
-      padding: 5px 10px;
-      align-items: center;
-      border: 1px solid #333;
-    }
-    #chatInput { background: transparent; border: none; color: white; flex-grow: 1; outline: none; padding: 5px; }
-    .chat-icon-btns button { background: none; border: none; color: #666; margin-left: 8px; transition: 0.3s; }
-    .chat-icon-btns button:hover { color: #ff4d4d; }
+    .chat-btns button { background: none; border: none; color: #ff4d4d; font-size: 1.2rem; }
 
-    .custom-menu {
-      position: fixed; background: #1a1a1a; border: 1px solid #444; border-radius: 8px;
-      z-index: 10000; width: 150px; box-shadow: 0 5px 15px #000; overflow: hidden;
-    }
-    .custom-menu button {
-      width: 100%; padding: 10px; border: none; background: none; color: white; text-align: left; font-size: 0.8rem;
-    }
-    .custom-menu button:hover { background: #ff4d4d; }
-
-    @media (max-width: 991px) { .chat-wrapper { height: 500px; } }
+    @media (min-width: 992px) { .chat-container { height: 600px; } }
 
     #statusArea {
       text-align: center;
@@ -325,24 +282,27 @@
 
             <div class="col-12 col-lg-4">
               <div class="chat-wrapper">
-                <div class="chat-header-noti" id="chatWelcomeBar">
-                  <span id="welcomeMsg">Welcome to FutbolX Chat</span>
+                <div class="chat-header" id="chatTitle">Live Chat</div>
+                
+                <div id="userOverlay">
+                  <h4>Choose Your Identity</h4>
+                  <input type="text" id="usernameInput" placeholder="Enter Username..." maxlength="15">
+                  <button class="btn btn-danger w-75" id="saveUsernameBtn">Set Username</button>
+                  <div class="security-note">
+                    Please keep your username safe; you will need it to appeal or log back in. 
+                    One username per user. No one can login using your username once created. 
+                    Your safety is our priority.
+                  </div>
                 </div>
-                <div class="chat-container" id="chatBox">
+
+                <div class="chat-container" id="chatDisplay">
                   </div>
 
-                <div id="replyArea" class="reply-preview d-none">
-                  <span id="replyText">Replying to...</span>
-                  <i class="fas fa-times cursor-pointer" onclick="cancelReply()"></i>
-                </div>
-
                 <div class="chat-footer">
-                  <div class="input-box-wrapper">
-                    <input type="text" id="chatInput" placeholder="Say something..." autocomplete="off">
-                    <div class="chat-icon-btns">
-                      <button id="emoteToggle"><i class="fas fa-smile"></i></button>
-                      <button id="sendMsg"><i class="fas fa-paper-plane"></i></button>
-                    </div>
+                  <input type="text" id="chatInput" placeholder="Set username to chat..." readonly>
+                  <div class="chat-btns">
+                    <button id="emoteBtn"><i class="fas fa-smile"></i></button>
+                    <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
                   </div>
                 </div>
               </div>
@@ -370,97 +330,70 @@
   <script src="/assets/js/auth.js"></script>
 
   <script>
-    /* --- CHAT ENGINE LOGIC --- */
-    const OWNER_NAME = "Optimus";
-    const MODS = []; // To be synced with Supabase
-    let myUser = null;
-    let replyTarget = null;
+    // --- CHAT LOGIC ---
+    let currentUser = localStorage.getItem('fx_username');
 
-    // Device/IP Lock Simulation
-    function initUser() {
-      const saved = localStorage.getItem('fx_user_lock');
-      if (saved) {
-        myUser = JSON.parse(saved);
+    function updateChatState() {
+      const input = document.getElementById('chatInput');
+      const overlay = document.getElementById('userOverlay');
+      if (currentUser) {
+        input.placeholder = "Write a message...";
+        input.readOnly = false;
+        overlay.style.display = 'none';
       } else {
-        let name = prompt("Choose a nickname for chat:");
-        if (!name || name.toLowerCase() === 'optimus') name = "Fan_" + Math.floor(Math.random()*999);
-        myUser = { name: name, color: '#aaa', id: Date.now() };
-        localStorage.setItem('fx_user_lock', JSON.stringify(myUser));
+        input.placeholder = "Set username to chat...";
+        input.readOnly = true;
+        input.onclick = () => { overlay.style.display = 'flex'; };
       }
     }
 
-    function addMessage(user, text, role = 'user') {
-      const chatBox = document.getElementById('chatBox');
+    document.getElementById('saveUsernameBtn').onclick = () => {
+      const val = document.getElementById('usernameInput').value.trim();
+      if (val.length > 2) {
+        localStorage.setItem('fx_username', val);
+        currentUser = val;
+        updateChatState();
+      }
+    };
+
+    function addLocalMsg(text) {
+      const display = document.getElementById('chatDisplay');
       const div = document.createElement('div');
-      div.className = "msg-row";
-      
-      let tag = "";
-      let nameClass = "";
-      
-      if (user === OWNER_NAME) {
-        tag = '<span class="badge-tag tag-owner">OWNER</span>';
-        nameClass = "sparkle-text";
-      } else if (MODS.includes(user)) {
-        tag = '<span class="badge-tag tag-mod">MOD</span>';
-        nameClass = "sparkle-text";
+      div.className = 'msg-row';
+      div.innerHTML = `<span class="username">${currentUser}:</span><span class="msg-text">${text}</span>`;
+      display.appendChild(div);
+      display.scrollTop = display.scrollHeight;
+    }
+
+    document.getElementById('sendBtn').onclick = () => {
+      const inp = document.getElementById('chatInput');
+      if (inp.value.trim() && currentUser) {
+        addLocalMsg(inp.value.trim());
+        inp.value = "";
       }
+    };
 
-      div.innerHTML = `${tag}<span class="username ${nameClass}">${user}:</span><span class="msg-content">${text}</span>`;
-      
-      // Admin Hold/Context Menu
-      div.oncontextmenu = (e) => {
-        e.preventDefault();
-        if (myUser.name === OWNER_NAME || MODS.includes(myUser.name)) {
-          showAdminMenu(e, user);
-        }
-      };
+    updateChatState();
 
-      // Swipe/Reply Simulation
-      div.onclick = () => {
-        replyTarget = user;
-        document.getElementById('replyArea').classList.remove('d-none');
-        document.getElementById('replyText').innerText = `Replying to ${user}`;
-      };
-
-      chatBox.appendChild(div);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    function showAdminMenu(e, target) {
-      const existing = document.querySelector('.custom-menu');
-      if (existing) existing.remove();
-      const menu = document.createElement('div');
-      menu.className = 'custom-menu';
-      menu.style.top = e.pageY + 'px';
-      menu.style.left = e.pageX + 'px';
-      
-      let html = `<button onclick="mute('${target}')">Mute</button><button onclick="del()">Delete</button>`;
-      if (myUser.name === OWNER_NAME) html += `<button onclick="mod('${target}')">Add Mod</button>`;
-      
-      menu.innerHTML = html;
-      document.body.appendChild(menu);
-      document.addEventListener('click', () => menu.remove(), {once:true});
-    }
-
-    function cancelReply() {
-      replyTarget = null;
-      document.getElementById('replyArea').classList.add('d-none');
-    }
-
-    // --- ORIGINAL SITE LOGIC (UNTOUCHED) ---
+    // --- ORIGINAL SITE LOGIC ---
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
+    
     function checkOverlay() {
       const lastJoin = localStorage.getItem(OVERLAY_KEY);
       const now = Date.now();
-      if (!lastJoin || (now - lastJoin > 86400000)) overlay.style.display = 'flex';
+      if (!lastJoin || (now - lastJoin > 86400000)) {
+        overlay.style.display = 'flex';
+      }
     }
+
     document.querySelectorAll('.social-join-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         localStorage.setItem(OVERLAY_KEY, Date.now());
         overlay.style.display = 'none';
       });
     });
+
     checkOverlay();
 
     const AD_URLS = [
@@ -469,8 +402,16 @@
         "https://www.profitablecpmratenetwork.com/pt2cpxsy?key=95503223709f1dae246e94013437dcfe"
     ];
 
-    let clicksStart = 0; let clicksFakePlayer = 0; let clicksSwitch = 0; let adClickedFullscreen = false;
-    let playerInstance = null; let eventStartTime = null; let eventEndTime = null; let streamStarted = false; let foundEvent = null; 
+    let clicksStart = 0;
+    let clicksFakePlayer = 0;
+    let clicksSwitch = 0;
+    let adClickedFullscreen = false;
+
+    let playerInstance = null;
+    let eventStartTime = null;
+    let eventEndTime = null;
+    let streamStarted = false;
+    let foundEvent = null; 
     const PRE_LIVE_BUFFER = 300; 
 
     const htmlEl = document.documentElement;
@@ -487,14 +428,29 @@
       themeToggle.innerHTML = next === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
     });
 
+    function clearError() {
+      const e = document.getElementById('errorContainer');
+      if (e && !e.classList.contains('d-none')) {
+        e.classList.add('fade-out');
+        setTimeout(() => { e.className = 'alert alert-danger error-alert mt-3 d-none'; e.innerHTML = ''; }, 500);
+      }
+    }
+
     async function fetchWithRetry(url, maxRetries = 3, delay = 1000) {
       return new Promise((resolve, reject) => {
         let attempts = 0;
         function attempt() {
           attempts++;
-          fetch(url, { signal: AbortSignal.timeout(5000) }).then(res => res.json()).then(data => resolve(data)).catch(err => {
-              if (attempts < maxRetries) setTimeout(attempt, delay); else reject(err);
-          });
+          fetch(url, { signal: AbortSignal.timeout(5000) })
+            .then(res => {
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              return res.json();
+            })
+            .then(data => resolve(data))
+            .catch(err => {
+              if (attempts < maxRetries) setTimeout(attempt, delay);
+              else reject(err);
+            });
         }
         attempt();
       });
@@ -502,16 +458,28 @@
 
     async function isM3U8(url) {
       if (url.toLowerCase().includes('.m3u8')) return true;
-      try { const r = await fetch(url, {method:'HEAD'}); return (r.headers.get('content-type') || '').includes('mpegurl'); } catch { return false; }
+      try {
+        const r = await fetch(url, {method:'HEAD'});
+        const ct = r.headers.get('content-type') || '';
+        return ct.includes('mpegurl');
+      } catch { return false; }
     }
 
     async function playStream(url) {
       if (playerInstance) { playerInstance.remove(); playerInstance = null; }
       const useJW = await isM3U8(url);
       const fakeLayer = document.getElementById('fakePlayerLayer');
-      fakeLayer.style.display = 'flex'; clicksFakePlayer = 0;
+      fakeLayer.style.display = 'flex';
+      clicksFakePlayer = 0;
       fakeLayer.onclick = () => {
-        if (clicksFakePlayer < 1) { window.open(AD_URLS[clicksFakePlayer], '_blank'); clicksFakePlayer++; if (clicksFakePlayer === 1) { fakeLayer.style.display = 'none'; initActualPlayer(url, useJW); } }
+        if (clicksFakePlayer < 1) {
+          window.open(AD_URLS[clicksFakePlayer], '_blank');
+          clicksFakePlayer++;
+          if (clicksFakePlayer === 1) {
+            fakeLayer.style.display = 'none';
+            initActualPlayer(url, useJW);
+          }
+        }
       };
     }
 
@@ -519,9 +487,12 @@
       if (useJW) {
         document.getElementById('embedPlayer').style.display = 'none';
         const container = document.getElementById('oplayer-container');
-        container.style.display = 'block'; container.innerHTML = '<div id="jw-player"></div>';
-        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: true, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
-        playerInstance.on('ready', () => { document.getElementById('fullscreenBtn').classList.remove('d-none'); });
+        container.style.display = 'block';
+        container.innerHTML = '<div id="jw-player"></div>';
+        playerInstance = jwplayer("jw-player").setup({
+          file: url, autostart: true, mute: true, width: "100%", aspectratio: "16:9", cast: {}
+        });
+        playerInstance.on('ready', () => { clearError(); document.getElementById('fullscreenBtn').classList.remove('d-none'); });
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
@@ -538,14 +509,25 @@
         return `<button class="btn btn-stream ${i===0?'active':''}" data-p="${payload}">${s.title || `Stream ${i+1}`}</button>`;
       }).join('');
       container.addEventListener('click', e => {
-        const btn = e.target.closest('.btn-stream'); if (!btn) return;
+        const btn = e.target.closest('.btn-stream');
+        if (!btn) return;
         if (clicksSwitch < 1) { window.open(AD_URLS[clicksSwitch], '_blank'); clicksSwitch++; return; }
-        try { const realUrl = atob(atob(btn.dataset.p).split('||')[0]); clicksSwitch = 0; playStream(realUrl); document.getElementById('currentStreamName').textContent = btn.textContent.trim(); container.querySelectorAll('.btn-stream').forEach(b => b.classList.remove('active')); btn.classList.add('active'); } catch (err) {}
+        try {
+          const realUrl = atob(atob(btn.dataset.p).split('||')[0]);
+          clicksSwitch = 0;
+          playStream(realUrl);
+          document.getElementById('currentStreamName').textContent = btn.textContent.trim();
+          container.querySelectorAll('.btn-stream').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        } catch (err) {}
       });
     }
 
     function formatTimeLeft(seconds) {
-      const h = Math.floor(seconds / 3600); const m = Math.floor((seconds % 3600) / 60); const s = seconds % 60;
+      if (seconds <= 0) return "Starting now!";
+      const h = Math.floor((seconds % 86400) / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
       return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
     }
 
@@ -556,19 +538,25 @@
       const countdownDisp = document.getElementById('countdownDisplay');
       if (!eventStartTime) return;
       if (streamStarted) { startBtn.style.display = 'none'; statusArea.style.display = 'none'; return; }
-      if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) { statusArea.style.display = 'none'; startBtn.style.display = 'inline-block'; } 
-      else { statusArea.style.display = 'block'; countdownDisp.textContent = formatTimeLeft(eventStartTime - now); }
+      if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
+        statusArea.style.display = 'none';
+        startBtn.style.display = 'inline-block';
+      } else {
+        statusArea.style.display = 'block';
+        countdownDisp.textContent = formatTimeLeft(eventStartTime - now);
+      }
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
-      initUser();
       const uriName = window.location.pathname.split('/').pop();
       const startBtn = document.getElementById('startLivestream');
 
       try {
         const catListRes = await fetchWithRetry('/api/stream');
-        for (const cat of catListRes.categories) {
-          const data = await fetchWithRetry(`/api/${cat}.json`);
+        const fetchPromises = catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ success: true, streams: [] })));
+        const allCategoryData = await Promise.all(fetchPromises);
+
+        for (const data of allCategoryData) {
           for (const catObj of data.streams) {
             foundEvent = catObj.streams.find(ev => ev.uri_name === uriName);
             if (foundEvent) break;
@@ -578,10 +566,11 @@
 
         if (foundEvent) {
           document.getElementById('eventTitle').textContent = foundEvent.name;
-          document.getElementById('welcomeMsg').innerHTML = `Welcome to <b>${foundEvent.name}</b> Chat!`;
+          document.getElementById('chatTitle').textContent = foundEvent.name + " Chat";
           eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
           eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
-          updatePreStreamStatus(); setInterval(updatePreStreamStatus, 1000);
+          updatePreStreamStatus();
+          setInterval(updatePreStreamStatus, 1000);
         }
 
         startBtn.onclick = () => {
@@ -591,15 +580,12 @@
           startBtn.style.display = 'none';
           document.getElementById('liveStreamTitle').classList.remove('d-none');
           document.getElementById('currentStreamName').textContent = foundEvent.name;
-          playStream(typeof foundEvent.streams[0] === 'string' ? foundEvent.streams[0] : foundEvent.streams[0].url);
-          populateStreamButtons(foundEvent); streamStarted = true;
+          const firstStreamUrl = typeof foundEvent.streams[0] === 'string' ? foundEvent.streams[0] : foundEvent.streams[0].url;
+          playStream(firstStreamUrl);
+          populateStreamButtons(foundEvent);
+          streamStarted = true;
         };
       } catch (err) {}
-
-      document.getElementById('sendMsg').onclick = () => {
-        const inp = document.getElementById('chatInput');
-        if (inp.value.trim()) { addMessage(myUser.name, inp.value); inp.value = ""; cancelReply(); }
-      };
 
       document.getElementById('fullscreenBtn').onclick = () => {
         if (!adClickedFullscreen) { window.open(AD_URLS[0], '_blank'); adClickedFullscreen = true; }
@@ -610,8 +596,13 @@
       const joinAlert = document.getElementById('joinAlert');
       let showJoin = true;
       setInterval(() => {
-        if (showJoin) { infoAlert.style.opacity = '0'; setTimeout(() => { infoAlert.classList.add('d-none'); joinAlert.classList.remove('d-none'); joinAlert.style.opacity = '1'; }, 600); } 
-        else { joinAlert.style.opacity = '0'; setTimeout(() => { joinAlert.classList.add('d-none'); infoAlert.classList.remove('d-none'); infoAlert.style.opacity = '1'; }, 600); }
+        if (showJoin) {
+          infoAlert.style.opacity = '0';
+          setTimeout(() => { infoAlert.classList.add('d-none'); joinAlert.classList.remove('d-none'); joinAlert.style.opacity = '1'; }, 600);
+        } else {
+          joinAlert.style.opacity = '0';
+          setTimeout(() => { joinAlert.classList.add('d-none'); infoAlert.classList.remove('d-none'); infoAlert.style.opacity = '1'; }, 600);
+        }
         showJoin = !showJoin;
       }, 10000);
     });
