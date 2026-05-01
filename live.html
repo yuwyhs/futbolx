@@ -20,6 +20,8 @@
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
 
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
@@ -330,9 +332,15 @@
   <script src="/assets/js/auth.js"></script>
 
   <script>
-    // --- CHAT LOGIC ---
+    // --- SUPABASE SETUP ---
+    const SUPABASE_URL = 'https://zmhifgtbijfecvoesugt.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptaGlmZ3RiaWpmZWN2b2VzdWd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1OTc3NDMsImV4cCI6MjA5MzE3Mzc0M30.i656DT2i-TpD3dKhJ0CS1GL7hneOke6Pwq6bPWCCZNo';
+    const supabase = libSupabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const uriName = window.location.pathname.split('/').pop();
     let currentUser = localStorage.getItem('fx_username');
 
+    // --- CHAT LOGIC ---
     function updateChatState() {
       const input = document.getElementById('chatInput');
       const overlay = document.getElementById('userOverlay');
@@ -347,33 +355,73 @@
       }
     }
 
-    document.getElementById('saveUsernameBtn').onclick = () => {
-      const val = document.getElementById('usernameInput').value.trim();
-      if (val.length > 2) {
-        localStorage.setItem('fx_username', val);
-        currentUser = val;
-        updateChatState();
+    document.getElementById('saveUsernameBtn').onclick = async () => {
+      const username = document.getElementById('usernameInput').value.trim();
+      if (username.length < 3) return alert("Username too short!");
+
+      // Step 1: Register unique username in Supabase
+      const { error } = await supabase.from('profiles').insert([{ username }]);
+
+      if (error) {
+        if (error.code === '23505') {
+          alert("This username is already taken. Please choose another.");
+        } else {
+          console.error(error);
+        }
+        return;
       }
+
+      localStorage.setItem('fx_username', username);
+      currentUser = username;
+      updateChatState();
     };
 
-    function addLocalMsg(text) {
+    function renderMessage(msg) {
       const display = document.getElementById('chatDisplay');
       const div = document.createElement('div');
       div.className = 'msg-row';
-      div.innerHTML = `<span class="username">${currentUser}:</span><span class="msg-text">${text}</span>`;
+      div.innerHTML = `<span class="username">${msg.username}:</span><span class="msg-text">${msg.content}</span>`;
       display.appendChild(div);
       display.scrollTop = display.scrollHeight;
     }
 
-    document.getElementById('sendBtn').onclick = () => {
+    async function sendMessage() {
       const inp = document.getElementById('chatInput');
-      if (inp.value.trim() && currentUser) {
-        addLocalMsg(inp.value.trim());
-        inp.value = "";
-      }
-    };
+      const content = inp.value.trim();
+      if (!content || !currentUser) return;
+
+      const { error } = await supabase.from('messages').insert([
+        { username: currentUser, content: content, event_uri: uriName }
+      ]);
+
+      if (!error) inp.value = "";
+    }
+
+    document.getElementById('sendBtn').onclick = sendMessage;
+    document.getElementById('chatInput').onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
+
+    async function initChat() {
+      // 1. Fetch History
+      const { data: history } = await supabase
+        .from('messages')
+        .select('*')
+        .eq('event_uri', uriName)
+        .order('created_at', { ascending: true })
+        .limit(50);
+
+      if (history) history.forEach(renderMessage);
+
+      // 2. Real-time Subscription
+      supabase
+        .channel('public:messages')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_uri=eq.${uriName}` }, 
+          payload => renderMessage(payload.new)
+        )
+        .subscribe();
+    }
 
     updateChatState();
+    initChat();
 
     // --- ORIGINAL SITE LOGIC ---
     const OVERLAY_KEY = 'futbolx_social_join';
