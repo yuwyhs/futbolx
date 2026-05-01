@@ -2,21 +2,36 @@
   "success": true,
   "streams": [
     {
-      "category": "Motorsports",
+      "category": "motorsports",
       "always_live": 0,
       "streams": [
         {
-          "name": "The Interstate Batteries High Limit Racing",
-          "uri_name": "m8x2k1v5",
-          "poster": "https://cdn.myracepass.com/images/v2/1200x1200-H6bvK7M8p4eNnQ9x1200158.jpg",
-          "tag": "ppv",
-          "starts_at": "2026-03-22T01:45:00",
-          "ends_at": "2026-03-22T04:30:00",
+          "name": "Miami Grand Prix - Practice 1",
+          "uri_name": "f1m9p4z2",
+          "poster": "https://i.postimg.cc/X7Cm5gyL/6740b036fa454eb4102ff40178dca46a-thumbnail.jpg",
+          "tag": "F1",
+          "starts_at": "2026-05-01T19:00:00",
+          "ends_at": "2026-05-01T22:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://hotel.futbol-x.top/ppv/embed.html"
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Miami Grand Prix - Sprint Qualifying",
+          "uri_name": "f1s7q3v8",
+          "poster": "https://i.postimg.cc/bNtWnR23/ddc6ac1f159677d1e156322cccc2900e-thumbnail.jpg",
+          "tag": "F1",
+          "starts_at": "2026-05-01T23:30:00",
+          "ends_at": "2026-05-02T02:30:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
             }
           ]
         }
