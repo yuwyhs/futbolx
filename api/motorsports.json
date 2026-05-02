@@ -6,12 +6,12 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Miami Grand Prix - Practice 1",
+          "name": "Miami Grand Prix - Sprint",
           "uri_name": "f1m9p4z2",
           "poster": "https://i.postimg.cc/X7Cm5gyL/6740b036fa454eb4102ff40178dca46a-thumbnail.jpg",
           "tag": "F1",
-          "starts_at": "2026-05-01T19:00:00",
-          "ends_at": "2026-05-01T22:00:00",
+          "starts_at": "2026-05-02T19:00:00",
+          "ends_at": "2026-05-02T22:00:00",
           "always_live": 0,
           "streams": [
             {
@@ -21,12 +21,12 @@
           ]
         },
         {
-          "name": "Miami Grand Prix - Sprint Qualifying",
+          "name": "Miami Grand Prix - Qualifying",
           "uri_name": "f1s7q3v8",
           "poster": "https://i.postimg.cc/bNtWnR23/ddc6ac1f159677d1e156322cccc2900e-thumbnail.jpg",
           "tag": "F1",
-          "starts_at": "2026-05-01T23:30:00",
-          "ends_at": "2026-05-02T02:30:00",
+          "starts_at": "2026-05-02T23:30:00",
+          "ends_at": "2026-05-03T01:30:00",
           "always_live": 0,
           "streams": [
             {
