@@ -206,12 +206,12 @@
           "poster": "https://i.postimg.cc/MTpgdwRb/f5b6f3283f679cc2a6a9c6d836f08722-thumbnail.jpg",
           "tag": "Laliga",
           "starts_at": "2026-05-03T22:00:00",
-          "ends_at": "2026-05-04T00:10:00",
+          "ends_at": "2026-05-04T00:20:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://pooembed.eu/embed/laliga/2026-05-03/esp-rma"
+              "url"https://futbolx.up.railway.app/rma.m3u8"
             }
           ]
         }
