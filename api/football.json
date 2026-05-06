@@ -16,11 +16,11 @@
           "streams": [
             {
               "title": "Main Feed(En)",
-              "url": ""
+              "url": "https://ppv.futbol-x.top/bay/index.m3u8"
             },
             {
               "title": "Alt Feed(Fr)",
-              "url": ""
+              "url": "https://ppv.futbol-x.top/psg/index.m3u8"
             }
           ]
         },
@@ -35,7 +35,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://ppv.futbol-x.top/ppv/index.m3u8"
             }
           ]
         }
