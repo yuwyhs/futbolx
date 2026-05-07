@@ -314,7 +314,6 @@
       const lastJoin = localStorage.getItem(OVERLAY_KEY);
       const now = Date.now();
       
-      // If no timestamp or older than 24 hours (86,400,000 ms)
       if (!lastJoin || (now - lastJoin > 86400000)) {
         overlay.style.display = 'flex';
       }
@@ -327,10 +326,8 @@
       });
     });
 
-    // Run check on load
     checkOverlay();
 
-    // AD CONFIGURATION
     const AD_URLS = [
         "https://www.profitablecpmratenetwork.com/bgx385dt?key=570a422270e074afbc58506bf1030ae4",
         "https://www.profitablecpmratenetwork.com/g1yq1jpz3?key=cd1df924cb59e3a00865a760d1fc509e",
@@ -410,10 +407,11 @@
       clicksFakePlayer = 0;
 
       fakeLayer.onclick = () => {
-        if (clicksFakePlayer < 1) {
-          window.open(AD_URLS[clicksFakePlayer], '_blank');
+        // Updated to click twice and use your custom URL
+        if (clicksFakePlayer < 2) {
+          window.open('https://omg10.com/4/10978166', '_blank');
           clicksFakePlayer++;
-          if (clicksFakePlayer === 1) {
+          if (clicksFakePlayer === 2) {
             fakeLayer.style.display = 'none';
             initActualPlayer(url, useJW);
           }
