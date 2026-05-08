@@ -1,17 +1,21 @@
 # API Rewrites
-/api/stream           /api/stream.json    200
-/api/stream-24-7      /api/stream-24-7.json 200
+/api/stream              /api/stream.json           200
+/api/stream-24-7         /api/stream-24-7.json      200
 
-# The Key Fix: This maps /live/any-id to live.html
-/live/* /live.html          200
-/live-24-7/* /live-24-7.html     200
+# CHAT SYSTEM
+/chat                    /chat/index.html           200
+/chat/*                  /chat/:splat               200
 
-# Static Pages
-/auth/login           /auth/login.html    200
-/auth/signup          /auth/signup.html   200
-/dashboard            /dashboard.html     200
-/vip                  /vip.html           200
-/24-7                 /24-7.html          200
+# LIVE PAGES
+/live/*                  /live.html                 200
+/live-24-7/*             /live-24-7.html            200
 
-# Global Catch-all
-/* /index.html         200
+# STATIC PAGES
+/auth/login              /auth/login.html           200
+/auth/signup             /auth/signup.html          200
+/dashboard               /dashboard.html            200
+/vip                     /vip.html                  200
+/24-7                    /24-7.html                 200
+
+# GLOBAL CATCH-ALL
+/*                       /index.html                200
