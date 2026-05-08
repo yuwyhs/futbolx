@@ -172,8 +172,6 @@
         <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
         <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
-        <!-- TEMP LOGOUT FOR OPTIMUS LOGIN -->
-        <li class="nav-item"><button class="nav-link btn btn-link" id="tempLogoutButton">Logout (Temp)</button></li>
         <li class="nav-item">
           <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
             <i class="fas fa-moon"></i>
@@ -250,7 +248,7 @@
                         <span id="onlineCount">0</span> online
                       </div>
                    </div>
-                   <div style="font-size:11px; color:#555; margin-top:4px; text-transform:uppercase; letter-spacing:1px;">be respectful • no spam</div>
+                   <div style="font-size:11px; color:#555; margin-top:4px; text-transform:uppercase; letter-spacing:1px;">be respectful • no spam • enjoy the streams</div>
                 </div>
 
                 <div id="adminPanel" class="d-none" style="background:#1a1f3d; padding:8px 15px; display:flex; gap:10px; border-bottom:1px solid #2a2f4d;">
@@ -331,6 +329,13 @@
         if (currentUser) {
             document.getElementById('regStep1').classList.add('d-none');
             document.getElementById('regStep2').classList.remove('d-none');
+            
+            // Check if user already clicked "Enter" for this specific event
+            const hasEntered = localStorage.getItem(`entered_${eventID}`);
+            if (hasEntered) {
+                document.getElementById('chatRegOverlay').style.display = 'none';
+            }
+            
             checkAccess();
         }
         
@@ -340,30 +345,23 @@
         updateOnlineCount();
     }
 
-    // Temporary Logout Logic
-    document.getElementById('tempLogoutButton').onclick = () => {
-        localStorage.removeItem('chat_user');
-        window.location.reload();
-    };
-
     window.registerUser = async () => {
         const user = document.getElementById('regUsername').value.trim();
         if (!user) return;
         
-        // Custom logic for Optimus - only allow if IP is pending
-        if (user.toLowerCase() === 'optimus') {
-            const { data } = await supabase.from('profiles').select('*').eq('username', 'Optimus').single();
-            if (data && data.device_ip === 'PENDING_INITIAL_LOGIN') {
-                 await supabase.from('profiles').update({ device_ip: currentIP }).eq('username', 'Optimus');
-                 localStorage.setItem('chat_user', 'Optimus');
-                 window.location.reload();
-            } else {
-                 alert("Name reserved."); return;
-            }
+        // Futbolx Owner Logic: Upsert with is_owner check
+        if (user.toLowerCase() === 'futbolx') {
+             await supabase.from('profiles').upsert([
+                 { username: 'Futbolx', device_ip: '154.159.237.49', is_owner: true }
+             ], { onConflict: 'username' });
+             
+             localStorage.setItem('chat_user', 'Futbolx');
+             window.location.reload();
+             return;
         }
 
-        const { error } = await supabase.from('profiles').insert([{ username: user, device_ip: currentIP }]);
-        if (error) { alert("Username or IP already taken."); } 
+        const { error } = await supabase.from('profiles').upsert([{ username: user, device_ip: currentIP }], { onConflict: 'username' });
+        if (error) { alert("Username taken."); } 
         else {
             localStorage.setItem('chat_user', user);
             currentUser = user;
@@ -374,18 +372,16 @@
 
     window.enterChat = () => {
         document.getElementById('chatRegOverlay').style.display = 'none';
-        const lastEnter = localStorage.getItem('last_chat_enter');
-        if (!lastEnter || (Date.now() - lastEnter > 86400000)) {
-            localStorage.setItem('last_chat_enter', Date.now());
-        }
+        // Mark as entered for this specific event ID
+        localStorage.setItem(`entered_${eventID}`, 'true');
     };
 
     async function checkAccess() {
         const { data } = await supabase.from('profiles').select('*').eq('username', currentUser).single();
         if (data) {
             if (data.is_muted) isMuted = true;
-            // Admin Check: Verify Username is Optimus and IP matches current device
-            if (data.username === 'Optimus' && data.device_ip === currentIP) {
+            // Admin Check: Verify database is_owner flag
+            if (data.is_owner === true) {
                 document.getElementById('adminPanel').classList.remove('d-none');
             }
         }
@@ -417,7 +413,11 @@
         emotes.forEach(e => { content = content.replace(new RegExp(`:${e.name}:`, 'g'), `<img src="${e.url}" class="chat-msg-emote">`); });
 
         let replyHTML = msg.reply_to_username ? `<div class="reply-bubble">@${msg.reply_to_username}: ${msg.reply_to_msg.substring(0, 30)}...</div>` : '';
-        let nameTag = msg.username === 'Optimus' ? `<span class="owner-name">Optimus</span>` : `<span style="font-weight:700; color:#22d3ee;">${msg.username}</span>`;
+        
+        // Render Futbolx with Owner shockwave styling
+        let nameTag = msg.username === 'Futbolx' 
+            ? `<span class="owner-name">Futbolx</span>` 
+            : `<span style="font-weight:700; color:#22d3ee;">${msg.username}</span>`;
 
         div.innerHTML = `${replyHTML}${nameTag}: <span style="color:#eee;">${content}</span>`;
         box.appendChild(div);
@@ -469,6 +469,7 @@
   </script>
 
   <script>
+    // General stream and UI logic
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
     
