@@ -18,9 +18,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
-
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
-
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
     .tip-container {max-width:600px;margin:20px auto;transition:height .3s;overflow:hidden;}
@@ -96,6 +94,12 @@
       50% { opacity: 0.4; }
       100% { opacity: 1; }
     }
+
+    /* --- NEW PPV CHAT CUSTOM STYLES --- */
+    #futbolx-chat-messages::-webkit-scrollbar { width: 6px; }
+    #futbolx-chat-messages::-webkit-scrollbar-thumb { background: #1a2142; border-radius: 10px; }
+    .emote-btn:active { transform: scale(0.9); }
+    .chat-msg-emote { width: 32px; height: 32px; vertical-align: middle; border-radius: 4px; margin: 0 2px; }
 
     #statusArea {
       text-align: center;
@@ -237,131 +241,64 @@
               <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
             </div>
 
-            <!-- CUSTOM FUTBOLX CHAT -->
+            <!-- PPV STYLE CHAT REPLACEMENT -->
             <div class="col-12 col-lg-4">
-              <div
-                style="
-                  width:100%;
-                  height:600px;
-                  background:#070912;
-                  border:1px solid #151933;
-                  border-radius:20px;
-                  overflow:hidden;
-                  box-shadow:0 10px 40px rgba(0,0,0,0.5);
-                  display:flex;
-                  flex-direction:column;
-                "
-              >
+              <div style="width:100%; height:640px; background:#070912; border:1px solid #151933; border-radius:24px; overflow:hidden; box-shadow:0 20px 50px rgba(0,0,0,0.5); display:flex; flex-direction:column;">
+                
                 <!-- HEADER -->
-                <div
-                  style="
-                    padding:16px;
-                    background:#0a0d1c;
-                    border-bottom:1px solid #1a1f3d;
-                    display:flex;
-                    align-items:center;
-                    justify-content:space-between;
-                  "
-                >
-                  <h2
-                    style="
-                      color:white;
-                      margin:0;
-                      font-size:28px;
-                      font-weight:700;
-                    "
-                  >
-                    chat
-                  </h2>
+                <div style="padding:16px 20px; background:#0a0d1c; border-bottom:1px solid #1a1f3d; display:flex; align-items:center; justify-content:space-between; position:relative;">
+                  <h2 style="color:white; margin:0; font-size:24px; font-weight:700;">chat</h2>
+                  
+                  <div style="position:absolute; left:50%; transform:translateX(-50%);">
+                    <button style="min-width:48px; height:36px; padding:0 12px; border-radius:999px; background:#18244b; border:1px solid #29407a; color:#93c5fd; font-size:14px; font-weight:600; cursor:pointer; transition:0.2s;">@10</button>
+                  </div>
 
-                  <div
-                    style="
-                      display:flex;
-                      align-items:center;
-                      gap:8px;
-                      color:#4ade80;
-                      font-size:14px;
-                      font-weight:500;
-                    "
-                  >
-                    <div
-                      style="
-                        width:8px;
-                        height:8px;
-                        border-radius:999px;
-                        background:#4ade80;
-                      "
-                    ></div>
+                  <div style="display:flex; align-items:center; gap:8px; color:#4ade80; font-size:14px; font-weight:500;">
+                    <div style="width:8px; height:8px; border-radius:50%; background:#4ade80; box-shadow: 0 0 8px #4ade80;"></div>
                     connected
                   </div>
                 </div>
 
-                <!-- MESSAGES -->
-                <div
-                  id="futbolx-chat-messages"
-                  style="
-                    flex:1;
-                    overflow-y:auto;
-                    padding:16px;
-                    background:linear-gradient(to bottom,#090b14,#05060c);
-                    display:flex;
-                    flex-direction:column;
-                    gap:12px;
-                  "
-                ></div>
+                <!-- MESSAGES CONTAINER -->
+                <div style="position:relative; flex:1; display:flex; flex-direction:column; overflow:hidden;">
+                    <!-- SCROLL TO BOTTOM BTN -->
+                    <div style="position:absolute; bottom:16px; right:16px; z-index:20;">
+                        <button onclick="scrollToBottom()" style="width:48px; height:48px; border-radius:50%; border:none; background:#152bff; color:white; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 20px rgba(21,43,255,0.3); cursor:pointer;">
+                            <i class="fas fa-arrow-down"></i>
+                        </button>
+                    </div>
 
-                <!-- INPUT -->
-                <div
-                  style="
-                    border-top:1px solid #1a1f3d;
-                    padding:12px;
-                    background:#070912;
-                  "
-                >
-                  <div
-                    style="
-                      display:flex;
-                      gap:10px;
-                      align-items:flex-end;
-                    "
-                  >
-                    <textarea
-                      id="chatInput"
-                      placeholder="Send a message"
-                      style="
-                        flex:1;
-                        resize:none;
-                        border:none;
-                        outline:none;
-                        border-radius:18px;
-                        background:#0b1020;
-                        color:white;
-                        padding:14px;
-                        min-height:54px;
-                        max-height:120px;
-                        border:1px solid #1a2142;
-                        font-size:16px;
-                      "
-                    ></textarea>
+                    <div id="futbolx-chat-messages" style="flex:1; overflow-y:auto; padding:20px; background:linear-gradient(to bottom, #090b14, #05060c); display:flex; flex-direction:column; gap:12px;">
+                        <!-- Messages load here -->
+                    </div>
+                </div>
 
-                    <button
-                      id="sendChatBtn"
-                      style="
-                        width:56px;
-                        height:56px;
-                        border:none;
-                        border-radius:18px;
-                        background:#152bff;
-                        color:white;
-                        cursor:pointer;
-                        font-size:20px;
-                        flex-shrink:0;
-                      "
-                    >
-                      ➤
+                <!-- INPUT AREA -->
+                <div style="border-top:1px solid #1a1f3d; padding:16px; background:#070912; position:relative;">
+                  
+                  <!-- EMOTE PICKER (HIDDEN BY DEFAULT) -->
+                  <div id="emotePicker" style="display:none; position:absolute; bottom:90px; right:16px; w:256px; max-height:220px; overflow-y:auto; border-radius:20px; border:1px solid #1f2950; background:#0b1020; padding:12px; box-shadow:0 20px 40px rgba(0,0,0,0.8); z-index:100;">
+                    <div id="emoteGrid" style="display:grid; grid-template-cols:repeat(4, 1fr); gap:8px;"></div>
+                  </div>
+
+                  <div style="display:flex; gap:12px; align-items:flex-end;">
+                    <!-- TEXTBOX -->
+                    <div style="flex:1; background:#0b1020; border:1px solid #1a2142; border-radius:20px; padding:12px 16px; transition:0.2s;">
+                      <textarea id="chatInput" placeholder="Send a message" style="width:100%; background:transparent; border:none; outline:none; color:white; resize:none; font-size:16px; max-height:100px; display:block;"></textarea>
+                    </div>
+
+                    <!-- EMOTE BTN -->
+                    <button id="toggleEmotes" style="width:56px; height:56px; border-radius:20px; background:#10162d; border:1px solid #1f2950; color:#d1d5db; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:24px;">
+                      <i class="far fa-smile"></i>
+                    </button>
+
+                    <!-- SEND BTN -->
+                    <button id="sendChatBtn" style="width:56px; height:56px; border-radius:20px; border:none; background:#152bff; color:white; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:20px; box-shadow:0 10px 20px rgba(21,43,255,0.2);">
+                        <i class="fas fa-paper-plane"></i>
                     </button>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
@@ -386,7 +323,7 @@
   <script src="/assets/js/api.js"></script>
   <script src="/assets/js/auth.js"></script>
 
-  <!-- SUPABASE CHAT SCRIPT -->
+  <!-- SUPABASE & CHAT LOGIC -->
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -395,23 +332,74 @@
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdlcnNpenVxc3pjaXpta21uY2FzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNTMzNTQsImV4cCI6MjA5MzgyOTM1NH0.bDE4ds2OHlC8RBJaBMlRJsf2T6d3sGtlTrYoo3gaOa8"
     );
 
+    const emotes = [
+      { name: "GIGACHAD", url: "https://cdn.7tv.app/emote/01F6MZGCNG000255K4X1K7NTHR/4x.webp" },
+      { name: "donowall", url: "https://cdn.7tv.app/emote/01F6BN89H80006VBW12DRB1DJ0/4x.webp" },
+      { name: "catJAM", url: "https://cdn.7tv.app/emote/01F6MQ33FG000FFJ97ZB8MWV52/4x.webp" },
+      { name: "modCheck", url: "https://cdn.7tv.app/emote/01F6FTE8B80008E39HFFQJ7MWS/4x.webp" },
+      { name: "Hmm", url: "https://cdn.7tv.app/emote/01F6MA6Y100002B6P5MWZ5D916/4x.webp" },
+      { name: "peepoLeave", url: "https://cdn.7tv.app/emote/01G4ZGET1R0003SYTMXJ2SQCGP/4x.webp" },
+      { name: "PETTHEMODS", url: "https://cdn.7tv.app/emote/01F6NF001G00044EM07K5E6WYK/4x.webp" },
+      { name: "SadgeCry", url: "https://cdn.7tv.app/emote/01F6MMZW3R00012ZP6HJJ38G2E/4x.webp" },
+      { name: "NOWAYING", url: "https://cdn.7tv.app/emote/01GQ3WPTDR000300KQF1J7PFF8/4x.webp" },
+      { name: "WHAT", url: "https://cdn.7tv.app/emote/01G4ZTECKR0002P97QQ94BDSP4/4x.webp" },
+      { name: "HUH", url: "https://cdn.7tv.app/emote/01FFMS6Q4G0009CAK0J14692AY/4x.webp" },
+      { name: "LETHIMCOOK", url: "https://cdn.7tv.app/emote/01GN5QQ1X8000C0QTR0C8JV0GR/4x.webp" },
+      { name: "PeepoFinger", url: "https://cdn.7tv.app/emote/01F779KZC8000D25DGAC8PTX5Q/4x.webp" },
+      { name: "HACKERMANS", url: "https://cdn.7tv.app/emote/01F6WP22CR0004YCK11WAVZHEW/4x.webp" },
+      { name: "WhoAsked", url: "https://cdn.7tv.app/emote/01FNSSG3T8000EJT2EVEY3FBSY/4x.webp" },
+      { name: "TriSad", url: "https://cdn.7tv.app/emote/01EZPGQES8000C438200A44F0M/4x.webp" },
+      { name: "Cinema", url: "https://cdn.7tv.app/emote/01GBFDVP18000CRDCG0DV7KEMY/4x.webp" },
+      { name: "VeryPog", url: "https://cdn.7tv.app/emote/01EZPGPAN0000C438200A44F0K/4x.webp" },
+      { name: "Ghost", url: "https://cdn.7tv.app/emote/01GHRZNKG8000CMMVPKY84QCSW/4x.webp" }
+    ];
+
     const messagesContainer = document.getElementById("futbolx-chat-messages");
     const input = document.getElementById("chatInput");
     const sendBtn = document.getElementById("sendChatBtn");
+    const emotePicker = document.getElementById("emotePicker");
+    const emoteGrid = document.getElementById("emoteGrid");
+    const toggleEmotes = document.getElementById("toggleEmotes");
+
+    // Init Emote Grid
+    emotes.forEach(emote => {
+        const btn = document.createElement("button");
+        btn.className = "emote-btn";
+        btn.style.cssText = "height:48px; border-radius:12px; background:#10162d; border:1px solid #1f2950; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:0.2s;";
+        btn.innerHTML = `<img src="${emote.url}" alt="${emote.name}" style="width:36px; height:36px; object-fit:contain;">`;
+        btn.onclick = () => {
+            input.value += ` :${emote.name}: `;
+            emotePicker.style.display = "none";
+            input.focus();
+        };
+        emoteGrid.appendChild(btn);
+    });
+
+    toggleEmotes.onclick = () => {
+        emotePicker.style.display = emotePicker.style.display === "none" ? "block" : "none";
+    };
+
+    function parseMessage(text) {
+        let html = text;
+        emotes.forEach(emote => {
+            const regex = new RegExp(`:${emote.name}:`, 'g');
+            html = html.replace(regex, `<img src="${emote.url}" class="chat-msg-emote" title="${emote.name}">`);
+        });
+        return html;
+    }
 
     function addMessage(message) {
       const div = document.createElement("div");
-      div.style.fontSize = "17px";
-      div.style.color = "#e5e7eb";
-      div.style.lineHeight = "1.6";
-      div.style.wordBreak = "break-word";
+      div.style.cssText = "font-size:17px; color:#e5e7eb; line-height:1.6; word-break:break-word; position:relative;";
+      
+      const parsedText = parseMessage(message.message);
 
       div.innerHTML = `
-        <span style="font-weight:700;color:${message.color || "#22d3ee"}">
+        <span style="font-weight:700; color:${message.color || "#22d3ee"}">
           ${message.username}
         </span>
         <span style="color:white">:</span>
-        <span>${message.message}</span>
+        <span>${parsedText}</span>
       `;
 
       messagesContainer.appendChild(div);
@@ -422,7 +410,8 @@
       const { data } = await supabase
         .from("messages")
         .select("*")
-        .order("created_at", { ascending: true });
+        .order("created_at", { ascending: true })
+        .limit(50);
 
       if (data) {
         messagesContainer.innerHTML = "";
@@ -443,6 +432,7 @@
       ]);
 
       input.value = "";
+      emotePicker.style.display = "none";
     };
 
     input.addEventListener("keydown", (e) => {
@@ -454,34 +444,26 @@
 
     supabase
       .channel("chat-room")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "messages"
-        },
-        (payload) => {
-          addMessage(payload.new);
-        }
-      )
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, 
+      (payload) => { addMessage(payload.new); })
       .subscribe();
 
     loadMessages();
+
+    window.scrollToBottom = () => {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    };
   </script>
 
   <script>
-    // --- 24 HOUR OVERLAY LOGIC ---
+    // --- REST OF YOUR ORIGINAL LOGIC (Social Overlay, Theme, API etc) ---
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
     
     function checkOverlay() {
       const lastJoin = localStorage.getItem(OVERLAY_KEY);
       const now = Date.now();
-      
-      if (!lastJoin || (now - lastJoin > 86400000)) {
-        overlay.style.display = 'flex';
-      }
+      if (!lastJoin || (now - lastJoin > 86400000)) { overlay.style.display = 'flex'; }
     }
 
     document.querySelectorAll('.social-join-btn').forEach(btn => {
@@ -567,10 +549,8 @@
       if (playerInstance) { playerInstance.remove(); playerInstance = null; }
       const useJW = await isM3U8(url);
       const fakeLayer = document.getElementById('fakePlayerLayer');
-      
       fakeLayer.style.display = 'flex';
       clicksFakePlayer = 0;
-
       fakeLayer.onclick = () => {
         if (clicksFakePlayer < 2) {
           window.open('https://omg10.com/4/10978166', '_blank');
@@ -612,13 +592,7 @@
       container.addEventListener('click', e => {
         const btn = e.target.closest('.btn-stream');
         if (!btn) return;
-        
-        if (clicksSwitch < 1) {
-            window.open(AD_URLS[clicksSwitch], '_blank');
-            clicksSwitch++;
-            return;
-        }
-
+        if (clicksSwitch < 1) { window.open(AD_URLS[clicksSwitch], '_blank'); clicksSwitch++; return; }
         try {
           const realUrl = atob(atob(btn.dataset.p).split('||')[0]);
           clicksSwitch = 0;
@@ -643,32 +617,22 @@
       const startBtn = document.getElementById('startLivestream');
       const statusArea = document.getElementById('statusArea');
       const countdownDisp = document.getElementById('countdownDisplay');
-      
       if (!eventStartTime) return;
-      if (streamStarted) { 
-          startBtn.style.display = 'none'; 
-          statusArea.style.display = 'none';
-          return; 
-      }
-
+      if (streamStarted) { startBtn.style.display = 'none'; statusArea.style.display = 'none'; return; }
       if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
-        statusArea.style.display = 'none';
-        startBtn.style.display = 'inline-block';
+        statusArea.style.display = 'none'; startBtn.style.display = 'inline-block';
       } else {
-        statusArea.style.display = 'block';
-        countdownDisp.textContent = formatTimeLeft(eventStartTime - now);
+        statusArea.style.display = 'block'; countdownDisp.textContent = formatTimeLeft(eventStartTime - now);
       }
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
       const uriName = window.location.pathname.split('/').pop();
       const startBtn = document.getElementById('startLivestream');
-
       try {
         const catListRes = await fetchWithRetry('/api/stream');
         const fetchPromises = catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ success: true, streams: [] })));
         const allCategoryData = await Promise.all(fetchPromises);
-
         for (const data of allCategoryData) {
           for (const catObj of data.streams) {
             foundEvent = catObj.streams.find(ev => ev.uri_name === uriName);
@@ -676,7 +640,6 @@
           }
           if (foundEvent) break;
         }
-
         if (foundEvent) {
           document.getElementById('eventTitle').textContent = foundEvent.name;
           eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
@@ -684,20 +647,13 @@
           updatePreStreamStatus();
           setInterval(updatePreStreamStatus, 1000);
         }
-
         startBtn.onclick = () => {
-          if (clicksStart < 3) {
-              window.open(AD_URLS[clicksStart], '_blank');
-              clicksStart++;
-              if (clicksStart < 3) return;
-          }
-
+          if (clicksStart < 3) { window.open(AD_URLS[clicksStart], '_blank'); clicksStart++; if (clicksStart < 3) return; }
           document.getElementById('mainVideoContainer').style.display = 'block';
           document.getElementById('streamLinks').style.display = 'block';
           startBtn.style.display = 'none';
           document.getElementById('liveStreamTitle').classList.remove('d-none');
           document.getElementById('currentStreamName').textContent = foundEvent.name;
-          
           const firstStreamUrl = typeof foundEvent.streams[0] === 'string' ? foundEvent.streams[0] : foundEvent.streams[0].url;
           playStream(firstStreamUrl);
           populateStreamButtons(foundEvent);
@@ -713,7 +669,6 @@
       const infoAlert = document.getElementById('infoAlert');
       const joinAlert = document.getElementById('joinAlert');
       let showJoin = true;
-
       setInterval(() => {
         if (showJoin) {
           infoAlert.style.opacity = '0';
