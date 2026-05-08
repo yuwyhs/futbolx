@@ -75,32 +75,52 @@
       box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
       margin: 1rem 0;
     }
-    .live-title h3 {
-      margin: 0;
+    .live-title h3 { margin: 0; color: #fff; font-size: 1.8rem; font-weight: 600; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+    .live-title::before { content: "● LIVE"; color: #ff4d4d; font-weight: bold; margin-right: 10px; animation: pulse 2s infinite; }
+    
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+    /* --- PRO CHAT & REGISTRATION STYLES --- */
+    #chatRegOverlay {
+      position: absolute; top:0; left:0; width:100%; height:100%;
+      background: rgba(7, 9, 18, 0.9); backdrop-filter: blur(15px);
+      z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .reg-card { text-align: center; max-width: 280px; }
+    .reg-card h4 { font-weight: 800; margin-bottom: 10px; }
+    
+    .owner-name {
+      font-weight: 900;
       color: #fff;
-      font-size: 1.8rem;
-      font-weight: 600;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      text-shadow: 0 0 10px #ff0000, 0 0 20px #ff4d4d;
+      animation: shockwave 1.5s infinite;
+      display: inline-block;
     }
-    .live-title::before {
-      content: "● LIVE";
-      color: #ff4d4d;
-      font-weight: bold;
-      margin-right: 10px;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.4; }
-      100% { opacity: 1; }
+    @keyframes shockwave {
+      0% { transform: scale(1); text-shadow: 0 0 10px #ff0000; }
+      50% { transform: scale(1.05); text-shadow: 0 0 25px #ff4d4d, 0 0 40px #ff0000; }
+      100% { transform: scale(1); text-shadow: 0 0 10px #ff0000; }
     }
 
-    /* --- CHAT SCROLLBAR & EMOTE STYLES --- */
-    #futbolx-chat-messages::-webkit-scrollbar { width: 6px; }
-    #futbolx-chat-messages::-webkit-scrollbar-thumb { background: var(--bs-border-color); border-radius: 10px; }
-    .chat-msg-emote { width: 32px; height: 32px; vertical-align: middle; border-radius: 4px; margin: 0 2px; }
-    .emote-tray-btn { background: transparent; border: 1px solid var(--bs-border-color); cursor: pointer; padding: 8px; transition: 0.1s; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-    .emote-tray-btn:hover { background: var(--bs-tertiary-bg); transform: scale(1.05); }
+    .reply-bubble {
+      background: rgba(255,255,255,0.05);
+      border-left: 3px solid #152bff;
+      padding: 6px 12px;
+      margin-bottom: 6px;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      color: #aaa;
+    }
+    .msg-item {
+      cursor: pointer;
+      transition: transform 0.2s;
+      padding: 4px 0;
+    }
+    .msg-item:active { transform: translateX(15px); }
+
+    #futbolx-chat-messages::-webkit-scrollbar { width: 4px; }
+    #futbolx-chat-messages::-webkit-scrollbar-thumb { background: #1a1f3d; border-radius: 10px; }
+    .chat-msg-emote { width: 28px; height: 28px; vertical-align: middle; margin: 0 2px; }
 
     #statusArea {
       text-align: center;
@@ -110,46 +130,11 @@
       margin: 25px auto;
       max-width: 720px;
     }
-    #eventTitle {
-      font-size: 2.4rem;
-      margin-bottom: 1rem;
-      color: #ff4d4d;
-    }
-    .countdown-display {
-      font-size: 4rem;
-      font-weight: bold;
-      color: #ff4d4d;
-      letter-spacing: 5px;
-      margin: 20px 0;
-      text-shadow: 0 0 20px rgba(255,77,77,0.5);
-    }
-
-    .permanent-noti {
-      margin-top: 12px;
-      background: linear-gradient(135deg, #1e3a5f, #2a4a7a);
-      border-color: #4a8cff;
-      color: #e0f0ff;
-      text-align: center;
-      position: relative;
-      transition: opacity 0.6s ease-in;
-    }
-
-    .disclaimer {
-      text-align: center;
-      font-size: 0.85rem;
-      padding: 20px 15px;
-      margin-top: 30px;
-      border-top: 1px solid #444;
-      max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    [data-bs-theme="dark"] .disclaimer {
-      color: #aaa;
-      background: rgba(0,0,0,0.3);
-      border-top-color: #444;
-    }
+    #eventTitle { font-size: 2.4rem; margin-bottom: 1rem; color: #ff4d4d; }
+    .countdown-display { font-size: 4rem; font-weight: bold; color: #ff4d4d; letter-spacing: 5px; margin: 20px 0; text-shadow: 0 0 20px rgba(255,77,77,0.5); }
+    .permanent-noti { margin-top: 12px; background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; transition: opacity 0.6s ease-in; }
+    .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 1200px; margin-left: auto; margin-right: auto; }
+    [data-bs-theme="dark"] .disclaimer { color: #aaa; background: rgba(0,0,0,0.3); border-top-color: #444; }
   </style>
 </head>
 <body>
@@ -243,35 +228,53 @@
               <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
             </div>
 
-            <!-- ADAPTIVE PPV CHAT -->
             <div class="col-12 col-lg-4">
-              <div style="width:100%; height:640px; background: var(--bs-tertiary-bg); border:1px solid var(--bs-border-color); border-radius:24px; overflow:hidden; display:flex; flex-direction:column; position: relative;">
+              <div style="width:100%; height:640px; background:#070912; border:1px solid #151933; border-radius:24px; overflow:hidden; display:flex; flex-direction:column; position:relative;">
                 
-                <!-- HEADER -->
-                <div style="padding:16px 20px; background: var(--bs-secondary-bg); border-bottom:1px solid var(--bs-border-color); display:flex; align-items:center; justify-content:space-between;">
-                  <h2 style="color: var(--bs-heading-color); margin:0; font-size:22px; font-weight:700; text-transform: lowercase;">chat</h2>
-                  <div style="display:flex; align-items:center; gap:8px; color:#4ade80; font-size:14px; font-weight:500;">
-                    <div style="width:8px; height:8px; border-radius:50%; background:#4ade80; box-shadow: 0 0 8px #4ade80;"></div>
-                    connected
+                <div id="chatRegOverlay">
+                  <div class="reg-card" id="regStep1">
+                    <h4>Join Chat</h4>
+                    <p style="font-size:13px; color:#888;">One username per person. Pick yours below.</p>
+                    <input type="text" id="regUsername" class="form-control mb-3" style="background:#0b1020; border-color:#1a2142; color:white;" placeholder="Username...">
+                    <button onclick="registerUser()" class="btn btn-danger w-100">Claim Username</button>
+                  </div>
+                  <div class="reg-card d-none" id="regStep2">
+                    <p class="text-danger" style="font-weight:700;">RESPECTFUL CHAT ONLY</p>
+                    <p style="font-size:12px; color:#888;">Foul language or spam will result in a mute.</p>
+                    <button onclick="enterChat()" class="btn btn-danger w-100" style="padding:15px; font-weight:800;">ENTER CHAT</button>
                   </div>
                 </div>
 
-                <!-- MESSAGES -->
-                <div id="futbolx-chat-messages" style="flex:1; overflow-y:auto; padding:20px; background: var(--bs-body-bg); display:flex; flex-direction:column; gap:12px;"></div>
+                <div style="padding:16px 20px; background:#0a0d1c; border-bottom:1px solid #1a1f3d;">
+                   <div class="d-flex justify-content-between align-items-center">
+                      <h2 id="chatEventTitle" style="color:white; margin:0; font-size:16px; font-weight:700;">Live Chat</h2>
+                      <div style="color:#4ade80; font-size:13px; font-weight:600;">
+                        <span id="onlineCount">0</span> online
+                      </div>
+                   </div>
+                   <div style="font-size:11px; color:#555; margin-top:4px; text-transform:uppercase; letter-spacing:1px;">be respectful • no spam</div>
+                </div>
 
-                <!-- INPUT & MOBILE EMOTE TRAY -->
-                <div style="border-top:1px solid var(--bs-border-color); padding:16px; background: var(--bs-secondary-bg);">
-                  <div style="display:flex; gap:12px; align-items:center;">
-                    <button id="toggleEmotes" style="background:none; border:none; color: var(--bs-secondary-color); font-size:24px; cursor:pointer;"><i class="far fa-smile"></i></button>
-                    <div style="flex:1; background: var(--bs-body-bg); border:1px solid var(--bs-border-color); border-radius:25px; padding:8px 18px;">
-                      <input id="chatInput" placeholder="Send a message" style="width:100%; background:transparent; border:none; outline:none; color: var(--bs-body-color); font-size:16px;">
-                    </div>
-                    <button id="sendChatBtn" style="background:none; border:none; color:#152bff; font-size:22px; cursor:pointer;"><i class="fas fa-paper-plane"></i></button>
+                <div id="adminPanel" class="d-none" style="background:#1a1f3d; padding:8px 15px; display:flex; gap:10px; border-bottom:1px solid #2a2f4d;">
+                    <button id="toggleGlobalMute" class="btn btn-sm btn-outline-warning" style="font-size:10px;">MUTE EVENT</button>
+                    <input type="text" id="userSearch" placeholder="Search member..." style="flex:1; background:transparent; border:1px solid #333; color:white; font-size:10px; padding:2px 8px;">
+                </div>
+
+                <div id="futbolx-chat-messages" style="flex:1; overflow-y:auto; padding:15px; background:#080a14; display:flex; flex-direction:column; gap:10px;"></div>
+
+                <div id="replyPreview" class="d-none" style="background:#1a1f3d; padding:8px 15px; color:#888; font-size:12px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #152bff;">
+                    <span id="replyText">Replying...</span>
+                    <i class="fas fa-times" onclick="cancelReply()" style="cursor:pointer;"></i>
+                </div>
+
+                <div id="chatInputArea" style="border-top:1px solid #1a1f3d; padding:16px; background:#070912;">
+                  <div style="display:flex; gap:10px; align-items:center;">
+                    <button id="toggleEmotes" style="background:none; border:none; color:#555; font-size:20px;"><i class="far fa-smile"></i></button>
+                    <input id="chatInput" placeholder="Type here..." style="flex:1; background:#0b1020; border:1px solid #1a2142; border-radius:20px; padding:8px 15px; color:white; outline:none; font-size:14px;">
+                    <button id="sendChatBtn" style="background:none; border:none; color:#152bff; font-size:20px;"><i class="fas fa-paper-plane"></i></button>
                   </div>
-
-                  <!-- PHONE KEYBOARD STYLE TRAY -->
-                  <div id="emotePicker" style="display:none; height:200px; overflow-y:auto; margin-top:15px; border-top: 1px solid var(--bs-border-color); padding-top:15px;">
-                    <div id="emoteGrid" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:10px;"></div>
+                  <div id="emotePicker" style="display:none; height:150px; overflow-y:auto; margin-top:15px; border-top:1px solid #1a1f3d; padding-top:10px;">
+                    <div id="emoteGrid" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:8px;"></div>
                   </div>
                 </div>
               </div>
@@ -298,14 +301,12 @@
   <script src="/assets/js/api.js"></script>
   <script src="/assets/js/auth.js"></script>
 
-  <!-- SUPABASE & CHAT LOGIC -->
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-    const supabase = createClient(
-      "https://gersizuqszcizmkmncas.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdlcnNpenVxc3pjaXpta21uY2FzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNTMzNTQsImV4cCI6MjA5MzgyOTM1NH0.bDE4ds2OHlC8RBJaBMlRJsf2T6d3sGtlTrYoo3gaOa8"
-    );
+    const SB_URL = "https://usxpqfbpvlppzldvnerp.supabase.co";
+    const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzeHBxZmJwdmxwcHpsZHZuZXJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNjYzODcsImV4cCI6MjA5Mzg0MjM4N30.zwvsvJRtcTRmVLTHGR3AB9gApShbTswZkmDWGbzI-uY";
+    const supabase = createClient(SB_URL, SB_KEY);
 
     const emotes = [
       { name: "GIGACHAD", url: "https://cdn.7tv.app/emote/01F6MZGCNG000255K4X1K7NTHR/4x.webp" },
@@ -313,80 +314,148 @@
       { name: "catJAM", url: "https://cdn.7tv.app/emote/01F6MQ33FG000FFJ97ZB8MWV52/4x.webp" },
       { name: "modCheck", url: "https://cdn.7tv.app/emote/01F6FTE8B80008E39HFFQJ7MWS/4x.webp" },
       { name: "Hmm", url: "https://cdn.7tv.app/emote/01F6MA6Y100002B6P5MWZ5D916/4x.webp" },
-      { name: "peepoLeave", url: "https://cdn.7tv.app/emote/01G4ZGET1R0003SYTMXJ2SQCGP/4x.webp" },
-      { name: "PETTHEMODS", url: "https://cdn.7tv.app/emote/01F6NF001G00044EM07K5E6WYK/4x.webp" },
-      { name: "SadgeCry", url: "https://cdn.7tv.app/emote/01F6MMZW3R00012ZP6HJJ38G2E/4x.webp" },
-      { name: "NOWAYING", url: "https://cdn.7tv.app/emote/01GQ3WPTDR000300KQF1J7PFF8/4x.webp" },
-      { name: "WHAT", url: "https://cdn.7tv.app/emote/01G4ZTECKR0002P97QQ94BDSP4/4x.webp" },
       { name: "HUH", url: "https://cdn.7tv.app/emote/01FFMS6Q4G0009CAK0J14692AY/4x.webp" },
       { name: "LETHIMCOOK", url: "https://cdn.7tv.app/emote/01GN5QQ1X8000C0QTR0C8JV0GR/4x.webp" },
-      { name: "PeepoFinger", url: "https://cdn.7tv.app/emote/01F779KZC8000D25DGAC8PTX5Q/4x.webp" },
-      { name: "HACKERMANS", url: "https://cdn.7tv.app/emote/01F6WP22CR0004YCK11WAVZHEW/4x.webp" },
-      { name: "WhoAsked", url: "https://cdn.7tv.app/emote/01FNSSG3T8000EJT2EVEY3FBSY/4x.webp" },
-      { name: "TriSad", url: "https://cdn.7tv.app/emote/01EZPGQES8000C438200A44F0M/4x.webp" },
-      { name: "Cinema", url: "https://cdn.7tv.app/emote/01GBFDVP18000CRDCG0DV7KEMY/4x.webp" },
-      { name: "VeryPog", url: "https://cdn.7tv.app/emote/01EZPGPAN0000C438200A44F0K/4x.webp" },
       { name: "Ghost", url: "https://cdn.7tv.app/emote/01GHRZNKG8000CMMVPKY84QCSW/4x.webp" }
     ];
 
-    const messagesContainer = document.getElementById("futbolx-chat-messages");
-    const input = document.getElementById("chatInput");
-    const sendBtn = document.getElementById("sendChatBtn");
-    const emotePicker = document.getElementById("emotePicker");
-    const emoteGrid = document.getElementById("emoteGrid");
-    const toggleEmotes = document.getElementById("toggleEmotes");
+    const eventID = window.location.pathname.split('/').pop() || 'lobby';
+    let currentUser = localStorage.getItem('chat_user');
+    let currentIP = "";
+    let replyTo = null;
+    let isMuted = false;
 
-    emotes.forEach(emote => {
-        const btn = document.createElement("button");
-        btn.className = "emote-tray-btn";
-        btn.innerHTML = `<img src="${emote.url}" style="width:32px; height:32px; object-fit:contain;">`;
-        btn.onclick = () => { input.value += ` :${emote.name}: `; input.focus(); };
-        emoteGrid.appendChild(btn);
-    });
+    async function init() {
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json();
+        currentIP = data.ip;
 
-    toggleEmotes.onclick = () => {
-        const isHidden = emotePicker.style.display === "none";
-        emotePicker.style.display = isHidden ? "block" : "none";
-        if (isHidden) messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    };
-
-    function parseMessage(text) {
-        let html = text;
-        emotes.forEach(emote => {
-            const regex = new RegExp(`:${emote.name}:`, 'g');
-            html = html.replace(regex, `<img src="${emote.url}" class="chat-msg-emote">`);
-        });
-        return html;
+        if (currentUser) {
+            document.getElementById('regStep1').classList.add('d-none');
+            document.getElementById('regStep2').classList.remove('d-none');
+            checkAccess();
+        }
+        
+        loadEmotes();
+        loadMessages();
+        setupRealtime();
+        updateOnlineCount();
     }
 
-    function addMessage(msg) {
-        const div = document.createElement("div");
-        div.style.cssText = "font-size:15px; color: var(--bs-body-color); word-break:break-word;";
-        div.innerHTML = `<span style="font-weight:700; color:${msg.color || '#22d3ee'}">${msg.username}</span>: <span>${parseMessage(msg.message)}</span>`;
-        messagesContainer.appendChild(div);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    window.registerUser = async () => {
+        const user = document.getElementById('regUsername').value.trim();
+        if (!user) return;
+        if (user.toLowerCase() === 'optimus') { alert("Name reserved."); return; }
+
+        const { error } = await supabase.from('profiles').insert([{ username: user, device_ip: currentIP }]);
+        if (error) { alert("Username or IP already taken."); } 
+        else {
+            localStorage.setItem('chat_user', user);
+            currentUser = user;
+            document.getElementById('regStep1').classList.add('d-none');
+            document.getElementById('regStep2').classList.remove('d-none');
+        }
+    };
+
+    window.enterChat = () => {
+        document.getElementById('chatRegOverlay').style.display = 'none';
+        const lastEnter = localStorage.getItem('last_chat_enter');
+        if (!lastEnter || (Date.now() - lastEnter > 86400000)) {
+            localStorage.setItem('last_chat_enter', Date.now());
+        }
+    };
+
+    async function checkAccess() {
+        const { data } = await supabase.from('profiles').select('*').eq('username', currentUser).single();
+        if (data) {
+            if (data.is_muted) isMuted = true;
+            if (data.username === 'Optimus' && (data.device_ip === currentIP || data.device_ip === 'PENDING_INITIAL_LOGIN')) {
+                if (data.device_ip === 'PENDING_INITIAL_LOGIN') {
+                    await supabase.from('profiles').update({ device_ip: currentIP }).eq('username', 'Optimus');
+                }
+                document.getElementById('adminPanel').classList.remove('d-none');
+            }
+        }
+    }
+
+    function loadEmotes() {
+        const grid = document.getElementById('emoteGrid');
+        emotes.forEach(e => {
+            const b = document.createElement('button');
+            b.style.cssText = "background:none; border:none; cursor:pointer;";
+            b.innerHTML = `<img src="${e.url}" style="width:30px;">`;
+            b.onclick = () => { document.getElementById('chatInput').value += ` :${e.name}: `; };
+            grid.appendChild(b);
+        });
     }
 
     async function loadMessages() {
-        const { data } = await supabase.from("messages").select("*").order("created_at", { ascending: true }).limit(50);
-        if (data) data.forEach(addMessage);
+        const { data } = await supabase.from('messages').select('*').eq('event_id', eventID).order('created_at', { ascending: true }).limit(50);
+        if (data) data.forEach(renderMsg);
     }
 
-    sendBtn.onclick = async () => {
-        const val = input.value.trim();
-        if (!val) return;
-        await supabase.from("messages").insert([{ username: "Guest", message: val, color: "#22d3ee" }]);
-        input.value = "";
+    function renderMsg(msg) {
+        const box = document.getElementById('futbolx-chat-messages');
+        const div = document.createElement('div');
+        div.className = "msg-item";
+        div.onclick = () => setReply(msg.username, msg.message);
+
+        let content = msg.message;
+        emotes.forEach(e => { content = content.replace(new RegExp(`:${e.name}:`, 'g'), `<img src="${e.url}" class="chat-msg-emote">`); });
+
+        let replyHTML = msg.reply_to_username ? `<div class="reply-bubble">@${msg.reply_to_username}: ${msg.reply_to_msg.substring(0, 30)}...</div>` : '';
+        let nameTag = msg.username === 'Optimus' ? `<span class="owner-name">Optimus</span>` : `<span style="font-weight:700; color:#22d3ee;">${msg.username}</span>`;
+
+        div.innerHTML = `${replyHTML}${nameTag}: <span style="color:#eee;">${content}</span>`;
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
+    }
+
+    document.getElementById('sendChatBtn').onclick = async () => {
+        const text = document.getElementById('chatInput').value.trim();
+        if (!text || isMuted) return;
+        
+        await supabase.from('messages').insert([{
+            username: currentUser,
+            message: text,
+            event_id: eventID,
+            reply_to_username: replyTo?.user,
+            reply_to_msg: replyTo?.msg
+        }]);
+
+        document.getElementById('chatInput').value = "";
+        cancelReply();
     };
 
-    input.onkeydown = (e) => { if(e.key === "Enter") sendBtn.click(); };
+    function setReply(user, msg) {
+        replyTo = { user, msg };
+        document.getElementById('replyPreview').classList.remove('d-none');
+        document.getElementById('replyText').innerText = `Replying to @${user}`;
+    }
 
-    supabase.channel("chat-room").on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, (p) => addMessage(p.new)).subscribe();
-    loadMessages();
+    window.cancelReply = () => {
+        replyTo = null;
+        document.getElementById('replyPreview').classList.add('d-none');
+    };
+
+    function setupRealtime() {
+        supabase.channel('chat_updates').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => renderMsg(p.new)).subscribe();
+    }
+
+    async function updateOnlineCount() {
+        const { count } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
+        document.getElementById('onlineCount').innerText = count + Math.floor(Math.random() * 10); // Subtle "live" feel
+    }
+
+    document.getElementById('toggleEmotes').onclick = () => {
+        const p = document.getElementById('emotePicker');
+        p.style.display = p.style.display === 'none' ? 'block' : 'none';
+    };
+
+    init();
   </script>
 
   <script>
-    // --- ALL ORIGINAL STREAM LOGIC PRESERVED ---
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
     
@@ -506,26 +575,6 @@
       };
     }
 
-    function formatTimeLeft(seconds) {
-      if (seconds <= 0) return "Starting now!";
-      const h = Math.floor((seconds % 86400) / 3600);
-      const m = Math.floor((seconds % 3600) / 60);
-      const s = seconds % 60;
-      return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-    }
-
-    function updatePreStreamStatus() {
-      const now = Math.floor(Date.now() / 1000);
-      const startBtn = document.getElementById('startLivestream');
-      const statusArea = document.getElementById('statusArea');
-      if (!eventStartTime || streamStarted) return;
-      if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
-        statusArea.style.display = 'none'; startBtn.style.display = 'inline-block';
-      } else {
-        statusArea.style.display = 'block'; document.getElementById('countdownDisplay').textContent = formatTimeLeft(eventStartTime - now);
-      }
-    }
-
     document.addEventListener('DOMContentLoaded', async () => {
       const uriName = window.location.pathname.split('/').pop();
       const startBtn = document.getElementById('startLivestream');
@@ -542,10 +591,20 @@
         }
         if (foundEvent) {
           document.getElementById('eventTitle').textContent = foundEvent.name;
+          document.getElementById('chatEventTitle').textContent = foundEvent.name + " Chat";
           eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
           eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
-          updatePreStreamStatus();
-          setInterval(updatePreStreamStatus, 1000);
+          setInterval(() => {
+            const now = Math.floor(Date.now() / 1000);
+            if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
+                document.getElementById('statusArea').style.display = 'none'; 
+                if(!streamStarted) startBtn.style.display = 'inline-block';
+            } else if (now < eventStartTime) {
+                const diff = eventStartTime - now;
+                const h = Math.floor(diff/3600); const m = Math.floor((diff%3600)/60); const s = diff%60;
+                document.getElementById('countdownDisplay').textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            }
+          }, 1000);
         }
         startBtn.onclick = () => {
           if (clicksStart < 3) { window.open(AD_URLS[clicksStart], '_blank'); clicksStart++; if (clicksStart < 3) return; }
