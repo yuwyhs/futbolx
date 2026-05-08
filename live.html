@@ -32,7 +32,6 @@
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
-    /* --- SOCIAL OVERLAY STYLES --- */
     #socialOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.95); z-index: 10000;
@@ -56,7 +55,6 @@
     .btn-telegram { background: #0088cc; color: white; }
     .btn-social:hover { transform: scale(1.03); opacity: 0.9; color: white; }
 
-    /* --- FAKE PLAYER STYLES --- */
     #fakePlayerLayer {
       position: absolute; top:0; left:0; width:100%; height:100%;
       background: #000; z-index: 999; display: flex; align-items: center; justify-content: center; cursor: pointer;
@@ -80,7 +78,6 @@
     
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-    /* --- PRO CHAT & REGISTRATION STYLES --- */
     #chatRegOverlay {
       position: absolute; top:0; left:0; width:100%; height:100%;
       background: rgba(7, 9, 18, 0.9); backdrop-filter: blur(15px);
@@ -175,7 +172,8 @@
         <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
         <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
-        <li class="nav-item"><button class="nav-link btn btn-link d-none" id="logoutButton">Logout</button></li>
+        <!-- TEMP LOGOUT FOR OPTIMUS LOGIN -->
+        <li class="nav-item"><button class="nav-link btn btn-link" id="tempLogoutButton">Logout (Temp)</button></li>
         <li class="nav-item">
           <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
             <i class="fas fa-moon"></i>
@@ -342,10 +340,27 @@
         updateOnlineCount();
     }
 
+    // Temporary Logout Logic
+    document.getElementById('tempLogoutButton').onclick = () => {
+        localStorage.removeItem('chat_user');
+        window.location.reload();
+    };
+
     window.registerUser = async () => {
         const user = document.getElementById('regUsername').value.trim();
         if (!user) return;
-        if (user.toLowerCase() === 'optimus') { alert("Name reserved."); return; }
+        
+        // Custom logic for Optimus - only allow if IP is pending
+        if (user.toLowerCase() === 'optimus') {
+            const { data } = await supabase.from('profiles').select('*').eq('username', 'Optimus').single();
+            if (data && data.device_ip === 'PENDING_INITIAL_LOGIN') {
+                 await supabase.from('profiles').update({ device_ip: currentIP }).eq('username', 'Optimus');
+                 localStorage.setItem('chat_user', 'Optimus');
+                 window.location.reload();
+            } else {
+                 alert("Name reserved."); return;
+            }
+        }
 
         const { error } = await supabase.from('profiles').insert([{ username: user, device_ip: currentIP }]);
         if (error) { alert("Username or IP already taken."); } 
@@ -369,10 +384,8 @@
         const { data } = await supabase.from('profiles').select('*').eq('username', currentUser).single();
         if (data) {
             if (data.is_muted) isMuted = true;
-            if (data.username === 'Optimus' && (data.device_ip === currentIP || data.device_ip === 'PENDING_INITIAL_LOGIN')) {
-                if (data.device_ip === 'PENDING_INITIAL_LOGIN') {
-                    await supabase.from('profiles').update({ device_ip: currentIP }).eq('username', 'Optimus');
-                }
+            // Admin Check: Verify Username is Optimus and IP matches current device
+            if (data.username === 'Optimus' && data.device_ip === currentIP) {
                 document.getElementById('adminPanel').classList.remove('d-none');
             }
         }
@@ -444,7 +457,7 @@
 
     async function updateOnlineCount() {
         const { count } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
-        document.getElementById('onlineCount').innerText = count + Math.floor(Math.random() * 10); // Subtle "live" feel
+        document.getElementById('onlineCount').innerText = count + Math.floor(Math.random() * 10);
     }
 
     document.getElementById('toggleEmotes').onclick = () => {
