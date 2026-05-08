@@ -14,8 +14,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
@@ -252,7 +252,7 @@
                 <!-- ADMIN PANEL SIDEBAR -->
                 <div id="chatAdminSidebar">
                     <h6 class="text-white mb-3">Admin Panel</h6>
-                    <button id="toggleGlobalMute" class="btn btn-outline-danger admin-btn" onclick="toggleMuteChat()">MUTE CHAT</button>
+                    <button id="toggleGlobalMute" class="btn btn-outline-danger admin-btn">MUTE EVENT</button>
                     <button class="btn btn-outline-warning admin-btn" onclick="clearChat()">CLEAR CHAT</button>
                     
                     <div style="background:#070912; border:1px solid #1a1f3d; padding:10px; border-radius:8px; margin-bottom:15px;">
@@ -261,7 +261,7 @@
                         <button class="btn btn-primary btn-sm w-100" onclick="sendAnnouncement()">SEND & PIN</button>
                     </div>
 
-                    <p style="font-size:10px; color:#555; margin-bottom:5px;">ONLINE MEMBERS</p>
+                    <input type="text" id="memberSearch" class="form-control form-control-sm mb-2" placeholder="Search members...">
                     <div id="memberList" style="flex:1; overflow-y:auto; border-top:1px solid #1a1f3d;"></div>
                 </div>
 
@@ -274,7 +274,6 @@
                    </div>
                 </div>
 
-                <!-- MESSAGES -->
                 <div id="futbolx-chat-messages" style="flex:1; overflow-y:auto; padding:15px; background:#080a14; display:flex; flex-direction:column; gap:10px;"></div>
 
                 <div id="replyPreview" class="d-none" style="background:#1a1f3d; padding:8px 15px; color:#888; font-size:12px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #152bff;">
@@ -346,7 +345,7 @@
             const res = await fetch('https://api.ipify.org?format=json');
             const data = await res.json();
             currentIP = data.ip;
-        } catch (e) { currentIP = "unknown"; }
+        } catch(e) { console.error("IP check failed"); }
 
         if (currentUser) {
             document.getElementById('regStep1').classList.add('d-none');
@@ -362,27 +361,23 @@
     }
 
     window.registerUser = async () => {
-        const userInput = document.getElementById('regUsername').value.trim();
-        if (!userInput) return;
+        const user = document.getElementById('regUsername').value.trim();
+        if (!user) return;
         
-        // Normalize the name Futbolx
-        const finalName = userInput.toLowerCase() === 'futbolx' ? 'Futbolx' : userInput;
-
-        // Check IP account limit (exclude owner)
         const { data: existing } = await supabase.from('profiles').select('username').eq('device_ip', currentIP);
-        if (existing && existing.length >= 3 && finalName !== 'Futbolx') {
+        if (existing && existing.length >= 3 && user.toLowerCase() !== 'futbolx') {
             alert("Limit reached: 3 accounts per IP.");
             return;
         }
 
+        const isFutbolx = user.toLowerCase() === 'futbolx';
         const { error } = await supabase.from('profiles').upsert([
-            { username: finalName, device_ip: currentIP, is_owner: finalName === 'Futbolx' }
+            { username: isFutbolx ? 'Futbolx' : user, device_ip: currentIP, is_owner: isFutbolx }
         ], { onConflict: 'username' });
 
-        if (error) {
-            alert("Username taken or database error.");
-        } else {
-            localStorage.setItem('chat_user', finalName);
+        if (error) { alert("Username taken."); } 
+        else {
+            localStorage.setItem('chat_user', isFutbolx ? 'Futbolx' : user);
             location.reload();
         }
     };
@@ -404,12 +399,11 @@
     }
 
     function setupPresence() {
-        const channel = supabase.channel(`presence_${eventID}`, { config: { presence: { key: currentUser || 'guest' } } });
+        const channel = supabase.channel(`room_${eventID}`, { config: { presence: { key: currentUser || 'guest' } } });
         channel.on('presence', { event: 'sync' }, () => {
             const state = channel.presenceState();
-            const keys = Object.keys(state);
-            document.getElementById('onlineCount').innerText = keys.length;
-            renderMemberList(keys);
+            document.getElementById('onlineCount').innerText = Object.keys(state).length;
+            renderMemberList(Object.keys(state));
         }).subscribe(async (s) => { 
             if (s === 'SUBSCRIBED' && currentUser) await channel.track({ online_at: new Date().toISOString() }); 
         });
@@ -419,7 +413,7 @@
         const grid = document.getElementById('emoteGrid');
         emotes.forEach(e => {
             const b = document.createElement('button');
-            b.style.cssText = "background:none; border:none; cursor:pointer;";
+            b.style.cssText = "background:none; border:none; cursor:pointer; padding:5px;";
             b.innerHTML = `<img src="${e.url}" style="width:30px;">`;
             b.onclick = () => { document.getElementById('chatInput').value += ` :${e.name}: `; };
             grid.appendChild(b);
@@ -428,17 +422,14 @@
 
     async function loadMessages() {
         const { data } = await supabase.from('messages').select('*').eq('event_id', eventID).order('created_at', { ascending: true }).limit(50);
-        if (data) {
-            document.getElementById('futbolx-chat-messages').innerHTML = '';
-            data.forEach(renderMsg);
-        }
+        if (data) data.forEach(renderMsg);
     }
 
     function renderMsg(msg) {
         const box = document.getElementById('futbolx-chat-messages');
         const div = document.createElement('div');
         div.className = "msg-item";
-        div.setAttribute('data-id', msg.id);
+        div.id = `msg-${msg.id}`;
         
         let content = msg.message;
         emotes.forEach(e => { content = content.replace(new RegExp(`:${e.name}:`, 'g'), `<img src="${e.url}" class="chat-msg-emote">`); });
@@ -454,22 +445,28 @@
             nameTag = `<span style="font-weight:700; color:#22d3ee;">${msg.username}</span>`;
         }
 
-        const actions = (isOwner || msg.username === currentUser) ? `
+        const actions = (isOwner) ? `
             <span class="msg-actions">
-                <i class="fas fa-trash text-danger" onclick="deleteMsg('${msg.id}')"></i>
-                ${isOwner && msg.username !== 'Futbolx' ? `<i class="fas fa-microphone-slash text-warning" onclick="muteUser('${msg.username}')"></i>` : ''}
+                <i class="fas fa-trash text-danger" onclick="event.stopPropagation(); deleteMsg('${msg.id}')"></i>
             </span>
         ` : '';
 
         div.innerHTML = `${replyHTML}${nameTag}: <span style="color:#eee;">${content}</span>${actions}`;
-        div.onclick = (e) => { if(!e.target.classList.contains('fas')) setReply(msg.username, msg.message); };
+        div.onclick = () => setReply(msg.username, msg.message);
         box.appendChild(div);
         box.scrollTop = box.scrollHeight;
     }
 
+    window.deleteMsg = async (id) => {
+        if(!isOwner) return;
+        await supabase.from('messages').delete().eq('id', id);
+        const el = document.getElementById(`msg-${id}`);
+        if(el) el.remove();
+    };
+
     document.getElementById('sendChatBtn').onclick = async () => {
         const text = document.getElementById('chatInput').value.trim();
-        if (!text || isMuted) return;
+        if (!text || isMuted || !currentUser) return;
         
         await supabase.from('messages').insert([{
             username: currentUser,
@@ -487,7 +484,7 @@
     
     window.sendAnnouncement = async () => {
         const text = document.getElementById('announceMsg').value;
-        if (!text || !isOwner) return;
+        if (!text) return;
         await supabase.from('messages').insert([{
             username: 'System', message: text, event_id: eventID, is_announcement: true
         }]);
@@ -495,20 +492,9 @@
     };
 
     window.clearChat = async () => {
-        if (!isOwner) return;
-        if(confirm("Clear all messages for this event?")) {
-            await supabase.from('messages').delete().eq('event_id', eventID);
-        }
-    };
-
-    window.deleteMsg = async (id) => {
-        await supabase.from('messages').delete().eq('id', id);
-    };
-
-    window.muteUser = async (targetUser) => {
-        if (!isOwner) return;
-        await supabase.from('profiles').update({ is_muted: true }).eq('username', targetUser);
-        alert(`${targetUser} has been muted.`);
+        if(!confirm("Clear all messages?")) return;
+        await supabase.from('messages').delete().eq('event_id', eventID);
+        document.getElementById('futbolx-chat-messages').innerHTML = "";
     };
 
     function setReply(user, msg) {
@@ -523,14 +509,13 @@
     };
 
     function setupRealtime() {
-        supabase.channel('chat_updates').on('postgres_changes', { event: '*', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, payload => {
-            if (payload.eventType === 'INSERT') renderMsg(payload.new);
-            if (payload.eventType === 'DELETE') {
-                const el = document.querySelector(`[data-id="${payload.old.id}"]`);
-                if (el) el.remove();
-                else loadMessages(); // Refresh if mass delete
-            }
-        }).subscribe();
+        supabase.channel('chat_updates')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => renderMsg(p.new))
+        .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages' }, p => {
+            const el = document.getElementById(`msg-${p.old.id}`);
+            if(el) el.remove();
+        })
+        .subscribe();
     }
 
     function renderMemberList(users) {
@@ -551,7 +536,7 @@
   </script>
 
   <script>
-    // --- START OF YOUR ORIGINAL VIDEO & UI SCRIPT ---
+    // General stream and UI logic
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
     
@@ -728,7 +713,6 @@
         showJoin = !showJoin;
       }, 10000);
     });
-    // --- END OF YOUR ORIGINAL VIDEO & UI SCRIPT ---
   </script>
 </body>
 </html>
