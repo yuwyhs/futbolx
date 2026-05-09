@@ -78,7 +78,7 @@
     
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-    /* Chat CSS */
+    /* Chat Rules */
     .chat-rules {
       text-align: center;
       font-size: 0.85rem;
@@ -99,6 +99,13 @@
       50% { transform: scale(1.05); text-shadow: 0 0 25px #ff4d4d, 0 0 40px #ff0000; }
       100% { transform: scale(1); }
     }
+
+    .bot-name {
+      font-weight: 700; color: #facc15;
+      text-shadow: 0 0 10px #eab308;
+      animation: sparkle 2s infinite;
+    }
+    @keyframes sparkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
     #chatAdminSidebar {
       position: absolute; top: 70px; right: -280px; width: 280px; height: calc(100% - 70px);
@@ -121,12 +128,16 @@
     #futbolx-chat-messages::-webkit-scrollbar-thumb { background: #1a1f3d; border-radius: 10px; }
     .chat-msg-emote { width: 28px; height: 28px; vertical-align: middle; margin: 0 2px; }
 
-    #chatRegOverlay {
-      position: absolute; top:0; left:0; width:100%; height:100%;
-      background: rgba(7, 9, 18, 0.95); backdrop-filter: blur(15px);
-      z-index: 1050; display: flex; align-items: center; justify-content: center; padding: 20px;
+    #statusArea {
+      text-align: center; padding: 30px 15px;
+      background: rgba(30,30,30,0.7); border-radius: 12px;
+      margin: 25px auto; max-width: 720px;
     }
-    .reg-card { text-align: center; max-width: 280px; }
+    #eventTitle { font-size: 2.4rem; margin-bottom: 1rem; color: #ff4d4d; }
+    .countdown-display { font-size: 4rem; font-weight: bold; color: #ff4d4d; letter-spacing: 5px; margin: 20px 0; text-shadow: 0 0 20px rgba(255,77,77,0.5); }
+    .permanent-noti { margin-top: 12px; background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; transition: opacity 0.6s ease-in; }
+    .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 1200px; margin-left: auto; margin-right: auto; }
+    [data-bs-theme="dark"] .disclaimer { color: #aaa; background: rgba(0,0,0,0.3); border-top-color: #444; }
   </style>
 </head>
 <body>
@@ -430,14 +441,18 @@
 
         let replyHTML = msg.reply_to_username ? `<div class="reply-bubble">@${msg.reply_to_username}: ${msg.reply_to_msg.substring(0, 30)}...</div>` : '';
         
-        let nameTag = msg.username === 'Futbolx' 
-          ? `<span class="owner-name">Futbolx</span>` 
-          : `<span style="font-weight:700; color:#22d3ee;">${msg.username}</span>`;
+        let nameTag = "";
+        if (msg.username === 'Futbolx') {
+            nameTag = `<span class="owner-name">Futbolx</span>`;
+        } else {
+            nameTag = `<span style="font-weight:700; color:#22d3ee;">${msg.username}</span>`;
+        }
 
         const actions = (isOwner || msg.username === currentUser) ? `
             <span class="msg-actions">
                 <i class="fas fa-trash text-danger" onclick="deleteMsg('${msg.id}')"></i>
-            </span>` : '';
+            </span>
+        ` : '';
 
         div.innerHTML = `${replyHTML}${nameTag}: <span style="color:#eee;">${content}</span>${actions}`;
         div.onclick = () => setReply(msg.username, msg.message);
@@ -693,4 +708,4 @@
     });
   </script>
 </body>
-                                               </html>
+</html>
