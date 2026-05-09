@@ -226,15 +226,6 @@
             <div class="col-12 col-lg-4">
               <div style="width:100%; height:640px; background:#070912; border:1px solid #151933; border-radius:24px; overflow:hidden; display:flex; flex-direction:column; position:relative;">
                 
-                <!-- REGISTRATION OVERLAY -->
-                <div id="chatRegOverlay">
-                  <div class="reg-card text-center">
-                    <h4>Join Chat</h4>
-                    <p style="font-size:13px; color:#888;">You can watch the chat live without an account</p>
-                    <button onclick="enterChat()" class="btn btn-danger w-100" style="padding:15px; font-weight:800;">ENTER CHAT</button>
-                  </div>
-                </div>
-
                 <!-- ADMIN SIDEBAR TOGGLE -->
                 <i class="fas fa-bars sidebar-toggle d-none" id="adminSidebarBtn" onclick="toggleSidebar()"></i>
 
@@ -331,15 +322,12 @@
     let isOwner = false;
     let replyTo = null;
     let hasEnteredChat = false;
-    let mutedUsers = new Set();
+    let mutedUsers = new Set();   // Admin muted users
 
     async function init() {
         const res = await fetch('https://api.ipify.org?format=json');
         const data = await res.json();
         currentIP = data.ip;
-
-        hasEnteredChat = localStorage.getItem(`entered_${eventID}`) === 'true';
-        if (hasEnteredChat) document.getElementById('chatRegOverlay').style.display = 'none';
 
         if (currentUser) await checkAccess();
 
@@ -350,12 +338,6 @@
         updateInputUI();
         loadAllMembers();
     }
-
-    window.enterChat = () => {
-        document.getElementById('chatRegOverlay').style.display = 'none';
-        localStorage.setItem(`entered_${eventID}`, 'true');
-        hasEnteredChat = true;
-    };
 
     window.registerGuestUser = async () => {
         const user = document.getElementById('guestUsername').value.trim();
@@ -389,16 +371,24 @@
 
     function updateInputUI() {
       const input = document.getElementById('chatInput');
+      const registerRow = document.getElementById('usernameRegisterRow');
+      
       if (!currentUser) {
-        document.getElementById('usernameRegisterRow').classList.remove('d-none');
+        registerRow.classList.remove('d-none');
         input.style.display = 'none';
         document.getElementById('sendChatBtn').style.display = 'none';
       } else if (mutedUsers.has(currentUser)) {
         input.placeholder = "You have been muted. Contact admin on Discord or Telegram.";
         input.disabled = true;
+        registerRow.classList.add('d-none');
+        input.style.display = 'block';
+        document.getElementById('sendChatBtn').style.display = 'block';
       } else {
         input.placeholder = "Type here...";
         input.disabled = false;
+        registerRow.classList.add('d-none');
+        input.style.display = 'block';
+        document.getElementById('sendChatBtn').style.display = 'block';
       }
     }
 
@@ -489,6 +479,8 @@
 
     document.getElementById('sendChatBtn').onclick = async () => {
         if (!currentUser) return;
+        if (mutedUsers.has(currentUser)) return alert("You are muted.");
+
         const text = document.getElementById('chatInput').value.trim();
         if (!text) return;
         
@@ -711,4 +703,4 @@
     });
   </script>
 </body>
-                      </html>
+</html>
