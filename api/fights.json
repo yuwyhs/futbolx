@@ -6,32 +6,32 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "UFC Fight Night: Sterling vs Zalal",
-          "uri_name": "b9x2w8v1",
-          "poster": "https://i.postimg.cc/SNKFrvyQ/61b473e48d4f520777df5621e025abc8-thumbnail.jpg",
-          "tag": "UFC",
-          "starts_at": "2026-04-26T00:00:00",
-          "ends_at": "2026-04-26T07:00:00",
+          "name": "Wardley vs Dubois",
+          "uri_name": "w4d8y1v2",
+          "poster": "https://i.postimg.cc/ncsTDqN0/1778323247023.png",
+          "tag": "Boxing",
+          "starts_at": "2026-05-09T20:00:00",
+          "ends_at": "2026-05-09T23:50:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://pooembed.eu/embed/ufc-fight-night-sterling-vs.-zalal"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Jarrell Miller vs Lenier Pero",
-          "uri_name": "q7m3n4p0",
-          "poster": "https://i.postimg.cc/sgZLHFqH/20376611130956c6ffafc045be83d906-thumbnail.jpg",
-          "tag": "PPV",
-          "starts_at": "2026-04-26T03:00:00",
-          "ends_at": "2026-04-26T07:00:00",
+          "name": "UFC 328: Chimaev vs Strickland",
+          "uri_name": "u3c2s8x1",
+          "poster": "https://i.postimg.cc/BZ7Mbm78/65c5acb9006e4336a9d897500bb8ad6b-thumbnail.jpg",
+          "tag": "Ufc",
+          "starts_at": "2026-05-10T00:00:00",
+          "ends_at": "2026-05-10T07:00:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://pooembed.eu/embed/jarrell-miller-vs.-lenier-pero"
+              "url": ""
             }
           ]
         }
