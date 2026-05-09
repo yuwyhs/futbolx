@@ -100,13 +100,6 @@
       100% { transform: scale(1); }
     }
 
-    .bot-name {
-      font-weight: 700; color: #facc15;
-      text-shadow: 0 0 10px #eab308;
-      animation: sparkle 2s infinite;
-    }
-    @keyframes sparkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-
     #chatAdminSidebar {
       position: absolute; top: 70px; right: -280px; width: 280px; height: calc(100% - 70px);
       background: #0a0d1c; border-left: 2px solid #1a1f3d; z-index: 1100;
@@ -248,7 +241,6 @@
                 <!-- ADMIN PANEL SIDEBAR -->
                 <div id="chatAdminSidebar">
                     <h6 class="text-white mb-3">Admin Panel</h6>
-                    <button id="toggleGlobalMute" class="btn btn-outline-danger admin-btn">MUTE EVENT</button>
                     <button class="btn btn-outline-warning admin-btn" onclick="clearChat()">CLEAR CHAT</button>
                     
                     <input type="text" id="memberSearch" class="form-control form-control-sm mb-2" placeholder="Search members...">
@@ -339,7 +331,6 @@
     let currentIP = "";
     let isOwner = false;
     let replyTo = null;
-    let isMuted = false;
     let hasEnteredChat = false;
 
     async function init() {
@@ -357,6 +348,7 @@
         setupRealtime();
         setupPresence();
         updateInputUI();
+        loadAllMembers();
     }
 
     window.enterChat = () => {
@@ -389,12 +381,9 @@
 
     async function checkAccess() {
         const { data } = await supabase.from('profiles').select('*').eq('username', currentUser).single();
-        if (data) {
-            isMuted = data.is_muted;
-            if (data.is_owner) {
-                isOwner = true;
-                document.getElementById('adminSidebarBtn').classList.remove('d-none');
-            }
+        if (data && data.is_owner) {
+            isOwner = true;
+            document.getElementById('adminSidebarBtn').classList.remove('d-none');
         }
     }
 
@@ -411,9 +400,30 @@
         channel.on('presence', { event: 'sync' }, () => {
             const state = channel.presenceState();
             document.getElementById('onlineCount').innerText = Object.keys(state).length;
-            renderMemberList(Object.keys(state));
         }).subscribe(async (s) => { if (s === 'SUBSCRIBED' && currentUser) await channel.track({ online_at: new Date().toISOString() }); });
     }
+
+    async function loadAllMembers() {
+        const { data } = await supabase.from('profiles').select('*');
+        if (!data) return;
+
+        const list = document.getElementById('memberList');
+        list.innerHTML = `<div style="padding:8px 5px; font-weight:700; color:#ff4d4d;">OWNER</div>`;
+
+        data.forEach(u => {
+            const color = u.is_owner ? '#ff4d4d' : '#22d3ee';
+            list.innerHTML += `
+                <div style="padding:8px 5px; border-bottom:1px solid #1a1f3d; cursor:pointer;" onclick="selectMember('${u.username}')">
+                    <span style="color:#4ade80;">●</span> 
+                    <span style="color:${color}">${u.username}</span>
+                </div>`;
+        });
+    }
+
+    window.selectMember = (username) => {
+        if (!isOwner) return;
+        alert(`Selected: ${username}\n\nMute/Unmute options coming in next update.`);
+    };
 
     function loadEmotes() {
         const grid = document.getElementById('emoteGrid');
@@ -427,8 +437,11 @@
     }
 
     async function loadMessages() {
-        const { data } = await supabase.from('messages').select('*').eq('event_id', eventID).order('created_at', { ascending: true }).limit(50);
-        if (data) data.forEach(renderMsg);
+        const { data } = await supabase.from('messages').select('*').eq('event_id', eventID).order('created_at', { ascending: true }).limit(100);
+        if (data) {
+            document.getElementById('futbolx-chat-messages').innerHTML = '';
+            data.forEach(renderMsg);
+        }
     }
 
     function renderMsg(msg) {
@@ -436,23 +449,19 @@
         const div = document.createElement('div');
         div.className = "msg-item";
         
-        let content = msg.message;
+        let content = msg.message || "";
         emotes.forEach(e => { content = content.replace(new RegExp(`:${e.name}:`, 'g'), `<img src="${e.url}" class="chat-msg-emote">`); });
 
-        let replyHTML = msg.reply_to_username ? `<div class="reply-bubble">@${msg.reply_to_username}: ${msg.reply_to_msg.substring(0, 30)}...</div>` : '';
+        let replyHTML = msg.reply_to_username ? `<div class="reply-bubble">@${msg.reply_to_username}: ${msg.reply_to_msg?.substring(0,30)}...</div>` : '';
         
-        let nameTag = "";
-        if (msg.username === 'Futbolx') {
-            nameTag = `<span class="owner-name">Futbolx</span>`;
-        } else {
-            nameTag = `<span style="font-weight:700; color:#22d3ee;">${msg.username}</span>`;
-        }
+        let nameTag = msg.username === 'Futbolx' 
+          ? `<span class="owner-name">Futbolx</span>` 
+          : `<span style="font-weight:700; color:#22d3ee;">${msg.username}</span>`;
 
         const actions = (isOwner || msg.username === currentUser) ? `
             <span class="msg-actions">
                 <i class="fas fa-trash text-danger" onclick="deleteMsg('${msg.id}')"></i>
-            </span>
-        ` : '';
+            </span>` : '';
 
         div.innerHTML = `${replyHTML}${nameTag}: <span style="color:#eee;">${content}</span>${actions}`;
         div.onclick = () => setReply(msg.username, msg.message);
@@ -463,7 +472,7 @@
     document.getElementById('sendChatBtn').onclick = async () => {
         if (!currentUser) return;
         const text = document.getElementById('chatInput').value.trim();
-        if (!text || isMuted) return;
+        if (!text) return;
         
         await supabase.from('messages').insert([{
             username: currentUser,
@@ -509,15 +518,6 @@
           .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => renderMsg(p.new))
           .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, () => loadMessages())
           .subscribe();
-    }
-
-    function renderMemberList(users) {
-        const list = document.getElementById('memberList');
-        list.innerHTML = users.map(u => `
-            <div style="padding:5px; border-bottom:1px solid #151933; font-size:12px;">
-                <span style="color:#4ade80;">●</span> <span style="color:${u==='Futbolx'?'#ff4d4d':'#22d3ee'}">${u}</span>
-            </div>
-        `).join('');
     }
 
     document.getElementById('toggleEmotes').onclick = () => {
