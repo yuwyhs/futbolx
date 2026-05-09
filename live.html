@@ -646,10 +646,10 @@
       fakeLayer.style.display = 'flex';
       clicksFakePlayer = 0;
       fakeLayer.onclick = () => {
-        if (clicksFakePlayer < 2) {
+        if (clicksFakePlayer < 1) {
           window.open('https://omg10.com/4/10978166', '_blank');
           clicksFakePlayer++;
-          if (clicksFakePlayer === 2) { fakeLayer.style.display = 'none'; initActualPlayer(url, useJW); }
+          if (clicksFakePlayer === 1) { fakeLayer.style.display = 'none'; initActualPlayer(url, useJW); }
         }
       };
     }
@@ -681,9 +681,7 @@
       container.onclick = (e) => {
         const btn = e.target.closest('.btn-stream');
         if (!btn) return;
-        if (clicksSwitch < 1) { window.open(AD_URLS[clicksSwitch], '_blank'); clicksSwitch++; return; }
         const realUrl = atob(atob(btn.dataset.p).split('||')[0]);
-        clicksSwitch = 0;
         playStream(realUrl);
         document.getElementById('currentStreamName').textContent = btn.textContent.trim();
         container.querySelectorAll('.btn-stream').forEach(b => b.classList.remove('active'));
