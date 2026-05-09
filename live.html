@@ -78,7 +78,7 @@
     
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-    /* Chat Rules */
+    /* --- CHAT CSS --- */
     .chat-rules {
       text-align: center;
       font-size: 0.85rem;
@@ -100,15 +100,8 @@
       100% { transform: scale(1); }
     }
 
-    .bot-name {
-      font-weight: 700; color: #facc15;
-      text-shadow: 0 0 10px #eab308;
-      animation: sparkle 2s infinite;
-    }
-    @keyframes sparkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-
     #chatAdminSidebar {
-      position: absolute; top: 0; right: -280px; width: 280px; height: 100%;
+      position: absolute; top: 70px; right: -280px; width: 280px; height: calc(100% - 70px);
       background: #0a0d1c; border-left: 2px solid #1a1f3d; z-index: 1100;
       transition: 0.3s ease; display: flex; flex-direction: column; padding: 15px;
     }
@@ -128,16 +121,12 @@
     #futbolx-chat-messages::-webkit-scrollbar-thumb { background: #1a1f3d; border-radius: 10px; }
     .chat-msg-emote { width: 28px; height: 28px; vertical-align: middle; margin: 0 2px; }
 
-    #statusArea {
-      text-align: center; padding: 30px 15px;
-      background: rgba(30,30,30,0.7); border-radius: 12px;
-      margin: 25px auto; max-width: 720px;
+    #chatRegOverlay {
+      position: absolute; top:0; left:0; width:100%; height:100%;
+      background: rgba(7, 9, 18, 0.95); backdrop-filter: blur(15px);
+      z-index: 1050; display: flex; align-items: center; justify-content: center; padding: 20px;
     }
-    #eventTitle { font-size: 2.4rem; margin-bottom: 1rem; color: #ff4d4d; }
-    .countdown-display { font-size: 4rem; font-weight: bold; color: #ff4d4d; letter-spacing: 5px; margin: 20px 0; text-shadow: 0 0 20px rgba(255,77,77,0.5); }
-    .permanent-noti { margin-top: 12px; background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; transition: opacity 0.6s ease-in; }
-    .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 1200px; margin-left: auto; margin-right: auto; }
-    [data-bs-theme="dark"] .disclaimer { color: #aaa; background: rgba(0,0,0,0.3); border-top-color: #444; }
+    .reg-card { text-align: center; max-width: 280px; }
   </style>
 </head>
 <body>
@@ -233,7 +222,7 @@
             <div class="col-12 col-lg-4">
               <div style="width:100%; height:640px; background:#070912; border:1px solid #151933; border-radius:24px; overflow:hidden; display:flex; flex-direction:column; position:relative;">
                 
-                <!-- REGISTRATION OVERLAY - Simplified -->
+                <!-- REGISTRATION OVERLAY -->
                 <div id="chatRegOverlay">
                   <div class="reg-card text-center">
                     <h4>Join Chat</h4>
@@ -251,12 +240,6 @@
                     <button id="toggleGlobalMute" class="btn btn-outline-danger admin-btn">MUTE EVENT</button>
                     <button class="btn btn-outline-warning admin-btn" onclick="clearChat()">CLEAR CHAT</button>
                     
-                    <div style="background:#070912; border:1px solid #1a1f3d; padding:10px; border-radius:8px; margin-bottom:15px;">
-                        <p style="font-size:10px; color:#555; margin-bottom:5px;">ANNOUNCEMENT</p>
-                        <textarea id="announceMsg" class="form-control mb-2" style="font-size:11px; background:#0b1020; color:white; height:50px;"></textarea>
-                        <button class="btn btn-primary btn-sm w-100" onclick="sendAnnouncement()">SEND & PIN</button>
-                    </div>
-
                     <input type="text" id="memberSearch" class="form-control form-control-sm mb-2" placeholder="Search members...">
                     <div id="memberList" style="flex:1; overflow-y:auto; border-top:1px solid #1a1f3d;"></div>
                 </div>
@@ -270,7 +253,6 @@
                    </div>
                 </div>
 
-                <!-- Rules Text -->
                 <div class="chat-rules">
                   be respectful • no spam • enjoy the streams
                 </div>
@@ -355,14 +337,10 @@
         currentIP = data.ip;
 
         hasEnteredChat = localStorage.getItem(`entered_${eventID}`) === 'true';
-        if (hasEnteredChat) {
-          document.getElementById('chatRegOverlay').style.display = 'none';
-        }
+        if (hasEnteredChat) document.getElementById('chatRegOverlay').style.display = 'none';
 
-        if (currentUser) {
-            await checkAccess();
-        }
-        
+        if (currentUser) await checkAccess();
+
         loadEmotes();
         loadMessages();
         setupRealtime();
@@ -452,20 +430,14 @@
 
         let replyHTML = msg.reply_to_username ? `<div class="reply-bubble">@${msg.reply_to_username}: ${msg.reply_to_msg.substring(0, 30)}...</div>` : '';
         
-        let nameTag = "";
-        if (msg.username === 'Futbolx') {
-            nameTag = `<span class="owner-name">Futbolx</span>`;
-        } else if (msg.is_announcement) {
-            nameTag = `<span class="bot-name">FutbolX Bot</span><i class="fas fa-wrench ms-1" style="color:#facc15; font-size:10px;"></i>`;
-        } else {
-            nameTag = `<span style="font-weight:700; color:#22d3ee;">${msg.username}</span>`;
-        }
+        let nameTag = msg.username === 'Futbolx' 
+          ? `<span class="owner-name">Futbolx</span>` 
+          : `<span style="font-weight:700; color:#22d3ee;">${msg.username}</span>`;
 
         const actions = (isOwner || msg.username === currentUser) ? `
             <span class="msg-actions">
                 <i class="fas fa-trash text-danger" onclick="deleteMsg('${msg.id}')"></i>
-            </span>
-        ` : '';
+            </span>` : '';
 
         div.innerHTML = `${replyHTML}${nameTag}: <span style="color:#eee;">${content}</span>${actions}`;
         div.onclick = () => setReply(msg.username, msg.message);
@@ -498,19 +470,6 @@
         }
     };
 
-    window.sendAnnouncement = async () => {
-        if (!isOwner) return;
-        const text = document.getElementById('announceMsg').value.trim();
-        if (!text) return;
-        await supabase.from('messages').insert([{
-            username: 'FutbolX Bot', 
-            message: text, 
-            event_id: eventID, 
-            is_announcement: true
-        }]);
-        document.getElementById('announceMsg').value = "";
-    };
-
     window.deleteMsg = async (id) => {
         if (isOwner) {
           await supabase.from('messages').delete().eq('id', id);
@@ -531,7 +490,14 @@
     window.toggleSidebar = () => document.getElementById('chatAdminSidebar').classList.toggle('active');
 
     function setupRealtime() {
-        supabase.channel('chat_updates').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => renderMsg(p.new)).subscribe();
+        supabase.channel('chat_updates')
+          .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => renderMsg(p.new))
+          .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => {
+            document.querySelectorAll('.msg-item').forEach(el => {
+              if (el.innerHTML.includes(p.old?.id)) el.remove();
+            });
+          })
+          .subscribe();
     }
 
     function renderMemberList(users) {
@@ -552,7 +518,7 @@
   </script>
 
   <script>
-    // General stream and UI logic
+    // General stream and UI logic (unchanged - full original code)
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
     
