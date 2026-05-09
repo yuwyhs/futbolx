@@ -78,15 +78,16 @@
     
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-    /* --- ENHANCED CHAT CSS --- */
-    #chatRegOverlay {
-      position: absolute; top:0; left:0; width:100%; height:100%;
-      background: rgba(7, 9, 18, 0.92); backdrop-filter: blur(10px);
-      z-index: 1050; display: flex; align-items: center; justify-content: center; padding: 20px;
-      transition: opacity 0.3s ease;
+    /* Chat Rules */
+    .chat-rules {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+      padding: 10px 0;
+      background: #0a0d1c;
+      border-bottom: 1px solid #1a1f3d;
     }
-    .reg-card { text-align: center; max-width: 280px; }
-    
+
     .owner-name {
       font-weight: 900; color: #fff;
       text-shadow: 0 0 10px #ff0000, 0 0 20px #ff4d4d;
@@ -107,12 +108,12 @@
     @keyframes sparkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
     #chatAdminSidebar {
-      position: absolute; top: 60px; right: -280px; width: 280px; height: calc(100% - 60px);
+      position: absolute; top: 0; right: -280px; width: 280px; height: 100%;
       background: #0a0d1c; border-left: 2px solid #1a1f3d; z-index: 1100;
       transition: 0.3s ease; display: flex; flex-direction: column; padding: 15px;
     }
     #chatAdminSidebar.active { right: 0; }
-    .sidebar-toggle { position: absolute; top: 75px; right: 20px; cursor: pointer; color: #555; font-size: 18px; z-index: 1101; }
+    .sidebar-toggle { position: absolute; top: 68px; right: 20px; cursor: pointer; color: #555; font-size: 18px; z-index: 1101; }
     .admin-btn { width: 100%; margin-bottom: 10px; font-weight: 600; font-size: 11px; }
 
     .reply-bubble {
@@ -126,8 +127,6 @@
     #futbolx-chat-messages::-webkit-scrollbar { width: 4px; }
     #futbolx-chat-messages::-webkit-scrollbar-thumb { background: #1a1f3d; border-radius: 10px; }
     .chat-msg-emote { width: 28px; height: 28px; vertical-align: middle; margin: 0 2px; }
-
-    #pinnedNotice { background: #1a1f3d; border-bottom: 1px solid #152bff; padding: 8px 15px; font-size: 12px; color: #4ade80; display: none; align-items: center; gap: 8px; }
 
     #statusArea {
       text-align: center; padding: 30px 15px;
@@ -231,25 +230,25 @@
               <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
             </div>
 
-            <!-- CHAT COLUMN -->
             <div class="col-12 col-lg-4">
               <div style="width:100%; height:640px; background:#070912; border:1px solid #151933; border-radius:24px; overflow:hidden; display:flex; flex-direction:column; position:relative;">
                 
-                <!-- PUBLIC OVERLAY: ENTER CHAT -->
+                <!-- REGISTRATION OVERLAY - Simplified -->
                 <div id="chatRegOverlay">
-                  <div class="reg-card">
-                    <p class="text-danger mb-1" style="font-weight:700; font-size: 11px;">be respectful • no spam • enjoy the streams</p>
-                    <button onclick="enterChat()" class="btn btn-danger w-100" style="padding:12px; font-weight:800;">ENTER CHAT</button>
+                  <div class="reg-card text-center">
+                    <h4>Join Chat</h4>
+                    <p style="font-size:13px; color:#888;">You can watch the chat live without an account</p>
+                    <button onclick="enterChat()" class="btn btn-danger w-100" style="padding:15px; font-weight:800;">ENTER CHAT</button>
                   </div>
                 </div>
 
-                <!-- ADMIN SIDEBAR TOGGLE (FIXED POSITION) -->
+                <!-- ADMIN SIDEBAR TOGGLE -->
                 <i class="fas fa-bars sidebar-toggle d-none" id="adminSidebarBtn" onclick="toggleSidebar()"></i>
 
                 <!-- ADMIN PANEL SIDEBAR -->
                 <div id="chatAdminSidebar">
                     <h6 class="text-white mb-3">Admin Panel</h6>
-                    <button id="toggleGlobalMute" class="btn btn-outline-danger admin-btn" onclick="muteEvent()">MUTE EVENT</button>
+                    <button id="toggleGlobalMute" class="btn btn-outline-danger admin-btn">MUTE EVENT</button>
                     <button class="btn btn-outline-warning admin-btn" onclick="clearChat()">CLEAR CHAT</button>
                     
                     <div style="background:#070912; border:1px solid #1a1f3d; padding:10px; border-radius:8px; margin-bottom:15px;">
@@ -257,6 +256,9 @@
                         <textarea id="announceMsg" class="form-control mb-2" style="font-size:11px; background:#0b1020; color:white; height:50px;"></textarea>
                         <button class="btn btn-primary btn-sm w-100" onclick="sendAnnouncement()">SEND & PIN</button>
                     </div>
+
+                    <input type="text" id="memberSearch" class="form-control form-control-sm mb-2" placeholder="Search members...">
+                    <div id="memberList" style="flex:1; overflow-y:auto; border-top:1px solid #1a1f3d;"></div>
                 </div>
 
                 <div style="padding:16px 20px; background:#0a0d1c; border-bottom:1px solid #1a1f3d;">
@@ -268,13 +270,11 @@
                    </div>
                 </div>
 
-                <!-- PINNED MESSAGE AREA -->
-                <div id="pinnedNotice">
-                    <i class="fas fa-thumbtack"></i>
-                    <span id="pinnedText"></span>
+                <!-- Rules Text -->
+                <div class="chat-rules">
+                  be respectful • no spam • enjoy the streams
                 </div>
 
-                <!-- CHAT MESSAGES -->
                 <div id="futbolx-chat-messages" style="flex:1; overflow-y:auto; padding:15px; background:#080a14; display:flex; flex-direction:column; gap:10px;"></div>
 
                 <div id="replyPreview" class="d-none" style="background:#1a1f3d; padding:8px 15px; color:#888; font-size:12px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #152bff;">
@@ -282,20 +282,17 @@
                     <i class="fas fa-times" onclick="cancelReply()" style="cursor:pointer;"></i>
                 </div>
 
-                <!-- INPUT AREA -->
                 <div id="chatInputArea" style="border-top:1px solid #1a1f3d; padding:16px; background:#070912;">
-                  
-                  <!-- LOGGED IN VIEW -->
-                  <div id="chatControls" class="d-none" style="display:flex; gap:10px; align-items:center;">
+                  <div style="display:flex; gap:10px; align-items:center;">
                     <button id="toggleEmotes" style="background:none; border:none; color:#555; font-size:20px;"><i class="far fa-smile"></i></button>
                     <input id="chatInput" placeholder="Type here..." style="flex:1; background:#0b1020; border:1px solid #1a2142; border-radius:20px; padding:8px 15px; color:white; outline:none; font-size:14px;">
-                    <button id="sendChatBtn" onclick="sendMessage()" style="background:none; border:none; color:#152bff; font-size:20px;"><i class="fas fa-paper-plane"></i></button>
+                    <button id="sendChatBtn" style="background:none; border:none; color:#152bff; font-size:20px;"><i class="fas fa-paper-plane"></i></button>
                   </div>
 
-                  <!-- REGISTER VIEW -->
-                  <div id="regControls" style="display:flex; gap:10px; align-items:center;">
-                    <input type="text" id="regUsername" class="form-control" style="background:#0b1020; border-color:#1a2142; color:white; border-radius:20px; font-size:13px;" placeholder="Pick a username...">
-                    <button onclick="registerUser()" class="btn btn-danger btn-sm" style="border-radius:20px; white-space:nowrap; padding: 5px 15px;">Register</button>
+                  <!-- Guest Username Registration -->
+                  <div id="usernameRegisterRow" class="d-none mt-3">
+                    <input type="text" id="guestUsername" class="form-control mb-2" placeholder="Choose username..." style="background:#0b1020; border-color:#1a2142; color:white;">
+                    <button onclick="registerGuestUser()" class="btn btn-danger w-100">Register & Chat</button>
                   </div>
 
                   <div id="emotePicker" style="display:none; height:150px; overflow-y:auto; margin-top:15px; border-top:1px solid #1a1f3d; padding-top:10px;">
@@ -350,33 +347,38 @@
     let isOwner = false;
     let replyTo = null;
     let isMuted = false;
-    let eventIsMuted = false;
+    let hasEnteredChat = false;
 
     async function init() {
         const res = await fetch('https://api.ipify.org?format=json');
         const data = await res.json();
         currentIP = data.ip;
 
-        if (currentUser) {
-            document.getElementById('regControls').classList.add('d-none');
-            document.getElementById('chatControls').classList.remove('d-none');
-            checkAccess();
+        hasEnteredChat = localStorage.getItem(`entered_${eventID}`) === 'true';
+        if (hasEnteredChat) {
+          document.getElementById('chatRegOverlay').style.display = 'none';
         }
 
-        if (localStorage.getItem(`entered_${eventID}`)) {
-            document.getElementById('chatRegOverlay').style.display = 'none';
+        if (currentUser) {
+            await checkAccess();
         }
         
         loadEmotes();
         loadMessages();
         setupRealtime();
         setupPresence();
-        checkMuteStatus();
+        updateInputUI();
     }
 
-    window.registerUser = async () => {
-        const user = document.getElementById('regUsername').value.trim();
-        if (!user) return;
+    window.enterChat = () => {
+        document.getElementById('chatRegOverlay').style.display = 'none';
+        localStorage.setItem(`entered_${eventID}`, 'true');
+        hasEnteredChat = true;
+    };
+
+    window.registerGuestUser = async () => {
+        const user = document.getElementById('guestUsername').value.trim();
+        if (!user) return alert("Please enter a username");
         
         const { data: existing } = await supabase.from('profiles').select('username').eq('device_ip', currentIP);
         if (existing.length >= 3 && user.toLowerCase() !== 'futbolx') {
@@ -396,12 +398,6 @@
         }
     };
 
-    window.enterChat = () => {
-        document.getElementById('chatRegOverlay').style.opacity = '0';
-        setTimeout(() => document.getElementById('chatRegOverlay').style.display = 'none', 300);
-        localStorage.setItem(`entered_${eventID}`, 'true');
-    };
-
     async function checkAccess() {
         const { data } = await supabase.from('profiles').select('*').eq('username', currentUser).single();
         if (data) {
@@ -413,32 +409,20 @@
         }
     }
 
-    async function checkMuteStatus() {
-        const { data } = await supabase.from('events').select('is_muted').eq('id', eventID).single();
-        if (data) {
-            eventIsMuted = data.is_muted;
-            updateMuteUI();
-        }
+    function updateInputUI() {
+      if (!currentUser) {
+        document.getElementById('usernameRegisterRow').classList.remove('d-none');
+        document.getElementById('chatInput').style.display = 'none';
+        document.getElementById('sendChatBtn').style.display = 'none';
+      }
     }
-
-    function updateMuteUI() {
-        const btn = document.getElementById('toggleGlobalMute');
-        if (btn) btn.innerText = eventIsMuted ? "UNMUTE EVENT" : "MUTE EVENT";
-        const input = document.getElementById('chatInput');
-        if (input) input.placeholder = eventIsMuted ? "Chat is muted for this event" : "Type here...";
-    }
-
-    window.muteEvent = async () => {
-        eventIsMuted = !eventIsMuted;
-        await supabase.from('events').upsert({ id: eventID, is_muted: eventIsMuted });
-        updateMuteUI();
-    };
 
     function setupPresence() {
         const channel = supabase.channel(`room_${eventID}`, { config: { presence: { key: currentUser || 'guest' } } });
         channel.on('presence', { event: 'sync' }, () => {
             const state = channel.presenceState();
             document.getElementById('onlineCount').innerText = Object.keys(state).length;
+            renderMemberList(Object.keys(state));
         }).subscribe(async (s) => { if (s === 'SUBSCRIBED' && currentUser) await channel.track({ online_at: new Date().toISOString() }); });
     }
 
@@ -462,15 +446,9 @@
         const box = document.getElementById('futbolx-chat-messages');
         const div = document.createElement('div');
         div.className = "msg-item";
-        div.id = `msg-${msg.id}`;
         
         let content = msg.message;
         emotes.forEach(e => { content = content.replace(new RegExp(`:${e.name}:`, 'g'), `<img src="${e.url}" class="chat-msg-emote">`); });
-
-        if (msg.is_announcement) {
-            document.getElementById('pinnedNotice').style.display = 'flex';
-            document.getElementById('pinnedText').innerText = msg.message;
-        }
 
         let replyHTML = msg.reply_to_username ? `<div class="reply-bubble">@${msg.reply_to_username}: ${msg.reply_to_msg.substring(0, 30)}...</div>` : '';
         
@@ -485,20 +463,20 @@
 
         const actions = (isOwner || msg.username === currentUser) ? `
             <span class="msg-actions">
-                <i class="fas fa-thumbtack text-success" onclick="pinMsg('${msg.id}', '${msg.message}')"></i>
                 <i class="fas fa-trash text-danger" onclick="deleteMsg('${msg.id}')"></i>
             </span>
         ` : '';
 
         div.innerHTML = `${replyHTML}${nameTag}: <span style="color:#eee;">${content}</span>${actions}`;
-        div.oncontextmenu = (e) => { e.preventDefault(); setReply(msg.username, msg.message); };
+        div.onclick = () => setReply(msg.username, msg.message);
         box.appendChild(div);
         box.scrollTop = box.scrollHeight;
     }
 
-    window.sendMessage = async () => {
+    document.getElementById('sendChatBtn').onclick = async () => {
+        if (!currentUser) return;
         const text = document.getElementById('chatInput').value.trim();
-        if (!text || isMuted || eventIsMuted) return;
+        if (!text || isMuted) return;
         
         await supabase.from('messages').insert([{
             username: currentUser,
@@ -512,31 +490,31 @@
         cancelReply();
     };
 
-    window.deleteMsg = async (id) => {
-        await supabase.from('messages').delete().eq('id', id);
-        document.getElementById(`msg-${id}`)?.remove();
-    };
-
-    window.pinMsg = async (id, text) => {
-        if (!isOwner) return;
-        await supabase.from('messages').insert([{ username: 'System', message: text, event_id: eventID, is_announcement: true }]);
-    };
-
     window.clearChat = async () => {
         if (!isOwner) return;
-        await supabase.from('messages').delete().eq('event_id', eventID);
-        document.getElementById('futbolx-chat-messages').innerHTML = "";
+        if (confirm("Clear entire chat?")) {
+          await supabase.from('messages').delete().eq('event_id', eventID);
+          document.getElementById('futbolx-chat-messages').innerHTML = '';
+        }
     };
 
-    window.toggleSidebar = () => document.getElementById('chatAdminSidebar').classList.toggle('active');
-    
     window.sendAnnouncement = async () => {
-        const text = document.getElementById('announceMsg').value;
+        if (!isOwner) return;
+        const text = document.getElementById('announceMsg').value.trim();
         if (!text) return;
         await supabase.from('messages').insert([{
-            username: 'System', message: text, event_id: eventID, is_announcement: true
+            username: 'FutbolX Bot', 
+            message: text, 
+            event_id: eventID, 
+            is_announcement: true
         }]);
         document.getElementById('announceMsg').value = "";
+    };
+
+    window.deleteMsg = async (id) => {
+        if (isOwner) {
+          await supabase.from('messages').delete().eq('id', id);
+        }
     };
 
     function setReply(user, msg) {
@@ -550,11 +528,19 @@
         document.getElementById('replyPreview').classList.add('d-none');
     };
 
+    window.toggleSidebar = () => document.getElementById('chatAdminSidebar').classList.toggle('active');
+
     function setupRealtime() {
-        supabase.channel('chat_updates')
-        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => renderMsg(p.new))
-        .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages' }, p => location.reload())
-        .subscribe();
+        supabase.channel('chat_updates').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => renderMsg(p.new)).subscribe();
+    }
+
+    function renderMemberList(users) {
+        const list = document.getElementById('memberList');
+        list.innerHTML = users.map(u => `
+            <div style="padding:5px; border-bottom:1px solid #151933; font-size:12px;">
+                <span style="color:#4ade80;">●</span> <span style="color:${u==='Futbolx'?'#ff4d4d':'#22d3ee'}">${u}</span>
+            </div>
+        `).join('');
     }
 
     document.getElementById('toggleEmotes').onclick = () => {
@@ -562,7 +548,7 @@
         p.style.display = p.style.display === 'none' ? 'block' : 'none';
     };
 
-    init();
+    window.onload = init;
   </script>
 
   <script>
