@@ -241,7 +241,6 @@
                 <!-- ADMIN PANEL SIDEBAR -->
                 <div id="chatAdminSidebar">
                     <h6 class="text-white mb-3">Admin Panel</h6>
-                    <button class="btn btn-outline-warning admin-btn" onclick="clearChat()">CLEAR CHAT</button>
                     
                     <input type="text" id="memberSearch" class="form-control form-control-sm mb-2" placeholder="Search members...">
                     <div id="memberList" style="flex:1; overflow-y:auto; border-top:1px solid #1a1f3d;"></div>
@@ -332,6 +331,7 @@
     let isOwner = false;
     let replyTo = null;
     let hasEnteredChat = false;
+    let mutedUsers = new Set();
 
     async function init() {
         const res = await fetch('https://api.ipify.org?format=json');
@@ -388,19 +388,28 @@
     }
 
     function updateInputUI() {
+      const input = document.getElementById('chatInput');
       if (!currentUser) {
         document.getElementById('usernameRegisterRow').classList.remove('d-none');
-        document.getElementById('chatInput').style.display = 'none';
+        input.style.display = 'none';
         document.getElementById('sendChatBtn').style.display = 'none';
+      } else if (mutedUsers.has(currentUser)) {
+        input.placeholder = "You have been muted. Contact admin on Discord or Telegram.";
+        input.disabled = true;
+      } else {
+        input.placeholder = "Type here...";
+        input.disabled = false;
       }
     }
 
     function setupPresence() {
-        const channel = supabase.channel(`room_${eventID}`, { config: { presence: { key: currentUser || 'guest' } } });
+        const channel = supabase.channel(`room_${eventID}`);
         channel.on('presence', { event: 'sync' }, () => {
             const state = channel.presenceState();
             document.getElementById('onlineCount').innerText = Object.keys(state).length;
-        }).subscribe(async (s) => { if (s === 'SUBSCRIBED' && currentUser) await channel.track({ online_at: new Date().toISOString() }); });
+        }).subscribe(async (s) => { 
+            if (s === 'SUBSCRIBED' && currentUser) await channel.track({ online_at: new Date().toISOString() }); 
+        });
     }
 
     async function loadAllMembers() {
@@ -412,17 +421,31 @@
 
         data.forEach(u => {
             const color = u.is_owner ? '#ff4d4d' : '#22d3ee';
+            const muted = mutedUsers.has(u.username) ? ' (Muted)' : '';
             list.innerHTML += `
                 <div style="padding:8px 5px; border-bottom:1px solid #1a1f3d; cursor:pointer;" onclick="selectMember('${u.username}')">
                     <span style="color:#4ade80;">●</span> 
-                    <span style="color:${color}">${u.username}</span>
+                    <span style="color:${color}">${u.username}${muted}</span>
                 </div>`;
         });
     }
 
     window.selectMember = (username) => {
-        if (!isOwner) return;
-        alert(`Selected: ${username}\n\nMute/Unmute options coming in next update.`);
+        if (!isOwner || username === currentUser) return;
+        
+        if (mutedUsers.has(username)) {
+            if (confirm(`Unmute ${username}?`)) {
+                mutedUsers.delete(username);
+                alert(`${username} has been unmuted.`);
+            }
+        } else {
+            if (confirm(`Mute ${username}?`)) {
+                mutedUsers.add(username);
+                alert(`${username} has been muted.`);
+            }
+        }
+        loadAllMembers();
+        updateInputUI();
     };
 
     function loadEmotes() {
@@ -458,12 +481,7 @@
           ? `<span class="owner-name">Futbolx</span>` 
           : `<span style="font-weight:700; color:#22d3ee;">${msg.username}</span>`;
 
-        const actions = (isOwner || msg.username === currentUser) ? `
-            <span class="msg-actions">
-                <i class="fas fa-trash text-danger" onclick="deleteMsg('${msg.id}')"></i>
-            </span>` : '';
-
-        div.innerHTML = `${replyHTML}${nameTag}: <span style="color:#eee;">${content}</span>${actions}`;
+        div.innerHTML = `${replyHTML}${nameTag}: <span style="color:#eee;">${content}</span>`;
         div.onclick = () => setReply(msg.username, msg.message);
         box.appendChild(div);
         box.scrollTop = box.scrollHeight;
@@ -486,20 +504,6 @@
         cancelReply();
     };
 
-    window.clearChat = async () => {
-        if (!isOwner) return;
-        if (confirm("Clear entire chat?")) {
-          await supabase.from('messages').delete().eq('event_id', eventID);
-          document.getElementById('futbolx-chat-messages').innerHTML = '';
-        }
-    };
-
-    window.deleteMsg = async (id) => {
-        if (isOwner) {
-          await supabase.from('messages').delete().eq('id', id);
-        }
-    };
-
     function setReply(user, msg) {
         replyTo = { user, msg };
         document.getElementById('replyPreview').classList.remove('d-none');
@@ -516,7 +520,6 @@
     function setupRealtime() {
         supabase.channel('chat_updates')
           .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => renderMsg(p.new))
-          .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, () => loadMessages())
           .subscribe();
     }
 
@@ -708,4 +711,4 @@
     });
   </script>
 </body>
-</html>
+                      </html>
