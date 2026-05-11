@@ -17,8 +17,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
-  
-  <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
 
   <style>
     /* Big Screen Adaptation */
@@ -36,28 +34,6 @@
     @keyframes fadeOut {
       from { opacity: 1; }
       to { opacity: 0; }
-    }
-    .btn-fullscreen, .btn-cast {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: #ff4d4d;
-      color: #fff;
-      border: none;
-      border-radius: 20px;
-      margin-left: 10px;
-      transition: transform 0.3s, background 0.3s;
-      font-weight: 500;
-    }
-    [data-bs-theme="light"] .btn-fullscreen, [data-bs-theme="light"] .btn-cast {
-      background: #e63939;
-      color: #fff;
-    }
-    .btn-fullscreen:hover, .btn-cast:hover {
-      transform: scale(1.05);
-      background: #e63939;
-      color: #fff;
     }
     .offcanvas {
       z-index: 1055 !important;
@@ -106,12 +82,12 @@
         <div class="col-12">
           <div class="d-flex align-items-center mb-3">
             <a href="/24-7" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to 24/7 Streams</a>
-            <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
           </div>
           <h2 id="eventTitle" class="mb-3"></h2>
           <div class="player-container">
             <div class="video-container">
-              <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen style="width: 100%; height: 100%;" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+              <!-- Removed allowfullscreen and restricted sandbox to block popups/redirects -->
+              <iframe id="embedPlayer" src="about:blank" frameborder="0" style="width: 100%; height: 100%;" allow="autoplay" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
               <div id="videoPlayerContainer" style="width: 100%; height: 100%;">
                 <div id="videoPlayer"></div>
               </div>
@@ -123,7 +99,6 @@
                 </button>
                 <ul class="dropdown-menu" id="streamDropdownMenu"></ul>
               </div>
-              <button id="castBtn" class="btn btn-cast d-none"><i class="fas fa-tv"></i> Cast Stream</button>
             </div>
           </div>
           <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
@@ -144,7 +119,6 @@
     let videoPlayerInstance = null;
     let streamData = null;
 
-    // THEME & NAV LOGIC
     function initTheme() {
       const themeToggle = document.getElementById('themeToggle');
       const html = document.documentElement;
@@ -163,8 +137,6 @@
       const url = event.streams[index].url;
       const embed = document.getElementById('embedPlayer');
       const container = document.getElementById('videoPlayerContainer');
-      const fsBtn = document.getElementById('fullscreenBtn');
-      const castBtn = document.getElementById('castBtn');
 
       if (url.includes('.m3u8')) {
         embed.style.display = 'none';
@@ -181,29 +153,6 @@
         embed.style.display = 'block';
         embed.src = url + (url.includes('?') ? '&' : '?') + 'autoplay=1';
       }
-
-      fsBtn.classList.remove('d-none');
-      castBtn.classList.remove('d-none');
-
-      fsBtn.onclick = () => {
-        const target = url.includes('.m3u8') ? document.getElementById('videoPlayer') : embed;
-        if (target.requestFullscreen) target.requestFullscreen();
-        else if (target.webkitRequestFullscreen) target.webkitRequestFullscreen();
-      };
-
-      castBtn.onclick = () => {
-        if (window.chrome && chrome.cast && chrome.cast.isAvailable) {
-            const sessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);
-            const apiConfig = new chrome.cast.ApiConfig(sessionRequest, () => {}, () => {});
-            chrome.cast.initialize(apiConfig, () => {
-                chrome.cast.requestSession(s => console.log("Success"), e => console.log(e));
-            }, e => console.log(e));
-        } else {
-            const target = document.querySelector('video') || embed;
-            if (target.remote && target.remote.prompt) target.remote.prompt();
-            else alert("Please use Chrome or Safari on a Cast-ready device.");
-        }
-      };
     }
 
     function initPage() {
@@ -225,8 +174,6 @@
     document.addEventListener('DOMContentLoaded', () => {
       initTheme();
       initPage();
-      // Side bar fix: Bootstrap handles the toggle via data-attributes. 
-      // Manual JS initialization here was causing the "refuse to close" bug.
     });
   </script>
 </body>
