@@ -4,37 +4,50 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FutbolX - Watch 24/7</title>
+  <meta name="description" content="FutbolX - Watch 24/7 cartoons and other content.">
+  <meta name="keywords" content="futbolx, cartoons, 24/7, stream, online, free">
+  <meta property="og:title" content="FutbolX - Watch 24/7" />
+  <meta property="og:url" content="https://www.futbol-x.site/24-7" />
+  <meta property="og:image" content="/assets/img/og-image.jpg">
+  <meta name="twitter:title" content="FutbolX - Watch 24/7">
+  <meta name="twitter:description" content="Watch 24/7 cartoons and other content on FutbolX.">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
 
   <style>
-    .player-container { max-width: 1200px; margin: 0 auto; position: relative; }
-    
-    /* AD BLOCKER OVERLAY */
-    .ad-shield {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 10;
-      background: rgba(0,0,0,0.01); /* Nearly invisible */
-      cursor: pointer;
+    /* Big Screen Adaptation */
+    .player-container {
+      max-width: 1200px;
+      margin: 0 auto;
     }
-    
-    .video-container { position: relative; width: 100%; height: 100%; }
-
-    .offcanvas { z-index: 1055 !important; }
-    .offcanvas-backdrop { z-index: 1050 !important; background-color: rgba(0, 0, 0, 0.5); }
+    .error-alert {
+      max-width: 500px;
+      margin: 20px auto;
+    }
+    .fade-out {
+      animation: fadeOut 0.5s ease-out forwards;
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+    .offcanvas {
+      z-index: 1055 !important;
+    }
+    .offcanvas-backdrop {
+      z-index: 1050 !important;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
   </style>
 </head>
 <body>
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
-      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
         <i class="fas fa-bars"></i>
       </button>
       <span class="futbolx-brand">FutbolX</span>
@@ -43,7 +56,7 @@
 
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
     <div class="offcanvas-header">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
       <ul class="nav flex-column">
@@ -54,7 +67,11 @@
         <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
         <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
-        <li class="nav-item"><button id="themeToggle" class="nav-link btn btn-link"><i class="fas fa-moon"></i></button></li>
+        <li class="nav-item">
+          <button id="themeToggle" class="nav-link btn btn-link">
+            <i class="fas fa-moon"></i>
+          </button>
+        </li>
       </ul>
     </div>
   </div>
@@ -67,21 +84,13 @@
             <a href="/24-7" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to 24/7 Streams</a>
           </div>
           <h2 id="eventTitle" class="mb-3"></h2>
-          
           <div class="player-container">
-            <div id="adShield" class="ad-shield"></div>
-            
             <div class="video-container">
-              <iframe id="embedPlayer" src="about:blank" frameborder="0" style="width: 100%; height: 100%;" 
-                allow="autoplay; encrypted-media" 
-                referrerpolicy="no-referrer"
-                csp="script-src 'self' 'unsafe-inline' 'unsafe-eval' *.google.com *.gstatic.com *.jwplayer.com;">
-              </iframe>
+              <iframe id="embedPlayer" src="about:blank" frameborder="0" style="width: 100%; height: 100%;" allow="autoplay; encrypted-media" referrerpolicy="no-referrer"></iframe>
               <div id="videoPlayerContainer" style="width: 100%; height: 100%;">
                 <div id="videoPlayer"></div>
               </div>
             </div>
-
             <div class="stream-dropdown d-flex align-items-center justify-content-between mt-3">
               <div class="dropdown">
                 <button class="btn btn-stream dropdown-toggle" type="button" id="streamDropdown" data-bs-toggle="dropdown">
@@ -91,6 +100,7 @@
               </div>
             </div>
           </div>
+          <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
         </div>
       </div>
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
@@ -108,22 +118,17 @@
     let videoPlayerInstance = null;
     let streamData = null;
 
-    // Remove shield on click to let user interact with player
-    document.getElementById('adShield').addEventListener('click', function() {
-      this.style.display = 'none';
-      // Put it back after 10 seconds in case they click again later
-      setTimeout(() => { this.style.display = 'block'; }, 10000);
-    });
-
     function initTheme() {
       const themeToggle = document.getElementById('themeToggle');
       const html = document.documentElement;
       const currentTheme = localStorage.getItem('theme') || 'dark';
       html.setAttribute('data-bs-theme', currentTheme);
+      themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
       themeToggle.onclick = () => {
         const next = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
         html.setAttribute('data-bs-theme', next);
         localStorage.setItem('theme', next);
+        themeToggle.innerHTML = next === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
       };
     }
 
@@ -131,13 +136,16 @@
       const url = event.streams[index].url;
       const embed = document.getElementById('embedPlayer');
       const container = document.getElementById('videoPlayerContainer');
-      document.getElementById('adShield').style.display = 'block'; // Reset shield on stream change
 
       if (url.includes('.m3u8')) {
         embed.style.display = 'none';
         container.style.display = 'block';
         videoPlayerInstance = jwplayer('videoPlayer').setup({
-          file: url, autostart: true, mute: true, width: '100%', aspectratio: '16:9'
+          file: url, 
+          autostart: true, 
+          mute: true, 
+          width: '100%', 
+          aspectratio: '16:9'
         });
       } else {
         container.style.display = 'none';
@@ -156,7 +164,7 @@
           document.getElementById('eventTitle').innerText = event.name;
           streamData = event;
           const menu = document.getElementById('streamDropdownMenu');
-          menu.innerHTML = event.streams.map((s, i) => `<li><a class="dropdown-item" href="#" onclick="initPlayer(streamData, ${i}); return false;">${s.label || 'Stream '+(i+1)}</a></li>`).join('');
+          menu.innerHTML = event.streams.map((s, i) => `<li><a class="dropdown-item" href="#" onclick="initPlayer(streamData, ${i}); document.getElementById('streamDropdown').innerText='${s.label || 'Stream '+(i+1)}'; return false;">${s.label || 'Stream '+(i+1)}</a></li>`).join('');
           initPlayer(event, 0);
         }
       });
