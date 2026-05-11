@@ -43,41 +43,54 @@
       background-color: rgba(0, 0, 0, 0.5);
     }
 
-    /* New UI Elements */
+    /* Notification UI */
     .vpn-notice {
-      background: linear-gradient(90deg, #05445E, #189AB4);
+      background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
       color: white;
-      border: none;
-      border-radius: 0;
       text-align: center;
+      padding: 12px;
+      font-size: 0.95rem;
       font-weight: 500;
-      padding: 10px;
+      border-bottom: 2px solid rgba(255,255,255,0.1);
     }
     .vpn-notice a {
-      color: #75E6DA;
-      text-decoration: underline;
+      background: white;
+      color: #2575fc;
+      padding: 4px 15px;
+      border-radius: 50px;
+      text-decoration: none;
       font-weight: bold;
+      margin-left: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: 0.3s ease;
     }
-    .btn-fullscreen {
-        background-color: #05445E;
-        color: white;
-        border: none;
-        transition: 0.3s;
+    .vpn-notice a:hover {
+      background: #f0f0f0;
+      transform: translateY(-1px);
     }
-    .btn-fullscreen:hover {
-        background-color: #189AB4;
-        color: white;
+
+    /* Fullscreen Button Styling */
+    .btn-fullscreen-trigger {
+      background: #198754;
+      color: white;
+      border: none;
+      transition: 0.3s;
+    }
+    .btn-fullscreen-trigger:hover {
+      background: #157347;
+      color: white;
+      box-shadow: 0 0 10px rgba(25, 135, 84, 0.5);
     }
   </style>
 </head>
 <body>
-  <!-- VPN Notification Bar -->
-  <div class="alert alert-info vpn-notice mb-0" role="alert">
-    <i class="fas fa-shield-alt me-2"></i> Use 1.1.1.1 WARP VPN or a browser with Ad Blocker for a good streaming experience. 
-    <a href="https://one.one.one.one/" target="_blank" class="ms-2"><i class="fas fa-download me-1"></i>Download</a>
+  <!-- Cool UI Notification -->
+  <div class="vpn-notice">
+    <i class="fas fa-shield-alt me-2"></i> Use 1.1.1.1 Warp VPN or a browser with Ad Blocker for good streaming experience 
+    <a href="https://one.one.one.one/" target="_blank">Download</a>
   </div>
 
-  <nav class="top-bar sticky-top">
+  <nav class="top-bar fixed-top" style="top: 48px;"> <!-- Offset for the notice -->
     <div class="container-fluid">
       <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
         <i class="fas fa-bars"></i>
@@ -108,20 +121,20 @@
     </div>
   </div>
 
-  <div class="container-fluid main-content">
+  <div class="container-fluid main-content" style="padding-top: 100px;">
     <div class="container mt-4">
       <div class="row">
         <div class="col-12">
           <div class="d-flex align-items-center justify-content-between mb-3">
             <a href="/24-7" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to 24/7 Streams</a>
             <!-- Fullscreen Button -->
-            <button class="btn btn-fullscreen" onclick="forceFullscreen()">
-                <i class="fas fa-expand me-1"></i> Fullscreen
+            <button class="btn btn-fullscreen-trigger" onclick="togglePlayerFullscreen()">
+              <i class="fas fa-expand me-1"></i> Fullscreen
             </button>
           </div>
           <h2 id="eventTitle" class="mb-3"></h2>
           <div class="player-container">
-            <div class="video-container" id="fullscreenTarget">
+            <div class="video-container" id="mainPlayerWrapper">
               <iframe id="embedPlayer" src="about:blank" frameborder="0" style="width: 100%; height: 100%;" allow="autoplay; encrypted-media; fullscreen" referrerpolicy="no-referrer"></iframe>
               <div id="videoPlayerContainer" style="width: 100%; height: 100%;">
                 <div id="videoPlayer"></div>
@@ -154,25 +167,26 @@
     let videoPlayerInstance = null;
     let streamData = null;
 
-    // Fullscreen Function
-    function forceFullscreen() {
-      const embed = document.getElementById('embedPlayer');
+    // Fullscreen Function Logic
+    function togglePlayerFullscreen() {
+      const iframe = document.getElementById('embedPlayer');
       const container = document.getElementById('videoPlayerContainer');
-      let elem;
+      let targetElement;
 
-      // Determine which player is currently visible
-      if (embed.style.display !== 'none') {
-        elem = embed;
+      // Check which player is active
+      if (iframe.style.display !== 'none') {
+        targetElement = iframe;
       } else {
-        elem = document.querySelector('#videoPlayer');
+        // JW Player container
+        targetElement = document.getElementById('videoPlayer');
       }
 
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) { /* Safari */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) { /* IE11 */
-        elem.msRequestFullscreen();
+      if (targetElement.requestFullscreen) {
+        targetElement.requestFullscreen();
+      } else if (targetElement.webkitRequestFullscreen) {
+        targetElement.webkitRequestFullscreen();
+      } else if (targetElement.msRequestFullscreen) {
+        targetElement.msRequestFullscreen();
       }
     }
 
