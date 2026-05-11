@@ -2,20 +2,39 @@
   "name": "FutbolX - Free PPV",
   "short_name": "FutbolX",
   "description": "Live Sports & PPV Streaming",
-  "start_url": "/",
+  "start_url": "/?utm_source=pwa",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#000000",
   "theme_color": "#000000",
   "icons": [
     {
       "src": "https://i.postimg.cc/gkfNSFPv/lqo4nv.jpg",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "https://i.postimg.cc/gkfNSFPv/lqo4nv.jpg",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://i.postimg.cc/gkfNSFPv/lqo4nv.jpg",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "FutbolX Live Streaming"
+    },
+    {
+      "src": "https://i.postimg.cc/gkfNSFPv/lqo4nv.jpg",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "FutbolX Mobile App"
     }
   ]
 }
