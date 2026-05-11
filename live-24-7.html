@@ -42,10 +42,42 @@
       z-index: 1050 !important;
       background-color: rgba(0, 0, 0, 0.5);
     }
+
+    /* New UI Elements */
+    .vpn-notice {
+      background: linear-gradient(90deg, #05445E, #189AB4);
+      color: white;
+      border: none;
+      border-radius: 0;
+      text-align: center;
+      font-weight: 500;
+      padding: 10px;
+    }
+    .vpn-notice a {
+      color: #75E6DA;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+    .btn-fullscreen {
+        background-color: #05445E;
+        color: white;
+        border: none;
+        transition: 0.3s;
+    }
+    .btn-fullscreen:hover {
+        background-color: #189AB4;
+        color: white;
+    }
   </style>
 </head>
 <body>
-  <nav class="top-bar fixed-top">
+  <!-- VPN Notification Bar -->
+  <div class="alert alert-info vpn-notice mb-0" role="alert">
+    <i class="fas fa-shield-alt me-2"></i> Use 1.1.1.1 WARP VPN or a browser with Ad Blocker for a good streaming experience. 
+    <a href="https://one.one.one.one/" target="_blank" class="ms-2"><i class="fas fa-download me-1"></i>Download</a>
+  </div>
+
+  <nav class="top-bar sticky-top">
     <div class="container-fluid">
       <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
         <i class="fas fa-bars"></i>
@@ -80,13 +112,17 @@
     <div class="container mt-4">
       <div class="row">
         <div class="col-12">
-          <div class="d-flex align-items-center mb-3">
+          <div class="d-flex align-items-center justify-content-between mb-3">
             <a href="/24-7" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to 24/7 Streams</a>
+            <!-- Fullscreen Button -->
+            <button class="btn btn-fullscreen" onclick="forceFullscreen()">
+                <i class="fas fa-expand me-1"></i> Fullscreen
+            </button>
           </div>
           <h2 id="eventTitle" class="mb-3"></h2>
           <div class="player-container">
-            <div class="video-container">
-              <iframe id="embedPlayer" src="about:blank" frameborder="0" style="width: 100%; height: 100%;" allow="autoplay; encrypted-media" referrerpolicy="no-referrer"></iframe>
+            <div class="video-container" id="fullscreenTarget">
+              <iframe id="embedPlayer" src="about:blank" frameborder="0" style="width: 100%; height: 100%;" allow="autoplay; encrypted-media; fullscreen" referrerpolicy="no-referrer"></iframe>
               <div id="videoPlayerContainer" style="width: 100%; height: 100%;">
                 <div id="videoPlayer"></div>
               </div>
@@ -117,6 +153,28 @@
   <script>
     let videoPlayerInstance = null;
     let streamData = null;
+
+    // Fullscreen Function
+    function forceFullscreen() {
+      const embed = document.getElementById('embedPlayer');
+      const container = document.getElementById('videoPlayerContainer');
+      let elem;
+
+      // Determine which player is currently visible
+      if (embed.style.display !== 'none') {
+        elem = embed;
+      } else {
+        elem = document.querySelector('#videoPlayer');
+      }
+
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+      }
+    }
 
     function initTheme() {
       const themeToggle = document.getElementById('themeToggle');
