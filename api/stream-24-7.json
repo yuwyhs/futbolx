@@ -1,0 +1,28 @@
+{
+  "success": true,
+  "streams": {
+    "Sports": [],
+    "Entertainment": [],
+    "Kids": [],
+    "Music": [],
+    "Movies VOD": [],
+    "News": [
+      {
+        "name": "CNN",
+        "uri_name": "hd7obs",
+        "tag": "News",
+        "poster": "https://media.cnn.com/api/v1/images/stellar/prod/cnn-horizon-1920x1080-tiles-0808-copy.jpg?c=16x9&q=w_630,c_fill",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://cdnlivetv.tv/api/v1/channels/player/?name=CNN&code=us&user=cdnlivetv&plan=free"
+          }
+        ],
+        "always_live": 1
+      }
+    ],
+    "Religion": [],
+    "Anime": [],
+    "Movies Live": []
+  }
+}
