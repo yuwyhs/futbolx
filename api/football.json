@@ -61,11 +61,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://pooembed.eu/embed/english-fa-cup/2026-05-16/che-mci/bbc"
+              "url": "https://pooembed.eu/embed/english-fa-cup/2026-05-16/che-mci"
             },
             {
               "title": "Alt Feed",
-              "url": "https://pooembed.eu/embed/english-fa-cup/2026-05-16/che-mci"
+              "url": "https://pooembed.eu/embed/english-fa-cup/2026-05-16/che-mci/bbc"
             }
           ]
         }
