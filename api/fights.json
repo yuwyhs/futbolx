@@ -6,17 +6,17 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Wardley vs Dubois",
+          "name": "UFC Fight Night: Allen vs Costa",
           "uri_name": "w4d8y1v2",
-          "poster": "https://i.postimg.cc/ncsTDqN0/1778323247023.png",
+          "poster": "https://i.postimg.cc/jqHWg7HS/73768945d595822a075d8bd909e35902-thumbnail.jpg",
           "tag": "Boxing",
-          "starts_at": "2026-05-09T21:00:00",
-          "ends_at": "2026-05-10T03:50:00",
+          "starts_at": "2026-05-17T00:00:00",
+          "ends_at": "2026-05-17T07:50:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://pooembed.eu/embed/wardley-vs-dubois"
+              "url": "https://pooembed.eu/embed/ufc-fight-night-allen-vs-costa"
             }
           ]
         },
