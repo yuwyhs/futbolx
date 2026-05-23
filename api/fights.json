@@ -6,17 +6,17 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "UFC Fight Night: Allen vs Costa",
+          "name": "Usyk vs Rico",
           "uri_name": "w4d8y1v2",
-          "poster": "https://i.postimg.cc/jqHWg7HS/73768945d595822a075d8bd909e35902-thumbnail.jpg",
-          "tag": "Ufc",
-          "starts_at": "2026-05-17T00:00:00",
-          "ends_at": "2026-05-17T06:50:00",
+          "poster": "https://i.postimg.cc/029Zn0yB/IMG-20260523-211044-358.jpg",
+          "tag": "Ppv",
+          "starts_at": "2026-05-23T21:00:00",
+          "ends_at": "2026-05-24T06:50:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://pooembed.eu/embed/ufc-fight-night-allen-vs-costa"
+              "url": "https://pooembed.eu/embed/oleksandr-usyk-vs-rico-verhoeven"
             }
           ]
         },
