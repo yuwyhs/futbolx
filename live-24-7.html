@@ -15,12 +15,6 @@
   <style>
     .player-container { max-width: 1200px; margin: 0 auto; }
     .error-alert { max-width: 500px; margin: 20px auto; }
-
-    .btn-fullscreen-trigger {
-      background: #198754;
-      color: white;
-      border: none;
-    }
   </style>
 </head>
 <body>
@@ -60,9 +54,6 @@
         <div class="col-12">
           <div class="d-flex align-items-center justify-content-between mb-3">
             <a href="/24-7" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to 24/7 Streams</a>
-            <button class="btn btn-fullscreen-trigger" onclick="togglePlayerFullscreen()">
-              <i class="fas fa-expand me-1"></i> Fullscreen
-            </button>
           </div>
 
           <h2 id="eventTitle" class="mb-3"></h2>
@@ -103,15 +94,6 @@
   <script>
     let videoPlayerInstance = null;
     let streamData = null;
-
-    function togglePlayerFullscreen() {
-      const iframe = document.getElementById('embedPlayer');
-      const targetElement = (iframe.style.display !== 'none') ? iframe : document.getElementById('videoPlayer');
-      
-      if (targetElement.requestFullscreen) targetElement.requestFullscreen();
-      else if (targetElement.webkitRequestFullscreen) targetElement.webkitRequestFullscreen();
-      else if (targetElement.msRequestFullscreen) targetElement.msRequestFullscreen();
-    }
 
     function initTheme() {
       const themeToggle = document.getElementById('themeToggle');
