@@ -1,26 +1,221 @@
 {
   "success": true,
   "streams": {
-    "Sports": [],
-    "Entertainment": [],
-    "Kids": [],
-    "Music": [],
-    "Movies VOD": [],
-    "News": [
+    "Sports": [
       {
-        "name": "CNN",
-        "uri_name": "hd7obs",
-        "tag": "News",
-        "poster": "https://media.cnn.com/api/v1/images/stellar/prod/cnn-horizon-1920x1080-tiles-0808-copy.jpg?c=16x9&q=w_630,c_fill",
+        "name": "Sky Sports Main Event",
+        "uri_name": "k8x2pd",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/sky-sports-main-event-600x300.png",
         "streams": [
           {
             "label": "Stream 1",
-            "url": "https://cdnlivetv.tv/api/v1/channels/player/?name=CNN&code=us&user=cdnlivetv&plan=free"
+            "url": "https://www.futbol-x.top/embed/sky-sports-main-event"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Sky Sports Premier League",
+        "uri_name": "v4m1qz",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/Sky-Sports-Premier-League-600x300.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/sky-sports-premier-league"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Sky Sports Cricket",
+        "uri_name": "b9r7wX",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/Sky-Sports-Cricket-600x300.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/sky-sports-cricket"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Sky Sports Football",
+        "uri_name": "m3n5tk",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/Sky-Sports-Football-600x300.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/sky-sports-football-uk"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Sky Sports Mix",
+        "uri_name": "x7b2vj",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/Sky-Sports-Mix-600x300.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/sky-sports-mix-uk"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Sky Sports Tennis",
+        "uri_name": "p9l4wq",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/Sky-Sports-Tennis-600x300.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/sky-sports-tennis-uk"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Sky Sports F1",
+        "uri_name": "z3s8dc",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/Sky-Sports-F1-600x300.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/sky-sports-f1-uk"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Sky Sports Action",
+        "uri_name": "t5g9ym",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/Sky-Sports-Action-600x300.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/sky-sports-action-uk"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Sky Sports Golf",
+        "uri_name": "f2h6vq",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/Sky-Sports-Golf-600x300.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/sky-sports-golf-uk"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Sky Sports Racing",
+        "uri_name": "w8k4nz",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/Sky-Sports-Racing-600x300.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/sky-sports-racing-uk"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Sky Sports News",
+        "uri_name": "c7t3rx",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/Sky-Sports-News-600x300.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/sky-sports-news-uk"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "Sky Sports +",
+        "uri_name": "j4b9pl",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/Sky-Sports-Plus-600x300.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/sky-sports-plus"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "TNT Sports 1",
+        "uri_name": "g3x8km",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/tnt-sports-1-600x300.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/tnt-sports-1-uk"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "TNT Sports 2",
+        "uri_name": "b5v2ws",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/tnt-sports-2-600x300.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/tnt-sports-2-uk"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "TNT Sports 3",
+        "uri_name": "p7q4lf",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/tnt-sports-3-600x300.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/tnt-sports-3-uk"
+          }
+        ],
+        "always_live": 1
+      },
+      {
+        "name": "TNT Sports 4",
+        "uri_name": "r9t1nz",
+        "tag": "Sports",
+        "poster": "https://tflix.su/wp-content/uploads/2026/04/tnt-sports-4-600x300.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/tnt-sports-4-uk"
           }
         ],
         "always_live": 1
       }
     ],
+    "Entertainment": [],
+    "Kids": [],
+    "Music": [],
+    "Movies VOD": [],
+    "News": [],
     "Religion": [],
     "Anime": [],
     "Movies Live": []
