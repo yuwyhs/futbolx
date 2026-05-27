@@ -211,7 +211,21 @@
         "always_live": 1
       }
     ],
-    "Entertainment": [],
+    "Entertainment": [
+      {
+        "name": "TBS Usa",
+        "uri_name": "w5n8qx",
+        "tag": "Entertainment",
+        "poster": "https://www.logo-designer.co/storage/2020/06/2020-tbs-new-identity-design-by-trollback-company-main-logo.jpg",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/tbs-usa"
+          }
+        ],
+        "always_live": 1
+      }
+    ],
     "Kids": [],
     "Music": [],
     "Movies VOD": [],
