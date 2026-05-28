@@ -227,7 +227,21 @@
       }
     ],
     "Kids": [],
-    "Music": [],
+    "Music": [
+      {
+        "name": "94.1 The Beat",
+        "uri_name": "h3f7by",
+        "tag": "Music",
+        "poster": "https://cdn.onlineradiobox.com/img/fblogo/1/46531.v2.png",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://cloud.revma.ihrhls.com/zc805?rj-org=n08b-e2&rj-ttl=5&rj-tok="
+          }
+        ],
+        "always_live": 1
+      }
+    ],
     "Movies VOD": [],
     "News": [],
     "Religion": [],
