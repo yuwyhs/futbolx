@@ -224,6 +224,19 @@
           }
         ],
         "always_live": 1
+      },
+      {
+        "name": "Usa Network",
+        "uri_name": "m4v9pl",
+        "tag": "Entertainment",
+        "poster": "https://stmify.com/wp-content/uploads/2024/11/361-s.webp",
+        "streams": [
+          {
+            "label": "Stream 1",
+            "url": "https://www.futbol-x.top/embed/usa-network"
+          }
+        ],
+        "always_live": 1
       }
     ],
     "Kids": [],
