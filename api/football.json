@@ -15,16 +15,12 @@
           "always_live": 0,
           "streams": [
             {
-              "title": "Main Feed(En)",
-              "url": ""
+              "title": "Main Feed",
+              "url": "https://pooembed.eu/embed/ucl/2026-05-30/psg-ars"
             },
             {
-              "title": "Alt Feed(Fr)",
-              "url": ""
-            },
-            {
-              "title": "Ppv Feed",
-              "url": ""
+              "title": "Alt Feed",
+              "url": "https://pooembed.eu/embed/ucl/2026-05-30/psg-ars/paramount"
             }
           ]
         }
