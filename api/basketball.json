@@ -2,54 +2,24 @@
   "success": true,
   "streams": [
     {
-      "category": "basketball",
+      "category": "Basketball",
       "always_live": 0,
       "streams": [
         {
-          "name": "76ers @ Celtics",
-          "uri_name": "b4n2k9x1",
-          "poster": "https://i.postimg.cc/qqG4zSr2/81623aab9348babe6126c5212ea43b0d-thumbnail.jpg",
+          "name": "New York Knicks vs San Antonio Spurs",
+          "uri_name": "n4k9s4s2",
+          "poster": "https://api.ppv.to/assets/thumb/3ae629759ba983feb445a8a0017b8cec-thumbnail.jpg",
           "tag": "Nba",
-          "starts_at": "2026-04-01T02:00:00",
-          "ends_at": "2026-04-01T04:00:00",
+          "starts_at": "2026-06-04T03:30:00",
+          "ends_at": "2026-06-04T06:30:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://pooembed.eu/embed/nba/2026-04-21/phi-bos"
+              "url": "https://pooembed.eu/embed/nba/2026-06-03/ny-sa"
             }
           ]
-        },
-        {
-          "name": "Blazers @ Spurs",
-          "uri_name": "z7m3p1v8",
-          "poster": "https://i.postimg.cc/L5V2nwSz/1e8fe3afdb81c09be40b0460e32d5214-thumbnail.jpg",
-          "tag": "Nba",
-          "starts_at": "2026-04-22T03:00:00",
-          "ends_at": "2026-04-22T06:00:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://pooembed.eu/embed/nba/2026-04-21/por-sa"
-            }
-          ]
-        },
-        {
-          "name": "Rockets @ Lakers",
-          "uri_name": "q9w0l4t6",
-          "poster": "https://i.postimg.cc/Y0xMhZ7z/14e161fd1e2f53b2acf2622381e8a984-thumbnail.jpg",
-          "tag": "Nba",
-          "starts_at": "2026-04-22T05:30:00",
-          "ends_at": "2026-04-22T07:50:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://pooembed.eu/embed/nba/2026-04-21/hou-lal"
-            }
-          ]
-        }
+         }
       ]
     }
   ]
