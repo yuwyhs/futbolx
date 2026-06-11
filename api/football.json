@@ -6,6 +6,21 @@
       "always_live": 0,
       "streams": [
         {
+          "name": "FIFA World Cup Opening Ceremony: Mexico",
+          "uri_name": "f4w9o1c7",
+          "poster": "https://api.ppv.to/assets/thumb/06a3ff2b8d9aba875c155c6e3b77e511-thumbnail.jpg",
+          "tag": "WorldCup",
+          "starts_at": "2026-06-11T20:30:00",
+          "ends_at": "2026-06-11T22:00:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": "https://embedindia.st/embed/fifa-world-cup-opening-ceremony-mexico"
+            }
+          ]
+        },
+        {
           "name": "Mexico vs South Africa",
           "uri_name": "m1x4s9a3",
           "poster": "https://i.postimg.cc/JnZpRrB7/0538ffe471086a9d189adacf591c83d7-thumbnail.jpg",
@@ -16,7 +31,15 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://embedindia.st/embed/wc/2026-06-11/mex-rsa"
+            },
+            {
+              "title": "Alt Feed 1",
+              "url": "https://embedindia.st/embed/wc/2026-06-11/mex-rsa/fox"
+            },
+            {
+              "title": "Alt Feed 2",
+              "url": "https://embedindia.st/embed/wc/2026-06-11/mex-rsa/telemundo"
             }
           ]
         },
