@@ -6,55 +6,40 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "FIFA World Cup Opening Ceremony: Mexico",
-          "uri_name": "f4w9o1c7",
-          "poster": "https://api.ppv.to/assets/thumb/06a3ff2b8d9aba875c155c6e3b77e511-thumbnail.jpg",
-          "tag": "WorldCup",
-          "starts_at": "2026-06-11T20:30:00",
-          "ends_at": "2026-06-11T22:00:00",
+          "name": "Canada vs Bosnia-Herzegovina",
+          "uri_name": "c4n9v1b7",
+          "poster": "https://api.ppv.to/assets/thumb/18ef9b11d27a1c726755dcfeae3334dd-thumbnail.jpg",
+          "tag": "World Cup",
+          "starts_at": "2026-06-12T22:00:00",
+          "ends_at": "2026-06-13T00:15:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedindia.st/embed/fifa-world-cup-opening-ceremony-mexico"
+              "url": "https://embedindia.st/embed/wc/2026-06-12/can-bih/fox"
+            },
+            {
+              "title": "Alt Feed",
+              "url": "https://embedindia.st/embed/wc/2026-06-12/can-bih/telemundo"
             }
           ]
         },
         {
-          "name": "Mexico vs South Africa",
-          "uri_name": "m1x4s9a3",
-          "poster": "https://i.postimg.cc/JnZpRrB7/0538ffe471086a9d189adacf591c83d7-thumbnail.jpg",
-          "tag": "WorldCup",
-          "starts_at": "2026-06-11T22:00:00",
-          "ends_at": "2026-06-12T00:15:00",
+          "name": "United States vs Paraguay",
+          "uri_name": "u5s7v1p4",
+          "poster": "https://api.ppv.to/assets/thumb/8ee12bf7d3e08c80f1e199882495b2b1-thumbnail.jpg",
+          "tag": "World Cup",
+          "starts_at": "2026-06-13T04:00:00",
+          "ends_at": "2026-06-13T06:15:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedindia.st/embed/wc/2026-06-11/mex-rsa"
+              "url": "https://embedindia.st/embed/wc/2026-06-13/usa-par/fox"
             },
             {
-              "title": "Alt Feed 1",
-              "url": "https://embedindia.st/embed/wc/2026-06-11/mex-rsa/fox"
-            },
-            {
-              "title": "Alt Feed 2",
-              "url": "https://embedindia.st/embed/wc/2026-06-11/mex-rsa/telemundo"
-            }
-          ]
-        },
-        {
-          "name": "South Korea vs Czechia",
-          "uri_name": "s4k9c3r1",
-          "poster": "https://i.postimg.cc/ZnmVRGrt/9a3b30906c29d4c6aa851819610dbcef-thumbnail.jpg",
-          "tag": "WorldCup",
-          "starts_at": "2026-06-12T05:00:00",
-          "ends_at": "2026-06-12T07:10:00",
-          "always_live": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedindia.st/embed/wc/2026-06-12/kor-cze/fox"
+              "title": "Alt Feed",
+              "url": "https://embedindia.st/embed/wc/2026-06-13/usa-par/telemundo"
             }
           ]
         }
