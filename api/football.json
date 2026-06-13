@@ -6,40 +6,86 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Canada vs Bosnia-Herzegovina",
-          "uri_name": "c4n9v1b7",
-          "poster": "https://api.ppv.to/assets/thumb/18ef9b11d27a1c726755dcfeae3334dd-thumbnail.jpg",
+          "name": "Qatar vs Switzerland",
+          "uri_name": "q4v1s9w3",
+          "poster": "https://api.ppv.to/assets/thumb/e8b79a71816281b5bc0e062c6e7cc8bb-thumbnail.jpg",
           "tag": "World Cup",
-          "starts_at": "2026-06-12T22:00:00",
-          "ends_at": "2026-06-13T00:15:00",
+          "starts_at": "2026-06-13T22:00:00",
+          "ends_at": "2026-06-14T00:15:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://tapestry-05.ubg-unettf.xyz/1781304466/dfd65c90e89b4e03bd4dd282bf0ca137/_253kX4vCIZWx7cf4aFLPAZEOkWH2LcU5bF51R_HLPA/tsn1-ca.m3u8"
+              "url": ""
             },
             {
               "title": "Alt Feed",
-              "url": "https://embedindia.st/embed/wc/2026-06-12/can-bih/telemundo"
+              "url": ""
             }
           ]
         },
         {
-          "name": "United States vs Paraguay",
-          "uri_name": "u5s7v1p4",
-          "poster": "https://api.ppv.to/assets/thumb/8ee12bf7d3e08c80f1e199882495b2b1-thumbnail.jpg",
+          "name": "Brazil vs Morocco",
+          "uri_name": "b4v1m9r4",
+          "poster": "https://api.ppv.to/assets/thumb/0130a01000a4a8d19f2ce3eda55b5c49-thumbnail.jpg",
           "tag": "World Cup",
-          "starts_at": "2026-06-13T04:00:00",
-          "ends_at": "2026-06-13T06:15:00",
+          "starts_at": "2026-06-14T01:00:00",
+          "ends_at": "2026-06-14T03:15:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://tapestry-05.ubg-unettf.xyz/1781318064/c118d21ef0864ae8aec60cd88b6e7b98/M0Av9XBwecT99j9oD64HxI0sR_hWsYzc0pbIAPrDN7s/fox-usa.m3u8"
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 1",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 2",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 3",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Haiti vs Scotland",
+          "uri_name": "h4v1s9c7",
+          "poster": "https://api.ppv.to/assets/thumb/14360b485e912470d3e9171a4637871c-thumbnail.jpg",
+          "tag": "World Cup",
+          "starts_at": "2026-06-14T04:00:00",
+          "ends_at": "2026-06-14T06:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
             },
             {
               "title": "Alt Feed",
-              "url": "https://tapestry-05.ubg-unettf.xyz/1781317868/4e8505a0d8134829abcd9f6bd5b6a103/lj9M3ipdjqv61rAv0k0n1ijc5UIPaJJ7uQwj3XysUtg/beinsports1-fr.m3u8"
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Australia vs Türkiye",
+          "uri_name": "a4v1t9r1",
+          "poster": "https://api.ppv.to/assets/thumb/c02da8650f23b4b094934868289d3933-thumbnail.jpg",
+          "tag": "World Cup",
+          "starts_at": "2026-06-14T07:00:00",
+          "ends_at": "2026-06-14T09:10:00",
+          "always_live": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed",
+              "url": ""
             }
           ]
         }
