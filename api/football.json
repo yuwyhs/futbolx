@@ -62,11 +62,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://embedindia.st/embed/wc/2026-06-13/hai-sco"
             },
             {
               "title": "Alt Feed",
-              "url": ""
+              "url": "https://embedindia.st/embed/wc/2026-06-14/hai-sco/fox"
             }
           ]
         },
@@ -81,11 +81,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://embedindia.st/embed/wc/2026-06-13/aus-tur"
             },
             {
               "title": "Alt Feed",
-              "url": ""
+              "url": "https://embedindia.st/embed/wc/2026-06-13/aus-tur/fox"
             }
           ]
         }
