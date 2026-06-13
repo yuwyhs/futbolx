@@ -16,11 +16,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://nl-081-v1.vivocdn.xyz/1781384786/3117bab2cdd941989e55a49b462f5f27/1xjmY8QjnhhCkzNI3Qx1D4JI09jmcrlCS3w4H24GO3U/fox-usa.m3u8"
             },
             {
               "title": "Alt Feed",
-              "url": ""
+              "url": "https://nl-081-v1.vivocdn.xyz/1781384828/7937c984130b42adb255baa0c38a19d7/UQLdMzx11h4b3_pzTndRNjvJTEx4qCyE1tE8xeBpuSE/beinsports1-fr.m3u8"
             }
           ]
         },
