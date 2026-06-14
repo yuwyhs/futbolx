@@ -56,8 +56,8 @@
           "uri_name": "h4v1s9c7",
           "poster": "https://api.ppv.to/assets/thumb/63db92b2f41e644bd073912b0f4a3d5e-thumbnail.jpg",
           "tag": "World Cup",
-          "starts_at": "2026-06-14T04:00:00",
-          "ends_at": "2026-06-14T06:10:00",
+          "starts_at": "2026-06-14T23:00:00",
+          "ends_at": "2026-06-15T01:10:00",
           "always_live": 0,
           "streams": [
             {
