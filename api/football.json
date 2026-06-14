@@ -6,17 +6,17 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Qatar vs Switzerland",
+          "name": "Germany vs Curaçao",
           "uri_name": "q4v1s9w3",
-          "poster": "https://api.ppv.to/assets/thumb/e8b79a71816281b5bc0e062c6e7cc8bb-thumbnail.jpg",
+          "poster": "https://api.ppv.to/assets/thumb/c3c0e8bafb8c1e5565ce2a82dc99dc25-thumbnail.jpg",
           "tag": "World Cup",
-          "starts_at": "2026-06-13T22:00:00",
-          "ends_at": "2026-06-14T00:15:00",
+          "starts_at": "2026-06-14T20:00:00",
+          "ends_at": "2026-06-14T22:15:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://nl-081-v1.vivocdn.xyz/1781384786/3117bab2cdd941989e55a49b462f5f27/1xjmY8QjnhhCkzNI3Qx1D4JI09jmcrlCS3w4H24GO3U/fox-usa.m3u8"
+              "url": "https://embedindia.st/embed/wc/2026-06-14/ger-cuw"
             },
             {
               "title": "Alt Feed",
