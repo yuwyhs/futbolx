@@ -6,86 +6,78 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Sweden vs Tunisia",
-          "uri_name": "q4v1s9w3",
-          "poster": "https://api.ppv.to/assets/thumb/cf0db2aaed590997e06cc434b2216260-thumbnail.jpg",
+          "name": "Spain vs Cape Verde",
+          "uri_name": "s4v1c9v5",
+          "poster": "https://api.ppv.to/assets/thumb/78bd2d297dd7c3132bf324260ff0731f-thumbnail.jpg",
           "tag": "World Cup",
-          "starts_at": "2026-06-15T05:00:00",
-          "ends_at": "2026-06-15T07:15:00",
+          "starts_at": "2026-06-15T19:00:00",
+          "ends_at": "2026-06-15T21:15:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://www.futbol-x.top/embed/hd1"
+              "url": ""
             },
             {
               "title": "Alt Feed",
-              "url": "https://nl-081-v1.vivocdn.xyz/1781384828/7937c984130b42adb255baa0c38a19d7/UQLdMzx11h4b3_pzTndRNjvJTEx4qCyE1tE8xeBpuSE/beinsports1-fr.m3u8"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Brazil vs Morocco",
-          "uri_name": "b4v1m9r4",
-          "poster": "https://api.ppv.to/assets/thumb/0130a01000a4a8d19f2ce3eda55b5c49-thumbnail.jpg",
+          "name": "Belgium vs Egypt",
+          "uri_name": "b4v1e9g7",
+          "poster": "https://api.ppv.to/assets/thumb/44ffba665b0640c48f62d3ed13ce8341-thumbnail.jpg",
           "tag": "World Cup",
-          "starts_at": "2026-06-14T01:00:00",
-          "ends_at": "2026-06-14T03:15:00",
+          "starts_at": "2026-06-15T22:00:00",
+          "ends_at": "2026-06-16T00:15:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://nl-081-v1.vivocdn.xyz/1781392724/d9c4187847ae49db9e3ffce0da58bbbd/vrrqfaH802cl8gvFD7WChmox2tHpFNWxYJUx2lQvgao/fox-usa.m3u8"
+              "url": ""
             },
             {
-              "title": "Alt Feed 1",
-              "url": "https://nl-081-v1.vivocdn.xyz/1781395823/e76e66ebde0042e58d17323dfde339a2/_tRoYlGm0-pLChEkgZlWyh0BwbynDZFiIboRiPg0v1c/cazetv-br.m3u8"
-            },
-            {
-              "title": "Alt Feed 2",
-              "url": "https://embedindia.st/embed/wc/2026-06-13/bra-mar"
-            },
-            {
-              "title": "Alt Feed 3",
-              "url": "https://embedindia.st/embed/wc/2026-06-13/bra-mar/telemundo"
+              "title": "Alt Feed",
+              "url": ""
             }
           ]
         },
         {
-          "name": "Netherlands vs Japan",
-          "uri_name": "h4v1s9c7",
-          "poster": "https://api.ppv.to/assets/thumb/63db92b2f41e644bd073912b0f4a3d5e-thumbnail.jpg",
+          "name": "Saudi Arabia vs Uruguay",
+          "uri_name": "s4v1u9r4",
+          "poster": "https://api.ppv.to/assets/thumb/980664af37cddb763708b31dbd4ad8c5-thumbnail.jpg",
           "tag": "World Cup",
-          "starts_at": "2026-06-14T23:00:00",
-          "ends_at": "2026-06-15T01:10:00",
+          "starts_at": "2026-06-16T01:00:00",
+          "ends_at": "2026-06-16T03:15:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedindia.st/embed/wc/2026-06-14/ned-jpn"
+              "url": ""
             },
             {
               "title": "Alt Feed",
-              "url": "https://embedindia.st/embed/wc/2026-06-14/hai-sco/fox"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Australia vs Türkiye",
-          "uri_name": "a4v1t9r1",
-          "poster": "https://api.ppv.to/assets/thumb/c02da8650f23b4b094934868289d3933-thumbnail.jpg",
+          "name": "Iran vs New Zealand",
+          "uri_name": "i4v1n9z4",
+          "poster": "https://api.ppv.to/assets/thumb/3916a55e20c6915086e96f879150a543-thumbnail.jpg",
           "tag": "World Cup",
-          "starts_at": "2026-06-14T07:00:00",
-          "ends_at": "2026-06-14T09:10:00",
+          "starts_at": "2026-06-16T04:00:00",
+          "ends_at": "2026-06-16T06:15:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedindia.st/embed/wc/2026-06-13/aus-tur"
+              "url": ""
             },
             {
               "title": "Alt Feed",
-              "url": "https://embedindia.st/embed/wc/2026-06-13/aus-tur/fox"
+              "url": ""
             }
           ]
         }
