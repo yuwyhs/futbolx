@@ -6,78 +6,86 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Spain vs Cape Verde",
-          "uri_name": "s4v1c9v5",
-          "poster": "https://api.ppv.to/assets/thumb/78bd2d297dd7c3132bf324260ff0731f-thumbnail.jpg",
+          "name": "France vs Senegal",
+          "uri_name": "f4v1s9n4",
+          "poster": "https://api.ppv.to/assets/thumb/5212770f3bc7f48643dbdf2a1dceabae-thumbnail.jpg",
           "tag": "World Cup",
-          "starts_at": "2026-06-15T19:00:00",
-          "ends_at": "2026-06-15T21:15:00",
+          "starts_at": "2026-06-16T22:00:00",
+          "ends_at": "2026-06-17T00:15:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://viznf.gdgdfhbdfidsf.xyz/1781546458/7c78f66ebaeb4fd893e33599c4568098/s97_kP-jfoxTZdC6yoJR6g7QwiSJcIN7BBthb44JDgU/foxprime-usa.m3u8"
+              "url": ""
             },
             {
               "title": "Alt Feed",
-              "url": "https://viznf.gdgdfhbdfidsf.xyz/1781546263/f80a9e05c3df434e8e2561d8c2030857/RqSsCydm2sZUTH7V3MlEIDB0rEv6lF6d7iD3SpM9qEs/telemundo-usa.m3u8"
+              "url": ""
+            },
+            {
+              "title": "4K Stream",
+              "url": ""
             }
           ]
         },
         {
-          "name": "Belgium vs Egypt",
-          "uri_name": "b4v1e9g7",
-          "poster": "https://api.ppv.to/assets/thumb/44ffba665b0640c48f62d3ed13ce8341-thumbnail.jpg",
+          "name": "Iraq vs Norway",
+          "uri_name": "i4v1n9w4",
+          "poster": "https://api.ppv.to/assets/thumb/9c4c09837ca4ec4cc6cb41a030651261-thumbnail.jpg",
           "tag": "World Cup",
-          "starts_at": "2026-06-15T22:00:00",
-          "ends_at": "2026-06-16T00:15:00",
+          "starts_at": "2026-06-17T01:00:00",
+          "ends_at": "2026-06-17T03:15:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://viznf.gdgdfhbdfidsf.xyz/1781558317/6745fa054bbf43169750f3fc7cfd05ee/G8OGL9kes7oIFbWlksUXieBaNFMa_QWpmJk4cA5rQh8/foxprime-usa.m3u8"
+              "url": ""
             },
             {
               "title": "Alt Feed",
-              "url": "https://viznf.gdgdfhbdfidsf.xyz/1781558347/d5420525a0d647b6b57906f67f7b3e6e/_-0g7wazqJNCRBQ3YUg3q1D6F3X4O-3Y6Wbc4dhGq9U/telemundo-usa.m3u8"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Saudi Arabia vs Uruguay",
-          "uri_name": "s4v1u9r4",
-          "poster": "https://api.ppv.to/assets/thumb/980664af37cddb763708b31dbd4ad8c5-thumbnail.jpg",
+          "name": "Argentina vs Algeria",
+          "uri_name": "a4v1a9l7",
+          "poster": "https://api.ppv.to/assets/thumb/c2e691d40140db20766ef98b0a0d9a35-thumbnail.jpg",
           "tag": "World Cup",
-          "starts_at": "2026-06-16T01:00:00",
-          "ends_at": "2026-06-16T03:15:00",
+          "starts_at": "2026-06-17T04:00:00",
+          "ends_at": "2026-06-17T06:15:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://viznf.gdgdfhbdfidsf.xyz/1781567403/cf6c4f1d570f4a048dcbc1d13a4096a3/ftjauhrZUiYlSd2UTqfLsxEp_EmP0z2SCc8pdL99gj0/fox-sports-1.m3u8"
+              "url": ""
             },
             {
               "title": "Alt Feed",
-              "url": "https://viznf.gdgdfhbdfidsf.xyz/1781567437/cc866be2ab974ae6b32ad3c1274698d6/uDpxp31i5SXZjO0UhYLSZnXODomYR9ad9HWKxCLRwrk/beinsportsmax3-sa.m3u8"
+              "url": ""
+            },
+            {
+              "title": "4K Stream",
+              "url": ""
             }
           ]
         },
         {
-          "name": "Iran vs New Zealand",
-          "uri_name": "i4v1n9z4",
-          "poster": "https://api.ppv.to/assets/thumb/3916a55e20c6915086e96f879150a543-thumbnail.jpg",
+          "name": "Austria vs Jordan",
+          "uri_name": "a4v1j9r4",
+          "poster": "https://api.ppv.to/assets/thumb/a1d41befd3fabb5f9d5645abc9490d01-thumbnail.jpg",
           "tag": "World Cup",
-          "starts_at": "2026-06-16T04:00:00",
-          "ends_at": "2026-06-16T06:15:00",
+          "starts_at": "2026-06-17T07:00:00",
+          "ends_at": "2026-06-17T09:15:00",
           "always_live": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://viznf.gdgdfhbdfidsf.xyz/1781583365/bc080962afdf4c9e87c2851bb5c28c33/W5EybEOk2q2DjgZSDCMRNCIyb0DC6ZYqvI8WorgNfac/fox-sports-1.m3u8"
+              "url": ""
             },
             {
               "title": "Alt Feed",
-              "url": "https://viznf.gdgdfhbdfidsf.xyz/1781583365/bc080962afdf4c9e87c2851bb5c28c33/W5EybEOk2q2DjgZSDCMRNCIyb0DC6ZYqvI8WorgNfac/fox-sports-1.m3u8"
+              "url": ""
             }
           ]
         }
