@@ -13,22 +13,22 @@
           "starts_at": "2026-06-17T20:00:00",
           "ends_at": "2026-06-17T22:10:00",
           "always_live": 0,
-          "max_simulated_viewers": 100,
+          "max_simulated_viewers": 800,
           "streams": [
             {
               "title": "Main Feed",
               "quality": "fhd",
-              "url": "https://vixvind.cdx-08191.space/1781721104/7b80b5da0d864f19b7ed7148472caa3a/rLK__UaFxZGMNp4iGPMNm_Zf9sx6i9SYz_68khz3QUg/tsn1-ca.m3u8"
+              "url": "https://embedindia.st/embed/wc/2026-06-17/por-cod"
             },
             {
               "title": "Alt Feed",
               "quality": "fhd",
-              "url": "https://vixvind.cdx-08191.space/1781721155/c86da75ad4af450eaedc12287f9f3559/iWj25JKgrfUKV5tvHqEgp3tDt1Rk-3qRxFnoYtujHto/beinsports1-fr.m3u8"
+              "url": "https://embedindia.st/embed/wc/2026-06-17/por-cod/fox"
             },
             {
               "title": "4K Stream",
               "quality": "4k",
-              "url": "https://vixvind.cdx-08191.space/1781721198/7b8dced6a7c944f28de9ca8a9138cc32/FMKx_SyOG7XwlAPNfW1hCo64nEv2vEqTJYMRTUzSOdA/fox4k-usa.m3u8"
+              "url": "https://embedindia.st/embed/wc/2026-06-17/por-cod/fox-4k"
             }
           ]
         },
