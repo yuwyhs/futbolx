@@ -715,40 +715,73 @@
         }
       });
       
-      // CHANGED: Fluctuates values more dynamically down & up every 2.5 seconds
-      setInterval(() => {
+      // NEW HUMAN FLUCTUATION ENGINE
+      function executeOrganicUpdateStep() {
         if (!foundEvent || !foundEvent.max_simulated_viewers) {
           calculatedViewerSimulationState = 0;
+          window.renderConsolidatedViewers();
+          setTimeout(executeOrganicUpdateStep, 3000);
           return;
         }
-        
+
         const maximumLimit = parseInt(foundEvent.max_simulated_viewers, 10);
         if (isNaN(maximumLimit) || maximumLimit <= 0) {
           calculatedViewerSimulationState = 0;
+          window.renderConsolidatedViewers();
+          setTimeout(executeOrganicUpdateStep, 3000);
           return;
         }
 
-        // Hard boundary cap remains strictly 20 below maximum configuration parameter
-        const operationalCapBase = maximumLimit - 20; 
-        
-        const timestamp = Date.now() / 60000; 
-        // Generates organic micro-fluctuation wave paths
-        const driftVariance = (Math.sin(timestamp) * 0.3) + (Math.cos(timestamp * 3.7) * 0.15); 
-        
-        let calculation = Math.floor(operationalCapBase * (0.92 + (driftVariance * 0.08)));
-        // Apply immediate multi-directional variance steps (+ or -)
-        calculation += Math.floor(Math.random() * 17) - 8; 
-        
-        if (calculation > operationalCapBase) {
-          calculation = operationalCapBase - Math.floor(Math.random() * 12);
+        // Initialize base state if empty
+        const operationalCapBase = maximumLimit - 20;
+        if (calculatedViewerSimulationState === 0) {
+          calculatedViewerSimulationState = Math.floor(operationalCapBase * 0.94);
         }
+
+        // 1. Roll a dice to decide action (Simulates audience plateaus)
+        const behaviorRoll = Math.random();
         
-        calculatedViewerSimulationState = Math.max(0, calculation);
+        if (behaviorRoll < 0.45) {
+          // 45% Chance: PLATEAU. The number stays perfectly static.
+          // Do nothing to the value, just skip to render
+        } else {
+          // 55% Chance: ACTION. Someone joins or leaves.
+          const timestamp = Date.now() / 60000;
+          const macroeconomicTrend = Math.sin(timestamp) * 0.15; // Slow wavy pulse path
+          
+          // Small realistic human increments/decrements (usually 1-3 people shift at a split moment)
+          let microShiftDelta = Math.floor(Math.random() * 7) - 3; // -3, -2, -1, 0, 1, 2, 3
+          
+          // Apply macro steering correction if creeping too high or too low
+          if (calculatedViewerSimulationState > (operationalCapBase + 5)) {
+            microShiftDelta -= 2; 
+          } else if (calculatedViewerSimulationState < (operationalCapBase * 0.88)) {
+            microShiftDelta += 2;
+          } else if (macroeconomicTrend > 0.05) {
+            microShiftDelta += 1; // Lean slightly positive
+          } else if (macroeconomicTrend < -0.05) {
+            microShiftDelta -= 1; // Lean slightly negative
+          }
+
+          calculatedViewerSimulationState += microShiftDelta;
+          
+          // Keep tightly bounded
+          if (calculatedViewerSimulationState > operationalCapBase) {
+            calculatedViewerSimulationState = operationalCapBase - Math.floor(Math.random() * 5);
+          }
+        }
+
         window.renderConsolidatedViewers();
-      }, 2500);
+
+        // 2. Variable Next Delay (Waits a completely random duration between 3.5 to 9.5 seconds)
+        const nextIntervalDelay = Math.floor(Math.random() * 6000) + 3500;
+        setTimeout(executeOrganicUpdateStep, nextIntervalDelay);
+      }
+
+      // Fire off the chain loop
+      setTimeout(executeOrganicUpdateStep, 2000);
     };
 
-    // CHANGED: Outputs full raw integers instead of formatting with 'k' abbreviations
     window.renderConsolidatedViewers = () => {
       const element = document.getElementById('onlineCount');
       if (!element) return;
