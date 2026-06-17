@@ -78,25 +78,61 @@
     
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-    .chat-rules {
-      text-align: center;
-      font-size: 0.85rem;
-      color: #888;
-      padding: 10px 0;
-      background: #0a0d1c;
-      border-bottom: 1px solid #1a1f3d;
+    /* --- INTEGRATED SEAMLESS CHAT CONTAINER --- */
+    .chat-wrapper-container {
+      width: 100%; 
+      height: 640px; 
+      background: var(--bs-body-bg); /* Seamlessly uses global background variable instead of #070912 */
+      border: 1px solid var(--bs-border-color); /* Matches natural site layout borders */
+      border-radius: 16px; 
+      overflow: hidden; 
+      display: flex; 
+      flex-direction: column; 
+      position: relative;
     }
 
-    .owner-name {
-      font-weight: 900; color: #fff;
-      text-shadow: 0 0 10px #ff0000, 0 0 20px #ff4d4d;
-      animation: shockwave 1.5s infinite;
-      display: inline-block;
+    .chat-header-area {
+      padding: 12px 16px; 
+      background: rgba(255,255,255,0.02); 
+      border-bottom: 1px solid var(--bs-border-color);
     }
-    @keyframes shockwave {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); text-shadow: 0 0 25px #ff4d4d, 0 0 40px #ff0000; }
-      100% { transform: scale(1); }
+
+    .chat-rules {
+      text-align: center;
+      font-size: 0.75rem; /* Reduced to look cleaner */
+      color: var(--bs-secondary-color);
+      padding: 6px 0;
+      background: rgba(0,0,0,0.1);
+      border-bottom: 1px solid var(--bs-border-color);
+    }
+
+    /* REDUCED CHAT SIZE STYLES */
+    .chat-username-text {
+      font-size: 0.8rem; /* Smaller sizing */
+      font-weight: 700;
+      color: #22d3ee;
+    }
+
+    .chat-message-payload {
+      font-size: 0.82rem; /* Reduced typography */
+      color: var(--bs-body-color);
+      word-break: break-word;
+    }
+
+    /* REBALANCED OWNER BRANDING WITH BRAND CROWN BADGE */
+    .owner-name {
+      font-size: 0.82rem;
+      font-weight: 800; 
+      color: #ff4d4d;
+      text-shadow: 0 0 8px rgba(255, 77, 77, 0.6);
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .owner-crown-icon {
+      color: #ffd700;
+      font-size: 0.75rem;
+      text-shadow: 0 0 4px #ffd700;
     }
 
     #chatAdminSidebar {
@@ -109,16 +145,17 @@
     .admin-btn { width: 100%; margin-bottom: 10px; font-weight: 600; font-size: 11px; }
 
     .reply-bubble {
-      background: rgba(255,255,255,0.05); border-left: 3px solid #152bff;
-      padding: 6px 12px; margin-bottom: 6px; font-size: 0.8rem; border-radius: 4px; color: #aaa;
+      background: rgba(255,255,255,0.03); border-left: 3px solid #ff4d4d;
+      padding: 4px 8px; margin-bottom: 4px; font-size: 0.75rem; border-radius: 4px; color: var(--bs-secondary-color);
     }
-    .msg-item { position: relative; cursor: pointer; transition: transform 0.2s; padding: 4px 0; }
+    .msg-item { position: relative; cursor: pointer; transition: background 0.2s; padding: 4px 8px; border-radius: 6px; }
+    .msg-item:hover { background: rgba(255,255,255,0.02); }
     .msg-actions { display: none; gap: 8px; margin-left: 10px; font-size: 11px; }
     .msg-item:hover .msg-actions { display: inline-flex; }
 
     #futbolx-chat-messages::-webkit-scrollbar { width: 4px; }
-    #futbolx-chat-messages::-webkit-scrollbar-thumb { background: #1a1f3d; border-radius: 10px; }
-    .chat-msg-emote { width: 28px; height: 28px; vertical-align: middle; margin: 0 2px; }
+    #futbolx-chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+    .chat-msg-emote { width: 22px; height: 22px; vertical-align: middle; margin: 0 2px; }
 
     #statusArea {
       text-align: center; padding: 30px 15px;
@@ -239,8 +276,9 @@
               </div>
             </div>
 
+            <!-- BLENDED AND COMPACT LIVE CHAT CONTAINER MODULE -->
             <div class="col-12 col-lg-4">
-              <div style="width:100%; height:640px; background:#070912; border:1px solid #151933; border-radius:24px; overflow:hidden; display:flex; flex-direction:column; position:relative;">
+              <div class="chat-wrapper-container">
                 
                 <i class="fas fa-bars sidebar-toggle d-none" id="adminSidebarBtn" onclick="toggleSidebar()"></i>
 
@@ -251,11 +289,10 @@
                     <div id="memberList" style="flex:1; overflow-y:auto; border-top:1px solid #1a1f3d;"></div>
                 </div>
 
-                <div style="padding:16px 20px; background:#0a0d1c; border-bottom:1px solid #1a1f3d;">
+                <div class="chat-header-area">
                    <div class="d-flex justify-content-between align-items-center">
-                      <h2 id="chatEventTitle" style="color:white; margin:0; font-size:16px; font-weight:700;">Live Chat</h2>
-                      <!-- Added 'viewer-wrap-hidden' by default to lock count invisible during countdown phase -->
-                      <div id="viewerCountWrapper" class="viewer-wrap-hidden" style="color:#4ade80; font-size:13px; font-weight:600;">
+                      <h2 id="chatEventTitle" style="color:var(--bs-emphasis-color); margin:0; font-size:14px; font-weight:700;">Live Chat</h2>
+                      <div id="viewerCountWrapper" class="viewer-wrap-hidden" style="color:#4ade80; font-size:12px; font-weight:600;">
                         <span id="onlineCount">0</span> viewers
                       </div>
                    </div>
@@ -265,27 +302,27 @@
                   be respectful • no spam • enjoy the streams
                 </div>
 
-                <div id="futbolx-chat-messages" style="flex:1; overflow-y:auto; padding:15px; background:#080a14; display:flex; flex-direction:column; gap:10px;"></div>
+                <div id="futbolx-chat-messages" style="flex:1; overflow-y:auto; padding:12px; background:transparent; display:flex; flex-direction:column; gap:6px;"></div>
 
-                <div id="replyPreview" class="d-none" style="background:#1a1f3d; padding:8px 15px; color:#888; font-size:12px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #152bff;">
+                <div id="replyPreview" class="d-none" style="background:rgba(255,255,255,0.04); padding:6px 12px; color:#888; font-size:11px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #ff4d4d;">
                     <span id="replyText">Replying...</span>
                     <i class="fas fa-times" onclick="cancelReply()" style="cursor:pointer;"></i>
                 </div>
 
-                <div id="chatInputArea" style="border-top:1px solid #1a1f3d; padding:16px; background:#070912;">
-                  <div style="display:flex; gap:10px; align-items:center;">
-                    <button id="toggleEmotes" style="background:none; border:none; color:#555; font-size:20px;"><i class="far fa-smile"></i></button>
-                    <input id="chatInput" placeholder="Type here..." style="flex:1; background:#0b1020; border:1px solid #1a2142; border-radius:20px; padding:8px 15px; color:white; outline:none; font-size:14px;">
-                    <button id="sendChatBtn" style="background:none; border:none; color:#152bff; font-size:20px;"><i class="fas fa-paper-plane"></i></button>
+                <div id="chatInputArea" style="border-top:1px solid var(--bs-border-color); padding:12px; background:rgba(0,0,0,0.05);">
+                  <div style="display:flex; gap:8px; align-items:center;">
+                    <button id="toggleEmotes" style="background:none; border:none; color:var(--bs-secondary-color); font-size:16px;"><i class="far fa-smile"></i></button>
+                    <input id="chatInput" placeholder="Type here..." style="flex:1; background:var(--bs-tertiary-bg); border:1px solid var(--bs-border-color); border-radius:20px; padding:6px 12px; color:var(--bs-body-color); outline:none; font-size:13px;">
+                    <button id="sendChatBtn" style="background:none; border:none; color:#ff4d4d; font-size:16px;"><i class="fas fa-paper-plane"></i></button>
                   </div>
 
-                  <div id="usernameRegisterRow" class="d-none mt-3">
-                    <input type="text" id="guestUsername" class="form-control mb-2" placeholder="Choose username..." style="background:#0b1020; border-color:#1a2142; color:white;">
-                    <button onclick="registerGuestUser()" class="btn btn-danger w-100">Register & Chat</button>
+                  <div id="usernameRegisterRow" class="d-none mt-2">
+                    <input type="text" id="guestUsername" class="form-control form-control-sm mb-2" placeholder="Choose username..." style="background:var(--bs-tertiary-bg); border-color:var(--bs-border-color); color:white;">
+                    <button onclick="registerGuestUser()" class="btn btn-sm btn-danger w-100">Register & Chat</button>
                   </div>
 
-                  <div id="emotePicker" style="display:none; height:150px; overflow-y:auto; margin-top:15px; border-top:1px solid #1a1f3d; padding-top:10px;">
-                    <div id="emoteGrid" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:8px;"></div>
+                  <div id="emotePicker" style="display:none; height:130px; overflow-y:auto; margin-top:10px; border-top:1px solid var(--bs-border-color); padding-top:8px;">
+                    <div id="emoteGrid" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:6px;"></div>
                   </div>
                 </div>
               </div>
@@ -440,7 +477,7 @@
         input.style.display = 'none';
         document.getElementById('sendChatBtn').style.display = 'none';
       } else if (mutedUsers.has(currentUser)) {
-        input.placeholder = "You have been muted. Contact admin on Discord or Telegram.";
+        input.placeholder = "You have been muted. Contact admin.";
         input.disabled = true;
         registerRow.classList.add('d-none');
         input.style.display = 'block';
@@ -495,7 +532,7 @@
         emotes.forEach(e => {
             const b = document.createElement('button');
             b.style.cssText = "background:none; border:none; cursor:pointer;";
-            b.innerHTML = `<img src="${e.url}" style="width:30px;">`;
+            b.innerHTML = `<img src="${e.url}" style="width:24px;">`;
             b.onclick = () => { document.getElementById('chatInput').value += ` :${e.name}: `; };
             grid.appendChild(b);
         });
@@ -509,6 +546,7 @@
         }
     }
 
+    /* RENDER LOGIC WITH SHRUNK TEXT AND CRITICAL OWNER BADGE ICON */
     function renderMsg(msg) {
         const box = document.getElementById('futbolx-chat-messages');
         const div = document.createElement('div');
@@ -517,13 +555,13 @@
         let content = msg.message || "";
         emotes.forEach(e => { content = content.replace(new RegExp(`:${e.name}:`, 'g'), `<img src="${e.url}" class="chat-msg-emote">`); });
 
-        let replyHTML = msg.reply_to_username ? `<div class="reply-bubble">@${msg.reply_to_username}: ${msg.reply_to_msg?.substring(0,30)}...</div>` : '';
+        let replyHTML = msg.reply_to_username ? `<div class="reply-bubble">@${msg.reply_to_username}: ${msg.reply_to_msg?.substring(0,25)}...</div>` : '';
         
-        let nameTag = msg.username === 'Futbolx' 
-          ? `<span class="owner-name">Futbolx</span>` 
-          : `<span style="font-weight:700; color:#22d3ee;">${msg.username}</span>`;
+        let nameTag = (msg.username === 'Futbolx' || msg.username === 'FutbolX') 
+          ? `<span class="owner-name"><i class="fas fa-crown owner-crown-icon"></i> FutbolX</span>` 
+          : `<span class="chat-username-text">${msg.username}</span>`;
 
-        div.innerHTML = `${replyHTML}${nameTag}: <span style="color:#eee;">${content}</span>`;
+        div.innerHTML = `${replyHTML}${nameTag}: <span class="chat-message-payload">${content}</span>`;
         div.onclick = () => setReply(msg.username, msg.message);
         box.appendChild(div);
         box.scrollTop = box.scrollHeight;
@@ -613,7 +651,7 @@
 
     let realActivePresenceCount = 0;
     let calculatedViewerSimulationState = 0;
-    let liveWindowActive = false; // Tracks if the 5min threshold is passed
+    let liveWindowActive = false;
 
     const htmlEl = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
@@ -721,7 +759,6 @@
       });
       
       function executeOrganicUpdateStep() {
-        // Blocks calculation if the 5-minute pre-match timeframe has not arrived yet
         if (!liveWindowActive || !foundEvent || !foundEvent.max_simulated_viewers) {
           calculatedViewerSimulationState = 0;
           window.renderConsolidatedViewers();
@@ -745,7 +782,7 @@
         const behaviorRoll = Math.random();
         
         if (behaviorRoll < 0.45) {
-          // Plateau. Perfect hold state.
+          // Plateau.
         } else {
           const timestamp = Date.now() / 60000;
           const macroeconomicTrend = Math.sin(timestamp) * 0.15;
@@ -783,7 +820,6 @@
       const wrapper = document.getElementById('viewerCountWrapper');
       if (!element || !wrapper) return;
       
-      // Keep completely hidden if outside the live window range
       if (!liveWindowActive) {
         wrapper.classList.add('viewer-wrap-hidden');
         return;
@@ -818,13 +854,11 @@
           setInterval(() => {
             const now = Math.floor(Date.now() / 1000);
             if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
-                // Event is ready (5 minutes before kickoff or active stream duration)
                 liveWindowActive = true; 
                 document.getElementById('statusArea').style.display = 'none'; 
                 if(!streamStarted) startBtn.style.display = 'inline-block';
                 window.renderConsolidatedViewers(); 
             } else if (now < eventStartTime) {
-                // Countdown window state
                 liveWindowActive = false;
                 const diff = eventStartTime - now;
                 const h = Math.floor(diff/3600); const m = Math.floor((diff%3600)/60); const s = diff%60;
