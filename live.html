@@ -131,6 +131,17 @@
     .permanent-noti { margin-top: 12px; background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; transition: opacity 0.6s ease-in; }
     .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 1200px; margin-left: auto; margin-right: auto; }
     [data-bs-theme="dark"] .disclaimer { color: #aaa; background: rgba(0,0,0,0.3); border-top-color: #444; }
+
+    /* Custom Dropdown Styling & Quality Badges */
+    .stream-dropdown-container { max-width: 320px; margin-bottom: 1rem; }
+    .stream-select-custom { background: #0b1020 !important; color: #fff !important; border: 2px solid #ff4d4d !important; border-radius: 12px; padding: 10px 15px; font-weight: 600; cursor: pointer; box-shadow: 0 0 15px rgba(255, 77, 77, 0.15); }
+    .stream-select-custom:focus { box-shadow: 0 0 20px rgba(255, 77, 77, 0.4); outline: none; }
+    
+    .badge-quality { display: inline-block; padding: 2px 6px; font-size: 0.75rem; font-weight: 900; border-radius: 6px; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
+    .badge-fhd { background-color: #0088cc; color: #fff; }
+    .badge-hd { background-color: #22d3ee; color: #0a0a0a; }
+    .badge-4k { background-color: #ff4d4d; color: #fff; }
+    .badge-default { background-color: #555; color: #fff; }
   </style>
 </head>
 <body>
@@ -220,16 +231,18 @@
                 <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
                 <div id="oplayer-container"></div>
               </div>
-              <div id="streamLinks" class="stream-links mt-3" style="display:none;"></div>
+              
+              <div id="streamLinksContainer" class="stream-dropdown-container mt-3" style="display:none;">
+                <label for="streamSelect" class="form-label small text-muted font-weight-bold mb-1"><i class="fas fa-tv"></i> SELECT STREAM SOURCE</label>
+                <select id="streamSelect" class="form-select stream-select-custom"></select>
+              </div>
             </div>
 
             <div class="col-12 col-lg-4">
               <div style="width:100%; height:640px; background:#070912; border:1px solid #151933; border-radius:24px; overflow:hidden; display:flex; flex-direction:column; position:relative;">
                 
-                <!-- ADMIN SIDEBAR TOGGLE -->
                 <i class="fas fa-bars sidebar-toggle d-none" id="adminSidebarBtn" onclick="toggleSidebar()"></i>
 
-                <!-- ADMIN PANEL SIDEBAR -->
                 <div id="chatAdminSidebar">
                     <h6 class="text-white mb-3">Admin Panel</h6>
                     
@@ -264,7 +277,6 @@
                     <button id="sendChatBtn" style="background:none; border:none; color:#152bff; font-size:20px;"><i class="fas fa-paper-plane"></i></button>
                   </div>
 
-                  <!-- Guest Username Registration -->
                   <div id="usernameRegisterRow" class="d-none mt-3">
                     <input type="text" id="guestUsername" class="form-control mb-2" placeholder="Choose username..." style="background:#0b1020; border-color:#1a2142; color:white;">
                     <button onclick="registerGuestUser()" class="btn btn-danger w-100">Register & Chat</button>
@@ -670,22 +682,30 @@
       }
     }
 
-    function populateStreamButtons(event) {
-      const container = document.getElementById('streamLinks');
-      container.innerHTML = event.streams.map((s, i) => {
+    function populateStreamDropdown(event) {
+      const selectMenu = document.getElementById('streamSelect');
+      
+      selectMenu.innerHTML = event.streams.map((s, i) => {
         const realUrl = typeof s === 'string' ? s : s.url;
+        const qualityStr = s.quality ? s.quality.toLowerCase() : 'sd';
+        let labelAddon = `[${qualityStr.toUpperCase()}]`;
+        
         const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
-        return `<button class="btn btn-stream ${i===0?'active':''}" data-p="${payload}">${s.title || `Stream ${i+1}`}</button>`;
+        return `<option value="${payload}" data-title="${s.title || `Stream ${i+1}`}" data-quality="${qualityStr}">${s.title || `Stream ${i+1}`} ${labelAddon}</option>`;
       }).join('');
 
-      container.onclick = (e) => {
-        const btn = e.target.closest('.btn-stream');
-        if (!btn) return;
-        const realUrl = atob(atob(btn.dataset.p).split('||')[0]);
+      selectMenu.onchange = (e) => {
+        const selectedOption = selectMenu.options[selectMenu.selectedIndex];
+        if (!selectedOption) return;
+        
+        const realUrl = atob(atob(selectedOption.value).split('||')[0]);
         playStream(realUrl);
-        document.getElementById('currentStreamName').textContent = btn.textContent.trim();
-        container.querySelectorAll('.btn-stream').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+        
+        const titleContainer = document.getElementById('currentStreamName');
+        const qual = selectedOption.dataset.quality;
+        let badgeClass = qual === 'fhd' ? 'badge-fhd' : qual === 'hd' ? 'badge-hd' : qual === '4k' ? 'badge-4k' : 'badge-default';
+        
+        titleContainer.innerHTML = `${selectedOption.dataset.title} <span class="badge-quality ${badgeClass}">${qual}</span>`;
       };
     }
 
@@ -723,12 +743,19 @@
         startBtn.onclick = () => {
           if (clicksStart < 3) { window.open(AD_URLS[clicksStart], '_blank'); clicksStart++; if (clicksStart < 3) return; }
           document.getElementById('mainVideoContainer').style.display = 'block';
-          document.getElementById('streamLinks').style.display = 'block';
+          document.getElementById('streamLinksContainer').style.display = 'block';
           startBtn.style.display = 'none';
           document.getElementById('liveStreamTitle').classList.remove('d-none');
-          document.getElementById('currentStreamName').textContent = foundEvent.name;
-          playStream(typeof foundEvent.streams[0] === 'string' ? foundEvent.streams[0] : foundEvent.streams[0].url);
-          populateStreamButtons(foundEvent);
+          
+          const dynamicInitialFeed = foundEvent.streams[0];
+          const initialUrl = typeof dynamicInitialFeed === 'string' ? dynamicInitialFeed : dynamicInitialFeed.url;
+          const initialQuality = dynamicInitialFeed.quality ? dynamicInitialFeed.quality.toLowerCase() : 'sd';
+          let initialBadgeClass = initialQuality === 'fhd' ? 'badge-fhd' : initialQuality === 'hd' ? 'badge-hd' : initialQuality === '4k' ? 'badge-4k' : 'badge-default';
+          
+          document.getElementById('currentStreamName').innerHTML = `${dynamicInitialFeed.title || 'Main Feed'} <span class="badge-quality ${initialBadgeClass}">${initialQuality}</span>`;
+          
+          playStream(initialUrl);
+          populateStreamDropdown(foundEvent);
           streamStarted = true;
         };
       } catch (err) {}
