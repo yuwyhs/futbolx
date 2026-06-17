@@ -155,7 +155,8 @@
     #installAppBtn { background: #ff4d4d; color: white; border: none; border-radius: 50px; padding: 10px 18px; font-weight: bold; box-shadow: 0 3px 10px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
     #closePwa { background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; margin-left: -8px; margin-top: -28px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10000; }
 
-    /* ABSOLUTE BADGES OVER POSTER ARTWORK */
+    /* ABSOLUTE BADGES POSITIONING OVER MEDIA POSTER CARD */
+    .card-media-container { position: relative; width: 100%; display: block; }
     .live-badge { position: absolute; top: 10px; left: 10px; background: #dc3545; color: white; padding: 3px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; z-index: 10; }
     .card-viewer-count { position: absolute; top: 10px; right: 10px; display: inline-flex; align-items: center; font-size: 0.75rem; font-weight: bold; color: #ffffff; background: rgba(0,0,0,0.65); padding: 3px 10px; border-radius: 5px; z-index: 10; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.15); }
     .card-viewer-count i { color: #4ade80 !important; }
@@ -181,8 +182,13 @@
         border: none !important; 
         box-shadow: none !important; 
       }
-      .card-img-top {
+      .card-media-container {
         width: 165px !important;
+        height: 100% !important;
+        flex-shrink: 0;
+      }
+      .card-img-top {
+        width: 100% !important;
         height: 100% !important;
         object-fit: cover;
         border-radius: 0;
@@ -237,9 +243,7 @@
       }
       .card-viewer-count {
         top: 8px !important;
-        right: auto !important;
-        /* Positioned nicely relative to the mobile row structure */
-        left: 65px !important; 
+        right: 8px !important;
         font-size: 0.65rem !important;
         padding: 2px 8px !important;
       }
@@ -443,7 +447,6 @@
           if (cardLink) cardLink.classList.add('clickable');
           needsRefresh = true;
           
-          // Switch eye badge viewer count visibility layout when event goes live
           const uri = element.getAttribute('data-uri')?.split('/').pop();
           if (uri) {
             document.querySelectorAll(`.vcount-${uri}`).forEach(el => el.classList.remove('card-viewer-hidden'));
@@ -451,7 +454,6 @@
         }
       });
       
-      // Secondary check to handle end windows cleanly
       Object.keys(globalActiveStreamsRegistry).forEach(uriName => {
         const trackObj = globalActiveStreamsRegistry[uriName];
         const elements = document.querySelectorAll(`.vcount-${uriName}`);
@@ -487,7 +489,6 @@
       });
     }
 
-    /* Manages and tracks Supabase presence updates cleanly per registered cards */
     function initializeCardTrackerEngine(uriName, maxSimulated) {
       if (globalActiveStreamsRegistry[uriName]?.initialized) return;
       
@@ -626,15 +627,17 @@
             const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
             let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
 
-            // Viewer elements are grouped inside the card relative space above the graphic poster
+            // Grouping media components safely inside standard absolute frame container wrapper
             let html = `
                 <a href="/live/${stream.uri_name}">
                   <div class="card">
-                    ${isLive ? '<span class="live-badge">LIVE</span>' : ''}
-                    <span class="card-viewer-count ${isLive ? '' : 'card-viewer-hidden'} vcount-${stream.uri_name}">
-                      <i class="fas fa-eye me-1"></i><span class="val-${stream.uri_name}">0</span>
-                    </span>
-                    <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
+                    <div class="card-media-container">
+                      ${isLive ? '<span class="live-badge">LIVE</span>' : ''}
+                      <span class="card-viewer-count ${isLive ? '' : 'card-viewer-hidden'} vcount-${stream.uri_name}">
+                        <i class="fas fa-eye me-1"></i><span class="val-${stream.uri_name}">0</span>
+                      </span>
+                      <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
+                    </div>
                     <div class="card-body">
                       <h5 class="card-title">${stream.name}</h5>
                       <div class="card-text">
