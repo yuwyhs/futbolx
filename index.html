@@ -155,13 +155,6 @@
     #installAppBtn { background: #ff4d4d; color: white; border: none; border-radius: 50px; padding: 10px 18px; font-weight: bold; box-shadow: 0 3px 10px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
     #closePwa { background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; margin-left: -8px; margin-top: -28px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10000; }
 
-    /* ABSOLUTE BADGES POSITIONING OVER MEDIA POSTER CARD */
-    .card-media-container { position: relative; width: 100%; display: block; }
-    .live-badge { position: absolute; top: 10px; left: 10px; background: #dc3545; color: white; padding: 3px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; z-index: 10; }
-    .card-viewer-count { position: absolute; top: 10px; right: 10px; display: inline-flex; align-items: center; font-size: 0.75rem; font-weight: bold; color: #ffffff; background: rgba(0,0,0,0.65); padding: 3px 10px; border-radius: 5px; z-index: 10; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.15); }
-    .card-viewer-count i { color: #4ade80 !important; }
-    .card-viewer-hidden { display: none !important; }
-
     /* --- MOBILE LIST VIEW (Screenshot UI Fix) --- */
     @media (max-width: 767px) {
       .event-grid {
@@ -182,13 +175,8 @@
         border: none !important; 
         box-shadow: none !important; 
       }
-      .card-media-container {
-        width: 165px !important;
-        height: 100% !important;
-        flex-shrink: 0;
-      }
       .card-img-top {
-        width: 100% !important;
+        width: 165px !important;
         height: 100% !important;
         object-fit: cover;
         border-radius: 0;
@@ -237,13 +225,8 @@
       }
       .live-badge {
         top: 8px !important;
+        right: auto !important;
         left: 8px !important;
-        font-size: 0.65rem !important;
-        padding: 2px 8px !important;
-      }
-      .card-viewer-count {
-        top: 8px !important;
-        right: 8px !important;
         font-size: 0.65rem !important;
         padding: 2px 8px !important;
       }
@@ -365,14 +348,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="/assets/js/api.js"></script>
 
-  <script type="module">
-    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-    const SB_URL = "https://usxpqfbpvlppzldvnerp.supabase.co";
-    const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzeHBxZmJwdmxwcHpsZHZuZXJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNjYzODcsImV4cCI6MjA5Mzg0MjM4N30.zwvsvJRtcTRmVLTHGR3AB9gApShbTswZkmDWGbzI-uY";
-    const supabase = createClient(SB_URL, SB_KEY);
-    window.indexSupabaseInstance = supabase;
-  </script>
-
   <script>
     /* --- DISCLAIMER LOGIC --- */
     (function() {
@@ -410,8 +385,16 @@
     let apiInstance = null;
     function zeropad(num) { return num > 9 ? num : '0' + num; }
 
-    /* Map dictionary to retain stream status timelines & real-time presence counts */
-    let globalActiveStreamsRegistry = {};
+    function clearError() {
+      const errorContainer = document.getElementById('errorContainer');
+      if (errorContainer && !errorContainer.classList.contains('d-none')) {
+        errorContainer.classList.add('fade-out');
+        setTimeout(() => {
+          errorContainer.className = 'd-none error-alert';
+          errorContainer.innerHTML = '';
+        }, 500);
+      }
+    }
 
     function countdown() {
       const now = Math.floor(Date.now() / 1000);
@@ -446,25 +429,8 @@
           element.innerHTML = `<span class="btn btn-danger btn-sm watch-button">Watch</span>`;
           if (cardLink) cardLink.classList.add('clickable');
           needsRefresh = true;
-          
-          const uri = element.getAttribute('data-uri')?.split('/').pop();
-          if (uri) {
-            document.querySelectorAll(`.vcount-${uri}`).forEach(el => el.classList.remove('card-viewer-hidden'));
-          }
         }
       });
-      
-      Object.keys(globalActiveStreamsRegistry).forEach(uriName => {
-        const trackObj = globalActiveStreamsRegistry[uriName];
-        const elements = document.querySelectorAll(`.vcount-${uriName}`);
-        
-        if (now >= trackObj.startTime && now <= trackObj.endTime) {
-          elements.forEach(el => el.classList.remove('card-viewer-hidden'));
-        } else {
-          elements.forEach(el => el.classList.add('card-viewer-hidden'));
-        }
-      });
-
       if (needsRefresh && apiInstance) {
         const currentTime = Date.now();
         if (currentTime - lastApiCall >= 1000) {
@@ -487,71 +453,6 @@
         }
         attempt();
       });
-    }
-
-    function initializeCardTrackerEngine(uriName, maxSimulated) {
-      if (globalActiveStreamsRegistry[uriName]?.initialized) return;
-      
-      globalActiveStreamsRegistry[uriName].initialized = true;
-      globalActiveStreamsRegistry[uriName].realCount = 0;
-      globalActiveStreamsRegistry[uriName].simulatedCount = 0;
-
-      const checkInterval = setInterval(() => {
-        if (window.indexSupabaseInstance) {
-          clearInterval(checkInterval);
-          startTracking();
-        }
-      }, 200);
-
-      function startTracking() {
-        const channel = window.indexSupabaseInstance.channel(`room_${uriName}`);
-        channel.on('presence', { event: 'sync' }, () => {
-          const presenceState = channel.presenceState();
-          globalActiveStreamsRegistry[uriName].realCount = Object.keys(presenceState).length;
-          renderViews();
-        }).subscribe();
-
-        function runSimulationLoop() {
-          const track = globalActiveStreamsRegistry[uriName];
-          const now = Math.floor(Date.now() / 1000);
-          
-          if (now >= track.startTime && now <= track.endTime) {
-            const maxLimit = parseInt(maxSimulated, 10);
-            if (!isNaN(maxLimit) && maxLimit > 0) {
-              const baseCap = maxLimit - 20;
-              if (track.simulatedCount === 0) {
-                track.simulatedCount = Math.floor(baseCap * 0.94);
-              }
-
-              if (Math.random() >= 0.45) {
-                const trend = Math.sin(Date.now() / 60000) * 0.15;
-                let delta = Math.floor(Math.random() * 7) - 3;
-                
-                if (track.simulatedCount > (baseCap + 5)) delta -= 2;
-                else if (track.simulatedCount < (baseCap * 0.88)) delta += 2;
-                else if (trend > 0.05) delta += 1;
-                else if (trend < -0.05) delta -= 1;
-
-                track.simulatedCount += delta;
-                if (track.simulatedCount > baseCap) track.simulatedCount = baseCap - Math.floor(Math.random() * 5);
-              }
-            }
-          } else {
-            track.simulatedCount = 0;
-          }
-          
-          renderViews();
-          setTimeout(runSimulationLoop, Math.floor(Math.random() * 6000) + 3500);
-        }
-        
-        setTimeout(runSimulationLoop, 1500);
-      }
-
-      function renderViews() {
-        const track = globalActiveStreamsRegistry[uriName];
-        const total = track.realCount + track.simulatedCount;
-        document.querySelectorAll(`.val-${uriName}`).forEach(el => el.innerText = total);
-      }
     }
 
     async function loadContent(api) {
@@ -616,34 +517,18 @@
             let endTime = stream.ends_at ? new Date(stream.ends_at + '+03:00').getTime() / 1000 : startTime + 10800;
             if (now > endTime) return;
 
-            globalActiveStreamsRegistry[stream.uri_name] = {
-              startTime: startTime,
-              endTime: endTime,
-              initialized: globalActiveStreamsRegistry[stream.uri_name]?.initialized || false,
-              realCount: globalActiveStreamsRegistry[stream.uri_name]?.realCount || 0,
-              simulatedCount: globalActiveStreamsRegistry[stream.uri_name]?.simulatedCount || 0
-            };
-
             const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
             let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
 
-            // Grouping media components safely inside standard absolute frame container wrapper
             let html = `
                 <a href="/live/${stream.uri_name}">
                   <div class="card">
-                    <div class="card-media-container">
-                      ${isLive ? '<span class="live-badge">LIVE</span>' : ''}
-                      <span class="card-viewer-count ${isLive ? '' : 'card-viewer-hidden'} vcount-${stream.uri_name}">
-                        <i class="fas fa-eye me-1"></i><span class="val-${stream.uri_name}">0</span>
-                      </span>
-                      <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
-                    </div>
+                    ${isLive ? '<span class="live-badge" style="position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; padding: 2px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; z-index: 10;">LIVE</span>' : ''}
+                    <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
                     <div class="card-body">
                       <h5 class="card-title">${stream.name}</h5>
                       <div class="card-text">
-                        <div>
-                          <span class="event-tag">${stream.tag}</span>
-                        </div>
+                        <span class="event-tag">${stream.tag}</span>
                         <span class="event-timer">
                           ${isLive ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
                         </span>
@@ -651,8 +536,6 @@
                     </div>
                   </div>
                 </a>`;
-
-            initializeCardTrackerEngine(stream.uri_name, stream.max_simulated_viewers);
 
             if (isLive) { livecards.innerHTML += html; hasLiveEvents = true; } 
             else { categoryEvents[categoryKey].push({ html, startTime }); }
@@ -680,17 +563,6 @@
         document.querySelectorAll('.card').forEach(card => observer.observe(card));
 
       } catch (error) { livecards.innerHTML = '<p>Failed to load streams.</p>'; }
-    }
-
-    function clearError() {
-      const errorContainer = document.getElementById('errorContainer');
-      if (errorContainer && !errorContainer.classList.contains('d-none')) {
-        errorContainer.classList.add('fade-out');
-        setTimeout(() => {
-          errorContainer.className = 'd-none error-alert';
-          errorContainer.innerHTML = '';
-        }, 500);
-      }
     }
 
     function initPage() {
