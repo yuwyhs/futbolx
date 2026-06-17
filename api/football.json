@@ -58,15 +58,15 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://embedindia.st/embed/wc/2026-06-16/arg-alg/tsn"
             },
             {
               "title": "Alt Feed",
-              "url": ""
+              "url": "https://embedindia.st/embed/wc/2026-06-16/arg-alg"
             },
             {
               "title": "4K Stream",
-              "url": ""
+              "url": "https://embedindia.st/embed/wc/2026-06-16/arg-alg/fox-4k"
             }
           ]
         },
