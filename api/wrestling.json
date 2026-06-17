@@ -13,9 +13,11 @@
           "starts_at": "2026-06-16T03:00:00",
           "ends_at": "2026-06-16T06:10:00",
           "always_live": 0,
+          "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
+              "quality": "fhd",
               "url": "https://embedindia.st/embed/wwe/raw/2026-06-15"
             }
           ]
@@ -28,9 +30,11 @@
           "starts_at": "2026-05-31T22:00:00",
           "ends_at": "2026-06-01T06:00:00",
           "always_live": 0,
+          "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
+              "quality": "fhd",
               "url": "https://unixutf.loreofeldenring.site/dailymotion/live/playlist/7.m3u8"
             }
           ]
@@ -40,12 +44,14 @@
           "uri_name": "jsubs7j",
           "poster": "https://static.wixstatic.com/media/815952_4d9aff75fc6147aca61c95f2e6e74589~mv2.jpg/v1/fill/w_1920,h_1080,al_c/815952_4d9aff75fc6147aca61c95f2e6e74589~mv2.jpg",
           "tag": "AEW",
-          "starts_at": "2026-06-04T03:00:00",
-          "ends_at": "2026-06-04T06:00:00",
+          "starts_at": "2026-06-18T03:00:00",
+          "ends_at": "2026-06-18T06:00:00",
           "always_live": 0,
+          "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
+              "quality": "fhd",
               "url": "https://pooembed.eu/embed/aew/dynamite/2026-06-03"
             }
           ]
@@ -58,9 +64,11 @@
           "starts_at": "2026-05-15T04:00:00",
           "ends_at": "2026-05-15T06:00:00",
           "always_live": 0,
+          "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
+              "quality": "fhd",
               "url": "https://pooembed.eu/embed/tna/impact/2026-05-14"
             }
           ]
@@ -73,9 +81,11 @@
           "starts_at": "2026-06-13T03:00:00",
           "ends_at": "2026-06-13T06:50:00",
           "always_live": 0,
+          "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
+              "quality": "fhd",
               "url": "https://embedindia.st/embed/wwe/smackdown/2026-06-12"
             }
           ]
@@ -88,9 +98,11 @@
           "starts_at": "2026-06-14T03:00:00",
           "ends_at": "2026-06-14T06:10:00",
           "always_live": 0,
+          "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
+              "quality": "fhd",
               "url": "https://embedindia.st/embed/aew/collision/2026-06-13"
             }
           ]
