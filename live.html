@@ -78,7 +78,6 @@
     
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-    /* Chat Rules */
     .chat-rules {
       text-align: center;
       font-size: 0.85rem;
@@ -132,7 +131,6 @@
     .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 1200px; margin-left: auto; margin-right: auto; }
     [data-bs-theme="dark"] .disclaimer { color: #aaa; background: rgba(0,0,0,0.3); border-top-color: #444; }
 
-    /* Custom Dropdown Styling & Quality Badges */
     .stream-dropdown-container { max-width: 320px; margin-bottom: 1rem; }
     .stream-select-custom { background: #0b1020 !important; color: #fff !important; border: 2px solid #ff4d4d !important; border-radius: 12px; padding: 10px 15px; font-weight: 600; cursor: pointer; box-shadow: 0 0 15px rgba(255, 77, 77, 0.15); }
     .stream-select-custom:focus { box-shadow: 0 0 20px rgba(255, 77, 77, 0.4); outline: none; }
@@ -232,7 +230,6 @@
                 <div id="oplayer-container"></div>
               </div>
               
-              <!-- Custom Dropdown Selector Menu -->
               <div id="streamLinksContainer" class="stream-dropdown-container mt-3" style="display:none;">
                 <label for="streamSelect" class="form-label small text-muted font-weight-bold mb-1"><i class="fas fa-tv"></i> SELECT STREAM SOURCE</label>
                 <select id="streamSelect" class="form-select stream-select-custom"></select>
@@ -242,10 +239,8 @@
             <div class="col-12 col-lg-4">
               <div style="width:100%; height:640px; background:#070912; border:1px solid #151933; border-radius:24px; overflow:hidden; display:flex; flex-direction:column; position:relative;">
                 
-                <!-- ADMIN SIDEBAR TOGGLE -->
                 <i class="fas fa-bars sidebar-toggle d-none" id="adminSidebarBtn" onclick="toggleSidebar()"></i>
 
-                <!-- ADMIN PANEL SIDEBAR -->
                 <div id="chatAdminSidebar">
                     <h6 class="text-white mb-3">Admin Panel</h6>
                     
@@ -256,7 +251,6 @@
                 <div style="padding:16px 20px; background:#0a0d1c; border-bottom:1px solid #1a1f3d;">
                    <div class="d-flex justify-content-between align-items-center">
                       <h2 id="chatEventTitle" style="color:white; margin:0; font-size:16px; font-weight:700;">Live Chat</h2>
-                      <!-- CHANGED: online label changed to viewers -->
                       <div style="color:#4ade80; font-size:13px; font-weight:600;">
                         <span id="onlineCount">0</span> viewers
                       </div>
@@ -281,7 +275,6 @@
                     <button id="sendChatBtn" style="background:none; border:none; color:#152bff; font-size:20px;"><i class="fas fa-paper-plane"></i></button>
                   </div>
 
-                  <!-- Guest Username Registration -->
                   <div id="usernameRegisterRow" class="d-none mt-3">
                     <input type="text" id="guestUsername" class="form-control mb-2" placeholder="Choose username..." style="background:#0b1020; border-color:#1a2142; color:white;">
                     <button onclick="registerGuestUser()" class="btn btn-danger w-100">Register & Chat</button>
@@ -387,7 +380,6 @@
     let currentIP = "";
     let isOwner = false;
     let replyTo = null;
-    let hasEnteredChat = false;
     let mutedUsers = new Set();
 
     async function init() {
@@ -400,7 +392,6 @@
         loadEmotes();
         loadMessages();
         setupRealtime();
-        // CHANGED: Combined Supabase connection loop into window initialization handles
         window.initViewerPresenceEngine();
         updateInputUI();
         loadAllMembers();
@@ -457,10 +448,6 @@
         input.style.display = 'block';
         document.getElementById('sendChatBtn').style.display = 'block';
       }
-    }
-
-    function setupPresence() {
-        // Handled globally below to smoothly merge real-time counts with simulated viewers
     }
 
     async function loadAllMembers() {
@@ -585,7 +572,6 @@
   </script>
 
   <script>
-    // General stream and UI logic
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
     
@@ -621,7 +607,6 @@
     let foundEvent = null; 
     const PRE_LIVE_BUFFER = 300; 
 
-    // ADDED: Local context engine variables to scale real presence alongside simulations
     let realActivePresenceCount = 0;
     let calculatedViewerSimulationState = 0;
 
@@ -715,7 +700,6 @@
       };
     }
 
-    // ADDED: Automated parsing engine to update display data smoothly
     window.initViewerPresenceEngine = () => {
       const uriName = window.location.pathname.split('/').pop() || 'lobby';
       const channel = window.globalSupabaseInstance.channel(`room_${uriName}`);
@@ -731,7 +715,7 @@
         }
       });
       
-      // Calculate dynamic variance every 4 seconds to simulate active viewers
+      // CHANGED: Fluctuates values more dynamically down & up every 2.5 seconds
       setInterval(() => {
         if (!foundEvent || !foundEvent.max_simulated_viewers) {
           calculatedViewerSimulationState = 0;
@@ -744,39 +728,33 @@
           return;
         }
 
-        // Cap the base value at 20 below the max configuration target (e.g., 1480 for 1500 max)
+        // Hard boundary cap remains strictly 20 below maximum configuration parameter
         const operationalCapBase = maximumLimit - 20; 
         
-        // Generate a smooth local wave pattern using mathematical formulas
-        const timestamp = Date.now() / 150000; 
-        const driftVariance = (Math.sin(timestamp) * 0.4) + (Math.cos(timestamp * 2.3) * 0.1); 
+        const timestamp = Date.now() / 60000; 
+        // Generates organic micro-fluctuation wave paths
+        const driftVariance = (Math.sin(timestamp) * 0.3) + (Math.cos(timestamp * 3.7) * 0.15); 
         
-        // Scale the base value against our wave logic and apply small random variations
-        let calculation = Math.floor(operationalCapBase * (0.88 + (driftVariance * 0.12)));
-        calculation += Math.floor(Math.random() * 11) - 5; 
+        let calculation = Math.floor(operationalCapBase * (0.92 + (driftVariance * 0.08)));
+        // Apply immediate multi-directional variance steps (+ or -)
+        calculation += Math.floor(Math.random() * 17) - 8; 
         
         if (calculation > operationalCapBase) {
-          calculation = operationalCapBase - Math.floor(Math.random() * 10);
+          calculation = operationalCapBase - Math.floor(Math.random() * 12);
         }
         
         calculatedViewerSimulationState = Math.max(0, calculation);
         window.renderConsolidatedViewers();
-      }, 4000);
+      }, 2500);
     };
 
-    // ADDED: Formats viewer counts to use standard abbreviations like 'K' for thousands
+    // CHANGED: Outputs full raw integers instead of formatting with 'k' abbreviations
     window.renderConsolidatedViewers = () => {
       const element = document.getElementById('onlineCount');
       if (!element) return;
       
-      // Combine the real user analytics count directly with the simulation baseline
       const totalCombinedViews = realActivePresenceCount + calculatedViewerSimulationState;
-      
-      if (totalCombinedViews >= 1000) {
-        element.innerText = (totalCombinedViews / 1000).toFixed(1) + 'k';
-      } else {
-        element.innerText = totalCombinedViews;
-      }
+      element.innerText = totalCombinedViews;
     };
 
     document.addEventListener('DOMContentLoaded', async () => {
@@ -797,7 +775,6 @@
           document.getElementById('eventTitle').textContent = foundEvent.name;
           document.getElementById('chatEventTitle').textContent = foundEvent.name + " Chat";
           
-          // Re-trigger the formatting rules to parse configuration settings
           window.renderConsolidatedViewers();
 
           eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
