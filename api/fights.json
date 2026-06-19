@@ -6,12 +6,12 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "GLORY COLLISION 9",
+          "name": "UFC Fight Night: Kape vs Horiguchi",
           "uri_name": "g1c9c7l9",
-          "poster": "https://api.ppv.to/assets/thumb/4a0803fa42680d360339cd2431febfbc-thumbnail.jpg",
-          "tag": "PPV",
-          "starts_at": "2026-06-13T19:30:00",
-          "ends_at": "2026-06-14T00:30:00",
+          "poster": "https://api.ppv.to/assets/thumb/b0450e24554efd9c39cc2367b93307fd-thumbnail.jpg",
+          "tag": "UFC",
+          "starts_at": "2026-06-21T00:00:00",
+          "ends_at": "2026-06-21T08:30:00",
           "always_live": 0,
           "streams": [
             {
