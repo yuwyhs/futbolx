@@ -13,7 +13,7 @@
           "starts_at": "2026-06-20T20:00:00",
           "ends_at": "2026-06-20T22:10:00",
           "always_live": 0,
-          "max_simulated_viewers": 60,
+          "max_simulated_viewers": 600,
           "streams": [
             {
               "title": "Main Feed",
@@ -40,17 +40,17 @@
           "starts_at": "2026-06-20T23:00:00",
           "ends_at": "2026-06-21T01:10:00",
           "always_live": 0,
-          "max_simulated_viewers": 40,
+          "max_simulated_viewers": 1000,
           "streams": [
             {
               "title": "Main Feed",
               "quality": "fhd",
-              "url": ""
+              "url": "https://www.streamtp.top/proxy?url=https%3A%2F%2Flivecdn-tc-livestream.rumsport10.live%2Fstream%2F2%2Fchunks.m3u8%3Fis_vip%3Dfalse%26token%3D1782071221-Kv4cPTAAP5YTi-772f58d4546a44c30407f72ba2137ea01c4da834-b95cf33c6a32be9dcbf1d831ee55609f&referer=https%3A%2F%2Fiframe.rumsport10.live%2F&ua=Mozilla%2F5.0%20(Linux%3B%20Android%2010%3B%20K)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F120.0.0.0%20Mobile%20Safari%2F537.36"
             },
             {
               "title": "Alt Feed",
               "quality": "fhd",
-              "url": ""
+              "url": "https://www.streamtp.top/proxy?url=https%3A%2F%2Flivecdn-bp-livestream.rumsport7.live%2Fstream%2F2%2Fchunks.m3u8%3Fis_vip%3Dfalse%26token%3D772f58d4546a44c30407f72ba2137ea01c4da834%26x-sign%3D3223c4fa5e982aa67a4aa1e71cdc93ef%26x-time%3D1781984820&referer=https%3A%2F%2Fiframe.rumsport10.live%2F&ua=Mozilla%2F5.0%20(Linux%3B%20Android%2010%3B%20K)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F120.0.0.0%20Mobile%20Safari%2F537.36"
             },
             {
               "title": "4K Stream",
