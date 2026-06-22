@@ -45,22 +45,22 @@
           "starts_at": "2026-06-23T00:00:00",
           "ends_at": "2026-06-23T02:10:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 500,
           "streams": [
             {
               "title": "Main Feed",
               "quality": "fhd",
-              "url": ""
+              "url": "https://www.streamtp.top/proxy?url=https%3A%2F%2Flivecdn-bp-iptv.rumsport7.live%2Flive_abr%2F240885%2F720p%2Fchunks.m3u8%3Fis_vip%3Dfalse%26token%3D4b703ace9595820ec1c1f1f8078e9651e5b2ca16%26x-sign%3Da86929ff49c12b03545c89f884ba465f%26x-time%3D1782161160&referer=https%3A%2F%2Fiframe.rumsport10.live%2F&ua=Mozilla%2F5.0%20(Linux%3B%20Android%2010%3B%20K)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F120.0.0.0%20Mobile%20Safari%2F537.36"
             },
             {
-              "title": "Alt Feed",
+              "title": "Alt Feed(fr)",
               "quality": "fhd",
-              "url": ""
+              "url": "https://player.twitch.tv/?channel=futplustv&parent=futbol-x.xyz"
             },
             {
               "title": "4K Stream",
               "quality": "4k",
-              "url": ""
+              "url": "https://embedindia.st/embed/wc/2026-06-22/fra-irq/fox-4k"
             }
           ]
         },
