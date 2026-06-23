@@ -16,19 +16,19 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
+              "title": "Main Feed(Tsn 4)",
               "quality": "fhd",
               "url": "https://futbolx-live.hf.space/live/tsn4.m3u8"
             },
             {
-              "title": "Alt Feed",
+              "title": "Alt Feed(Tsn 1)",
               "quality": "fhd",
-              "url": ""
+              "url": "https://futbolx-live.hf.space/live/tsn1.m3u8"
             },
             {
               "title": "4K Stream(ext. source)",
               "quality": "4k",
-              "url": ""
+              "url": "https://embedindia.st/embed/wc/2026-06-23/por-uzb/fox-4k"
             }
           ]
         },
