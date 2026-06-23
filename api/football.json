@@ -6,105 +6,73 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Argentina vs Austria",
-          "uri_name": "a4v1a9u4",
-          "poster": "https://api.ppv.to/assets/thumb/d4451c233beb8599ad755857139ca7a6-thumbnail.jpg",
+          "name": "Portugal vs Uzbekistan",
+          "uri_name": "p4v1u9z4",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/kdr7qh1775058352.jpg/medium",
           "tag": "World Cup",
-          "starts_at": "2026-06-22T17:00:00",
-          "ends_at": "2026-06-22T22:10:00",
+          "starts_at": "2026-06-23T20:00:00",
+          "ends_at": "2026-06-23T22:10:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
               "quality": "fhd",
-              "url": "https://futbolx-live.hf.space/live/tsn1.m3u8"
+              "url": "https://futbolx-live.hf.space/live/tsn4.m3u8"
             },
             {
               "title": "Alt Feed",
               "quality": "fhd",
-              "url": "https://www.streamtp.top/proxy?url=https%3A%2F%2Flivecdn-bp-livestream.rumsport7.live%2Fstream%2F2%2Fchunks.m3u8%3Fis_vip%3Dfalse%26token%3D97485dc429df9d197299f11e6910085db581b107%26x-sign%3D015e5987429e92614642679da5d6280a%26x-time%3D1782146760&referer=https%3A%2F%2Fiframe.rumsport10.live%2F&ua=Mozilla%2F5.0%20(Linux%3B%20Android%2010%3B%20K)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F120.0.0.0%20Mobile%20Safari%2F537.36"
+              "url": ""
             },
             {
-              "title": "4K Stream",
+              "title": "4K Stream(ext. source)",
               "quality": "4k",
-              "url": "https://embedindia.st/embed/wc/2026-06-22/arg-aut/fox-4k"
-            },
-            {
-              "title": "Telegram Feed",
-              "quality": "hd",
-              "url": "https://player.twitch.tv/?channel=futplustv&parent=futbol-x.xyz"
+              "url": ""
             }
           ]
         },
         {
-          "name": "France vs Iraq",
-          "uri_name": "f4v1i9r4",
-          "poster": "https://api.ppv.to/assets/thumb/fa2b0e644be0dcebf7bdf290a65eafd2-thumbnail.jpg",
+          "name": "England vs Ghana",
+          "uri_name": "e4v1g9h4",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/e5dedu1775058350.jpg/medium",
           "tag": "World Cup",
-          "starts_at": "2026-06-23T00:00:00",
-          "ends_at": "2026-06-23T04:10:00",
+          "starts_at": "2026-06-23T23:00:00",
+          "ends_at": "2026-06-24T01:10:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
               "quality": "fhd",
-              "url": "https://www.streamtp.top/proxy?url=https%3A%2F%2Flivecdn-tc-livestream.rumsport10.live%2Fstream%2F2%2Fchunks.m3u8%3Fis_vip%3Dfalse%26token%3D1782258394-Kv4cPTAAP5YTi-2bec1016a58ef6e13fa4b1abfe1aee2f31c9be71-a748a0fe0da4d403a30f683304a805f4&referer=https%3A%2F%2Fiframe.rumsport10.live%2F&ua=Mozilla%2F5.0%20(Linux%3B%20Android%2010%3B%20K)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F120.0.0.0%20Mobile%20Safari%2F537.36"
-            },
-            {
-              "title": "Alt Feed(fr)",
-              "quality": "fhd",
-              "url": "https://www.streamtp.top/proxy?url=https%3A%2F%2Flivecdn-tc-livestream.rumsport10.live%2Fsla%2F1-6a19b1008be8f85130103719%2Fchunks.m3u8%3Fis_vip%3Dfalse%26token%3D1782248501-Kv4cPTAAP5YTi-a67c1b930272ef5e906f24b856e6198ba350a47b-05db02ad43f3faece3c50dfd5bf579e3&referer=https%3A%2F%2Fiframe.rumsport10.live%2F&ua=Mozilla%2F5.0%20(Linux%3B%20Android%2010%3B%20K)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F120.0.0.0%20Mobile%20Safari%2F537.36"
-            },
-            {
-              "title": "4K Stream",
-              "quality": "4k",
-              "url": "https://embedindia.st/embed/wc/2026-06-22/fra-irq/fox-4k"
-            }
-          ]
-        },
-        {
-          "name": "Norway vs Senegal",
-          "uri_name": "n4v1s9n4",
-          "poster": "https://api.ppv.to/assets/thumb/6bf8122b702d798ba31186e6619c89e4-thumbnail.jpg",
-          "tag": "World Cup",
-          "starts_at": "2026-06-23T03:00:00",
-          "ends_at": "2026-06-23T05:10:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "quality": "fhd",
-              "url": "https://www.streamtp.top/proxy?url=https%3A%2F%2Flivecdn-bp-iptv.rumsport7.live%2Flive_abr%2F177%2F720p%2Fchunks.m3u8%3Fis_vip%3Dfalse%26token%3D2bec1016a58ef6e13fa4b1abfe1aee2f31c9be71%26x-sign%3D1a64fa1e88c1c763dcaff1158d3016cc%26x-time%3D1782171960&referer=https%3A%2F%2Fiframe.rumsport10.live%2F&ua=Mozilla%2F5.0%20(Linux%3B%20Android%2010%3B%20K)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F120.0.0.0%20Mobile%20Safari%2F537.36"
+              "url": "https://futbolx-live.hf.space/live/tsn4.m3u8"
             },
             {
               "title": "Alt Feed",
               "quality": "fhd",
-              "url": "https://www.streamtp.top/proxy?url=https%3A%2F%2Flivecdn-bp-iptv.rumsport7.live%2Flive_abr%2F177%2F720p%2Fchunks.m3u8%3Fis_vip%3Dfalse%26token%3D2bec1016a58ef6e13fa4b1abfe1aee2f31c9be71%26x-sign%3D1a64fa1e88c1c763dcaff1158d3016cc%26x-time%3D1782171960&referer=https%3A%2F%2Fiframe.rumsport10.live%2F&ua=Mozilla%2F5.0%20(Linux%3B%20Android%2010%3B%20K)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F120.0.0.0%20Mobile%20Safari%2F537.36"
+              "url": ""
             },
             {
-              "title": "4K Stream",
+              "title": "4K Stream(ext. source)",
               "quality": "4k",
-              "url": "https://embedindia.st/embed/wc/2026-06-22/nor-sen/fox-4k"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Jordan vs Algeria",
-          "uri_name": "j4v1a9l7",
-          "poster": "https://api.ppv.to/assets/thumb/aa16f1715060b271db98cd3685a23547-thumbnail.jpg",
+          "name": "Panama vs Croatia",
+          "uri_name": "p4v1c9r4",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/72bcb41775058351.jpg/medium",
           "tag": "World Cup",
-          "starts_at": "2026-06-23T06:00:00",
-          "ends_at": "2026-06-23T08:10:00",
+          "starts_at": "2026-06-24T02:00:00",
+          "ends_at": "2026-06-24T04:10:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
               "quality": "fhd",
-              "url": "https://docker-ubuntu-desktop-production-f47a8.up.railway.app/live/test.m3u8"
+              "url": ""
             },
             {
               "title": "Alt Feed",
