@@ -48,14 +48,14 @@
               "url": "https://futbolx-live.hf.space/live/tsn1.m3u8"
             },
             {
-              "title": "Alt Feed",
+              "title": "Alt Feed(fox)",
               "quality": "fhd",
-              "url": ""
+              "url": "https://futbolx-live.hf.space/live/fox.m3u8"
             },
             {
               "title": "4K Stream(ext. source)",
               "quality": "4k",
-              "url": ""
+              "url": "https://embedindia.st/embed/wc/2026-06-23/eng-gha/fox-4k"
             }
           ]
         },
