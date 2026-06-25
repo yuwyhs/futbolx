@@ -18,17 +18,12 @@
             {
               "title": "Main Feed",
               "quality": "fhd",
-              "url": ""
+              "url": "https://futbolx-live.hf.space/live/tsn1.m3u8"
             },
             {
               "title": "Alt Feed",
               "quality": "fhd",
-              "url": ""
-            },
-            {
-              "title": "Ext. Feed",
-              "quality": "fhd",
-              "url": ""
+              "url": "https://futbolx-live.hf.space/live/m6.m3u8"
             }
           ]
         },
@@ -45,15 +40,10 @@
             {
               "title": "Main Feed",
               "quality": "fhd",
-              "url": ""
+              "url": "https://futbolx-live.hf.space/live/tsn1.m3u8"
             },
             {
               "title": "Alt Feed",
-              "quality": "fhd",
-              "url": ""
-            },
-            {
-              "title": "Ext. Feed",
               "quality": "fhd",
               "url": ""
             }
@@ -78,11 +68,6 @@
               "title": "Alt Feed",
               "quality": "fhd",
               "url": ""
-            },
-            {
-              "title": "Ext. Feed",
-              "quality": "fhd",
-              "url": ""
             }
           ]
         },
@@ -103,11 +88,6 @@
             },
             {
               "title": "Alt Feed",
-              "quality": "fhd",
-              "url": ""
-            },
-            {
-              "title": "Ext. Feed",
               "quality": "fhd",
               "url": ""
             }
@@ -132,11 +112,6 @@
               "title": "Alt Feed",
               "quality": "fhd",
               "url": ""
-            },
-            {
-              "title": "Ext. Feed",
-              "quality": "fhd",
-              "url": ""
             }
           ]
         },
@@ -157,11 +132,6 @@
             },
             {
               "title": "Alt Feed",
-              "quality": "fhd",
-              "url": ""
-            },
-            {
-              "title": "Ext. Feed",
               "quality": "fhd",
               "url": ""
             }
