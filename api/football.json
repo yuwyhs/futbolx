@@ -16,19 +16,19 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
+              "title": "Main Feed(En)",
               "quality": "fhd",
-              "url": ""
+              "url": "https://futbolx1-live.hf.space/live/tsn1.m3u8"
             },
             {
-              "title": "Alt Feed",
+              "title": "Alt Feed(En)",
               "quality": "fhd",
-              "url": ""
+              "url": "https://futbolx4-live.hf.space/live/fs1.m3u8"
             },
             {
-              "title": "Ext. Feed",
+              "title": "Ext. Feed(Fr)",
               "quality": "fhd",
-              "url": ""
+              "url": "https://futbolx-live.hf.space/live/fr.m3u8"
             }
           ]
         },
@@ -43,14 +43,14 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
+              "title": "Main Feed(En)",
               "quality": "fhd",
-              "url": ""
+              "url": "https://futbolx6-live.hf.space/live/tsn2.m3u8"
             },
             {
               "title": "Alt Feed",
               "quality": "fhd",
-              "url": ""
+              "url": "https://futbolx6-live.hf.space/live/tsn2.m3u8"
             },
             {
               "title": "Ext. Feed",
