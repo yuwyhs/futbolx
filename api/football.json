@@ -99,17 +99,17 @@
             {
               "title": "Main Feed",
               "quality": "fhd",
-              "url": "https://futbolx5-live.hf.space/live/tsn2.m3u8"
+              "url": "https://futbolx6-live.hf.space/live/tsn2.m3u8"
             },
             {
               "title": "Alt Feed",
               "quality": "fhd",
-              "url": ""
+              "url": "https://futbolx6-live.hf.space/live/tsn2.m3u8"
             },
             {
               "title": "Ext. Feed",
               "quality": "fhd",
-              "url": ""
+              "url": "https://futbolx4-live.hf.space/live/fs1.m3u8"
             }
           ]
         },
