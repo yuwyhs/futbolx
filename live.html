@@ -628,7 +628,7 @@
     let eventEndTime = null;
     let streamStarted = false;
     let foundEvent = null; 
-    const PRE_LIVE_BUFFER = 300; 
+    const PRE_LIVE_BUFFER = 900; 
 
     let realActivePresenceCount = 0;
     let calculatedViewerSimulationState = 0;
@@ -717,21 +717,20 @@
 
     window.initViewerPresenceEngine = () => {
       const uriName = window.location.pathname.split('/').pop() || 'lobby';
-      const channel = window.globalSupabaseInstance.channel(`room_${uriName}`);
+      const channel = window.globalSupabaseInstance.channel(`viewers_${uriName}`);
       
       channel.on('presence', { event: 'sync' }, () => {
         const presenceState = channel.presenceState();
         realActivePresenceCount = Object.keys(presenceState).length;
         window.renderConsolidatedViewers();
       }).subscribe(async (status) => {
-        const currentUser = localStorage.getItem('chat_user');
-        if (status === 'SUBSCRIBED' && currentUser) {
+        if (status === 'SUBSCRIBED') {
           await channel.track({ online_at: new Date().toISOString() });
         }
       });
       
       function executeOrganicUpdateStep() {
-        if (!liveWindowActive || !foundEvent || !foundEvent.max_simulated_viewers) {
+        if (!foundEvent || !foundEvent.max_simulated_viewers) {
           calculatedViewerSimulationState = 0;
           window.renderConsolidatedViewers();
           setTimeout(executeOrganicUpdateStep, 3000);
@@ -792,11 +791,6 @@
       const wrapper = document.getElementById('viewerCountWrapper');
       if (!element || !wrapper) return;
       
-      if (!liveWindowActive) {
-        wrapper.classList.add('viewer-wrap-hidden');
-        return;
-      }
-      
       wrapper.classList.remove('viewer-wrap-hidden');
       const totalCombinedViews = realActivePresenceCount + calculatedViewerSimulationState;
       element.innerText = totalCombinedViews;
@@ -829,13 +823,11 @@
                 liveWindowActive = true; 
                 document.getElementById('statusArea').style.display = 'none'; 
                 if(!streamStarted) startBtn.style.display = 'inline-block';
-                window.renderConsolidatedViewers(); 
             } else if (now < eventStartTime) {
                 liveWindowActive = false;
                 const diff = eventStartTime - now;
                 const h = Math.floor(diff/3600); const m = Math.floor((diff%3600)/60); const s = diff%60;
                 document.getElementById('countdownDisplay').textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-                window.renderConsolidatedViewers();
             }
           }, 1000);
         }
@@ -868,7 +860,7 @@
       let showJoin = true;
       setInterval(() => {
         if (showJoin) { infoAlert.style.opacity = '0'; setTimeout(() => { infoAlert.classList.add('d-none'); joinAlert.classList.remove('d-none'); joinAlert.style.opacity = '1'; }, 600); }
-        else { joinAlert.style.opacity = '0'; setTimeout(() => { joinAlert.classList.add('d-none'); infoAlert.classList.remove('d-none'); infoAlert.style.opacity = '1'; }, 600); }
+        else { joinAlert.style.opacity = '0'; setTimeout(() => { joinAlert.classList.remove('d-none'); infoAlert.classList.remove('d-none'); infoAlert.style.opacity = '1'; }, 600); }
         showJoin = !showJoin;
       }, 10000);
     });
