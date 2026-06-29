@@ -20,11 +20,11 @@
             { "title": "Alt Feed 2", "quality": "fhd", "url": "" },
             { "title": "Alt Feed 3", "quality": "fhd", "url": "" },
             { "title": "Ext. Feed 1", "quality": "fhd", "url": "" },
-            { "title": "Ext. Feed 2", "quality": "fhd", "url": "" },
-            { "title": "Backup 1", "quality": "fhd", "url": "" },
-            { "title": "Backup 2", "quality": "fhd", "url": "" },
-            { "title": "Feed 1", "quality": "fhd", "url": "" },
-            { "title": "Feed 2", "quality": "fhd", "url": "" }
+            { "title": "Ext. Feed 2", "quality": "hd", "url": "" },
+            { "title": "Backup 1", "quality": "hd", "url": "" },
+            { "title": "Backup 2", "quality": "hd", "url": "" },
+            { "title": "Feed 1", "quality": "hd", "url": "" },
+            { "title": "Feed 2", "quality": "hd", "url": "" }
           ]
         },
         {
