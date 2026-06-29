@@ -32,7 +32,7 @@
           "uri_name": "b4v1j9a4",
           "poster": "https://api.ppv.to/assets/thumb/2f88fbd278f51598afa34f6dffa064a5-thumbnail.jpg",
           "tag": "World Cup",
-          "starts_at": "2026-06-29T20:00:00",
+          "starts_at": "2026-06-29T17:00:00",
           "ends_at": "2026-06-29T22:10:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
@@ -40,7 +40,7 @@
             {
               "title": "Main Feed",
               "quality": "fhd",
-              "url": ""
+              "url": "https://bizm.futbol-x.top/tsn1/index.m3u8"
             },
             {
               "title": "Alt Feed",
