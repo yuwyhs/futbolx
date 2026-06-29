@@ -15,16 +15,16 @@
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
-            { "title": "Main Feed", "quality": "fhd", "url": "" },
-            { "title": "Alt Feed 1", "quality": "fhd", "url": "" },
-            { "title": "Alt Feed 2", "quality": "fhd", "url": "" },
-            { "title": "Alt Feed 3", "quality": "fhd", "url": "" },
-            { "title": "Ext. Feed 1", "quality": "fhd", "url": "" },
-            { "title": "Ext. Feed 2", "quality": "hd", "url": "" },
-            { "title": "Backup 1", "quality": "hd", "url": "" },
-            { "title": "Backup 2", "quality": "hd", "url": "" },
-            { "title": "Feed 1", "quality": "hd", "url": "" },
-            { "title": "Feed 2", "quality": "hd", "url": "" }
+            { "title": "Main Feed[Tsn 1]", "quality": "fhd", "url": "https://bizm.futbol-x.top/tsn1/index.m3u8" },
+            { "title": "Alt Feed 1[Tsn 4]", "quality": "fhd", "url": "https://bizm.futbol-x.top/tsn4/index.m3u8" },
+            { "title": "Alt Feed 2[Fox]", "quality": "fhd", "url": "https://bizm.futbol-x.top/fox/index.m3u8" },
+            { "title": "Alt Feed 3[M6 Fr]", "quality": "fhd", "url": "https://bizm.futbol-x.top/fr/index.m3u8" },
+            { "title": "Ext. Feed 1[Ar]", "quality": "hd", "url": "https://futbolx-live.hf.space/embed/hd11" },
+            { "title": "Ext. Feed 2[Esp]", "quality": "hd", "url": "https://futbolx-live.hf.space/embed/hd6" },
+            { "title": "Backup 1[Itl]", "quality": "hd", "url": "https://futbolx-live.hf.space/embed/hd7" },
+            { "title": "Backup 2[Pt]", "quality": "hd", "url": "https://futbolx-live.hf.space/embed/sporttv5" },
+            { "title": "Feed 1[Br]", "quality": "hd", "url": "https://futbolx-live.hf.space/embed/br1" },
+            { "title": "Feed 2[External Source]", "quality": "4k", "url": "https://embedindia.st/embed/wc/2026-06-29/bra-jpn/fox-4k" }
           ]
         },
         {
