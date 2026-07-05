@@ -81,16 +81,16 @@
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
-            { "title": "Main Feed", "quality": "fhd", "url": "" },
-            { "title": "Alt Feed 1", "quality": "fhd", "url": "" },
-            { "title": "Alt Feed 2", "quality": "fhd", "url": "" },
-            { "title": "Alt Feed 3", "quality": "fhd", "url": "" },
-            { "title": "Ext. Feed 1", "quality": "fhd", "url": "" },
-            { "title": "Ext. Feed 2", "quality": "fhd", "url": "" },
-            { "title": "Ext. Feed 3", "quality": "fhd", "url": "" },
-            { "title": "Backup 1", "quality": "fhd", "url": "" },
-            { "title": "Backup 2", "quality": "fhd", "url": "" },
-            { "title": "Backup 3", "quality": "fhd", "url": "" }
+            { "title": "Main Feed", "quality": "fhd", "url": "https://embedindia.st/embed/wc/2026-07-05/mex-eng" },
+            { "title": "Alt Feed 1", "quality": "fhd", "url": "https://embedindia.st/embed/wc/2026-07-05/mex-eng/fox" },
+            { "title": "Alt Feed 2", "quality": "fhd", "url": "https://embedindia.st/embed/wc/2026-07-05/mex-eng/uk" },
+            { "title": "Alt Feed 3", "quality": "fhd", "url": "https://embedindia.st/embed/wc/2026-07-05/mex-eng/bein-sports-1" },
+            { "title": "Ext. Feed 1", "quality": "fhd", "url": "https://embedindia.st/embed/wc/2026-07-05/mex-eng/dazn-spain" },
+            { "title": "Ext. Feed 2", "quality": "fhd", "url": "https://embedindia.st/embed/wc/2026-07-05/mex-eng/telemundo" },
+            { "title": "Ext. Feed 3", "quality": "fhd", "url": "https://embedindia.st/embed/wc/2026-07-05/mex-eng/tv-azteca-720p" },
+            { "title": "Backup 1", "quality": "4k", "url": "https://embedindia.st/embed/wc/2026-07-05/mex-eng/fox-4k-hevc" },
+            { "title": "Backup 2", "quality": "4k", "url": "https://embedindia.st/embed/wc/2026-07-05/mex-eng/peacock-4k-hevc" },
+            { "title": "Backup 3", "quality": "4k", "url": "https://embedindia.st/embed/wc/2026-07-05/mex-eng/fussballtv-4k-hevc" }
           ]
         }
       ]
