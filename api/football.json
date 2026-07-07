@@ -59,10 +59,10 @@
           "always_live": 0,
           "max_simulated_viewers": 800,
           "streams": [
-            { "title": "Main Feed[Eng]", "quality": "fhd", "url": "https://futbolx5-live.hf.space/embed/hd1" },
-            { "title": "Alt Feed 1[Eng]", "quality": "fhd", "url": "https://futbolx5-live.hf.space/embed/hd2" },
+            { "title": "Main Feed[Eng]", "quality": "fhd", "url": "https://embedindia.st/embed/wc/2026-07-07/arg-egy" },
+            { "title": "Alt Feed 1[Eng]", "quality": "fhd", "url": "https://embedindia.st/embed/wc/2026-07-07/arg-egy/fox" },
             { "title": "Alt Feed 2[De]", "quality": "fhd", "url": "https://futbolx5-live.hf.space/embed/hd3" },
-            { "title": "Alt Feed 3[Fr]", "quality": "fhd", "url": "https://futbolx5-live.hf.space/embed/hd4" },
+            { "title": "Alt Feed 3[Fr]", "quality": "fhd", "url": "https://embedindia.st/embed/wc/2026-07-07/arg-egy/bein-sports-1" },
             { "title": "Ext. Feed 1[Ar]", "quality": "fhd", "url": "https://futbolx5-live.hf.space/embed/hd11" },
             { "title": "Ext. Feed 2[Eng]", "quality": "fhd", "url": "https://futbolx5-live.hf.space/embed/hd5" },
             { "title": "Ext. Feed 3[Esp]", "quality": "fhd", "url": "https://futbolx5-live.hf.space/embed/hd6" },
