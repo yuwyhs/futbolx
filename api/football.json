@@ -19,12 +19,12 @@
             { "title": "Fox", "quality": "fhd", "url": "https://hotel.futx.nx.kg/us/index.m3u8" },
             { "title": "BBC", "quality": "fhd", "url": "https://hotel.futx.nx.kg/uk/index.m3u8" },
             { "title": "Bein Fr", "quality": "fhd", "url": "https://hotel.futx.nx.kg/fr/index.m3u8" },
-            { "title": "Ext. Feed 1", "quality": "fhd", "url": "" },
-            { "title": "Ext. Feed 2", "quality": "fhd", "url": "" },
-            { "title": "Ext. Feed 3", "quality": "fhd", "url": "" },
-            { "title": "Backup 1", "quality": "fhd", "url": "" },
-            { "title": "Backup 2", "quality": "fhd", "url": "" },
-            { "title": "Backup 3", "quality": "fhd", "url": "" }
+            { "title": "Ar", "quality": "fhd", "url": "https://w4.sportsonlline.click/channels/hd/hd11.php" },
+            { "title": "Esp", "quality": "fhd", "url": "https://w4.sportsonlline.click/channels/hd/hd6.php" },
+            { "title": "Ita", "quality": "fhd", "url": "https://w4.sportsonlline.click/channels/hd/hd7.php" },
+            { "title": "Eng", "quality": "fhd", "url": "https://w4.sportsonlline.click/channels/hd/hd1.php" },
+            { "title": "De", "quality": "fhd", "url": "https://w4.sportsonlline.click/channels/hd/hd3.php" },
+            { "title": "Br", "quality": "fhd", "url": "https://w4.sportsonlline.click/channels/bra/br2.php" }
           ]
         },
         {
