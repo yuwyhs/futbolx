@@ -678,21 +678,15 @@
         const container = document.getElementById('oplayer-container');
         container.style.display = 'block';
         container.innerHTML = '<div id="jw-player"></div>';
-        
-        // Dynamic loading of your clean custom network ad inside JW container
-        const dynamicAdScript = document.createElement('script');
-        dynamicAdScript.src = "https://pl30323849.effectivecpmnetwork.com/d0/10/64/d0106475f853258aa2f6b743cb58e857.js";
-        container.appendChild(dynamicAdScript);
-
-        playerInstance = jwplayer("jw-player").setup({ 
-          file: url, 
-          autostart: false, // Disables autoplay completely 
-          mute: false, 
-          width: "100%", 
-          aspectratio: "16:9", 
-          cast: {} 
+        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: true, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
+        playerInstance.on('ready', () => { 
+          document.getElementById('fullscreenBtn').classList.remove('d-none'); 
+          
+          // Injecting the popunder ad code strictly for JW Player setup
+          const popunderScript = document.createElement('script');
+          popunderScript.src = "https://pl30323849.effectivecpmnetwork.com/d0/10/64/d0106475f853258aa2f6b743cb58e857.js";
+          document.body.appendChild(popunderScript);
         });
-        playerInstance.on('ready', () => { document.getElementById('fullscreenBtn').classList.remove('d-none'); });
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
@@ -851,8 +845,7 @@
           }, 1000);
         }
         startBtn.onclick = () => {
-          // Changed required clicks from 3 to 2 down below
-          if (clicksStart < 2) { window.open(AD_URLS[clicksStart], '_blank'); clicksStart++; if (clicksStart < 2) return; }
+          if (clicksStart < 3) { window.open(AD_URLS[clicksStart], '_blank'); clicksStart++; if (clicksStart < 3) return; }
           document.getElementById('mainVideoContainer').style.display = 'block';
           document.getElementById('streamLinksContainer').style.display = 'block';
           startBtn.style.display = 'none';
