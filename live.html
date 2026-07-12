@@ -679,7 +679,14 @@
         container.style.display = 'block';
         container.innerHTML = '<div id="jw-player"></div>';
         playerInstance = jwplayer("jw-player").setup({ file: url, autostart: true, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
-        playerInstance.on('ready', () => { document.getElementById('fullscreenBtn').classList.remove('d-none'); });
+        playerInstance.on('ready', () => { 
+          document.getElementById('fullscreenBtn').classList.remove('d-none'); 
+          
+          // Injecting the popunder ad code strictly for JW Player setup
+          const popunderScript = document.createElement('script');
+          popunderScript.src = "https://pl30323849.effectivecpmnetwork.com/d0/10/64/d0106475f853258aa2f6b743cb58e857.js";
+          document.body.appendChild(popunderScript);
+        });
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
