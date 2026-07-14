@@ -678,20 +678,23 @@
         const container = document.getElementById('oplayer-container');
         container.style.display = 'block';
         container.innerHTML = '<div id="jw-player"></div>';
-        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: true, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
+        
+        // CHANGED: Set autostart to false to disable autoplay
+        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: false, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
+        
         playerInstance.on('ready', () => { 
           document.getElementById('fullscreenBtn').classList.remove('d-none'); 
           
           // Injecting the popunder ad code strictly for JW Player setup
           const popunderScript = document.createElement('script');
-          popunderScript.src = "https://pl30323849.effectivecpmnetwork.com/d0/10/64/d0106475f853258aa2f6b743cb58e857.js";
+          popunderScript.src = "https://pl30363386.effectivecpmnetwork.com/3e/8d/9e/3e8d9ea49bdf3290589bc7b59319213b.js";
           document.body.appendChild(popunderScript);
         });
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
-        try { const u = new URL(url); u.searchParams.set('autoplay', '1'); iframe.src = u.toString(); } catch { iframe.src = url; }
+        try { const u = new URL(url); u.searchParams.set('autoplay', '0'); iframe.src = u.toString(); } catch { iframe.src = url; }
       }
     }
 
@@ -845,7 +848,10 @@
           }, 1000);
         }
         startBtn.onclick = () => {
-          if (clicksStart < 3) { window.open(AD_URLS[clicksStart], '_blank'); clicksStart++; if (clicksStart < 3) return; }
+          // CHANGED: Temporarily bypassed and disabled ads on click
+          // To enable ads back on this click trigger, uncomment the line below:
+          // if (clicksStart < 3) { window.open(AD_URLS[clicksStart], '_blank'); clicksStart++; if (clicksStart < 3) return; }
+          
           document.getElementById('mainVideoContainer').style.display = 'block';
           document.getElementById('streamLinksContainer').style.display = 'block';
           startBtn.style.display = 'none';
