@@ -130,22 +130,79 @@
 
     /* --- ORIGINAL STYLES --- */
     .error-alert { max-width: 500px; margin: 20px auto; }
-    .card { opacity: 0; transform: translateY(50px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-    .card.visible { opacity: 1; transform: translateY(0); }
     .fade-out { animation: fadeOut 0.5s ease-out forwards; }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     .watch-button { animation: pulse 1s infinite; }
     @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
-    .event-grid, #livecards.event-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; padding: 1rem; }
+    
+    .event-grid, #livecards.event-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+      gap: 1.5rem; 
+      padding: 1rem; 
+    }
     .event-grid a { text-decoration: none; }
-    .card { width: 100%; max-width: 400px; margin: 0 auto; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; border-radius: 10px; overflow: hidden; border: 2px solid transparent; position: relative; }
-    .card:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); border-color: #ff4d4d; }
-    [data-bs-theme="light"] .card:hover { border-color: #e63939; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); }
-    .card-img-top { height: 220px; object-fit: cover; }
-    .card-body { padding: 1rem; }
-    .card-title { font-size: 1.3rem; margin-bottom: 0.5rem; }
+    
+    /* --- NEW GLASSMORPHISM & CONTAINER STYLING --- */
+    .card { 
+      opacity: 0; 
+      transform: translateY(50px); 
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease; 
+      width: 100%; 
+      max-width: 400px; 
+      margin: 0 auto; 
+      border-radius: 16px; 
+      overflow: hidden; 
+      position: relative;
+      
+      /* Dark Theme Glass Look */
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card.visible { opacity: 1; transform: translateY(0); }
+    
+    .card:hover { 
+      transform: translateY(-8px); 
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 77, 77, 0.6); 
+      box-shadow: 0 10px 30px rgba(255, 77, 77, 0.15); 
+    }
+    
+    /* Light Theme Glass Look adjustment */
+    [data-bs-theme="light"] .card { 
+      background: rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+    }
+    [data-bs-theme="light"] .card:hover { 
+      background: rgba(0, 0, 0, 0.05);
+      border-color: rgba(230, 57, 57, 0.6); 
+      box-shadow: 0 10px 30px rgba(230, 57, 57, 0.15); 
+    }
+    
+    /* --- INTEGRATED BANNER WRAPPER (Prevents Cropping on All Devices) --- */
+    .card-img-top { 
+      width: 100%; 
+      aspect-ratio: 16 / 9; 
+      object-fit: contain; 
+      background: rgba(0, 0, 0, 0.3); /* Dark glass matching integration */
+      height: auto;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    [data-bs-theme="light"] .card-img-top {
+      background: rgba(0, 0, 0, 0.05);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .card-body { padding: 1.2rem; }
+    .card-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.8rem; }
     .event-tag { font-size: 0.95rem; }
     .watch-button { font-size: 0.95rem; padding: 0.5rem 1.2rem; }
+    
     #discordBtn { position: fixed; bottom: 20px; right: 20px; z-index: 9999; opacity: 0.92; transition: opacity .3s, transform .2s; }
     #discordBtn img { width: 48px; height: 48px; border-radius: 50%; display: block; box-shadow: 0 3px 10px rgba(0,0,0,0.5); animation: glowPulse 2.5s infinite ease-in-out; }
     @keyframes glowPulse { 0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.5); } 50% { box-shadow: 0 0 18px #5865F2, 0 3px 10px rgba(88,101,242,0.3); } }
