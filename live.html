@@ -21,8 +21,8 @@
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
-    .tip-container {max-width:600px;margin:20px auto;overflow:hidden;display:flex;flex-direction:column;gap:10px;}
-    .alert-info {text-align:center;position:relative;padding-right:40px !important;}
+    .tip-container {max-width:600px;margin:20px auto;transition:height .3s;overflow:hidden;}
+    .alert-info {text-align:center;position:relative;padding-right:10px;}
     .error-alert {max-width:500px;margin:20px auto;}
     .fade-out {animation:fadeOut .5s forwards;} @keyframes fadeOut {from{opacity:1}to{opacity:0}}
     .btn-fullscreen {display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#ff4d4d;color:#fff;border:none;border-radius:20px;transition:.3s;}
@@ -132,13 +132,7 @@
       transition: 0.3s ease; display: flex; flex-direction: column; padding: 15px;
     }
     #chatAdminSidebar.active { right: 0; }
-    
-    /* REINFORCED OWNER MENU UI ACCENTS */
-    .sidebar-toggle { 
-      position: absolute; top: 12px; right: 16px; cursor: pointer; 
-      color: #ff4d4d; font-size: 20px; z-index: 1101; transition: transform 0.2s;
-    }
-    .sidebar-toggle:hover { transform: scale(1.15); color: #ff6666; }
+    .sidebar-toggle { position: absolute; top: 68px; right: 20px; cursor: pointer; color: #555; font-size: 18px; z-index: 1101; }
     .admin-btn { width: 100%; margin-bottom: 10px; font-weight: 600; font-size: 11px; }
 
     .reply-bubble {
@@ -161,7 +155,7 @@
     }
     #eventTitle { font-size: 2.4rem; margin-bottom: 1rem; color: #ff4d4d; }
     .countdown-display { font-size: 4rem; font-weight: bold; color: #ff4d4d; letter-spacing: 5px; margin: 20px 0; text-shadow: 0 0 20px rgba(255,77,77,0.5); }
-    .permanent-noti { background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; }
+    .permanent-noti { margin-top: 12px; background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; transition: opacity 0.6s ease-in; }
     .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 1200px; margin-left: auto; margin-right: auto; }
     [data-bs-theme="dark"] .disclaimer { color: #aaa; background: rgba(0,0,0,0.3); border-top-color: #444; }
 
@@ -210,6 +204,7 @@
     <div class="offcanvas-body">
       <ul class="nav flex-column">
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
         <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
         <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
@@ -227,15 +222,13 @@
       <div class="row">
         <div class="col-12">
           <div class="tip-container">
-            <div class="alert alert-info alert-dismissible fade show permanent-noti" id="joinAlert" role="alert">
-              <strong>Join us</strong> on 
-              <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener" class="alert-link text-decoration-underline">Discord</a> and 
-              <a href="https://t.me/+ybpQHqok6Kk3ZWQ9" target="_blank" rel="noopener" class="alert-link text-decoration-underline">Telegram</a>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            <div class="alert alert-info alert-dismissible fade show permanent-noti" id="infoAlert" role="alert">
+            <div class="alert alert-info permanent-noti" id="infoAlert">
               <strong>Info:</strong> If stream is not loading on your end, try using a VPN to bypass your ISP restrictions.
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="alert alert-info permanent-noti d-none" id="joinAlert">
+              <strong>Join us</strong> on 
+              <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener">Discord</a> and 
+              <a href="https://t.me/+ybpQHqok6Kk3ZWQ9" target="_blank" rel="noopener">Telegram</a> 
             </div>
           </div>
 
@@ -271,21 +264,22 @@
             <div class="col-12 col-lg-4">
               <div class="chat-wrapper-container">
                 
+                <i class="fas fa-bars sidebar-toggle d-none" id="adminSidebarBtn" onclick="toggleSidebar()"></i>
+
+                <div id="chatAdminSidebar">
+                    <h6 class="text-white mb-3">Admin Panel</h6>
+                    
+                    <input type="text" id="memberSearch" class="form-control form-control-sm mb-2" placeholder="Search members...">
+                    <div id="memberList" style="flex:1; overflow-y:auto; border-top:1px solid #1a1f3d;"></div>
+                </div>
+
                 <div class="chat-header-area">
                    <div class="d-flex justify-content-between align-items-center">
                       <h2 id="chatEventTitle" style="color:var(--bs-emphasis-color); margin:0; font-size:14px; font-weight:700;">Live Chat</h2>
-                      <div id="viewerCountWrapper" class="viewer-wrap-hidden" style="color:#4ade80; font-size:12px; font-weight:600; margin-right: 35px;">
+                      <div id="viewerCountWrapper" class="viewer-wrap-hidden" style="color:#4ade80; font-size:12px; font-weight:600;">
                         <span id="onlineCount">0</span> viewers
                       </div>
                    </div>
-                   <!-- RE-ALIGNED SIDEBAR ACTION FOR DISCOVERABILITY -->
-                   <i class="fas fa-user-shield sidebar-toggle d-none" id="adminSidebarBtn" onclick="toggleSidebar()"></i>
-                </div>
-
-                <div id="chatAdminSidebar">
-                    <h6 class="text-white mb-3"><i class="fas fa-shield-alt text-danger"></i> Admin Control</h6>
-                    <input type="text" id="memberSearch" class="form-control form-control-sm mb-2" placeholder="Search members...">
-                    <div id="memberList" style="flex:1; overflow-y:auto; border-top:1px solid #1a1f3d;"></div>
                 </div>
 
                 <div class="chat-rules">
@@ -685,11 +679,13 @@
         container.style.display = 'block';
         container.innerHTML = '<div id="jw-player"></div>';
         
+        // CHANGED: Set autostart to false to disable autoplay
         playerInstance = jwplayer("jw-player").setup({ file: url, autostart: false, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
         
         playerInstance.on('ready', () => { 
           document.getElementById('fullscreenBtn').classList.remove('d-none'); 
           
+          // Injecting the popunder ad code strictly for JW Player setup
           const popunderScript = document.createElement('script');
           popunderScript.src = "https://pl30363386.effectivecpmnetwork.com/3e/8d/9e/3e8d9ea49bdf3290589bc7b59319213b.js";
           document.body.appendChild(popunderScript);
@@ -847,18 +843,15 @@
                 liveWindowActive = false;
                 const diff = eventStartTime - now;
                 const h = Math.floor(diff/3600); const m = Math.floor((diff%3600)/60); const s = diff%60;
-                
-                if (h >= 24) {
-                  const days = Math.floor(h / 24);
-                  const remHours = h % 24;
-                  document.getElementById('countdownDisplay').textContent = `${days}day ${remHours}hr ${m}m ${s}s`;
-                } else {
-                  document.getElementById('countdownDisplay').textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-                }
+                document.getElementById('countdownDisplay').textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
             }
           }, 1000);
         }
         startBtn.onclick = () => {
+          // CHANGED: Temporarily bypassed and disabled ads on click
+          // To enable ads back on this click trigger, uncomment the line below:
+          // if (clicksStart < 3) { window.open(AD_URLS[clicksStart], '_blank'); clicksStart++; if (clicksStart < 3) return; }
+          
           document.getElementById('mainVideoContainer').style.display = 'block';
           document.getElementById('streamLinksContainer').style.display = 'block';
           startBtn.style.display = 'none';
@@ -881,7 +874,15 @@
         if (!adClickedFullscreen) { window.open(AD_URLS[0], '_blank'); adClickedFullscreen = true; }
         if (playerInstance) playerInstance.setFullscreen(true);
       };
+
+      const infoAlert = document.getElementById('infoAlert'), joinAlert = document.getElementById('joinAlert');
+      let showJoin = true;
+      setInterval(() => {
+        if (showJoin) { infoAlert.style.opacity = '0'; setTimeout(() => { infoAlert.classList.add('d-none'); joinAlert.classList.remove('d-none'); joinAlert.style.opacity = '1'; }, 600); }
+        else { joinAlert.style.opacity = '0'; setTimeout(() => { joinAlert.classList.remove('d-none'); infoAlert.classList.remove('d-none'); infoAlert.style.opacity = '1'; }, 600); }
+        showJoin = !showJoin;
+      }, 10000);
     });
   </script>
 </body>
-</html>
+  </html>
