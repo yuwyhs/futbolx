@@ -154,6 +154,7 @@
       overflow: hidden; 
       position: relative;
       cursor: pointer;
+      display: block;
       
       /* Dark Theme Glass Look */
       background: rgba(255, 255, 255, 0.04);
@@ -211,39 +212,9 @@
     #pwaWrapper { position: fixed; bottom: 20px; left: 20px; z-index: 9999; display: none; align-items: center; }
     #installAppBtn { background: #ff4d4d; color: white; border: none; border-radius: 50px; padding: 10px 18px; font-weight: bold; box-shadow: 0 3px 10px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
     #closePwa { background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; margin-left: -8px; margin-top: -28px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10000; }
-
-    /* --- PREMIUM GHOST LOADING SCREEN --- */
-    #ghost-loader {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(10, 10, 10, 0.75);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      z-index: 99999;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    .ghost-spinner {
-      width: 60px;
-      height: 60px;
-      border: 3px solid transparent;
-      border-top-color: #ff4d4d;
-      border-radius: 50%;
-      animation: ghostSpin 1s cubic-bezier(0.55, 0.055, 0.675, 0.19) infinite;
-    }
-    @keyframes ghostSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
-
-  <!-- Ghost Loader Container -->
-  <div id="ghost-loader">
-    <div class="ghost-spinner"></div>
-  </div>
 
   <div id="disclaimer-overlay">
     <div class="disclaimer-content">
@@ -359,22 +330,6 @@
   <script src="/assets/js/api.js"></script>
 
   <script>
-    /* --- GHOST OVERLAY HANDLER & SEAMLESS REDIRECT --- */
-    function triggerGhostLoad() {
-      const loader = document.getElementById('ghost-loader');
-      if(loader) {
-        loader.style.display = 'flex';
-        setTimeout(() => loader.style.opacity = '1', 10);
-      }
-    }
-
-    function triggerPremiumRedirect(targetUrl) {
-      triggerGhostLoad();
-      setTimeout(() => {
-        window.location.href = targetUrl;
-      }, 150);
-    }
-
     /* --- DISCLAIMER LOGIC --- */
     (function() {
       const overlay = document.getElementById('disclaimer-overlay');
@@ -543,20 +498,21 @@
             const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
             let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
 
+            /* --- NATIVE LINK REDIRECTS TO ELIMINATE HANGS --- */
             let html = `
-                <div class="card" onclick="triggerPremiumRedirect('/live/${stream.uri_name}')">
+                <a href="/live/${stream.uri_name}" class="card text-decoration-none" style="color: inherit;">
                   ${isLive ? '<span class="live-badge" style="position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; padding: 2px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; z-index: 10;">LIVE</span>' : ''}
                   <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
                   <div class="card-body">
-                    <h5 class="card-title">${stream.name}</h5>
+                    <h5 class="card-title text-reset">${stream.name}</h5>
                     <div class="card-text">
-                      <span class="event-tag">${stream.tag}</span>
+                      <span class="event-tag text-secondary">${stream.tag}</span>
                       <span class="event-timer">
                         ${isLive ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` : `<span class="countdown" data-start="${startTime}"></span>`}
                       </span>
                     </div>
                   </div>
-                </div>`;
+                </a>`;
 
             if (isLive) { livecards.innerHTML += html; hasLiveEvents = true; } 
             else { categoryEvents[categoryKey].push({ html, startTime }); }
