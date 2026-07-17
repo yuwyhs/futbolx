@@ -141,9 +141,8 @@
       gap: 1.5rem; 
       padding: 1rem; 
     }
-    .event-grid a { text-decoration: none; }
     
-    /* --- NEW GLASSMORPHISM & CONTAINER STYLING --- */
+    /* --- GLASSMORPHISM & CONTAINER STYLING --- */
     .card { 
       opacity: 0; 
       transform: translateY(50px); 
@@ -154,6 +153,7 @@
       border-radius: 16px; 
       overflow: hidden; 
       position: relative;
+      cursor: pointer;
       
       /* Dark Theme Glass Look */
       background: rgba(255, 255, 255, 0.04);
@@ -332,7 +332,6 @@
       </div>
       <div class="position-relative container" style="z-index: 2; pointer-events: none;">
         <h1 class="display-4 fw-bold text-white">Welcome to FutbolX</h1>
-        <!-- Updated to prioritize free football content -->
         <p class="lead text-white">Stream Free Football, PPV Boxing, UFC, Basketball, and More - Live & On-Demand!</p>
       </div>
     </div>
@@ -381,13 +380,20 @@
   <script src="/assets/js/api.js"></script>
 
   <script>
-    /* --- GHOST OVERLAY HANDLER --- */
+    /* --- GHOST OVERLAY HANDLER & SEAMLESS REDIRECT --- */
     function triggerGhostLoad() {
       const loader = document.getElementById('ghost-loader');
       if(loader) {
         loader.style.display = 'flex';
         setTimeout(() => loader.style.opacity = '1', 10);
       }
+    }
+
+    function triggerPremiumRedirect(targetUrl) {
+      triggerGhostLoad();
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 150);
     }
 
     /* --- AUTO SCROLLING HELPER --- */
@@ -451,7 +457,7 @@
       const countdownElements = document.querySelectorAll('.countdown');
       countdownElements.forEach(element => {
         const startTime = parseInt(element.getAttribute('data-start'), 10);
-        const cardLink = element.closest('a[href]');
+        const cardParent = element.closest('.card');
         let timer = startTime - now;
         if (timer > 0) {
           let days = Math.floor(timer / 86400);
@@ -476,7 +482,6 @@
           if (element.innerHTML !== displayText) { element.innerHTML = displayText; }
         } else if (timer <= 0 && !element.innerHTML.includes('watch-button')) {
           element.innerHTML = `<span class="btn btn-danger btn-sm watch-button">Watch</span>`;
-          if (cardLink) cardLink.classList.add('clickable');
           needsRefresh = true;
         }
       });
@@ -581,22 +586,21 @@
               slideCount++;
             }
 
+            // Cards now directly invoke triggerPremiumRedirect for a seamless transition
             let html = `
-                <a href="/live/${stream.uri_name}" onclick="triggerGhostLoad()">
-                  <div class="card">
-                    ${isLive ? '<span class="live-badge" style="position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; padding: 2px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; z-index: 10;">LIVE</span>' : ''}
-                    <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
-                    <div class="card-body">
-                      <h5 class="card-title">${stream.name}</h5>
-                      <div class="card-text">
-                        <span class="event-tag">${stream.tag}</span>
-                        <span class="event-timer">
-                          ${isLive ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
-                        </span>
-                      </div>
+                <div class="card" onclick="triggerPremiumRedirect('/live/${stream.uri_name}')">
+                  ${isLive ? '<span class="live-badge" style="position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; padding: 2px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; z-index: 10;">LIVE</span>' : ''}
+                  <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
+                  <div class="card-body">
+                    <h5 class="card-title">${stream.name}</h5>
+                    <div class="card-text">
+                      <span class="event-tag">${stream.tag}</span>
+                      <span class="event-timer">
+                        ${isLive ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` : `<span class="countdown" data-start="${startTime}"></span>`}
+                      </span>
                     </div>
                   </div>
-                </a>`;
+                </div>`;
 
             if (isLive) { livecards.innerHTML += html; hasLiveEvents = true; } 
             else { categoryEvents[categoryKey].push({ html, startTime }); }
