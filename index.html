@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FutbolX - Free PPV and More</title>
   
-  <link rel="manifest" href="/manifest.json">
+  <link class="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -498,7 +498,7 @@
             const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
             let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
 
-            /* --- NATIVE LINK REDIRECTS TO ELIMINATE HANGS --- */
+            /* --- NORMAL LINK NATIVE TRANSITION --- */
             let html = `
                 <a href="/live/${stream.uri_name}" class="card text-decoration-none" style="color: inherit;">
                   ${isLive ? '<span class="live-badge" style="position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; padding: 2px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; z-index: 10;">LIVE</span>' : ''}
