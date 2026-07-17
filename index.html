@@ -212,24 +212,6 @@
     #installAppBtn { background: #ff4d4d; color: white; border: none; border-radius: 50px; padding: 10px 18px; font-weight: bold; box-shadow: 0 3px 10px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
     #closePwa { background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; margin-left: -8px; margin-top: -28px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10000; }
 
-    /* --- NEW CUSTOM SLOW SMOOTH CAROUSEL --- */
-    .carousel-fade .carousel-item {
-      opacity: 0;
-      transition-property: opacity;
-      transition-duration: 3.5s !important; 
-      transition-timing-function: ease-in-out;
-    }
-    .carousel-fade .carousel-item.active {
-      opacity: 1;
-    }
-    .hero-slide-bg {
-      cursor: pointer;
-      transition: transform 12s linear; 
-    }
-    .carousel-item.active .hero-slide-bg {
-      transform: scale(1.12);
-    }
-
     /* --- PREMIUM GHOST LOADING SCREEN --- */
     #ghost-loader {
       position: fixed;
@@ -327,9 +309,6 @@
 
   <div class="container-fluid main-content">
     <div id="heroSection" class="text-center py-5 bg-dark hero-background position-relative overflow-hidden">
-      <div id="heroSlideshow" class="carousel slide carousel-fade position-absolute top-0 start-0 w-100 h-100" data-bs-ride="carousel" data-bs-interval="7000" style="z-index: 1; display: none;">
-        <div class="carousel-inner h-100" id="heroCarouselInner"></div>
-      </div>
       <div class="position-relative container" style="z-index: 2; pointer-events: none;">
         <h1 class="display-4 fw-bold text-white">Welcome to FutbolX</h1>
         <p class="lead text-white">Stream Free Football, PPV Boxing, UFC, Basketball, and More - Live & On-Demand!</p>
@@ -396,14 +375,6 @@
       }, 150);
     }
 
-    /* --- AUTO SCROLLING HELPER --- */
-    function scrollToSportSection(categoryKey) {
-      const targetElement = document.getElementById(categoryKey);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }
-
     /* --- DISCLAIMER LOGIC --- */
     (function() {
       const overlay = document.getElementById('disclaimer-overlay');
@@ -457,7 +428,6 @@
       const countdownElements = document.querySelectorAll('.countdown');
       countdownElements.forEach(element => {
         const startTime = parseInt(element.getAttribute('data-start'), 10);
-        const cardParent = element.closest('.card');
         let timer = startTime - now;
         if (timer > 0) {
           let days = Math.floor(timer / 86400);
@@ -562,11 +532,6 @@
 
         const categoryMap = { 'football': 'football', 'basketball': 'nba', 'fights': 'fights', 'wrestling': 'wrestling', 'darts': 'darts', 'motorsports': 'motorsports', 'nfl': 'nfl', 'nhl': 'nhl', 'mlb': 'mlb', 'icehockey': 'icehockey', 'tennis': 'tennis', 'rugby': 'rugby', 'golf': 'golf' };
 
-        const heroSlideshow = document.getElementById('heroSlideshow');
-        const heroCarouselInner = document.getElementById('heroCarouselInner');
-        let slideshowHtml = '';
-        let slideCount = 0;
-
         combined.streams.forEach(category => {
           const normalizedName = category.category?.trim().toLowerCase() || '';
           let categoryKey = categoryMap[normalizedName] || 'others';
@@ -578,15 +543,6 @@
             const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
             let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
 
-            if (startTime <= now + 86400) {
-              slideshowHtml += `
-                <div class="carousel-item ${slideCount === 0 ? 'active' : ''} h-100" onclick="scrollToSportSection('${categoryKey}')">
-                  <div class="w-100 h-100 hero-slide-bg" style="background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('${poster}') center/cover no-repeat;"></div>
-                </div>`;
-              slideCount++;
-            }
-
-            // Cards now directly invoke triggerPremiumRedirect for a seamless transition
             let html = `
                 <div class="card" onclick="triggerPremiumRedirect('/live/${stream.uri_name}')">
                   ${isLive ? '<span class="live-badge" style="position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; padding: 2px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; z-index: 10;">LIVE</span>' : ''}
@@ -606,17 +562,6 @@
             else { categoryEvents[categoryKey].push({ html, startTime }); }
           });
         });
-
-        if (heroSlideshow && heroCarouselInner) {
-          if (slideCount > 0) {
-            heroCarouselInner.innerHTML = slideshowHtml;
-            heroSlideshow.style.display = 'block';
-            new bootstrap.Carousel(heroSlideshow, { interval: 7000, ride: 'carousel', pause: false });
-          } else {
-            heroSlideshow.style.display = 'none';
-            heroCarouselInner.innerHTML = '';
-          }
-        }
 
         Object.keys(categories).forEach(key => {
           if (categoryEvents[key].length > 0) {
