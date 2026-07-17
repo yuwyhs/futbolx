@@ -120,7 +120,7 @@
     }
     .bouncing-loader span:nth-child(2) { animation-delay: 0.1s; }
     .bouncing-loader span:nth-child(3) { animation-delay: 0.2s; }
-    .bouncing-loader span:nth-child(4) { animation-delay: 0.3s; }
+    .bouncing-loader span:nth-child(4) { animation-delay: 0.2s; }
     .bouncing-loader span:nth-child(5) { animation-delay: 0.4s; }
     .bouncing-loader span:nth-child(6) { animation-delay: 0.5s; }
     .bouncing-loader span:nth-child(7) { animation-delay: 0.6s; }
@@ -184,12 +184,12 @@
       box-shadow: 0 10px 30px rgba(230, 57, 57, 0.15); 
     }
     
-    /* --- INTEGRATED BANNER WRAPPER (Prevents Cropping on All Devices) --- */
+    /* --- INTEGRATED BANNER WRAPPER --- */
     .card-img-top { 
       width: 100%; 
       aspect-ratio: 16 / 9; 
       object-fit: contain; 
-      background: rgba(0, 0, 0, 0.3); /* Dark glass matching integration */
+      background: rgba(0, 0, 0, 0.3); 
       height: auto;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
@@ -216,7 +216,7 @@
     .carousel-fade .carousel-item {
       opacity: 0;
       transition-property: opacity;
-      transition-duration: 3.5s !important; /* Extra smooth slow blending */
+      transition-duration: 3.5s !important; 
       transition-timing-function: ease-in-out;
     }
     .carousel-fade .carousel-item.active {
@@ -224,7 +224,7 @@
     }
     .hero-slide-bg {
       cursor: pointer;
-      transition: transform 12s linear; /* Subtle dynamic continuous scale zoom */
+      transition: transform 12s linear; 
     }
     .carousel-item.active .hero-slide-bg {
       transform: scale(1.12);
@@ -327,13 +327,13 @@
 
   <div class="container-fluid main-content">
     <div id="heroSection" class="text-center py-5 bg-dark hero-background position-relative overflow-hidden">
-      <!-- Added data-bs-interval to explicitly stretch out slide visibility lengths to 7000ms -->
       <div id="heroSlideshow" class="carousel slide carousel-fade position-absolute top-0 start-0 w-100 h-100" data-bs-ride="carousel" data-bs-interval="7000" style="z-index: 1; display: none;">
         <div class="carousel-inner h-100" id="heroCarouselInner"></div>
       </div>
       <div class="position-relative container" style="z-index: 2; pointer-events: none;">
         <h1 class="display-4 fw-bold text-white">Welcome to FutbolX</h1>
-        <p class="lead text-white">Stream Free PPV Boxing, UFC, Basketball, and More - Live & On-Demand!</p>
+        <!-- Updated to prioritize free football content -->
+        <p class="lead text-white">Stream Free Football, PPV Boxing, UFC, Basketball, and More - Live & On-Demand!</p>
       </div>
     </div>
 
@@ -381,7 +381,7 @@
   <script src="/assets/js/api.js"></script>
 
   <script>
-    /* --- GHOST OVERLAY REUSABLE HANDLER --- */
+    /* --- GHOST OVERLAY HANDLER --- */
     function triggerGhostLoad() {
       const loader = document.getElementById('ghost-loader');
       if(loader) {
@@ -505,7 +505,6 @@
     }
 
     async function loadContent(api) {
-      const errorContainer = document.getElementById('errorContainer');
       const liveAnimation = document.getElementById('liveAnimation');
       const livecards = document.getElementById('livecards');
       if (!livecards) return;
@@ -574,7 +573,6 @@
             const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
             let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
 
-            // --- FILTER SPREAD MATRIX UP TO 24 HOURS IN ADVANCE ---
             if (startTime <= now + 86400) {
               slideshowHtml += `
                 <div class="carousel-item ${slideCount === 0 ? 'active' : ''} h-100" onclick="scrollToSportSection('${categoryKey}')">
