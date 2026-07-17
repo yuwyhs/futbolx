@@ -132,7 +132,13 @@
       transition: 0.3s ease; display: flex; flex-direction: column; padding: 15px;
     }
     #chatAdminSidebar.active { right: 0; }
-    .sidebar-toggle { position: absolute; top: 68px; right: 20px; cursor: pointer; color: #555; font-size: 18px; z-index: 1101; }
+    
+    /* REINFORCED OWNER MENU UI ACCENTS */
+    .sidebar-toggle { 
+      position: absolute; top: 12px; right: 16px; cursor: pointer; 
+      color: #ff4d4d; font-size: 20px; z-index: 1101; transition: transform 0.2s;
+    }
+    .sidebar-toggle:hover { transform: scale(1.15); color: #ff6666; }
     .admin-btn { width: 100%; margin-bottom: 10px; font-weight: 600; font-size: 11px; }
 
     .reply-bubble {
@@ -265,22 +271,21 @@
             <div class="col-12 col-lg-4">
               <div class="chat-wrapper-container">
                 
-                <i class="fas fa-bars sidebar-toggle d-none" id="adminSidebarBtn" onclick="toggleSidebar()"></i>
-
-                <div id="chatAdminSidebar">
-                    <h6 class="text-white mb-3">Admin Panel</h6>
-                    
-                    <input type="text" id="memberSearch" class="form-control form-control-sm mb-2" placeholder="Search members...">
-                    <div id="memberList" style="flex:1; overflow-y:auto; border-top:1px solid #1a1f3d;"></div>
-                </div>
-
                 <div class="chat-header-area">
                    <div class="d-flex justify-content-between align-items-center">
                       <h2 id="chatEventTitle" style="color:var(--bs-emphasis-color); margin:0; font-size:14px; font-weight:700;">Live Chat</h2>
-                      <div id="viewerCountWrapper" class="viewer-wrap-hidden" style="color:#4ade80; font-size:12px; font-weight:600;">
+                      <div id="viewerCountWrapper" class="viewer-wrap-hidden" style="color:#4ade80; font-size:12px; font-weight:600; margin-right: 35px;">
                         <span id="onlineCount">0</span> viewers
                       </div>
                    </div>
+                   <!-- RE-ALIGNED SIDEBAR ACTION FOR DISCOVERABILITY -->
+                   <i class="fas fa-user-shield sidebar-toggle d-none" id="adminSidebarBtn" onclick="toggleSidebar()"></i>
+                </div>
+
+                <div id="chatAdminSidebar">
+                    <h6 class="text-white mb-3"><i class="fas fa-shield-alt text-danger"></i> Admin Control</h6>
+                    <input type="text" id="memberSearch" class="form-control form-control-sm mb-2" placeholder="Search members...">
+                    <div id="memberList" style="flex:1; overflow-y:auto; border-top:1px solid #1a1f3d;"></div>
                 </div>
 
                 <div class="chat-rules">
