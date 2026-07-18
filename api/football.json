@@ -35,8 +35,8 @@
             { "title": "Tsn", "quality": "fhd", "url": "https://italy.futx.sryze.cc/ca/index.m3u8" },
             { "title": "Ar", "quality": "fhd", "url": "https://italy.futx.sryze.cc/ar/index.m3u8" },
             { "title": "Fr", "quality": "fhd", "url": "https://italy.futx.sryze.cc/fr/index.m3u8" },
-            { "title": "Alt Feed 3", "quality": "fhd", "url": "" },
-            { "title": "Ext. Feed 1", "quality": "fhd", "url": "" }
+            { "title": "Alt Feed 3", "quality": "fhd", "url": "https://w1.sportsonlinee.click/channels/hd/hd1.php" },
+            { "title": "Ext. Feed 1", "quality": "4k", "url": "https://embedindia.st/embed/wc/2026-07-18/fra-eng/fox-4k-hevc-en" }
           ]
         }
       ]
