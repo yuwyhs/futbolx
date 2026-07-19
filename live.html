@@ -682,19 +682,14 @@
         playerInstance.on('ready', () => { 
           document.getElementById('fullscreenBtn').classList.remove('d-none'); 
           
-          // Triggers popunder via first interaction event inside the player scope to bypass browser restrictions
+          // Triggers popunders via interaction events inside the player scope to bypass browser restrictions
           const triggerAd = () => {
             const popunderScript = document.createElement('script');
             popunderScript.src = "https://pl29465843.effectivecpmnetwork.com/ed/a2/e5/eda2e566755b4b6a812d6d5af6d26193.js";
             document.body.appendChild(popunderScript);
             
-            // Injects the second ad tag snippet alongside the popunder network string
-            const secondAdScript = document.createElement('script');
-            secondAdScript.src = "https://quge5.com/88/tag.min.js";
-            secondAdScript.async = true;
-            secondAdScript.setAttribute('data-zone', '261436');
-            secondAdScript.setAttribute('data-cfasync', 'false');
-            document.body.appendChild(secondAdScript);
+            // Replaced the annoying ad layout with the direct landing popunder string
+            window.open("https://omg10.com/4/11347966", "_blank");
             
             // Unbind to prevent continuous multi-tag injection strings on later clicks
             container.removeEventListener('click', triggerAd);
