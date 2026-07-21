@@ -30,7 +30,14 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
 
   <style>
-    /* --- CUSTOM BRAND LOGO STYLES --- */
+    /* --- CUSTOM NAVBAR & CENTERED BRAND LOGO --- */
+    .top-bar .container-fluid {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
     .futbolx-brand {
       font-family: 'Kanit', sans-serif;
       font-weight: 900;
@@ -42,18 +49,36 @@
       align-items: center;
       user-select: none;
       text-decoration: none;
+      
+      /* Center alignment */
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
     }
 
     .futbolx-brand .ball-o {
-      color: #ffc107; /* Yellow/Gold matching the image logo */
+      color: #ffc107; /* Yellow/Gold matching the original logo */
       font-size: 1.15rem;
       margin: 0 1px;
       text-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
-      transition: transform 0.4s ease;
+      transition: transform 0.5s ease;
+      display: inline-block;
     }
 
     .futbolx-brand:hover .ball-o {
       transform: rotate(180deg);
+    }
+
+    /* Ball Spin Animation on Click */
+    .futbolx-brand .ball-o.spinning {
+      animation: ballSpin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    @keyframes ballSpin {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.2); }
+      100% { transform: rotate(360deg) scale(1); }
     }
 
     /* --- SITE STYLES --- */
@@ -306,9 +331,11 @@
       <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
         <i class="fas fa-bars"></i>
       </button>
-      
-      <!-- UPDATED TEXT LOGO BRAND -->
-      <span class="futbolx-brand">FUTB<i class="fas fa-futbol ball-o"></i>L-X</span>
+
+      <!-- CENTERED TEXT LOGO WITH CLICK ANIMATION -->
+      <a href="/" class="futbolx-brand" id="brandLogo">
+        FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
+      </a>
     </div>
   </nav>
 
@@ -385,6 +412,21 @@
   <script src="/assets/js/api.js"></script>
 
   <script>
+    // Logo Ball Click/Tap Spin Handler
+    document.addEventListener('DOMContentLoaded', () => {
+      const brandLogo = document.getElementById('brandLogo');
+      const logoBall = document.getElementById('logoBall');
+      
+      if (brandLogo && logoBall) {
+        brandLogo.addEventListener('click', (e) => {
+          logoBall.classList.add('spinning');
+          setTimeout(() => {
+            logoBall.classList.remove('spinning');
+          }, 600);
+        });
+      }
+    });
+
     (function() {
       const overlay = document.getElementById('disclaimer-overlay');
       const btn = document.getElementById('btn-understood');
