@@ -30,6 +30,33 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
 
   <style>
+    /* --- CUSTOM BRAND LOGO STYLES --- */
+    .futbolx-brand {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 900;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      user-select: none;
+      text-decoration: none;
+    }
+
+    .futbolx-brand .ball-o {
+      color: #ffc107; /* Yellow/Gold matching the image logo */
+      font-size: 1.15rem;
+      margin: 0 1px;
+      text-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
+      transition: transform 0.4s ease;
+    }
+
+    .futbolx-brand:hover .ball-o {
+      transform: rotate(180deg);
+    }
+
+    /* --- SITE STYLES --- */
     .hero-background {
       background-image: url('https://i.postimg.cc/g2X7BCW4/file-00000000795881f4a71fe9ff6323b6a5.png') !important;
       background-size: contain !important;
@@ -279,7 +306,9 @@
       <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
         <i class="fas fa-bars"></i>
       </button>
-      <span class="futbolx-brand">FutbolX</span>
+      
+      <!-- UPDATED TEXT LOGO BRAND -->
+      <span class="futbolx-brand">FUTB<i class="fas fa-futbol ball-o"></i>L-X</span>
     </div>
   </nav>
 
