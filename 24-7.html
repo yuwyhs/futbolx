@@ -10,9 +10,55 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
   <style>
-    /* Premium Look Enhancements */
     body { font-family: 'Kanit', sans-serif; transition: background-color 0.3s ease; }
     
+    .top-bar .container-fluid {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .futbolx-brand {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 900;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      user-select: none;
+      text-decoration: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
+    }
+
+    .futbolx-brand .ball-o {
+      color: #ffc107;
+      font-size: 1.15rem;
+      margin: 0 1px;
+      text-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
+      transition: transform 0.5s ease;
+      display: inline-block;
+    }
+
+    .futbolx-brand:hover .ball-o {
+      transform: rotate(180deg);
+    }
+
+    .futbolx-brand .ball-o.spinning {
+      animation: ballSpin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    @keyframes ballSpin {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.2); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
     .card { 
       opacity: 0; 
       transform: translateY(30px); 
@@ -29,7 +75,6 @@
       100% { transform: scale(1); }
     }
 
-    /* THE PULSING LIVE DOT */
     .live-dot {
       height: 12px; width: 12px; background-color: #ff4d4d;
       border-radius: 50%; display: inline-block; margin-left: 10px;
@@ -42,7 +87,6 @@
       100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
     }
 
-    /* ADAPTIVE SMART GRID */
     .event-grid {
       display: grid;
       gap: 2rem;
@@ -72,7 +116,6 @@
     
     .category-dropdown { margin: 2rem 0; }
 
-    /* COMING SOON OVERLAY - Non-interactive and Blurry */
     .coming-soon-overlay {
       position: fixed;
       top: 56px;
@@ -88,7 +131,7 @@
       -webkit-backdrop-filter: blur(8px);
       pointer-events: none; 
     }
-    /* Locks the main content from clicks */
+    
     .no-click-mode { pointer-events: none; }
     
     .coming-soon-text {
@@ -113,7 +156,10 @@
       <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
         <i class="fas fa-bars"></i>
       </button>
-      <span class="futbolx-brand">FutbolX</span>
+
+      <a href="/" class="futbolx-brand" id="brandLogo">
+        FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
+      </a>
     </div>
   </nav>
 
@@ -180,6 +226,20 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const brandLogo = document.getElementById('brandLogo');
+      const logoBall = document.getElementById('logoBall');
+      
+      if (brandLogo && logoBall) {
+        brandLogo.addEventListener('click', () => {
+          logoBall.classList.add('spinning');
+          setTimeout(() => {
+            logoBall.classList.remove('spinning');
+          }, 600);
+        });
+      }
+    });
+
     const themeToggle = document.getElementById('themeToggle');
     const htmlEl = document.documentElement;
 
