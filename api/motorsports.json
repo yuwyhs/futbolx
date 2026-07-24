@@ -6,12 +6,12 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Belgium Grand Prix - Practice 3",
-          "uri_name": "b4v1g9p3",
-          "poster": "https://static.assetstorage.net/assets/thumb/0bc415ec26f68f7b7f9d364ebf4fe8ee-thumbnail.jpg",
+          "name": "Hungarian Grand Prix - Practice 2",
+          "uri_name": "h4g1p2",
+          "poster": "https://i.postimg.cc/wB5nvf0y/file-00000000587881f49aee27b6d4fc80eb.png",
           "tag": "F1",
-          "starts_at": "2026-07-18T13:30:00",
-          "ends_at": "2026-07-18T15:30:00",
+          "starts_at": "2026-07-24T18:00:00",
+          "ends_at": "2026-07-24T20:00:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
@@ -23,36 +23,53 @@
           ]
         },
         {
-          "name": "Belgium Grand Prix - Qualifying",
-          "uri_name": "b4v1g9p4",
-          "poster": "https://static.assetstorage.net/assets/thumb/c39175f1b6f5797ced0bbace0dbc6655-thumbnail.jpg",
+          "name": "Hungarian Grand Prix - Practice 3",
+          "uri_name": "h4g1p3",
+          "poster": "https://i.postimg.cc/3wjzRSnv/file-00000000bd4881f48d4c326e25f0e7ef.png",
           "tag": "F1",
-          "starts_at": "2026-07-18T17:00:00",
-          "ends_at": "2026-07-18T19:20:00",
+          "starts_at": "2026-07-25T13:30:00",
+          "ends_at": "2026-07-25T15:30:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
               "quality": "fhd",
-              "url": "https://italy.futx.sryze.cc/f1/index.m3u8"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Belgium Grand Prix - Race",
-          "uri_name": "b4v1g9p5",
-          "poster": "https://static.assetstorage.net/assets/thumb/3c628f701a4e5c588ca5a8575b6dbec5-thumbnail.jpg",
+          "name": "Hungarian Grand Prix - Qualifying",
+          "uri_name": "h4g1q7",
+          "poster": "https://i.postimg.cc/KY7CzqJ1/file-00000000891881f4b86c4a275b729136.png",
           "tag": "F1",
-          "starts_at": "2026-07-19T16:00:00",
-          "ends_at": "2026-07-19T19:00:00",
+          "starts_at": "2026-07-25T17:00:00",
+          "ends_at": "2026-07-25T19:30:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Sky Sports",
+              "title": "Main Feed",
               "quality": "fhd",
-              "url": "https://japan.futx.sryze.cc/f1/index.m3u8"
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Hungarian Grand Prix - Race",
+          "uri_name": "h4g1r8",
+          "poster": "https://i.postimg.cc/rpG7mnQz/file-00000000dd4081f49929db6ba7615397.png",
+          "tag": "F1",
+          "starts_at": "2026-07-26T16:00:00",
+          "ends_at": "2026-07-26T18:30:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "quality": "fhd",
+              "url": ""
             }
           ]
         }
