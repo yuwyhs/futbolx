@@ -36,6 +36,11 @@
               "title": "LFC Tv",
               "quality": "fhd",
               "url": "https://jamaica.futbolx.indevs.in/lfc/index.m3u8"
+            },
+            {
+              "title": "Backup stream",
+              "quality": "fhd",
+              "url": "https://embedindia.st/embed/friendly/2026-07-25/liv-sun"
             }
           ]
         }
