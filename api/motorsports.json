@@ -47,12 +47,12 @@
           "starts_at": "2026-07-25T17:00:00",
           "ends_at": "2026-07-25T19:30:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 150,
           "streams": [
             {
-              "title": "Main Feed",
+              "title": "SkySports F1",
               "quality": "fhd",
-              "url": ""
+              "url": "https://jamaica.futbolx.indevs.in/f1/index.m3u8"
             }
           ]
         },
