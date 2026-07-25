@@ -33,9 +33,9 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
+              "title": "LFC Tv",
               "quality": "fhd",
-              "url": ""
+              "url": "https://jamaica.futbolx.indevs.in/lfc/index.m3u8"
             }
           ]
         }
