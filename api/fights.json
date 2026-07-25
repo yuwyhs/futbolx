@@ -10,15 +10,15 @@
           "uri_name": "u4f1n1a7",
           "poster": "https://i.ytimg.com/vi/4VOntFHOwCE/hq720.jpg?v=6a6074a4&sqp=COTVgtMG-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLC9kRooi55EGzGnAV9jhkA_yLjAVg",
           "tag": "UFC",
-          "starts_at": "2026-07-25T16:30:00",
+          "starts_at": "2026-07-25T16:50:00",
           "ends_at": "2026-07-26T00:30:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
+              "title": "Paramount+",
               "quality": "fhd",
-              "url": ""
+              "url": "https://jamaica.futbolx.indevs.in/ufc/index.m3u8"
             }
           ]
         },
