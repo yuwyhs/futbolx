@@ -6,57 +6,6 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Hungarian Grand Prix - Practice 2",
-          "uri_name": "h4g1p2",
-          "poster": "https://i.postimg.cc/wB5nvf0y/file-00000000587881f49aee27b6d4fc80eb.png",
-          "tag": "F1",
-          "starts_at": "2026-07-24T18:00:00",
-          "ends_at": "2026-07-24T20:00:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "quality": "fhd",
-              "url": "https://hello.futbolx.indevs.in/pct2/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Hungarian Grand Prix - Practice 3",
-          "uri_name": "h4g1p3",
-          "poster": "https://i.postimg.cc/3wjzRSnv/file-00000000bd4881f48d4c326e25f0e7ef.png",
-          "tag": "F1",
-          "starts_at": "2026-07-25T13:30:00",
-          "ends_at": "2026-07-25T15:30:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "quality": "fhd",
-              "url": "https://embedindia.st/embed/f1/2026/hungary/fp3"
-            }
-          ]
-        },
-        {
-          "name": "Hungarian Grand Prix - Qualifying",
-          "uri_name": "h4g1q7",
-          "poster": "https://i.postimg.cc/KY7CzqJ1/file-00000000891881f4b86c4a275b729136.png",
-          "tag": "F1",
-          "starts_at": "2026-07-25T17:00:00",
-          "ends_at": "2026-07-25T19:30:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "SkySports F1",
-              "quality": "fhd",
-              "url": "https://jamaica.futbolx.indevs.in/f1/index.m3u8"
-            }
-          ]
-        },
-        {
           "name": "Hungarian Grand Prix - Race",
           "uri_name": "h4g1r8",
           "poster": "https://i.postimg.cc/rpG7mnQz/file-00000000dd4081f49929db6ba7615397.png",
@@ -67,9 +16,14 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
+              "title": "Sky Sports F1",
               "quality": "fhd",
-              "url": ""
+              "url": "https://germany.futbolx.indevs.in/f1/index.m3u8"
+            },
+            {
+              "title": "Sky Sports F1",
+              "quality": "4k",
+              "url": "https://germany.futbolx.indevs.in/4k/index.m3u8"
             }
           ]
         }
