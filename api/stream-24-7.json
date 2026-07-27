@@ -10,7 +10,7 @@
         "streams": [
           {
             "label": "Stream 1",
-            "url": "https://futbolx1-live.hf.space/hls/test.m3u8"
+            "url": "https://gami.futbolx.indevs.in/hls/match1/index.m3u8"
           }
         ],
         "always_live": 1
