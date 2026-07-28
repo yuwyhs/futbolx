@@ -6,41 +6,19 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Rosenborg vs Manchester United",
-          "uri_name": "r4v1m9u7",
-          "poster": "https://matchpint-cdn.matchpint.cloud/shared/imagenes/events/2026/07/24/en_GB/e771441_c2512_t7713_t7173.jpg",
+          "name": "West Sydney Wanderers vs Chelsea",
+          "uri_name": "w4s1w1c7",
+          "poster": "https://i.postimg.cc/g0TP5gJx/file-00000000c6588210b28f04ef0e2aedca.png",
           "tag": "Friendly",
-          "starts_at": "2026-07-24T19:00:00",
-          "ends_at": "2026-07-24T21:10:00",
+          "starts_at": "2026-07-28T12:45:00",
+          "ends_at": "2026-07-28T14:55:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "MuTv",
+              "title": "Main Feed",
               "quality": "fhd",
-              "url": "https://hello.futbolx.indevs.in/mufc/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Liverpool vs Sunderland",
-          "uri_name": "l4v1s9u6",
-          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8xMxyDEdY_S3iih0WOlg44uZDy7LqIT4kC6Jz5PNvbA4hBC9CK4gUscI&s=10",
-          "tag": "Friendly",
-          "starts_at": "2026-07-26T01:00:00",
-          "ends_at": "2026-07-26T03:10:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "LFC Tv",
-              "quality": "fhd",
-              "url": "https://jamaica.futbolx.indevs.in/lfc/index.m3u8"
-            },
-            {
-              "title": "Backup stream",
-              "quality": "fhd",
-              "url": "https://embedindia.st/embed/friendly/2026-07-25/liv-sun"
+              "url": ""
             }
           ]
         }
