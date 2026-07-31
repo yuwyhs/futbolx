@@ -35,7 +35,7 @@
             {
               "title": "Main Feed",
               "quality": "fhd",
-              "url": "https://embedindia.st/embed/club-friendly/2026-07-31/bir-bar"
+              "url": "https://germany.futbolx.indevs.in/bar/index.m3u8"
             }
           ]
         },
@@ -52,12 +52,12 @@
             {
               "title": "Main Feed",
               "quality": "fhd",
-              "url": ""
+              "url": "https://germany.futbolx.indevs.in/dundee/index.m3u8"
             },
             {
               "title": "Alt Feed 1",
               "quality": "fhd",
-              "url": ""
+              "url": "https://germany.futbolx.indevs.in/nott/index.m3u8"
             }
           ]
         }
