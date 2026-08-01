@@ -64,12 +64,12 @@
           "starts_at": "2026-08-01T19:00:00",
           "ends_at": "2026-08-01T21:10:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 50,
           "streams": [
             {
               "title": "Main Feed",
               "quality": "fhd",
-              "url": ""
+              "url": "https://germany.futx.sryze.cc/rma/index.m3u8"
             }
           ]
         },
