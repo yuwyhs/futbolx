@@ -23,12 +23,12 @@
           ]
         },
         {
-          "name": "WWE SummerSlam | Night 1",
+          "name": "WWE SummerSlam | Night 2",
           "uri_name": "9okbsu7",
           "poster": "https://static.assetstorage.net/assets/thumb/1cfdf971fd3df606a98090e74757e82a-thumbnail.jpg",
           "tag": "WWE",
-          "starts_at": "2026-08-02T01:00:00",
-          "ends_at": "2026-08-02T06:00:00",
+          "starts_at": "2026-08-03T01:00:00",
+          "ends_at": "2026-08-03T06:00:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
