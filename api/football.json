@@ -6,14 +6,14 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Chelsea vs Tottenham",
+          "name": "Liverpool vs Leeds",
           "uri_name": "c4h1v1t7",
-          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqcTte1dIBnzor9yDeKccKBm_7Xt95IieQ6LgKae1_kA&s=10",
+          "poster": "https://matchpint-cdn.matchpint.cloud/shared/imagenes/events/2026/08/02/en_GB/e772752_c2512_t7086_t7026.jpg",
           "tag": "Friendlies",
-          "starts_at": "2026-08-01T12:45:00",
-          "ends_at": "2026-08-01T14:50:00",
+          "starts_at": "2026-08-02T23:00:00",
+          "ends_at": "2026-08-03T01:10:00",
           "always_live": 0,
-          "max_simulated_viewers": 200,
+          "max_simulated_viewers": 100,
           "streams": [
             {
               "title": "Main Feed",
