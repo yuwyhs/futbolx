@@ -119,8 +119,26 @@
     /* Streamlined Chat Styles */
     .chat-wrapper-container { width: 100%; height: 680px; background: #090d16; border: 1px solid #1f293d; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
     .chat-header-area { padding: 12px 16px; background: #0f172a; border-bottom: 1px solid #1f293d; }
+    
+    /* Decoupled Announcements Bar */
     .announcement-banner { background: linear-gradient(90deg, #991b1b, #450a0a); color: #fecaca; padding: 8px 12px; font-size: 0.8rem; border-bottom: 1px solid #ef444455; display: flex; align-items: center; justify-content: space-between; }
-    .pinned-message-container { background: #111827; border-bottom: 1px solid #ef444488; padding: 8px 12px; font-size: 0.8rem; color: #f3f4f6; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    
+    /* Dedicated Pinned Message Card */
+    .pinned-message-container { 
+      position: relative;
+      background: rgba(17, 24, 39, 0.95); 
+      border-bottom: 1px solid #ef4444aa; 
+      padding: 8px 32px 8px 12px; 
+      font-size: 0.82rem; 
+      color: #f3f4f6; 
+      display: flex; 
+      align-items: center; 
+      gap: 8px; 
+    }
+    .pinned-badge-icon { color: #ef4444; font-size: 0.8rem; flex-shrink: 0; }
+    .pinned-unpin-btn { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #9ca3af; background: none; border: none; padding: 0 4px; cursor: pointer; }
+    .pinned-unpin-btn:hover { color: #ef4444; }
+
     .chat-rules { text-align: center; font-size: 0.73rem; color: #6b7280; padding: 6px 0; background: #030712; border-bottom: 1px solid #111827; }
 
     /* PPV/Twitch Compact Inline Chat Row */
@@ -148,7 +166,7 @@
     .badge-mod { background: #10b981; color: #fff; }
 
     .msg-text { color: #e5e7eb; }
-    .chat-emote { height: 28px; width: auto; vertical-align: middle; margin: 0 2px; }
+    .chat-emote { height: 26px; width: auto; vertical-align: middle; margin: 0 2px; object-fit: contain; }
 
     .reply-context { font-size: 0.75rem; color: #9ca3af; background: #1f2937; padding: 2px 6px; border-left: 2px solid #ff4d4d; border-radius: 3px; margin-bottom: 3px; display: block; cursor: pointer; }
 
@@ -337,20 +355,20 @@
                   </div>
                 </div>
 
+                <!-- Independent Broadcast Announcements Bar -->
                 <div id="announcementContainer" class="announcement-banner d-none">
                   <div><i class="fas fa-bullhorn me-1"></i> <span id="announcementText"></span></div>
                   <button id="dismissAnnounceBtn" class="btn-close btn-close-white btn-sm ms-2 d-none" onclick="dismissAnnouncement()"></button>
                 </div>
 
-                <div id="pinnedMessageContainer" class="pinned-message-container d-none">
-                  <div class="d-flex align-items-center gap-2 overflow-hidden">
-                    <i class="fas fa-thumbtack text-danger"></i>
-                    <span id="pinnedText" class="text-truncate"></span>
-                  </div>
-                  <button id="unpinBtn" class="btn btn-link text-muted p-0 btn-sm d-none" onclick="unpinMessage()"><i class="fas fa-times"></i></button>
-                </div>
-
                 <div class="chat-rules">be respectful • no spam • enjoy the streams</div>
+
+                <!-- Dedicated Pinned Message Card -->
+                <div id="pinnedMessageContainer" class="pinned-message-container d-none">
+                  <i class="fas fa-thumbtack pinned-badge-icon"></i>
+                  <div id="pinnedContent" class="overflow-hidden text-truncate flex-grow-1"></div>
+                  <button id="unpinBtn" class="pinned-unpin-btn d-none" onclick="unpinMessage()" title="Unpin Message"><i class="fas fa-times"></i></button>
+                </div>
 
                 <div id="futbolx-chat-messages" style="flex:1; overflow-y:auto; padding:8px 12px; display:flex; flex-direction:column;"></div>
 
@@ -474,6 +492,7 @@
     let isOwner = false;
     let isMuted = false;
     let replyTo = null;
+    let currentPinnedMessageId = null;
 
     // Emote Library Configuration
     const EMOTE_LIBRARY = [
@@ -589,10 +608,11 @@
     };
 
     function parseEmotes(text) {
+      if (!text) return '';
       let parsed = text;
       EMOTE_LIBRARY.forEach(e => {
         const regex = new RegExp(`\\b${e.name}\\b`, 'g');
-        const replacement = `<img src="${e.url}" class="chat-emote" title="${e.name}">`;
+        const replacement = `<img src="${e.url}" class="chat-emote" title="${e.name}" alt="${e.name}">`;
         parsed = parsed.replace(regex, replacement);
       });
       return parsed;
@@ -698,7 +718,7 @@
         }
 
         let adminControls = isOwner ? `
-          <i class="fas fa-thumbtack action-icon" onclick="pinMessage('${msg.id}', '${msg.username}', \`${msg.message.replace(/`/g, '')}\`)" title="Pin"></i>
+          <i class="fas fa-thumbtack action-icon" onclick="togglePinMessage('${msg.id}', '${msg.username}', \`${msg.message.replace(/`/g, '')}\`)" title="${currentPinnedMessageId === msg.id ? 'Unpin Message' : 'Pin Message'}"></i>
           <i class="fas fa-trash action-icon danger" onclick="deleteMessage('${msg.id}')" title="Delete"></i>
         ` : '';
 
@@ -773,15 +793,32 @@
     /* Pinning & Announcements */
     async function loadPin() {
         const { data } = await supabase.from('pinned_messages').select('*').eq('event_id', eventID).eq('is_pinned', true).maybeSingle();
+        const pinContainer = document.getElementById('pinnedMessageContainer');
+        const pinnedContent = document.getElementById('pinnedContent');
+
         if (data) {
-          document.getElementById('pinnedMessageContainer').classList.remove('d-none');
-          document.getElementById('pinnedText').innerText = `${data.username}: ${data.message_text}`;
+          currentPinnedMessageId = data.message_id;
+          let badge = '';
+          let authorClass = 'user';
+          if (data.username.toLowerCase() === 'futbolx') {
+            badge = `<span class="user-badge badge-owner"><i class="fas fa-crown"></i> OWNER</span>`;
+            authorClass = 'owner';
+          }
+          
+          pinnedContent.innerHTML = `${badge}<span class="chat-author ${authorClass}">${data.username}:</span> <span class="msg-text">${parseEmotes(data.message_text)}</span>`;
+          pinContainer.classList.remove('d-none');
         } else {
-          document.getElementById('pinnedMessageContainer').classList.add('d-none');
+          currentPinnedMessageId = null;
+          pinnedContent.innerHTML = '';
+          pinContainer.classList.add('d-none');
         }
     }
 
-    window.pinMessage = async (msgId, username, messageText) => {
+    window.togglePinMessage = async (msgId, username, messageText) => {
+        if (currentPinnedMessageId === msgId) {
+            await unpinMessage();
+            return;
+        }
         await supabase.from('pinned_messages').delete().eq('event_id', eventID);
         await supabase.from('pinned_messages').insert([{
             event_id: eventID,
