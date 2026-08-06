@@ -148,6 +148,7 @@
     .badge-mod { background: #10b981; color: #fff; }
 
     .msg-text { color: #e5e7eb; }
+    .chat-emote { height: 28px; width: auto; vertical-align: middle; margin: 0 2px; }
 
     .reply-context { font-size: 0.75rem; color: #9ca3af; background: #1f2937; padding: 2px 6px; border-left: 2px solid #ff4d4d; border-radius: 3px; margin-bottom: 3px; display: block; cursor: pointer; }
 
@@ -172,12 +173,34 @@
 
     #typingIndicator { font-size: 0.72rem; color: #6b7280; padding: 2px 16px; font-style: italic; min-height: 20px; }
 
+    /* Emote Picker Styles */
+    .emote-picker-popover {
+      position: absolute;
+      bottom: 60px;
+      right: 12px;
+      width: 290px;
+      height: 240px;
+      background: #0b0f19;
+      border: 1px solid #1f293d;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .emote-header { padding: 8px 12px; background: #0f172a; font-size: 12px; font-weight: 700; color: #9ca3af; border-bottom: 1px solid #1f293d; }
+    .emote-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 10px; overflow-y: auto; flex: 1; }
+    .emote-item { display: flex; align-items: center; justify-content: center; background: #111827; border-radius: 6px; padding: 6px; cursor: pointer; transition: background 0.2s, transform 0.1s; font-size: 18px; }
+    .emote-item:hover { background: #1f293d; transform: scale(1.15); }
+    .emote-item img { max-width: 28px; max-height: 28px; object-fit: contain; }
+
     .admin-dashboard-modal .modal-content { background: #0b0f19; border: 1px solid #ef444455; color: #e5e7eb; }
     .admin-dashboard-modal .nav-tabs .nav-link { color: #9ca3af; border: none; font-weight: 600; font-size: 0.85rem; }
     .admin-dashboard-modal .nav-tabs .nav-link.active { color: #ff4d4d; background: transparent; border-bottom: 2px solid #ff4d4d; }
 
-    #futbolx-chat-messages::-webkit-scrollbar { width: 5px; }
-    #futbolx-chat-messages::-webkit-scrollbar-thumb { background: #1f293d; border-radius: 10px; }
+    #futbolx-chat-messages::-webkit-scrollbar, .emote-grid::-webkit-scrollbar { width: 5px; }
+    #futbolx-chat-messages::-webkit-scrollbar-thumb, .emote-grid::-webkit-scrollbar-thumb { background: #1f293d; border-radius: 10px; }
 
     #statusArea {
       text-align: center; padding: 30px 15px;
@@ -336,9 +359,21 @@
                     <i class="fas fa-times" onclick="cancelReply()" style="cursor:pointer;"></i>
                 </div>
 
-                <div id="chatInputArea" style="border-top:1px solid #1f293d; padding:10px 12px; background:#0f172a;">
+                <!-- Emote Picker Popover -->
+                <div id="emotePickerPopover" class="emote-picker-popover d-none">
+                  <div class="emote-header">FutbolX Emotes & Emojis</div>
+                  <div class="emote-grid" id="emoteGrid"></div>
+                </div>
+
+                <div id="chatInputArea" style="border-top:1px solid #1f293d; padding:10px 12px; background:#0f172a; position:relative;">
                   <div id="activeInputRow" style="display:flex; gap:8px; align-items:center;">
                     <textarea id="chatInput" rows="1" placeholder="Send a message..." style="flex:1; background:#030712; border:1px solid #1f293d; border-radius:8px; padding:6px 12px; color:#f3f4f6; outline:none; font-size:13px; resize:none;"></textarea>
+                    
+                    <!-- Emote Picker Button -->
+                    <button id="emoteToggleBtn" type="button" style="background:none; border:none; color:#ffc107; font-size:18px; padding:0 4px; transition:transform 0.1s;">
+                      <i class="far fa-smile"></i>
+                    </button>
+
                     <button id="sendChatBtn" style="background:none; border:none; color:#ff4d4d; font-size:18px;"><i class="fas fa-paper-plane"></i></button>
                   </div>
                   <div id="chatMetaRow" class="d-flex justify-content-between align-items-center mt-1 text-muted" style="font-size: 10px;">
@@ -440,6 +475,25 @@
     let isMuted = false;
     let replyTo = null;
 
+    // Emote Library Configuration
+    const EMOTE_LIBRARY = [
+      { code: ':GOAL:', char: '⚽' },
+      { code: ':SIUU:', char: '🔥' },
+      { code: ':ROFL:', char: '🤣' },
+      { code: ':CLAP:', char: '👏' },
+      { code: ':RED_CARD:', char: '🟥' },
+      { code: ':YELLOW_CARD:', char: '🟨' },
+      { code: ':TROPHY:', char: '🏆' },
+      { code: ':100:', char: '💯' },
+      { code: ':FIRE:', char: '🔥' },
+      { code: ':SKULL:', char: '💀' },
+      { code: ':EYES:', char: '👀' },
+      { code: ':CROWN:', char: '👑' },
+      { code: ':POPCON:', char: '🍿' },
+      { code: ':GOAT:', char: '🐐' },
+      { code: ':SALUTE:', char: '🫡' }
+    ];
+
     async function init() {
         try {
             const res = await fetch('https://api.ipify.org?format=json');
@@ -453,12 +507,55 @@
             showRegisterUI();
         }
 
+        initEmotePicker();
         loadMessages();
         loadAnnouncement();
         loadPin();
         setupRealtime();
         setupInputHandlers();
         window.initViewerPresenceEngine();
+    }
+
+    function initEmotePicker() {
+      const popover = document.getElementById('emotePickerPopover');
+      const toggleBtn = document.getElementById('emoteToggleBtn');
+      const grid = document.getElementById('emoteGrid');
+
+      // Populate Emotes Grid
+      grid.innerHTML = EMOTE_LIBRARY.map(e => `
+        <div class="emote-item" onclick="insertEmote('${e.code}')" title="${e.code}">
+          ${e.src ? `<img src="${e.src}" alt="${e.code}">` : e.char}
+        </div>
+      `).join('');
+
+      toggleBtn.onclick = (e) => {
+        e.stopPropagation();
+        popover.classList.toggle('d-none');
+      };
+
+      document.addEventListener('click', (e) => {
+        if (!popover.contains(e.target) && e.target !== toggleBtn) {
+          popover.classList.add('d-none');
+        }
+      });
+    }
+
+    window.insertEmote = (code) => {
+      const input = document.getElementById('chatInput');
+      input.value += (input.value.length && !input.value.endsWith(' ') ? ' ' : '') + code + ' ';
+      input.focus();
+      document.getElementById('charCounter').textContent = `${input.value.length}/250`;
+      document.getElementById('emotePickerPopover').classList.add('d-none');
+    };
+
+    function parseEmotes(text) {
+      let parsed = text;
+      EMOTE_LIBRARY.forEach(e => {
+        const regex = new RegExp(e.code, 'g');
+        const replacement = e.src ? `<img src="${e.src}" class="chat-emote" title="${e.code}">` : e.char;
+        parsed = parsed.replace(regex, replacement);
+      });
+      return parsed;
     }
 
     async function verifySession() {
@@ -565,12 +662,14 @@
           <i class="fas fa-trash action-icon danger" onclick="deleteMessage('${msg.id}')" title="Delete"></i>
         ` : '';
 
+        const formattedMsg = parseEmotes(msg.message);
+
         div.innerHTML = `
           ${replyHTML}
           <div>
             ${badge}
             <span class="chat-author ${authorClass}">${msg.username}:</span>
-            <span class="msg-text">${msg.message}</span>
+            <span class="msg-text">${formattedMsg}</span>
           </div>
           <div class="msg-hover-actions">
             <i class="fas fa-reply action-icon" onclick="setReply('${msg.id}', '${msg.username}', \`${msg.message.replace(/`/g, '')}\`)" title="Reply"></i>
