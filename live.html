@@ -4,313 +4,112 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FutbolX - Watch Live</title>
-  <meta name="description" content="FutbolX - Watch live PPV boxing, UFC, Basketball, Football, and more.">
-  <meta name="keywords" content="futbolx, ppv, free ppv, boxing, ufc, basketball, football, stream, online, free">
-  <meta property="og:title" content="FutbolX - Watch Live" />
-  <meta property="og:url" content="https://futbol-x.site/live" />
-  <meta property="og:image" content="/assets/img/og-image.jpg">
-  <meta name="twitter:title" content="FutbolX - Watch Live">
-  <meta name="twitter:description" content="Watch live PPV boxing and other content on FutbolX.">
-  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   
   <style>
-    /* Global Layout Styles */
-    .top-bar .container-fluid {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-    }
-
-    .futbolx-brand {
-      font-family: 'Kanit', sans-serif;
-      font-weight: 900;
-      font-size: 1.4rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #ffffff;
-      display: inline-flex;
-      align-items: center;
-      user-select: none;
-      text-decoration: none;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      cursor: pointer;
-    }
-
-    .futbolx-brand .ball-o {
-      color: #ffc107;
-      font-size: 1.15rem;
-      margin: 0 1px;
-      text-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
-      transition: transform 0.5s ease;
-      display: inline-block;
-    }
-
-    .futbolx-brand:hover .ball-o {
-      transform: rotate(180deg);
-    }
-
-    .futbolx-brand .ball-o.spinning {
-      animation: ballSpin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-
-    @keyframes ballSpin {
-      0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.2); }
-      100% { transform: rotate(360deg) scale(1); }
-    }
-
-    .tip-container {max-width:600px;margin:20px auto;overflow:hidden;display:flex;flex-direction:column;gap:10px;}
-    .alert-info {text-align:center;position:relative;padding-right:40px !important;}
-    .error-alert {max-width:500px;margin:20px auto;}
+    .top-bar .container-fluid { position: relative; display: flex; align-items: center; justify-content: flex-start; }
+    .futbolx-brand { font-family: 'Kanit', sans-serif; font-weight: 900; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1.5px; color: #ffffff; display: inline-flex; align-items: center; user-select: none; text-decoration: none; position: absolute; left: 50%; transform: translateX(-50%); cursor: pointer; }
+    .futbolx-brand .ball-o { color: #ffc107; font-size: 1.15rem; margin: 0 1px; text-shadow: 0 0 10px rgba(255, 193, 7, 0.4); transition: transform 0.5s ease; display: inline-block; }
+    .futbolx-brand:hover .ball-o { transform: rotate(180deg); }
+    .tip-container { max-width:600px; margin:20px auto; overflow:hidden; display:flex; flex-direction:column; gap:10px; }
+    .video-container { position:relative; width:100%; height:0; padding-bottom:56.25%; background:#000; border-radius:12px; overflow:hidden; display:none; margin-bottom:1rem; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+    #oplayer-container { position:absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
     
-    .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:12px;overflow:hidden;display:none;margin-bottom:1rem;box-shadow: 0 8px 24px rgba(0,0,0,0.5);}
-    #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
-
-    #socialOverlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.95); z-index: 10000;
-      display: none; align-items: center; justify-content: center;
-      backdrop-filter: blur(8px);
-    }
-    .social-card {
-      background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
-      border: 2px solid #ff4d4d; border-radius: 20px;
-      padding: 40px; text-align: center; max-width: 500px; width: 90%;
-      box-shadow: 0 0 30px rgba(255, 77, 77, 0.2);
-    }
+    #socialOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+    .social-card { background: linear-gradient(135deg, #1a1a1a, #0a0a0a); border: 2px solid #ff4d4d; border-radius: 20px; padding: 40px; text-align: center; max-width: 500px; width: 90%; box-shadow: 0 0 30px rgba(255, 77, 77, 0.2); }
     .social-card h2 { color: #ff4d4d; font-weight: 800; margin-bottom: 20px; }
     .social-card p { color: #ddd; font-size: 1.1rem; margin-bottom: 30px; line-height: 1.6; }
     .social-btns { display: flex; flex-direction: column; gap: 15px; }
-    .btn-social {
-      padding: 12px; border-radius: 12px; font-weight: 600; text-decoration: none;
-      transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
-    }
+    .btn-social { padding: 12px; border-radius: 12px; font-weight: 600; text-decoration: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
     .btn-discord { background: #5865F2; color: white; }
     .btn-telegram { background: #0088cc; color: white; }
-    .btn-social:hover { transform: scale(1.03); opacity: 0.9; color: white; }
 
-    .live-title {
-      text-align: center;
-      background: linear-gradient(135deg, #1a1a1a, #2d0000);
-      padding: 12px 20px;
-      border-radius: 12px;
-      border: 2px solid #ff4d4d;
-      box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
-      margin: 1rem 0;
-    }
-    .live-title h3 { margin: 0; color: #fff; font-size: 1.8rem; font-weight: 600; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+    .live-title { text-align: center; background: linear-gradient(135deg, #1a1a1a, #2d0000); padding: 12px 20px; border-radius: 12px; border: 2px solid #ff4d4d; box-shadow: 0 0 20px rgba(255, 77, 77, 0.3); margin: 1rem 0; }
+    .live-title h3 { margin: 0; color: #fff; font-size: 1.8rem; font-weight: 600; }
     .live-title::before { content: "● LIVE"; color: #ff4d4d; font-weight: bold; margin-right: 10px; animation: pulse 2s infinite; }
-    
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
     /* Redesigned FutbolX Chat Styles */
-    .chat-wrapper-container {
-      width: 100%; 
-      height: 680px; 
-      background: #0d1117;
-      border: 1px solid #30363d;
-      border-radius: 16px; 
-      overflow: hidden; 
-      display: flex; 
-      flex-direction: column; 
-      position: relative;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    }
+    .chat-wrapper-container { width: 100%; height: 680px; background: #0d1117; border: 1px solid #30363d; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+    .chat-header-area { padding: 12px 16px; background: #161b22; border-bottom: 1px solid #30363d; }
+    .announcement-banner { background: linear-gradient(90deg, #851616, #3b0707); color: #ffcccc; padding: 8px 12px; font-size: 0.78rem; border-bottom: 1px solid #ff4d4d33; display: flex; align-items: center; justify-content: space-between; }
+    .pinned-message-container { background: #161b22; border-bottom: 1px solid #ff4d4d55; padding: 8px 12px; font-size: 0.8rem; color: #e6edf3; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .chat-rules { text-align: center; font-size: 0.72rem; color: #8b949e; padding: 5px 0; background: rgba(0,0,0,0.2); border-bottom: 1px solid #21262d; }
 
-    .chat-header-area {
-      padding: 12px 16px; 
-      background: #161b22; 
-      border-bottom: 1px solid #30363d;
-    }
-
-    .announcement-banner {
-      background: linear-gradient(90deg, #851616, #3b0707);
-      color: #ffcccc;
-      padding: 8px 12px;
-      font-size: 0.78rem;
-      border-bottom: 1px solid #ff4d4d33;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      animation: fadeIn 0.4s ease;
-    }
-
-    .pinned-message-container {
-      background: #161b22;
-      border-bottom: 1px solid #ff4d4d55;
-      padding: 8px 12px;
-      font-size: 0.8rem;
-      color: #e6edf3;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .chat-rules {
-      text-align: center;
-      font-size: 0.72rem;
-      color: #8b949e;
-      padding: 5px 0;
-      background: rgba(0,0,0,0.2);
-      border-bottom: 1px solid #21262d;
-    }
-
+    /* Clean Message Card Styles */
     .msg-item { 
       position: relative; 
-      padding: 8px 12px; 
-      border-radius: 10px;
+      padding: 10px 14px; 
+      border-radius: 12px;
       background: #161b22;
       border: 1px solid #21262d;
-      margin-bottom: 6px;
-      transition: transform 0.15s ease, background 0.15s ease;
-      animation: slideIn 0.25s cubic-bezier(0.1, 0.9, 0.2, 1);
+      margin-bottom: 8px;
+      transition: background 0.15s ease;
+      user-select: none;
     }
-    .msg-item:hover { 
-      background: #1c2128;
-      border-color: #30363d;
-    }
+    .msg-item:hover { background: #1c2128; border-color: #30363d; }
 
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .msg-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 4px;
-    }
-
-    .user-badge {
-      font-size: 0.65rem;
-      font-weight: 800;
-      padding: 2px 6px;
-      border-radius: 4px;
-      margin-left: 4px;
-      text-transform: uppercase;
-    }
+    .msg-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+    .user-badge { font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; margin-left: 4px; text-transform: uppercase; }
     .badge-owner { background: #ff4d4d; color: #fff; box-shadow: 0 0 6px rgba(255,77,77,0.5); }
     .badge-mod { background: #38bdf8; color: #000; }
-    .badge-vip { background: #eab308; color: #000; }
-    .badge-verified { background: #22c55e; color: #fff; }
+    
+    .chat-username-text { font-size: 0.85rem; font-weight: 700; color: #38bdf8; }
+    .owner-name { font-size: 0.85rem; font-weight: 800; color: #ff4d4d; text-shadow: 0 0 8px rgba(255, 77, 77, 0.5); display: inline-flex; align-items: center; gap: 4px; }
+    .chat-message-payload { font-size: 0.88rem; color: #c9d1d9; word-break: break-word; line-height: 1.4; }
 
-    .chat-username-text {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #38bdf8;
-    }
+    .reply-card { background: #0d1117; border-left: 3px solid #ff4d4d; padding: 4px 8px; margin-bottom: 6px; font-size: 0.75rem; border-radius: 4px; color: #8b949e; cursor: pointer; }
 
-    .chat-message-payload {
-      font-size: 0.85rem;
-      color: #c9d1d9;
-      word-break: break-word;
-      line-height: 1.4;
-    }
-
-    .owner-name {
-      font-size: 0.85rem;
-      font-weight: 800; 
-      color: #ff4d4d;
-      text-shadow: 0 0 8px rgba(255, 77, 77, 0.5);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .reply-card {
-      background: #0d1117;
-      border-left: 3px solid #ff4d4d;
-      padding: 4px 8px;
-      margin-bottom: 6px;
-      font-size: 0.75rem;
-      border-radius: 4px;
-      color: #8b949e;
-      cursor: pointer;
-    }
-    .reply-card:hover { color: #58a6ff; }
-
-    /* Reaction Bar & Buttons */
-    .reaction-bar {
-      display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
-      margin-top: 6px;
-    }
-    .reaction-pill {
-      background: #21262d;
-      border: 1px solid #30363d;
-      border-radius: 12px;
-      padding: 1px 6px;
-      font-size: 0.72rem;
-      cursor: pointer;
-      color: #c9d1d9;
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      transition: all 0.2s ease;
-    }
-    .reaction-pill:hover, .reaction-pill.active {
-      border-color: #ff4d4d;
-      background: #2d1212;
-      transform: scale(1.05);
-    }
-
-    .msg-actions {
+    /* Hold/Hover Reaction Floating Bar */
+    .reaction-picker-popover {
       display: none;
+      position: absolute;
+      top: -36px;
+      right: 12px;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 20px;
+      padding: 3px 8px;
       gap: 6px;
-      font-size: 11px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      z-index: 10;
     }
+    .msg-item:hover .reaction-picker-popover,
+    .msg-item.show-popover .reaction-picker-popover {
+      display: flex;
+    }
+    .popover-emoji { cursor: pointer; font-size: 0.95rem; transition: transform 0.15s ease; }
+    .popover-emoji:hover { transform: scale(1.3); }
+
+    /* Dynamic Reaction Counter Pills (Shown only when count > 0) */
+    .active-reactions-container { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+    .reaction-pill {
+      background: #21262d; border: 1px solid #30363d; border-radius: 12px;
+      padding: 2px 8px; font-size: 0.72rem; cursor: pointer; color: #c9d1d9;
+      display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s ease;
+    }
+    .reaction-pill:hover, .reaction-pill.active { border-color: #ff4d4d; background: #2d1212; color: #ff4d4d; }
+
+    .msg-actions { display: none; gap: 8px; font-size: 11px; }
     .msg-item:hover .msg-actions { display: inline-flex; }
 
-    /* Typing Indicator */
-    #typingIndicator {
-      font-size: 0.72rem;
-      color: #8b949e;
-      padding: 4px 16px;
-      font-style: italic;
-      min-height: 22px;
-    }
+    #typingIndicator { font-size: 0.72rem; color: #8b949e; padding: 4px 16px; font-style: italic; min-height: 22px; }
 
-    /* Admin Modal Dashboard & Tab System */
-    .admin-dashboard-modal .modal-content {
-      background: #0d1117;
-      border: 1px solid #ff4d4d55;
-      color: #c9d1d9;
-    }
-    .admin-dashboard-modal .nav-tabs .nav-link {
-      color: #8b949e;
-      border: none;
-      font-weight: 600;
-      font-size: 0.85rem;
-    }
-    .admin-dashboard-modal .nav-tabs .nav-link.active {
-      color: #ff4d4d;
-      background: transparent;
-      border-bottom: 2px solid #ff4d4d;
-    }
+    .admin-dashboard-modal .modal-content { background: #0d1117; border: 1px solid #ff4d4d55; color: #c9d1d9; }
+    .admin-dashboard-modal .nav-tabs .nav-link { color: #8b949e; border: none; font-weight: 600; font-size: 0.85rem; }
+    .admin-dashboard-modal .nav-tabs .nav-link.active { color: #ff4d4d; background: transparent; border-bottom: 2px solid #ff4d4d; }
 
     #futbolx-chat-messages::-webkit-scrollbar { width: 5px; }
     #futbolx-chat-messages::-webkit-scrollbar-thumb { background: #30363d; border-radius: 10px; }
     .chat-msg-emote { width: 24px; height: 24px; vertical-align: middle; margin: 0 2px; }
 
-    #statusArea {
-      text-align: center; padding: 30px 15px;
-      background: rgba(30,30,30,0.7); border-radius: 12px;
-      margin: 25px auto; max-width: 720px;
-    }
+    #statusArea { text-align: center; padding: 30px 15px; background: rgba(30,30,30,0.7); border-radius: 12px; margin: 25px auto; max-width: 720px; }
     #eventTitle { font-size: 2.4rem; margin-bottom: 1rem; color: #ff4d4d; }
     .countdown-display { font-size: 4rem; font-weight: bold; color: #ff4d4d; letter-spacing: 5px; margin: 20px 0; text-shadow: 0 0 20px rgba(255,77,77,0.5); }
     .permanent-noti { background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; }
@@ -318,18 +117,15 @@
 
     .stream-dropdown-container { max-width: 320px; margin-bottom: 1rem; }
     .stream-select-custom { background: #0b1020 !important; color: #fff !important; border: 2px solid #ff4d4d !important; border-radius: 12px; padding: 10px 15px; font-weight: 600; cursor: pointer; box-shadow: 0 0 15px rgba(255, 77, 77, 0.15); }
-    
     .badge-quality { display: inline-block; padding: 2px 6px; font-size: 0.75rem; font-weight: 900; border-radius: 6px; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
     .badge-fhd { background-color: #0088cc; color: #fff; }
     .badge-hd { background-color: #22d3ee; color: #0a0a0a; }
     .badge-4k { background-color: #ff4d4d; color: #fff; }
     .badge-default { background-color: #555; color: #fff; }
-    
     .viewer-wrap-hidden { display: none !important; }
   </style>
 </head>
 <body>
-  <!-- Community Modal Overlay -->
   <div id="socialOverlay">
     <div class="social-card">
       <h2>Join Our Community</h2>
@@ -345,32 +141,28 @@
     </div>
   </div>
 
-  <!-- Top Navigation Bar -->
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
-      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
         <i class="fas fa-bars"></i>
       </button>
-
       <a href="/" class="futbolx-brand" id="brandLogo">
         FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
       </a>
     </div>
   </nav>
 
-  <!-- Sidebar Menu -->
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
     <div class="offcanvas-header">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
     <div class="offcanvas-body">
       <ul class="nav flex-column">
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
-        <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
         <li class="nav-item">
-          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
+          <button id="themeToggle" class="nav-link btn btn-link">
             <i class="fas fa-moon"></i>
           </button>
         </li>
@@ -378,21 +170,16 @@
     </div>
   </div>
 
-  <!-- Main Application Body -->
   <div class="container-fluid main-content">
     <div class="container-xl mt-4"> 
       <div class="row">
         <div class="col-12">
           <div class="tip-container">
-            <div class="alert alert-info alert-dismissible fade show permanent-noti" id="joinAlert" role="alert">
+            <div class="alert alert-info alert-dismissible fade show permanent-noti" id="joinAlert">
               <strong>Join us</strong> on 
-              <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener" class="alert-link text-decoration-underline">Discord</a> and 
-              <a href="https://t.me/+H-GY0RZpdHc3ZDdl" target="_blank" rel="noopener" class="alert-link text-decoration-underline">Telegram</a>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            <div class="alert alert-info alert-dismissible fade show permanent-noti" id="infoAlert" role="alert">
-              <strong>Info:</strong> If stream is not loading on your end, try using a VPN to bypass your ISP restrictions.
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+              <a href="https://discord.gg/UzHzerb6XY" target="_blank" class="alert-link text-decoration-underline">Discord</a> and 
+              <a href="https://t.me/+H-GY0RZpdHc3ZDdl" target="_blank" class="alert-link text-decoration-underline">Telegram</a>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
             </div>
           </div>
 
@@ -424,7 +211,7 @@
               </div>
             </div>
 
-            <!-- Redesigned FutbolX Interactive Live Chat Wrapper -->
+            <!-- FutbolX Live Chat Wrapper -->
             <div class="col-12 col-lg-4">
               <div class="chat-wrapper-container">
                 <div class="chat-header-area d-flex justify-content-between align-items-center">
@@ -442,13 +229,11 @@
                   </div>
                 </div>
 
-                <!-- Announcements Banner Container -->
                 <div id="announcementContainer" class="announcement-banner d-none">
                   <div><i class="fas fa-bullhorn me-1"></i> <span id="announcementText"></span></div>
                   <button id="dismissAnnounceBtn" class="btn-close btn-close-white btn-sm ms-2 d-none"></button>
                 </div>
 
-                <!-- Pinned Message Area -->
                 <div id="pinnedMessageContainer" class="pinned-message-container d-none">
                   <div class="d-flex align-items-center gap-2 overflow-hidden">
                     <i class="fas fa-thumbtack text-danger"></i>
@@ -457,27 +242,22 @@
                   <button id="unpinBtn" class="btn btn-link text-muted p-0 btn-sm d-none" onclick="unpinCurrentMessage()"><i class="fas fa-times"></i></button>
                 </div>
 
-                <div class="chat-rules">
-                  be respectful • no spam • enjoy the streams
-                </div>
+                <div class="chat-rules">be respectful • no spam • enjoy the streams</div>
 
-                <!-- Scrollable Messages Body -->
                 <div id="futbolx-chat-messages" style="flex:1; overflow-y:auto; padding:12px; display:flex; flex-direction:column; gap:6px;"></div>
 
-                <!-- Reply Preview Panel -->
                 <div id="replyPreview" class="d-none" style="background:#161b22; padding:6px 12px; color:#8b949e; font-size:11px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #ff4d4d55;">
                     <span id="replyText">Replying...</span>
                     <i class="fas fa-times" onclick="cancelReply()" style="cursor:pointer;"></i>
                 </div>
 
-                <!-- Enhanced Chat Input Controls -->
                 <div id="chatInputArea" style="border-top:1px solid #30363d; padding:10px 12px; background:#161b22;">
-                  <div style="display:flex; gap:8px; align-items:center;">
+                  <div id="activeInputRow" style="display:flex; gap:8px; align-items:center;">
                     <button id="toggleEmotes" style="background:none; border:none; color:#8b949e; font-size:18px;"><i class="far fa-smile"></i></button>
                     <textarea id="chatInput" rows="1" placeholder="Type here..." style="flex:1; background:#0d1117; border:1px solid #30363d; border-radius:12px; padding:6px 12px; color:#c9d1d9; outline:none; font-size:13px; resize:none;"></textarea>
                     <button id="sendChatBtn" style="background:none; border:none; color:#ff4d4d; font-size:18px;"><i class="fas fa-paper-plane"></i></button>
                   </div>
-                  <div class="d-flex justify-content-between align-items-center mt-1 text-muted" style="font-size: 10px;">
+                  <div id="chatMetaRow" class="d-flex justify-content-between align-items-center mt-1 text-muted" style="font-size: 10px;">
                     <span id="charCounter">0/250</span>
                     <span>Enter to send • Shift+Enter newline</span>
                   </div>
@@ -487,7 +267,6 @@
                     <button onclick="registerGuestUser()" class="btn btn-sm btn-danger w-100">Register & Chat</button>
                   </div>
 
-                  <!-- Categorized Emote Picker Grid -->
                   <div id="emotePicker" style="display:none; height:160px; overflow-y:auto; margin-top:10px; border-top:1px solid #30363d; padding-top:8px;">
                     <input type="text" id="emoteSearch" class="form-control form-control-sm mb-2" placeholder="Search emotes..." style="background:#0d1117; border-color:#30363d; color:white;">
                     <div id="emoteGrid" style="display:grid; grid-template-columns:repeat(6, 1fr); gap:6px;"></div>
@@ -506,75 +285,35 @@
           <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
         </ul>
       </footer>
-
-      <div class="disclaimer">
-        We DO NOT host nor transmit any audiovisual content itself...
-      </div>
     </div>
   </div>
 
-  <!-- Admin Dashboard Modal (Owner Only) -->
+  <!-- Admin Dashboard Modal -->
   <div class="modal fade admin-dashboard-modal" id="adminDashboardModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header border-bottom border-secondary">
           <h5 class="modal-title text-danger"><i class="fas fa-crown me-2"></i>FutbolX Owner Dashboard</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <ul class="nav nav-tabs mb-3" id="adminTabs" role="tablist">
             <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabMembers">Members</button></li>
             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabMod">Moderation</button></li>
             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabAnnouncements">Announcements</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabPins">Pins</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabLogs">Logs</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabSettings">Settings</button></li>
           </ul>
           
           <div class="tab-content">
-            <!-- Members Tab -->
             <div class="tab-pane fade show active" id="tabMembers">
-              <input type="text" id="memberAdminSearch" class="form-control form-control-sm mb-3" placeholder="Search members by username or IP...">
               <div id="adminMemberList" class="list-group" style="max-height: 300px; overflow-y: auto;"></div>
             </div>
-
-            <!-- Moderation Tab -->
             <div class="tab-pane fade" id="tabMod">
-              <div class="d-flex gap-2 mb-3">
-                <button class="btn btn-sm btn-danger" onclick="clearAllChat()"><i class="fas fa-trash me-1"></i> Clear Entire Chat</button>
-              </div>
-              <div id="mutedUsersList" class="small text-muted"></div>
+              <button class="btn btn-sm btn-danger" onclick="clearAllChat()"><i class="fas fa-trash me-1"></i> Clear Entire Chat</button>
             </div>
-
-            <!-- Announcements Tab -->
             <div class="tab-pane fade" id="tabAnnouncements">
-              <div class="mb-3">
-                <label class="form-label small">Create Announcement</label>
-                <textarea id="announcementInput" class="form-control form-control-sm" rows="2" placeholder="Broadcast message..."></textarea>
-                <button class="btn btn-sm btn-danger mt-2" onclick="publishAnnouncement()">Publish Announcement</button>
-                <button class="btn btn-sm btn-outline-secondary mt-2 ms-2" onclick="removeAnnouncement()">Clear Announcement</button>
-              </div>
-            </div>
-
-            <!-- Pins Tab -->
-            <div class="tab-pane fade" id="tabPins">
-              <p class="small text-muted">Pinned messages can be managed directly on any chat message card or unpinned below.</p>
-              <button class="btn btn-sm btn-outline-danger" onclick="unpinCurrentMessage()">Unpin Active Message</button>
-            </div>
-
-            <!-- Logs Tab -->
-            <div class="tab-pane fade" id="tabLogs">
-              <div id="adminLogsContainer" style="max-height: 250px; overflow-y: auto; font-family: monospace; font-size: 11px;" class="bg-black p-2 rounded text-success">
-                [SYSTEM LOGS READY]
-              </div>
-            </div>
-
-            <!-- Settings Tab -->
-            <div class="tab-pane fade" id="tabSettings">
-              <div class="form-check form-switch mb-2">
-                <input class="form-check-input" type="checkbox" id="slowModeToggle">
-                <label class="form-check-label small" for="slowModeToggle">Enable Chat Slow Mode (5s)</label>
-              </div>
+              <textarea id="announcementInput" class="form-control form-control-sm mb-2" rows="2" placeholder="Broadcast message..."></textarea>
+              <button class="btn btn-sm btn-danger" onclick="publishAnnouncement()">Publish</button>
+              <button class="btn btn-sm btn-outline-secondary ms-2" onclick="removeAnnouncement()">Clear</button>
             </div>
           </div>
         </div>
@@ -583,24 +322,6 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/api.js"></script>
-  <script src="/assets/js/auth.js"></script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const brandLogo = document.getElementById('brandLogo');
-      const logoBall = document.getElementById('logoBall');
-      
-      if (brandLogo && logoBall) {
-        brandLogo.addEventListener('click', () => {
-          logoBall.classList.add('spinning');
-          setTimeout(() => {
-            logoBall.classList.remove('spinning');
-          }, 600);
-        });
-      }
-    });
-  </script>
 
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -608,66 +329,7 @@
     const SB_URL = "https://usxpqfbpvlppzldvnerp.supabase.co";
     const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzeHBxZmJwdmxwcHpsZHZuZXJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNjYzODcsImV4cCI6MjA5Mzg0MjM4N30.zwvsvJRtcTRmVLTHGR3AB9gApShbTswZkmDWGbzI-uY";
     const supabase = createClient(SB_URL, SB_KEY);
-
     window.globalSupabaseInstance = supabase;
-
-    const emotes = [
-      { name: "GIGACHAD", url: "https://cdn.7tv.app/emote/01F6MZGCNG000255K4X1K7NTHR/4x.webp" },
-      { name: "donowall", url: "https://cdn.7tv.app/emote/01F6BN89H80006VBW12DRB1DJ0/4x.webp" },
-      { name: "catJAM", url: "https://cdn.7tv.app/emote/01F6MQ33FG000FFJ97ZB8MWV52/4x.webp" },
-      { name: "modCheck", url: "https://cdn.7tv.app/emote/01F6FTE8B80008E39HFFQJ7MWS/4x.webp" },
-      { name: "Hmm", url: "https://cdn.7tv.app/emote/01F6MA6Y100002B6P5MWZ5D916/4x.webp" },
-      { name: "HUH", url: "https://cdn.7tv.app/emote/01FFMS6Q4G0009CAK0J14692AY/4x.webp" },
-      { name: "LETHIMCOOK", url: "https://cdn.7tv.app/emote/01GN5QQ1X8000C0QTR0C8JV0GR/4x.webp" },
-      { name: "Ghost", url: "https://cdn.7tv.app/emote/01GHRZNKG8000CMMVPKY84QCSW/4x.webp" },
-      { name: "HaaLand", url: "https://cdn.7tv.app/emote/01GEWTXA6R0007VKAEFZEJMCC8/4x.webp" },
-      { name: "Haaland", url: "https://cdn.7tv.app/emote/01KQS9BVW9SJE6AWGEQ4G56Z42/4x.webp" },
-      { name: "StayHumble", url: "https://cdn.7tv.app/emote/01JN9W3F6MYY3QDN2X1ZEGC8FE/4x.webp" },
-      { name: "veryDutch", url: "https://cdn.7tv.app/emote/01JM1QNXGSEPSDADFQ0D97T3QH/4x.webp" },
-      { name: "peepoLeave", url: "https://cdn.7tv.app/emote/01G4ZGET1R0003SYTMXJ2SQCGP/4x.webp" },
-      { name: "WHAT", url: "https://cdn.7tv.app/emote/01G4ZTECKR0002P97QQ94BDSP4/4x.webp" },
-      { name: "SUSSY", url: "https://cdn.7tv.app/emote/01F8G9MDAR0009YQPYZYCKHYKQ/4x.webp" },
-      { name: "SadgeCry", url: "https://cdn.7tv.app/emote/01F6MMZW3R00012ZP6HJJ38G2E/4x.webp" },
-      { name: "NOWAYING", url: "https://cdn.7tv.app/emote/01GQ3WPTDR000300KQF1J7PFF8/4x.webp" },
-      { name: "HACKERMANS", url: "https://cdn.7tv.app/emote/01F6WP22CR0004YCK11WAVZHEW/4x.webp" },
-      { name: "PeepoFinger", url: "https://cdn.7tv.app/emote/01F779KZC8000D25DGAC8PTX5Q/4x.webp" },
-      { name: "peepoVanish", url: "https://cdn.7tv.app/emote/01G9N52F28000D5R8HGE37V31V/4x.webp" },
-      { name: "OusPressing", url: "https://cdn.7tv.app/emote/01JYFETAK2XX5DNP9GHH3TG52S/4x.webp" },
-      { name: "DEBILE", url: "https://cdn.7tv.app/emote/01JYF8SQGV2ZX8SE3Y73VGD6NQ/4x.webp" },
-      { name: "BottleJob", url: "https://cdn.7tv.app/emote/01KHSCBJZMH2DFX0AT9G5H3405/4x.webp" },
-      { name: "gyokeresAFTVcele", url: "https://cdn.7tv.app/emote/01KH6STY7ZMXEF3GX9YNZ1Y14Z/4x.webp" },
-      { name: "Arsenal", url: "https://cdn.7tv.app/emote/01H067VS08000B348YG2ZJ4S52/4x.webp" },
-      { name: "City", url: "https://cdn.7tv.app/emote/01HJA4SRQ0000BN1D384R8DQD3/4x.webp" },
-      { name: "United", url: "https://cdn.7tv.app/emote/01HJA51XER000DQX3MV0V8SJG1/4x.webp" },
-      { name: "LiverpoolFC", url: "https://cdn.7tv.app/emote/01JYFDQ6BXZGPYEMB08HY7NG34/4x.webp" },
-      { name: "FeelsChelseaMan", url: "https://cdn.7tv.app/emote/01GBKNZPKR00047VE9386QDW00/4x.webp" },
-      { name: "Chelsea", url: "https://cdn.7tv.app/emote/01GBKPE6FG00047VE9386QDW17/4x.webp" },
-      { name: "Barcelona", url: "https://cdn.7tv.app/emote/01GZP2MJAR0008QZ1CW49JWWRW/4x.webp" },
-      { name: "LamineYamal", url: "https://cdn.7tv.app/emote/01JB5K4DGZR0FVJ8PGD5N1A434/4x.webp" },
-      { name: "BarcaGG", url: "https://cdn.7tv.app/emote/01FVE5EDEG0008TTS3W3848XCN/4x.webp" },
-      { name: "RealMadrid", url: "https://cdn.7tv.app/emote/01K5285Z6KHG844HPFZW7KTMYE/4x.webp" },
-      { name: "deletethis", url: "https://cdn.7tv.app/emote/01KNDAS5VA3M79SPE2YQDETWAD/4x.webp" },
-      { name: "PSG", url: "https://cdn.7tv.app/emote/01HJA57VWG000CDF2EEHA7MFCG/4x.webp" },
-      { name: "Bayern", url: "https://cdn.7tv.app/emote/01HJ78CVM00004H7H6E44MB0PY/4x.webp" },
-      { name: "ronaldo", url: "https://cdn.7tv.app/emote/01GBQFAZ8G0005PZ06CHYTRHZ0/4x.webp" },
-      { name: "messi", url: "https://cdn.7tv.app/emote/01H654J3MR000765H7QPNXMWSD/4x.webp" },
-      { name: "AnkaraMessi", url: "https://cdn.7tv.app/emote/01FGMBG82000047CPSV86K5E9B/4x.webp" },
-      { name: "QueMirasBobo", url: "https://cdn.7tv.app/emote/01GKWG3XBG000CVGD44K6QXVW5/4x.webp" },
-      { name: "peepoComfy", url: "https://cdn.7tv.app/emote/01FAJRZBRR0002R979W3KES4A1/4x.webp" },
-      { name: "Saved", url: "https://cdn.7tv.app/emote/01F6SD865R0004VBRD7RGY6XAX/4x.webp" },
-      { name: "veryCat", url: "https://cdn.7tv.app/emote/01GMAH9MB000066S7TTNVB1TGD/4x.webp" },
-      { name: "TriSad", url: "https://cdn.7tv.app/emote/01EZPGQES8000C438200A44F0M/4x.webp" },
-      { name: "Cinema", url: "https://cdn.7tv.app/emote/01GBFDVP18000CRDCG0DV7KEMY/4x.webp" },
-      { name: "VeryPog", url: "https://cdn.7tv.app/emote/01EZPGPAN0000C438200A44F0K/4x.webp" },
-      { name: "GAY", url: "https://cdn.7tv.app/emote/01GB4QH72800006TW50PGWAH00/4x.webp" },
-      { name: "Cooked", url: "https://cdn.7tv.app/emote/01JJ0D0C2XWZ640NP4WJKB8MYX/4x.webp" },
-      { name: "omeStare", url: "https://cdn.7tv.app/emote/01H4S8R7MR0002T46WCH7N1N4T/4x.webp" },
-      { name: "omEing", url: "https://cdn.7tv.app/emote/01GGF9EECG000A0N3MCYXCPSCW/4x.webp" },
-      { name: "speed", url: "https://cdn.7tv.app/emote/01KEAG2JZH53H5GKKYZQNEVC90/4x.webp" },
-      { name: "Football", url: "https://cdn.7tv.app/emote/01GJQ0ER7G0004ZNQR0J84JYH9/4x.webp" },
-      { name: "PepPog", url: "https://cdn.7tv.app/emote/01FV3NRJ680006J115VRY680Q9/4x.webp" },
-      { name: "REF", url: "https://cdn.7tv.app/emote/01GKQ60YHR000CS736JH649MBC/4x.webp" }
-    ];
 
     const availableReactions = ['👍','❤️','😂','😮','😢','🔥','👏','👎'];
     const eventID = window.location.pathname.split('/').pop() || 'lobby';
@@ -687,70 +349,73 @@
             currentIP = "127.0.0.1";
         }
 
-        if (currentUser) await checkAccess();
+        if (currentUser) {
+            await verifyOrClearSession();
+        } else {
+            showRegisterUI();
+        }
 
-        loadEmotes();
         loadMessages();
         setupRealtime();
         window.initViewerPresenceEngine();
-        updateInputUI();
-        loadAllMembers();
         setupInputHandlers();
+    }
+
+    // Fixed Session Checking (Resets invalid localStorage profiles)
+    async function verifyOrClearSession() {
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('username', currentUser)
+            .maybeSingle();
+
+        if (error || !data) {
+            localStorage.removeItem('chat_user');
+            currentUser = null;
+            isOwner = false;
+            showRegisterUI();
+            return;
+        }
+
+        if (data.is_owner) {
+            isOwner = true;
+            document.getElementById('openAdminDashboardBtn').classList.remove('d-none');
+            document.getElementById('dismissAnnounceBtn').classList.remove('d-none');
+            loadAllMembers();
+        }
+
+        showChatUI();
+    }
+
+    function showRegisterUI() {
+        document.getElementById('usernameRegisterRow').classList.remove('d-none');
+        document.getElementById('activeInputRow').style.display = 'none';
+        document.getElementById('chatMetaRow').style.display = 'none';
+        document.getElementById('openAdminDashboardBtn').classList.add('d-none');
+    }
+
+    function showChatUI() {
+        document.getElementById('usernameRegisterRow').classList.add('d-none');
+        document.getElementById('activeInputRow').style.display = 'flex';
+        document.getElementById('chatMetaRow').style.display = 'flex';
     }
 
     window.registerGuestUser = async () => {
         const user = document.getElementById('guestUsername').value.trim();
         if (!user) return alert("Please enter a username");
-        
-        const { data: existing } = await supabase.from('profiles').select('username').eq('device_ip', currentIP);
-        if (existing && existing.length >= 3 && user.toLowerCase() !== 'futbolx') {
-            alert("Limit reached: 3 accounts per IP.");
-            return;
-        }
 
         const isFutbolx = user.toLowerCase() === 'futbolx';
         const { error } = await supabase.from('profiles').upsert([
             { username: isFutbolx ? 'Futbolx' : user, device_ip: currentIP, is_owner: isFutbolx }
         ], { onConflict: 'username' });
 
-        if (error) { alert("Username taken."); } 
-        else {
+        if (error) { 
+            alert("Username taken."); 
+        } else {
             localStorage.setItem('chat_user', isFutbolx ? 'Futbolx' : user);
             location.reload();
         }
     };
-
-    async function checkAccess() {
-        const { data } = await supabase.from('profiles').select('*').eq('username', currentUser).single();
-        if (data && data.is_owner) {
-            isOwner = true;
-            document.getElementById('openAdminDashboardBtn').classList.remove('d-none');
-            document.getElementById('dismissAnnounceBtn').classList.remove('d-none');
-        }
-    }
-
-    function updateInputUI() {
-      const input = document.getElementById('chatInput');
-      const registerRow = document.getElementById('usernameRegisterRow');
-      
-      if (!currentUser) {
-        registerRow.classList.remove('d-none');
-        input.style.display = 'none';
-        document.getElementById('sendChatBtn').style.display = 'none';
-      } else if (mutedUsers.has(currentUser)) {
-        input.placeholder = "You have been muted. Contact admin.";
-        input.disabled = true;
-        registerRow.classList.add('d-none');
-        input.style.display = 'block';
-        document.getElementById('sendChatBtn').style.display = 'block';
-      } else {
-        input.placeholder = "Type here...";
-        input.disabled = false;
-        registerRow.classList.add('d-none');
-        input.style.display = 'block';
-        document.getElementById('sendChatBtn').style.display = 'block';
-      }
-    }
 
     function setupInputHandlers() {
       const input = document.getElementById('chatInput');
@@ -760,14 +425,6 @@
         counter.textContent = `${input.value.length}/250`;
         input.style.height = 'auto';
         input.style.height = (input.scrollHeight) + 'px';
-
-        if (currentUser) {
-          supabase.channel(`typing_${eventID}`).send({
-            type: 'broadcast',
-            event: 'typing',
-            payload: { username: currentUser }
-          });
-        }
       });
 
       input.addEventListener('keydown', (e) => {
@@ -778,72 +435,14 @@
       });
     }
 
-    async function loadAllMembers() {
-        const { data } = await supabase.from('profiles').select('*');
-        if (!data) return;
-
-        const list = document.getElementById('adminMemberList');
-        list.innerHTML = '';
-
-        data.forEach(u => {
-            const color = u.is_owner ? '#ff4d4d' : '#38bdf8';
-            const isMuted = mutedUsers.has(u.username);
-            
-            const item = document.createElement('div');
-            item.className = "list-group-item bg-dark text-white border-secondary d-flex justify-content-between align-items-center";
-            item.innerHTML = `
-              <div>
-                <span style="color:${color}; font-weight:bold;">${u.username}</span>
-                <small class="text-muted d-block">${u.device_ip || 'IP hidden'}</small>
-              </div>
-              <div class="btn-group btn-group-sm">
-                ${isOwner ? `<button class="btn btn-outline-warning" onclick="toggleMute('${u.username}')">${isMuted ? 'Unmute' : 'Mute'}</button>` : ''}
-              </div>
-            `;
-            list.appendChild(item);
-        });
-    }
-
-    window.toggleMute = (username) => {
-      if (!isOwner) return;
-      if (mutedUsers.has(username)) {
-        mutedUsers.delete(username);
-        alert(`Unmuted ${username}`);
-      } else {
-        mutedUsers.add(username);
-        alert(`Muted ${username}`);
-      }
-      loadAllMembers();
-      updateInputUI();
-    };
-
-    function loadEmotes() {
-        const grid = document.getElementById('emoteGrid');
-        grid.innerHTML = '';
-        emotes.forEach(e => {
-            const b = document.createElement('button');
-            b.style.cssText = "background:none; border:none; cursor:pointer; padding:2px;";
-            b.innerHTML = `<img src="${e.url}" style="width:28px;" title=":${e.name}:">`;
-            b.onclick = () => { document.getElementById('chatInput').value += ` :${e.name}: `; };
-            grid.appendChild(b);
-        });
-
-        document.getElementById('emoteSearch').addEventListener('input', (e) => {
-          const val = e.target.value.toLowerCase();
-          const filtered = emotes.filter(em => em.name.toLowerCase().includes(val));
-          grid.innerHTML = '';
-          filtered.forEach(em => {
-            const b = document.createElement('button');
-            b.style.cssText = "background:none; border:none; cursor:pointer; padding:2px;";
-            b.innerHTML = `<img src="${em.url}" style="width:28px;" title=":${em.name}:">`;
-            b.onclick = () => { document.getElementById('chatInput').value += ` :${em.name}: `; };
-            grid.appendChild(b);
-          });
-        });
-    }
-
     async function loadMessages() {
-        const { data } = await supabase.from('messages').select('*').eq('event_id', eventID).order('created_at', { ascending: true }).limit(100);
+        const { data } = await supabase
+          .from('messages')
+          .select('*')
+          .eq('event_id', eventID)
+          .order('created_at', { ascending: true })
+          .limit(100);
+
         if (data) {
             document.getElementById('futbolx-chat-messages').innerHTML = '';
             data.forEach(renderMsg);
@@ -857,12 +456,10 @@
         div.id = `msg-${msg.id}`;
         
         let content = msg.message || "";
-        emotes.forEach(e => { content = content.replace(new RegExp(`:${e.name}:`, 'g'), `<img src="${e.url}" class="chat-msg-emote">`); });
-
         let replyHTML = msg.reply_to_username ? `<div class="reply-card" onclick="scrollToMsg('${msg.reply_to_id}')">@${msg.reply_to_username}: ${msg.reply_to_msg?.substring(0,30)}...</div>` : '';
         
         let badgeSpan = '';
-        if (msg.username === 'Futbolx' || msg.username === 'FutbolX') {
+        if (msg.username.toLowerCase() === 'futbolx') {
           badgeSpan = `<span class="user-badge badge-owner"><i class="fas fa-crown me-1"></i>OWNER</span>`;
         } else if (msg.is_mod) {
           badgeSpan = `<span class="user-badge badge-mod">MOD</span>`;
@@ -873,11 +470,30 @@
           <i class="fas fa-trash text-danger cursor-pointer" onclick="deleteMessage('${msg.id}')" title="Delete"></i>
         ` : '';
 
+        // Build Hover/Hold Reaction Popover Options
+        const popoverEmojisHTML = availableReactions.map(r => `
+          <span class="popover-emoji" onclick="toggleReaction('${msg.id}', '${r}')">${r}</span>
+        `).join('');
+
+        // Render Only Reactions That Have a Count > 0
+        const reactionsObj = msg.reactions || {};
+        let activePillsHTML = '';
+        Object.entries(reactionsObj).forEach(([emoji, count]) => {
+          if (count > 0) {
+            activePillsHTML += `<span class="reaction-pill" onclick="toggleReaction('${msg.id}', '${emoji}')">${emoji} ${count}</span>`;
+          }
+        });
+
         div.innerHTML = `
+          <!-- Hover / Hold Popover -->
+          <div class="reaction-picker-popover">
+            ${popoverEmojisHTML}
+          </div>
+
           ${replyHTML}
           <div class="msg-header">
             <div>
-              <span class="${(msg.username === 'Futbolx' || msg.username === 'FutbolX') ? 'owner-name' : 'chat-username-text'}">${msg.username}</span>
+              <span class="${(msg.username.toLowerCase() === 'futbolx') ? 'owner-name' : 'chat-username-text'}">${msg.username}</span>
               ${badgeSpan}
             </div>
             <div class="msg-actions">
@@ -886,36 +502,40 @@
             </div>
           </div>
           <div class="chat-message-payload">${content}</div>
-          <div class="reaction-bar" id="reactions-${msg.id}">
-            ${availableReactions.map(r => `<span class="reaction-pill" onclick="addReaction('${msg.id}', '${r}')">${r} <span class="count">0</span></span>`).join('')}
+
+          <!-- Dynamic Pills (Visible Only When Reacted To) -->
+          <div class="active-reactions-container" id="reactions-container-${msg.id}">
+            ${activePillsHTML}
           </div>
         `;
+
+        // Mobile Long Press Listener to trigger reaction popover
+        let pressTimer;
+        div.addEventListener('touchstart', () => {
+          pressTimer = setTimeout(() => div.classList.add('show-popover'), 400);
+        });
+        div.addEventListener('touchend', () => clearTimeout(pressTimer));
 
         box.appendChild(div);
         box.scrollTop = box.scrollHeight;
     }
 
-    window.scrollToMsg = (id) => {
-      const el = document.getElementById(`msg-${id}`);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    };
+    // Dynamic Reaction Toggling & Realtime Update
+    window.toggleReaction = async (msgId, reaction) => {
+      const { data: msg } = await supabase.from('messages').select('reactions').eq('id', msgId).single();
+      if (!msg) return;
 
-    window.addReaction = async (msgId, reaction) => {
-      const bar = document.getElementById(`reactions-${msgId}`);
-      if (!bar) return;
-      const pills = bar.querySelectorAll('.reaction-pill');
-      pills.forEach(p => {
-        if (p.textContent.includes(reaction)) {
-          let cnt = p.querySelector('.count');
-          cnt.textContent = parseInt(cnt.textContent) + 1;
-          p.classList.add('active');
-        }
-      });
+      let currentMap = msg.reactions || {};
+      currentMap[reaction] = (currentMap[reaction] || 0) + 1;
+
+      await supabase.from('messages').update({ reactions: currentMap }).eq('id', msgId);
+      
+      const msgItem = document.getElementById(`msg-${msgId}`);
+      if (msgItem) msgItem.classList.remove('show-popover');
     };
 
     document.getElementById('sendChatBtn').onclick = async () => {
         if (!currentUser) return;
-        if (mutedUsers.has(currentUser)) return alert("You are muted.");
 
         const input = document.getElementById('chatInput');
         const text = input.value.trim();
@@ -947,359 +567,39 @@
         document.getElementById('replyPreview').classList.add('d-none');
     };
 
-    // Announcements
-    window.publishAnnouncement = async () => {
-      const txt = document.getElementById('announcementInput').value.trim();
-      if (!txt) return;
-      supabase.channel(`announcements_${eventID}`).send({
-        type: 'broadcast',
-        event: 'new_announcement',
-        payload: { text: txt }
-      });
-      document.getElementById('announcementInput').value = '';
-    };
+    async function loadAllMembers() {
+        const { data } = await supabase.from('profiles').select('*');
+        if (!data) return;
 
-    window.removeAnnouncement = () => {
-      supabase.channel(`announcements_${eventID}`).send({
-        type: 'broadcast',
-        event: 'clear_announcement',
-        payload: {}
-      });
-    };
-
-    // Pins
-    window.pinMessage = (id, user, msg) => {
-      supabase.channel(`pins_${eventID}`).send({
-        type: 'broadcast',
-        event: 'pin',
-        payload: { id, user, msg }
-      });
-    };
-
-    window.unpinCurrentMessage = () => {
-      supabase.channel(`pins_${eventID}`).send({
-        type: 'broadcast',
-        event: 'unpin',
-        payload: {}
-      });
-    };
-
-    // Admin Deletions
-    window.deleteMessage = async (id) => {
-      const el = document.getElementById(`msg-${id}`);
-      if (el) el.remove();
-    };
-
-    window.clearAllChat = () => {
-      if (confirm("Clear entire chat for everyone?")) {
-        document.getElementById('futbolx-chat-messages').innerHTML = '';
-      }
-    };
+        const list = document.getElementById('adminMemberList');
+        list.innerHTML = '';
+        data.forEach(u => {
+            const item = document.createElement('div');
+            item.className = "list-group-item bg-dark text-white border-secondary d-flex justify-content-between align-items-center";
+            item.innerHTML = `
+              <div>
+                <span style="color:${u.is_owner ? '#ff4d4d' : '#38bdf8'}; font-weight:bold;">${u.username}</span>
+                <small class="text-muted d-block">${u.device_ip || 'IP hidden'}</small>
+              </div>
+            `;
+            list.appendChild(item);
+        });
+    }
 
     function setupRealtime() {
         supabase.channel('chat_updates')
           .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => renderMsg(p.new))
+          .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => {
+             const existing = document.getElementById(`msg-${p.new.id}`);
+             if (existing) {
+               existing.remove();
+               renderMsg(p.new);
+             }
+          })
           .subscribe();
-
-        // Broadcast listener for typing indicators
-        supabase.channel(`typing_${eventID}`)
-          .on('broadcast', { event: 'typing' }, payload => {
-            if (payload.payload.username !== currentUser) {
-              const ind = document.getElementById('typingIndicator');
-              ind.textContent = `${payload.payload.username} is typing...`;
-              clearTimeout(typingTimeout);
-              typingTimeout = setTimeout(() => { ind.textContent = ''; }, 2000);
-            }
-          }).subscribe();
-
-        // Broadcast listener for announcements
-        supabase.channel(`announcements_${eventID}`)
-          .on('broadcast', { event: 'new_announcement' }, p => {
-            const banner = document.getElementById('announcementContainer');
-            document.getElementById('announcementText').textContent = p.payload.text;
-            banner.classList.remove('d-none');
-          })
-          .on('broadcast', { event: 'clear_announcement' }, () => {
-            document.getElementById('announcementContainer').classList.add('d-none');
-          }).subscribe();
-
-        // Broadcast listener for pins
-        supabase.channel(`pins_${eventID}`)
-          .on('broadcast', { event: 'pin' }, p => {
-            const container = document.getElementById('pinnedMessageContainer');
-            document.getElementById('pinnedText').textContent = `${p.payload.user}: ${p.payload.msg}`;
-            container.classList.remove('d-none');
-            if (isOwner) document.getElementById('unpinBtn').classList.remove('d-none');
-          })
-          .on('broadcast', { event: 'unpin' }, () => {
-            document.getElementById('pinnedMessageContainer').classList.add('d-none');
-          }).subscribe();
     }
-
-    document.getElementById('toggleEmotes').onclick = () => {
-        const p = document.getElementById('emotePicker');
-        p.style.display = p.style.display === 'none' ? 'block' : 'none';
-    };
 
     window.onload = init;
-  </script>
-
-  <script>
-    const OVERLAY_KEY = 'futbolx_social_join';
-    const overlay = document.getElementById('socialOverlay');
-    
-    function checkOverlay() {
-      const lastJoin = localStorage.getItem(OVERLAY_KEY);
-      const now = Date.now();
-      if (!lastJoin || (now - lastJoin > 86400000)) { overlay.style.display = 'flex'; }
-    }
-
-    document.querySelectorAll('.social-join-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        localStorage.setItem(OVERLAY_KEY, Date.now());
-        overlay.style.display = 'none';
-      });
-    });
-
-    checkOverlay();
-
-    let playerInstance = null;
-    let eventStartTime = null;
-    let eventEndTime = null;
-    let streamStarted = false;
-    let foundEvent = null; 
-    const PRE_LIVE_BUFFER = 900; 
-
-    let realActivePresenceCount = 0;
-    let calculatedViewerSimulationState = 0;
-    let liveWindowActive = false;
-
-    const htmlEl = document.documentElement;
-    const themeToggle = document.getElementById('themeToggle');
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    htmlEl.setAttribute('data-bs-theme', savedTheme);
-
-    themeToggle.addEventListener('click', () => {
-      const current = htmlEl.getAttribute('data-bs-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      htmlEl.setAttribute('data-bs-theme', next);
-      localStorage.setItem('theme', next);
-      themeToggle.innerHTML = next === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-    });
-
-    async function fetchWithRetry(url, maxRetries = 3, delay = 1000) {
-      return new Promise((resolve, reject) => {
-        let attempts = 0;
-        function attempt() {
-          attempts++;
-          fetch(url, { signal: AbortSignal.timeout(5000) })
-            .then(res => { if (!res.ok) throw new Error(`HTTP ${res.status}`); return res.json(); })
-            .then(data => resolve(data))
-            .catch(err => { if (attempts < maxRetries) setTimeout(attempt, delay); else reject(err); });
-        }
-        attempt();
-      });
-    }
-
-    async function isM3U8(url) {
-      if (url.toLowerCase().includes('.m3u8')) return true;
-      try { const r = await fetch(url, {method:'HEAD'}); return (r.headers.get('content-type') || '').includes('mpegurl'); } catch { return false; }
-    }
-
-    async function playStream(url) {
-      if (playerInstance) { playerInstance.remove(); playerInstance = null; }
-      const useJW = await isM3U8(url);
-      initActualPlayer(url, useJW);
-    }
-
-    function initActualPlayer(url, useJW) {
-      if (useJW) {
-        document.getElementById('embedPlayer').style.display = 'none';
-        const container = document.getElementById('oplayer-container');
-        container.style.display = 'block';
-        container.innerHTML = '<div id="jw-player"></div>';
-        
-        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: false, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
-      } else {
-        document.getElementById('oplayer-container').style.display = 'none';
-        const iframe = document.getElementById('embedPlayer');
-        iframe.style.display = 'block';
-        try { const u = new URL(url); u.searchParams.set('autoplay', '0'); iframe.src = u.toString(); } catch { iframe.src = url; }
-      }
-    }
-
-    function populateStreamDropdown(event) {
-      const selectMenu = document.getElementById('streamSelect');
-      
-      selectMenu.innerHTML = event.streams.map((s, i) => {
-        const realUrl = typeof s === 'string' ? s : s.url;
-        const qualityStr = s.quality ? s.quality.toLowerCase() : 'sd';
-        let labelAddon = `[${qualityStr.toUpperCase()}]`;
-        
-        const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
-        return `<option value="${payload}" data-title="${s.title || `Stream ${i+1}`}" data-quality="${qualityStr}">${s.title || `Stream ${i+1}`} ${labelAddon}</option>`;
-      }).join('');
-
-      selectMenu.onchange = (e) => {
-        const selectedOption = selectMenu.options[selectMenu.selectedIndex];
-        if (!selectedOption) return;
-        
-        const realUrl = atob(atob(selectedOption.value).split('||')[0]);
-        playStream(realUrl);
-        
-        const titleContainer = document.getElementById('currentStreamName');
-        const qual = selectedOption.dataset.quality;
-        let badgeClass = qual === 'fhd' ? 'badge-fhd' : qual === 'hd' ? 'badge-hd' : qual === '4k' ? 'badge-4k' : 'badge-default';
-        
-        titleContainer.innerHTML = `${selectedOption.dataset.title} <span class="badge-quality ${badgeClass}">${qual}</span>`;
-      };
-    }
-
-    window.initViewerPresenceEngine = () => {
-      const uriName = window.location.pathname.split('/').pop() || 'lobby';
-      const channel = window.globalSupabaseInstance.channel(`viewers_${uriName}`);
-      
-      channel.on('presence', { event: 'sync' }, () => {
-        const presenceState = channel.presenceState();
-        realActivePresenceCount = Object.keys(presenceState).length;
-        window.renderConsolidatedViewers();
-      }).subscribe(async (status) => {
-        if (status === 'SUBSCRIBED') {
-          await channel.track({ online_at: new Date().toISOString() });
-        }
-      });
-      
-      function executeOrganicUpdateStep() {
-        if (!foundEvent || !foundEvent.max_simulated_viewers) {
-          calculatedViewerSimulationState = 0;
-          window.renderConsolidatedViewers();
-          setTimeout(executeOrganicUpdateStep, 3000);
-          return;
-        }
-
-        const maximumLimit = parseInt(foundEvent.max_simulated_viewers, 10);
-        if (isNaN(maximumLimit) || maximumLimit <= 0) {
-          calculatedViewerSimulationState = 0;
-          window.renderConsolidatedViewers();
-          setTimeout(executeOrganicUpdateStep, 3000);
-          return;
-        }
-
-        const operationalCapBase = maximumLimit - 20;
-        if (calculatedViewerSimulationState === 0) {
-          calculatedViewerSimulationState = Math.floor(operationalCapBase * 0.94);
-        }
-
-        const behaviorRoll = Math.random();
-        if (behaviorRoll < 0.45) {
-          // Plateau
-        } else {
-          const timestamp = Date.now() / 60000;
-          const macroeconomicTrend = Math.sin(timestamp) * 0.15;
-          let microShiftDelta = Math.floor(Math.random() * 7) - 3;
-          
-          if (calculatedViewerSimulationState > (operationalCapBase + 5)) {
-            microShiftDelta -= 2; 
-          } else if (calculatedViewerSimulationState < (operationalCapBase * 0.88)) {
-            microShiftDelta += 2;
-          } else if (macroeconomicTrend > 0.05) {
-            microShiftDelta += 1;
-          } else if (macroeconomicTrend < -0.05) {
-            microShiftDelta -= 1;
-          }
-
-          calculatedViewerSimulationState += microShiftDelta;
-          
-          if (calculatedViewerSimulationState > operationalCapBase) {
-            calculatedViewerSimulationState = operationalCapBase - Math.floor(Math.random() * 5);
-          }
-        }
-
-        window.renderConsolidatedViewers();
-        const nextIntervalDelay = Math.floor(Math.random() * 6000) + 3500;
-        setTimeout(executeOrganicUpdateStep, nextIntervalDelay);
-      }
-
-      setTimeout(executeOrganicUpdateStep, 2000);
-    };
-
-    window.renderConsolidatedViewers = () => {
-      const element = document.getElementById('onlineCount');
-      const wrapper = document.getElementById('viewerCountWrapper');
-      if (!element || !wrapper) return;
-      
-      const nowEpoch = Math.floor(Date.now() / 1000);
-      if (eventStartTime && nowEpoch >= eventStartTime) {
-        wrapper.classList.remove('viewer-wrap-hidden');
-      } else {
-        wrapper.classList.add('viewer-wrap-hidden');
-      }
-
-      const totalCombinedViews = realActivePresenceCount + calculatedViewerSimulationState;
-      element.innerText = totalCombinedViews;
-    };
-
-    document.addEventListener('DOMContentLoaded', async () => {
-      const uriName = window.location.pathname.split('/').pop();
-      const startBtn = document.getElementById('startLivestream');
-      try {
-        const catListRes = await fetchWithRetry('/api/stream');
-        const fetchPromises = catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ success: true, streams: [] })));
-        const allCategoryData = await Promise.all(fetchPromises);
-        for (const data of allCategoryData) {
-          for (const catObj of data.streams) {
-            foundEvent = catObj.streams.find(ev => ev.uri_name === uriName);
-            if (foundEvent) break;
-          }
-          if (foundEvent) break;
-        }
-        if (foundEvent) {
-          document.getElementById('eventTitle').textContent = foundEvent.name;
-          document.getElementById('chatEventTitle').textContent = foundEvent.name + " Chat";
-          
-          eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
-          eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
-          
-          setInterval(() => {
-            const now = Math.floor(Date.now() / 1000);
-            if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
-                liveWindowActive = true; 
-                document.getElementById('statusArea').style.display = 'none'; 
-                if(!streamStarted) startBtn.style.display = 'inline-block';
-            } else if (now < eventStartTime) {
-                liveWindowActive = false;
-                const diff = eventStartTime - now;
-                const h = Math.floor(diff/3600); const m = Math.floor((diff%3600)/60); const s = diff%60;
-                
-                if (h >= 24) {
-                  const days = Math.floor(h / 24);
-                  const remHours = h % 24;
-                  document.getElementById('countdownDisplay').textContent = `${days}day ${remHours}hr ${m}m ${s}s`;
-                } else {
-                  document.getElementById('countdownDisplay').textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-                }
-            }
-          }, 1000);
-        }
-        startBtn.onclick = () => {
-          document.getElementById('mainVideoContainer').style.display = 'block';
-          document.getElementById('streamLinksContainer').style.display = 'block';
-          startBtn.style.display = 'none';
-          document.getElementById('liveStreamTitle').classList.remove('d-none');
-          
-          const dynamicInitialFeed = foundEvent.streams[0];
-          const initialUrl = typeof dynamicInitialFeed === 'string' ? dynamicInitialFeed : dynamicInitialFeed.url;
-          const initialQuality = dynamicInitialFeed.quality ? dynamicInitialFeed.quality.toLowerCase() : 'sd';
-          let initialBadgeClass = initialQuality === 'fhd' ? 'badge-fhd' : initialQuality === 'hd' ? 'badge-hd' : initialQuality === '4k' ? 'badge-4k' : 'badge-default';
-          
-          document.getElementById('currentStreamName').innerHTML = `${dynamicInitialFeed.title || 'Main Feed'} <span class="badge-quality ${initialBadgeClass}">${initialQuality}</span>`;
-          
-          playStream(initialUrl);
-          populateStreamDropdown(foundEvent);
-          streamStarted = true;
-        };
-      } catch (err) {}
-    });
   </script>
 </body>
 </html>
