@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
-  <link rel="stylesheet" href="/assets/css/main.css?v=24">
+  <link rel="stylesheet" href="/assets/css/main.css?v=25">
   
   <style>
     .top-bar .container-fluid { position: relative; display: flex; align-items: center; justify-content: flex-start; }
@@ -35,93 +35,76 @@
     .live-title::before { content: "● LIVE"; color: #ff4d4d; font-weight: bold; margin-right: 10px; animation: pulse 2s infinite; }
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-    /* Redesigned FutbolX Chat Styles */
-    .chat-wrapper-container { width: 100%; height: 680px; background: #0d1117; border: 1px solid #30363d; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-    .chat-header-area { padding: 12px 16px; background: #161b22; border-bottom: 1px solid #30363d; }
-    .announcement-banner { background: linear-gradient(90deg, #851616, #3b0707); color: #ffcccc; padding: 8px 12px; font-size: 0.78rem; border-bottom: 1px solid #ff4d4d33; display: flex; align-items: center; justify-content: space-between; }
-    .pinned-message-container { background: #161b22; border-bottom: 1px solid #ff4d4d55; padding: 8px 12px; font-size: 0.8rem; color: #e6edf3; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .chat-rules { text-align: center; font-size: 0.72rem; color: #8b949e; padding: 5px 0; background: rgba(0,0,0,0.2); border-bottom: 1px solid #21262d; }
+    /* Streamlined Chat Styles */
+    .chat-wrapper-container { width: 100%; height: 680px; background: #090d16; border: 1px solid #1f293d; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+    .chat-header-area { padding: 12px 16px; background: #0f172a; border-bottom: 1px solid #1f293d; }
+    .announcement-banner { background: linear-gradient(90deg, #991b1b, #450a0a); color: #fecaca; padding: 8px 12px; font-size: 0.8rem; border-bottom: 1px solid #ef444455; display: flex; align-items: center; justify-content: space-between; }
+    .pinned-message-container { background: #111827; border-bottom: 1px solid #ef444488; padding: 8px 12px; font-size: 0.8rem; color: #f3f4f6; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .chat-rules { text-align: center; font-size: 0.73rem; color: #6b7280; padding: 6px 0; background: #030712; border-bottom: 1px solid #111827; }
 
-    /* Clean Message Card Styles */
-    .msg-item { 
-      position: relative; 
-      padding: 10px 14px; 
-      border-radius: 12px;
-      background: #161b22;
-      border: 1px solid #21262d;
-      margin-bottom: 8px;
-      transition: background 0.15s ease;
-      user-select: none;
+    /* PPV/Twitch Compact Inline Chat Row */
+    .msg-row {
+      position: relative;
+      padding: 4px 8px;
+      margin-bottom: 2px;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      word-break: break-word;
+      border-radius: 4px;
+      touch-action: pan-y;
+      transition: background 0.15s ease, transform 0.1s ease;
     }
-    .msg-item:hover { background: #1c2128; border-color: #30363d; }
+    .msg-row:hover { background: #111827; }
 
-    .msg-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
-    .user-badge { font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; margin-left: 4px; text-transform: uppercase; }
-    .badge-owner { background: #ff4d4d; color: #fff; box-shadow: 0 0 6px rgba(255,77,77,0.5); }
-    .badge-mod { background: #38bdf8; color: #000; }
-    
-    .chat-username-text { font-size: 0.85rem; font-weight: 700; color: #38bdf8; }
-    .owner-name { font-size: 0.85rem; font-weight: 800; color: #ff4d4d; text-shadow: 0 0 8px rgba(255, 77, 77, 0.5); display: inline-flex; align-items: center; gap: 4px; }
-    .chat-message-payload { font-size: 0.88rem; color: #c9d1d9; word-break: break-word; line-height: 1.4; }
+    .chat-author { font-weight: 700; margin-right: 4px; cursor: pointer; }
+    .chat-author.owner { color: #ff4d4d; text-shadow: 0 0 6px rgba(255,77,77,0.4); }
+    .chat-author.user { color: #38bdf8; }
+    .chat-author.mod { color: #34d399; }
+    .chat-author.system { color: #c084fc; font-weight: 800; }
 
-    .reply-card { background: #0d1117; border-left: 3px solid #ff4d4d; padding: 4px 8px; margin-bottom: 6px; font-size: 0.75rem; border-radius: 4px; color: #8b949e; cursor: pointer; }
+    .user-badge { font-size: 0.6rem; font-weight: 800; padding: 1px 4px; border-radius: 3px; margin-right: 4px; vertical-align: middle; text-transform: uppercase; }
+    .badge-owner { background: #ff4d4d; color: #fff; }
+    .badge-mod { background: #10b981; color: #fff; }
 
-    /* Hold/Hover Reaction Floating Bar */
-    .reaction-picker-popover {
+    .msg-text { color: #e5e7eb; }
+
+    .reply-context { font-size: 0.75rem; color: #9ca3af; background: #1f2937; padding: 2px 6px; border-left: 2px solid #ff4d4d; border-radius: 3px; margin-bottom: 3px; display: block; cursor: pointer; }
+
+    /* Action bar on row hover */
+    .msg-hover-actions {
       display: none;
       position: absolute;
-      top: -36px;
-      right: 12px;
-      background: #0d1117;
-      border: 1px solid #30363d;
-      border-radius: 20px;
-      padding: 3px 8px;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #1f2937;
+      border: 1px solid #374151;
+      border-radius: 4px;
+      padding: 2px 6px;
       gap: 6px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-      z-index: 10;
+      z-index: 5;
     }
-    .msg-item:hover .reaction-picker-popover,
-    .msg-item.show-popover .reaction-picker-popover {
-      display: flex;
-    }
-    .popover-emoji { cursor: pointer; font-size: 0.95rem; transition: transform 0.15s ease; }
-    .popover-emoji:hover { transform: scale(1.3); }
+    .msg-row:hover .msg-hover-actions { display: flex; align-items: center; }
+    .action-icon { color: #9ca3af; cursor: pointer; font-size: 11px; }
+    .action-icon:hover { color: #fff; }
+    .action-icon.danger:hover { color: #ef4444; }
 
-    /* Dynamic Reaction Counter Pills (Shown only when count > 0) */
-    .active-reactions-container { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
-    .reaction-pill {
-      background: #21262d; border: 1px solid #30363d; border-radius: 12px;
-      padding: 2px 8px; font-size: 0.72rem; cursor: pointer; color: #c9d1d9;
-      display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s ease;
-    }
-    .reaction-pill:hover, .reaction-pill.active { border-color: #ff4d4d; background: #2d1212; color: #ff4d4d; }
+    #typingIndicator { font-size: 0.72rem; color: #6b7280; padding: 2px 16px; font-style: italic; min-height: 20px; }
 
-    .msg-actions { display: none; gap: 8px; font-size: 11px; }
-    .msg-item:hover .msg-actions { display: inline-flex; }
-
-    #typingIndicator { font-size: 0.72rem; color: #8b949e; padding: 4px 16px; font-style: italic; min-height: 22px; }
-
-    .admin-dashboard-modal .modal-content { background: #0d1117; border: 1px solid #ff4d4d55; color: #c9d1d9; }
-    .admin-dashboard-modal .nav-tabs .nav-link { color: #8b949e; border: none; font-weight: 600; font-size: 0.85rem; }
+    .admin-dashboard-modal .modal-content { background: #0b0f19; border: 1px solid #ef444455; color: #e5e7eb; }
+    .admin-dashboard-modal .nav-tabs .nav-link { color: #9ca3af; border: none; font-weight: 600; font-size: 0.85rem; }
     .admin-dashboard-modal .nav-tabs .nav-link.active { color: #ff4d4d; background: transparent; border-bottom: 2px solid #ff4d4d; }
 
     #futbolx-chat-messages::-webkit-scrollbar { width: 5px; }
-    #futbolx-chat-messages::-webkit-scrollbar-thumb { background: #30363d; border-radius: 10px; }
-    .chat-msg-emote { width: 24px; height: 24px; vertical-align: middle; margin: 0 2px; }
+    #futbolx-chat-messages::-webkit-scrollbar-thumb { background: #1f293d; border-radius: 10px; }
 
     #statusArea { text-align: center; padding: 30px 15px; background: rgba(30,30,30,0.7); border-radius: 12px; margin: 25px auto; max-width: 720px; }
     #eventTitle { font-size: 2.4rem; margin-bottom: 1rem; color: #ff4d4d; }
     .countdown-display { font-size: 4rem; font-weight: bold; color: #ff4d4d; letter-spacing: 5px; margin: 20px 0; text-shadow: 0 0 20px rgba(255,77,77,0.5); }
     .permanent-noti { background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; }
-    .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 1200px; margin-left: auto; margin-right: auto; }
 
     .stream-dropdown-container { max-width: 320px; margin-bottom: 1rem; }
     .stream-select-custom { background: #0b1020 !important; color: #fff !important; border: 2px solid #ff4d4d !important; border-radius: 12px; padding: 10px 15px; font-weight: 600; cursor: pointer; box-shadow: 0 0 15px rgba(255, 77, 77, 0.15); }
-    .badge-quality { display: inline-block; padding: 2px 6px; font-size: 0.75rem; font-weight: 900; border-radius: 6px; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
-    .badge-fhd { background-color: #0088cc; color: #fff; }
-    .badge-hd { background-color: #22d3ee; color: #0a0a0a; }
-    .badge-4k { background-color: #ff4d4d; color: #fff; }
-    .badge-default { background-color: #555; color: #fff; }
     .viewer-wrap-hidden { display: none !important; }
   </style>
 </head>
@@ -129,7 +112,7 @@
   <div id="socialOverlay">
     <div class="social-card">
       <h2>Join Our Community</h2>
-      <p>Join us on our socials for live updates, event requests, and to report any site issues. You'll get full access once you join!</p>
+      <p>Join us on our socials for live updates, event requests, and to report any site issues.</p>
       <div class="social-btns">
         <a href="https://discord.gg/6Rm347EkV2" target="_blank" class="btn-social btn-discord social-join-btn">
           <i class="fab fa-discord"></i> Join Our Discord
@@ -161,11 +144,6 @@
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
-        <li class="nav-item">
-          <button id="themeToggle" class="nav-link btn btn-link">
-            <i class="fas fa-moon"></i>
-          </button>
-        </li>
       </ul>
     </div>
   </div>
@@ -211,12 +189,12 @@
               </div>
             </div>
 
-            <!-- FutbolX Live Chat Wrapper -->
+            <!-- FutbolX Twitch/PPV Style Inline Chat -->
             <div class="col-12 col-lg-4">
               <div class="chat-wrapper-container">
                 <div class="chat-header-area d-flex justify-content-between align-items-center">
                   <div>
-                    <h2 id="chatEventTitle" style="color:#e6edf3; margin:0; font-size:14px; font-weight:700;">Live Chat</h2>
+                    <h2 id="chatEventTitle" style="color:#f3f4f6; margin:0; font-size:14px; font-weight:700;">Live Chat</h2>
                     <span id="typingIndicator"></span>
                   </div>
                   <div class="d-flex align-items-center gap-2">
@@ -231,7 +209,7 @@
 
                 <div id="announcementContainer" class="announcement-banner d-none">
                   <div><i class="fas fa-bullhorn me-1"></i> <span id="announcementText"></span></div>
-                  <button id="dismissAnnounceBtn" class="btn-close btn-close-white btn-sm ms-2 d-none"></button>
+                  <button id="dismissAnnounceBtn" class="btn-close btn-close-white btn-sm ms-2 d-none" onclick="dismissAnnouncement()"></button>
                 </div>
 
                 <div id="pinnedMessageContainer" class="pinned-message-container d-none">
@@ -239,22 +217,21 @@
                     <i class="fas fa-thumbtack text-danger"></i>
                     <span id="pinnedText" class="text-truncate"></span>
                   </div>
-                  <button id="unpinBtn" class="btn btn-link text-muted p-0 btn-sm d-none" onclick="unpinCurrentMessage()"><i class="fas fa-times"></i></button>
+                  <button id="unpinBtn" class="btn btn-link text-muted p-0 btn-sm d-none" onclick="unpinMessage()"><i class="fas fa-times"></i></button>
                 </div>
 
                 <div class="chat-rules">be respectful • no spam • enjoy the streams</div>
 
-                <div id="futbolx-chat-messages" style="flex:1; overflow-y:auto; padding:12px; display:flex; flex-direction:column; gap:6px;"></div>
+                <div id="futbolx-chat-messages" style="flex:1; overflow-y:auto; padding:8px 12px; display:flex; flex-direction:column;"></div>
 
-                <div id="replyPreview" class="d-none" style="background:#161b22; padding:6px 12px; color:#8b949e; font-size:11px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #ff4d4d55;">
+                <div id="replyPreview" class="d-none" style="background:#111827; padding:6px 12px; color:#9ca3af; font-size:11px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #ef444455;">
                     <span id="replyText">Replying...</span>
                     <i class="fas fa-times" onclick="cancelReply()" style="cursor:pointer;"></i>
                 </div>
 
-                <div id="chatInputArea" style="border-top:1px solid #30363d; padding:10px 12px; background:#161b22;">
+                <div id="chatInputArea" style="border-top:1px solid #1f293d; padding:10px 12px; background:#0f172a;">
                   <div id="activeInputRow" style="display:flex; gap:8px; align-items:center;">
-                    <button id="toggleEmotes" style="background:none; border:none; color:#8b949e; font-size:18px;"><i class="far fa-smile"></i></button>
-                    <textarea id="chatInput" rows="1" placeholder="Type here..." style="flex:1; background:#0d1117; border:1px solid #30363d; border-radius:12px; padding:6px 12px; color:#c9d1d9; outline:none; font-size:13px; resize:none;"></textarea>
+                    <textarea id="chatInput" rows="1" placeholder="Send a message..." style="flex:1; background:#030712; border:1px solid #1f293d; border-radius:8px; padding:6px 12px; color:#f3f4f6; outline:none; font-size:13px; resize:none;"></textarea>
                     <button id="sendChatBtn" style="background:none; border:none; color:#ff4d4d; font-size:18px;"><i class="fas fa-paper-plane"></i></button>
                   </div>
                   <div id="chatMetaRow" class="d-flex justify-content-between align-items-center mt-1 text-muted" style="font-size: 10px;">
@@ -263,28 +240,15 @@
                   </div>
 
                   <div id="usernameRegisterRow" class="d-none mt-2">
-                    <input type="text" id="guestUsername" class="form-control form-control-sm mb-2" placeholder="Choose username..." style="background:#0d1117; border-color:#30363d; color:white;">
+                    <input type="text" id="guestUsername" class="form-control form-control-sm mb-2" placeholder="Choose username..." style="background:#030712; border-color:#1f293d; color:white;">
                     <button onclick="registerGuestUser()" class="btn btn-sm btn-danger w-100">Register & Chat</button>
-                  </div>
-
-                  <div id="emotePicker" style="display:none; height:160px; overflow-y:auto; margin-top:10px; border-top:1px solid #30363d; padding-top:8px;">
-                    <input type="text" id="emoteSearch" class="form-control form-control-sm mb-2" placeholder="Search emotes..." style="background:#0d1117; border-color:#30363d; color:white;">
-                    <div id="emoteGrid" style="display:grid; grid-template-columns:repeat(6, 1fr); gap:6px;"></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
         </div>
       </div>
-
-      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
-        <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
-        </ul>
-      </footer>
     </div>
   </div>
 
@@ -298,8 +262,8 @@
         </div>
         <div class="modal-body">
           <ul class="nav nav-tabs mb-3" id="adminTabs" role="tablist">
-            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabMembers">Members</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabMod">Moderation</button></li>
+            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabMembers">Members & Mutes</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabMod">Moderation Actions</button></li>
             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabAnnouncements">Announcements</button></li>
           </ul>
           
@@ -308,12 +272,13 @@
               <div id="adminMemberList" class="list-group" style="max-height: 300px; overflow-y: auto;"></div>
             </div>
             <div class="tab-pane fade" id="tabMod">
-              <button class="btn btn-sm btn-danger" onclick="clearAllChat()"><i class="fas fa-trash me-1"></i> Clear Entire Chat</button>
+              <p class="text-muted small">Wipe room messages or monitor moderation actions.</p>
+              <button class="btn btn-sm btn-danger" onclick="clearAllChat()"><i class="fas fa-trash me-1"></i> Clear Room Chat</button>
             </div>
             <div class="tab-pane fade" id="tabAnnouncements">
               <textarea id="announcementInput" class="form-control form-control-sm mb-2" rows="2" placeholder="Broadcast message..."></textarea>
-              <button class="btn btn-sm btn-danger" onclick="publishAnnouncement()">Publish</button>
-              <button class="btn btn-sm btn-outline-secondary ms-2" onclick="removeAnnouncement()">Clear</button>
+              <button class="btn btn-sm btn-danger" onclick="publishAnnouncement()">Publish Banner</button>
+              <button class="btn btn-sm btn-outline-secondary ms-2" onclick="dismissAnnouncement()">Clear Banner</button>
             </div>
           </div>
         </div>
@@ -331,59 +296,51 @@
     const supabase = createClient(SB_URL, SB_KEY);
     window.globalSupabaseInstance = supabase;
 
-    const availableReactions = ['👍','❤️','😂','😮','😢','🔥','👏','👎'];
     const eventID = window.location.pathname.split('/').pop() || 'lobby';
     let currentUser = localStorage.getItem('chat_user');
-    let currentIP = "";
+    let currentIP = "127.0.0.1";
     let isOwner = false;
+    let isMuted = false;
     let replyTo = null;
-    let mutedUsers = new Set();
-    let typingTimeout = null;
 
     async function init() {
         try {
             const res = await fetch('https://api.ipify.org?format=json');
             const data = await res.json();
             currentIP = data.ip;
-        } catch (e) {
-            currentIP = "127.0.0.1";
-        }
+        } catch (e) {}
 
         if (currentUser) {
-            await verifyOrClearSession();
+            await verifySession();
         } else {
             showRegisterUI();
         }
 
         loadMessages();
+        loadAnnouncement();
+        loadPin();
         setupRealtime();
-        window.initViewerPresenceEngine();
         setupInputHandlers();
     }
 
-    // Fixed Session Checking (Resets invalid localStorage profiles)
-    async function verifyOrClearSession() {
-        const { data, error } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('username', currentUser)
-            .maybeSingle();
-
-        if (error || !data) {
+    async function verifySession() {
+        const { data } = await supabase.from('profiles').select('*').eq('username', currentUser).maybeSingle();
+        if (!data) {
             localStorage.removeItem('chat_user');
             currentUser = null;
-            isOwner = false;
             showRegisterUI();
             return;
         }
 
-        if (data.is_owner) {
-            isOwner = true;
+        isOwner = !!data.is_owner;
+        isMuted = !!data.is_muted;
+
+        if (isOwner) {
             document.getElementById('openAdminDashboardBtn').classList.remove('d-none');
+            document.getElementById('unpinBtn').classList.remove('d-none');
             document.getElementById('dismissAnnounceBtn').classList.remove('d-none');
             loadAllMembers();
         }
-
         showChatUI();
     }
 
@@ -391,7 +348,6 @@
         document.getElementById('usernameRegisterRow').classList.remove('d-none');
         document.getElementById('activeInputRow').style.display = 'none';
         document.getElementById('chatMetaRow').style.display = 'none';
-        document.getElementById('openAdminDashboardBtn').classList.add('d-none');
     }
 
     function showChatUI() {
@@ -409,9 +365,8 @@
             { username: isFutbolx ? 'Futbolx' : user, device_ip: currentIP, is_owner: isFutbolx }
         ], { onConflict: 'username' });
 
-        if (error) { 
-            alert("Username taken."); 
-        } else {
+        if (error) { alert("Username taken."); }
+        else {
             localStorage.setItem('chat_user', isFutbolx ? 'Futbolx' : user);
             location.reload();
         }
@@ -452,95 +407,61 @@
     function renderMsg(msg) {
         const box = document.getElementById('futbolx-chat-messages');
         const div = document.createElement('div');
-        div.className = "msg-item";
+        div.className = "msg-row";
         div.id = `msg-${msg.id}`;
-        
-        let content = msg.message || "";
-        let replyHTML = msg.reply_to_username ? `<div class="reply-card" onclick="scrollToMsg('${msg.reply_to_id}')">@${msg.reply_to_username}: ${msg.reply_to_msg?.substring(0,30)}...</div>` : '';
-        
-        let badgeSpan = '';
+
+        let replyHTML = msg.reply_to_username ? `<span class="reply-context" onclick="scrollToMsg('${msg.reply_to_id}')">@${msg.reply_to_username}: ${msg.reply_to_msg?.substring(0,25)}...</span>` : '';
+
+        let badge = '';
+        let authorClass = 'user';
         if (msg.username.toLowerCase() === 'futbolx') {
-          badgeSpan = `<span class="user-badge badge-owner"><i class="fas fa-crown me-1"></i>OWNER</span>`;
+          badge = `<span class="user-badge badge-owner"><i class="fas fa-crown"></i> OWNER</span>`;
+          authorClass = 'owner';
         } else if (msg.is_mod) {
-          badgeSpan = `<span class="user-badge badge-mod">MOD</span>`;
+          badge = `<span class="user-badge badge-mod">MOD</span>`;
+          authorClass = 'mod';
         }
 
-        let adminActions = isOwner ? `
-          <i class="fas fa-thumbtack text-muted cursor-pointer" onclick="pinMessage('${msg.id}', '${msg.username}', \`${msg.message}\`)" title="Pin"></i>
-          <i class="fas fa-trash text-danger cursor-pointer" onclick="deleteMessage('${msg.id}')" title="Delete"></i>
+        let adminControls = isOwner ? `
+          <i class="fas fa-thumbtack action-icon" onclick="pinMessage('${msg.id}', '${msg.username}', \`${msg.message.replace(/`/g, '')}\`)" title="Pin"></i>
+          <i class="fas fa-trash action-icon danger" onclick="deleteMessage('${msg.id}')" title="Delete"></i>
         ` : '';
 
-        // Build Hover/Hold Reaction Popover Options
-        const popoverEmojisHTML = availableReactions.map(r => `
-          <span class="popover-emoji" onclick="toggleReaction('${msg.id}', '${r}')">${r}</span>
-        `).join('');
-
-        // Render Only Reactions That Have a Count > 0
-        const reactionsObj = msg.reactions || {};
-        let activePillsHTML = '';
-        Object.entries(reactionsObj).forEach(([emoji, count]) => {
-          if (count > 0) {
-            activePillsHTML += `<span class="reaction-pill" onclick="toggleReaction('${msg.id}', '${emoji}')">${emoji} ${count}</span>`;
-          }
-        });
-
         div.innerHTML = `
-          <!-- Hover / Hold Popover -->
-          <div class="reaction-picker-popover">
-            ${popoverEmojisHTML}
-          </div>
-
           ${replyHTML}
-          <div class="msg-header">
-            <div>
-              <span class="${(msg.username.toLowerCase() === 'futbolx') ? 'owner-name' : 'chat-username-text'}">${msg.username}</span>
-              ${badgeSpan}
-            </div>
-            <div class="msg-actions">
-              <i class="fas fa-reply text-muted cursor-pointer" onclick="setReply('${msg.id}', '${msg.username}', \`${msg.message}\`)" title="Reply"></i>
-              ${adminActions}
-            </div>
+          <div>
+            ${badge}
+            <span class="chat-author ${authorClass}">${msg.username}:</span>
+            <span class="msg-text">${msg.message}</span>
           </div>
-          <div class="chat-message-payload">${content}</div>
-
-          <!-- Dynamic Pills (Visible Only When Reacted To) -->
-          <div class="active-reactions-container" id="reactions-container-${msg.id}">
-            ${activePillsHTML}
+          <div class="msg-hover-actions">
+            <i class="fas fa-reply action-icon" onclick="setReply('${msg.id}', '${msg.username}', \`${msg.message.replace(/`/g, '')}\`)" title="Reply"></i>
+            ${adminControls}
           </div>
         `;
 
-        // Mobile Long Press Listener to trigger reaction popover
-        let pressTimer;
-        div.addEventListener('touchstart', () => {
-          pressTimer = setTimeout(() => div.classList.add('show-popover'), 400);
+        // Mobile Touch Slide-to-Reply
+        let startX = 0;
+        div.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, {passive: true});
+        div.addEventListener('touchend', (e) => {
+          let diffX = e.changedTouches[0].clientX - startX;
+          if (diffX > 60) {
+            setReply(msg.id, msg.username, msg.message);
+          }
         });
-        div.addEventListener('touchend', () => clearTimeout(pressTimer));
 
         box.appendChild(div);
         box.scrollTop = box.scrollHeight;
     }
 
-    // Dynamic Reaction Toggling & Realtime Update
-    window.toggleReaction = async (msgId, reaction) => {
-      const { data: msg } = await supabase.from('messages').select('reactions').eq('id', msgId).single();
-      if (!msg) return;
-
-      let currentMap = msg.reactions || {};
-      currentMap[reaction] = (currentMap[reaction] || 0) + 1;
-
-      await supabase.from('messages').update({ reactions: currentMap }).eq('id', msgId);
-      
-      const msgItem = document.getElementById(`msg-${msgId}`);
-      if (msgItem) msgItem.classList.remove('show-popover');
-    };
-
     document.getElementById('sendChatBtn').onclick = async () => {
         if (!currentUser) return;
+        if (isMuted) return alert("You are muted in this room.");
 
         const input = document.getElementById('chatInput');
         const text = input.value.trim();
         if (!text) return;
-        
+
         await supabase.from('messages').insert([{
             username: currentUser,
             message: text,
@@ -556,15 +477,78 @@
         cancelReply();
     };
 
-    function setReply(id, user, msg) {
+    window.setReply = (id, user, msg) => {
         replyTo = { id, user, msg };
         document.getElementById('replyPreview').classList.remove('d-none');
         document.getElementById('replyText').innerText = `Replying to @${user}`;
-    }
+    };
 
     window.cancelReply = () => {
         replyTo = null;
         document.getElementById('replyPreview').classList.add('d-none');
+    };
+
+    window.scrollToMsg = (id) => {
+        const el = document.getElementById(`msg-${id}`);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+
+    /* Pinning & Announcements */
+    async function loadPin() {
+        const { data } = await supabase.from('pinned_messages').select('*').eq('event_id', eventID).eq('is_pinned', true).maybeSingle();
+        if (data) {
+          document.getElementById('pinnedMessageContainer').classList.remove('d-none');
+          document.getElementById('pinnedText').innerText = `${data.username}: ${data.message_text}`;
+        } else {
+          document.getElementById('pinnedMessageContainer').classList.add('d-none');
+        }
+    }
+
+    window.pinMessage = async (msgId, username, messageText) => {
+        await supabase.from('pinned_messages').delete().eq('event_id', eventID);
+        await supabase.from('pinned_messages').insert([{
+            event_id: eventID,
+            message_id: msgId,
+            username: username,
+            message_text: messageText,
+            is_pinned: true
+        }]);
+    };
+
+    window.unpinMessage = async () => {
+        await supabase.from('pinned_messages').delete().eq('event_id', eventID);
+    };
+
+    async function loadAnnouncement() {
+        const { data } = await supabase.from('announcements').select('*').eq('event_id', eventID).eq('is_active', true).maybeSingle();
+        if (data) {
+            document.getElementById('announcementContainer').classList.remove('d-none');
+            document.getElementById('announcementText').innerText = data.text;
+        } else {
+            document.getElementById('announcementContainer').classList.add('d-none');
+        }
+    }
+
+    window.publishAnnouncement = async () => {
+        const text = document.getElementById('announcementInput').value.trim();
+        if (!text) return;
+        await supabase.from('announcements').delete().eq('event_id', eventID);
+        await supabase.from('announcements').insert([{ event_id: eventID, text: text, is_active: true }]);
+        document.getElementById('announcementInput').value = '';
+    };
+
+    window.dismissAnnouncement = async () => {
+        await supabase.from('announcements').delete().eq('event_id', eventID);
+    };
+
+    /* Moderation Tools & Mutes */
+    window.deleteMessage = async (id) => {
+        await supabase.from('messages').delete().eq('id', id);
+    };
+
+    window.clearAllChat = async () => {
+        if (!confirm("Clear entire room chat?")) return;
+        await supabase.from('messages').delete().eq('event_id', eventID);
     };
 
     async function loadAllMembers() {
@@ -579,23 +563,38 @@
             item.innerHTML = `
               <div>
                 <span style="color:${u.is_owner ? '#ff4d4d' : '#38bdf8'}; font-weight:bold;">${u.username}</span>
-                <small class="text-muted d-block">${u.device_ip || 'IP hidden'}</small>
+                <small class="text-muted d-block">${u.device_ip || 'IP N/A'}</small>
+              </div>
+              <div>
+                ${!u.is_owner ? `
+                  <button class="btn btn-xs ${u.is_muted ? 'btn-success' : 'btn-warning'}" onclick="toggleMuteUser('${u.username}', ${!u.is_muted})">
+                    ${u.is_muted ? 'Unmute' : 'Mute'}
+                  </button>
+                ` : ''}
               </div>
             `;
             list.appendChild(item);
         });
     }
 
+    window.toggleMuteUser = async (targetUsername, shouldMute) => {
+        await supabase.from('profiles').update({ is_muted: shouldMute }).eq('username', targetUsername);
+        loadAllMembers();
+    };
+
     function setupRealtime() {
-        supabase.channel('chat_updates')
+        supabase.channel('room_updates')
           .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => renderMsg(p.new))
-          .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => {
-             const existing = document.getElementById(`msg-${p.new.id}`);
-             if (existing) {
-               existing.remove();
-               renderMsg(p.new);
+          .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages' }, p => {
+             if (p.old?.id) {
+               const el = document.getElementById(`msg-${p.old.id}`);
+               if (el) el.remove();
+             } else {
+               document.getElementById('futbolx-chat-messages').innerHTML = '';
              }
           })
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'announcements' }, () => loadAnnouncement())
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'pinned_messages' }, () => loadPin())
           .subscribe();
     }
 
