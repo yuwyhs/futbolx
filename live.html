@@ -35,14 +35,13 @@
     .live-title::before { content: "● LIVE"; color: #ff4d4d; font-weight: bold; margin-right: 10px; animation: pulse 2s infinite; }
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-    /* Streamlined Chat Styles */
+    /* Streamlined PPV/Twitch Chat UI */
     .chat-wrapper-container { width: 100%; height: 680px; background: #090d16; border: 1px solid #1f293d; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
     .chat-header-area { padding: 12px 16px; background: #0f172a; border-bottom: 1px solid #1f293d; }
     .announcement-banner { background: linear-gradient(90deg, #991b1b, #450a0a); color: #fecaca; padding: 8px 12px; font-size: 0.8rem; border-bottom: 1px solid #ef444455; display: flex; align-items: center; justify-content: space-between; }
     .pinned-message-container { background: #111827; border-bottom: 1px solid #ef444488; padding: 8px 12px; font-size: 0.8rem; color: #f3f4f6; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
     .chat-rules { text-align: center; font-size: 0.73rem; color: #6b7280; padding: 6px 0; background: #030712; border-bottom: 1px solid #111827; }
 
-    /* PPV/Twitch Compact Inline Chat Row */
     .msg-row {
       position: relative;
       padding: 4px 8px;
@@ -52,7 +51,7 @@
       word-break: break-word;
       border-radius: 4px;
       touch-action: pan-y;
-      transition: background 0.15s ease, transform 0.1s ease;
+      transition: background 0.15s ease;
     }
     .msg-row:hover { background: #111827; }
 
@@ -60,7 +59,6 @@
     .chat-author.owner { color: #ff4d4d; text-shadow: 0 0 6px rgba(255,77,77,0.4); }
     .chat-author.user { color: #38bdf8; }
     .chat-author.mod { color: #34d399; }
-    .chat-author.system { color: #c084fc; font-weight: 800; }
 
     .user-badge { font-size: 0.6rem; font-weight: 800; padding: 1px 4px; border-radius: 3px; margin-right: 4px; vertical-align: middle; text-transform: uppercase; }
     .badge-owner { background: #ff4d4d; color: #fff; }
@@ -70,7 +68,6 @@
 
     .reply-context { font-size: 0.75rem; color: #9ca3af; background: #1f2937; padding: 2px 6px; border-left: 2px solid #ff4d4d; border-radius: 3px; margin-bottom: 3px; display: block; cursor: pointer; }
 
-    /* Action bar on row hover */
     .msg-hover-actions {
       display: none;
       position: absolute;
@@ -112,7 +109,7 @@
   <div id="socialOverlay">
     <div class="social-card">
       <h2>Join Our Community</h2>
-      <p>Join us on our socials for live updates, event requests, and to report any site issues.</p>
+      <p>Join us on our socials for live updates, event requests, and to report any site issues. You'll get full access once you join!</p>
       <div class="social-btns">
         <a href="https://discord.gg/6Rm347EkV2" target="_blank" class="btn-social btn-discord social-join-btn">
           <i class="fab fa-discord"></i> Join Our Discord
@@ -137,46 +134,56 @@
 
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
     <div class="offcanvas-header">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+      <h5 class="offcanvas-title text-danger fw-bold">FUTBOL-X</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
     </div>
     <div class="offcanvas-body">
       <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/"><i class="fas fa-home me-2"></i>Home</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="https://discord.gg/CmRcPbBB2k" target="_blank"><i class="fab fa-discord me-2"></i>Discord</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="https://t.me/+H-GY0RZpdHc3ZDdl" target="_blank"><i class="fab fa-telegram me-2"></i>Telegram</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/vip"><i class="fas fa-crown me-2 text-warning"></i>VIP Access</a></li>
       </ul>
     </div>
   </div>
 
-  <div class="container-fluid main-content">
-    <div class="container-xl mt-4"> 
+  <div class="container-fluid main-content" style="margin-top: 70px;">
+    <div class="container-xl"> 
       <div class="row">
         <div class="col-12">
+          
+          <!-- Top Notifications: VPN & Social Alerts -->
           <div class="tip-container">
+            <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+              <i class="fas fa-shield-alt me-2"></i><strong>VPN Recommended:</strong> If the stream buffers or fails to load, please switch server location or turn on a VPN.
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
             <div class="alert alert-info alert-dismissible fade show permanent-noti" id="joinAlert">
               <strong>Join us</strong> on 
-              <a href="https://discord.gg/UzHzerb6XY" target="_blank" class="alert-link text-decoration-underline">Discord</a> and 
+              <a href="https://discord.gg/6Rm347EkV2" target="_blank" class="alert-link text-decoration-underline">Discord</a> and 
               <a href="https://t.me/+H-GY0RZpdHc3ZDdl" target="_blank" class="alert-link text-decoration-underline">Telegram</a>
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
             </div>
           </div>
 
           <div class="d-flex align-items-center mb-3">
-            <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
-            <button id="startLivestream" class="btn btn-danger ms-3" style="display:none;">Click to Start Livestream</button>
+            <a href="/" class="btn btn-outline-light btn-sm"><i class="fas fa-arrow-left me-1"></i> Back to Home</a>
+            <button id="startLivestream" class="btn btn-danger btn-sm ms-3" style="display:none;">Click to Start Livestream</button>
           </div>
 
           <div id="liveStreamTitle" class="live-title d-none">
             <h3 id="currentStreamName"></h3>
           </div>
 
+          <!-- Event Status & Countdown Area -->
           <div id="statusArea">
-            <h2 id="eventTitle" class="mb-3"></h2>
-            <div id="countdownDisplay" class="countdown-display"></div>
-            <p id="statusMessage" class="status-message">This event has not started yet.</p>
+            <h2 id="eventTitle" class="mb-3">Loading event...</h2>
+            <div id="countdownDisplay" class="countdown-display">--:--:--</div>
+            <p id="statusMessage" class="status-message">Fetching event details...</p>
           </div>
 
           <div class="row g-4 mt-2">
+            <!-- Stream Video Player Area -->
             <div class="col-12 col-lg-8">
               <div class="video-container" id="mainVideoContainer">
                 <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
@@ -189,7 +196,7 @@
               </div>
             </div>
 
-            <!-- FutbolX Twitch/PPV Style Inline Chat -->
+            <!-- FutbolX Live Chat Wrapper -->
             <div class="col-12 col-lg-4">
               <div class="chat-wrapper-container">
                 <div class="chat-header-area d-flex justify-content-between align-items-center">
@@ -247,8 +254,20 @@
               </div>
             </div>
           </div>
+          
+          <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
         </div>
       </div>
+
+      <!-- Footer -->
+      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-3 border-top mt-5">
+        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX © 2026. All rights reserved.</p>
+        <ul class="nav justify-content-center justify-content-lg-end mb-0">
+          <li class="nav-item"><a href="/" class="nav-link px-2 text-body-secondary">Home</a></li>
+          <li class="nav-item"><a href="https://discord.gg/6Rm347EkV2" target="_blank" class="nav-link px-2 text-body-secondary">Discord</a></li>
+          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
+        </ul>
+      </footer>
     </div>
   </div>
 
@@ -304,6 +323,8 @@
     let replyTo = null;
 
     async function init() {
+        fetchEventDetails();
+
         try {
             const res = await fetch('https://api.ipify.org?format=json');
             const data = await res.json();
@@ -321,6 +342,36 @@
         loadPin();
         setupRealtime();
         setupInputHandlers();
+    }
+
+    // Event Details Fetcher Logic
+    async function fetchEventDetails() {
+        try {
+            const res = await fetch(`/api/event/${eventID}`);
+            if (!res.ok) throw new Error("Event not found");
+            const data = await res.json();
+
+            document.getElementById('eventTitle').innerText = data.title || "Live Stream";
+            document.getElementById('chatEventTitle').innerText = data.title || "Live Chat";
+            
+            if (data.streams && data.streams.length > 0) {
+                const streamSelect = document.getElementById('streamSelect');
+                streamSelect.innerHTML = '';
+                data.streams.forEach((s, idx) => {
+                    const opt = document.createElement('option');
+                    opt.value = s.url;
+                    opt.innerText = s.name || `Stream ${idx + 1}`;
+                    streamSelect.appendChild(opt);
+                });
+                
+                document.getElementById('streamLinksContainer').style.display = 'block';
+                document.getElementById('embedPlayer').src = data.streams[0].url;
+                document.getElementById('mainVideoContainer').style.display = 'block';
+                document.getElementById('statusArea').style.display = 'none';
+            }
+        } catch (e) {
+            document.getElementById('statusMessage').innerText = "Match schedule details active.";
+        }
     }
 
     async function verifySession() {
@@ -440,7 +491,6 @@
           </div>
         `;
 
-        // Mobile Touch Slide-to-Reply
         let startX = 0;
         div.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, {passive: true});
         div.addEventListener('touchend', (e) => {
@@ -493,7 +543,6 @@
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
-    /* Pinning & Announcements */
     async function loadPin() {
         const { data } = await supabase.from('pinned_messages').select('*').eq('event_id', eventID).eq('is_pinned', true).maybeSingle();
         if (data) {
@@ -541,7 +590,6 @@
         await supabase.from('announcements').delete().eq('event_id', eventID);
     };
 
-    /* Moderation Tools & Mutes */
     window.deleteMessage = async (id) => {
         await supabase.from('messages').delete().eq('id', id);
     };
