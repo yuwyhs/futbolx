@@ -21,21 +21,62 @@
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
   <link rel="stylesheet" href="/assets/css/main.css?v=25">
   <style>
-    .top-bar .container-fluid { position: relative; display: flex; align-items: center; justify-content: flex-start; }
-    .futbolx-brand { font-family: 'Kanit', sans-serif; font-weight: 900; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1.5px; color: #ffffff; display: inline-flex; align-items: center; user-select: none; text-decoration: none; position: absolute; left: 50%; transform: translateX(-50%); cursor: pointer; }
-    .futbolx-brand .ball-o { color: #ffc107; font-size: 1.15rem; margin: 0 1px; text-shadow: 0 0 10px rgba(255, 193, 7, 0.4); transition: transform 0.5s ease; display: inline-block; }
-    .futbolx-brand:hover .ball-o { transform: rotate(180deg); }
-    .futbolx-brand .ball-o.spinning { animation: ballSpin 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+    .top-bar .container-fluid {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
 
-    @keyframes ballSpin { 0% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.2); } 100% { transform: rotate(360deg) scale(1); } }
+    .futbolx-brand {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 900;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      user-select: none;
+      text-decoration: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
+    }
+
+    .futbolx-brand .ball-o {
+      color: #ffc107;
+      font-size: 1.15rem;
+      margin: 0 1px;
+      text-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
+      transition: transform 0.5s ease;
+      display: inline-block;
+    }
+
+    .futbolx-brand:hover .ball-o {
+      transform: rotate(180deg);
+    }
+
+    .futbolx-brand .ball-o.spinning {
+      animation: ballSpin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    @keyframes ballSpin {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.2); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
 
     .tip-container {max-width:600px;margin:20px auto;overflow:hidden;display:flex;flex-direction:column;gap:10px;}
     .alert-info {text-align:center;position:relative;padding-right:40px !important;}
     .error-alert {max-width:500px;margin:20px auto;}
+    .fade-out {animation:fadeOut .5s forwards;} @keyframes fadeOut {from{opacity:1}to{opacity:0}}
     
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:12px;overflow:hidden;display:none;margin-bottom:1rem;box-shadow: 0 8px 24px rgba(0,0,0,0.5);}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#000;}
 
+    /* Custom Player UI */
     .fx-player-wrapper { position: relative; width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
     .fx-video-element { width: 100%; height: 100%; object-fit: contain; }
     
@@ -55,6 +96,7 @@
       z-index: 10; opacity: 0; transition: opacity 0.3s ease;
     }
     .fx-player-wrapper:hover .fx-controls-bar, .fx-controls-bar.active { opacity: 1; }
+    
     .fx-controls-left, .fx-controls-right { display: flex; align-items: center; gap: 14px; }
     .fx-ctrl-btn { background: none; border: none; color: #f3f4f6; font-size: 16px; cursor: pointer; padding: 4px; transition: color 0.2s, transform 0.1s; }
     .fx-ctrl-btn:hover { color: #ff4d4d; transform: scale(1.1); }
@@ -63,7 +105,9 @@
     .fx-volume-slider { width: 70px; height: 4px; -webkit-appearance: none; appearance: none; background: rgba(255,255,255,0.3); border-radius: 2px; outline: none; cursor: pointer; }
     .fx-volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #ff4d4d; cursor: pointer; }
     
-    @media (max-width: 768px) { .fx-volume-slider { display: none !important; } }
+    @media (max-width: 768px) {
+      .fx-volume-slider { display: none !important; }
+    }
 
     .fx-quality-menu-wrap { position: relative; }
     .fx-quality-popover { position: absolute; bottom: 38px; right: -10px; background: #0f172a; border: 1px solid #1f293d; border-radius: 8px; padding: 6px 0; min-width: 110px; display: none; flex-direction: column; box-shadow: 0 8px 20px rgba(0,0,0,0.8); z-index: 20; }
@@ -71,38 +115,99 @@
     .fx-quality-item { padding: 6px 14px; font-size: 12px; color: #d1d5db; cursor: pointer; transition: background 0.2s, color 0.2s; text-align: left; background: none; border: none; width: 100%; }
     .fx-quality-item:hover, .fx-quality-item.active { background: #1f293d; color: #ff4d4d; font-weight: bold; }
 
-    #socialOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-    .social-card { background: linear-gradient(135deg, #1a1a1a, #0a0a0a); border: 2px solid #ff4d4d; border-radius: 20px; padding: 40px; text-align: center; max-width: 500px; width: 90%; box-shadow: 0 0 30px rgba(255, 77, 77, 0.2); }
+    #socialOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.95); z-index: 10000;
+      display: none; align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+    .social-card {
+      background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+      border: 2px solid #ff4d4d; border-radius: 20px;
+      padding: 40px; text-align: center; max-width: 500px; width: 90%;
+      box-shadow: 0 0 30px rgba(255, 77, 77, 0.2);
+    }
     .social-card h2 { color: #ff4d4d; font-weight: 800; margin-bottom: 20px; }
     .social-card p { color: #ddd; font-size: 1.1rem; margin-bottom: 30px; line-height: 1.6; }
     .social-btns { display: flex; flex-direction: column; gap: 15px; }
-    .btn-social { padding: 12px; border-radius: 12px; font-weight: 600; text-decoration: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .btn-social {
+      padding: 12px; border-radius: 12px; font-weight: 600; text-decoration: none;
+      transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
     .btn-discord { background: #5865F2; color: white; }
     .btn-telegram { background: #0088cc; color: white; }
     .btn-social:hover { transform: scale(1.03); opacity: 0.9; color: white; }
 
-    .live-title { text-align: center; background: linear-gradient(135deg, #1a1a1a, #2d0000); padding: 12px 20px; border-radius: 12px; border: 2px solid #ff4d4d; box-shadow: 0 0 20px rgba(255, 77, 77, 0.3); margin: 1rem 0; }
+    .live-title {
+      text-align: center;
+      background: linear-gradient(135deg, #1a1a1a, #2d0000);
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: 2px solid #ff4d4d;
+      box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
+      margin: 1rem 0;
+    }
     .live-title h3 { margin: 0; color: #fff; font-size: 1.8rem; font-weight: 600; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
     .live-title::before { content: "● LIVE"; color: #ff4d4d; font-weight: bold; margin-right: 10px; animation: pulse 2s infinite; }
     
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
+    /* Streamlined Chat Styles */
     .chat-wrapper-container { width: 100%; height: 680px; background: #090d16; border: 1px solid #1f293d; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
     .chat-header-area { padding: 12px 16px; background: #0f172a; border-bottom: 1px solid #1f293d; }
+    
+    /* Decoupled Announcements Bar */
     .announcement-banner { background: linear-gradient(90deg, #991b1b, #450a0a); color: #fecaca; padding: 8px 12px; font-size: 0.8rem; border-bottom: 1px solid #ef444455; display: flex; align-items: center; justify-content: space-between; }
-    .pinned-message-container { position: relative; background: rgba(17, 24, 39, 0.95); border-bottom: 1px solid #ef4444aa; padding: 8px 32px 8px 12px; font-size: 0.82rem; color: #f3f4f6; display: flex; align-items: center; gap: 8px; }
+    
+    /* Dedicated Pinned Message Card */
+    .pinned-message-container { 
+      position: relative;
+      background: rgba(17, 24, 39, 0.95); 
+      border-bottom: 1px solid #ef4444aa; 
+      padding: 8px 32px 8px 12px; 
+      font-size: 0.82rem; 
+      color: #f3f4f6; 
+      display: flex; 
+      align-items: center; 
+      gap: 8px; 
+    }
     .pinned-badge-icon { color: #ef4444; font-size: 0.8rem; flex-shrink: 0; }
     .pinned-unpin-btn { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #9ca3af; background: none; border: none; padding: 0 4px; cursor: pointer; }
     .pinned-unpin-btn:hover { color: #ef4444; }
 
     .chat-rules { text-align: center; font-size: 0.73rem; color: #6b7280; padding: 6px 0; background: #030712; border-bottom: 1px solid #111827; }
 
-    .msg-row { position: relative; padding: 4px 8px; margin-bottom: 2px; font-size: 0.88rem; line-height: 1.45; word-break: break-word; border-radius: 4px; touch-action: pan-y; transition: background 0.15s ease, transform 0.1s ease; }
+    /* PPV/Twitch Compact Inline Chat Row */
+    .msg-row {
+      position: relative;
+      padding: 4px 8px;
+      margin-bottom: 2px;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      word-break: break-word;
+      border-radius: 4px;
+      touch-action: pan-y;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
     .msg-row:hover { background: #111827; }
-    .chat-author { font-weight: 700; margin-right: 4px; cursor: pointer; }
-    .chat-author.owner { background: linear-gradient(90deg, #ff4d4d, #f59e0b, #ef4444, #ff4d4d); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: sparkleGlow 3s linear infinite; font-weight: 800; }
 
-    @keyframes sparkleGlow { 0% { background-position: 0% center; filter: drop-shadow(0 0 2px rgba(255, 77, 77, 0.8)); } 50% { background-position: 100% center; filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.9)); } 100% { background-position: 0% center; filter: drop-shadow(0 0 2px rgba(255, 77, 77, 0.8)); } }
+    .chat-author { font-weight: 700; margin-right: 4px; cursor: pointer; }
+    
+    /* Owner Sparkling Name Effect */
+    .chat-author.owner { 
+      background: linear-gradient(90deg, #ff4d4d, #f59e0b, #ef4444, #ff4d4d);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: sparkleGlow 3s linear infinite;
+      font-weight: 800;
+    }
+
+    @keyframes sparkleGlow {
+      0% { background-position: 0% center; filter: drop-shadow(0 0 2px rgba(255, 77, 77, 0.8)); }
+      50% { background-position: 100% center; filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.9)); }
+      100% { background-position: 0% center; filter: drop-shadow(0 0 2px rgba(255, 77, 77, 0.8)); }
+    }
 
     .chat-author.user { color: #38bdf8; }
     .chat-author.mod { color: #facc15; font-weight: 700; }
@@ -114,9 +219,23 @@
 
     .msg-text { color: #e5e7eb; }
     .chat-emote { height: 26px; width: auto; vertical-align: middle; margin: 0 2px; object-fit: contain; }
+
     .reply-context { font-size: 0.75rem; color: #9ca3af; background: #1f2937; padding: 2px 6px; border-left: 2px solid #ff4d4d; border-radius: 3px; margin-bottom: 3px; display: block; cursor: pointer; }
 
-    .msg-hover-actions { display: none; position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: #1f2937; border: 1px solid #374151; border-radius: 4px; padding: 2px 6px; gap: 6px; z-index: 5; }
+    /* Action bar on row hover */
+    .msg-hover-actions {
+      display: none;
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #1f2937;
+      border: 1px solid #374151;
+      border-radius: 4px;
+      padding: 2px 6px;
+      gap: 6px;
+      z-index: 5;
+    }
     .msg-row:hover .msg-hover-actions { display: flex; align-items: center; }
     .action-icon { color: #9ca3af; cursor: pointer; font-size: 11px; }
     .action-icon:hover { color: #fff; }
@@ -124,10 +243,34 @@
 
     #typingIndicator { font-size: 0.72rem; color: #6b7280; padding: 2px 16px; font-style: italic; min-height: 20px; }
 
-    .chat-status-notice { padding: 12px 16px; background: rgba(127, 29, 29, 0.3); border-top: 1px solid #ef4444; color: #fca5a5; font-size: 0.82rem; text-align: center; line-height: 1.4; }
+    /* Mute / Closed State Banners */
+    .chat-status-notice {
+      padding: 12px 16px;
+      background: rgba(127, 29, 29, 0.3);
+      border-top: 1px solid #ef4444;
+      color: #fca5a5;
+      font-size: 0.82rem;
+      text-align: center;
+      line-height: 1.4;
+    }
     .chat-status-notice a { color: #38bdf8; text-decoration: underline; }
 
-    .emote-picker-popover { position: absolute; bottom: 60px; right: 12px; width: 290px; height: 240px; background: #0b0f19; border: 1px solid #1f293d; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); z-index: 1000; display: flex; flex-direction: column; overflow: hidden; }
+    /* Emote Picker Styles */
+    .emote-picker-popover {
+      position: absolute;
+      bottom: 60px;
+      right: 12px;
+      width: 290px;
+      height: 240px;
+      background: #0b0f19;
+      border: 1px solid #1f293d;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
     .emote-header { padding: 8px 12px; background: #0f172a; font-size: 12px; font-weight: 700; color: #9ca3af; border-bottom: 1px solid #1f293d; }
     .emote-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 10px; overflow-y: auto; flex: 1; }
     .emote-item { display: flex; align-items: center; justify-content: center; background: #111827; border-radius: 6px; padding: 6px; cursor: pointer; transition: background 0.2s, transform 0.1s; font-size: 18px; }
@@ -138,13 +281,22 @@
     .admin-dashboard-modal .nav-tabs .nav-link { color: #9ca3af; border: none; font-weight: 600; font-size: 0.85rem; }
     .admin-dashboard-modal .nav-tabs .nav-link.active { color: #ff4d4d; background: transparent; border-bottom: 2px solid #ff4d4d; }
 
-    .member-item-row { cursor: pointer; transition: background 0.15s ease; }
-    .member-item-row:hover { background: #111827 !important; }
+    .member-item-row {
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .member-item-row:hover {
+      background: #111827 !important;
+    }
 
     #futbolx-chat-messages::-webkit-scrollbar, .emote-grid::-webkit-scrollbar { width: 5px; }
     #futbolx-chat-messages::-webkit-scrollbar-thumb, .emote-grid::-webkit-scrollbar-thumb { background: #1f293d; border-radius: 10px; }
 
-    #statusArea { text-align: center; padding: 30px 15px; background: rgba(30,30,30,0.7); border-radius: 12px; margin: 25px auto; max-width: 720px; }
+    #statusArea {
+      text-align: center; padding: 30px 15px;
+      background: rgba(30,30,30,0.7); border-radius: 12px;
+      margin: 25px auto; max-width: 720px;
+    }
     #eventTitle { font-size: 2.4rem; margin-bottom: 1rem; color: #ff4d4d; }
     .countdown-display { font-size: 4rem; font-weight: bold; color: #ff4d4d; letter-spacing: 5px; margin: 20px 0; text-shadow: 0 0 20px rgba(255,77,77,0.5); }
     .permanent-noti { background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; }
@@ -154,6 +306,8 @@
     .stream-dropdown-container { max-width: 320px; margin-bottom: 1rem; }
     .stream-select-custom { background: #0b1020 !important; color: #fff !important; border: 2px solid #ff4d4d !important; border-radius: 12px; padding: 10px 15px; font-weight: 600; cursor: pointer; box-shadow: 0 0 15px rgba(255, 77, 77, 0.15); }
     .stream-select-custom:focus { box-shadow: 0 0 20px rgba(255, 77, 77, 0.4); outline: none; }
+    
+    .viewer-wrap-hidden { display: none !important; }
   </style>
 </head>
 <body>
@@ -230,9 +384,9 @@
           </div>
 
           <div id="statusArea">
-            <h2 id="eventTitle" class="mb-3">Loading event...</h2>
-            <div id="countdownDisplay" class="countdown-display">--:--:--</div>
-            <p id="statusMessage" class="status-message">Checking stream status...</p>
+            <h2 id="eventTitle" class="mb-3"></h2>
+            <div id="countdownDisplay" class="countdown-display"></div>
+            <p id="statusMessage" class="status-message">This event has not started yet.</p>
           </div>
 
           <div class="row g-4 mt-2">
@@ -257,38 +411,46 @@
                     <span id="typingIndicator"></span>
                   </div>
                   <div class="d-flex align-items-center gap-2">
+                    <div id="viewerCountWrapper" class="viewer-wrap-hidden" style="color:#4ade80; font-size:12px; font-weight:600;">
+                      <span id="onlineCount">0</span> viewers
+                    </div>
                     <button id="openAdminDashboardBtn" class="btn btn-sm btn-outline-danger d-none" data-bs-toggle="modal" data-bs-target="#adminDashboardModal">
                       <i class="fas fa-user-shield"></i>
                     </button>
                   </div>
                 </div>
 
+                <!-- Independent Broadcast Announcements Bar -->
                 <div id="announcementContainer" class="announcement-banner d-none">
                   <div><i class="fas fa-bullhorn me-1"></i> <span id="announcementText"></span></div>
-                  <button id="dismissAnnounceBtn" class="btn-close btn-close-white btn-sm ms-2 d-none" onclick="window.dismissAnnouncement()"></button>
+                  <button id="dismissAnnounceBtn" class="btn-close btn-close-white btn-sm ms-2 d-none" onclick="dismissAnnouncement()"></button>
                 </div>
 
                 <div class="chat-rules">be respectful • no spam • enjoy the streams</div>
 
+                <!-- Dedicated Pinned Message Card -->
                 <div id="pinnedMessageContainer" class="pinned-message-container d-none">
                   <i class="fas fa-thumbtack pinned-badge-icon"></i>
                   <div id="pinnedContent" class="overflow-hidden text-truncate flex-grow-1"></div>
-                  <button id="unpinBtn" class="pinned-unpin-btn d-none" onclick="window.unpinMessage()" title="Unpin Message"><i class="fas fa-times"></i></button>
+                  <button id="unpinBtn" class="pinned-unpin-btn d-none" onclick="unpinMessage()" title="Unpin Message"><i class="fas fa-times"></i></button>
                 </div>
 
                 <div id="futbolx-chat-messages" style="flex:1; overflow-y:auto; padding:8px 12px; display:flex; flex-direction:column;"></div>
 
                 <div id="replyPreview" class="d-none" style="background:#111827; padding:6px 12px; color:#9ca3af; font-size:11px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #ef444455;">
                     <span id="replyText">Replying...</span>
-                    <i class="fas fa-times" onclick="window.cancelReply()" style="cursor:pointer;"></i>
+                    <i class="fas fa-times" onclick="cancelReply()" style="cursor:pointer;"></i>
                 </div>
 
+                <!-- Emote Picker Popover -->
                 <div id="emotePickerPopover" class="emote-picker-popover d-none">
                   <div class="emote-header">FutbolX Emotes</div>
                   <div class="emote-grid" id="emoteGrid"></div>
                 </div>
 
+                <!-- Chat Input Controls & Status Banners -->
                 <div id="chatInputArea" style="border-top:1px solid #1f293d; padding:10px 12px; background:#0f172a; position:relative;">
+                  
                   <div id="activeInputRow" style="display:flex; gap:8px; align-items:center;">
                     <textarea id="chatInput" rows="1" placeholder="Send a message..." style="flex:1; background:#030712; border:1px solid #1f293d; border-radius:8px; padding:6px 12px; color:#f3f4f6; outline:none; font-size:13px; resize:none;"></textarea>
                     
@@ -304,17 +466,19 @@
                     <span>Enter to send • Shift+Enter newline</span>
                   </div>
 
+                  <!-- Muted Lockout Banner -->
                   <div id="mutedBanner" class="chat-status-notice d-none">
-                    You have been muted.<br>Join <a href="https://discord.gg/UzHzerb6XY" target="_blank">Discord</a> or <a href="https://t.me/+H-GY0RZpdHc3ZDdl" target="_blank">Telegram</a> to appeal.
+                    You have been muted.<br>Join <a href="https://discord.gg/UzHzerb6XY" target="_blank">Discord</a> or <a href="https://t.me/+H-GY0RZpdHc3ZDdl" target="_blank">Telegram</a> to appeal (bring your chat username).
                   </div>
 
+                  <!-- Chat Closed Banner -->
                   <div id="closedBanner" class="chat-status-notice d-none" style="background: rgba(30, 41, 59, 0.6); border-top-color: #64748b; color: #cbd5e1;">
                     <i class="fas fa-lock me-1"></i> Chat is currently closed by moderators.
                   </div>
 
                   <div id="usernameRegisterRow" class="d-none mt-2">
                     <input type="text" id="guestUsername" class="form-control form-control-sm mb-2" placeholder="Choose username..." style="background:#030712; border-color:#1f293d; color:white;">
-                    <button onclick="window.registerGuestUser()" class="btn btn-sm btn-danger w-100">Register & Chat</button>
+                    <button onclick="registerGuestUser()" class="btn btn-sm btn-danger w-100">Register & Chat</button>
                   </div>
                 </div>
               </div>
@@ -353,6 +517,7 @@
           </ul>
           
           <div class="tab-content">
+            <!-- Members List Tab -->
             <div class="tab-pane fade show active" id="tabMembers">
               <div class="mb-3">
                 <input type="text" id="memberSearchInput" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="Search members by username or IP...">
@@ -360,25 +525,27 @@
               <div id="adminMemberList" class="list-group" style="max-height: 320px; overflow-y: auto;"></div>
             </div>
 
+            <!-- Moderation & Room Control Tab -->
             <div class="tab-pane fade" id="tabMod">
               <div class="d-flex flex-column gap-3">
                 <div>
                   <h6>Chat Lock State</h6>
-                  <button id="toggleChatClosedBtn" class="btn btn-sm btn-warning" onclick="window.toggleChatClosedState()"></button>
+                  <button id="toggleChatClosedBtn" class="btn btn-sm btn-warning" onclick="toggleChatClosedState()"></button>
                   <small class="text-muted d-block mt-1">Closing chat prevents normal users from typing. Mods & Owner can still speak.</small>
                 </div>
                 <hr class="border-secondary my-1">
                 <div>
                   <h6>Room History</h6>
-                  <button class="btn btn-sm btn-danger" onclick="window.clearAllChat()"><i class="fas fa-trash me-1"></i> Clear Room Chat</button>
+                  <button class="btn btn-sm btn-danger" onclick="clearAllChat()"><i class="fas fa-trash me-1"></i> Clear Room Chat</button>
                 </div>
               </div>
             </div>
 
+            <!-- Announcements Tab (Owner Only) -->
             <div class="tab-pane fade owner-only-tab" id="tabAnnouncements">
               <textarea id="announcementInput" class="form-control form-control-sm mb-2" rows="2" placeholder="Broadcast message..."></textarea>
-              <button class="btn btn-sm btn-danger" onclick="window.publishAnnouncement()">Publish Banner</button>
-              <button class="btn btn-sm btn-outline-secondary ms-2" onclick="window.dismissAnnouncement()">Clear Banner</button>
+              <button class="btn btn-sm btn-danger" onclick="publishAnnouncement()">Publish Banner</button>
+              <button class="btn btn-sm btn-outline-secondary ms-2" onclick="dismissAnnouncement()">Clear Banner</button>
             </div>
           </div>
         </div>
@@ -404,6 +571,22 @@
   <script src="/assets/js/api.js"></script>
   <script src="/assets/js/auth.js"></script>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const brandLogo = document.getElementById('brandLogo');
+      const logoBall = document.getElementById('logoBall');
+      
+      if (brandLogo && logoBall) {
+        brandLogo.addEventListener('click', () => {
+          logoBall.classList.add('spinning');
+          setTimeout(() => {
+            logoBall.classList.remove('spinning');
+          }, 600);
+        });
+      }
+    });
+  </script>
+
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -422,9 +605,8 @@
     let replyTo = null;
     let currentPinnedMessageId = null;
     let allMembersCache = [];
-    let playerInstance = null;
-    let countdownInterval = null;
 
+    // Emote Library Configuration
     const EMOTE_LIBRARY = [
       { name: "GIGACHAD", url: "https://cdn.7tv.app/emote/01F6MZGCNG000255K4X1K7NTHR/4x.webp" },
       { name: "donowall", url: "https://cdn.7tv.app/emote/01F6BN89H80006VBW12DRB1DJ0/4x.webp" },
@@ -433,11 +615,54 @@
       { name: "Hmm", url: "https://cdn.7tv.app/emote/01F6MA6Y100002B6P5MWZ5D916/4x.webp" },
       { name: "HUH", url: "https://cdn.7tv.app/emote/01FFMS6Q4G0009CAK0J14692AY/4x.webp" },
       { name: "LETHIMCOOK", url: "https://cdn.7tv.app/emote/01GN5QQ1X8000C0QTR0C8JV0GR/4x.webp" },
+      { name: "Ghost", url: "https://cdn.7tv.app/emote/01GHRZNKG8000CMMVPKY84QCSW/4x.webp" },
       { name: "HaaLand", url: "https://cdn.7tv.app/emote/01GEWTXA6R0007VKAEFZEJMCC8/4x.webp" },
+      { name: "Haaland", url: "https://cdn.7tv.app/emote/01KQS9BVW9SJE6AWGEQ4G56Z42/4x.webp" },
+      { name: "StayHumble", url: "https://cdn.7tv.app/emote/01JN9W3F6MYY3QDN2X1ZEGC8FE/4x.webp" },
+      { name: "veryDutch", url: "https://cdn.7tv.app/emote/01JM1QNXGSEPSDADFQ0D97T3QH/4x.webp" },
+      { name: "peepoLeave", url: "https://cdn.7tv.app/emote/01G4ZGET1R0003SYTMXJ2SQCGP/4x.webp" },
+      { name: "WHAT", url: "https://cdn.7tv.app/emote/01G4ZTECKR0002P97QQ94BDSP4/4x.webp" },
+      { name: "SUSSY", url: "https://cdn.7tv.app/emote/01F8G9MDAR0009YQPYZYCKHYKQ/4x.webp" },
+      { name: "SadgeCry", url: "https://cdn.7tv.app/emote/01F6MMZW3R00012ZP6HJJ38G2E/4x.webp" },
+      { name: "NOWAYING", url: "https://cdn.7tv.app/emote/01GQ3WPTDR000300KQF1J7PFF8/4x.webp" },
+      { name: "HACKERMANS", url: "https://cdn.7tv.app/emote/01F6WP22CR0004YCK11WAVZHEW/4x.webp" },
+      { name: "PeepoFinger", url: "https://cdn.7tv.app/emote/01F779KZC8000D25DGAC8PTX5Q/4x.webp" },
+      { name: "peepoVanish", url: "https://cdn.7tv.app/emote/01G9N52F28000D5R8HGE37V31V/4x.webp" },
+      { name: "OusPressing", url: "https://cdn.7tv.app/emote/01JYFETAK2XX5DNP9GHH3TG52S/4x.webp" },
+      { name: "DEBILE", url: "https://cdn.7tv.app/emote/01JYF8SQGV2ZX8SE3Y73VGD6NQ/4x.webp" },
+      { name: "BottleJob", url: "https://cdn.7tv.app/emote/01KHSCBJZMH2DFX0AT9G5H3405/4x.webp" },
+      { name: "gyokeresAFTVcele", url: "https://cdn.7tv.app/emote/01KH6STY7ZMXEF3GX9YNZ1Y14Z/4x.webp" },
       { name: "Arsenal", url: "https://cdn.7tv.app/emote/01H067VS08000B348YG2ZJ4S52/4x.webp" },
       { name: "City", url: "https://cdn.7tv.app/emote/01HJA4SRQ0000BN1D384R8DQD3/4x.webp" },
+      { name: "United", url: "https://cdn.7tv.app/emote/01HJA51XER000DQX3MV0V8SJG1/4x.webp" },
+      { name: "LiverpoolFC", url: "https://cdn.7tv.app/emote/01JYFDQ6BXZGPYEMB08HY7NG34/4x.webp" },
+      { name: "FeelsChelseaMan", url: "https://cdn.7tv.app/emote/01GBKNZPKR00047VE9386QDW00/4x.webp" },
+      { name: "Chelsea", url: "https://cdn.7tv.app/emote/01GBKPE6FG00047VE9386QDW17/4x.webp" },
+      { name: "Barcelona", url: "https://cdn.7tv.app/emote/01GZP2MJAR0008QZ1CW49JWWRW/4x.webp" },
+      { name: "LamineYamal", url: "https://cdn.7tv.app/emote/01JB5K4DGZR0FVJ8PGD5N1A434/4x.webp" },
+      { name: "BarcaGG", url: "https://cdn.7tv.app/emote/01FVE5EDEG0008TTS3W3848XCN/4x.webp" },
       { name: "RealMadrid", url: "https://cdn.7tv.app/emote/01K5285Z6KHG844HPFZW7KTMYE/4x.webp" },
-      { name: "Barcelona", url: "https://cdn.7tv.app/emote/01GZP2MJAR0008QZ1CW49JWWRW/4x.webp" }
+      { name: "deletethis", url: "https://cdn.7tv.app/emote/01KNDAS5VA3M79SPE2YQDETWAD/4x.webp" },
+      { name: "PSG", url: "https://cdn.7tv.app/emote/01HJA57VWG000CDF2EEHA7MFCG/4x.webp" },
+      { name: "Bayern", url: "https://cdn.7tv.app/emote/01HJ78CVM00004H7H6E44MB0PY/4x.webp" },
+      { name: "ronaldo", url: "https://cdn.7tv.app/emote/01GBQFAZ8G0005PZ06CHYTRHZ0/4x.webp" },
+      { name: "messi", url: "https://cdn.7tv.app/emote/01H654J3MR000765H7QPNXMWSD/4x.webp" },
+      { name: "AnkaraMessi", url: "https://cdn.7tv.app/emote/01FGMBG82000047CPSV86K5E9B/4x.webp" },
+      { name: "QueMirasBobo", url: "https://cdn.7tv.app/emote/01GKWG3XBG000CVGD44K6QXVW5/4x.webp" },
+      { name: "peepoComfy", url: "https://cdn.7tv.app/emote/01FAJRZBRR0002R979W3KES4A1/4x.webp" },
+      { name: "Saved", url: "https://cdn.7tv.app/emote/01F6SD865R0004VBRD7RGY6XAX/4x.webp" },
+      { name: "veryCat", url: "https://cdn.7tv.app/emote/01GMAH9MB000066S7TTNVB1TGD/4x.webp" },
+      { name: "TriSad", url: "https://cdn.7tv.app/emote/01EZPGQES8000C438200A44F0M/4x.webp" },
+      { name: "Cinema", url: "https://cdn.7tv.app/emote/01GBFDVP18000CRDCG0DV7KEMY/4x.webp" },
+      { name: "VeryPog", url: "https://cdn.7tv.app/emote/01EZPGPAN0000C438200A44F0K/4x.webp" },
+      { name: "GAY", url: "https://cdn.7tv.app/emote/01GB4QH72800006TW50PGWAH00/4x.webp" },
+      { name: "Cooked", url: "https://cdn.7tv.app/emote/01JJ0D0C2XWZ640NP4WJKB8MYX/4x.webp" },
+      { name: "omeStare", url: "https://cdn.7tv.app/emote/01H4S8R7MR0002T46WCH7N1N4T/4x.webp" },
+      { name: "omEing", url: "https://cdn.7tv.app/emote/01GGF9EECG000A0N3MCYXCPSCW/4x.webp" },
+      { name: "speed", url: "https://cdn.7tv.app/emote/01KEAG2JZH53H5GKKYZQNEVC90/4x.webp" },
+      { name: "Football", url: "https://cdn.7tv.app/emote/01GJQ0ER7G0004ZNQR0J84JYH9/4x.webp" },
+      { name: "PepPog", url: "https://cdn.7tv.app/emote/01FV3NRJ680006J115VRY680Q9/4x.webp" },
+      { name: "REF", url: "https://cdn.7tv.app/emote/01GKQ60YHR000CS736JH649MBC/4x.webp" }
     ];
 
     async function init() {
@@ -454,118 +679,14 @@
         }
 
         initEmotePicker();
-        await loadEventMetadata();
         await loadRoomSettings();
         await loadMessages();
         await loadAnnouncement();
         await loadPin();
         setupRealtime();
         setupInputHandlers();
-    }
-
-    /* Stream Detail & Countdown Timer Manager */
-    async function loadEventMetadata() {
-        try {
-            let event = null;
-            if (typeof window.getEventDetails === 'function') {
-                event = await window.getEventDetails(eventID);
-            } else {
-                const res = await fetch(`/api/events/${eventID}`);
-                if (res.ok) event = await res.json();
-            }
-
-            if (event && event.title) {
-                document.getElementById('eventTitle').innerText = event.title;
-                document.getElementById('chatEventTitle').innerText = event.title;
-                if (document.getElementById('currentStreamName')) {
-                    document.getElementById('currentStreamName').innerText = event.title;
-                }
-                
-                startCountdown(event.startTime || event.start_time || Date.now(), event.streams || event.stream_urls);
-            } else {
-                document.getElementById('eventTitle').innerText = "Live Stream Event";
-                document.getElementById('statusMessage').innerText = "Stream live or ready to play";
-                document.getElementById('countdownDisplay').innerText = "LIVE NOW";
-                showVideoPlayer();
-            }
-        } catch (err) {
-            console.warn("Event fetch fallback activated", err);
-            document.getElementById('eventTitle').innerText = "Event Stream";
-            document.getElementById('countdownDisplay').innerText = "LIVE NOW";
-            document.getElementById('statusMessage').innerText = "Watch stream below";
-            showVideoPlayer();
-        }
-    }
-
-    function startCountdown(startTimeRaw, streams) {
-        if (countdownInterval) clearInterval(countdownInterval);
-        const startTime = new Date(startTimeRaw).getTime();
-
-        const updateTimer = () => {
-            const now = Date.now();
-            const diff = startTime - now;
-
-            if (diff <= 0) {
-                document.getElementById('countdownDisplay').innerText = "LIVE NOW";
-                document.getElementById('statusMessage').innerText = "The match is currently live!";
-                document.getElementById('statusArea').style.display = 'none';
-                document.getElementById('liveStreamTitle').classList.remove('d-none');
-                showVideoPlayer(streams);
-                clearInterval(countdownInterval);
-            } else {
-                const hrs = Math.floor(diff / (1000 * 60 * 60)).toString().padStart(2, '0');
-                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-                const secs = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
-                document.getElementById('countdownDisplay').innerText = `${hrs}:${mins}:${secs}`;
-                document.getElementById('statusMessage').innerText = "Countdown to kick-off";
-            }
-        };
-
-        updateTimer();
-        countdownInterval = setInterval(updateTimer, 1000);
-    }
-
-    function showVideoPlayer(streams) {
-        document.getElementById('mainVideoContainer').style.display = 'block';
-        if (streams && Array.isArray(streams) && streams.length > 0) {
-            const select = document.getElementById('streamSelect');
-            const container = document.getElementById('streamLinksContainer');
-            select.innerHTML = '';
-            streams.forEach((st, idx) => {
-                const opt = document.createElement('option');
-                opt.value = st.url || st;
-                opt.textContent = st.name || `Stream ${idx + 1}`;
-                select.appendChild(opt);
-            });
-            container.style.display = 'block';
-            select.onchange = (e) => playStream(e.target.value);
-            playStream(streams[0].url || streams[0]);
-        }
-    }
-
-    function playStream(url) {
-        if (!url) return;
-        const isHls = url.toLowerCase().includes('.m3u8');
-        const embedPlayer = document.getElementById('embedPlayer');
-        const oContainer = document.getElementById('oplayer-container');
-
-        if (isHls) {
-            embedPlayer.style.display = 'none';
-            oContainer.style.display = 'block';
-            oContainer.innerHTML = `<video id="fxVideoPlayer" class="fx-video-element" controls autoplay playsinline style="width:100%;height:100%;"></video>`;
-            const video = document.getElementById('fxVideoPlayer');
-            if (Hls.isSupported()) {
-                const hls = new Hls();
-                hls.loadSource(url);
-                hls.attachMedia(video);
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = url;
-            }
-        } else {
-            oContainer.style.display = 'none';
-            oContainer.innerHTML = '';
-            embedPlayer.style.display = 'block';
-            embedPlayer.src = url;
+        if (typeof window.initViewerPresenceEngine === 'function') {
+            window.initViewerPresenceEngine();
         }
     }
 
@@ -575,7 +696,7 @@
       const grid = document.getElementById('emoteGrid');
 
       grid.innerHTML = EMOTE_LIBRARY.map(e => `
-        <div class="emote-item" onclick="window.insertEmote('${e.name}')" title="${e.name}">
+        <div class="emote-item" onclick="insertEmote('${e.name}')" title="${e.name}">
           <img src="${e.url}" alt="${e.name}">
         </div>
       `).join('');
@@ -738,7 +859,18 @@
         if (!userRaw) return alert("Please enter a username");
         if (userRaw.length < 2 || userRaw.length > 20) return alert("Username must be between 2 and 20 characters.");
 
-        const { data: existingUser } = await supabase.from('profiles').select('*').ilike('username', userRaw).maybeSingle();
+        // Check exact existing account in Supabase (case-insensitive)
+        const { data: existingUser, error: checkErr } = await supabase
+            .from('profiles')
+            .select('*')
+            .ilike('username', userRaw)
+            .maybeSingle();
+
+        if (checkErr) {
+            return alert("Error checking username availability. Please try again.");
+        }
+
+        // If user profile exists, log them into their existing account
         if (existingUser) {
             localStorage.setItem('chat_user', existingUser.username);
             currentUser = existingUser.username;
@@ -746,15 +878,32 @@
             return;
         }
 
+        // If creating a NEW account, enforce the 2 accounts per IP limit
+        if (currentIP) {
+            const { data: ipAccounts, error: ipErr } = await supabase
+                .from('profiles')
+                .select('username')
+                .eq('device_ip', currentIP);
+
+            if (!ipErr && ipAccounts && ipAccounts.length >= 2) {
+                return alert("Account creation limit reached: Maximum 2 accounts per IP allowed.");
+            }
+        }
+
         const isFutbolx = userRaw.toLowerCase() === 'futbolx';
         const finalUsername = isFutbolx ? 'Futbolx' : userRaw;
 
+        // Insert new user account
         const { error: insertErr } = await supabase.from('profiles').insert([
             { username: finalUsername, device_ip: currentIP, is_owner: isFutbolx }
         ]);
 
         if (insertErr) {
-            alert("Failed to create profile. " + insertErr.message);
+            if (insertErr.code === '23505' || insertErr.message.includes('unique')) {
+                alert("Username taken.");
+            } else {
+                alert("Failed to create profile. " + insertErr.message);
+            }
         } else {
             localStorage.setItem('chat_user', finalUsername);
             currentUser = finalUsername;
@@ -779,6 +928,7 @@
         }
       });
 
+      // Dashboard Search Input Filter
       const searchInput = document.getElementById('memberSearchInput');
       if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -788,7 +938,13 @@
     }
 
     async function loadMessages() {
-        const { data } = await supabase.from('messages').select('*').eq('event_id', eventID).order('created_at', { ascending: true }).limit(100);
+        const { data } = await supabase
+          .from('messages')
+          .select('*')
+          .eq('event_id', eventID)
+          .order('created_at', { ascending: true })
+          .limit(100);
+
         if (data) {
             document.getElementById('futbolx-chat-messages').innerHTML = '';
             data.forEach(renderMsg);
@@ -805,7 +961,7 @@
             box.appendChild(div);
         }
 
-        let replyHTML = msg.reply_to_username ? `<span class="reply-context" onclick="window.scrollToMsg('${msg.reply_to_id}')">@${msg.reply_to_username}: ${msg.reply_to_msg?.substring(0,25)}...</span>` : '';
+        let replyHTML = msg.reply_to_username ? `<span class="reply-context" onclick="scrollToMsg('${msg.reply_to_id}')">@${msg.reply_to_username}: ${msg.reply_to_msg?.substring(0,25)}...</span>` : '';
 
         let badge = '';
         let authorClass = 'user';
@@ -818,8 +974,8 @@
         }
 
         let adminControls = (isOwner || isMod) ? `
-          <i class="fas fa-thumbtack action-icon" onclick="window.togglePinMessage('${msg.id}', '${msg.username}', \`${msg.message.replace(/`/g, '')}\`)" title="Pin Message"></i>
-          <i class="fas fa-trash action-icon danger" onclick="window.deleteMessage('${msg.id}')" title="Delete"></i>
+          <i class="fas fa-thumbtack action-icon" onclick="togglePinMessage('${msg.id}', '${msg.username}', \`${msg.message.replace(/`/g, '')}\`)" title="${currentPinnedMessageId === msg.id ? 'Unpin Message' : 'Pin Message'}"></i>
+          <i class="fas fa-trash action-icon danger" onclick="deleteMessage('${msg.id}')" title="Delete"></i>
         ` : '';
 
         const formattedMsg = parseEmotes(msg.message);
@@ -832,23 +988,33 @@
             <span class="msg-text">${formattedMsg}</span>
           </div>
           <div class="msg-hover-actions">
-            <i class="fas fa-reply action-icon" onclick="window.setReply('${msg.id}', '${msg.username}', \`${msg.message.replace(/`/g, '')}\`)" title="Reply"></i>
+            <i class="fas fa-reply action-icon" onclick="setReply('${msg.id}', '${msg.username}', \`${msg.message.replace(/`/g, '')}\`)" title="Reply"></i>
             ${adminControls}
           </div>
         `;
+
+        let startX = 0;
+        div.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, {passive: true});
+        div.addEventListener('touchend', (e) => {
+          let diffX = e.changedTouches[0].clientX - startX;
+          if (diffX > 60) {
+            setReply(msg.id, msg.username, msg.message);
+          }
+        });
 
         box.scrollTop = box.scrollHeight;
     }
 
     document.getElementById('sendChatBtn').onclick = async () => {
-        if (!currentUser || isMuted) return;
+        if (!currentUser) return;
+        if (isMuted) return;
         if (isChatClosedGlobal && !isOwner && !isMod) return;
 
         const input = document.getElementById('chatInput');
         const text = input.value.trim();
         if (!text) return;
 
-        const { data } = await supabase.from('messages').insert([{
+        const { data, error } = await supabase.from('messages').insert([{
             username: currentUser,
             message: text,
             event_id: eventID,
@@ -858,12 +1024,14 @@
             reply_to_id: replyTo?.id
         }]).select().single();
 
-        if (data) renderMsg(data);
+        if (data) {
+            renderMsg(data);
+        }
 
         input.value = "";
         input.style.height = "auto";
         document.getElementById('charCounter').textContent = "0/250";
-        window.cancelReply();
+        cancelReply();
     };
 
     window.setReply = (id, user, msg) => {
@@ -882,6 +1050,7 @@
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
+    /* Pinning & Announcements */
     async function loadPin() {
         const { data } = await supabase.from('pinned_messages').select('*').eq('event_id', eventID).eq('is_pinned', true).maybeSingle();
         const pinContainer = document.getElementById('pinnedMessageContainer');
@@ -889,8 +1058,17 @@
 
         if (data) {
           currentPinnedMessageId = data.message_id;
-          let badge = data.username.toLowerCase() === 'futbolx' ? `<span class="user-badge badge-owner"><i class="fas fa-crown"></i></span>` : (data.is_mod ? `<span class="user-badge badge-mod"><i class="fas fa-shield-alt"></i></span>` : '');
-          pinnedContent.innerHTML = `${badge}<span class="chat-author">${data.username}:</span> <span class="msg-text">${parseEmotes(data.message_text)}</span>`;
+          let badge = '';
+          let authorClass = 'user';
+          if (data.username.toLowerCase() === 'futbolx') {
+            badge = `<span class="user-badge badge-owner" title="Owner"><i class="fas fa-crown"></i></span>`;
+            authorClass = 'owner';
+          } else if (data.is_mod) {
+            badge = `<span class="user-badge badge-mod" title="Moderator"><i class="fas fa-shield-alt"></i></span>`;
+            authorClass = 'mod';
+          }
+          
+          pinnedContent.innerHTML = `${badge}<span class="chat-author ${authorClass}">${data.username}:</span> <span class="msg-text">${parseEmotes(data.message_text)}</span>`;
           pinContainer.classList.remove('d-none');
         } else {
           currentPinnedMessageId = null;
@@ -902,7 +1080,7 @@
     window.togglePinMessage = async (msgId, username, messageText) => {
         if (!isOwner && !isMod) return;
         if (currentPinnedMessageId === msgId) {
-            await window.unpinMessage();
+            await unpinMessage();
             return;
         }
         await supabase.from('pinned_messages').delete().eq('event_id', eventID);
@@ -949,6 +1127,7 @@
         await loadAnnouncement();
     };
 
+    /* Moderation Tools & Mutes */
     window.deleteMessage = async (id) => {
         if (!isOwner && !isMod) return;
         await supabase.from('messages').delete().eq('id', id);
@@ -958,15 +1137,14 @@
 
     window.clearAllChat = async () => {
         if (!isOwner && !isMod) return;
-        if (!confirm("Clear room chat?")) return;
+        if (!confirm("Clear entire room chat?")) return;
         await supabase.from('messages').delete().eq('event_id', eventID);
         document.getElementById('futbolx-chat-messages').innerHTML = '';
     };
 
-    /* Fixed Mod/Owner Toggle Functions */
     async function loadAllMembers() {
-        const { data, error } = await supabase.from('profiles').select('id, username, is_owner, is_mod, is_muted, device_ip').order('username', { ascending: true });
-        if (error || !data) return;
+        const { data } = await supabase.from('profiles').select('*').order('username', { ascending: true });
+        if (!data) return;
         allMembersCache = data;
         const query = document.getElementById('memberSearchInput')?.value.toLowerCase().trim() || '';
         renderFilteredMemberList(query);
@@ -1010,10 +1188,12 @@
                 ${statusBadge}
                 <small class="text-muted d-block">${u.device_ip || 'IP N/A'}</small>
               </div>
-              <div><i class="fas fa-chevron-right text-muted"></i></div>
+              <div>
+                <i class="fas fa-chevron-right text-muted"></i>
+              </div>
             `;
 
-            item.onclick = () => window.openMemberActionModal(u);
+            item.onclick = () => openMemberActionModal(u);
             list.appendChild(item);
         });
     }
@@ -1028,30 +1208,28 @@
         container.innerHTML = '';
 
         if (userObj.is_owner) {
-          container.innerHTML = `<div class="text-muted small text-center">Owner account cannot be modified.</div>`;
+          container.innerHTML = `<div class="text-muted small text-center">Owner cannot be modified.</div>`;
         } else {
-          // Mute / Unmute Button
+          // Mute / Unmute Option (Available to Owner and Mods)
           const muteBtn = document.createElement('button');
           muteBtn.className = `btn btn-sm ${userObj.is_muted ? 'btn-success' : 'btn-danger'} w-100`;
           muteBtn.innerHTML = userObj.is_muted ? `<i class="fas fa-volume-up me-1"></i> Unmute User` : `<i class="fas fa-volume-mute me-1"></i> Mute User`;
           muteBtn.onclick = async () => {
             await supabase.from('profiles').update({ is_muted: !userObj.is_muted }).eq('username', userObj.username);
-            const modalEl = bootstrap.Modal.getInstance(document.getElementById('memberActionModal'));
-            if (modalEl) modalEl.hide();
-            await loadAllMembers();
+            bootstrap.Modal.getInstance(document.getElementById('memberActionModal')).hide();
+            loadAllMembers();
           };
           container.appendChild(muteBtn);
 
-          // Make / Remove Moderator (Owner Only)
+          // Add / Remove Mod Option (Strictly Owner Only)
           if (isOwner) {
             const modBtn = document.createElement('button');
             modBtn.className = `btn btn-sm ${userObj.is_mod ? 'btn-outline-warning' : 'btn-warning'} w-100 mt-2`;
             modBtn.innerHTML = userObj.is_mod ? `<i class="fas fa-user-minus me-1"></i> Remove Moderator` : `<i class="fas fa-user-shield me-1"></i> Make Moderator`;
             modBtn.onclick = async () => {
               await supabase.from('profiles').update({ is_mod: !userObj.is_mod }).eq('username', userObj.username);
-              const modalEl = bootstrap.Modal.getInstance(document.getElementById('memberActionModal'));
-              if (modalEl) modalEl.hide();
-              await loadAllMembers();
+              bootstrap.Modal.getInstance(document.getElementById('memberActionModal')).hide();
+              loadAllMembers();
             };
             container.appendChild(modBtn);
           }
@@ -1062,27 +1240,320 @@
     };
 
     function setupRealtime() {
+        // Robust Realtime Handler for Messages, Pins, Room state, and Announcements
         supabase.channel('public_room_channel')
           .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, p => {
-             if (p.eventType === 'INSERT' && p.new?.event_id === eventID) renderMsg(p.new);
-             if (p.eventType === 'DELETE' && p.old?.id) {
+             if (p.eventType === 'INSERT') {
+               if (p.new && p.new.event_id === eventID) renderMsg(p.new);
+             } else if (p.eventType === 'DELETE') {
+               if (p.old?.id) {
                  const el = document.getElementById(`msg-${p.old.id}`);
                  if (el) el.remove();
+               } else {
+                 loadMessages();
+               }
              }
           })
           .on('postgres_changes', { event: '*', schema: 'public', table: 'announcements' }, () => loadAnnouncement())
           .on('postgres_changes', { event: '*', schema: 'public', table: 'pinned_messages' }, () => loadPin())
           .on('postgres_changes', { event: '*', schema: 'public', table: 'room_settings' }, p => {
-             if (p.new?.event_id === eventID) {
+             if (p.new && p.new.event_id === eventID) {
                isChatClosedGlobal = !!p.new.chat_closed;
                updateToggleChatBtnText();
                updateInputState();
              }
           })
           .subscribe();
+
+        // Profile dynamic role/mute realtime tracking
+        if (currentUser) {
+            supabase.channel('user_profile_changes')
+              .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles', filter: `username=eq.${currentUser}` }, p => {
+                 if (p.new) {
+                   isMuted = !!p.new.is_muted;
+                   isMod = !!p.new.is_mod;
+                   isOwner = !!p.new.is_owner;
+                   updateDashboardAccess();
+                   updateInputState();
+                 }
+              })
+              .subscribe();
+        }
     }
 
-    window.addEventListener('DOMContentLoaded', init);
+    window.onload = init;
+  </script>
+
+  <script>
+    const OVERLAY_KEY = 'futbolx_social_join';
+    const overlay = document.getElementById('socialOverlay');
+    
+    function checkOverlay() {
+      const lastJoin = localStorage.getItem(OVERLAY_KEY);
+      const now = Date.now();
+      if (!lastJoin || (now - lastJoin > 86400000)) { overlay.style.display = 'flex'; }
+    }
+
+    document.querySelectorAll('.social-join-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        localStorage.setItem(OVERLAY_KEY, Date.now());
+        overlay.style.display = 'none';
+      });
+    });
+
+    checkOverlay();
+
+    let playerInstance = null;
+    let eventStartTime = null;
+    let eventEndTime = null;
+    let streamStarted = false;
+    let foundEvent = null; 
+    const PRE_LIVE_BUFFER = 900; 
+
+    let realActivePresenceCount = 0;
+    let calculatedViewerSimulationState = 0;
+    let liveWindowActive = false;
+
+    const htmlEl = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    htmlEl.setAttribute('data-bs-theme', savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const current = htmlEl.getAttribute('data-bs-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-bs-theme', next);
+      localStorage.setItem('theme', next);
+      themeToggle.innerHTML = next === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+    });
+
+    async function fetchWithRetry(url, maxRetries = 3, delay = 1000) {
+      return new Promise((resolve, reject) => {
+        let attempts = 0;
+        function attempt() {
+          attempts++;
+          fetch(url, { signal: AbortSignal.timeout(5000) })
+            .then(res => { if (!res.ok) throw new Error(`HTTP ${res.status}`); return res.json(); })
+            .then(data => resolve(data))
+            .catch(err => { if (attempts < maxRetries) setTimeout(attempt, delay); else reject(err); });
+        }
+        attempt();
+      });
+    }
+
+    async function isM3U8(url) {
+      if (url.toLowerCase().includes('.m3u8')) return true;
+      try { const r = await fetch(url, {method:'HEAD'}); return (r.headers.get('content-type') || '').includes('mpegurl'); } catch { return false; }
+    }
+
+    async function playStream(url) {
+      if (playerInstance) { 
+        if (typeof playerInstance.remove === 'function') playerInstance.remove(); 
+        playerInstance = null; 
+      }
+      const useJW = await isM3U8(url);
+      initActualPlayer(url, useJW);
+    }
+
+    function initActualPlayer(url, useJW) {
+      if (useJW) {
+        document.getElementById('embedPlayer').style.display = 'none';
+        const container = document.getElementById('oplayer-container');
+        container.style.display = 'block';
+        
+        container.innerHTML = `
+          <div class="fx-player-wrapper" id="fxPlayerWrapper">
+            <video id="fxVideoPlayer" class="fx-video-element" playsinline muted></video>
+            <div id="fxOverlayPlay" class="fx-center-play"><i class="fas fa-play"></i></div>
+            <div class="fx-controls-bar" id="fxControlsBar">
+              <div class="fx-controls-left">
+                <button class="fx-ctrl-btn" id="fxPlayBtn" title="Play/Pause"><i class="fas fa-play"></i></button>
+                <div class="fx-volume-wrap">
+                  <button class="fx-ctrl-btn" id="fxMuteBtn" title="Mute/Unmute"><i class="fas fa-volume-mute"></i></button>
+                  <input type="range" class="fx-volume-slider" id="fxVolumeSlider" min="0" max="1" step="0.05" value="1">
+                </div>
+              </div>
+              <div class="fx-controls-right">
+                <div class="fx-quality-menu-wrap" id="fxQualityWrap" style="display:none;">
+                  <button class="fx-ctrl-btn" id="fxQualityBtn" title="Stream Quality"><i class="fas fa-cog"></i></button>
+                  <div class="fx-quality-popover" id="fxQualityPopover"></div>
+                </div>
+                <button class="fx-ctrl-btn" id="fxPipBtn" title="Picture-in-Picture"><i class="fas fa-clone"></i></button>
+                <button class="fx-ctrl-btn" id="fxFullscreenBtn" title="Fullscreen"><i class="fas fa-expand"></i></button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        const wrapper = document.getElementById('fxPlayerWrapper');
+        const video = document.getElementById('fxVideoPlayer');
+        const overlayPlay = document.getElementById('fxOverlayPlay');
+        const playBtn = document.getElementById('fxPlayBtn');
+        const muteBtn = document.getElementById('fxMuteBtn');
+        const volumeSlider = document.getElementById('fxVolumeSlider');
+        const pipBtn = document.getElementById('fxPipBtn');
+        const fullscreenBtn = document.getElementById('fxFullscreenBtn');
+        const qualityBtn = document.getElementById('fxQualityBtn');
+        const qualityPopover = document.getElementById('fxQualityPopover');
+        const qualityWrap = document.getElementById('fxQualityWrap');
+
+        let hlsEngine = null;
+
+        if (Hls.isSupported()) {
+          hlsEngine = new Hls({ 
+            enableWorker: true, 
+            lowLatencyMode: true,
+            backBufferLength: 0,
+            maxBufferLength: 10,
+            maxMaxBufferLength: 20,
+            liveSyncDurationCount: 3,
+            liveMaxLatencyDurationCount: 10,
+            manifestLoadingTimeOut: 10000,
+            manifestLoadingMaxRetry: 4
+          });
+          hlsEngine.loadSource(url);
+          hlsEngine.attachMedia(video);
+
+          hlsEngine.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
+            if (data.levels && data.levels.length > 1) {
+              qualityWrap.style.display = 'block';
+              qualityPopover.innerHTML = `
+                <button class="fx-quality-item active" data-level="-1">Auto</button>
+                ${data.levels.map((lvl, idx) => `
+                  <button class="fx-quality-item" data-level="${idx}">${lvl.height}p</button>
+                `).join('')}
+              `;
+
+              qualityPopover.querySelectorAll('.fx-quality-item').forEach(btn => {
+                btn.onclick = (e) => {
+                  e.stopPropagation();
+                  const lvl = parseInt(btn.dataset.level, 10);
+                  hlsEngine.currentLevel = lvl;
+                  qualityPopover.querySelectorAll('.fx-quality-item').forEach(b => b.classList.remove('active'));
+                  btn.classList.add('active');
+                  qualityPopover.classList.remove('show');
+                };
+              });
+            }
+          });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          video.src = url;
+        }
+
+        const togglePlay = () => {
+          if (video.paused) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        };
+
+        const updatePlayIcons = () => {
+          if (video.paused) {
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            overlayPlay.style.display = 'flex';
+          } else {
+            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            overlayPlay.style.display = 'none';
+          }
+        };
+
+        video.addEventListener('play', updatePlayIcons);
+        video.addEventListener('pause', updatePlayIcons);
+        overlayPlay.onclick = togglePlay;
+        playBtn.onclick = togglePlay;
+
+        muteBtn.onclick = () => {
+          video.muted = !video.muted;
+          updateVolumeIcons();
+        };
+
+        volumeSlider.oninput = (e) => {
+          video.volume = e.target.value;
+          video.muted = video.volume == 0;
+          updateVolumeIcons();
+        };
+
+        function updateVolumeIcons() {
+          if (video.muted || video.volume == 0) {
+            muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            volumeSlider.value = 0;
+          } else if (video.volume < 0.5) {
+            muteBtn.innerHTML = '<i class="fas fa-volume-down"></i>';
+            volumeSlider.value = video.volume;
+          } else {
+            muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            volumeSlider.value = video.volume;
+          }
+        }
+
+        if (document.pictureInPictureEnabled) {
+          pipBtn.onclick = async () => {
+            try {
+              if (document.pictureInPictureElement) {
+                await document.exitPictureInPicture();
+              } else {
+                await video.requestPictureInPicture();
+              }
+            } catch (err) {}
+          };
+        } else {
+          pipBtn.style.display = 'none';
+        }
+
+        const requestFullscreen = async () => {
+          if (!document.fullscreenElement) {
+            if (wrapper.requestFullscreen) await wrapper.requestFullscreen();
+            else if (wrapper.webkitRequestFullscreen) await wrapper.webkitRequestFullscreen();
+            else if (video.webkitEnterFullscreen) await video.webkitEnterFullscreen();
+
+            if (screen.orientation && typeof screen.orientation.lock === 'function') {
+              try {
+                await screen.orientation.lock('landscape');
+              } catch (err) {
+                console.log('Orientation lock error:', err);
+              }
+            }
+          } else {
+            if (document.exitFullscreen) await document.exitFullscreen();
+            
+            if (screen.orientation && typeof screen.orientation.unlock === 'function') {
+              try {
+                screen.orientation.unlock();
+              } catch (err) {
+                console.log('Orientation unlock error:', err);
+              }
+            }
+          }
+        };
+
+        fullscreenBtn.onclick = requestFullscreen;
+
+        qualityBtn.onclick = (e) => {
+          e.stopPropagation();
+          qualityPopover.classList.toggle('show');
+        };
+
+        document.addEventListener('click', (e) => {
+          if (!qualityWrap.contains(e.target)) {
+            qualityPopover.classList.remove('show');
+          }
+        });
+
+        let adTriggered = false;
+        const triggerAd = () => {
+          if (adTriggered) return;
+          adTriggered = true;
+        };
+      } else {
+        const oPlayer = document.getElementById('oplayer-container');
+        oPlayer.style.display = 'none';
+        oPlayer.innerHTML = '';
+        const embed = document.getElementById('embedPlayer');
+        embed.style.display = 'block';
+        embed.src = url;
+      }
+    }
   </script>
 </body>
 </html>
