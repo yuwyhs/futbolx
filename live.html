@@ -79,6 +79,133 @@
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:12px;overflow:hidden;display:none;margin-bottom:1rem;box-shadow: 0 8px 24px rgba(0,0,0,0.5);}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
+    /* CUSTOM JW PLAYER OVERLAY STYLES */
+    .jw-custom-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 75%, rgba(0,0,0,0.6) 100%);
+      pointer-events: none;
+      user-select: none;
+    }
+    .video-container:hover .jw-custom-overlay,
+    .jw-custom-overlay.active {
+      opacity: 1;
+    }
+    .jw-custom-overlay * {
+      pointer-events: auto;
+    }
+    .jw-center-play {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 65px; height: 65px;
+      background: rgba(255, 77, 77, 0.9);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(255, 77, 77, 0.5);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .jw-center-play:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+      background: #ff4d4d;
+    }
+    .jw-bottom-controls {
+      padding: 10px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+    }
+    .jw-progress-bar-container {
+      width: 100%;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+      transition: height 0.15s ease;
+    }
+    .jw-progress-bar-container:hover {
+      height: 8px;
+    }
+    .jw-progress-filled {
+      height: 100%;
+      background: #ff4d4d;
+      border-radius: 3px;
+      width: 0%;
+      position: relative;
+    }
+    .jw-progress-handle {
+      position: absolute;
+      right: -6px; top: 50%;
+      transform: translateY(-50%);
+      width: 12px; height: 12px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(0,0,0,0.5);
+    }
+    .jw-control-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
+    }
+    .jw-controls-left, .jw-controls-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .jw-btn-ctrl {
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: color 0.2s, transform 0.1s;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .jw-btn-ctrl:hover {
+      color: #ff4d4d;
+      transform: scale(1.1);
+    }
+    .jw-time-display {
+      font-size: 12px;
+      font-family: monospace;
+      color: #ddd;
+    }
+    .jw-volume-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .jw-volume-slider {
+      width: 60px;
+      height: 4px;
+      accent-color: #ff4d4d;
+      cursor: pointer;
+    }
+    .jw-quality-select {
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 4px;
+      font-size: 11px;
+      padding: 2px 4px;
+      outline: none;
+      cursor: pointer;
+    }
+
     #socialOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.95); z-index: 10000;
@@ -991,14 +1118,173 @@
       initActualPlayer(url, useJW);
     }
 
+    function formatTime(seconds) {
+      if (isNaN(seconds) || seconds < 0) return "00:00";
+      const m = Math.floor(seconds / 60);
+      const s = Math.floor(seconds % 60);
+      return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    }
+
     function initActualPlayer(url, useJW) {
       if (useJW) {
         document.getElementById('embedPlayer').style.display = 'none';
         const container = document.getElementById('oplayer-container');
         container.style.display = 'block';
         container.innerHTML = '<div id="jw-player"></div>';
-        
-        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: false, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
+
+        // Setup JW Player with controls disabled natively to render custom UI overlay
+        playerInstance = jwplayer("jw-player").setup({ 
+          file: url, 
+          autostart: false, 
+          mute: true, 
+          width: "100%", 
+          aspectratio: "16:9", 
+          cast: {},
+          controls: false 
+        });
+
+        // Inject Custom FutbolX Overlay UI
+        const customOverlay = document.createElement('div');
+        customOverlay.className = 'jw-custom-overlay';
+        customOverlay.innerHTML = `
+          <div class="jw-center-play" id="customCenterPlay"><i class="fas fa-play"></i></div>
+          <div></div>
+          <div class="jw-bottom-controls">
+            <div class="jw-progress-bar-container" id="customProgressContainer">
+              <div class="jw-progress-filled" id="customProgressFilled">
+                <div class="jw-progress-handle"></div>
+              </div>
+            </div>
+            <div class="jw-control-row">
+              <div class="jw-controls-left">
+                <button class="jw-btn-ctrl" id="customBtnPlay"><i class="fas fa-play"></i></button>
+                <div class="jw-volume-container">
+                  <button class="jw-btn-ctrl" id="customBtnMute"><i class="fas fa-volume-mute"></i></button>
+                  <input type="range" class="jw-volume-slider" id="customVolumeSlider" min="0" max="100" value="0">
+                </div>
+                <div class="jw-time-display"><span id="customCurrentTime">00:00</span> / <span id="customDuration">00:00</span></div>
+              </div>
+              <div class="jw-controls-right">
+                <select class="jw-quality-select" id="customQualitySelect" style="display:none;"></select>
+                <button class="jw-btn-ctrl" id="customBtnFullscreen"><i class="fas fa-expand"></i></button>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(customOverlay);
+
+        // Bind Overlay Custom Player Events & Functions
+        const centerPlay = customOverlay.querySelector('#customCenterPlay');
+        const btnPlay = customOverlay.querySelector('#customBtnPlay');
+        const btnMute = customOverlay.querySelector('#customBtnMute');
+        const volumeSlider = customOverlay.querySelector('#customVolumeSlider');
+        const progressContainer = customOverlay.querySelector('#customProgressContainer');
+        const progressFilled = customOverlay.querySelector('#customProgressFilled');
+        const timeCurrent = customOverlay.querySelector('#customCurrentTime');
+        const timeDuration = customOverlay.querySelector('#customDuration');
+        const qualitySelect = customOverlay.querySelector('#customQualitySelect');
+        const btnFullscreen = customOverlay.querySelector('#customBtnFullscreen');
+
+        const togglePlayState = () => {
+          if (playerInstance.getState() === 'playing') {
+            playerInstance.pause();
+          } else {
+            playerInstance.play();
+          }
+        };
+
+        centerPlay.addEventListener('click', (e) => { e.stopPropagation(); togglePlayState(); });
+        btnPlay.addEventListener('click', (e) => { e.stopPropagation(); togglePlayState(); });
+
+        btnMute.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isMuted = playerInstance.getMute();
+          playerInstance.setMute(!isMuted);
+        });
+
+        volumeSlider.addEventListener('input', (e) => {
+          e.stopPropagation();
+          const val = parseInt(e.target.value, 10);
+          playerInstance.setVolume(val);
+          if (val === 0) {
+            playerInstance.setMute(true);
+          } else {
+            playerInstance.setMute(false);
+          }
+        });
+
+        progressContainer.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const rect = progressContainer.getBoundingClientRect();
+          const pos = (e.clientX - rect.left) / rect.width;
+          const dur = playerInstance.getDuration();
+          if (dur > 0) {
+            playerInstance.seek(pos * dur);
+          }
+        });
+
+        qualitySelect.addEventListener('change', (e) => {
+          e.stopPropagation();
+          playerInstance.setCurrentQuality(parseInt(e.target.value, 10));
+        });
+
+        btnFullscreen.addEventListener('click', (e) => {
+          e.stopPropagation();
+          playerInstance.setFullscreen(!playerInstance.getFullscreen());
+        });
+
+        playerInstance.on('play', () => {
+          centerPlay.querySelector('i').className = 'fas fa-pause';
+          btnPlay.querySelector('i').className = 'fas fa-pause';
+          centerPlay.style.display = 'none';
+        });
+
+        playerInstance.on('pause', () => {
+          centerPlay.querySelector('i').className = 'fas fa-play';
+          btnPlay.querySelector('i').className = 'fas fa-play';
+          centerPlay.style.display = 'flex';
+        });
+
+        playerInstance.on('mute', (e) => {
+          if (e.mute) {
+            btnMute.querySelector('i').className = 'fas fa-volume-mute';
+            volumeSlider.value = 0;
+          } else {
+            btnMute.querySelector('i').className = 'fas fa-volume-up';
+            volumeSlider.value = playerInstance.getVolume() || 50;
+          }
+        });
+
+        playerInstance.on('volume', (e) => {
+          volumeSlider.value = e.volume;
+          if (e.volume === 0 || playerInstance.getMute()) {
+            btnMute.querySelector('i').className = 'fas fa-volume-mute';
+          } else {
+            btnMute.querySelector('i').className = 'fas fa-volume-up';
+          }
+        });
+
+        playerInstance.on('time', (e) => {
+          timeCurrent.textContent = formatTime(e.position);
+          timeDuration.textContent = formatTime(e.duration);
+          if (e.duration > 0) {
+            const pct = (e.position / e.duration) * 100;
+            progressFilled.style.width = pct + '%';
+          } else {
+            progressFilled.style.width = '100%';
+            timeCurrent.textContent = "LIVE";
+            timeDuration.textContent = "LIVE";
+          }
+        });
+
+        playerInstance.on('levels', (e) => {
+          if (e.levels && e.levels.length > 1) {
+            qualitySelect.style.display = 'block';
+            qualitySelect.innerHTML = e.levels.map((q, idx) => `<option value="${idx}">${q.label || `Level ${idx+1}`}</option>`).join('');
+          } else {
+            qualitySelect.style.display = 'none';
+          }
+        });
         
         playerInstance.on('ready', () => { 
           document.getElementById('fullscreenBtn').classList.remove('d-none'); 
