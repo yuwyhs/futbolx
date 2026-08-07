@@ -679,10 +679,10 @@
         }
 
         initEmotePicker();
-        loadRoomSettings();
-        loadMessages();
-        loadAnnouncement();
-        loadPin();
+        await loadRoomSettings();
+        await loadMessages();
+        await loadAnnouncement();
+        await loadPin();
         setupRealtime();
         setupInputHandlers();
         window.initViewerPresenceEngine();
@@ -824,9 +824,18 @@
     window.toggleChatClosedState = async () => {
         if (!isOwner && !isMod) return;
         const nextState = !isChatClosedGlobal;
-        await supabase.from('room_settings').upsert([
+        
+        const { error } = await supabase.from('room_settings').upsert([
             { event_id: eventID, chat_closed: nextState }
         ], { onConflict: 'event_id' });
+
+        if (!error) {
+            isChatClosedGlobal = nextState;
+            updateToggleChatBtnText();
+            updateInputState();
+        } else {
+            alert("Failed to update chat room status. Please try again.");
+        }
     };
 
     function showRegisterUI() {
@@ -898,9 +907,13 @@
 
     function renderMsg(msg) {
         const box = document.getElementById('futbolx-chat-messages');
-        const div = document.createElement('div');
-        div.className = "msg-row";
-        div.id = `msg-${msg.id}`;
+        let div = document.getElementById(`msg-${msg.id}`);
+        if (!div) {
+            div = document.createElement('div');
+            div.className = "msg-row";
+            div.id = `msg-${msg.id}`;
+            box.appendChild(div);
+        }
 
         let replyHTML = msg.reply_to_username ? `<span class="reply-context" onclick="scrollToMsg('${msg.reply_to_id}')">@${msg.reply_to_username}: ${msg.reply_to_msg?.substring(0,25)}...</span>` : '';
 
@@ -943,7 +956,6 @@
           }
         });
 
-        box.appendChild(div);
         box.scrollTop = box.scrollHeight;
     }
 
@@ -956,7 +968,7 @@
         const text = input.value.trim();
         if (!text) return;
 
-        await supabase.from('messages').insert([{
+        const { data, error } = await supabase.from('messages').insert([{
             username: currentUser,
             message: text,
             event_id: eventID,
@@ -964,7 +976,11 @@
             reply_to_username: replyTo?.user,
             reply_to_msg: replyTo?.msg,
             reply_to_id: replyTo?.id
-        }]);
+        }]).select().single();
+
+        if (data) {
+            renderMsg(data);
+        }
 
         input.value = "";
         input.style.height = "auto";
@@ -1030,11 +1046,13 @@
             is_pinned: true,
             is_mod: isMod
         }]);
+        await loadPin();
     };
 
     window.unpinMessage = async () => {
         if (!isOwner && !isMod) return;
         await supabase.from('pinned_messages').delete().eq('event_id', eventID);
+        await loadPin();
     };
 
     async function loadAnnouncement() {
@@ -1054,23 +1072,28 @@
         await supabase.from('announcements').delete().eq('event_id', eventID);
         await supabase.from('announcements').insert([{ event_id: eventID, text: text, is_active: true }]);
         document.getElementById('announcementInput').value = '';
+        await loadAnnouncement();
     };
 
     window.dismissAnnouncement = async () => {
         if (!isOwner) return;
         await supabase.from('announcements').delete().eq('event_id', eventID);
+        await loadAnnouncement();
     };
 
     /* Moderation Tools & Mutes */
     window.deleteMessage = async (id) => {
         if (!isOwner && !isMod) return;
         await supabase.from('messages').delete().eq('id', id);
+        const el = document.getElementById(`msg-${id}`);
+        if (el) el.remove();
     };
 
     window.clearAllChat = async () => {
         if (!isOwner && !isMod) return;
         if (!confirm("Clear entire room chat?")) return;
         await supabase.from('messages').delete().eq('event_id', eventID);
+        document.getElementById('futbolx-chat-messages').innerHTML = '';
     };
 
     async function loadAllMembers() {
@@ -1171,21 +1194,24 @@
     };
 
     function setupRealtime() {
-        // Chat messages stream
-        supabase.channel('room_updates')
-          .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => renderMsg(p.new))
-          .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages' }, p => {
-             if (p.old?.id) {
-               const el = document.getElementById(`msg-${p.old.id}`);
-               if (el) el.remove();
-             } else {
-               document.getElementById('futbolx-chat-messages').innerHTML = '';
+        // Robust Realtime Handler for Messages, Pins, Room state, and Announcements
+        supabase.channel('public_room_channel')
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, p => {
+             if (p.eventType === 'INSERT') {
+               if (p.new && p.new.event_id === eventID) renderMsg(p.new);
+             } else if (p.eventType === 'DELETE') {
+               if (p.old?.id) {
+                 const el = document.getElementById(`msg-${p.old.id}`);
+                 if (el) el.remove();
+               } else {
+                 loadMessages();
+               }
              }
           })
           .on('postgres_changes', { event: '*', schema: 'public', table: 'announcements' }, () => loadAnnouncement())
           .on('postgres_changes', { event: '*', schema: 'public', table: 'pinned_messages' }, () => loadPin())
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'room_settings', filter: `event_id=eq.${eventID}` }, p => {
-             if (p.new) {
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'room_settings' }, p => {
+             if (p.new && p.new.event_id === eventID) {
                isChatClosedGlobal = !!p.new.chat_closed;
                updateToggleChatBtnText();
                updateInputState();
@@ -1193,7 +1219,7 @@
           })
           .subscribe();
 
-        // Realtime user status updates (Mute / Unmute & Role changes)
+        // Profile dynamic role/mute realtime tracking
         if (currentUser) {
             supabase.channel('user_profile_changes')
               .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles', filter: `username=eq.${currentUser}` }, p => {
