@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
-  <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
   <link rel="stylesheet" href="/assets/css/main.css?v=25">
   <style>
@@ -77,7 +77,45 @@
     .btn-fullscreen:hover {transform:scale(1.05);background:#e63939;}
     
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:12px;overflow:hidden;display:none;margin-bottom:1rem;box-shadow: 0 8px 24px rgba(0,0,0,0.5);}
-    #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+    #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#000;}
+
+    /* Custom Player UI */
+    .fx-player-wrapper { position: relative; width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .fx-video-element { width: 100%; height: 100%; object-fit: contain; }
+    
+    .fx-center-play {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 68px; height: 68px; background: rgba(255, 77, 77, 0.85); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 26px;
+      cursor: pointer; transition: all 0.25s ease; border: 2px solid rgba(255,255,255,0.3);
+      box-shadow: 0 0 20px rgba(255,77,77,0.5); z-index: 5;
+    }
+    .fx-center-play:hover { transform: translate(-50%, -50%) scale(1.1); background: #ff4d4d; }
+    
+    .fx-controls-bar {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 48px;
+      background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 70%, transparent 100%);
+      display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
+      z-index: 10; opacity: 0; transition: opacity 0.3s ease;
+    }
+    .fx-player-wrapper:hover .fx-controls-bar, .fx-controls-bar.active { opacity: 1; }
+    
+    .fx-controls-left, .fx-controls-right { display: flex; align-items: center; gap: 14px; }
+    .fx-ctrl-btn { background: none; border: none; color: #f3f4f6; font-size: 16px; cursor: pointer; padding: 4px; transition: color 0.2s, transform 0.1s; }
+    .fx-ctrl-btn:hover { color: #ff4d4d; transform: scale(1.1); }
+    
+    .fx-volume-wrap { display: flex; align-items: center; gap: 8px; }
+    .fx-volume-slider { width: 70px; height: 4px; -webkit-appearance: none; appearance: none; background: rgba(255,255,255,0.3); border-radius: 2px; outline: none; cursor: pointer; }
+    .fx-volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #ff4d4d; cursor: pointer; }
+    
+    .fx-live-badge { font-size: 11px; font-weight: 800; color: #ff4d4d; background: rgba(255, 77, 77, 0.15); border: 1px solid rgba(255, 77, 77, 0.4); padding: 2px 8px; border-radius: 4px; display: flex; align-items: center; gap: 6px; }
+    .fx-live-dot { width: 6px; height: 6px; background: #ff4d4d; border-radius: 50%; animation: pulse 1.5s infinite; }
+
+    .fx-quality-menu-wrap { position: relative; }
+    .fx-quality-popover { position: absolute; bottom: 38px; right: -10px; background: #0f172a; border: 1px solid #1f293d; border-radius: 8px; padding: 6px 0; min-width: 110px; display: none; flex-direction: column; box-shadow: 0 8px 20px rgba(0,0,0,0.8); z-index: 20; }
+    .fx-quality-popover.show { display: flex; }
+    .fx-quality-item { padding: 6px 14px; font-size: 12px; color: #d1d5db; cursor: pointer; transition: background 0.2s, color 0.2s; text-align: left; background: none; border: none; width: 100%; }
+    .fx-quality-item:hover, .fx-quality-item.active { background: #1f293d; color: #ff4d4d; font-weight: bold; }
 
     #socialOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -986,7 +1024,10 @@
     }
 
     async function playStream(url) {
-      if (playerInstance) { playerInstance.remove(); playerInstance = null; }
+      if (playerInstance) { 
+        if (typeof playerInstance.remove === 'function') playerInstance.remove(); 
+        playerInstance = null; 
+      }
       const useJW = await isM3U8(url);
       initActualPlayer(url, useJW);
     }
@@ -996,25 +1037,191 @@
         document.getElementById('embedPlayer').style.display = 'none';
         const container = document.getElementById('oplayer-container');
         container.style.display = 'block';
-        container.innerHTML = '<div id="jw-player"></div>';
         
-        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: false, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
-        
-        playerInstance.on('ready', () => { 
-          document.getElementById('fullscreenBtn').classList.remove('d-none'); 
-          
-          const triggerAd = () => {
-            const popunderScript = document.createElement('script');
-            popunderScript.src = "https://pl29465843.effectivecpmnetwork.com/ed/a2/e5/eda2e566755b4b6a812d6d5af6d26193.js";
-            document.body.appendChild(popunderScript);
-            
-            window.open("https://omg10.com/4/11347966", "_blank");
-            
-            container.removeEventListener('click', triggerAd);
+        container.innerHTML = `
+          <div class="fx-player-wrapper" id="fxPlayerWrapper">
+            <video id="fxVideoPlayer" class="fx-video-element" playsinline muted></video>
+            <div id="fxOverlayPlay" class="fx-center-play"><i class="fas fa-play"></i></div>
+            <div class="fx-controls-bar" id="fxControlsBar">
+              <div class="fx-controls-left">
+                <button class="fx-ctrl-btn" id="fxPlayBtn" title="Play/Pause"><i class="fas fa-play"></i></button>
+                <div class="fx-volume-wrap">
+                  <button class="fx-ctrl-btn" id="fxMuteBtn" title="Mute/Unmute"><i class="fas fa-volume-mute"></i></button>
+                  <input type="range" class="fx-volume-slider" id="fxVolumeSlider" min="0" max="1" step="0.05" value="1">
+                </div>
+                <div class="fx-live-badge"><span class="fx-live-dot"></span> LIVE</div>
+              </div>
+              <div class="fx-controls-right">
+                <div class="fx-quality-menu-wrap" id="fxQualityWrap" style="display:none;">
+                  <button class="fx-ctrl-btn" id="fxQualityBtn" title="Stream Quality"><i class="fas fa-cog"></i></button>
+                  <div class="fx-quality-popover" id="fxQualityPopover"></div>
+                </div>
+                <button class="fx-ctrl-btn" id="fxPipBtn" title="Picture-in-Picture"><i class="fas fa-clone"></i></button>
+                <button class="fx-ctrl-btn" id="fxFullscreenBtn" title="Fullscreen"><i class="fas fa-expand"></i></button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        const wrapper = document.getElementById('fxPlayerWrapper');
+        const video = document.getElementById('fxVideoPlayer');
+        const overlayPlay = document.getElementById('fxOverlayPlay');
+        const playBtn = document.getElementById('fxPlayBtn');
+        const muteBtn = document.getElementById('fxMuteBtn');
+        const volumeSlider = document.getElementById('fxVolumeSlider');
+        const pipBtn = document.getElementById('fxPipBtn');
+        const fullscreenBtn = document.getElementById('fxFullscreenBtn');
+        const qualityBtn = document.getElementById('fxQualityBtn');
+        const qualityPopover = document.getElementById('fxQualityPopover');
+        const qualityWrap = document.getElementById('fxQualityWrap');
+
+        let hlsEngine = null;
+
+        if (Hls.isSupported()) {
+          hlsEngine = new Hls({ enableWorker: true, lowLatencyMode: true });
+          hlsEngine.loadSource(url);
+          hlsEngine.attachMedia(video);
+
+          hlsEngine.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
+            if (data.levels && data.levels.length > 1) {
+              qualityWrap.style.display = 'block';
+              qualityPopover.innerHTML = `
+                <button class="fx-quality-item active" data-level="-1">Auto</button>
+                ${data.levels.map((lvl, idx) => `
+                  <button class="fx-quality-item" data-level="${idx}">${lvl.height}p</button>
+                `).join('')}
+              `;
+
+              qualityPopover.querySelectorAll('.fx-quality-item').forEach(btn => {
+                btn.onclick = (e) => {
+                  e.stopPropagation();
+                  const lvl = parseInt(btn.dataset.level, 10);
+                  hlsEngine.currentLevel = lvl;
+                  qualityPopover.querySelectorAll('.fx-quality-item').forEach(b => b.classList.remove('active'));
+                  btn.classList.add('active');
+                  qualityPopover.classList.remove('show');
+                };
+              });
+            }
+          });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          video.src = url;
+        }
+
+        const togglePlay = () => {
+          if (video.paused) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        };
+
+        const updatePlayIcons = () => {
+          if (video.paused) {
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            overlayPlay.style.display = 'flex';
+          } else {
+            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            overlayPlay.style.display = 'none';
+          }
+        };
+
+        video.addEventListener('play', updatePlayIcons);
+        video.addEventListener('pause', updatePlayIcons);
+        overlayPlay.onclick = togglePlay;
+        playBtn.onclick = togglePlay;
+
+        muteBtn.onclick = () => {
+          video.muted = !video.muted;
+          updateVolumeIcons();
+        };
+
+        volumeSlider.oninput = (e) => {
+          video.volume = e.target.value;
+          video.muted = video.volume == 0;
+          updateVolumeIcons();
+        };
+
+        function updateVolumeIcons() {
+          if (video.muted || video.volume == 0) {
+            muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            volumeSlider.value = 0;
+          } else if (video.volume < 0.5) {
+            muteBtn.innerHTML = '<i class="fas fa-volume-down"></i>';
+            volumeSlider.value = video.volume;
+          } else {
+            muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            volumeSlider.value = video.volume;
+          }
+        }
+
+        if (document.pictureInPictureEnabled) {
+          pipBtn.onclick = async () => {
+            try {
+              if (document.pictureInPictureElement) {
+                await document.exitPictureInPicture();
+              } else {
+                await video.requestPictureInPicture();
+              }
+            } catch (err) {}
           };
-          
-          container.addEventListener('click', triggerAd);
+        } else {
+          pipBtn.style.display = 'none';
+        }
+
+        const requestFullscreen = () => {
+          if (!document.fullscreenElement) {
+            if (wrapper.requestFullscreen) wrapper.requestFullscreen();
+            else if (wrapper.webkitRequestFullscreen) wrapper.webkitRequestFullscreen();
+            else if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
+          } else {
+            if (document.exitFullscreen) document.exitFullscreen();
+          }
+        };
+
+        fullscreenBtn.onclick = requestFullscreen;
+
+        qualityBtn.onclick = (e) => {
+          e.stopPropagation();
+          qualityPopover.classList.toggle('show');
+        };
+
+        document.addEventListener('click', (e) => {
+          if (!qualityWrap.contains(e.target)) {
+            qualityPopover.classList.remove('show');
+          }
         });
+
+        // Ad Trigger preserving standard behaviors
+        let adTriggered = false;
+        const triggerAd = () => {
+          if (adTriggered) return;
+          adTriggered = true;
+          const popunderScript = document.createElement('script');
+          popunderScript.src = "https://pl29465843.effectivecpmnetwork.com/ed/a2/e5/eda2e566755b4b6a812d6d5af6d26193.js";
+          document.body.appendChild(popunderScript);
+          window.open("https://omg10.com/4/11347966", "_blank");
+          container.removeEventListener('click', triggerAd);
+        };
+
+        container.addEventListener('click', triggerAd);
+
+        document.getElementById('fullscreenBtn').classList.remove('d-none');
+
+        // Export Player Object API interface for external buttons
+        playerInstance = {
+          setFullscreen: (val) => {
+            if (val) requestFullscreen();
+          },
+          remove: () => {
+            if (hlsEngine) hlsEngine.destroy();
+            video.pause();
+            video.removeAttribute('src');
+            video.load();
+            container.innerHTML = '';
+          }
+        };
+
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
@@ -1205,4 +1412,4 @@
     });
   </script>
 </body>
-  </html>
+</html>
