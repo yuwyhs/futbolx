@@ -72,9 +72,6 @@
     .alert-info {text-align:center;position:relative;padding-right:40px !important;}
     .error-alert {max-width:500px;margin:20px auto;}
     .fade-out {animation:fadeOut .5s forwards;} @keyframes fadeOut {from{opacity:1}to{opacity:0}}
-    .btn-fullscreen {display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#ff4d4d;color:#fff;border:none;border-radius:20px;transition:.3s;}
-    [data-bs-theme="light"] .btn-fullscreen {background:#e63939;color:#333;}
-    .btn-fullscreen:hover {transform:scale(1.05);background:#e63939;}
     
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:12px;overflow:hidden;display:none;margin-bottom:1rem;box-shadow: 0 8px 24px rgba(0,0,0,0.5);}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#000;}
@@ -108,8 +105,10 @@
     .fx-volume-slider { width: 70px; height: 4px; -webkit-appearance: none; appearance: none; background: rgba(255,255,255,0.3); border-radius: 2px; outline: none; cursor: pointer; }
     .fx-volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #ff4d4d; cursor: pointer; }
     
-    .fx-live-badge { font-size: 11px; font-weight: 800; color: #ff4d4d; background: rgba(255, 77, 77, 0.15); border: 1px solid rgba(255, 77, 77, 0.4); padding: 2px 8px; border-radius: 4px; display: flex; align-items: center; gap: 6px; }
-    .fx-live-dot { width: 6px; height: 6px; background: #ff4d4d; border-radius: 50%; animation: pulse 1.5s infinite; }
+    /* Hide Volume Slider on Mobile screens (only show mute icon) */
+    @media (max-width: 768px) {
+      .fx-volume-slider { display: none !important; }
+    }
 
     .fx-quality-menu-wrap { position: relative; }
     .fx-quality-popover { position: absolute; bottom: 38px; right: -10px; background: #0f172a; border: 1px solid #1f293d; border-radius: 8px; padding: 6px 0; min-width: 110px; display: none; flex-direction: column; box-shadow: 0 8px 20px rgba(0,0,0,0.8); z-index: 20; }
@@ -349,7 +348,6 @@
           <div class="d-flex align-items-center mb-3">
             <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
             <button id="startLivestream" class="btn btn-danger ms-3" style="display:none;">Click to Start Livestream</button>
-            <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
           </div>
 
           <div id="liveStreamTitle" class="live-title d-none">
@@ -618,7 +616,6 @@
       const toggleBtn = document.getElementById('emoteToggleBtn');
       const grid = document.getElementById('emoteGrid');
 
-      // Populate Emotes Grid
       grid.innerHTML = EMOTE_LIBRARY.map(e => `
         <div class="emote-item" onclick="insertEmote('${e.name}')" title="${e.name}">
           <img src="${e.url}" alt="${e.name}">
@@ -775,7 +772,6 @@
           </div>
         `;
 
-        // Mobile Touch Slide-to-Reply
         let startX = 0;
         div.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, {passive: true});
         div.addEventListener('touchend', (e) => {
@@ -972,14 +968,6 @@
 
     checkOverlay();
 
-    const AD_URLS = [
-        "https://www.profitablecpmratenetwork.com/bgx385dt?key=570a422270e074afbc58506bf1030ae4",
-        "https://www.profitablecpmratenetwork.com/g1yq1jpz3?key=cd1df924cb59e3a00865a760d1fc509e",
-        "https://www.profitablecpmratenetwork.com/pt2cpxsy?key=95503223709f1dae246e94013437dcfe"
-    ];
-
-    let clicksStart = 0;
-    let adClickedFullscreen = false;
     let playerInstance = null;
     let eventStartTime = null;
     let eventEndTime = null;
@@ -1049,7 +1037,6 @@
                   <button class="fx-ctrl-btn" id="fxMuteBtn" title="Mute/Unmute"><i class="fas fa-volume-mute"></i></button>
                   <input type="range" class="fx-volume-slider" id="fxVolumeSlider" min="0" max="1" step="0.05" value="1">
                 </div>
-                <div class="fx-live-badge"><span class="fx-live-dot"></span> LIVE</div>
               </div>
               <div class="fx-controls-right">
                 <div class="fx-quality-menu-wrap" id="fxQualityWrap" style="display:none;">
@@ -1078,7 +1065,18 @@
         let hlsEngine = null;
 
         if (Hls.isSupported()) {
-          hlsEngine = new Hls({ enableWorker: true, lowLatencyMode: true });
+          // Optimized for low-latency live streaming & instant buffer playback
+          hlsEngine = new Hls({ 
+            enableWorker: true, 
+            lowLatencyMode: true,
+            backBufferLength: 0,
+            maxBufferLength: 10,
+            maxMaxBufferLength: 20,
+            liveSyncDurationCount: 3,
+            liveMaxLatencyDurationCount: 10,
+            manifestLoadingTimeOut: 10000,
+            manifestLoadingMaxRetry: 4
+          });
           hlsEngine.loadSource(url);
           hlsEngine.attachMedia(video);
 
@@ -1192,7 +1190,6 @@
           }
         });
 
-        // Ad Trigger preserving standard behaviors
         let adTriggered = false;
         const triggerAd = () => {
           if (adTriggered) return;
@@ -1206,9 +1203,6 @@
 
         container.addEventListener('click', triggerAd);
 
-        document.getElementById('fullscreenBtn').classList.remove('d-none');
-
-        // Export Player Object API interface for external buttons
         playerInstance = {
           setFullscreen: (val) => {
             if (val) requestFullscreen();
@@ -1295,7 +1289,7 @@
         const behaviorRoll = Math.random();
         
         if (behaviorRoll < 0.45) {
-          // Plateau.
+          // Plateau
         } else {
           const timestamp = Date.now() / 60000;
           const macroeconomicTrend = Math.sin(timestamp) * 0.15;
@@ -1404,11 +1398,6 @@
           streamStarted = true;
         };
       } catch (err) {}
-
-      document.getElementById('fullscreenBtn').onclick = () => {
-        if (!adClickedFullscreen) { window.open(AD_URLS[0], '_blank'); adClickedFullscreen = true; }
-        if (playerInstance) playerInstance.setFullscreen(true);
-      };
     });
   </script>
 </body>
