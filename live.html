@@ -156,10 +156,8 @@
     .chat-wrapper-container { width: 100%; height: 680px; background: #090d16; border: 1px solid #1f293d; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
     .chat-header-area { padding: 12px 16px; background: #0f172a; border-bottom: 1px solid #1f293d; }
     
-    /* Decoupled Announcements Bar */
     .announcement-banner { background: linear-gradient(90deg, #991b1b, #450a0a); color: #fecaca; padding: 8px 12px; font-size: 0.8rem; border-bottom: 1px solid #ef444455; display: flex; align-items: center; justify-content: space-between; }
     
-    /* Dedicated Pinned Message Card */
     .pinned-message-container { 
       position: relative;
       background: rgba(17, 24, 39, 0.95); 
@@ -177,7 +175,6 @@
 
     .chat-rules { text-align: center; font-size: 0.73rem; color: #6b7280; padding: 6px 0; background: #030712; border-bottom: 1px solid #111827; }
 
-    /* PPV/Twitch Compact Inline Chat Row */
     .msg-row {
       position: relative;
       padding: 4px 8px;
@@ -193,7 +190,6 @@
 
     .chat-author { font-weight: 700; margin-right: 4px; cursor: pointer; }
     
-    /* Owner Sparkling Name Effect */
     .chat-author.owner { 
       background: linear-gradient(90deg, #ff4d4d, #f59e0b, #ef4444, #ff4d4d);
       background-size: 200% auto;
@@ -222,7 +218,6 @@
 
     .reply-context { font-size: 0.75rem; color: #9ca3af; background: #1f2937; padding: 2px 6px; border-left: 2px solid #ff4d4d; border-radius: 3px; margin-bottom: 3px; display: block; cursor: pointer; }
 
-    /* Action bar on row hover */
     .msg-hover-actions {
       display: none;
       position: absolute;
@@ -243,7 +238,6 @@
 
     #typingIndicator { font-size: 0.72rem; color: #6b7280; padding: 2px 16px; font-style: italic; min-height: 20px; }
 
-    /* Mute / Closed State Banners */
     .chat-status-notice {
       padding: 12px 16px;
       background: rgba(127, 29, 29, 0.3);
@@ -255,7 +249,6 @@
     }
     .chat-status-notice a { color: #38bdf8; text-decoration: underline; }
 
-    /* Emote Picker Styles */
     .emote-picker-popover {
       position: absolute;
       bottom: 60px;
@@ -384,9 +377,9 @@
           </div>
 
           <div id="statusArea">
-            <h2 id="eventTitle" class="mb-3"></h2>
+            <h2 id="eventTitle" class="mb-3">Loading event...</h2>
             <div id="countdownDisplay" class="countdown-display"></div>
-            <p id="statusMessage" class="status-message">This event has not started yet.</p>
+            <p id="statusMessage" class="status-message">Fetching event details...</p>
           </div>
 
           <div class="row g-4 mt-2">
@@ -402,7 +395,6 @@
               </div>
             </div>
 
-            <!-- FutbolX Twitch/PPV Style Inline Chat -->
             <div class="col-12 col-lg-4">
               <div class="chat-wrapper-container">
                 <div class="chat-header-area d-flex justify-content-between align-items-center">
@@ -420,7 +412,6 @@
                   </div>
                 </div>
 
-                <!-- Independent Broadcast Announcements Bar -->
                 <div id="announcementContainer" class="announcement-banner d-none">
                   <div><i class="fas fa-bullhorn me-1"></i> <span id="announcementText"></span></div>
                   <button id="dismissAnnounceBtn" class="btn-close btn-close-white btn-sm ms-2 d-none" onclick="dismissAnnouncement()"></button>
@@ -428,7 +419,6 @@
 
                 <div class="chat-rules">be respectful • no spam • enjoy the streams</div>
 
-                <!-- Dedicated Pinned Message Card -->
                 <div id="pinnedMessageContainer" class="pinned-message-container d-none">
                   <i class="fas fa-thumbtack pinned-badge-icon"></i>
                   <div id="pinnedContent" class="overflow-hidden text-truncate flex-grow-1"></div>
@@ -442,13 +432,11 @@
                     <i class="fas fa-times" onclick="cancelReply()" style="cursor:pointer;"></i>
                 </div>
 
-                <!-- Emote Picker Popover -->
                 <div id="emotePickerPopover" class="emote-picker-popover d-none">
                   <div class="emote-header">FutbolX Emotes</div>
                   <div class="emote-grid" id="emoteGrid"></div>
                 </div>
 
-                <!-- Chat Input Controls & Status Banners -->
                 <div id="chatInputArea" style="border-top:1px solid #1f293d; padding:10px 12px; background:#0f172a; position:relative;">
                   
                   <div id="activeInputRow" style="display:flex; gap:8px; align-items:center;">
@@ -466,12 +454,10 @@
                     <span>Enter to send • Shift+Enter newline</span>
                   </div>
 
-                  <!-- Muted Lockout Banner -->
                   <div id="mutedBanner" class="chat-status-notice d-none">
                     You have been muted.<br>Join <a href="https://discord.gg/UzHzerb6XY" target="_blank">Discord</a> or <a href="https://t.me/+H-GY0RZpdHc3ZDdl" target="_blank">Telegram</a> to appeal (bring your chat username).
                   </div>
 
-                  <!-- Chat Closed Banner -->
                   <div id="closedBanner" class="chat-status-notice d-none" style="background: rgba(30, 41, 59, 0.6); border-top-color: #64748b; color: #cbd5e1;">
                     <i class="fas fa-lock me-1"></i> Chat is currently closed by moderators.
                   </div>
@@ -517,7 +503,6 @@
           </ul>
           
           <div class="tab-content">
-            <!-- Members List Tab -->
             <div class="tab-pane fade show active" id="tabMembers">
               <div class="mb-3">
                 <input type="text" id="memberSearchInput" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="Search members by username or IP...">
@@ -525,7 +510,6 @@
               <div id="adminMemberList" class="list-group" style="max-height: 320px; overflow-y: auto;"></div>
             </div>
 
-            <!-- Moderation & Room Control Tab -->
             <div class="tab-pane fade" id="tabMod">
               <div class="d-flex flex-column gap-3">
                 <div>
@@ -541,7 +525,6 @@
               </div>
             </div>
 
-            <!-- Announcements Tab (Owner Only) -->
             <div class="tab-pane fade owner-only-tab" id="tabAnnouncements">
               <textarea id="announcementInput" class="form-control form-control-sm mb-2" rows="2" placeholder="Broadcast message..."></textarea>
               <button class="btn btn-sm btn-danger" onclick="publishAnnouncement()">Publish Banner</button>
@@ -595,7 +578,10 @@
     const supabase = createClient(SB_URL, SB_KEY);
     window.globalSupabaseInstance = supabase;
 
-    const eventID = window.location.pathname.split('/').pop() || 'lobby';
+    // Event ID from path: /live/<eventId> or last path segment
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    const eventID = pathParts[pathParts.length - 1] || new URLSearchParams(location.search).get('id') || 'lobby';
+
     let currentUser = localStorage.getItem('chat_user');
     let currentIP = "127.0.0.1";
     let isOwner = false;
@@ -606,9 +592,16 @@
     let currentPinnedMessageId = null;
     let allMembersCache = [];
 
-    // Emote Library Configuration
+    // Stream / event state (shared with non-module script via window)
+    window.fxEventID = eventID;
+    window.fxFoundEvent = null;
+    window.fxEventStartTime = null;
+    window.fxEventEndTime = null;
+    window.fxStreamStarted = false;
+    window.fxLiveWindowActive = false;
+    const PRE_LIVE_BUFFER = 900; // seconds
+
     const EMOTE_LIBRARY = [
-      { name: "bein fr", url: "https://cdn.7tv.app/emote/01F6MZGCNG000255K4X1K7NTHR/4x.webp" },
       { name: "GIGACHAD", url: "https://cdn.7tv.app/emote/01F6MZGCNG000255K4X1K7NTHR/4x.webp" },
       { name: "donowall", url: "https://cdn.7tv.app/emote/01F6BN89H80006VBW12DRB1DJ0/4x.webp" },
       { name: "catJAM", url: "https://cdn.7tv.app/emote/01F6MQ33FG000FFJ97ZB8MWV52/4x.webp" },
@@ -666,29 +659,181 @@
       { name: "REF", url: "https://cdn.7tv.app/emote/01GKQ60YHR000CS736JH649MBC/4x.webp" }
     ];
 
-    async function init() {
-        try {
-            const res = await fetch('https://api.ipify.org?format=json');
-            const data = await res.json();
-            if (data.ip) currentIP = data.ip;
-        } catch (e) {}
+    // ========== EVENT / STREAM LOADER ==========
+    async function loadEventDetails() {
+      const statusArea = document.getElementById('statusArea');
+      const eventTitleEl = document.getElementById('eventTitle');
+      const statusMsgEl = document.getElementById('statusMessage');
+      const errorContainer = document.getElementById('errorContainer');
+      const streamSelect = document.getElementById('streamSelect');
+      const streamSelectContainer = document.getElementById('streamLinksContainer');
 
-        if (currentUser) {
-            await verifySession();
+      try {
+        // Primary: Supabase events table (id / slug / event_id)
+        let data = null;
+        let { data: row, error } = await supabase
+          .from('events')
+          .select('*')
+          .or(`id.eq.${eventID},slug.eq.${eventID},event_id.eq.${eventID}`)
+          .maybeSingle();
+
+        if (!error && row) {
+          data = row;
         } else {
-            showRegisterUI();
+          // Fallback: REST API if you still use one
+          try {
+            const res = await fetch(`/api/events/${encodeURIComponent(eventID)}`, { signal: AbortSignal.timeout(8000) });
+            if (res.ok) data = await res.json();
+          } catch (_) {}
         }
 
-        initEmotePicker();
-        await loadRoomSettings();
-        await loadMessages();
-        await loadAnnouncement();
-        await loadPin();
-        setupRealtime();
-        setupInputHandlers();
-        if (typeof window.initViewerPresenceEngine === 'function') {
-            window.initViewerPresenceEngine();
+        if (!data) {
+          throw new Error('Event not found. Check the URL or create the event in the events table.');
         }
+
+        window.fxFoundEvent = data;
+        window.fxEventStartTime = data.start_time ? new Date(data.start_time).getTime()
+          : (data.startTime ? new Date(data.startTime).getTime() : null);
+        window.fxEventEndTime = data.end_time ? new Date(data.end_time).getTime()
+          : (data.endTime ? new Date(data.endTime).getTime() : null);
+
+        const title = data.title || data.name || data.event_name || 'Live Event';
+        eventTitleEl.textContent = title;
+        document.getElementById('currentStreamName').textContent = title;
+        document.getElementById('chatEventTitle').textContent = title;
+
+        // Streams: support several shapes
+        let sources = data.streams || data.links || data.sources || data.stream_links || [];
+        if (!Array.isArray(sources) && data.stream_url) {
+          sources = [{ label: 'Main', url: data.stream_url }];
+        }
+        if (typeof sources === 'string') {
+          try { sources = JSON.parse(sources); } catch { sources = [sources]; }
+        }
+
+        streamSelect.innerHTML = '';
+        if (sources.length) {
+          sources.forEach((s, i) => {
+            const opt = document.createElement('option');
+            const url = typeof s === 'string' ? s : (s.url || s.link || s.src || '');
+            opt.value = url;
+            opt.textContent = typeof s === 'string'
+              ? `Source ${i + 1}`
+              : (s.label || s.name || s.quality || `Source ${i + 1}`);
+            if (url) streamSelect.appendChild(opt);
+          });
+          streamSelectContainer.style.display = streamSelect.options.length ? 'block' : 'none';
+          streamSelect.onchange = () => {
+            if (streamSelect.value && typeof window.playStream === 'function') {
+              window.playStream(streamSelect.value);
+            }
+          };
+        } else {
+          streamSelectContainer.style.display = 'none';
+        }
+
+        updateEventStatus();
+        if (!window._fxStatusInterval) {
+          window._fxStatusInterval = setInterval(updateEventStatus, 1000);
+        }
+      } catch (err) {
+        console.error('Failed to load event:', err);
+        eventTitleEl.textContent = 'Event not found';
+        statusMsgEl.textContent = err.message || 'Could not load stream details.';
+        errorContainer.textContent = err.message || 'Unknown error';
+        errorContainer.classList.remove('d-none');
+        statusArea.style.display = 'block';
+      }
+    }
+
+    function updateEventStatus() {
+      const now = Date.now();
+      const statusArea = document.getElementById('statusArea');
+      const liveTitleEl = document.getElementById('liveStreamTitle');
+      const videoContainer = document.getElementById('mainVideoContainer');
+      const startBtn = document.getElementById('startLivestream');
+      const countdownEl = document.getElementById('countdownDisplay');
+      const statusMsgEl = document.getElementById('statusMessage');
+      const startTime = window.fxEventStartTime;
+      const endTime = window.fxEventEndTime;
+
+      if (!startTime) {
+        statusMsgEl.textContent = 'No start time configured for this event.';
+        return;
+      }
+
+      const preLive = startTime - (PRE_LIVE_BUFFER * 1000);
+      const isLiveWindow = now >= preLive && (!endTime || now <= endTime);
+      window.fxLiveWindowActive = isLiveWindow;
+
+      if (now < preLive) {
+        statusArea.style.display = 'block';
+        liveTitleEl.classList.add('d-none');
+        videoContainer.style.display = 'none';
+        startBtn.style.display = 'none';
+
+        const diff = Math.max(0, Math.floor((startTime - now) / 1000));
+        const h = Math.floor(diff / 3600);
+        const m = Math.floor((diff % 3600) / 60);
+        const s = diff % 60;
+        countdownEl.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        statusMsgEl.textContent = 'This event has not started yet.';
+      } else if (isLiveWindow) {
+        statusArea.style.display = 'none';
+        liveTitleEl.classList.remove('d-none');
+        videoContainer.style.display = 'block';
+
+        if (!window.fxStreamStarted) {
+          startBtn.style.display = 'inline-block';
+          startBtn.onclick = () => {
+            window.fxStreamStarted = true;
+            startBtn.style.display = 'none';
+            const first = document.getElementById('streamSelect')?.value;
+            const fallback = window.fxFoundEvent?.stream_url || window.fxFoundEvent?.url;
+            if (first && typeof window.playStream === 'function') window.playStream(first);
+            else if (fallback && typeof window.playStream === 'function') window.playStream(fallback);
+          };
+        }
+      } else {
+        statusArea.style.display = 'block';
+        liveTitleEl.classList.add('d-none');
+        videoContainer.style.display = 'none';
+        startBtn.style.display = 'none';
+        countdownEl.textContent = '';
+        statusMsgEl.textContent = 'This event has ended.';
+      }
+    }
+
+    window.loadEventDetails = loadEventDetails;
+    window.updateEventStatus = updateEventStatus;
+
+    async function init() {
+      try {
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json();
+        if (data.ip) currentIP = data.ip;
+      } catch (e) {}
+
+      if (currentUser) {
+        await verifySession();
+      } else {
+        showRegisterUI();
+      }
+
+      initEmotePicker();
+      await loadRoomSettings();
+      await loadMessages();
+      await loadAnnouncement();
+      await loadPin();
+      setupRealtime();
+      setupInputHandlers();
+
+      // Load stream title / timer / links (and keep chat on same eventID)
+      await loadEventDetails();
+
+      if (typeof window.initViewerPresenceEngine === 'function') {
+        window.initViewerPresenceEngine();
+      }
     }
 
     function initEmotePicker() {
@@ -734,178 +879,178 @@
     }
 
     async function verifySession() {
-        const { data } = await supabase.from('profiles').select('*').ilike('username', currentUser).maybeSingle();
-        if (!data) {
-            localStorage.removeItem('chat_user');
-            currentUser = null;
-            showRegisterUI();
-            return;
-        }
+      const { data } = await supabase.from('profiles').select('*').ilike('username', currentUser).maybeSingle();
+      if (!data) {
+        localStorage.removeItem('chat_user');
+        currentUser = null;
+        showRegisterUI();
+        return;
+      }
 
-        currentUser = data.username;
-        localStorage.setItem('chat_user', currentUser);
+      currentUser = data.username;
+      localStorage.setItem('chat_user', currentUser);
 
-        isOwner = !!data.is_owner;
-        isMod = !!data.is_mod;
-        isMuted = !!data.is_muted;
+      isOwner = !!data.is_owner;
+      isMod = !!data.is_mod;
+      isMuted = !!data.is_muted;
 
-        updateDashboardAccess();
-        updateInputState();
-        showChatUI();
+      updateDashboardAccess();
+      updateInputState();
+      showChatUI();
     }
 
     function updateDashboardAccess() {
-        const dashBtn = document.getElementById('openAdminDashboardBtn');
-        const dashTitle = document.getElementById('dashTitle');
-        const ownerTabs = document.querySelectorAll('.owner-only-tab');
-        const unpinBtn = document.getElementById('unpinBtn');
-        const dismissAnnounceBtn = document.getElementById('dismissAnnounceBtn');
+      const dashBtn = document.getElementById('openAdminDashboardBtn');
+      const dashTitle = document.getElementById('dashTitle');
+      const ownerTabs = document.querySelectorAll('.owner-only-tab');
+      const unpinBtn = document.getElementById('unpinBtn');
+      const dismissAnnounceBtn = document.getElementById('dismissAnnounceBtn');
 
-        if (isOwner) {
-            dashBtn.classList.remove('d-none');
-            dashTitle.innerHTML = `<i class="fas fa-crown me-2"></i>FutbolX Owner Dashboard`;
-            ownerTabs.forEach(el => el.classList.remove('d-none'));
-            if (unpinBtn) unpinBtn.classList.remove('d-none');
-            if (dismissAnnounceBtn) dismissAnnounceBtn.classList.remove('d-none');
-            loadAllMembers();
-        } else if (isMod) {
-            dashBtn.classList.remove('d-none');
-            dashTitle.innerHTML = `<i class="fas fa-shield-alt me-2"></i>FutbolX Moderator Dashboard`;
-            ownerTabs.forEach(el => el.classList.add('d-none'));
-            if (unpinBtn) unpinBtn.classList.remove('d-none');
-            if (dismissAnnounceBtn) dismissAnnounceBtn.classList.add('d-none');
-            loadAllMembers();
-        } else {
-            dashBtn.classList.add('d-none');
-            if (unpinBtn) unpinBtn.classList.add('d-none');
-            if (dismissAnnounceBtn) dismissAnnounceBtn.classList.add('d-none');
-        }
+      if (isOwner) {
+        dashBtn.classList.remove('d-none');
+        dashTitle.innerHTML = `<i class="fas fa-crown me-2"></i>FutbolX Owner Dashboard`;
+        ownerTabs.forEach(el => el.classList.remove('d-none'));
+        if (unpinBtn) unpinBtn.classList.remove('d-none');
+        if (dismissAnnounceBtn) dismissAnnounceBtn.classList.remove('d-none');
+        loadAllMembers();
+      } else if (isMod) {
+        dashBtn.classList.remove('d-none');
+        dashTitle.innerHTML = `<i class="fas fa-shield-alt me-2"></i>FutbolX Moderator Dashboard`;
+        ownerTabs.forEach(el => el.classList.add('d-none'));
+        if (unpinBtn) unpinBtn.classList.remove('d-none');
+        if (dismissAnnounceBtn) dismissAnnounceBtn.classList.add('d-none');
+        loadAllMembers();
+      } else {
+        dashBtn.classList.add('d-none');
+        if (unpinBtn) unpinBtn.classList.add('d-none');
+        if (dismissAnnounceBtn) dismissAnnounceBtn.classList.add('d-none');
+      }
     }
 
     function updateInputState() {
-        const activeRow = document.getElementById('activeInputRow');
-        const metaRow = document.getElementById('chatMetaRow');
-        const mutedBanner = document.getElementById('mutedBanner');
-        const closedBanner = document.getElementById('closedBanner');
+      const activeRow = document.getElementById('activeInputRow');
+      const metaRow = document.getElementById('chatMetaRow');
+      const mutedBanner = document.getElementById('mutedBanner');
+      const closedBanner = document.getElementById('closedBanner');
 
-        if (isMuted) {
-            activeRow.style.setProperty('display', 'none', 'important');
-            metaRow.style.setProperty('display', 'none', 'important');
-            closedBanner.classList.add('d-none');
-            mutedBanner.classList.remove('d-none');
-        } else if (isChatClosedGlobal && !isOwner && !isMod) {
-            activeRow.style.setProperty('display', 'none', 'important');
-            metaRow.style.setProperty('display', 'none', 'important');
-            mutedBanner.classList.add('d-none');
-            closedBanner.classList.remove('d-none');
-        } else {
-            mutedBanner.classList.add('d-none');
-            closedBanner.classList.add('d-none');
-            activeRow.style.display = 'flex';
-            metaRow.style.display = 'flex';
-        }
+      if (isMuted) {
+        activeRow.style.setProperty('display', 'none', 'important');
+        metaRow.style.setProperty('display', 'none', 'important');
+        closedBanner.classList.add('d-none');
+        mutedBanner.classList.remove('d-none');
+      } else if (isChatClosedGlobal && !isOwner && !isMod) {
+        activeRow.style.setProperty('display', 'none', 'important');
+        metaRow.style.setProperty('display', 'none', 'important');
+        mutedBanner.classList.add('d-none');
+        closedBanner.classList.remove('d-none');
+      } else {
+        mutedBanner.classList.add('d-none');
+        closedBanner.classList.add('d-none');
+        activeRow.style.display = 'flex';
+        metaRow.style.display = 'flex';
+      }
     }
 
     async function loadRoomSettings() {
-        const { data } = await supabase.from('room_settings').select('*').eq('event_id', eventID).maybeSingle();
-        if (data) {
-            isChatClosedGlobal = !!data.chat_closed;
-        } else {
-            isChatClosedGlobal = false;
-        }
-        updateToggleChatBtnText();
-        updateInputState();
+      const { data } = await supabase.from('room_settings').select('*').eq('event_id', eventID).maybeSingle();
+      if (data) {
+        isChatClosedGlobal = !!data.chat_closed;
+      } else {
+        isChatClosedGlobal = false;
+      }
+      updateToggleChatBtnText();
+      updateInputState();
     }
 
     function updateToggleChatBtnText() {
-        const btn = document.getElementById('toggleChatClosedBtn');
-        if (btn) {
-            btn.innerHTML = isChatClosedGlobal 
-                ? `<i class="fas fa-lock-open me-1"></i> Open Room Chat`
-                : `<i class="fas fa-lock me-1"></i> Close Room Chat`;
-            btn.className = isChatClosedGlobal ? "btn btn-sm btn-success" : "btn btn-sm btn-warning";
-        }
+      const btn = document.getElementById('toggleChatClosedBtn');
+      if (btn) {
+        btn.innerHTML = isChatClosedGlobal 
+          ? `<i class="fas fa-lock-open me-1"></i> Open Room Chat`
+          : `<i class="fas fa-lock me-1"></i> Close Room Chat`;
+        btn.className = isChatClosedGlobal ? "btn btn-sm btn-success" : "btn btn-sm btn-warning";
+      }
     }
 
     window.toggleChatClosedState = async () => {
-        if (!isOwner && !isMod) return;
-        const nextState = !isChatClosedGlobal;
-        
-        const { error } = await supabase.from('room_settings').upsert([
-            { event_id: eventID, chat_closed: nextState }
-        ], { onConflict: 'event_id' });
+      if (!isOwner && !isMod) return;
+      const nextState = !isChatClosedGlobal;
+      
+      const { error } = await supabase.from('room_settings').upsert([
+        { event_id: eventID, chat_closed: nextState }
+      ], { onConflict: 'event_id' });
 
-        if (!error) {
-            isChatClosedGlobal = nextState;
-            updateToggleChatBtnText();
-            updateInputState();
-        } else {
-            alert("Failed to update chat room status. Please try again.");
-        }
+      if (!error) {
+        isChatClosedGlobal = nextState;
+        updateToggleChatBtnText();
+        updateInputState();
+      } else {
+        alert("Failed to update chat room status. Please try again.");
+      }
     };
 
     function showRegisterUI() {
-        document.getElementById('usernameRegisterRow').classList.remove('d-none');
-        document.getElementById('activeInputRow').style.setProperty('display', 'none', 'important');
-        document.getElementById('chatMetaRow').style.setProperty('display', 'none', 'important');
+      document.getElementById('usernameRegisterRow').classList.remove('d-none');
+      document.getElementById('activeInputRow').style.setProperty('display', 'none', 'important');
+      document.getElementById('chatMetaRow').style.setProperty('display', 'none', 'important');
     }
 
     function showChatUI() {
-        document.getElementById('usernameRegisterRow').classList.add('d-none');
-        updateInputState();
+      document.getElementById('usernameRegisterRow').classList.add('d-none');
+      updateInputState();
     }
 
     window.registerGuestUser = async () => {
-        const userRaw = document.getElementById('guestUsername').value.trim();
-        if (!userRaw) return alert("Please enter a username");
-        if (userRaw.length < 2 || userRaw.length > 20) return alert("Username must be between 2 and 20 characters.");
+      const userRaw = document.getElementById('guestUsername').value.trim();
+      if (!userRaw) return alert("Please enter a username");
+      if (userRaw.length < 2 || userRaw.length > 20) return alert("Username must be between 2 and 20 characters.");
 
-        const { data: existingUser, error: checkErr } = await supabase
-            .from('profiles')
-            .select('*')
-            .ilike('username', userRaw)
-            .maybeSingle();
+      const { data: existingUser, error: checkErr } = await supabase
+        .from('profiles')
+        .select('*')
+        .ilike('username', userRaw)
+        .maybeSingle();
 
-        if (checkErr) {
-            return alert("Error checking username availability. Please try again.");
+      if (checkErr) {
+        return alert("Error checking username availability. Please try again.");
+      }
+
+      if (existingUser) {
+        localStorage.setItem('chat_user', existingUser.username);
+        currentUser = existingUser.username;
+        location.reload();
+        return;
+      }
+
+      if (currentIP) {
+        const { data: ipAccounts, error: ipErr } = await supabase
+          .from('profiles')
+          .select('username')
+          .eq('device_ip', currentIP);
+
+        if (!ipErr && ipAccounts && ipAccounts.length >= 2) {
+          return alert("Account creation limit reached: Maximum 2 accounts per IP allowed.");
         }
+      }
 
-        if (existingUser) {
-            localStorage.setItem('chat_user', existingUser.username);
-            currentUser = existingUser.username;
-            location.reload();
-            return;
-        }
+      const isFutbolx = userRaw.toLowerCase() === 'futbolx';
+      const finalUsername = isFutbolx ? 'Futbolx' : userRaw;
 
-        if (currentIP) {
-            const { data: ipAccounts, error: ipErr } = await supabase
-                .from('profiles')
-                .select('username')
-                .eq('device_ip', currentIP);
+      const { error: insertErr } = await supabase.from('profiles').insert([
+        { username: finalUsername, device_ip: currentIP, is_owner: isFutbolx }
+      ]);
 
-            if (!ipErr && ipAccounts && ipAccounts.length >= 2) {
-                return alert("Account creation limit reached: Maximum 2 accounts per IP allowed.");
-            }
-        }
-
-        const isFutbolx = userRaw.toLowerCase() === 'futbolx';
-        const finalUsername = isFutbolx ? 'Futbolx' : userRaw;
-
-        const { error: insertErr } = await supabase.from('profiles').insert([
-            { username: finalUsername, device_ip: currentIP, is_owner: isFutbolx }
-        ]);
-
-        if (insertErr) {
-            if (insertErr.code === '23505' || insertErr.message.includes('unique')) {
-                alert("Username taken.");
-            } else {
-                alert("Failed to create profile. " + insertErr.message);
-            }
+      if (insertErr) {
+        if (insertErr.code === '23505' || insertErr.message.includes('unique')) {
+          alert("Username taken.");
         } else {
-            localStorage.setItem('chat_user', finalUsername);
-            currentUser = finalUsername;
-            location.reload();
+          alert("Failed to create profile. " + insertErr.message);
         }
+      } else {
+        localStorage.setItem('chat_user', finalUsername);
+        currentUser = finalUsername;
+        location.reload();
+      }
     };
 
     function setupInputHandlers() {
@@ -934,347 +1079,346 @@
     }
 
     async function loadMessages() {
-        const { data } = await supabase
-          .from('messages')
-          .select('*')
-          .eq('event_id', eventID)
-          .order('created_at', { ascending: true })
-          .limit(100);
+      const { data } = await supabase
+        .from('messages')
+        .select('*')
+        .eq('event_id', eventID)
+        .order('created_at', { ascending: true })
+        .limit(100);
 
-        if (data) {
-            document.getElementById('futbolx-chat-messages').innerHTML = '';
-            data.forEach(renderMsg);
-        }
+      if (data) {
+        document.getElementById('futbolx-chat-messages').innerHTML = '';
+        data.forEach(renderMsg);
+      }
     }
 
     function renderMsg(msg) {
-        const box = document.getElementById('futbolx-chat-messages');
-        let div = document.getElementById(`msg-${msg.id}`);
-        if (!div) {
-            div = document.createElement('div');
-            div.className = "msg-row";
-            div.id = `msg-${msg.id}`;
-            box.appendChild(div);
+      const box = document.getElementById('futbolx-chat-messages');
+      let div = document.getElementById(`msg-${msg.id}`);
+      if (!div) {
+        div = document.createElement('div');
+        div.className = "msg-row";
+        div.id = `msg-${msg.id}`;
+        box.appendChild(div);
+      }
+
+      let replyHTML = msg.reply_to_username ? `<span class="reply-context" onclick="scrollToMsg('${msg.reply_to_id}')">@${msg.reply_to_username}: ${msg.reply_to_msg?.substring(0,25)}...</span>` : '';
+
+      let badge = '';
+      let authorClass = 'user';
+      if (msg.username.toLowerCase() === 'futbolx') {
+        badge = `<span class="user-badge badge-owner" title="Owner"><i class="fas fa-crown"></i></span>`;
+        authorClass = 'owner';
+      } else if (msg.is_mod) {
+        badge = `<span class="user-badge badge-mod" title="Moderator"><i class="fas fa-shield-alt"></i></span>`;
+        authorClass = 'mod';
+      }
+
+      let adminControls = (isOwner || isMod) ? `
+        <i class="fas fa-thumbtack action-icon" onclick="togglePinMessage('${msg.id}', '${msg.username}', \`${String(msg.message || '').replace(/`/g, '')}\`)" title="${currentPinnedMessageId === msg.id ? 'Unpin Message' : 'Pin Message'}"></i>
+        <i class="fas fa-trash action-icon danger" onclick="deleteMessage('${msg.id}')" title="Delete"></i>
+      ` : '';
+
+      const formattedMsg = parseEmotes(msg.message);
+
+      div.innerHTML = `
+        ${replyHTML}
+        <div>
+          ${badge}
+          <span class="chat-author ${authorClass}">${msg.username}:</span>
+          <span class="msg-text">${formattedMsg}</span>
+        </div>
+        <div class="msg-hover-actions">
+          <i class="fas fa-reply action-icon" onclick="setReply('${msg.id}', '${msg.username}', \`${String(msg.message || '').replace(/`/g, '')}\`)" title="Reply"></i>
+          ${adminControls}
+        </div>
+      `;
+
+      let startX = 0;
+      div.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, {passive: true});
+      div.addEventListener('touchend', (e) => {
+        let diffX = e.changedTouches[0].clientX - startX;
+        if (diffX > 60) {
+          setReply(msg.id, msg.username, msg.message);
         }
+      });
 
-        let replyHTML = msg.reply_to_username ? `<span class="reply-context" onclick="scrollToMsg('${msg.reply_to_id}')">@${msg.reply_to_username}: ${msg.reply_to_msg?.substring(0,25)}...</span>` : '';
-
-        let badge = '';
-        let authorClass = 'user';
-        if (msg.username.toLowerCase() === 'futbolx') {
-          badge = `<span class="user-badge badge-owner" title="Owner"><i class="fas fa-crown"></i></span>`;
-          authorClass = 'owner';
-        } else if (msg.is_mod) {
-          badge = `<span class="user-badge badge-mod" title="Moderator"><i class="fas fa-shield-alt"></i></span>`;
-          authorClass = 'mod';
-        }
-
-        let adminControls = (isOwner || isMod) ? `
-          <i class="fas fa-thumbtack action-icon" onclick="togglePinMessage('${msg.id}', '${msg.username}', \`${msg.message.replace(/`/g, '')}\`)" title="${currentPinnedMessageId === msg.id ? 'Unpin Message' : 'Pin Message'}"></i>
-          <i class="fas fa-trash action-icon danger" onclick="deleteMessage('${msg.id}')" title="Delete"></i>
-        ` : '';
-
-        const formattedMsg = parseEmotes(msg.message);
-
-        div.innerHTML = `
-          ${replyHTML}
-          <div>
-            ${badge}
-            <span class="chat-author ${authorClass}">${msg.username}:</span>
-            <span class="msg-text">${formattedMsg}</span>
-          </div>
-          <div class="msg-hover-actions">
-            <i class="fas fa-reply action-icon" onclick="setReply('${msg.id}', '${msg.username}', \`${msg.message.replace(/`/g, '')}\`)" title="Reply"></i>
-            ${adminControls}
-          </div>
-        `;
-
-        let startX = 0;
-        div.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, {passive: true});
-        div.addEventListener('touchend', (e) => {
-          let diffX = e.changedTouches[0].clientX - startX;
-          if (diffX > 60) {
-            setReply(msg.id, msg.username, msg.message);
-          }
-        });
-
-        box.scrollTop = box.scrollHeight;
+      box.scrollTop = box.scrollHeight;
     }
 
     document.getElementById('sendChatBtn').onclick = async () => {
-        if (!currentUser) return;
-        if (isMuted) return;
-        if (isChatClosedGlobal && !isOwner && !isMod) return;
+      if (!currentUser) return;
+      if (isMuted) return;
+      if (isChatClosedGlobal && !isOwner && !isMod) return;
 
-        const input = document.getElementById('chatInput');
-        const text = input.value.trim();
-        if (!text) return;
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
 
-        const { data, error } = await supabase.from('messages').insert([{
-            username: currentUser,
-            message: text,
-            event_id: eventID,
-            is_mod: isMod,
-            reply_to_username: replyTo?.user,
-            reply_to_msg: replyTo?.msg,
-            reply_to_id: replyTo?.id
-        }]).select().single();
+      const { data, error } = await supabase.from('messages').insert([{
+        username: currentUser,
+        message: text,
+        event_id: eventID,
+        is_mod: isMod,
+        reply_to_username: replyTo?.user,
+        reply_to_msg: replyTo?.msg,
+        reply_to_id: replyTo?.id
+      }]).select().single();
 
-        if (data) {
-            renderMsg(data);
-        }
+      if (data) {
+        renderMsg(data);
+      }
 
-        input.value = "";
-        input.style.height = "auto";
-        document.getElementById('charCounter').textContent = "0/250";
-        cancelReply();
+      input.value = "";
+      input.style.height = "auto";
+      document.getElementById('charCounter').textContent = "0/250";
+      cancelReply();
     };
 
     window.setReply = (id, user, msg) => {
-        replyTo = { id, user, msg };
-        document.getElementById('replyPreview').classList.remove('d-none');
-        document.getElementById('replyText').innerText = `Replying to @${user}`;
+      replyTo = { id, user, msg };
+      document.getElementById('replyPreview').classList.remove('d-none');
+      document.getElementById('replyText').innerText = `Replying to @${user}`;
     };
 
     window.cancelReply = () => {
-        replyTo = null;
-        document.getElementById('replyPreview').classList.add('d-none');
+      replyTo = null;
+      document.getElementById('replyPreview').classList.add('d-none');
     };
 
     window.scrollToMsg = (id) => {
-        const el = document.getElementById(`msg-${id}`);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const el = document.getElementById(`msg-${id}`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
     async function loadPin() {
-        const { data } = await supabase.from('pinned_messages').select('*').eq('event_id', eventID).eq('is_pinned', true).maybeSingle();
-        const pinContainer = document.getElementById('pinnedMessageContainer');
-        const pinnedContent = document.getElementById('pinnedContent');
+      const { data } = await supabase.from('pinned_messages').select('*').eq('event_id', eventID).eq('is_pinned', true).maybeSingle();
+      const pinContainer = document.getElementById('pinnedMessageContainer');
+      const pinnedContent = document.getElementById('pinnedContent');
 
-        if (data) {
-          currentPinnedMessageId = data.message_id;
-          let badge = '';
-          let authorClass = 'user';
-          if (data.username.toLowerCase() === 'futbolx') {
-            badge = `<span class="user-badge badge-owner" title="Owner"><i class="fas fa-crown"></i></span>`;
-            authorClass = 'owner';
-          } else if (data.is_mod) {
-            badge = `<span class="user-badge badge-mod" title="Moderator"><i class="fas fa-shield-alt"></i></span>`;
-            authorClass = 'mod';
-          }
-          
-          pinnedContent.innerHTML = `${badge}<span class="chat-author ${authorClass}">${data.username}:</span> <span class="msg-text">${parseEmotes(data.message_text)}</span>`;
-          pinContainer.classList.remove('d-none');
-        } else {
-          currentPinnedMessageId = null;
-          pinnedContent.innerHTML = '';
-          pinContainer.classList.add('d-none');
+      if (data) {
+        currentPinnedMessageId = data.message_id;
+        let badge = '';
+        let authorClass = 'user';
+        if (data.username.toLowerCase() === 'futbolx') {
+          badge = `<span class="user-badge badge-owner" title="Owner"><i class="fas fa-crown"></i></span>`;
+          authorClass = 'owner';
+        } else if (data.is_mod) {
+          badge = `<span class="user-badge badge-mod" title="Moderator"><i class="fas fa-shield-alt"></i></span>`;
+          authorClass = 'mod';
         }
+        
+        pinnedContent.innerHTML = `${badge}<span class="chat-author ${authorClass}">${data.username}:</span> <span class="msg-text">${parseEmotes(data.message_text)}</span>`;
+        pinContainer.classList.remove('d-none');
+      } else {
+        currentPinnedMessageId = null;
+        pinnedContent.innerHTML = '';
+        pinContainer.classList.add('d-none');
+      }
     }
 
     window.togglePinMessage = async (msgId, username, messageText) => {
-        if (!isOwner && !isMod) return;
-        if (currentPinnedMessageId === msgId) {
-            await unpinMessage();
-            return;
-        }
-        await supabase.from('pinned_messages').delete().eq('event_id', eventID);
-        await supabase.from('pinned_messages').insert([{
-            event_id: eventID,
-            message_id: msgId,
-            username: username,
-            message_text: messageText,
-            is_pinned: true,
-            is_mod: isMod
-        }]);
-        await loadPin();
+      if (!isOwner && !isMod) return;
+      if (currentPinnedMessageId === msgId) {
+        await unpinMessage();
+        return;
+      }
+      await supabase.from('pinned_messages').delete().eq('event_id', eventID);
+      await supabase.from('pinned_messages').insert([{
+        event_id: eventID,
+        message_id: msgId,
+        username: username,
+        message_text: messageText,
+        is_pinned: true,
+        is_mod: isMod
+      }]);
+      await loadPin();
     };
 
     window.unpinMessage = async () => {
-        if (!isOwner && !isMod) return;
-        await supabase.from('pinned_messages').delete().eq('event_id', eventID);
-        await loadPin();
+      if (!isOwner && !isMod) return;
+      await supabase.from('pinned_messages').delete().eq('event_id', eventID);
+      await loadPin();
     };
 
     async function loadAnnouncement() {
-        const { data } = await supabase.from('announcements').select('*').eq('event_id', eventID).eq('is_active', true).maybeSingle();
-        if (data) {
-            document.getElementById('announcementContainer').classList.remove('d-none');
-            document.getElementById('announcementText').innerText = data.text;
-        } else {
-            document.getElementById('announcementContainer').classList.add('d-none');
-        }
+      const { data } = await supabase.from('announcements').select('*').eq('event_id', eventID).eq('is_active', true).maybeSingle();
+      if (data) {
+        document.getElementById('announcementContainer').classList.remove('d-none');
+        document.getElementById('announcementText').innerText = data.text;
+      } else {
+        document.getElementById('announcementContainer').classList.add('d-none');
+      }
     }
 
     window.publishAnnouncement = async () => {
-        if (!isOwner) return;
-        const text = document.getElementById('announcementInput').value.trim();
-        if (!text) return;
-        await supabase.from('announcements').delete().eq('event_id', eventID);
-        await supabase.from('announcements').insert([{ event_id: eventID, text: text, is_active: true }]);
-        document.getElementById('announcementInput').value = '';
-        await loadAnnouncement();
+      if (!isOwner) return;
+      const text = document.getElementById('announcementInput').value.trim();
+      if (!text) return;
+      await supabase.from('announcements').delete().eq('event_id', eventID);
+      await supabase.from('announcements').insert([{ event_id: eventID, text: text, is_active: true }]);
+      document.getElementById('announcementInput').value = '';
+      await loadAnnouncement();
     };
 
     window.dismissAnnouncement = async () => {
-        if (!isOwner) return;
-        await supabase.from('announcements').delete().eq('event_id', eventID);
-        await loadAnnouncement();
+      if (!isOwner) return;
+      await supabase.from('announcements').delete().eq('event_id', eventID);
+      await loadAnnouncement();
     };
 
     window.deleteMessage = async (id) => {
-        if (!isOwner && !isMod) return;
-        await supabase.from('messages').delete().eq('id', id);
-        const el = document.getElementById(`msg-${id}`);
-        if (el) el.remove();
+      if (!isOwner && !isMod) return;
+      await supabase.from('messages').delete().eq('id', id);
+      const el = document.getElementById(`msg-${id}`);
+      if (el) el.remove();
     };
 
     window.clearAllChat = async () => {
-        if (!isOwner && !isMod) return;
-        if (!confirm("Clear entire room chat?")) return;
-        await supabase.from('messages').delete().eq('event_id', eventID);
-        document.getElementById('futbolx-chat-messages').innerHTML = '';
+      if (!isOwner && !isMod) return;
+      if (!confirm("Clear entire room chat?")) return;
+      await supabase.from('messages').delete().eq('event_id', eventID);
+      document.getElementById('futbolx-chat-messages').innerHTML = '';
     };
 
     async function loadAllMembers() {
-        const { data } = await supabase.from('profiles').select('*').order('username', { ascending: true });
-        if (!data) return;
-        allMembersCache = data;
-        const query = document.getElementById('memberSearchInput')?.value.toLowerCase().trim() || '';
-        renderFilteredMemberList(query);
+      const { data } = await supabase.from('profiles').select('*').order('username', { ascending: true });
+      if (!data) return;
+      allMembersCache = data;
+      const query = document.getElementById('memberSearchInput')?.value.toLowerCase().trim() || '';
+      renderFilteredMemberList(query);
     }
 
     function renderFilteredMemberList(filterText = '') {
-        const list = document.getElementById('adminMemberList');
-        if (!list) return;
-        list.innerHTML = '';
+      const list = document.getElementById('adminMemberList');
+      if (!list) return;
+      list.innerHTML = '';
 
-        const filtered = allMembersCache.filter(u => 
-          u.username.toLowerCase().includes(filterText) || 
-          (u.device_ip && u.device_ip.toLowerCase().includes(filterText))
-        );
+      const filtered = allMembersCache.filter(u => 
+        u.username.toLowerCase().includes(filterText) || 
+        (u.device_ip && u.device_ip.toLowerCase().includes(filterText))
+      );
 
-        if (filtered.length === 0) {
-          list.innerHTML = `<div class="text-muted small p-3 text-center">No members found</div>`;
-          return;
+      if (filtered.length === 0) {
+        list.innerHTML = `<div class="text-muted small p-3 text-center">No members found</div>`;
+        return;
+      }
+
+      filtered.forEach(u => {
+        const item = document.createElement('div');
+        item.className = "list-group-item bg-dark text-white border-secondary d-flex justify-content-between align-items-center member-item-row";
+        
+        let nameColor = '#38bdf8';
+        let roleBadge = '';
+        if (u.is_owner) {
+          nameColor = '#ff4d4d';
+          roleBadge = `<span class="badge bg-danger ms-2"><i class="fas fa-crown"></i> OWNER</span>`;
+        } else if (u.is_mod) {
+          nameColor = '#facc15';
+          roleBadge = `<span class="badge bg-warning text-dark ms-2"><i class="fas fa-shield-alt"></i> MOD</span>`;
         }
 
-        filtered.forEach(u => {
-            const item = document.createElement('div');
-            item.className = "list-group-item bg-dark text-white border-secondary d-flex justify-content-between align-items-center member-item-row";
-            
-            let nameColor = '#38bdf8';
-            let roleBadge = '';
-            if (u.is_owner) {
-              nameColor = '#ff4d4d';
-              roleBadge = `<span class="badge bg-danger ms-2"><i class="fas fa-crown"></i> OWNER</span>`;
-            } else if (u.is_mod) {
-              nameColor = '#facc15';
-              roleBadge = `<span class="badge bg-warning text-dark ms-2"><i class="fas fa-shield-alt"></i> MOD</span>`;
-            }
+        let statusBadge = u.is_muted ? `<span class="badge bg-secondary ms-2">MUTED</span>` : '';
 
-            let statusBadge = u.is_muted ? `<span class="badge bg-secondary ms-2">MUTED</span>` : '';
+        item.innerHTML = `
+          <div>
+            <span style="color:${nameColor}; font-weight:bold;">${u.username}</span>
+            ${roleBadge}
+            ${statusBadge}
+            <small class="text-muted d-block">${u.device_ip || 'IP N/A'}</small>
+          </div>
+          <div>
+            <i class="fas fa-chevron-right text-muted"></i>
+          </div>
+        `;
 
-            item.innerHTML = `
-              <div>
-                <span style="color:${nameColor}; font-weight:bold;">${u.username}</span>
-                ${roleBadge}
-                ${statusBadge}
-                <small class="text-muted d-block">${u.device_ip || 'IP N/A'}</small>
-              </div>
-              <div>
-                <i class="fas fa-chevron-right text-muted"></i>
-              </div>
-            `;
-
-            item.onclick = () => openMemberActionModal(u);
-            list.appendChild(item);
-        });
+        item.onclick = () => openMemberActionModal(u);
+        list.appendChild(item);
+      });
     }
 
     window.openMemberActionModal = (userObj) => {
-        if (!isOwner && !isMod) return;
+      if (!isOwner && !isMod) return;
 
-        const modalTitle = document.getElementById('actionModalUsername');
-        const container = document.getElementById('memberActionButtons');
-        
-        modalTitle.innerText = userObj.username;
-        container.innerHTML = '';
+      const modalTitle = document.getElementById('actionModalUsername');
+      const container = document.getElementById('memberActionButtons');
+      
+      modalTitle.innerText = userObj.username;
+      container.innerHTML = '';
 
-        if (userObj.is_owner) {
-          container.innerHTML = `<div class="text-muted small text-center">Owner cannot be modified.</div>`;
-        } else {
-          const muteBtn = document.createElement('button');
-          muteBtn.className = `btn btn-sm ${userObj.is_muted ? 'btn-success' : 'btn-danger'} w-100`;
-          muteBtn.innerHTML = userObj.is_muted ? `<i class="fas fa-volume-up me-1"></i> Unmute User` : `<i class="fas fa-volume-mute me-1"></i> Mute User`;
-          muteBtn.onclick = async () => {
-            await supabase.from('profiles').update({ is_muted: !userObj.is_muted }).eq('username', userObj.username);
+      if (userObj.is_owner) {
+        container.innerHTML = `<div class="text-muted small text-center">Owner cannot be modified.</div>`;
+      } else {
+        const muteBtn = document.createElement('button');
+        muteBtn.className = `btn btn-sm ${userObj.is_muted ? 'btn-success' : 'btn-danger'} w-100`;
+        muteBtn.innerHTML = userObj.is_muted ? `<i class="fas fa-volume-up me-1"></i> Unmute User` : `<i class="fas fa-volume-mute me-1"></i> Mute User`;
+        muteBtn.onclick = async () => {
+          await supabase.from('profiles').update({ is_muted: !userObj.is_muted }).eq('username', userObj.username);
+          bootstrap.Modal.getInstance(document.getElementById('memberActionModal')).hide();
+          loadAllMembers();
+        };
+        container.appendChild(muteBtn);
+
+        if (isOwner) {
+          const modBtn = document.createElement('button');
+          modBtn.className = `btn btn-sm ${userObj.is_mod ? 'btn-outline-warning' : 'btn-warning'} w-100 mt-2`;
+          modBtn.innerHTML = userObj.is_mod ? `<i class="fas fa-user-minus me-1"></i> Remove Moderator` : `<i class="fas fa-user-shield me-1"></i> Make Moderator`;
+          modBtn.onclick = async () => {
+            await supabase.from('profiles').update({ is_mod: !userObj.is_mod }).eq('username', userObj.username);
             bootstrap.Modal.getInstance(document.getElementById('memberActionModal')).hide();
             loadAllMembers();
           };
-          container.appendChild(muteBtn);
-
-          if (isOwner) {
-            const modBtn = document.createElement('button');
-            modBtn.className = `btn btn-sm ${userObj.is_mod ? 'btn-outline-warning' : 'btn-warning'} w-100 mt-2`;
-            modBtn.innerHTML = userObj.is_mod ? `<i class="fas fa-user-minus me-1"></i> Remove Moderator` : `<i class="fas fa-user-shield me-1"></i> Make Moderator`;
-            modBtn.onclick = async () => {
-              await supabase.from('profiles').update({ is_mod: !userObj.is_mod }).eq('username', userObj.username);
-              bootstrap.Modal.getInstance(document.getElementById('memberActionModal')).hide();
-              loadAllMembers();
-            };
-            container.appendChild(modBtn);
-          }
+          container.appendChild(modBtn);
         }
+      }
 
-        const modal = new bootstrap.Modal(document.getElementById('memberActionModal'));
-        modal.show();
+      const modal = new bootstrap.Modal(document.getElementById('memberActionModal'));
+      modal.show();
     };
 
     function setupRealtime() {
-        supabase.channel('public_room_channel')
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, p => {
-             if (p.eventType === 'INSERT') {
-               if (p.new && p.new.event_id === eventID) renderMsg(p.new);
-             } else if (p.eventType === 'DELETE') {
-               if (p.old?.id) {
-                 const el = document.getElementById(`msg-${p.old.id}`);
-                 if (el) el.remove();
-               } else {
-                 loadMessages();
-               }
+      supabase.channel('public_room_channel')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, p => {
+           if (p.eventType === 'INSERT') {
+             if (p.new && p.new.event_id === eventID) renderMsg(p.new);
+           } else if (p.eventType === 'DELETE') {
+             if (p.old?.id) {
+               const el = document.getElementById(`msg-${p.old.id}`);
+               if (el) el.remove();
+             } else {
+               loadMessages();
              }
-          })
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'announcements' }, () => loadAnnouncement())
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'pinned_messages' }, () => loadPin())
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'room_settings' }, p => {
-             if (p.new && p.new.event_id === eventID) {
-               isChatClosedGlobal = !!p.new.chat_closed;
-               updateToggleChatBtnText();
+           }
+        })
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'announcements' }, () => loadAnnouncement())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'pinned_messages' }, () => loadPin())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'room_settings' }, p => {
+           if (p.new && p.new.event_id === eventID) {
+             isChatClosedGlobal = !!p.new.chat_closed;
+             updateToggleChatBtnText();
+             updateInputState();
+           }
+        })
+        .subscribe();
+
+      if (currentUser) {
+        supabase.channel('user_profile_changes')
+          .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles', filter: `username=eq.${currentUser}` }, p => {
+             if (p.new) {
+               isMuted = !!p.new.is_muted;
+               isMod = !!p.new.is_mod;
+               isOwner = !!p.new.is_owner;
+               updateDashboardAccess();
                updateInputState();
              }
           })
           .subscribe();
-
-        if (currentUser) {
-            supabase.channel('user_profile_changes')
-              .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles', filter: `username=eq.${currentUser}` }, p => {
-                 if (p.new) {
-                   isMuted = !!p.new.is_muted;
-                   isMod = !!p.new.is_mod;
-                   isOwner = !!p.new.is_owner;
-                   updateDashboardAccess();
-                   updateInputState();
-                 }
-              })
-              .subscribe();
-        }
+      }
     }
 
     window.onload = init;
   </script>
 
-  <!-- RESTORED: Core Page Initialization, Countdown Timer, and Stream Loader Script Block -->
   <script>
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
@@ -1295,11 +1439,6 @@
     checkOverlay();
 
     let playerInstance = null;
-    let eventStartTime = null;
-    let eventEndTime = null;
-    let streamStarted = false;
-    let foundEvent = null; 
-    const PRE_LIVE_BUFFER = 900; 
 
     const htmlEl = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
@@ -1329,18 +1468,25 @@
     }
 
     async function isM3U8(url) {
+      if (!url) return false;
       if (url.toLowerCase().includes('.m3u8')) return true;
-      try { const r = await fetch(url, {method:'HEAD'}); return (r.headers.get('content-type') || '').includes('mpegurl'); } catch { return false; }
+      try {
+        const r = await fetch(url, { method: 'HEAD' });
+        return (r.headers.get('content-type') || '').includes('mpegurl');
+      } catch {
+        return false;
+      }
     }
 
-    async function playStream(url) {
-      if (playerInstance) { 
-        if (typeof playerInstance.remove === 'function') playerInstance.remove(); 
-        playerInstance = null; 
+    window.playStream = async function playStream(url) {
+      if (!url) return;
+      if (playerInstance) {
+        if (typeof playerInstance.remove === 'function') playerInstance.remove();
+        playerInstance = null;
       }
       const useJW = await isM3U8(url);
       initActualPlayer(url, useJW);
-    }
+    };
 
     function initActualPlayer(url, useJW) {
       if (useJW) {
@@ -1535,96 +1681,6 @@
         embed.src = url;
       }
     }
-
-    document.addEventListener('DOMContentLoaded', async () => {
-      const pathSegments = window.location.pathname.split('/');
-      const currentSlug = pathSegments[pathSegments.length - 1];
-
-      try {
-        const data = await fetchWithRetry('/api/stream');
-        if (data && data.categories) {
-          for (const catKey in data.categories) {
-            const matches = data.categories[catKey];
-            const found = matches.find(m => m.id === currentSlug || m.slug === currentSlug);
-            if (found) {
-              foundEvent = found;
-              break;
-            }
-          }
-        }
-      } catch (err) {
-        console.error("Failed to load event metadata from /api/stream:", err);
-      }
-
-      if (foundEvent) {
-        document.getElementById('eventTitle').innerText = foundEvent.title;
-        document.getElementById('chatEventTitle').innerText = foundEvent.title;
-        document.getElementById('currentStreamName').innerText = foundEvent.title;
-        
-        if (foundEvent.time) {
-          eventStartTime = new Date(foundEvent.time).getTime();
-        }
-        if (foundEvent.endTime) {
-          eventEndTime = new Date(foundEvent.endTime).getTime();
-        }
-      } else {
-        document.getElementById('eventTitle').innerText = "Live Stream Event";
-        eventStartTime = Date.now() - 10000; // Fallback to live immediately if slug isn't found
-      }
-
-      function updateCountdown() {
-        if (!eventStartTime) return;
-        const now = Date.now();
-        const diff = eventStartTime - now;
-
-        if (diff <= PRE_LIVE_BUFFER * 1000) {
-          document.getElementById('statusArea').style.display = 'none';
-          document.getElementById('mainVideoContainer').style.display = 'block';
-          document.getElementById('liveStreamTitle').classList.remove('d-none');
-          
-          if (!streamStarted) {
-            streamStarted = true;
-            if (foundEvent && foundEvent.sources && foundEvent.sources.length > 0) {
-              const select = document.getElementById('streamSelect');
-              select.innerHTML = foundEvent.sources.map((s, i) => `<option value="${s.url}" ${i===0?'selected':''}>${s.name || 'Source ' + (i+1)}</option>`).join('');
-              document.getElementById('streamLinksContainer').style.display = 'block';
-              playStream(foundEvent.sources[0].url);
-              select.onchange = (e) => playStream(e.target.value);
-            } else if (foundEvent && foundEvent.url) {
-              playStream(foundEvent.url);
-            }
-          }
-          return;
-        }
-
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        document.getElementById('countdownDisplay').innerText = 
-          `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
-      }
-
-      if (eventStartTime) {
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-      }
-
-      const startBtn = document.getElementById('startLivestream');
-      if (startBtn) {
-        startBtn.style.display = 'inline-block';
-        startBtn.onclick = () => {
-          document.getElementById('statusArea').style.display = 'none';
-          document.getElementById('mainVideoContainer').style.display = 'block';
-          document.getElementById('liveStreamTitle').classList.remove('d-none');
-          if (foundEvent && foundEvent.sources && foundEvent.sources.length > 0) {
-            playStream(foundEvent.sources[0].url);
-          } else if (foundEvent && foundEvent.url) {
-            playStream(foundEvent.url);
-          }
-        };
-      }
-    });
   </script>
 </body>
-</html>
+              </html>
