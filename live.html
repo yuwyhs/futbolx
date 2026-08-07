@@ -272,12 +272,6 @@
     .stream-select-custom { background: #0b1020 !important; color: #fff !important; border: 2px solid #ff4d4d !important; border-radius: 12px; padding: 10px 15px; font-weight: 600; cursor: pointer; box-shadow: 0 0 15px rgba(255, 77, 77, 0.15); }
     .stream-select-custom:focus { box-shadow: 0 0 20px rgba(255, 77, 77, 0.4); outline: none; }
     
-    .badge-quality { display: inline-block; padding: 2px 6px; font-size: 0.75rem; font-weight: 900; border-radius: 6px; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
-    .badge-fhd { background-color: #0088cc; color: #fff; }
-    .badge-hd { background-color: #22d3ee; color: #0a0a0a; }
-    .badge-4k { background-color: #ff4d4d; color: #fff; }
-    .badge-default { background-color: #555; color: #fff; }
-    
     .viewer-wrap-hidden { display: none !important; }
   </style>
 </head>
@@ -1167,13 +1161,31 @@
           pipBtn.style.display = 'none';
         }
 
-        const requestFullscreen = () => {
+        const requestFullscreen = async () => {
           if (!document.fullscreenElement) {
-            if (wrapper.requestFullscreen) wrapper.requestFullscreen();
-            else if (wrapper.webkitRequestFullscreen) wrapper.webkitRequestFullscreen();
-            else if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
+            if (wrapper.requestFullscreen) await wrapper.requestFullscreen();
+            else if (wrapper.webkitRequestFullscreen) await wrapper.webkitRequestFullscreen();
+            else if (video.webkitEnterFullscreen) await video.webkitEnterFullscreen();
+
+            // Auto-rotate device screen to landscape orientation upon entering fullscreen
+            if (screen.orientation && typeof screen.orientation.lock === 'function') {
+              try {
+                await screen.orientation.lock('landscape');
+              } catch (err) {
+                console.log('Orientation lock error:', err);
+              }
+            }
           } else {
-            if (document.exitFullscreen) document.exitFullscreen();
+            if (document.exitFullscreen) await document.exitFullscreen();
+            
+            // Unlock screen orientation when exiting fullscreen
+            if (screen.orientation && typeof screen.orientation.unlock === 'function') {
+              try {
+                screen.orientation.unlock();
+              } catch (err) {
+                console.log('Orientation unlock error:', err);
+              }
+            }
           }
         };
 
@@ -1224,16 +1236,31 @@
       }
     }
 
+    // Helper function to strip quality tokens from stream titles
+    function getCleanStreamTitle(titleStr) {
+      if (!titleStr) return '';
+      return titleStr.replace(/\[?(fhd|hd|sd|4k)\]?/gi, '').trim();
+    }
+
     function populateStreamDropdown(event) {
       const selectMenu = document.getElementById('streamSelect');
+      const streamContainer = document.getElementById('streamLinksContainer');
+      
+      // HIDE stream selector section entirely if there is 1 or 0 stream sources available
+      if (!event.streams || event.streams.length <= 1) {
+        if (streamContainer) streamContainer.style.display = 'none';
+        return;
+      }
+
+      if (streamContainer) streamContainer.style.display = 'block';
       
       selectMenu.innerHTML = event.streams.map((s, i) => {
         const realUrl = typeof s === 'string' ? s : s.url;
-        const qualityStr = s.quality ? s.quality.toLowerCase() : 'sd';
-        let labelAddon = `[${qualityStr.toUpperCase()}]`;
+        const rawTitle = s.title || `Stream ${i+1}`;
+        const cleanTitle = getCleanStreamTitle(rawTitle);
         
         const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
-        return `<option value="${payload}" data-title="${s.title || `Stream ${i+1}`}" data-quality="${qualityStr}">${s.title || `Stream ${i+1}`} ${labelAddon}</option>`;
+        return `<option value="${payload}" data-title="${cleanTitle}">${cleanTitle}</option>`;
       }).join('');
 
       selectMenu.onchange = (e) => {
@@ -1244,10 +1271,7 @@
         playStream(realUrl);
         
         const titleContainer = document.getElementById('currentStreamName');
-        const qual = selectedOption.dataset.quality;
-        let badgeClass = qual === 'fhd' ? 'badge-fhd' : qual === 'hd' ? 'badge-hd' : qual === '4k' ? 'badge-4k' : 'badge-default';
-        
-        titleContainer.innerHTML = `${selectedOption.dataset.title} <span class="badge-quality ${badgeClass}">${qual}</span>`;
+        titleContainer.textContent = selectedOption.dataset.title;
       };
     }
 
@@ -1382,16 +1406,15 @@
         }
         startBtn.onclick = () => {
           document.getElementById('mainVideoContainer').style.display = 'block';
-          document.getElementById('streamLinksContainer').style.display = 'block';
           startBtn.style.display = 'none';
           document.getElementById('liveStreamTitle').classList.remove('d-none');
           
           const dynamicInitialFeed = foundEvent.streams[0];
           const initialUrl = typeof dynamicInitialFeed === 'string' ? dynamicInitialFeed : dynamicInitialFeed.url;
-          const initialQuality = dynamicInitialFeed.quality ? dynamicInitialFeed.quality.toLowerCase() : 'sd';
-          let initialBadgeClass = initialQuality === 'fhd' ? 'badge-fhd' : initialQuality === 'hd' ? 'badge-hd' : initialQuality === '4k' ? 'badge-4k' : 'badge-default';
+          const rawInitialTitle = dynamicInitialFeed.title || 'Main Feed';
+          const cleanInitialTitle = getCleanStreamTitle(rawInitialTitle);
           
-          document.getElementById('currentStreamName').innerHTML = `${dynamicInitialFeed.title || 'Main Feed'} <span class="badge-quality ${initialBadgeClass}">${initialQuality}</span>`;
+          document.getElementById('currentStreamName').textContent = cleanInitialTitle;
           
           playStream(initialUrl);
           populateStreamDropdown(foundEvent);
