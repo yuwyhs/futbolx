@@ -608,6 +608,7 @@
 
     // Emote Library Configuration
     const EMOTE_LIBRARY = [
+      { name: "bein fr", url: "https://cdn.7tv.app/emote/01F6MZGCNG000255K4X1K7NTHR/4x.webp" },
       { name: "GIGACHAD", url: "https://cdn.7tv.app/emote/01F6MZGCNG000255K4X1K7NTHR/4x.webp" },
       { name: "donowall", url: "https://cdn.7tv.app/emote/01F6BN89H80006VBW12DRB1DJ0/4x.webp" },
       { name: "catJAM", url: "https://cdn.7tv.app/emote/01F6MQ33FG000FFJ97ZB8MWV52/4x.webp" },
@@ -859,7 +860,6 @@
         if (!userRaw) return alert("Please enter a username");
         if (userRaw.length < 2 || userRaw.length > 20) return alert("Username must be between 2 and 20 characters.");
 
-        // Check exact existing account in Supabase (case-insensitive)
         const { data: existingUser, error: checkErr } = await supabase
             .from('profiles')
             .select('*')
@@ -870,7 +870,6 @@
             return alert("Error checking username availability. Please try again.");
         }
 
-        // If user profile exists, log them into their existing account
         if (existingUser) {
             localStorage.setItem('chat_user', existingUser.username);
             currentUser = existingUser.username;
@@ -878,7 +877,6 @@
             return;
         }
 
-        // If creating a NEW account, enforce the 2 accounts per IP limit
         if (currentIP) {
             const { data: ipAccounts, error: ipErr } = await supabase
                 .from('profiles')
@@ -893,7 +891,6 @@
         const isFutbolx = userRaw.toLowerCase() === 'futbolx';
         const finalUsername = isFutbolx ? 'Futbolx' : userRaw;
 
-        // Insert new user account
         const { error: insertErr } = await supabase.from('profiles').insert([
             { username: finalUsername, device_ip: currentIP, is_owner: isFutbolx }
         ]);
@@ -928,7 +925,6 @@
         }
       });
 
-      // Dashboard Search Input Filter
       const searchInput = document.getElementById('memberSearchInput');
       if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -1050,7 +1046,6 @@
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
-    /* Pinning & Announcements */
     async function loadPin() {
         const { data } = await supabase.from('pinned_messages').select('*').eq('event_id', eventID).eq('is_pinned', true).maybeSingle();
         const pinContainer = document.getElementById('pinnedMessageContainer');
@@ -1127,7 +1122,6 @@
         await loadAnnouncement();
     };
 
-    /* Moderation Tools & Mutes */
     window.deleteMessage = async (id) => {
         if (!isOwner && !isMod) return;
         await supabase.from('messages').delete().eq('id', id);
@@ -1210,7 +1204,6 @@
         if (userObj.is_owner) {
           container.innerHTML = `<div class="text-muted small text-center">Owner cannot be modified.</div>`;
         } else {
-          // Mute / Unmute Option (Available to Owner and Mods)
           const muteBtn = document.createElement('button');
           muteBtn.className = `btn btn-sm ${userObj.is_muted ? 'btn-success' : 'btn-danger'} w-100`;
           muteBtn.innerHTML = userObj.is_muted ? `<i class="fas fa-volume-up me-1"></i> Unmute User` : `<i class="fas fa-volume-mute me-1"></i> Mute User`;
@@ -1221,7 +1214,6 @@
           };
           container.appendChild(muteBtn);
 
-          // Add / Remove Mod Option (Strictly Owner Only)
           if (isOwner) {
             const modBtn = document.createElement('button');
             modBtn.className = `btn btn-sm ${userObj.is_mod ? 'btn-outline-warning' : 'btn-warning'} w-100 mt-2`;
@@ -1240,7 +1232,6 @@
     };
 
     function setupRealtime() {
-        // Robust Realtime Handler for Messages, Pins, Room state, and Announcements
         supabase.channel('public_room_channel')
           .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, p => {
              if (p.eventType === 'INSERT') {
@@ -1265,7 +1256,6 @@
           })
           .subscribe();
 
-        // Profile dynamic role/mute realtime tracking
         if (currentUser) {
             supabase.channel('user_profile_changes')
               .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles', filter: `username=eq.${currentUser}` }, p => {
@@ -1539,12 +1529,6 @@
             qualityPopover.classList.remove('show');
           }
         });
-
-        let adTriggered = false;
-        const triggerAd = () => {
-          if (adTriggered) return;
-          adTriggered = true;
-        };
       } else {
         const oPlayer = document.getElementById('oplayer-container');
         oPlayer.style.display = 'none';
