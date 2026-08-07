@@ -16,288 +16,103 @@
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
   <link rel="stylesheet" href="/assets/css/main.css?v=25">
   <style>
-    .top-bar .container-fluid {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-    }
-
-    .futbolx-brand {
-      font-family: 'Kanit', sans-serif;
-      font-weight: 900;
-      font-size: 1.4rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #ffffff;
-      display: inline-flex;
-      align-items: center;
-      user-select: none;
-      text-decoration: none;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      cursor: pointer;
-    }
-
-    .futbolx-brand .ball-o {
-      color: #ffc107;
-      font-size: 1.15rem;
-      margin: 0 1px;
-      text-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
-      transition: transform 0.5s ease;
-      display: inline-block;
-    }
-
-    .futbolx-brand:hover .ball-o {
-      transform: rotate(180deg);
-    }
-
-    .futbolx-brand .ball-o.spinning {
-      animation: ballSpin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-
-    @keyframes ballSpin {
-      0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.2); }
-      100% { transform: rotate(360deg) scale(1); }
-    }
-
-    .tip-container {max-width:600px;margin:20px auto;overflow:hidden;display:flex;flex-direction:column;gap:10px;}
-    .alert-info {text-align:center;position:relative;padding-right:40px !important;}
-    .error-alert {max-width:500px;margin:20px auto;}
-    .fade-out {animation:fadeOut .5s forwards;} @keyframes fadeOut {from{opacity:1}to{opacity:0}}
-    
-    .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:12px;overflow:hidden;display:none;margin-bottom:1rem;box-shadow: 0 8px 24px rgba(0,0,0,0.5);}
-    #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#000;}
-
+    .top-bar .container-fluid { position: relative; display: flex; align-items: center; justify-content: flex-start; }
+    .futbolx-brand { font-family: 'Kanit', sans-serif; font-weight: 900; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1.5px; color: #ffffff; display: inline-flex; align-items: center; user-select: none; text-decoration: none; position: absolute; left: 50%; transform: translateX(-50%); cursor: pointer; }
+    .futbolx-brand .ball-o { color: #ffc107; font-size: 1.15rem; margin: 0 1px; text-shadow: 0 0 10px rgba(255, 193, 7, 0.4); transition: transform 0.5s ease; display: inline-block; }
+    .futbolx-brand:hover .ball-o { transform: rotate(180deg); }
+    .futbolx-brand .ball-o.spinning { animation: ballSpin 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+    @keyframes ballSpin { 0% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.2); } 100% { transform: rotate(360deg) scale(1); } }
+    .tip-container { max-width: 600px; margin: 20px auto; overflow: hidden; display: flex; flex-direction: column; gap: 10px; }
+    .alert-info { text-align: center; position: relative; padding-right: 40px !important; }
+    .error-alert { max-width: 500px; margin: 20px auto; }
+    .video-container { position: relative; width: 100%; height: 0; padding-bottom: 56.25%; background: #000; border-radius: 12px; overflow: hidden; display: none; margin-bottom: 1rem; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+    #oplayer-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #000; }
     .fx-player-wrapper { position: relative; width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
     .fx-video-element { width: 100%; height: 100%; object-fit: contain; }
-    
-    .fx-center-play {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 68px; height: 68px; background: rgba(255, 77, 77, 0.85); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 26px;
-      cursor: pointer; transition: all 0.25s ease; border: 2px solid rgba(255,255,255,0.3);
-      box-shadow: 0 0 20px rgba(255,77,77,0.5); z-index: 5;
-    }
+    .fx-center-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 68px; height: 68px; background: rgba(255, 77, 77, 0.85); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 26px; cursor: pointer; transition: all 0.25s ease; border: 2px solid rgba(255,255,255,0.3); box-shadow: 0 0 20px rgba(255,77,77,0.5); z-index: 5; }
     .fx-center-play:hover { transform: translate(-50%, -50%) scale(1.1); background: #ff4d4d; }
-    
-    .fx-controls-bar {
-      position: absolute; bottom: 0; left: 0; right: 0; height: 48px;
-      background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 70%, transparent 100%);
-      display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
-      z-index: 10; opacity: 0; transition: opacity 0.3s ease;
-    }
+    .fx-controls-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 48px; background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 70%, transparent 100%); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 10; opacity: 0; transition: opacity 0.3s ease; }
     .fx-player-wrapper:hover .fx-controls-bar, .fx-controls-bar.active { opacity: 1; }
-    
     .fx-controls-left, .fx-controls-right { display: flex; align-items: center; gap: 14px; }
     .fx-ctrl-btn { background: none; border: none; color: #f3f4f6; font-size: 16px; cursor: pointer; padding: 4px; transition: color 0.2s, transform 0.1s; }
     .fx-ctrl-btn:hover { color: #ff4d4d; transform: scale(1.1); }
-    
     .fx-volume-wrap { display: flex; align-items: center; gap: 8px; }
     .fx-volume-slider { width: 70px; height: 4px; -webkit-appearance: none; appearance: none; background: rgba(255,255,255,0.3); border-radius: 2px; outline: none; cursor: pointer; }
     .fx-volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #ff4d4d; cursor: pointer; }
-    
-    @media (max-width: 768px) {
-      .fx-volume-slider { display: none !important; }
-    }
-
+    @media (max-width: 768px) { .fx-volume-slider { display: none !important; } }
     .fx-quality-menu-wrap { position: relative; }
     .fx-quality-popover { position: absolute; bottom: 38px; right: -10px; background: #0f172a; border: 1px solid #1f293d; border-radius: 8px; padding: 6px 0; min-width: 110px; display: none; flex-direction: column; box-shadow: 0 8px 20px rgba(0,0,0,0.8); z-index: 20; }
     .fx-quality-popover.show { display: flex; }
     .fx-quality-item { padding: 6px 14px; font-size: 12px; color: #d1d5db; cursor: pointer; transition: background 0.2s, color 0.2s; text-align: left; background: none; border: none; width: 100%; }
     .fx-quality-item:hover, .fx-quality-item.active { background: #1f293d; color: #ff4d4d; font-weight: bold; }
-
-    #socialOverlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.95); z-index: 10000;
-      display: none; align-items: center; justify-content: center;
-      backdrop-filter: blur(8px);
-    }
-    .social-card {
-      background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
-      border: 2px solid #ff4d4d; border-radius: 20px;
-      padding: 40px; text-align: center; max-width: 500px; width: 90%;
-      box-shadow: 0 0 30px rgba(255, 77, 77, 0.2);
-    }
+    #socialOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+    .social-card { background: linear-gradient(135deg, #1a1a1a, #0a0a0a); border: 2px solid #ff4d4d; border-radius: 20px; padding: 40px; text-align: center; max-width: 500px; width: 90%; box-shadow: 0 0 30px rgba(255, 77, 77, 0.2); }
     .social-card h2 { color: #ff4d4d; font-weight: 800; margin-bottom: 20px; }
     .social-card p { color: #ddd; font-size: 1.1rem; margin-bottom: 30px; line-height: 1.6; }
     .social-btns { display: flex; flex-direction: column; gap: 15px; }
-    .btn-social {
-      padding: 12px; border-radius: 12px; font-weight: 600; text-decoration: none;
-      transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
-    }
+    .btn-social { padding: 12px; border-radius: 12px; font-weight: 600; text-decoration: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
     .btn-discord { background: #5865F2; color: white; }
     .btn-telegram { background: #0088cc; color: white; }
     .btn-social:hover { transform: scale(1.03); opacity: 0.9; color: white; }
-
-    .live-title {
-      text-align: center;
-      background: linear-gradient(135deg, #1a1a1a, #2d0000);
-      padding: 12px 20px;
-      border-radius: 12px;
-      border: 2px solid #ff4d4d;
-      box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
-      margin: 1rem 0;
-    }
+    .live-title { text-align: center; background: linear-gradient(135deg, #1a1a1a, #2d0000); padding: 12px 20px; border-radius: 12px; border: 2px solid #ff4d4d; box-shadow: 0 0 20px rgba(255, 77, 77, 0.3); margin: 1rem 0; }
     .live-title h3 { margin: 0; color: #fff; font-size: 1.8rem; font-weight: 600; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
     .live-title::before { content: "● LIVE"; color: #ff4d4d; font-weight: bold; margin-right: 10px; animation: pulse 2s infinite; }
-    
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-
     .chat-wrapper-container { width: 100%; height: 680px; background: #090d16; border: 1px solid #1f293d; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
     .chat-header-area { padding: 12px 16px; background: #0f172a; border-bottom: 1px solid #1f293d; }
-    
     .announcement-banner { background: linear-gradient(90deg, #991b1b, #450a0a); color: #fecaca; padding: 8px 12px; font-size: 0.8rem; border-bottom: 1px solid #ef444455; display: flex; align-items: center; justify-content: space-between; }
-    
-    .pinned-message-container { 
-      position: relative;
-      background: rgba(17, 24, 39, 0.95); 
-      border-bottom: 1px solid #ef4444aa; 
-      padding: 8px 32px 8px 12px; 
-      font-size: 0.82rem; 
-      color: #f3f4f6; 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
-    }
+    .pinned-message-container { position: relative; background: rgba(17, 24, 39, 0.95); border-bottom: 1px solid #ef4444aa; padding: 8px 32px 8px 12px; font-size: 0.82rem; color: #f3f4f6; display: flex; align-items: center; gap: 8px; }
     .pinned-badge-icon { color: #ef4444; font-size: 0.8rem; flex-shrink: 0; }
     .pinned-unpin-btn { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #9ca3af; background: none; border: none; padding: 0 4px; cursor: pointer; }
     .pinned-unpin-btn:hover { color: #ef4444; }
-
     .chat-rules { text-align: center; font-size: 0.73rem; color: #6b7280; padding: 6px 0; background: #030712; border-bottom: 1px solid #111827; }
-
-    .msg-row {
-      position: relative;
-      padding: 4px 8px;
-      margin-bottom: 2px;
-      font-size: 0.88rem;
-      line-height: 1.45;
-      word-break: break-word;
-      border-radius: 4px;
-      touch-action: pan-y;
-      transition: background 0.15s ease, transform 0.1s ease;
-    }
+    .msg-row { position: relative; padding: 4px 8px; margin-bottom: 2px; font-size: 0.88rem; line-height: 1.45; word-break: break-word; border-radius: 4px; touch-action: pan-y; transition: background 0.15s ease; }
     .msg-row:hover { background: #111827; }
-
     .chat-author { font-weight: 700; margin-right: 4px; cursor: pointer; }
-    
-    .chat-author.owner { 
-      background: linear-gradient(90deg, #ff4d4d, #f59e0b, #ef4444, #ff4d4d);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: sparkleGlow 3s linear infinite;
-      font-weight: 800;
-    }
-
-    @keyframes sparkleGlow {
-      0% { background-position: 0% center; filter: drop-shadow(0 0 2px rgba(255, 77, 77, 0.8)); }
-      50% { background-position: 100% center; filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.9)); }
-      100% { background-position: 0% center; filter: drop-shadow(0 0 2px rgba(255, 77, 77, 0.8)); }
-    }
-
+    .chat-author.owner { background: linear-gradient(90deg, #ff4d4d, #f59e0b, #ef4444, #ff4d4d); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: sparkleGlow 3s linear infinite; font-weight: 800; }
+    @keyframes sparkleGlow { 0% { background-position: 0% center; filter: drop-shadow(0 0 2px rgba(255, 77, 77, 0.8)); } 50% { background-position: 100% center; filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.9)); } 100% { background-position: 0% center; filter: drop-shadow(0 0 2px rgba(255, 77, 77, 0.8)); } }
     .chat-author.user { color: #38bdf8; }
     .chat-author.mod { color: #facc15; font-weight: 700; }
-    .chat-author.system { color: #c084fc; font-weight: 800; }
-
     .user-badge { font-size: 0.65rem; font-weight: 800; padding: 1px 4px; border-radius: 3px; margin-right: 4px; vertical-align: middle; text-transform: uppercase; }
     .badge-owner { color: #ffc107; font-size: 0.85rem; margin-right: 3px; }
     .badge-mod { background: #ca8a04; color: #fff; }
-
     .msg-text { color: #e5e7eb; }
     .chat-emote { height: 26px; width: auto; vertical-align: middle; margin: 0 2px; object-fit: contain; }
-
     .reply-context { font-size: 0.75rem; color: #9ca3af; background: #1f2937; padding: 2px 6px; border-left: 2px solid #ff4d4d; border-radius: 3px; margin-bottom: 3px; display: block; cursor: pointer; }
-
-    .msg-hover-actions {
-      display: none;
-      position: absolute;
-      right: 6px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: #1f2937;
-      border: 1px solid #374151;
-      border-radius: 4px;
-      padding: 2px 6px;
-      gap: 6px;
-      z-index: 5;
-    }
+    .msg-hover-actions { display: none; position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: #1f2937; border: 1px solid #374151; border-radius: 4px; padding: 2px 6px; gap: 6px; z-index: 5; }
     .msg-row:hover .msg-hover-actions { display: flex; align-items: center; }
     .action-icon { color: #9ca3af; cursor: pointer; font-size: 11px; }
     .action-icon:hover { color: #fff; }
     .action-icon.danger:hover { color: #ef4444; }
-
     #typingIndicator { font-size: 0.72rem; color: #6b7280; padding: 2px 16px; font-style: italic; min-height: 20px; }
-
-    .chat-status-notice {
-      padding: 12px 16px;
-      background: rgba(127, 29, 29, 0.3);
-      border-top: 1px solid #ef4444;
-      color: #fca5a5;
-      font-size: 0.82rem;
-      text-align: center;
-      line-height: 1.4;
-    }
+    .chat-status-notice { padding: 12px 16px; background: rgba(127, 29, 29, 0.3); border-top: 1px solid #ef4444; color: #fca5a5; font-size: 0.82rem; text-align: center; line-height: 1.4; }
     .chat-status-notice a { color: #38bdf8; text-decoration: underline; }
-
-    .emote-picker-popover {
-      position: absolute;
-      bottom: 60px;
-      right: 12px;
-      width: 290px;
-      height: 240px;
-      background: #0b0f19;
-      border: 1px solid #1f293d;
-      border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
+    .emote-picker-popover { position: absolute; bottom: 60px; right: 12px; width: 290px; height: 240px; background: #0b0f19; border: 1px solid #1f293d; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); z-index: 1000; display: flex; flex-direction: column; overflow: hidden; }
     .emote-header { padding: 8px 12px; background: #0f172a; font-size: 12px; font-weight: 700; color: #9ca3af; border-bottom: 1px solid #1f293d; }
     .emote-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 10px; overflow-y: auto; flex: 1; }
-    .emote-item { display: flex; align-items: center; justify-content: center; background: #111827; border-radius: 6px; padding: 6px; cursor: pointer; transition: background 0.2s, transform 0.1s; font-size: 18px; }
+    .emote-item { display: flex; align-items: center; justify-content: center; background: #111827; border-radius: 6px; padding: 6px; cursor: pointer; transition: background 0.2s, transform 0.1s; }
     .emote-item:hover { background: #1f293d; transform: scale(1.15); }
     .emote-item img { max-width: 28px; max-height: 28px; object-fit: contain; }
-
     .admin-dashboard-modal .modal-content { background: #0b0f19; border: 1px solid #ef444455; color: #e5e7eb; }
     .admin-dashboard-modal .nav-tabs .nav-link { color: #9ca3af; border: none; font-weight: 600; font-size: 0.85rem; }
     .admin-dashboard-modal .nav-tabs .nav-link.active { color: #ff4d4d; background: transparent; border-bottom: 2px solid #ff4d4d; }
-
-    .member-item-row {
-      cursor: pointer;
-      transition: background 0.15s ease;
-    }
-    .member-item-row:hover {
-      background: #111827 !important;
-    }
-
+    .member-item-row { cursor: pointer; transition: background 0.15s ease; }
+    .member-item-row:hover { background: #111827 !important; }
     #futbolx-chat-messages::-webkit-scrollbar, .emote-grid::-webkit-scrollbar { width: 5px; }
     #futbolx-chat-messages::-webkit-scrollbar-thumb, .emote-grid::-webkit-scrollbar-thumb { background: #1f293d; border-radius: 10px; }
-
-    #statusArea {
-      text-align: center; padding: 30px 15px;
-      background: rgba(30,30,30,0.7); border-radius: 12px;
-      margin: 25px auto; max-width: 720px;
-    }
+    #statusArea { text-align: center; padding: 30px 15px; background: rgba(30,30,30,0.7); border-radius: 12px; margin: 25px auto; max-width: 720px; }
     #eventTitle { font-size: 2.4rem; margin-bottom: 1rem; color: #ff4d4d; }
     .countdown-display { font-size: 4rem; font-weight: bold; color: #ff4d4d; letter-spacing: 5px; margin: 20px 0; text-shadow: 0 0 20px rgba(255,77,77,0.5); }
     .permanent-noti { background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; }
     .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 1200px; margin-left: auto; margin-right: auto; }
     [data-bs-theme="dark"] .disclaimer { color: #aaa; background: rgba(0,0,0,0.3); border-top-color: #444; }
-
     .stream-dropdown-container { max-width: 320px; margin-bottom: 1rem; }
     .stream-select-custom { background: #0b1020 !important; color: #fff !important; border: 2px solid #ff4d4d !important; border-radius: 12px; padding: 10px 15px; font-weight: 600; cursor: pointer; box-shadow: 0 0 15px rgba(255, 77, 77, 0.15); }
     .stream-select-custom:focus { box-shadow: 0 0 20px rgba(255, 77, 77, 0.4); outline: none; }
-    
     .viewer-wrap-hidden { display: none !important; }
   </style>
 </head>
@@ -307,61 +122,46 @@
       <h2>Join Our Community</h2>
       <p>Join us on our socials for live updates, event requests, and to report any site issues. You'll get full access once you join!</p>
       <div class="social-btns">
-        <a href="https://discord.gg/6Rm347EkV2" target="_blank" class="btn-social btn-discord social-join-btn">
-          <i class="fab fa-discord"></i> Join Our Discord
-        </a>
-        <a href="https://t.me/+H-GY0RZpdHc3ZDdl" target="_blank" class="btn-social btn-telegram social-join-btn">
-          <i class="fab fa-telegram"></i> Join Our Telegram
-        </a>
+        <a href="https://discord.gg/6Rm347EkV2" target="_blank" class="btn-social btn-discord social-join-btn"><i class="fab fa-discord"></i> Join Our Discord</a>
+        <a href="https://t.me/+H-GY0RZpdHc3ZDdl" target="_blank" class="btn-social btn-telegram social-join-btn"><i class="fab fa-telegram"></i> Join Our Telegram</a>
       </div>
     </div>
   </div>
 
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
-      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
-        <i class="fas fa-bars"></i>
-      </button>
-
-      <a href="/" class="futbolx-brand" id="brandLogo">
-        FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
-      </a>
+      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"><i class="fas fa-bars"></i></button>
+      <a href="/" class="futbolx-brand" id="brandLogo">FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X</a>
     </div>
   </nav>
 
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
-    <div class="offcanvas-header">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
+    <div class="offcanvas-header"><button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button></div>
     <div class="offcanvas-body">
       <ul class="nav flex-column">
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
         <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
-        <li class="nav-item">
-          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
-            <i class="fas fa-moon"></i>
-          </button>
-        </li>
+        <li class="nav-item"><button id="themeToggle" class="nav-link btn btn-link"><i class="fas fa-moon"></i></button></li>
       </ul>
     </div>
   </div>
 
   <div class="container-fluid main-content">
-    <div class="container-xl mt-4"> 
+    <div class="container-xl mt-4">
       <div class="row">
         <div class="col-12">
           <div class="tip-container">
             <div class="alert alert-info alert-dismissible fade show permanent-noti" id="joinAlert" role="alert">
-              <strong>Join us</strong> on 
-              <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener" class="alert-link text-decoration-underline">Discord</a> and 
+              <strong>Join us</strong> on
+              <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener" class="alert-link text-decoration-underline">Discord</a> and
               <a href="https://t.me/+H-GY0RZpdHc3ZDdl" target="_blank" rel="noopener" class="alert-link text-decoration-underline">Telegram</a>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
             </div>
             <div class="alert alert-info alert-dismissible fade show permanent-noti" id="infoAlert" role="alert">
               <strong>Info:</strong> If stream is not loading on your end, try using a VPN to bypass your ISP restrictions.
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
             </div>
           </div>
 
@@ -370,12 +170,10 @@
             <button id="startLivestream" class="btn btn-danger ms-3" style="display:none;">Click to Start Livestream</button>
           </div>
 
-          <div id="liveStreamTitle" class="live-title d-none">
-            <h3 id="currentStreamName"></h3>
-          </div>
+          <div id="liveStreamTitle" class="live-title d-none"><h3 id="currentStreamName"></h3></div>
 
           <div id="statusArea">
-            <h2 id="eventTitle" class="mb-3">Loading event...</h2>
+            <h2 id="eventTitle" class="mb-3">Loading...</h2>
             <div id="countdownDisplay" class="countdown-display"></div>
             <p id="statusMessage" class="status-message">Fetching event details...</p>
           </div>
@@ -386,7 +184,6 @@
                 <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
                 <div id="oplayer-container"></div>
               </div>
-              
               <div id="streamLinksContainer" class="stream-dropdown-container mt-3" style="display:none;">
                 <label for="streamSelect" class="form-label small text-muted font-weight-bold mb-1"><i class="fas fa-tv"></i> SELECT STREAM SOURCE</label>
                 <select id="streamSelect" class="form-select stream-select-custom"></select>
@@ -426,8 +223,8 @@
                 <div id="futbolx-chat-messages" style="flex:1; overflow-y:auto; padding:8px 12px; display:flex; flex-direction:column;"></div>
 
                 <div id="replyPreview" class="d-none" style="background:#111827; padding:6px 12px; color:#9ca3af; font-size:11px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #ef444455;">
-                    <span id="replyText">Replying...</span>
-                    <i class="fas fa-times" onclick="cancelReply()" style="cursor:pointer;"></i>
+                  <span id="replyText">Replying...</span>
+                  <i class="fas fa-times" onclick="cancelReply()" style="cursor:pointer;"></i>
                 </div>
 
                 <div id="emotePickerPopover" class="emote-picker-popover d-none">
@@ -436,30 +233,21 @@
                 </div>
 
                 <div id="chatInputArea" style="border-top:1px solid #1f293d; padding:10px 12px; background:#0f172a; position:relative;">
-                  
                   <div id="activeInputRow" style="display:flex; gap:8px; align-items:center;">
                     <textarea id="chatInput" rows="1" placeholder="Send a message..." style="flex:1; background:#030712; border:1px solid #1f293d; border-radius:8px; padding:6px 12px; color:#f3f4f6; outline:none; font-size:13px; resize:none;"></textarea>
-                    
-                    <button id="emoteToggleBtn" type="button" style="background:none; border:none; color:#ffc107; font-size:18px; padding:0 4px; transition:transform 0.1s;">
-                      <i class="far fa-smile"></i>
-                    </button>
-
+                    <button id="emoteToggleBtn" type="button" style="background:none; border:none; color:#ffc107; font-size:18px; padding:0 4px;"><i class="far fa-smile"></i></button>
                     <button id="sendChatBtn" style="background:none; border:none; color:#ff4d4d; font-size:18px;"><i class="fas fa-paper-plane"></i></button>
                   </div>
-
                   <div id="chatMetaRow" class="d-flex justify-content-between align-items-center mt-1 text-muted" style="font-size: 10px;">
                     <span id="charCounter">0/250</span>
                     <span>Enter to send • Shift+Enter newline</span>
                   </div>
-
                   <div id="mutedBanner" class="chat-status-notice d-none">
                     You have been muted.<br>Join <a href="https://discord.gg/UzHzerb6XY" target="_blank">Discord</a> or <a href="https://t.me/+H-GY0RZpdHc3ZDdl" target="_blank">Telegram</a> to appeal (bring your chat username).
                   </div>
-
                   <div id="closedBanner" class="chat-status-notice d-none" style="background: rgba(30, 41, 59, 0.6); border-top-color: #64748b; color: #cbd5e1;">
                     <i class="fas fa-lock me-1"></i> Chat is currently closed by moderators.
                   </div>
-
                   <div id="usernameRegisterRow" class="d-none mt-2">
                     <input type="text" id="guestUsername" class="form-control form-control-sm mb-2" placeholder="Choose username..." style="background:#030712; border-color:#1f293d; color:white;">
                     <button onclick="registerGuestUser()" class="btn btn-sm btn-danger w-100">Register & Chat</button>
@@ -478,10 +266,7 @@
           <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
         </ul>
       </footer>
-
-      <div class="disclaimer">
-        We DO NOT host nor transmit any audiovisual content itself...
-      </div>
+      <div class="disclaimer">We DO NOT host nor transmit any audiovisual content itself...</div>
     </div>
   </div>
 
@@ -493,12 +278,11 @@
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <ul class="nav nav-tabs mb-3" id="adminTabs" role="tablist">
+          <ul class="nav nav-tabs mb-3">
             <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabMembers">Members List</button></li>
             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabMod">Room Actions</button></li>
             <li class="nav-item owner-only-tab"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabAnnouncements">Announcements</button></li>
           </ul>
-          
           <div class="tab-content">
             <div class="tab-pane fade show active" id="tabMembers">
               <div class="mb-3">
@@ -506,7 +290,6 @@
               </div>
               <div id="adminMemberList" class="list-group" style="max-height: 320px; overflow-y: auto;"></div>
             </div>
-
             <div class="tab-pane fade" id="tabMod">
               <div class="d-flex flex-column gap-3">
                 <div>
@@ -521,7 +304,6 @@
                 </div>
               </div>
             </div>
-
             <div class="tab-pane fade owner-only-tab" id="tabAnnouncements">
               <textarea id="announcementInput" class="form-control form-control-sm mb-2" rows="2" placeholder="Broadcast message..."></textarea>
               <button class="btn btn-sm btn-danger" onclick="publishAnnouncement()">Publish Banner</button>
@@ -540,8 +322,7 @@
           <h6 class="modal-title text-danger" id="actionModalUsername">User Options</h6>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body d-flex flex-column gap-2" id="memberActionButtons">
-        </div>
+        <div class="modal-body d-flex flex-column gap-2" id="memberActionButtons"></div>
       </div>
     </div>
   </div>
@@ -554,13 +335,10 @@
     document.addEventListener('DOMContentLoaded', () => {
       const brandLogo = document.getElementById('brandLogo');
       const logoBall = document.getElementById('logoBall');
-      
       if (brandLogo && logoBall) {
         brandLogo.addEventListener('click', () => {
           logoBall.classList.add('spinning');
-          setTimeout(() => {
-            logoBall.classList.remove('spinning');
-          }, 600);
+          setTimeout(() => logoBall.classList.remove('spinning'), 600);
         });
       }
     });
@@ -574,9 +352,7 @@
     const supabase = createClient(SB_URL, SB_KEY);
     window.globalSupabaseInstance = supabase;
 
-    const pathParts = window.location.pathname.split('/').filter(Boolean);
-    const eventID = pathParts[pathParts.length - 1] || new URLSearchParams(location.search).get('id') || 'lobby';
-
+    const eventID = window.location.pathname.split('/').pop() || 'lobby';
     let currentUser = localStorage.getItem('chat_user');
     let currentIP = "127.0.0.1";
     let isOwner = false;
@@ -586,14 +362,6 @@
     let replyTo = null;
     let currentPinnedMessageId = null;
     let allMembersCache = [];
-
-    window.fxEventID = eventID;
-    window.fxFoundEvent = null;
-    window.fxEventStartTime = null;
-    window.fxEventEndTime = null;
-    window.fxStreamStarted = false;
-    window.fxLiveWindowActive = false;
-    const PRE_LIVE_BUFFER = 900;
 
     const EMOTE_LIBRARY = [
       { name: "GIGACHAD", url: "https://cdn.7tv.app/emote/01F6MZGCNG000255K4X1K7NTHR/4x.webp" },
@@ -653,183 +421,6 @@
       { name: "REF", url: "https://cdn.7tv.app/emote/01GKQ60YHR000CS736JH649MBC/4x.webp" }
     ];
 
-    async function loadEventDetails() {
-      const statusArea = document.getElementById('statusArea');
-      const eventTitleEl = document.getElementById('eventTitle');
-      const statusMsgEl = document.getElementById('statusMessage');
-      const errorContainer = document.getElementById('errorContainer');
-      const streamSelect = document.getElementById('streamSelect');
-      const streamSelectContainer = document.getElementById('streamLinksContainer');
-
-      try {
-        let list = null;
-        const urls = ['/api/stream.json', '/api/stream', '/api/events.json', '/api/events'];
-
-        for (const url of urls) {
-          try {
-            const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(8000) });
-            if (res.ok) {
-              list = await res.json();
-              break;
-            }
-          } catch (_) {}
-        }
-
-        if (!list) throw new Error('Could not load /api/stream.json');
-
-        let data = null;
-        if (Array.isArray(list)) {
-          data = list.find(e =>
-            String(e.id) === eventID ||
-            String(e.slug) === eventID ||
-            String(e.event_id) === eventID ||
-            String(e.eventId) === eventID
-          );
-        } else if (typeof list === 'object' && list !== null) {
-          data = list[eventID] || Object.values(list).find(e =>
-            e && (
-              String(e.id) === eventID ||
-              String(e.slug) === eventID ||
-              String(e.event_id) === eventID ||
-              String(e.eventId) === eventID
-            )
-          );
-        }
-
-        if (!data) throw new Error(`Event "${eventID}" not found in stream JSON.`);
-
-        window.fxFoundEvent = data;
-        window.fxEventStartTime = data.start_time ? new Date(data.start_time).getTime()
-          : data.startTime ? new Date(data.startTime).getTime()
-          : data.start ? new Date(data.start).getTime()
-          : data.date ? new Date(data.date).getTime()
-          : data.kickoff ? new Date(data.kickoff).getTime()
-          : null;
-        window.fxEventEndTime = data.end_time ? new Date(data.end_time).getTime()
-          : data.endTime ? new Date(data.endTime).getTime()
-          : data.end ? new Date(data.end).getTime()
-          : null;
-
-        const title = data.title || data.name || data.event_name || data.eventName || 'Live Event';
-        eventTitleEl.textContent = title;
-        document.getElementById('currentStreamName').textContent = title;
-        document.getElementById('chatEventTitle').textContent = title;
-
-        let sources = data.streams || data.links || data.sources || data.stream_links || data.servers || [];
-        if (!Array.isArray(sources) && (data.stream_url || data.url || data.link || data.m3u8)) {
-          sources = [{ label: 'Main', url: data.stream_url || data.url || data.link || data.m3u8 }];
-        }
-        if (typeof sources === 'string') {
-          try { sources = JSON.parse(sources); } catch { sources = [sources]; }
-        }
-
-        streamSelect.innerHTML = '';
-        if (sources.length) {
-          sources.forEach((s, i) => {
-            const opt = document.createElement('option');
-            const url = typeof s === 'string' ? s : (s.url || s.link || s.src || s.m3u8 || '');
-            if (!url) return;
-            opt.value = url;
-            opt.textContent = typeof s === 'string'
-              ? `Source ${i + 1}`
-              : (s.label || s.name || s.quality || s.server || `Source ${i + 1}`);
-            streamSelect.appendChild(opt);
-          });
-          streamSelectContainer.style.display = streamSelect.options.length ? 'block' : 'none';
-          streamSelect.onchange = () => {
-            if (streamSelect.value && typeof window.playStream === 'function') {
-              window.playStream(streamSelect.value);
-            }
-          };
-        } else {
-          streamSelectContainer.style.display = 'none';
-        }
-
-        updateEventStatus();
-        if (!window._fxStatusInterval) {
-          window._fxStatusInterval = setInterval(updateEventStatus, 1000);
-        }
-      } catch (err) {
-        console.error('Failed to load event:', err);
-        eventTitleEl.textContent = 'Event not found';
-        statusMsgEl.textContent = err.message || 'Could not load stream details.';
-        errorContainer.textContent = err.message || 'Unknown error';
-        errorContainer.classList.remove('d-none');
-        statusArea.style.display = 'block';
-      }
-    }
-
-    function updateEventStatus() {
-      const now = Date.now();
-      const statusArea = document.getElementById('statusArea');
-      const liveTitleEl = document.getElementById('liveStreamTitle');
-      const videoContainer = document.getElementById('mainVideoContainer');
-      const startBtn = document.getElementById('startLivestream');
-      const countdownEl = document.getElementById('countdownDisplay');
-      const statusMsgEl = document.getElementById('statusMessage');
-      const startTime = window.fxEventStartTime;
-      const endTime = window.fxEventEndTime;
-
-      const showLiveUI = () => {
-        statusArea.style.display = 'none';
-        liveTitleEl.classList.remove('d-none');
-        videoContainer.style.display = 'block';
-        if (!window.fxStreamStarted) {
-          startBtn.style.display = 'inline-block';
-          startBtn.onclick = () => {
-            window.fxStreamStarted = true;
-            startBtn.style.display = 'none';
-            const first = document.getElementById('streamSelect')?.value;
-            const fallback = window.fxFoundEvent?.stream_url
-              || window.fxFoundEvent?.url
-              || window.fxFoundEvent?.link
-              || window.fxFoundEvent?.m3u8;
-            if (first && typeof window.playStream === 'function') window.playStream(first);
-            else if (fallback && typeof window.playStream === 'function') window.playStream(fallback);
-          };
-        }
-      };
-
-      if (!startTime) {
-        const hasStreams = document.getElementById('streamSelect')?.options?.length > 0
-          || window.fxFoundEvent?.stream_url
-          || window.fxFoundEvent?.url;
-        if (hasStreams) showLiveUI();
-        else statusMsgEl.textContent = 'No start time or streams configured for this event.';
-        return;
-      }
-
-      const preLive = startTime - (PRE_LIVE_BUFFER * 1000);
-      const isLiveWindow = now >= preLive && (!endTime || now <= endTime);
-      window.fxLiveWindowActive = isLiveWindow;
-
-      if (now < preLive) {
-        statusArea.style.display = 'block';
-        liveTitleEl.classList.add('d-none');
-        videoContainer.style.display = 'none';
-        startBtn.style.display = 'none';
-
-        const diff = Math.max(0, Math.floor((startTime - now) / 1000));
-        const h = Math.floor(diff / 3600);
-        const m = Math.floor((diff % 3600) / 60);
-        const s = diff % 60;
-        countdownEl.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-        statusMsgEl.textContent = 'This event has not started yet.';
-      } else if (isLiveWindow) {
-        showLiveUI();
-      } else {
-        statusArea.style.display = 'block';
-        liveTitleEl.classList.add('d-none');
-        videoContainer.style.display = 'none';
-        startBtn.style.display = 'none';
-        countdownEl.textContent = '';
-        statusMsgEl.textContent = 'This event has ended.';
-      }
-    }
-
-    window.loadEventDetails = loadEventDetails;
-    window.updateEventStatus = updateEventStatus;
-
     async function init() {
       try {
         const res = await fetch('https://api.ipify.org?format=json');
@@ -837,11 +428,8 @@
         if (data.ip) currentIP = data.ip;
       } catch (e) {}
 
-      if (currentUser) {
-        await verifySession();
-      } else {
-        showRegisterUI();
-      }
+      if (currentUser) await verifySession();
+      else showRegisterUI();
 
       initEmotePicker();
       await loadRoomSettings();
@@ -850,33 +438,19 @@
       await loadPin();
       setupRealtime();
       setupInputHandlers();
-      await loadEventDetails();
-
-      if (typeof window.initViewerPresenceEngine === 'function') {
-        window.initViewerPresenceEngine();
-      }
+      if (typeof window.initViewerPresenceEngine === 'function') window.initViewerPresenceEngine();
     }
 
     function initEmotePicker() {
       const popover = document.getElementById('emotePickerPopover');
       const toggleBtn = document.getElementById('emoteToggleBtn');
       const grid = document.getElementById('emoteGrid');
-
       grid.innerHTML = EMOTE_LIBRARY.map(e => `
-        <div class="emote-item" onclick="insertEmote('${e.name}')" title="${e.name}">
-          <img src="${e.url}" alt="${e.name}">
-        </div>
+        <div class="emote-item" onclick="insertEmote('${e.name}')" title="${e.name}"><img src="${e.url}" alt="${e.name}"></div>
       `).join('');
-
-      toggleBtn.onclick = (e) => {
-        e.stopPropagation();
-        popover.classList.toggle('d-none');
-      };
-
+      toggleBtn.onclick = (e) => { e.stopPropagation(); popover.classList.toggle('d-none'); };
       document.addEventListener('click', (e) => {
-        if (!popover.contains(e.target) && e.target !== toggleBtn) {
-          popover.classList.add('d-none');
-        }
+        if (!popover.contains(e.target) && e.target !== toggleBtn) popover.classList.add('d-none');
       });
     }
 
@@ -892,9 +466,7 @@
       if (!text) return '';
       let parsed = text;
       EMOTE_LIBRARY.forEach(e => {
-        const regex = new RegExp(`\\b${e.name}\\b`, 'g');
-        const replacement = `<img src="${e.url}" class="chat-emote" title="${e.name}" alt="${e.name}">`;
-        parsed = parsed.replace(regex, replacement);
+        parsed = parsed.replace(new RegExp(`\\b${e.name}\\b`, 'g'), `<img src="${e.url}" class="chat-emote" title="${e.name}" alt="${e.name}">`);
       });
       return parsed;
     }
@@ -907,14 +479,11 @@
         showRegisterUI();
         return;
       }
-
       currentUser = data.username;
       localStorage.setItem('chat_user', currentUser);
-
       isOwner = !!data.is_owner;
       isMod = !!data.is_mod;
       isMuted = !!data.is_muted;
-
       updateDashboardAccess();
       updateInputState();
       showChatUI();
@@ -926,7 +495,6 @@
       const ownerTabs = document.querySelectorAll('.owner-only-tab');
       const unpinBtn = document.getElementById('unpinBtn');
       const dismissAnnounceBtn = document.getElementById('dismissAnnounceBtn');
-
       if (isOwner) {
         dashBtn.classList.remove('d-none');
         dashTitle.innerHTML = `<i class="fas fa-crown me-2"></i>FutbolX Owner Dashboard`;
@@ -953,7 +521,6 @@
       const metaRow = document.getElementById('chatMetaRow');
       const mutedBanner = document.getElementById('mutedBanner');
       const closedBanner = document.getElementById('closedBanner');
-
       if (isMuted) {
         activeRow.style.setProperty('display', 'none', 'important');
         metaRow.style.setProperty('display', 'none', 'important');
@@ -981,29 +548,25 @@
 
     function updateToggleChatBtnText() {
       const btn = document.getElementById('toggleChatClosedBtn');
-      if (btn) {
-        btn.innerHTML = isChatClosedGlobal 
-          ? `<i class="fas fa-lock-open me-1"></i> Open Room Chat`
-          : `<i class="fas fa-lock me-1"></i> Close Room Chat`;
-        btn.className = isChatClosedGlobal ? "btn btn-sm btn-success" : "btn btn-sm btn-warning";
-      }
+      if (!btn) return;
+      btn.innerHTML = isChatClosedGlobal
+        ? `<i class="fas fa-lock-open me-1"></i> Open Room Chat`
+        : `<i class="fas fa-lock me-1"></i> Close Room Chat`;
+      btn.className = isChatClosedGlobal ? "btn btn-sm btn-success" : "btn btn-sm btn-warning";
     }
 
     window.toggleChatClosedState = async () => {
       if (!isOwner && !isMod) return;
       const nextState = !isChatClosedGlobal;
-      
-      const { error } = await supabase.from('room_settings').upsert([
-        { event_id: eventID, chat_closed: nextState }
-      ], { onConflict: 'event_id' });
-
+      const { error } = await supabase.from('room_settings').upsert(
+        [{ event_id: eventID, chat_closed: nextState }],
+        { onConflict: 'event_id' }
+      );
       if (!error) {
         isChatClosedGlobal = nextState;
         updateToggleChatBtnText();
         updateInputState();
-      } else {
-        alert("Failed to update chat room status. Please try again.");
-      }
+      } else alert("Failed to update chat room status.");
     };
 
     function showRegisterUI() {
@@ -1022,48 +585,27 @@
       if (!userRaw) return alert("Please enter a username");
       if (userRaw.length < 2 || userRaw.length > 20) return alert("Username must be between 2 and 20 characters.");
 
-      const { data: existingUser, error: checkErr } = await supabase
-        .from('profiles')
-        .select('*')
-        .ilike('username', userRaw)
-        .maybeSingle();
-
-      if (checkErr) return alert("Error checking username availability. Please try again.");
-
+      const { data: existingUser, error: checkErr } = await supabase.from('profiles').select('*').ilike('username', userRaw).maybeSingle();
+      if (checkErr) return alert("Error checking username availability.");
       if (existingUser) {
         localStorage.setItem('chat_user', existingUser.username);
-        currentUser = existingUser.username;
         location.reload();
         return;
       }
 
       if (currentIP) {
-        const { data: ipAccounts, error: ipErr } = await supabase
-          .from('profiles')
-          .select('username')
-          .eq('device_ip', currentIP);
-
-        if (!ipErr && ipAccounts && ipAccounts.length >= 2) {
-          return alert("Account creation limit reached: Maximum 2 accounts per IP allowed.");
-        }
+        const { data: ipAccounts, error: ipErr } = await supabase.from('profiles').select('username').eq('device_ip', currentIP);
+        if (!ipErr && ipAccounts && ipAccounts.length >= 2) return alert("Account creation limit reached: Maximum 2 accounts per IP allowed.");
       }
 
       const isFutbolx = userRaw.toLowerCase() === 'futbolx';
       const finalUsername = isFutbolx ? 'Futbolx' : userRaw;
-
-      const { error: insertErr } = await supabase.from('profiles').insert([
-        { username: finalUsername, device_ip: currentIP, is_owner: isFutbolx }
-      ]);
-
+      const { error: insertErr } = await supabase.from('profiles').insert([{ username: finalUsername, device_ip: currentIP, is_owner: isFutbolx }]);
       if (insertErr) {
-        if (insertErr.code === '23505' || insertErr.message.includes('unique')) {
-          alert("Username taken.");
-        } else {
-          alert("Failed to create profile. " + insertErr.message);
-        }
+        if (insertErr.code === '23505' || insertErr.message.includes('unique')) alert("Username taken.");
+        else alert("Failed to create profile. " + insertErr.message);
       } else {
         localStorage.setItem('chat_user', finalUsername);
-        currentUser = finalUsername;
         location.reload();
       }
     };
@@ -1071,36 +613,23 @@
     function setupInputHandlers() {
       const input = document.getElementById('chatInput');
       const counter = document.getElementById('charCounter');
-
       input.addEventListener('input', () => {
         counter.textContent = `${input.value.length}/250`;
         input.style.height = 'auto';
-        input.style.height = (input.scrollHeight) + 'px';
+        input.style.height = input.scrollHeight + 'px';
       });
-
       input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
           document.getElementById('sendChatBtn').click();
         }
       });
-
       const searchInput = document.getElementById('memberSearchInput');
-      if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-          renderFilteredMemberList(e.target.value.toLowerCase().trim());
-        });
-      }
+      if (searchInput) searchInput.addEventListener('input', (e) => renderFilteredMemberList(e.target.value.toLowerCase().trim()));
     }
 
     async function loadMessages() {
-      const { data } = await supabase
-        .from('messages')
-        .select('*')
-        .eq('event_id', eventID)
-        .order('created_at', { ascending: true })
-        .limit(100);
-
+      const { data } = await supabase.from('messages').select('*').eq('event_id', eventID).order('created_at', { ascending: true }).limit(100);
       if (data) {
         document.getElementById('futbolx-chat-messages').innerHTML = '';
         data.forEach(renderMsg);
@@ -1116,9 +645,10 @@
         div.id = `msg-${msg.id}`;
         box.appendChild(div);
       }
-
-      let replyHTML = msg.reply_to_username ? `<span class="reply-context" onclick="scrollToMsg('${msg.reply_to_id}')">@${msg.reply_to_username}: ${msg.reply_to_msg?.substring(0,25)}...</span>` : '';
-
+      const safeMsg = String(msg.message || '').replace(/`/g, '');
+      let replyHTML = msg.reply_to_username
+        ? `<span class="reply-context" onclick="scrollToMsg('${msg.reply_to_id}')">@${msg.reply_to_username}: ${msg.reply_to_msg?.substring(0, 25)}...</span>`
+        : '';
       let badge = '';
       let authorClass = 'user';
       if (msg.username.toLowerCase() === 'futbolx') {
@@ -1128,46 +658,25 @@
         badge = `<span class="user-badge badge-mod" title="Moderator"><i class="fas fa-shield-alt"></i></span>`;
         authorClass = 'mod';
       }
-
-      let adminControls = (isOwner || isMod) ? `
-        <i class="fas fa-thumbtack action-icon" onclick="togglePinMessage('${msg.id}', '${msg.username}', \`${String(msg.message || '').replace(/`/g, '')}\`)" title="${currentPinnedMessageId === msg.id ? 'Unpin Message' : 'Pin Message'}"></i>
-        <i class="fas fa-trash action-icon danger" onclick="deleteMessage('${msg.id}')" title="Delete"></i>
-      ` : '';
-
-      const formattedMsg = parseEmotes(msg.message);
-
+      const adminControls = (isOwner || isMod)
+        ? `<i class="fas fa-thumbtack action-icon" onclick="togglePinMessage('${msg.id}', '${msg.username}', \`${safeMsg}\`)" title="Pin"></i>
+           <i class="fas fa-trash action-icon danger" onclick="deleteMessage('${msg.id}')" title="Delete"></i>`
+        : '';
       div.innerHTML = `
         ${replyHTML}
-        <div>
-          ${badge}
-          <span class="chat-author ${authorClass}">${msg.username}:</span>
-          <span class="msg-text">${formattedMsg}</span>
-        </div>
+        <div>${badge}<span class="chat-author ${authorClass}">${msg.username}:</span> <span class="msg-text">${parseEmotes(msg.message)}</span></div>
         <div class="msg-hover-actions">
-          <i class="fas fa-reply action-icon" onclick="setReply('${msg.id}', '${msg.username}', \`${String(msg.message || '').replace(/`/g, '')}\`)" title="Reply"></i>
+          <i class="fas fa-reply action-icon" onclick="setReply('${msg.id}', '${msg.username}', \`${safeMsg}\`)" title="Reply"></i>
           ${adminControls}
-        </div>
-      `;
-
-      let startX = 0;
-      div.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, {passive: true});
-      div.addEventListener('touchend', (e) => {
-        let diffX = e.changedTouches[0].clientX - startX;
-        if (diffX > 60) setReply(msg.id, msg.username, msg.message);
-      });
-
+        </div>`;
       box.scrollTop = box.scrollHeight;
     }
 
     document.getElementById('sendChatBtn').onclick = async () => {
-      if (!currentUser) return;
-      if (isMuted) return;
-      if (isChatClosedGlobal && !isOwner && !isMod) return;
-
+      if (!currentUser || isMuted || (isChatClosedGlobal && !isOwner && !isMod)) return;
       const input = document.getElementById('chatInput');
       const text = input.value.trim();
       if (!text) return;
-
       const { data } = await supabase.from('messages').insert([{
         username: currentUser,
         message: text,
@@ -1177,9 +686,7 @@
         reply_to_msg: replyTo?.msg,
         reply_to_id: replyTo?.id
       }]).select().single();
-
       if (data) renderMsg(data);
-
       input.value = "";
       input.style.height = "auto";
       document.getElementById('charCounter').textContent = "0/250";
@@ -1191,12 +698,10 @@
       document.getElementById('replyPreview').classList.remove('d-none');
       document.getElementById('replyText').innerText = `Replying to @${user}`;
     };
-
     window.cancelReply = () => {
       replyTo = null;
       document.getElementById('replyPreview').classList.add('d-none');
     };
-
     window.scrollToMsg = (id) => {
       const el = document.getElementById(`msg-${id}`);
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1206,19 +711,16 @@
       const { data } = await supabase.from('pinned_messages').select('*').eq('event_id', eventID).eq('is_pinned', true).maybeSingle();
       const pinContainer = document.getElementById('pinnedMessageContainer');
       const pinnedContent = document.getElementById('pinnedContent');
-
       if (data) {
         currentPinnedMessageId = data.message_id;
-        let badge = '';
-        let authorClass = 'user';
+        let badge = '', authorClass = 'user';
         if (data.username.toLowerCase() === 'futbolx') {
-          badge = `<span class="user-badge badge-owner" title="Owner"><i class="fas fa-crown"></i></span>`;
+          badge = `<span class="user-badge badge-owner"><i class="fas fa-crown"></i></span>`;
           authorClass = 'owner';
         } else if (data.is_mod) {
-          badge = `<span class="user-badge badge-mod" title="Moderator"><i class="fas fa-shield-alt"></i></span>`;
+          badge = `<span class="user-badge badge-mod"><i class="fas fa-shield-alt"></i></span>`;
           authorClass = 'mod';
         }
-        
         pinnedContent.innerHTML = `${badge}<span class="chat-author ${authorClass}">${data.username}:</span> <span class="msg-text">${parseEmotes(data.message_text)}</span>`;
         pinContainer.classList.remove('d-none');
       } else {
@@ -1230,22 +732,11 @@
 
     window.togglePinMessage = async (msgId, username, messageText) => {
       if (!isOwner && !isMod) return;
-      if (currentPinnedMessageId === msgId) {
-        await unpinMessage();
-        return;
-      }
+      if (currentPinnedMessageId === msgId) return unpinMessage();
       await supabase.from('pinned_messages').delete().eq('event_id', eventID);
-      await supabase.from('pinned_messages').insert([{
-        event_id: eventID,
-        message_id: msgId,
-        username: username,
-        message_text: messageText,
-        is_pinned: true,
-        is_mod: isMod
-      }]);
+      await supabase.from('pinned_messages').insert([{ event_id: eventID, message_id: msgId, username, message_text: messageText, is_pinned: true, is_mod: isMod }]);
       await loadPin();
     };
-
     window.unpinMessage = async () => {
       if (!isOwner && !isMod) return;
       await supabase.from('pinned_messages').delete().eq('event_id', eventID);
@@ -1257,21 +748,17 @@
       if (data) {
         document.getElementById('announcementContainer').classList.remove('d-none');
         document.getElementById('announcementText').innerText = data.text;
-      } else {
-        document.getElementById('announcementContainer').classList.add('d-none');
-      }
+      } else document.getElementById('announcementContainer').classList.add('d-none');
     }
-
     window.publishAnnouncement = async () => {
       if (!isOwner) return;
       const text = document.getElementById('announcementInput').value.trim();
       if (!text) return;
       await supabase.from('announcements').delete().eq('event_id', eventID);
-      await supabase.from('announcements').insert([{ event_id: eventID, text: text, is_active: true }]);
+      await supabase.from('announcements').insert([{ event_id: eventID, text, is_active: true }]);
       document.getElementById('announcementInput').value = '';
       await loadAnnouncement();
     };
-
     window.dismissAnnouncement = async () => {
       if (!isOwner) return;
       await supabase.from('announcements').delete().eq('event_id', eventID);
@@ -1281,10 +768,8 @@
     window.deleteMessage = async (id) => {
       if (!isOwner && !isMod) return;
       await supabase.from('messages').delete().eq('id', id);
-      const el = document.getElementById(`msg-${id}`);
-      if (el) el.remove();
+      document.getElementById(`msg-${id}`)?.remove();
     };
-
     window.clearAllChat = async () => {
       if (!isOwner && !isMod) return;
       if (!confirm("Clear entire room chat?")) return;
@@ -1296,53 +781,29 @@
       const { data } = await supabase.from('profiles').select('*').order('username', { ascending: true });
       if (!data) return;
       allMembersCache = data;
-      const query = document.getElementById('memberSearchInput')?.value.toLowerCase().trim() || '';
-      renderFilteredMemberList(query);
+      renderFilteredMemberList(document.getElementById('memberSearchInput')?.value.toLowerCase().trim() || '');
     }
 
     function renderFilteredMemberList(filterText = '') {
       const list = document.getElementById('adminMemberList');
       if (!list) return;
       list.innerHTML = '';
-
-      const filtered = allMembersCache.filter(u => 
-        u.username.toLowerCase().includes(filterText) || 
+      const filtered = allMembersCache.filter(u =>
+        u.username.toLowerCase().includes(filterText) ||
         (u.device_ip && u.device_ip.toLowerCase().includes(filterText))
       );
-
-      if (filtered.length === 0) {
+      if (!filtered.length) {
         list.innerHTML = `<div class="text-muted small p-3 text-center">No members found</div>`;
         return;
       }
-
       filtered.forEach(u => {
         const item = document.createElement('div');
         item.className = "list-group-item bg-dark text-white border-secondary d-flex justify-content-between align-items-center member-item-row";
-        
-        let nameColor = '#38bdf8';
-        let roleBadge = '';
-        if (u.is_owner) {
-          nameColor = '#ff4d4d';
-          roleBadge = `<span class="badge bg-danger ms-2"><i class="fas fa-crown"></i> OWNER</span>`;
-        } else if (u.is_mod) {
-          nameColor = '#facc15';
-          roleBadge = `<span class="badge bg-warning text-dark ms-2"><i class="fas fa-shield-alt"></i> MOD</span>`;
-        }
-
-        let statusBadge = u.is_muted ? `<span class="badge bg-secondary ms-2">MUTED</span>` : '';
-
-        item.innerHTML = `
-          <div>
-            <span style="color:${nameColor}; font-weight:bold;">${u.username}</span>
-            ${roleBadge}
-            ${statusBadge}
-            <small class="text-muted d-block">${u.device_ip || 'IP N/A'}</small>
-          </div>
-          <div>
-            <i class="fas fa-chevron-right text-muted"></i>
-          </div>
-        `;
-
+        let nameColor = '#38bdf8', roleBadge = '';
+        if (u.is_owner) { nameColor = '#ff4d4d'; roleBadge = `<span class="badge bg-danger ms-2"><i class="fas fa-crown"></i> OWNER</span>`; }
+        else if (u.is_mod) { nameColor = '#facc15'; roleBadge = `<span class="badge bg-warning text-dark ms-2"><i class="fas fa-shield-alt"></i> MOD</span>`; }
+        const statusBadge = u.is_muted ? `<span class="badge bg-secondary ms-2">MUTED</span>` : '';
+        item.innerHTML = `<div><span style="color:${nameColor}; font-weight:bold;">${u.username}</span>${roleBadge}${statusBadge}<small class="text-muted d-block">${u.device_ip || 'IP N/A'}</small></div><div><i class="fas fa-chevron-right text-muted"></i></div>`;
         item.onclick = () => openMemberActionModal(u);
         list.appendChild(item);
       });
@@ -1350,13 +811,9 @@
 
     window.openMemberActionModal = (userObj) => {
       if (!isOwner && !isMod) return;
-
-      const modalTitle = document.getElementById('actionModalUsername');
+      document.getElementById('actionModalUsername').innerText = userObj.username;
       const container = document.getElementById('memberActionButtons');
-      
-      modalTitle.innerText = userObj.username;
       container.innerHTML = '';
-
       if (userObj.is_owner) {
         container.innerHTML = `<div class="text-muted small text-center">Owner cannot be modified.</div>`;
       } else {
@@ -1369,7 +826,6 @@
           loadAllMembers();
         };
         container.appendChild(muteBtn);
-
         if (isOwner) {
           const modBtn = document.createElement('button');
           modBtn.className = `btn btn-sm ${userObj.is_mod ? 'btn-outline-warning' : 'btn-warning'} w-100 mt-2`;
@@ -1382,46 +838,39 @@
           container.appendChild(modBtn);
         }
       }
-
-      const modal = new bootstrap.Modal(document.getElementById('memberActionModal'));
-      modal.show();
+      new bootstrap.Modal(document.getElementById('memberActionModal')).show();
     };
 
     function setupRealtime() {
       supabase.channel('public_room_channel')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, p => {
-           if (p.eventType === 'INSERT') {
-             if (p.new && p.new.event_id === eventID) renderMsg(p.new);
-           } else if (p.eventType === 'DELETE') {
-             if (p.old?.id) {
-               const el = document.getElementById(`msg-${p.old.id}`);
-               if (el) el.remove();
-             } else {
-               loadMessages();
-             }
-           }
+          if (p.eventType === 'INSERT' && p.new?.event_id === eventID) renderMsg(p.new);
+          else if (p.eventType === 'DELETE') {
+            if (p.old?.id) document.getElementById(`msg-${p.old.id}`)?.remove();
+            else loadMessages();
+          }
         })
         .on('postgres_changes', { event: '*', schema: 'public', table: 'announcements' }, () => loadAnnouncement())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'pinned_messages' }, () => loadPin())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'room_settings' }, p => {
-           if (p.new && p.new.event_id === eventID) {
-             isChatClosedGlobal = !!p.new.chat_closed;
-             updateToggleChatBtnText();
-             updateInputState();
-           }
+          if (p.new?.event_id === eventID) {
+            isChatClosedGlobal = !!p.new.chat_closed;
+            updateToggleChatBtnText();
+            updateInputState();
+          }
         })
         .subscribe();
 
       if (currentUser) {
         supabase.channel('user_profile_changes')
           .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles', filter: `username=eq.${currentUser}` }, p => {
-             if (p.new) {
-               isMuted = !!p.new.is_muted;
-               isMod = !!p.new.is_mod;
-               isOwner = !!p.new.is_owner;
-               updateDashboardAccess();
-               updateInputState();
-             }
+            if (p.new) {
+              isMuted = !!p.new.is_muted;
+              isMod = !!p.new.is_mod;
+              isOwner = !!p.new.is_owner;
+              updateDashboardAccess();
+              updateInputState();
+            }
           })
           .subscribe();
       }
@@ -1433,36 +882,52 @@
   <script>
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
-    
     function checkOverlay() {
       const lastJoin = localStorage.getItem(OVERLAY_KEY);
-      const now = Date.now();
-      if (!lastJoin || (now - lastJoin > 86400000)) { overlay.style.display = 'flex'; }
+      if (!lastJoin || (Date.now() - lastJoin > 86400000)) overlay.style.display = 'flex';
     }
-
     document.querySelectorAll('.social-join-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         localStorage.setItem(OVERLAY_KEY, Date.now());
         overlay.style.display = 'none';
       });
     });
-
     checkOverlay();
 
     let playerInstance = null;
+    let eventStartTime = null;
+    let eventEndTime = null;
+    let streamStarted = false;
+    let foundEvent = null;
+    const PRE_LIVE_BUFFER = 900;
+    let realActivePresenceCount = 0;
+    let calculatedViewerSimulationState = 0;
+    let liveWindowActive = false;
 
     const htmlEl = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('theme') || 'dark';
     htmlEl.setAttribute('data-bs-theme', savedTheme);
-
     themeToggle.addEventListener('click', () => {
-      const current = htmlEl.getAttribute('data-bs-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
+      const next = htmlEl.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
       htmlEl.setAttribute('data-bs-theme', next);
       localStorage.setItem('theme', next);
       themeToggle.innerHTML = next === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
     });
+
+    async function fetchWithRetry(url, maxRetries = 3, delay = 1000) {
+      return new Promise((resolve, reject) => {
+        let attempts = 0;
+        function attempt() {
+          attempts++;
+          fetch(url, { signal: AbortSignal.timeout(5000) })
+            .then(res => { if (!res.ok) throw new Error(`HTTP ${res.status}`); return res.json(); })
+            .then(resolve)
+            .catch(err => { if (attempts < maxRetries) setTimeout(attempt, delay); else reject(err); });
+        }
+        attempt();
+      });
+    }
 
     async function isM3U8(url) {
       if (!url) return false;
@@ -1470,50 +935,46 @@
       try {
         const r = await fetch(url, { method: 'HEAD' });
         return (r.headers.get('content-type') || '').includes('mpegurl');
-      } catch {
-        return false;
-      }
+      } catch { return false; }
     }
 
-    window.playStream = async function playStream(url) {
+    async function playStream(url) {
       if (!url) return;
       if (playerInstance) {
-        if (typeof playerInstance.remove === 'function') playerInstance.remove();
+        try { if (typeof playerInstance.destroy === 'function') playerInstance.destroy(); } catch (_) {}
         playerInstance = null;
       }
-      const useJW = await isM3U8(url);
-      initActualPlayer(url, useJW);
-    };
+      initActualPlayer(url, await isM3U8(url));
+    }
+    window.playStream = playStream;
 
-    function initActualPlayer(url, useJW) {
-      if (useJW) {
+    function initActualPlayer(url, useHls) {
+      if (useHls) {
         document.getElementById('embedPlayer').style.display = 'none';
         const container = document.getElementById('oplayer-container');
         container.style.display = 'block';
-        
         container.innerHTML = `
           <div class="fx-player-wrapper" id="fxPlayerWrapper">
             <video id="fxVideoPlayer" class="fx-video-element" playsinline muted></video>
             <div id="fxOverlayPlay" class="fx-center-play"><i class="fas fa-play"></i></div>
             <div class="fx-controls-bar" id="fxControlsBar">
               <div class="fx-controls-left">
-                <button class="fx-ctrl-btn" id="fxPlayBtn" title="Play/Pause"><i class="fas fa-play"></i></button>
+                <button class="fx-ctrl-btn" id="fxPlayBtn"><i class="fas fa-play"></i></button>
                 <div class="fx-volume-wrap">
-                  <button class="fx-ctrl-btn" id="fxMuteBtn" title="Mute/Unmute"><i class="fas fa-volume-mute"></i></button>
+                  <button class="fx-ctrl-btn" id="fxMuteBtn"><i class="fas fa-volume-mute"></i></button>
                   <input type="range" class="fx-volume-slider" id="fxVolumeSlider" min="0" max="1" step="0.05" value="1">
                 </div>
               </div>
               <div class="fx-controls-right">
                 <div class="fx-quality-menu-wrap" id="fxQualityWrap" style="display:none;">
-                  <button class="fx-ctrl-btn" id="fxQualityBtn" title="Stream Quality"><i class="fas fa-cog"></i></button>
+                  <button class="fx-ctrl-btn" id="fxQualityBtn"><i class="fas fa-cog"></i></button>
                   <div class="fx-quality-popover" id="fxQualityPopover"></div>
                 </div>
-                <button class="fx-ctrl-btn" id="fxPipBtn" title="Picture-in-Picture"><i class="fas fa-clone"></i></button>
-                <button class="fx-ctrl-btn" id="fxFullscreenBtn" title="Fullscreen"><i class="fas fa-expand"></i></button>
+                <button class="fx-ctrl-btn" id="fxPipBtn"><i class="fas fa-clone"></i></button>
+                <button class="fx-ctrl-btn" id="fxFullscreenBtn"><i class="fas fa-expand"></i></button>
               </div>
             </div>
-          </div>
-        `;
+          </div>`;
 
         const wrapper = document.getElementById('fxPlayerWrapper');
         const video = document.getElementById('fxVideoPlayer');
@@ -1526,39 +987,22 @@
         const qualityBtn = document.getElementById('fxQualityBtn');
         const qualityPopover = document.getElementById('fxQualityPopover');
         const qualityWrap = document.getElementById('fxQualityWrap');
-
         let hlsEngine = null;
 
-        if (Hls.isSupported()) {
-          hlsEngine = new Hls({ 
-            enableWorker: true, 
-            lowLatencyMode: true,
-            backBufferLength: 0,
-            maxBufferLength: 10,
-            maxMaxBufferLength: 20,
-            liveSyncDurationCount: 3,
-            liveMaxLatencyDurationCount: 10,
-            manifestLoadingTimeOut: 10000,
-            manifestLoadingMaxRetry: 4
-          });
+        if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+          hlsEngine = new Hls({ enableWorker: true, lowLatencyMode: true, backBufferLength: 0, maxBufferLength: 10, maxMaxBufferLength: 20, liveSyncDurationCount: 3, liveMaxLatencyDurationCount: 10, manifestLoadingTimeOut: 10000, manifestLoadingMaxRetry: 4 });
           hlsEngine.loadSource(url);
           hlsEngine.attachMedia(video);
-
+          playerInstance = hlsEngine;
           hlsEngine.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
             if (data.levels && data.levels.length > 1) {
               qualityWrap.style.display = 'block';
-              qualityPopover.innerHTML = `
-                <button class="fx-quality-item active" data-level="-1">Auto</button>
-                ${data.levels.map((lvl, idx) => `
-                  <button class="fx-quality-item" data-level="${idx}">${lvl.height}p</button>
-                `).join('')}
-              `;
-
+              qualityPopover.innerHTML = `<button class="fx-quality-item active" data-level="-1">Auto</button>` +
+                data.levels.map((lvl, idx) => `<button class="fx-quality-item" data-level="${idx}">${lvl.height}p</button>`).join('');
               qualityPopover.querySelectorAll('.fx-quality-item').forEach(btn => {
                 btn.onclick = (e) => {
                   e.stopPropagation();
-                  const lvl = parseInt(btn.dataset.level, 10);
-                  hlsEngine.currentLevel = lvl;
+                  hlsEngine.currentLevel = parseInt(btn.dataset.level, 10);
                   qualityPopover.querySelectorAll('.fx-quality-item').forEach(b => b.classList.remove('active'));
                   btn.classList.add('active');
                   qualityPopover.classList.remove('show');
@@ -1570,96 +1014,210 @@
           video.src = url;
         }
 
-        const togglePlay = () => {
-          if (video.paused) video.play().catch(() => {});
-          else video.pause();
-        };
-
+        const togglePlay = () => { if (video.paused) video.play().catch(() => {}); else video.pause(); };
         const updatePlayIcons = () => {
-          if (video.paused) {
-            playBtn.innerHTML = '<i class="fas fa-play"></i>';
-            overlayPlay.style.display = 'flex';
-          } else {
-            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-            overlayPlay.style.display = 'none';
-          }
+          if (video.paused) { playBtn.innerHTML = '<i class="fas fa-play"></i>'; overlayPlay.style.display = 'flex'; }
+          else { playBtn.innerHTML = '<i class="fas fa-pause"></i>'; overlayPlay.style.display = 'none'; }
         };
-
         video.addEventListener('play', updatePlayIcons);
         video.addEventListener('pause', updatePlayIcons);
         overlayPlay.onclick = togglePlay;
         playBtn.onclick = togglePlay;
-
-        muteBtn.onclick = () => {
-          video.muted = !video.muted;
-          updateVolumeIcons();
-        };
-
-        volumeSlider.oninput = (e) => {
-          video.volume = e.target.value;
-          video.muted = video.volume == 0;
-          updateVolumeIcons();
-        };
-
+        muteBtn.onclick = () => { video.muted = !video.muted; updateVolumeIcons(); };
+        volumeSlider.oninput = (e) => { video.volume = e.target.value; video.muted = video.volume == 0; updateVolumeIcons(); };
         function updateVolumeIcons() {
-          if (video.muted || video.volume == 0) {
-            muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-            volumeSlider.value = 0;
-          } else if (video.volume < 0.5) {
-            muteBtn.innerHTML = '<i class="fas fa-volume-down"></i>';
-            volumeSlider.value = video.volume;
-          } else {
-            muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-            volumeSlider.value = video.volume;
-          }
+          if (video.muted || video.volume == 0) { muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>'; volumeSlider.value = 0; }
+          else if (video.volume < 0.5) { muteBtn.innerHTML = '<i class="fas fa-volume-down"></i>'; volumeSlider.value = video.volume; }
+          else { muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>'; volumeSlider.value = video.volume; }
         }
-
         if (document.pictureInPictureEnabled) {
           pipBtn.onclick = async () => {
             try {
               if (document.pictureInPictureElement) await document.exitPictureInPicture();
               else await video.requestPictureInPicture();
-            } catch (err) {}
+            } catch (_) {}
           };
-        } else {
-          pipBtn.style.display = 'none';
-        }
-
-        const requestFullscreen = async () => {
+        } else pipBtn.style.display = 'none';
+        fullscreenBtn.onclick = async () => {
           if (!document.fullscreenElement) {
             if (wrapper.requestFullscreen) await wrapper.requestFullscreen();
             else if (wrapper.webkitRequestFullscreen) await wrapper.webkitRequestFullscreen();
             else if (video.webkitEnterFullscreen) await video.webkitEnterFullscreen();
-            if (screen.orientation && typeof screen.orientation.lock === 'function') {
-              try { await screen.orientation.lock('landscape'); } catch (err) {}
-            }
-          } else {
-            if (document.exitFullscreen) await document.exitFullscreen();
-            if (screen.orientation && typeof screen.orientation.unlock === 'function') {
-              try { screen.orientation.unlock(); } catch (err) {}
-            }
-          }
+          } else if (document.exitFullscreen) await document.exitFullscreen();
         };
-
-        fullscreenBtn.onclick = requestFullscreen;
-
-        qualityBtn.onclick = (e) => {
-          e.stopPropagation();
-          qualityPopover.classList.toggle('show');
-        };
-
-        document.addEventListener('click', (e) => {
-          if (!qualityWrap.contains(e.target)) qualityPopover.classList.remove('show');
-        });
+        qualityBtn.onclick = (e) => { e.stopPropagation(); qualityPopover.classList.toggle('show'); };
+        document.addEventListener('click', (e) => { if (!qualityWrap.contains(e.target)) qualityPopover.classList.remove('show'); });
       } else {
-        const oPlayer = document.getElementById('oplayer-container');
-        oPlayer.style.display = 'none';
-        oPlayer.innerHTML = '';
+        document.getElementById('oplayer-container').style.display = 'none';
+        document.getElementById('oplayer-container').innerHTML = '';
         const embed = document.getElementById('embedPlayer');
         embed.style.display = 'block';
         embed.src = url;
       }
     }
+
+    function populateStreamDropdown(event) {
+      const selectMenu = document.getElementById('streamSelect');
+      if (!event?.streams?.length) {
+        document.getElementById('streamLinksContainer').style.display = 'none';
+        return;
+      }
+      selectMenu.innerHTML = event.streams.map((s, i) => {
+        const realUrl = typeof s === 'string' ? s : s.url;
+        const qualityStr = (s.quality || 'sd').toLowerCase();
+        const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
+        return `<option value="${payload}" data-title="${s.title || `Stream ${i + 1}`}" data-quality="${qualityStr}">${s.title || `Stream ${i + 1}`} [${qualityStr.toUpperCase()}]</option>`;
+      }).join('');
+      selectMenu.onchange = () => {
+        const opt = selectMenu.options[selectMenu.selectedIndex];
+        if (!opt) return;
+        playStream(atob(atob(opt.value).split('||')[0]));
+        document.getElementById('currentStreamName').textContent = `${opt.dataset.title} [${(opt.dataset.quality || 'sd').toUpperCase()}]`;
+      };
+    }
+
+    window.initViewerPresenceEngine = () => {
+      if (!window.globalSupabaseInstance) return;
+      const uriName = window.location.pathname.split('/').pop() || 'lobby';
+      const channel = window.globalSupabaseInstance.channel(`viewers_${uriName}`);
+      channel.on('presence', { event: 'sync' }, () => {
+        realActivePresenceCount = Object.keys(channel.presenceState()).length;
+        window.renderConsolidatedViewers();
+      }).subscribe(async (status) => {
+        if (status === 'SUBSCRIBED') await channel.track({ online_at: new Date().toISOString() });
+      });
+
+      function step() {
+        if (!foundEvent?.max_simulated_viewers) {
+          calculatedViewerSimulationState = 0;
+          window.renderConsolidatedViewers();
+          return setTimeout(step, 3000);
+        }
+        const maximumLimit = parseInt(foundEvent.max_simulated_viewers, 10);
+        if (isNaN(maximumLimit) || maximumLimit <= 0) {
+          calculatedViewerSimulationState = 0;
+          window.renderConsolidatedViewers();
+          return setTimeout(step, 3000);
+        }
+        const cap = maximumLimit - 20;
+        if (calculatedViewerSimulationState === 0) calculatedViewerSimulationState = Math.floor(cap * 0.94);
+        if (Math.random() >= 0.45) {
+          let d = Math.floor(Math.random() * 7) - 3;
+          if (calculatedViewerSimulationState > cap + 5) d -= 2;
+          else if (calculatedViewerSimulationState < cap * 0.88) d += 2;
+          calculatedViewerSimulationState += d;
+          if (calculatedViewerSimulationState > cap) calculatedViewerSimulationState = cap - Math.floor(Math.random() * 5);
+        }
+        window.renderConsolidatedViewers();
+        setTimeout(step, Math.floor(Math.random() * 6000) + 3500);
+      }
+      setTimeout(step, 2000);
+    };
+
+    window.renderConsolidatedViewers = () => {
+      const el = document.getElementById('onlineCount');
+      const wrapper = document.getElementById('viewerCountWrapper');
+      if (!el || !wrapper) return;
+      const now = Math.floor(Date.now() / 1000);
+      if (eventStartTime && now >= eventStartTime) wrapper.classList.remove('viewer-wrap-hidden');
+      else wrapper.classList.add('viewer-wrap-hidden');
+      el.innerText = realActivePresenceCount + calculatedViewerSimulationState;
+    };
+
+    // ========== SAME JSON FETCH AS WORKING PAGE ==========
+    document.addEventListener('DOMContentLoaded', async () => {
+      const uriName = window.location.pathname.split('/').pop() || 'lobby';
+      const startBtn = document.getElementById('startLivestream');
+      const statusArea = document.getElementById('statusArea');
+      const errorContainer = document.getElementById('errorContainer');
+
+      try {
+        const catListRes = await fetchWithRetry('/api/stream');
+        const categories = catListRes.categories || [];
+        const allCategoryData = await Promise.all(
+          categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ streams: [] })))
+        );
+
+        for (const data of allCategoryData) {
+          for (const catObj of (data.streams || [])) {
+            foundEvent = (catObj.streams || []).find(ev => ev.uri_name === uriName);
+            if (foundEvent) break;
+          }
+          if (foundEvent) break;
+        }
+
+        if (!foundEvent) {
+          document.getElementById('eventTitle').textContent = 'Event not found';
+          document.getElementById('statusMessage').textContent = `No event with uri_name "${uriName}".`;
+          errorContainer.textContent = `Event not found: ${uriName}`;
+          errorContainer.classList.remove('d-none');
+          return;
+        }
+
+        document.getElementById('eventTitle').textContent = foundEvent.name;
+        document.getElementById('chatEventTitle').textContent = foundEvent.name + ' Chat';
+
+        eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
+        eventEndTime = foundEvent.ends_at
+          ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000
+          : eventStartTime + 10800;
+
+        setInterval(() => {
+          const now = Math.floor(Date.now() / 1000);
+          if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
+            liveWindowActive = true;
+            statusArea.style.display = 'none';
+            if (!streamStarted) startBtn.style.display = 'inline-block';
+          } else if (now < eventStartTime) {
+            liveWindowActive = false;
+            statusArea.style.display = 'block';
+            startBtn.style.display = 'none';
+            const diff = eventStartTime - now;
+            const h = Math.floor(diff / 3600);
+            const m = Math.floor((diff % 3600) / 60);
+            const s = diff % 60;
+            if (h >= 24) {
+              document.getElementById('countdownDisplay').textContent =
+                `${Math.floor(h / 24)}day ${h % 24}hr ${m}m ${s}s`;
+            } else {
+              document.getElementById('countdownDisplay').textContent =
+                `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            }
+            document.getElementById('statusMessage').textContent = 'This event has not started yet.';
+          } else {
+            liveWindowActive = false;
+            statusArea.style.display = 'block';
+            startBtn.style.display = 'none';
+            document.getElementById('countdownDisplay').textContent = '';
+            document.getElementById('statusMessage').textContent = 'This event has ended.';
+            document.getElementById('mainVideoContainer').style.display = 'none';
+            document.getElementById('liveStreamTitle').classList.add('d-none');
+          }
+          window.renderConsolidatedViewers?.();
+        }, 1000);
+
+        startBtn.onclick = () => {
+          document.getElementById('mainVideoContainer').style.display = 'block';
+          document.getElementById('streamLinksContainer').style.display = 'block';
+          startBtn.style.display = 'none';
+          document.getElementById('liveStreamTitle').classList.remove('d-none');
+          const first = foundEvent.streams[0];
+          const initialUrl = typeof first === 'string' ? first : first.url;
+          const initialTitle = (typeof first === 'object' && first.title) ? first.title : 'Main Feed';
+          const initialQuality = (typeof first === 'object' && first.quality) ? first.quality.toLowerCase() : 'sd';
+          document.getElementById('currentStreamName').textContent = `${initialTitle} [${initialQuality.toUpperCase()}]`;
+          playStream(initialUrl);
+          populateStreamDropdown(foundEvent);
+          streamStarted = true;
+        };
+      } catch (err) {
+        console.error(err);
+        document.getElementById('eventTitle').textContent = 'Load error';
+        document.getElementById('statusMessage').textContent = err.message || 'Failed to load stream data.';
+        errorContainer.textContent = err.message || String(err);
+        errorContainer.classList.remove('d-none');
+      }
+    });
   </script>
 </body>
   </html>
