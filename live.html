@@ -695,6 +695,8 @@
       const toggleBtn = document.getElementById('emoteToggleBtn');
       const grid = document.getElementById('emoteGrid');
 
+      if (!grid || !toggleBtn || !popover) return;
+
       grid.innerHTML = EMOTE_LIBRARY.map(e => `
         <div class="emote-item" onclick="insertEmote('${e.name}')" title="${e.name}">
           <img src="${e.url}" alt="${e.name}">
@@ -733,7 +735,8 @@
       isMuted = !!data.is_muted;
 
       if (isMod || isOwner) {
-        document.getElementById('openAdminDashboardBtn').classList.remove('d-none');
+        const adminBtn = document.getElementById('openAdminDashboardBtn');
+        if (adminBtn) adminBtn.classList.remove('d-none');
         if (!isOwner) {
           document.querySelectorAll('.owner-only-tab').forEach(el => el.classList.add('d-none'));
         }
@@ -743,13 +746,18 @@
     }
 
     function showRegisterUI() {
-      document.getElementById('activeInputRow').style.display = 'none';
-      document.getElementById('chatMetaRow').style.display = 'none';
-      document.getElementById('usernameRegisterRow').classList.remove('d-none');
+      const activeInput = document.getElementById('activeInputRow');
+      const chatMeta = document.getElementById('chatMetaRow');
+      const regRow = document.getElementById('usernameRegisterRow');
+      if (activeInput) activeInput.style.display = 'none';
+      if (chatMeta) chatMeta.style.display = 'none';
+      if (regRow) regRow.classList.remove('d-none');
     }
 
     window.registerGuestUser = async () => {
-      const user = document.getElementById('guestUsername').value.trim();
+      const userBox = document.getElementById('guestUsername');
+      if (!userBox) return;
+      const user = userBox.value.trim();
       if (!user) return alert("Please enter a username");
       
       const { data: existing } = await supabase.from('profiles').select('username').eq('device_ip', currentIP);
@@ -776,8 +784,10 @@
       const mutedBanner = document.getElementById('mutedBanner');
       const closedBanner = document.getElementById('closedBanner');
 
-      mutedBanner.classList.toggle('d-none', !isMuted);
-      closedBanner.classList.toggle('d-none', !isChatClosedGlobal || isMod);
+      if (!input || !sendBtn) return;
+
+      if (mutedBanner) mutedBanner.classList.toggle('d-none', !isMuted);
+      if (closedBanner) closedBanner.classList.toggle('d-none', !isChatClosedGlobal || isMod);
 
       if (isMuted || (isChatClosedGlobal && !isMod)) {
         input.disabled = true;
@@ -791,13 +801,16 @@
     function setupInputHandlers() {
       const input = document.getElementById('chatInput');
       const counter = document.getElementById('charCounter');
+      const sendBtn = document.getElementById('sendChatBtn');
+
+      if (!input || !sendBtn) return;
 
       input.addEventListener('input', () => {
         const len = input.value.length;
-        counter.innerText = `${len}/250`;
+        if (counter) counter.innerText = `${len}/250`;
         if (len > 250) {
           input.value = input.value.substring(0, 250);
-          counter.innerText = '250/250';
+          if (counter) counter.innerText = '250/250';
         }
         input.style.height = 'auto';
         input.style.height = Math.min(input.scrollHeight, 80) + 'px';
@@ -806,11 +819,11 @@
       input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
-          document.getElementById('sendChatBtn').click();
+          sendBtn.click();
         }
       });
 
-      document.getElementById('sendChatBtn').onclick = async () => {
+      sendBtn.onclick = async () => {
         if (!currentUser || isMuted || (isChatClosedGlobal && !isMod)) return;
         const text = input.value.trim();
         if (!text) return;
@@ -820,12 +833,13 @@
             message: text,
             event_id: eventID,
             reply_to_username: replyTo?.user,
-            reply_to_msg: replyTo?.msg
+            reply_to_msg: replyTo?.msg,
+            reply_to_id: replyTo?.id
         }]);
 
         input.value = "";
         input.style.height = 'auto';
-        counter.innerText = '0/250';
+        if (counter) counter.innerText = '0/250';
         cancelReply();
       };
     }
@@ -834,6 +848,7 @@
         const { data } = await supabase.from('messages').select('*').eq('event_id', eventID).order('created_at', { ascending: true }).limit(100);
         if (data) {
             const box = document.getElementById('futbolx-chat-messages');
+            if (!box) return;
             box.innerHTML = '';
             data.forEach(renderMsg);
         }
@@ -841,6 +856,7 @@
 
     function renderMsg(msg) {
         const box = document.getElementById('futbolx-chat-messages');
+        if (!box) return;
         const div = document.createElement('div');
         div.className = "msg-row";
         div.setAttribute('data-id', msg.id);
@@ -887,16 +903,29 @@
       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
+    window.scrollToMsg = (msgId) => {
+      const target = document.querySelector(`[data-id="${msgId}"]`);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        target.style.backgroundColor = '#1f2937';
+        setTimeout(() => { target.style.backgroundColor = ''; }, 1500);
+      }
+    };
+
     window.setReply = (user, msg, id) => {
         replyTo = { user, msg, id };
-        document.getElementById('replyPreview').classList.remove('d-none');
-        document.getElementById('replyText').innerText = `Replying to @${user}: ${msg.substring(0,30)}`;
-        document.getElementById('chatInput').focus();
+        const replyPreview = document.getElementById('replyPreview');
+        const replyText = document.getElementById('replyText');
+        if (replyPreview) replyPreview.classList.remove('d-none');
+        if (replyText) replyText.innerText = `Replying to @${user}: ${msg.substring(0,30)}`;
+        const chatInput = document.getElementById('chatInput');
+        if (chatInput) chatInput.focus();
     };
 
     window.cancelReply = () => {
         replyTo = null;
-        document.getElementById('replyPreview').classList.add('d-none');
+        const replyPreview = document.getElementById('replyPreview');
+        if (replyPreview) replyPreview.classList.add('d-none');
     };
 
     async function loadRoomSettings() {
@@ -921,7 +950,8 @@
     window.clearAllChat = async () => {
       if (!confirm("Clear all messages in this room?")) return;
       await supabase.from('messages').delete().eq('event_id', eventID);
-      document.getElementById('futbolx-chat-messages').innerHTML = '';
+      const chatBox = document.getElementById('futbolx-chat-messages');
+      if (chatBox) chatBox.innerHTML = '';
     };
 
     window.deleteMessage = async (msgId) => {
@@ -939,7 +969,8 @@
     window.unpinMessage = async () => {
       currentPinnedMessageId = null;
       await supabase.from('room_settings').upsert([{ event_id: eventID, pinned_msg: null, pinned_id: null }], { onConflict: 'event_id' });
-      document.getElementById('pinnedMessageContainer').classList.add('d-none');
+      const pinContainer = document.getElementById('pinnedMessageContainer');
+      if (pinContainer) pinContainer.classList.add('d-none');
     };
 
     async function loadPin() {
@@ -952,27 +983,33 @@
 
     function showPin(text) {
       const container = document.getElementById('pinnedMessageContainer');
-      document.getElementById('pinnedContent').innerText = text;
+      const contentEl = document.getElementById('pinnedContent');
+      if (!container || !contentEl) return;
+      contentEl.innerText = text;
       container.classList.remove('d-none');
       if (isMod || isOwner) {
-        document.getElementById('unpinBtn').classList.remove('d-none');
+        const unpinBtn = document.getElementById('unpinBtn');
+        if (unpinBtn) unpinBtn.classList.remove('d-none');
       }
     }
 
     window.publishAnnouncement = async () => {
       if (!isOwner) return;
-      const text = document.getElementById('announcementInput').value.trim();
+      const inputEl = document.getElementById('announcementInput');
+      if (!inputEl) return;
+      const text = inputEl.value.trim();
       if (!text) return;
       await supabase.from('room_settings').upsert([{ event_id: eventID, announcement: text }], { onConflict: 'event_id' });
       showAnnouncement(text);
-      document.getElementById('announcementInput').value = '';
+      inputEl.value = '';
     };
 
     window.dismissAnnouncement = async () => {
       if (isOwner) {
         await supabase.from('room_settings').upsert([{ event_id: eventID, announcement: null }], { onConflict: 'event_id' });
       }
-      document.getElementById('announcementContainer').classList.add('d-none');
+      const banner = document.getElementById('announcementContainer');
+      if (banner) banner.classList.add('d-none');
     };
 
     async function loadAnnouncement() {
@@ -984,10 +1021,13 @@
 
     function showAnnouncement(text) {
       const banner = document.getElementById('announcementContainer');
-      document.getElementById('announcementText').innerText = text;
+      const textEl = document.getElementById('announcementText');
+      if (!banner || !textEl) return;
+      textEl.innerText = text;
       banner.classList.remove('d-none');
       if (isOwner) {
-        document.getElementById('dismissAnnounceBtn').classList.remove('d-none');
+        const dismissBtn = document.getElementById('dismissAnnounceBtn');
+        if (dismissBtn) dismissBtn.classList.remove('d-none');
       }
     }
 
@@ -1020,8 +1060,10 @@
       const userObj = allMembersCache.find(x => x.username === username);
       if (!userObj || userObj.username === currentUser) return;
 
-      document.getElementById('actionModalUsername').innerText = username;
+      const titleEl = document.getElementById('actionModalUsername');
+      if (titleEl) titleEl.innerText = username;
       const btnContainer = document.getElementById('memberActionButtons');
+      if (!btnContainer) return;
       
       let html = `
         <button class="btn btn-sm ${userObj.is_muted ? 'btn-success' : 'btn-warning'}" onclick="toggleMuteUser('${username}', ${!userObj.is_muted})">
@@ -1037,20 +1079,29 @@
         `;
       }
       btnContainer.innerHTML = html;
-      new bootstrap.Modal(document.getElementById('memberActionModal')).show();
+      const memberModal = document.getElementById('memberActionModal');
+      if (memberModal && window.bootstrap) {
+        new bootstrap.Modal(memberModal).show();
+      }
     };
 
     window.toggleMuteUser = async (username, muteState) => {
       await supabase.from('profiles').update({ is_muted: muteState }).eq('username', username);
       await loadMemberList();
-      bootstrap.Modal.getInstance(document.getElementById('memberActionModal')).hide();
+      const memberModal = document.getElementById('memberActionModal');
+      if (memberModal && window.bootstrap) {
+        bootstrap.Modal.getInstance(memberModal)?.hide();
+      }
     };
 
     window.toggleModUser = async (username, modState) => {
       if (!isOwner) return;
       await supabase.from('profiles').update({ is_mod: modState }).eq('username', username);
       await loadMemberList();
-      bootstrap.Modal.getInstance(document.getElementById('memberActionModal')).hide();
+      const memberModal = document.getElementById('memberActionModal');
+      if (memberModal && window.bootstrap) {
+        bootstrap.Modal.getInstance(memberModal)?.hide();
+      }
     };
 
     document.getElementById('memberSearchInput')?.addEventListener('input', (e) => {
@@ -1073,6 +1124,8 @@
           })
           .subscribe();
     }
+
+    init();
   </script>
 
   <script>
@@ -1082,13 +1135,13 @@
     function checkOverlay() {
       const lastJoin = localStorage.getItem(OVERLAY_KEY);
       const now = Date.now();
-      if (!lastJoin || (now - lastJoin > 86400000)) { overlay.style.display = 'flex'; }
+      if (!lastJoin || (now - lastJoin > 86400000)) { if (overlay) overlay.style.display = 'flex'; }
     }
 
     document.querySelectorAll('.social-join-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         localStorage.setItem(OVERLAY_KEY, Date.now());
-        overlay.style.display = 'none';
+        if (overlay) overlay.style.display = 'none';
       });
     });
 
@@ -1110,7 +1163,7 @@
     const savedTheme = localStorage.getItem('theme') || 'dark';
     htmlEl.setAttribute('data-bs-theme', savedTheme);
 
-    themeToggle.addEventListener('click', () => {
+    themeToggle?.addEventListener('click', () => {
       const current = htmlEl.getAttribute('data-bs-theme');
       const next = current === 'dark' ? 'light' : 'dark';
       htmlEl.setAttribute('data-bs-theme', next);
@@ -1147,8 +1200,10 @@
     }
 
     function initActualPlayer(url, useHls) {
-      document.getElementById('embedPlayer').style.display = 'none';
+      const embedPlayer = document.getElementById('embedPlayer');
+      if (embedPlayer) embedPlayer.style.display = 'none';
       const container = document.getElementById('oplayer-container');
+      if (!container) return;
       container.style.display = 'flex';
       
       container.innerHTML = `
@@ -1239,33 +1294,37 @@
       const selectMenu = document.getElementById('streamSelect');
       
       if (!event.streams || event.streams.length <= 1) {
-        selectContainer.style.display = 'none';
+        if (selectContainer) selectContainer.style.display = 'none';
         return;
       }
 
-      selectContainer.style.display = 'block';
-      selectMenu.innerHTML = event.streams.map((s, i) => {
-        const realUrl = typeof s === 'string' ? s : s.url;
-        const qualityStr = s.quality ? s.quality.toLowerCase() : 'sd';
-        let labelAddon = `[${qualityStr.toUpperCase()}]`;
-        
-        const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
-        return `<option value="${payload}" data-title="${s.title || `Stream ${i+1}`}" data-quality="${qualityStr}">${s.title || `Stream ${i+1}`} ${labelAddon}</option>`;
-      }).join('');
+      if (selectContainer) selectContainer.style.display = 'block';
+      if (selectMenu) {
+        selectMenu.innerHTML = event.streams.map((s, i) => {
+          const realUrl = typeof s === 'string' ? s : s.url;
+          const qualityStr = s.quality ? s.quality.toLowerCase() : 'sd';
+          let labelAddon = `[${qualityStr.toUpperCase()}]`;
+          
+          const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
+          return `<option value="${payload}" data-title="${s.title || `Stream ${i+1}`}" data-quality="${qualityStr}">${s.title || `Stream ${i+1}`} ${labelAddon}</option>`;
+        }).join('');
 
-      selectMenu.onchange = (e) => {
-        const selectedOption = selectMenu.options[selectMenu.selectedIndex];
-        if (!selectedOption) return;
-        
-        const realUrl = atob(atob(selectedOption.value).split('||')[0]);
-        playStream(realUrl);
-        
-        const titleContainer = document.getElementById('currentStreamName');
-        const qual = selectedOption.dataset.quality;
-        let badgeClass = qual === 'fhd' ? 'badge-fhd' : qual === 'hd' ? 'badge-hd' : qual === '4k' ? 'badge-4k' : 'badge-default';
-        
-        titleContainer.innerHTML = `${selectedOption.dataset.title} <span class="badge-quality ${badgeClass}">${qual}</span>`;
-      };
+        selectMenu.onchange = (e) => {
+          const selectedOption = selectMenu.options[selectMenu.selectedIndex];
+          if (!selectedOption) return;
+          
+          const realUrl = atob(atob(selectedOption.value).split('||')[0]);
+          playStream(realUrl);
+          
+          const titleContainer = document.getElementById('currentStreamName');
+          const qual = selectedOption.dataset.quality;
+          let badgeClass = qual === 'fhd' ? 'badge-fhd' : qual === 'hd' ? 'badge-hd' : qual === '4k' ? 'badge-4k' : 'badge-default';
+          
+          if (titleContainer) {
+            titleContainer.innerHTML = `${selectedOption.dataset.title} <span class="badge-quality ${badgeClass}">${qual}</span>`;
+          }
+        };
+      }
     }
 
     window.initViewerPresenceEngine = () => {
@@ -1370,49 +1429,64 @@
           if (foundEvent) break;
         }
         if (foundEvent) {
-          document.getElementById('eventTitle').textContent = foundEvent.name;
-          document.getElementById('chatEventTitle').textContent = foundEvent.name + " Chat";
+          const eventTitleEl = document.getElementById('eventTitle');
+          const chatEventTitleEl = document.getElementById('chatEventTitle');
+          if (eventTitleEl) eventTitleEl.textContent = foundEvent.name;
+          if (chatEventTitleEl) chatEventTitleEl.textContent = foundEvent.name + " Chat";
           
           eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
           eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
           
           setInterval(() => {
             const now = Math.floor(Date.now() / 1000);
+            const statusArea = document.getElementById('statusArea');
+            const countdownDisp = document.getElementById('countdownDisplay');
             if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
                 liveWindowActive = true; 
-                document.getElementById('statusArea').style.display = 'none'; 
-                if(!streamStarted) startBtn.style.display = 'inline-block';
+                if (statusArea) statusArea.style.display = 'none'; 
+                if(startBtn && !streamStarted) startBtn.style.display = 'inline-block';
             } else if (now < eventStartTime) {
                 liveWindowActive = false;
                 const diff = eventStartTime - now;
                 const h = Math.floor(diff/3600); const m = Math.floor((diff%3600)/60); const s = diff%60;
                 
-                if (h >= 24) {
-                  const days = Math.floor(h / 24);
-                  const remHours = h % 24;
-                  document.getElementById('countdownDisplay').textContent = `${days}day ${remHours}hr ${m}m ${s}s`;
-                } else {
-                  document.getElementById('countdownDisplay').textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                if (countdownDisp) {
+                  if (h >= 24) {
+                    const days = Math.floor(h / 24);
+                    const remHours = h % 24;
+                    countdownDisp.textContent = `${days}day ${remHours}hr ${m}m ${s}s`;
+                  } else {
+                    countdownDisp.textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                  }
                 }
             }
           }, 1000);
         }
-        startBtn.onclick = () => {
-          document.getElementById('mainVideoContainer').style.display = 'block';
-          startBtn.style.display = 'none';
-          document.getElementById('liveStreamTitle').classList.remove('d-none');
-          
-          const dynamicInitialFeed = foundEvent.streams[0];
-          const initialUrl = typeof dynamicInitialFeed === 'string' ? dynamicInitialFeed : dynamicInitialFeed.url;
-          const initialQuality = dynamicInitialFeed.quality ? dynamicInitialFeed.quality.toLowerCase() : 'sd';
-          let initialBadgeClass = initialQuality === 'fhd' ? 'badge-fhd' : initialQuality === 'hd' ? 'badge-hd' : initialQuality === '4k' ? 'badge-4k' : 'badge-default';
-          
-          document.getElementById('currentStreamName').innerHTML = `${dynamicInitialFeed.title || 'Main Feed'} <span class="badge-quality ${initialBadgeClass}">${initialQuality}</span>`;
-          
-          playStream(initialUrl);
-          populateStreamDropdown(foundEvent);
-          streamStarted = true;
-        };
+        if (startBtn) {
+          startBtn.onclick = () => {
+            const mainVideoContainer = document.getElementById('mainVideoContainer');
+            const liveStreamTitle = document.getElementById('liveStreamTitle');
+            const currentStreamName = document.getElementById('currentStreamName');
+
+            if (mainVideoContainer) mainVideoContainer.style.display = 'block';
+            startBtn.style.display = 'none';
+            if (liveStreamTitle) liveStreamTitle.classList.remove('d-none');
+            
+            const dynamicInitialFeed = foundEvent ? foundEvent.streams[0] : null;
+            if (!dynamicInitialFeed) return;
+            const initialUrl = typeof dynamicInitialFeed === 'string' ? dynamicInitialFeed : dynamicInitialFeed.url;
+            const initialQuality = dynamicInitialFeed.quality ? dynamicInitialFeed.quality.toLowerCase() : 'sd';
+            let initialBadgeClass = initialQuality === 'fhd' ? 'badge-fhd' : initialQuality === 'hd' ? 'badge-hd' : initialQuality === '4k' ? 'badge-4k' : 'badge-default';
+            
+            if (currentStreamName) {
+              currentStreamName.innerHTML = `${dynamicInitialFeed.title || 'Main Feed'} <span class="badge-quality ${initialBadgeClass}">${initialQuality}</span>`;
+            }
+            
+            playStream(initialUrl);
+            populateStreamDropdown(foundEvent);
+            streamStarted = true;
+          };
+        }
       } catch (err) {}
     });
   </script>
