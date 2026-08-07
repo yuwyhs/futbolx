@@ -17,9 +17,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
-  <link rel="stylesheet" href="/assets/css/main.css?v=25">
+  <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
     .top-bar .container-fluid {
       position: relative;
@@ -72,48 +72,12 @@
     .alert-info {text-align:center;position:relative;padding-right:40px !important;}
     .error-alert {max-width:500px;margin:20px auto;}
     .fade-out {animation:fadeOut .5s forwards;} @keyframes fadeOut {from{opacity:1}to{opacity:0}}
+    .btn-fullscreen {display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#ff4d4d;color:#fff;border:none;border-radius:20px;transition:.3s;}
+    [data-bs-theme="light"] .btn-fullscreen {background:#e63939;color:#333;}
+    .btn-fullscreen:hover {transform:scale(1.05);background:#e63939;}
     
-    .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:12px;overflow:hidden;display:none;margin-bottom:1rem;box-shadow: 0 8px 24px rgba(0,0,0,0.5);}
-    #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#000;}
-
-    /* Custom Player UI */
-    .fx-player-wrapper { position: relative; width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    .fx-video-element { width: 100%; height: 100%; object-fit: contain; }
-    
-    .fx-center-play {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 68px; height: 68px; background: rgba(255, 77, 77, 0.85); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 26px;
-      cursor: pointer; transition: all 0.25s ease; border: 2px solid rgba(255,255,255,0.3);
-      box-shadow: 0 0 20px rgba(255,77,77,0.5); z-index: 5;
-    }
-    .fx-center-play:hover { transform: translate(-50%, -50%) scale(1.1); background: #ff4d4d; }
-    
-    .fx-controls-bar {
-      position: absolute; bottom: 0; left: 0; right: 0; height: 48px;
-      background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 70%, transparent 100%);
-      display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
-      z-index: 10; opacity: 0; transition: opacity 0.3s ease;
-    }
-    .fx-player-wrapper:hover .fx-controls-bar, .fx-controls-bar.active { opacity: 1; }
-    
-    .fx-controls-left, .fx-controls-right { display: flex; align-items: center; gap: 14px; }
-    .fx-ctrl-btn { background: none; border: none; color: #f3f4f6; font-size: 16px; cursor: pointer; padding: 4px; transition: color 0.2s, transform 0.1s; }
-    .fx-ctrl-btn:hover { color: #ff4d4d; transform: scale(1.1); }
-    
-    .fx-volume-wrap { display: flex; align-items: center; gap: 8px; }
-    .fx-volume-slider { width: 70px; height: 4px; -webkit-appearance: none; appearance: none; background: rgba(255,255,255,0.3); border-radius: 2px; outline: none; cursor: pointer; }
-    .fx-volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #ff4d4d; cursor: pointer; }
-    
-    @media (max-width: 768px) {
-      .fx-volume-slider { display: none !important; }
-    }
-
-    .fx-quality-menu-wrap { position: relative; }
-    .fx-quality-popover { position: absolute; bottom: 38px; right: -10px; background: #0f172a; border: 1px solid #1f293d; border-radius: 8px; padding: 6px 0; min-width: 110px; display: none; flex-direction: column; box-shadow: 0 8px 20px rgba(0,0,0,0.8); z-index: 20; }
-    .fx-quality-popover.show { display: flex; }
-    .fx-quality-item { padding: 6px 14px; font-size: 12px; color: #d1d5db; cursor: pointer; transition: background 0.2s, color 0.2s; text-align: left; background: none; border: none; width: 100%; }
-    .fx-quality-item:hover, .fx-quality-item.active { background: #1f293d; color: #ff4d4d; font-weight: bold; }
+    .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
+    #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
     #socialOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -152,145 +116,81 @@
     
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-    /* Streamlined Chat Styles */
-    .chat-wrapper-container { width: 100%; height: 680px; background: #090d16; border: 1px solid #1f293d; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
-    .chat-header-area { padding: 12px 16px; background: #0f172a; border-bottom: 1px solid #1f293d; }
-    
-    /* Decoupled Announcements Bar */
-    .announcement-banner { background: linear-gradient(90deg, #991b1b, #450a0a); color: #fecaca; padding: 8px 12px; font-size: 0.8rem; border-bottom: 1px solid #ef444455; display: flex; align-items: center; justify-content: space-between; }
-    
-    /* Dedicated Pinned Message Card */
-    .pinned-message-container { 
-      position: relative;
-      background: rgba(17, 24, 39, 0.95); 
-      border-bottom: 1px solid #ef4444aa; 
-      padding: 8px 32px 8px 12px; 
-      font-size: 0.82rem; 
-      color: #f3f4f6; 
+    .chat-wrapper-container {
+      width: 100%; 
+      height: 640px; 
+      background: var(--bs-body-bg);
+      border: 1px solid var(--bs-border-color);
+      border-radius: 16px; 
+      overflow: hidden; 
       display: flex; 
-      align-items: center; 
-      gap: 8px; 
-    }
-    .pinned-badge-icon { color: #ef4444; font-size: 0.8rem; flex-shrink: 0; }
-    .pinned-unpin-btn { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #9ca3af; background: none; border: none; padding: 0 4px; cursor: pointer; }
-    .pinned-unpin-btn:hover { color: #ef4444; }
-
-    .chat-rules { text-align: center; font-size: 0.73rem; color: #6b7280; padding: 6px 0; background: #030712; border-bottom: 1px solid #111827; }
-
-    /* PPV/Twitch Compact Inline Chat Row */
-    .msg-row {
+      flex-direction: column; 
       position: relative;
-      padding: 4px 8px;
-      margin-bottom: 2px;
-      font-size: 0.88rem;
-      line-height: 1.45;
-      word-break: break-word;
-      border-radius: 4px;
-      touch-action: pan-y;
-      transition: background 0.15s ease, transform 0.1s ease;
-    }
-    .msg-row:hover { background: #111827; }
-
-    .chat-author { font-weight: 700; margin-right: 4px; cursor: pointer; }
-    
-    /* Owner Sparkling Name Effect */
-    .chat-author.owner { 
-      background: linear-gradient(90deg, #ff4d4d, #f59e0b, #ef4444, #ff4d4d);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: sparkleGlow 3s linear infinite;
-      font-weight: 800;
     }
 
-    @keyframes sparkleGlow {
-      0% { background-position: 0% center; filter: drop-shadow(0 0 2px rgba(255, 77, 77, 0.8)); }
-      50% { background-position: 100% center; filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.9)); }
-      100% { background-position: 0% center; filter: drop-shadow(0 0 2px rgba(255, 77, 77, 0.8)); }
+    .chat-header-area {
+      padding: 12px 16px; 
+      background: rgba(255,255,255,0.02); 
+      border-bottom: 1px solid var(--bs-border-color);
     }
 
-    .chat-author.user { color: #38bdf8; }
-    .chat-author.mod { color: #facc15; font-weight: 700; }
-    .chat-author.system { color: #c084fc; font-weight: 800; }
-
-    .user-badge { font-size: 0.65rem; font-weight: 800; padding: 1px 4px; border-radius: 3px; margin-right: 4px; vertical-align: middle; text-transform: uppercase; }
-    .badge-owner { color: #ffc107; font-size: 0.85rem; margin-right: 3px; }
-    .badge-mod { background: #ca8a04; color: #fff; }
-
-    .msg-text { color: #e5e7eb; }
-    .chat-emote { height: 26px; width: auto; vertical-align: middle; margin: 0 2px; object-fit: contain; }
-
-    .reply-context { font-size: 0.75rem; color: #9ca3af; background: #1f2937; padding: 2px 6px; border-left: 2px solid #ff4d4d; border-radius: 3px; margin-bottom: 3px; display: block; cursor: pointer; }
-
-    /* Action bar on row hover */
-    .msg-hover-actions {
-      display: none;
-      position: absolute;
-      right: 6px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: #1f2937;
-      border: 1px solid #374151;
-      border-radius: 4px;
-      padding: 2px 6px;
-      gap: 6px;
-      z-index: 5;
-    }
-    .msg-row:hover .msg-hover-actions { display: flex; align-items: center; }
-    .action-icon { color: #9ca3af; cursor: pointer; font-size: 11px; }
-    .action-icon:hover { color: #fff; }
-    .action-icon.danger:hover { color: #ef4444; }
-
-    #typingIndicator { font-size: 0.72rem; color: #6b7280; padding: 2px 16px; font-style: italic; min-height: 20px; }
-
-    /* Mute / Closed State Banners */
-    .chat-status-notice {
-      padding: 12px 16px;
-      background: rgba(127, 29, 29, 0.3);
-      border-top: 1px solid #ef4444;
-      color: #fca5a5;
-      font-size: 0.82rem;
+    .chat-rules {
       text-align: center;
-      line-height: 1.4;
-    }
-    .chat-status-notice a { color: #38bdf8; text-decoration: underline; }
-
-    /* Emote Picker Styles */
-    .emote-picker-popover {
-      position: absolute;
-      bottom: 60px;
-      right: 12px;
-      width: 290px;
-      height: 240px;
-      background: #0b0f19;
-      border: 1px solid #1f293d;
-      border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .emote-header { padding: 8px 12px; background: #0f172a; font-size: 12px; font-weight: 700; color: #9ca3af; border-bottom: 1px solid #1f293d; }
-    .emote-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 10px; overflow-y: auto; flex: 1; }
-    .emote-item { display: flex; align-items: center; justify-content: center; background: #111827; border-radius: 6px; padding: 6px; cursor: pointer; transition: background 0.2s, transform 0.1s; font-size: 18px; }
-    .emote-item:hover { background: #1f293d; transform: scale(1.15); }
-    .emote-item img { max-width: 28px; max-height: 28px; object-fit: contain; }
-
-    .admin-dashboard-modal .modal-content { background: #0b0f19; border: 1px solid #ef444455; color: #e5e7eb; }
-    .admin-dashboard-modal .nav-tabs .nav-link { color: #9ca3af; border: none; font-weight: 600; font-size: 0.85rem; }
-    .admin-dashboard-modal .nav-tabs .nav-link.active { color: #ff4d4d; background: transparent; border-bottom: 2px solid #ff4d4d; }
-
-    .member-item-row {
-      cursor: pointer;
-      transition: background 0.15s ease;
-    }
-    .member-item-row:hover {
-      background: #111827 !important;
+      font-size: 0.75rem;
+      color: var(--bs-secondary-color);
+      padding: 6px 0;
+      background: rgba(0,0,0,0.1);
+      border-bottom: 1px solid var(--bs-border-color);
     }
 
-    #futbolx-chat-messages::-webkit-scrollbar, .emote-grid::-webkit-scrollbar { width: 5px; }
-    #futbolx-chat-messages::-webkit-scrollbar-thumb, .emote-grid::-webkit-scrollbar-thumb { background: #1f293d; border-radius: 10px; }
+    .chat-username-text {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #22d3ee;
+    }
+
+    .chat-message-payload {
+      font-size: 0.82rem;
+      color: var(--bs-body-color);
+      word-break: break-word;
+    }
+
+    .owner-name {
+      font-size: 0.82rem;
+      font-weight: 800; 
+      color: #ff4d4d;
+      text-shadow: 0 0 8px rgba(255, 77, 77, 0.6);
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .owner-crown-icon {
+      color: #ffd700;
+      font-size: 0.75rem;
+      text-shadow: 0 0 4px #ffd700;
+    }
+
+    #chatAdminSidebar {
+      position: absolute; top: 70px; right: -280px; width: 280px; height: calc(100% - 70px);
+      background: #0a0d1c; border-left: 2px solid #1a1f3d; z-index: 1100;
+      transition: 0.3s ease; display: flex; flex-direction: column; padding: 15px;
+    }
+    #chatAdminSidebar.active { right: 0; }
+    .sidebar-toggle { position: absolute; top: 68px; right: 20px; cursor: pointer; color: #555; font-size: 18px; z-index: 1101; }
+    .admin-btn { width: 100%; margin-bottom: 10px; font-weight: 600; font-size: 11px; }
+
+    .reply-bubble {
+      background: rgba(255,255,255,0.03); border-left: 3px solid #ff4d4d;
+      padding: 4px 8px; margin-bottom: 4px; font-size: 0.75rem; border-radius: 4px; color: var(--bs-secondary-color);
+    }
+    .msg-item { position: relative; cursor: pointer; transition: background 0.2s; padding: 4px 8px; border-radius: 6px; }
+    .msg-item:hover { background: rgba(255,255,255,0.02); }
+    .msg-actions { display: none; gap: 8px; margin-left: 10px; font-size: 11px; }
+    .msg-item:hover .msg-actions { display: inline-flex; }
+
+    #futbolx-chat-messages::-webkit-scrollbar { width: 4px; }
+    #futbolx-chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+    .chat-msg-emote { width: 22px; height: 22px; vertical-align: middle; margin: 0 2px; }
 
     #statusArea {
       text-align: center; padding: 30px 15px;
@@ -306,6 +206,12 @@
     .stream-dropdown-container { max-width: 320px; margin-bottom: 1rem; }
     .stream-select-custom { background: #0b1020 !important; color: #fff !important; border: 2px solid #ff4d4d !important; border-radius: 12px; padding: 10px 15px; font-weight: 600; cursor: pointer; box-shadow: 0 0 15px rgba(255, 77, 77, 0.15); }
     .stream-select-custom:focus { box-shadow: 0 0 20px rgba(255, 77, 77, 0.4); outline: none; }
+    
+    .badge-quality { display: inline-block; padding: 2px 6px; font-size: 0.75rem; font-weight: 900; border-radius: 6px; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
+    .badge-fhd { background-color: #0088cc; color: #fff; }
+    .badge-hd { background-color: #22d3ee; color: #0a0a0a; }
+    .badge-4k { background-color: #ff4d4d; color: #fff; }
+    .badge-default { background-color: #555; color: #fff; }
     
     .viewer-wrap-hidden { display: none !important; }
   </style>
@@ -377,6 +283,7 @@
           <div class="d-flex align-items-center mb-3">
             <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
             <button id="startLivestream" class="btn btn-danger ms-3" style="display:none;">Click to Start Livestream</button>
+            <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
           </div>
 
           <div id="liveStreamTitle" class="live-title d-none">
@@ -402,83 +309,52 @@
               </div>
             </div>
 
-            <!-- FutbolX Twitch/PPV Style Inline Chat -->
             <div class="col-12 col-lg-4">
               <div class="chat-wrapper-container">
-                <div class="chat-header-area d-flex justify-content-between align-items-center">
-                  <div>
-                    <h2 id="chatEventTitle" style="color:#f3f4f6; margin:0; font-size:14px; font-weight:700;">Live Chat</h2>
-                    <span id="typingIndicator"></span>
-                  </div>
-                  <div class="d-flex align-items-center gap-2">
-                    <div id="viewerCountWrapper" class="viewer-wrap-hidden" style="color:#4ade80; font-size:12px; font-weight:600;">
-                      <span id="onlineCount">0</span> viewers
-                    </div>
-                    <button id="openAdminDashboardBtn" class="btn btn-sm btn-outline-danger d-none" data-bs-toggle="modal" data-bs-target="#adminDashboardModal">
-                      <i class="fas fa-user-shield"></i>
-                    </button>
-                  </div>
+                
+                <i class="fas fa-bars sidebar-toggle d-none" id="adminSidebarBtn" onclick="toggleSidebar()"></i>
+
+                <div id="chatAdminSidebar">
+                    <h6 class="text-white mb-3">Admin Panel</h6>
+                    
+                    <input type="text" id="memberSearch" class="form-control form-control-sm mb-2" placeholder="Search members...">
+                    <div id="memberList" style="flex:1; overflow-y:auto; border-top:1px solid #1a1f3d;"></div>
                 </div>
 
-                <!-- Independent Broadcast Announcements Bar -->
-                <div id="announcementContainer" class="announcement-banner d-none">
-                  <div><i class="fas fa-bullhorn me-1"></i> <span id="announcementText"></span></div>
-                  <button id="dismissAnnounceBtn" class="btn-close btn-close-white btn-sm ms-2 d-none" onclick="dismissAnnouncement()"></button>
+                <div class="chat-header-area">
+                   <div class="d-flex justify-content-between align-items-center">
+                      <h2 id="chatEventTitle" style="color:var(--bs-emphasis-color); margin:0; font-size:14px; font-weight:700;">Live Chat</h2>
+                      <div id="viewerCountWrapper" class="viewer-wrap-hidden" style="color:#4ade80; font-size:12px; font-weight:600;">
+                        <span id="onlineCount">0</span> viewers
+                      </div>
+                   </div>
                 </div>
 
-                <div class="chat-rules">be respectful • no spam • enjoy the streams</div>
-
-                <!-- Dedicated Pinned Message Card -->
-                <div id="pinnedMessageContainer" class="pinned-message-container d-none">
-                  <i class="fas fa-thumbtack pinned-badge-icon"></i>
-                  <div id="pinnedContent" class="overflow-hidden text-truncate flex-grow-1"></div>
-                  <button id="unpinBtn" class="pinned-unpin-btn d-none" onclick="unpinMessage()" title="Unpin Message"><i class="fas fa-times"></i></button>
+                <div class="chat-rules">
+                  be respectful • no spam • enjoy the streams
                 </div>
 
-                <div id="futbolx-chat-messages" style="flex:1; overflow-y:auto; padding:8px 12px; display:flex; flex-direction:column;"></div>
+                <div id="futbolx-chat-messages" style="flex:1; overflow-y:auto; padding:12px; background:transparent; display:flex; flex-direction:column; gap:6px;"></div>
 
-                <div id="replyPreview" class="d-none" style="background:#111827; padding:6px 12px; color:#9ca3af; font-size:11px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #ef444455;">
+                <div id="replyPreview" class="d-none" style="background:rgba(255,255,255,0.04); padding:6px 12px; color:#888; font-size:11px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #ff4d4d;">
                     <span id="replyText">Replying...</span>
                     <i class="fas fa-times" onclick="cancelReply()" style="cursor:pointer;"></i>
                 </div>
 
-                <!-- Emote Picker Popover -->
-                <div id="emotePickerPopover" class="emote-picker-popover d-none">
-                  <div class="emote-header">FutbolX Emotes</div>
-                  <div class="emote-grid" id="emoteGrid"></div>
-                </div>
-
-                <!-- Chat Input Controls & Status Banners -->
-                <div id="chatInputArea" style="border-top:1px solid #1f293d; padding:10px 12px; background:#0f172a; position:relative;">
-                  
-                  <div id="activeInputRow" style="display:flex; gap:8px; align-items:center;">
-                    <textarea id="chatInput" rows="1" placeholder="Send a message..." style="flex:1; background:#030712; border:1px solid #1f293d; border-radius:8px; padding:6px 12px; color:#f3f4f6; outline:none; font-size:13px; resize:none;"></textarea>
-                    
-                    <button id="emoteToggleBtn" type="button" style="background:none; border:none; color:#ffc107; font-size:18px; padding:0 4px; transition:transform 0.1s;">
-                      <i class="far fa-smile"></i>
-                    </button>
-
-                    <button id="sendChatBtn" style="background:none; border:none; color:#ff4d4d; font-size:18px;"><i class="fas fa-paper-plane"></i></button>
-                  </div>
-
-                  <div id="chatMetaRow" class="d-flex justify-content-between align-items-center mt-1 text-muted" style="font-size: 10px;">
-                    <span id="charCounter">0/250</span>
-                    <span>Enter to send • Shift+Enter newline</span>
-                  </div>
-
-                  <!-- Muted Lockout Banner -->
-                  <div id="mutedBanner" class="chat-status-notice d-none">
-                    You have been muted.<br>Join <a href="https://discord.gg/UzHzerb6XY" target="_blank">Discord</a> or <a href="https://t.me/+H-GY0RZpdHc3ZDdl" target="_blank">Telegram</a> to appeal (bring your chat username).
-                  </div>
-
-                  <!-- Chat Closed Banner -->
-                  <div id="closedBanner" class="chat-status-notice d-none" style="background: rgba(30, 41, 59, 0.6); border-top-color: #64748b; color: #cbd5e1;">
-                    <i class="fas fa-lock me-1"></i> Chat is currently closed by moderators.
+                <div id="chatInputArea" style="border-top:1px solid var(--bs-border-color); padding:12px; background:rgba(0,0,0,0.05);">
+                  <div style="display:flex; gap:8px; align-items:center;">
+                    <button id="toggleEmotes" style="background:none; border:none; color:var(--bs-secondary-color); font-size:16px;"><i class="far fa-smile"></i></button>
+                    <input id="chatInput" placeholder="Type here..." style="flex:1; background:var(--bs-tertiary-bg); border:1px solid var(--bs-border-color); border-radius:20px; padding:6px 12px; color:var(--bs-body-color); outline:none; font-size:13px;">
+                    <button id="sendChatBtn" style="background:none; border:none; color:#ff4d4d; font-size:16px;"><i class="fas fa-paper-plane"></i></button>
                   </div>
 
                   <div id="usernameRegisterRow" class="d-none mt-2">
-                    <input type="text" id="guestUsername" class="form-control form-control-sm mb-2" placeholder="Choose username..." style="background:#030712; border-color:#1f293d; color:white;">
+                    <input type="text" id="guestUsername" class="form-control form-control-sm mb-2" placeholder="Choose username..." style="background:var(--bs-tertiary-bg); border-color:var(--bs-border-color); color:white;">
                     <button onclick="registerGuestUser()" class="btn btn-sm btn-danger w-100">Register & Chat</button>
+                  </div>
+
+                  <div id="emotePicker" style="display:none; height:130px; overflow-y:auto; margin-top:10px; border-top:1px solid var(--bs-border-color); padding-top:8px;">
+                    <div id="emoteGrid" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:6px;"></div>
                   </div>
                 </div>
               </div>
@@ -497,72 +373,6 @@
 
       <div class="disclaimer">
         We DO NOT host nor transmit any audiovisual content itself...
-      </div>
-    </div>
-  </div>
-
-  <!-- Dashboard Modal (Owner & Moderator) -->
-  <div class="modal fade admin-dashboard-modal" id="adminDashboardModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header border-bottom border-secondary">
-          <h5 class="modal-title text-danger" id="dashTitle"><i class="fas fa-shield-alt me-2"></i>FutbolX Moderation Dashboard</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <ul class="nav nav-tabs mb-3" id="adminTabs" role="tablist">
-            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabMembers">Members List</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabMod">Room Actions</button></li>
-            <li class="nav-item owner-only-tab"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabAnnouncements">Announcements</button></li>
-          </ul>
-          
-          <div class="tab-content">
-            <!-- Members List Tab -->
-            <div class="tab-pane fade show active" id="tabMembers">
-              <div class="mb-3">
-                <input type="text" id="memberSearchInput" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="Search members by username or IP...">
-              </div>
-              <div id="adminMemberList" class="list-group" style="max-height: 320px; overflow-y: auto;"></div>
-            </div>
-
-            <!-- Moderation & Room Control Tab -->
-            <div class="tab-pane fade" id="tabMod">
-              <div class="d-flex flex-column gap-3">
-                <div>
-                  <h6>Chat Lock State</h6>
-                  <button id="toggleChatClosedBtn" class="btn btn-sm btn-warning" onclick="toggleChatClosedState()"></button>
-                  <small class="text-muted d-block mt-1">Closing chat prevents normal users from typing. Mods & Owner can still speak.</small>
-                </div>
-                <hr class="border-secondary my-1">
-                <div>
-                  <h6>Room History</h6>
-                  <button class="btn btn-sm btn-danger" onclick="clearAllChat()"><i class="fas fa-trash me-1"></i> Clear Room Chat</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Announcements Tab (Owner Only) -->
-            <div class="tab-pane fade owner-only-tab" id="tabAnnouncements">
-              <textarea id="announcementInput" class="form-control form-control-sm mb-2" rows="2" placeholder="Broadcast message..."></textarea>
-              <button class="btn btn-sm btn-danger" onclick="publishAnnouncement()">Publish Banner</button>
-              <button class="btn btn-sm btn-outline-secondary ms-2" onclick="dismissAnnouncement()">Clear Banner</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Member Action Popup Modal -->
-  <div class="modal fade" id="memberActionModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-      <div class="modal-content bg-dark border border-secondary text-white">
-        <div class="modal-header border-bottom border-secondary py-2">
-          <h6 class="modal-title text-danger" id="actionModalUsername">User Options</h6>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body d-flex flex-column gap-2" id="memberActionButtons">
-        </div>
       </div>
     </div>
   </div>
@@ -593,21 +403,10 @@
     const SB_URL = "https://usxpqfbpvlppzldvnerp.supabase.co";
     const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzeHBxZmJwdmxwcHpsZHZuZXJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNjYzODcsImV4cCI6MjA5Mzg0MjM4N30.zwvsvJRtcTRmVLTHGR3AB9gApShbTswZkmDWGbzI-uY";
     const supabase = createClient(SB_URL, SB_KEY);
+
     window.globalSupabaseInstance = supabase;
 
-    const eventID = window.location.pathname.split('/').pop() || 'lobby';
-    let currentUser = localStorage.getItem('chat_user');
-    let currentIP = "127.0.0.1";
-    let isOwner = false;
-    let isMod = false;
-    let isMuted = false;
-    let isChatClosedGlobal = false;
-    let replyTo = null;
-    let currentPinnedMessageId = null;
-    let allMembersCache = [];
-
-    // Emote Library Configuration
-    const EMOTE_LIBRARY = [
+    const emotes = [
       { name: "GIGACHAD", url: "https://cdn.7tv.app/emote/01F6MZGCNG000255K4X1K7NTHR/4x.webp" },
       { name: "donowall", url: "https://cdn.7tv.app/emote/01F6BN89H80006VBW12DRB1DJ0/4x.webp" },
       { name: "catJAM", url: "https://cdn.7tv.app/emote/01F6MQ33FG000FFJ97ZB8MWV52/4x.webp" },
@@ -665,281 +464,130 @@
       { name: "REF", url: "https://cdn.7tv.app/emote/01GKQ60YHR000CS736JH649MBC/4x.webp" }
     ];
 
+    const eventID = window.location.pathname.split('/').pop() || 'lobby';
+    let currentUser = localStorage.getItem('chat_user');
+    let currentIP = "";
+    let isOwner = false;
+    let replyTo = null;
+    let mutedUsers = new Set();
+
     async function init() {
-        try {
-            const res = await fetch('https://api.ipify.org?format=json');
-            const data = await res.json();
-            if (data.ip) currentIP = data.ip;
-        } catch (e) {}
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json();
+        currentIP = data.ip;
 
-        if (currentUser) {
-            await verifySession();
-        } else {
-            showRegisterUI();
-        }
+        if (currentUser) await checkAccess();
 
-        initEmotePicker();
-        await loadRoomSettings();
-        await loadMessages();
-        await loadAnnouncement();
-        await loadPin();
+        loadEmotes();
+        loadMessages();
         setupRealtime();
-        setupInputHandlers();
-        if (typeof window.initViewerPresenceEngine === 'function') {
-            window.initViewerPresenceEngine();
-        }
-    }
-
-    function initEmotePicker() {
-      const popover = document.getElementById('emotePickerPopover');
-      const toggleBtn = document.getElementById('emoteToggleBtn');
-      const grid = document.getElementById('emoteGrid');
-
-      grid.innerHTML = EMOTE_LIBRARY.map(e => `
-        <div class="emote-item" onclick="insertEmote('${e.name}')" title="${e.name}">
-          <img src="${e.url}" alt="${e.name}">
-        </div>
-      `).join('');
-
-      toggleBtn.onclick = (e) => {
-        e.stopPropagation();
-        popover.classList.toggle('d-none');
-      };
-
-      document.addEventListener('click', (e) => {
-        if (!popover.contains(e.target) && e.target !== toggleBtn) {
-          popover.classList.add('d-none');
-        }
-      });
-    }
-
-    window.insertEmote = (name) => {
-      const input = document.getElementById('chatInput');
-      input.value += (input.value.length && !input.value.endsWith(' ') ? ' ' : '') + name + ' ';
-      input.focus();
-      document.getElementById('charCounter').textContent = `${input.value.length}/250`;
-      document.getElementById('emotePickerPopover').classList.add('d-none');
-    };
-
-    function parseEmotes(text) {
-      if (!text) return '';
-      let parsed = text;
-      EMOTE_LIBRARY.forEach(e => {
-        const regex = new RegExp(`\\b${e.name}\\b`, 'g');
-        const replacement = `<img src="${e.url}" class="chat-emote" title="${e.name}" alt="${e.name}">`;
-        parsed = parsed.replace(regex, replacement);
-      });
-      return parsed;
-    }
-
-    async function verifySession() {
-        const { data } = await supabase.from('profiles').select('*').ilike('username', currentUser).maybeSingle();
-        if (!data) {
-            localStorage.removeItem('chat_user');
-            currentUser = null;
-            showRegisterUI();
-            return;
-        }
-
-        currentUser = data.username;
-        localStorage.setItem('chat_user', currentUser);
-
-        isOwner = !!data.is_owner;
-        isMod = !!data.is_mod;
-        isMuted = !!data.is_muted;
-
-        updateDashboardAccess();
-        updateInputState();
-        showChatUI();
-    }
-
-    function updateDashboardAccess() {
-        const dashBtn = document.getElementById('openAdminDashboardBtn');
-        const dashTitle = document.getElementById('dashTitle');
-        const ownerTabs = document.querySelectorAll('.owner-only-tab');
-        const unpinBtn = document.getElementById('unpinBtn');
-        const dismissAnnounceBtn = document.getElementById('dismissAnnounceBtn');
-
-        if (isOwner) {
-            dashBtn.classList.remove('d-none');
-            dashTitle.innerHTML = `<i class="fas fa-crown me-2"></i>FutbolX Owner Dashboard`;
-            ownerTabs.forEach(el => el.classList.remove('d-none'));
-            if (unpinBtn) unpinBtn.classList.remove('d-none');
-            if (dismissAnnounceBtn) dismissAnnounceBtn.classList.remove('d-none');
-            loadAllMembers();
-        } else if (isMod) {
-            dashBtn.classList.remove('d-none');
-            dashTitle.innerHTML = `<i class="fas fa-shield-alt me-2"></i>FutbolX Moderator Dashboard`;
-            ownerTabs.forEach(el => el.classList.add('d-none'));
-            if (unpinBtn) unpinBtn.classList.remove('d-none');
-            if (dismissAnnounceBtn) dismissAnnounceBtn.classList.add('d-none');
-            loadAllMembers();
-        } else {
-            dashBtn.classList.add('d-none');
-            if (unpinBtn) unpinBtn.classList.add('d-none');
-            if (dismissAnnounceBtn) dismissAnnounceBtn.classList.add('d-none');
-        }
-    }
-
-    function updateInputState() {
-        const activeRow = document.getElementById('activeInputRow');
-        const metaRow = document.getElementById('chatMetaRow');
-        const mutedBanner = document.getElementById('mutedBanner');
-        const closedBanner = document.getElementById('closedBanner');
-
-        if (isMuted) {
-            activeRow.style.setProperty('display', 'none', 'important');
-            metaRow.style.setProperty('display', 'none', 'important');
-            closedBanner.classList.add('d-none');
-            mutedBanner.classList.remove('d-none');
-        } else if (isChatClosedGlobal && !isOwner && !isMod) {
-            activeRow.style.setProperty('display', 'none', 'important');
-            metaRow.style.setProperty('display', 'none', 'important');
-            mutedBanner.classList.add('d-none');
-            closedBanner.classList.remove('d-none');
-        } else {
-            mutedBanner.classList.add('d-none');
-            closedBanner.classList.add('d-none');
-            activeRow.style.display = 'flex';
-            metaRow.style.display = 'flex';
-        }
-    }
-
-    async function loadRoomSettings() {
-        const { data } = await supabase.from('room_settings').select('*').eq('event_id', eventID).maybeSingle();
-        if (data) {
-            isChatClosedGlobal = !!data.chat_closed;
-        } else {
-            isChatClosedGlobal = false;
-        }
-        updateToggleChatBtnText();
-        updateInputState();
-    }
-
-    function updateToggleChatBtnText() {
-        const btn = document.getElementById('toggleChatClosedBtn');
-        if (btn) {
-            btn.innerHTML = isChatClosedGlobal 
-                ? `<i class="fas fa-lock-open me-1"></i> Open Room Chat`
-                : `<i class="fas fa-lock me-1"></i> Close Room Chat`;
-            btn.className = isChatClosedGlobal ? "btn btn-sm btn-success" : "btn btn-sm btn-warning";
-        }
-    }
-
-    window.toggleChatClosedState = async () => {
-        if (!isOwner && !isMod) return;
-        const nextState = !isChatClosedGlobal;
-        
-        const { error } = await supabase.from('room_settings').upsert([
-            { event_id: eventID, chat_closed: nextState }
-        ], { onConflict: 'event_id' });
-
-        if (!error) {
-            isChatClosedGlobal = nextState;
-            updateToggleChatBtnText();
-            updateInputState();
-        } else {
-            alert("Failed to update chat room status. Please try again.");
-        }
-    };
-
-    function showRegisterUI() {
-        document.getElementById('usernameRegisterRow').classList.remove('d-none');
-        document.getElementById('activeInputRow').style.setProperty('display', 'none', 'important');
-        document.getElementById('chatMetaRow').style.setProperty('display', 'none', 'important');
-    }
-
-    function showChatUI() {
-        document.getElementById('usernameRegisterRow').classList.add('d-none');
-        updateInputState();
+        window.initViewerPresenceEngine();
+        updateInputUI();
+        loadAllMembers();
     }
 
     window.registerGuestUser = async () => {
-        const userRaw = document.getElementById('guestUsername').value.trim();
-        if (!userRaw) return alert("Please enter a username");
-        if (userRaw.length < 2 || userRaw.length > 20) return alert("Username must be between 2 and 20 characters.");
-
-        const { data: existingUser, error: checkErr } = await supabase
-            .from('profiles')
-            .select('*')
-            .ilike('username', userRaw)
-            .maybeSingle();
-
-        if (checkErr) {
-            return alert("Error checking username availability. Please try again.");
-        }
-
-        if (existingUser) {
-            localStorage.setItem('chat_user', existingUser.username);
-            currentUser = existingUser.username;
-            location.reload();
+        const user = document.getElementById('guestUsername').value.trim();
+        if (!user) return alert("Please enter a username");
+        
+        const { data: existing } = await supabase.from('profiles').select('username').eq('device_ip', currentIP);
+        if (existing.length >= 3 && user.toLowerCase() !== 'futbolx') {
+            alert("Limit reached: 3 accounts per IP.");
             return;
         }
 
-        if (currentIP) {
-            const { data: ipAccounts, error: ipErr } = await supabase
-                .from('profiles')
-                .select('username')
-                .eq('device_ip', currentIP);
+        const isFutbolx = user.toLowerCase() === 'futbolx';
+        const { error } = await supabase.from('profiles').upsert([
+            { username: isFutbolx ? 'Futbolx' : user, device_ip: currentIP, is_owner: isFutbolx }
+        ], { onConflict: 'username' });
 
-            if (!ipErr && ipAccounts && ipAccounts.length >= 2) {
-                return alert("Account creation limit reached: Maximum 2 accounts per IP allowed.");
-            }
-        }
-
-        const isFutbolx = userRaw.toLowerCase() === 'futbolx';
-        const finalUsername = isFutbolx ? 'Futbolx' : userRaw;
-
-        const { error: insertErr } = await supabase.from('profiles').insert([
-            { username: finalUsername, device_ip: currentIP, is_owner: isFutbolx }
-        ]);
-
-        if (insertErr) {
-            if (insertErr.code === '23505' || insertErr.message.includes('unique')) {
-                alert("Username taken.");
-            } else {
-                alert("Failed to create profile. " + insertErr.message);
-            }
-        } else {
-            localStorage.setItem('chat_user', finalUsername);
-            currentUser = finalUsername;
+        if (error) { alert("Username taken."); } 
+        else {
+            localStorage.setItem('chat_user', isFutbolx ? 'Futbolx' : user);
             location.reload();
         }
     };
 
-    function setupInputHandlers() {
-      const input = document.getElementById('chatInput');
-      const counter = document.getElementById('charCounter');
-
-      input.addEventListener('input', () => {
-        counter.textContent = `${input.value.length}/250`;
-        input.style.height = 'auto';
-        input.style.height = (input.scrollHeight) + 'px';
-      });
-
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          document.getElementById('sendChatBtn').click();
+    async function checkAccess() {
+        const { data } = await supabase.from('profiles').select('*').eq('username', currentUser).single();
+        if (data && data.is_owner) {
+            isOwner = true;
+            document.getElementById('adminSidebarBtn').classList.remove('d-none');
         }
-      });
+    }
 
-      const searchInput = document.getElementById('memberSearchInput');
-      if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-          renderFilteredMemberList(e.target.value.toLowerCase().trim());
-        });
+    function updateInputUI() {
+      const input = document.getElementById('chatInput');
+      const registerRow = document.getElementById('usernameRegisterRow');
+      
+      if (!currentUser) {
+        registerRow.classList.remove('d-none');
+        input.style.display = 'none';
+        document.getElementById('sendChatBtn').style.display = 'none';
+      } else if (mutedUsers.has(currentUser)) {
+        input.placeholder = "You have been muted. Contact admin.";
+        input.disabled = true;
+        registerRow.classList.add('d-none');
+        input.style.display = 'block';
+        document.getElementById('sendChatBtn').style.display = 'block';
+      } else {
+        input.placeholder = "Type here...";
+        input.disabled = false;
+        registerRow.classList.add('d-none');
+        input.style.display = 'block';
+        document.getElementById('sendChatBtn').style.display = 'block';
       }
     }
 
-    async function loadMessages() {
-        const { data } = await supabase
-          .from('messages')
-          .select('*')
-          .eq('event_id', eventID)
-          .order('created_at', { ascending: true })
-          .limit(100);
+    async function loadAllMembers() {
+        const { data } = await supabase.from('profiles').select('*');
+        if (!data) return;
 
+        const list = document.getElementById('memberList');
+        list.innerHTML = `<div style="padding:8px 5px; font-weight:700; color:#ff4d4d;">OWNER</div>`;
+
+        data.forEach(u => {
+            const color = u.is_owner ? '#ff4d4d' : '#22d3ee';
+            const muted = mutedUsers.has(u.username) ? ' (Muted)' : '';
+            list.innerHTML += `
+                <div style="padding:8px 5px; border-bottom:1px solid #1a1f3d; cursor:pointer;" onclick="selectMember('${u.username}')">
+                    <span style="color:#4ade80;">●</span> 
+                    <span style="color:${color}">${u.username}${muted}</span>
+                </div>`;
+        });
+    }
+
+    window.selectMember = (username) => {
+        if (!isOwner || username === currentUser) return;
+        
+        if (mutedUsers.has(username)) {
+            if (confirm(`Unmute ${username}?`)) {
+                mutedUsers.delete(username);
+                alert(`${username} has been unmuted.`);
+            }
+        } else {
+            if (confirm(`Mute ${username}?`)) {
+                mutedUsers.add(username);
+                alert(`${username} has been muted.`);
+            }
+        }
+        loadAllMembers();
+        updateInputUI();
+    };
+
+    function loadEmotes() {
+        const grid = document.getElementById('emoteGrid');
+        emotes.forEach(e => {
+            const b = document.createElement('button');
+            b.style.cssText = "background:none; border:none; cursor:pointer;";
+            b.innerHTML = `<img src="${e.url}" style="width:24px;">`;
+            b.onclick = () => { document.getElementById('chatInput').value += ` :${e.name}: `; };
+            grid.appendChild(b);
+        });
+    }
+
+    async function loadMessages() {
+        const { data } = await supabase.from('messages').select('*').eq('event_id', eventID).order('created_at', { ascending: true }).limit(100);
         if (data) {
             document.getElementById('futbolx-chat-messages').innerHTML = '';
             data.forEach(renderMsg);
@@ -948,327 +596,66 @@
 
     function renderMsg(msg) {
         const box = document.getElementById('futbolx-chat-messages');
-        let div = document.getElementById(`msg-${msg.id}`);
-        if (!div) {
-            div = document.createElement('div');
-            div.className = "msg-row";
-            div.id = `msg-${msg.id}`;
-            box.appendChild(div);
-        }
+        const div = document.createElement('div');
+        div.className = "msg-item";
+        
+        let content = msg.message || "";
+        emotes.forEach(e => { content = content.replace(new RegExp(`:${e.name}:`, 'g'), `<img src="${e.url}" class="chat-msg-emote">`); });
 
-        let replyHTML = msg.reply_to_username ? `<span class="reply-context" onclick="scrollToMsg('${msg.reply_to_id}')">@${msg.reply_to_username}: ${msg.reply_to_msg?.substring(0,25)}...</span>` : '';
+        let replyHTML = msg.reply_to_username ? `<div class="reply-bubble">@${msg.reply_to_username}: ${msg.reply_to_msg?.substring(0,25)}...</div>` : '';
+        
+        let nameTag = (msg.username === 'Futbolx' || msg.username === 'FutbolX') 
+          ? `<span class="owner-name"><i class="fas fa-crown owner-crown-icon"></i> FutbolX</span>` 
+          : `<span class="chat-username-text">${msg.username}</span>`;
 
-        let badge = '';
-        let authorClass = 'user';
-        if (msg.username.toLowerCase() === 'futbolx') {
-          badge = `<span class="user-badge badge-owner" title="Owner"><i class="fas fa-crown"></i></span>`;
-          authorClass = 'owner';
-        } else if (msg.is_mod) {
-          badge = `<span class="user-badge badge-mod" title="Moderator"><i class="fas fa-shield-alt"></i></span>`;
-          authorClass = 'mod';
-        }
-
-        let adminControls = (isOwner || isMod) ? `
-          <i class="fas fa-thumbtack action-icon" onclick="togglePinMessage('${msg.id}', '${msg.username}', \`${msg.message.replace(/`/g, '')}\`)" title="${currentPinnedMessageId === msg.id ? 'Unpin Message' : 'Pin Message'}"></i>
-          <i class="fas fa-trash action-icon danger" onclick="deleteMessage('${msg.id}')" title="Delete"></i>
-        ` : '';
-
-        const formattedMsg = parseEmotes(msg.message);
-
-        div.innerHTML = `
-          ${replyHTML}
-          <div>
-            ${badge}
-            <span class="chat-author ${authorClass}">${msg.username}:</span>
-            <span class="msg-text">${formattedMsg}</span>
-          </div>
-          <div class="msg-hover-actions">
-            <i class="fas fa-reply action-icon" onclick="setReply('${msg.id}', '${msg.username}', \`${msg.message.replace(/`/g, '')}\`)" title="Reply"></i>
-            ${adminControls}
-          </div>
-        `;
-
-        let startX = 0;
-        div.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, {passive: true});
-        div.addEventListener('touchend', (e) => {
-          let diffX = e.changedTouches[0].clientX - startX;
-          if (diffX > 60) {
-            setReply(msg.id, msg.username, msg.message);
-          }
-        });
-
+        div.innerHTML = `${replyHTML}${nameTag}: <span class="chat-message-payload">${content}</span>`;
+        div.onclick = () => setReply(msg.username, msg.message);
+        box.appendChild(div);
         box.scrollTop = box.scrollHeight;
     }
 
     document.getElementById('sendChatBtn').onclick = async () => {
         if (!currentUser) return;
-        if (isMuted) return;
-        if (isChatClosedGlobal && !isOwner && !isMod) return;
+        if (mutedUsers.has(currentUser)) return alert("You are muted.");
 
-        const input = document.getElementById('chatInput');
-        const text = input.value.trim();
+        const text = document.getElementById('chatInput').value.trim();
         if (!text) return;
-
-        const { data, error } = await supabase.from('messages').insert([{
+        
+        await supabase.from('messages').insert([{
             username: currentUser,
             message: text,
             event_id: eventID,
-            is_mod: isMod,
             reply_to_username: replyTo?.user,
-            reply_to_msg: replyTo?.msg,
-            reply_to_id: replyTo?.id
-        }]).select().single();
+            reply_to_msg: replyTo?.msg
+        }]);
 
-        if (data) {
-            renderMsg(data);
-        }
-
-        input.value = "";
-        input.style.height = "auto";
-        document.getElementById('charCounter').textContent = "0/250";
+        document.getElementById('chatInput').value = "";
         cancelReply();
     };
 
-    window.setReply = (id, user, msg) => {
-        replyTo = { id, user, msg };
+    function setReply(user, msg) {
+        replyTo = { user, msg };
         document.getElementById('replyPreview').classList.remove('d-none');
         document.getElementById('replyText').innerText = `Replying to @${user}`;
-    };
+    }
 
     window.cancelReply = () => {
         replyTo = null;
         document.getElementById('replyPreview').classList.add('d-none');
     };
 
-    window.scrollToMsg = (id) => {
-        const el = document.getElementById(`msg-${id}`);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    };
-
-    async function loadPin() {
-        const { data } = await supabase.from('pinned_messages').select('*').eq('event_id', eventID).eq('is_pinned', true).maybeSingle();
-        const pinContainer = document.getElementById('pinnedMessageContainer');
-        const pinnedContent = document.getElementById('pinnedContent');
-
-        if (data) {
-          currentPinnedMessageId = data.message_id;
-          let badge = '';
-          let authorClass = 'user';
-          if (data.username.toLowerCase() === 'futbolx') {
-            badge = `<span class="user-badge badge-owner" title="Owner"><i class="fas fa-crown"></i></span>`;
-            authorClass = 'owner';
-          } else if (data.is_mod) {
-            badge = `<span class="user-badge badge-mod" title="Moderator"><i class="fas fa-shield-alt"></i></span>`;
-            authorClass = 'mod';
-          }
-          
-          pinnedContent.innerHTML = `${badge}<span class="chat-author ${authorClass}">${data.username}:</span> <span class="msg-text">${parseEmotes(data.message_text)}</span>`;
-          pinContainer.classList.remove('d-none');
-        } else {
-          currentPinnedMessageId = null;
-          pinnedContent.innerHTML = '';
-          pinContainer.classList.add('d-none');
-        }
-    }
-
-    window.togglePinMessage = async (msgId, username, messageText) => {
-        if (!isOwner && !isMod) return;
-        if (currentPinnedMessageId === msgId) {
-            await unpinMessage();
-            return;
-        }
-        await supabase.from('pinned_messages').delete().eq('event_id', eventID);
-        await supabase.from('pinned_messages').insert([{
-            event_id: eventID,
-            message_id: msgId,
-            username: username,
-            message_text: messageText,
-            is_pinned: true,
-            is_mod: isMod
-        }]);
-        await loadPin();
-    };
-
-    window.unpinMessage = async () => {
-        if (!isOwner && !isMod) return;
-        await supabase.from('pinned_messages').delete().eq('event_id', eventID);
-        await loadPin();
-    };
-
-    async function loadAnnouncement() {
-        const { data } = await supabase.from('announcements').select('*').eq('event_id', eventID).eq('is_active', true).maybeSingle();
-        if (data) {
-            document.getElementById('announcementContainer').classList.remove('d-none');
-            document.getElementById('announcementText').innerText = data.text;
-        } else {
-            document.getElementById('announcementContainer').classList.add('d-none');
-        }
-    }
-
-    window.publishAnnouncement = async () => {
-        if (!isOwner) return;
-        const text = document.getElementById('announcementInput').value.trim();
-        if (!text) return;
-        await supabase.from('announcements').delete().eq('event_id', eventID);
-        await supabase.from('announcements').insert([{ event_id: eventID, text: text, is_active: true }]);
-        document.getElementById('announcementInput').value = '';
-        await loadAnnouncement();
-    };
-
-    window.dismissAnnouncement = async () => {
-        if (!isOwner) return;
-        await supabase.from('announcements').delete().eq('event_id', eventID);
-        await loadAnnouncement();
-    };
-
-    window.deleteMessage = async (id) => {
-        if (!isOwner && !isMod) return;
-        await supabase.from('messages').delete().eq('id', id);
-        const el = document.getElementById(`msg-${id}`);
-        if (el) el.remove();
-    };
-
-    window.clearAllChat = async () => {
-        if (!isOwner && !isMod) return;
-        if (!confirm("Clear entire room chat?")) return;
-        await supabase.from('messages').delete().eq('event_id', eventID);
-        document.getElementById('futbolx-chat-messages').innerHTML = '';
-    };
-
-    async function loadAllMembers() {
-        const { data } = await supabase.from('profiles').select('*').order('username', { ascending: true });
-        if (!data) return;
-        allMembersCache = data;
-        const query = document.getElementById('memberSearchInput')?.value.toLowerCase().trim() || '';
-        renderFilteredMemberList(query);
-    }
-
-    function renderFilteredMemberList(filterText = '') {
-        const list = document.getElementById('adminMemberList');
-        if (!list) return;
-        list.innerHTML = '';
-
-        const filtered = allMembersCache.filter(u => 
-          u.username.toLowerCase().includes(filterText) || 
-          (u.device_ip && u.device_ip.toLowerCase().includes(filterText))
-        );
-
-        if (filtered.length === 0) {
-          list.innerHTML = `<div class="text-muted small p-3 text-center">No members found</div>`;
-          return;
-        }
-
-        filtered.forEach(u => {
-            const item = document.createElement('div');
-            item.className = "list-group-item bg-dark text-white border-secondary d-flex justify-content-between align-items-center member-item-row";
-            
-            let nameColor = '#38bdf8';
-            let roleBadge = '';
-            if (u.is_owner) {
-              nameColor = '#ff4d4d';
-              roleBadge = `<span class="badge bg-danger ms-2"><i class="fas fa-crown"></i> OWNER</span>`;
-            } else if (u.is_mod) {
-              nameColor = '#facc15';
-              roleBadge = `<span class="badge bg-warning text-dark ms-2"><i class="fas fa-shield-alt"></i> MOD</span>`;
-            }
-
-            let statusBadge = u.is_muted ? `<span class="badge bg-secondary ms-2">MUTED</span>` : '';
-
-            item.innerHTML = `
-              <div>
-                <span style="color:${nameColor}; font-weight:bold;">${u.username}</span>
-                ${roleBadge}
-                ${statusBadge}
-                <small class="text-muted d-block">${u.device_ip || 'IP N/A'}</small>
-              </div>
-              <div>
-                <i class="fas fa-chevron-right text-muted"></i>
-              </div>
-            `;
-
-            item.onclick = () => openMemberActionModal(u);
-            list.appendChild(item);
-        });
-    }
-
-    window.openMemberActionModal = (userObj) => {
-        if (!isOwner && !isMod) return;
-
-        const modalTitle = document.getElementById('actionModalUsername');
-        const container = document.getElementById('memberActionButtons');
-        
-        modalTitle.innerText = userObj.username;
-        container.innerHTML = '';
-
-        if (userObj.is_owner) {
-          container.innerHTML = `<div class="text-muted small text-center">Owner cannot be modified.</div>`;
-        } else {
-          const muteBtn = document.createElement('button');
-          muteBtn.className = `btn btn-sm ${userObj.is_muted ? 'btn-success' : 'btn-danger'} w-100`;
-          muteBtn.innerHTML = userObj.is_muted ? `<i class="fas fa-volume-up me-1"></i> Unmute User` : `<i class="fas fa-volume-mute me-1"></i> Mute User`;
-          muteBtn.onclick = async () => {
-            await supabase.from('profiles').update({ is_muted: !userObj.is_muted }).eq('username', userObj.username);
-            bootstrap.Modal.getInstance(document.getElementById('memberActionModal')).hide();
-            loadAllMembers();
-          };
-          container.appendChild(muteBtn);
-
-          if (isOwner) {
-            const modBtn = document.createElement('button');
-            modBtn.className = `btn btn-sm ${userObj.is_mod ? 'btn-outline-warning' : 'btn-warning'} w-100 mt-2`;
-            modBtn.innerHTML = userObj.is_mod ? `<i class="fas fa-user-minus me-1"></i> Remove Moderator` : `<i class="fas fa-user-shield me-1"></i> Make Moderator`;
-            modBtn.onclick = async () => {
-              await supabase.from('profiles').update({ is_mod: !userObj.is_mod }).eq('username', userObj.username);
-              bootstrap.Modal.getInstance(document.getElementById('memberActionModal')).hide();
-              loadAllMembers();
-            };
-            container.appendChild(modBtn);
-          }
-        }
-
-        const modal = new bootstrap.Modal(document.getElementById('memberActionModal'));
-        modal.show();
-    };
+    window.toggleSidebar = () => document.getElementById('chatAdminSidebar').classList.toggle('active');
 
     function setupRealtime() {
-        supabase.channel('public_room_channel')
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, p => {
-             if (p.eventType === 'INSERT') {
-               if (p.new && p.new.event_id === eventID) renderMsg(p.new);
-             } else if (p.eventType === 'DELETE') {
-               if (p.old?.id) {
-                 const el = document.getElementById(`msg-${p.old.id}`);
-                 if (el) el.remove();
-               } else {
-                 loadMessages();
-               }
-             }
-          })
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'announcements' }, () => loadAnnouncement())
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'pinned_messages' }, () => loadPin())
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'room_settings' }, p => {
-             if (p.new && p.new.event_id === eventID) {
-               isChatClosedGlobal = !!p.new.chat_closed;
-               updateToggleChatBtnText();
-               updateInputState();
-             }
-          })
+        supabase.channel('chat_updates')
+          .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => renderMsg(p.new))
           .subscribe();
-
-        if (currentUser) {
-            supabase.channel('user_profile_changes')
-              .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles', filter: `username=eq.${currentUser}` }, p => {
-                 if (p.new) {
-                   isMuted = !!p.new.is_muted;
-                   isMod = !!p.new.is_mod;
-                   isOwner = !!p.new.is_owner;
-                   updateDashboardAccess();
-                   updateInputState();
-                 }
-              })
-              .subscribe();
-        }
     }
+
+    document.getElementById('toggleEmotes').onclick = () => {
+        const p = document.getElementById('emotePicker');
+        p.style.display = p.style.display === 'none' ? 'block' : 'none';
+    };
 
     window.onload = init;
   </script>
@@ -1292,6 +679,14 @@
 
     checkOverlay();
 
+    const AD_URLS = [
+        "https://www.profitablecpmratenetwork.com/bgx385dt?key=570a422270e074afbc58506bf1030ae4",
+        "https://www.profitablecpmratenetwork.com/g1yq1jpz3?key=cd1df924cb59e3a00865a760d1fc509e",
+        "https://www.profitablecpmratenetwork.com/pt2cpxsy?key=95503223709f1dae246e94013437dcfe"
+    ];
+
+    let clicksStart = 0;
+    let adClickedFullscreen = false;
     let playerInstance = null;
     let eventStartTime = null;
     let eventEndTime = null;
@@ -1336,10 +731,7 @@
     }
 
     async function playStream(url) {
-      if (playerInstance) { 
-        if (typeof playerInstance.remove === 'function') playerInstance.remove(); 
-        playerInstance = null; 
-      }
+      if (playerInstance) { playerInstance.remove(); playerInstance = null; }
       const useJW = await isM3U8(url);
       initActualPlayer(url, useJW);
     }
@@ -1349,194 +741,213 @@
         document.getElementById('embedPlayer').style.display = 'none';
         const container = document.getElementById('oplayer-container');
         container.style.display = 'block';
+        container.innerHTML = '<div id="jw-player"></div>';
         
-        container.innerHTML = `
-          <div class="fx-player-wrapper" id="fxPlayerWrapper">
-            <video id="fxVideoPlayer" class="fx-video-element" playsinline muted></video>
-            <div id="fxOverlayPlay" class="fx-center-play"><i class="fas fa-play"></i></div>
-            <div class="fx-controls-bar" id="fxControlsBar">
-              <div class="fx-controls-left">
-                <button class="fx-ctrl-btn" id="fxPlayBtn" title="Play/Pause"><i class="fas fa-play"></i></button>
-                <div class="fx-volume-wrap">
-                  <button class="fx-ctrl-btn" id="fxMuteBtn" title="Mute/Unmute"><i class="fas fa-volume-mute"></i></button>
-                  <input type="range" class="fx-volume-slider" id="fxVolumeSlider" min="0" max="1" step="0.05" value="1">
-                </div>
-              </div>
-              <div class="fx-controls-right">
-                <div class="fx-quality-menu-wrap" id="fxQualityWrap" style="display:none;">
-                  <button class="fx-ctrl-btn" id="fxQualityBtn" title="Stream Quality"><i class="fas fa-cog"></i></button>
-                  <div class="fx-quality-popover" id="fxQualityPopover"></div>
-                </div>
-                <button class="fx-ctrl-btn" id="fxPipBtn" title="Picture-in-Picture"><i class="fas fa-clone"></i></button>
-                <button class="fx-ctrl-btn" id="fxFullscreenBtn" title="Fullscreen"><i class="fas fa-expand"></i></button>
-              </div>
-            </div>
-          </div>
-        `;
-
-        const wrapper = document.getElementById('fxPlayerWrapper');
-        const video = document.getElementById('fxVideoPlayer');
-        const overlayPlay = document.getElementById('fxOverlayPlay');
-        const playBtn = document.getElementById('fxPlayBtn');
-        const muteBtn = document.getElementById('fxMuteBtn');
-        const volumeSlider = document.getElementById('fxVolumeSlider');
-        const pipBtn = document.getElementById('fxPipBtn');
-        const fullscreenBtn = document.getElementById('fxFullscreenBtn');
-        const qualityBtn = document.getElementById('fxQualityBtn');
-        const qualityPopover = document.getElementById('fxQualityPopover');
-        const qualityWrap = document.getElementById('fxQualityWrap');
-
-        let hlsEngine = null;
-
-        if (Hls.isSupported()) {
-          hlsEngine = new Hls({ 
-            enableWorker: true, 
-            lowLatencyMode: true,
-            backBufferLength: 0,
-            maxBufferLength: 10,
-            maxMaxBufferLength: 20,
-            liveSyncDurationCount: 3,
-            liveMaxLatencyDurationCount: 10,
-            manifestLoadingTimeOut: 10000,
-            manifestLoadingMaxRetry: 4
-          });
-          hlsEngine.loadSource(url);
-          hlsEngine.attachMedia(video);
-
-          hlsEngine.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
-            if (data.levels && data.levels.length > 1) {
-              qualityWrap.style.display = 'block';
-              qualityPopover.innerHTML = `
-                <button class="fx-quality-item active" data-level="-1">Auto</button>
-                ${data.levels.map((lvl, idx) => `
-                  <button class="fx-quality-item" data-level="${idx}">${lvl.height}p</button>
-                `).join('')}
-              `;
-
-              qualityPopover.querySelectorAll('.fx-quality-item').forEach(btn => {
-                btn.onclick = (e) => {
-                  e.stopPropagation();
-                  const lvl = parseInt(btn.dataset.level, 10);
-                  hlsEngine.currentLevel = lvl;
-                  qualityPopover.querySelectorAll('.fx-quality-item').forEach(b => b.classList.remove('active'));
-                  btn.classList.add('active');
-                  qualityPopover.classList.remove('show');
-                };
-              });
-            }
-          });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          video.src = url;
-        }
-
-        const togglePlay = () => {
-          if (video.paused) {
-            video.play().catch(() => {});
-          } else {
-            video.pause();
-          }
-        };
-
-        const updatePlayIcons = () => {
-          if (video.paused) {
-            playBtn.innerHTML = '<i class="fas fa-play"></i>';
-            overlayPlay.style.display = 'flex';
-          } else {
-            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-            overlayPlay.style.display = 'none';
-          }
-        };
-
-        video.addEventListener('play', updatePlayIcons);
-        video.addEventListener('pause', updatePlayIcons);
-        overlayPlay.onclick = togglePlay;
-        playBtn.onclick = togglePlay;
-
-        muteBtn.onclick = () => {
-          video.muted = !video.muted;
-          updateVolumeIcons();
-        };
-
-        volumeSlider.oninput = (e) => {
-          video.volume = e.target.value;
-          video.muted = video.volume == 0;
-          updateVolumeIcons();
-        };
-
-        function updateVolumeIcons() {
-          if (video.muted || video.volume == 0) {
-            muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-            volumeSlider.value = 0;
-          } else if (video.volume < 0.5) {
-            muteBtn.innerHTML = '<i class="fas fa-volume-down"></i>';
-            volumeSlider.value = video.volume;
-          } else {
-            muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-            volumeSlider.value = video.volume;
-          }
-        }
-
-        if (document.pictureInPictureEnabled) {
-          pipBtn.onclick = async () => {
-            try {
-              if (document.pictureInPictureElement) {
-                await document.exitPictureInPicture();
-              } else {
-                await video.requestPictureInPicture();
-              }
-            } catch (err) {}
-          };
-        } else {
-          pipBtn.style.display = 'none';
-        }
-
-        const requestFullscreen = async () => {
-          if (!document.fullscreenElement) {
-            if (wrapper.requestFullscreen) await wrapper.requestFullscreen();
-            else if (wrapper.webkitRequestFullscreen) await wrapper.webkitRequestFullscreen();
-            else if (video.webkitEnterFullscreen) await video.webkitEnterFullscreen();
-
-            if (screen.orientation && typeof screen.orientation.lock === 'function') {
-              try {
-                await screen.orientation.lock('landscape');
-              } catch (err) {
-                console.log('Orientation lock error:', err);
-              }
-            }
-          } else {
-            if (document.exitFullscreen) await document.exitFullscreen();
+        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: false, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
+        
+        playerInstance.on('ready', () => { 
+          document.getElementById('fullscreenBtn').classList.remove('d-none'); 
+          
+          const triggerAd = () => {
+            const popunderScript = document.createElement('script');
+            popunderScript.src = "https://pl29465843.effectivecpmnetwork.com/ed/a2/e5/eda2e566755b4b6a812d6d5af6d26193.js";
+            document.body.appendChild(popunderScript);
             
-            if (screen.orientation && typeof screen.orientation.unlock === 'function') {
-              try {
-                screen.orientation.unlock();
-              } catch (err) {
-                console.log('Orientation unlock error:', err);
-              }
-            }
-          }
-        };
-
-        fullscreenBtn.onclick = requestFullscreen;
-
-        qualityBtn.onclick = (e) => {
-          e.stopPropagation();
-          qualityPopover.classList.toggle('show');
-        };
-
-        document.addEventListener('click', (e) => {
-          if (!qualityWrap.contains(e.target)) {
-            qualityPopover.classList.remove('show');
-          }
+            window.open("https://omg10.com/4/11347966", "_blank");
+            
+            container.removeEventListener('click', triggerAd);
+          };
+          
+          container.addEventListener('click', triggerAd);
         });
       } else {
-        const oPlayer = document.getElementById('oplayer-container');
-        oPlayer.style.display = 'none';
-        oPlayer.innerHTML = '';
-        const embed = document.getElementById('embedPlayer');
-        embed.style.display = 'block';
-        embed.src = url;
+        document.getElementById('oplayer-container').style.display = 'none';
+        const iframe = document.getElementById('embedPlayer');
+        iframe.style.display = 'block';
+        try { const u = new URL(url); u.searchParams.set('autoplay', '0'); iframe.src = u.toString(); } catch { iframe.src = url; }
       }
     }
+
+    function populateStreamDropdown(event) {
+      const selectMenu = document.getElementById('streamSelect');
+      
+      selectMenu.innerHTML = event.streams.map((s, i) => {
+        const realUrl = typeof s === 'string' ? s : s.url;
+        const qualityStr = s.quality ? s.quality.toLowerCase() : 'sd';
+        let labelAddon = `[${qualityStr.toUpperCase()}]`;
+        
+        const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
+        return `<option value="${payload}" data-title="${s.title || `Stream ${i+1}`}" data-quality="${qualityStr}">${s.title || `Stream ${i+1}`} ${labelAddon}</option>`;
+      }).join('');
+
+      selectMenu.onchange = (e) => {
+        const selectedOption = selectMenu.options[selectMenu.selectedIndex];
+        if (!selectedOption) return;
+        
+        const realUrl = atob(atob(selectedOption.value).split('||')[0]);
+        playStream(realUrl);
+        
+        const titleContainer = document.getElementById('currentStreamName');
+        const qual = selectedOption.dataset.quality;
+        let badgeClass = qual === 'fhd' ? 'badge-fhd' : qual === 'hd' ? 'badge-hd' : qual === '4k' ? 'badge-4k' : 'badge-default';
+        
+        titleContainer.innerHTML = `${selectedOption.dataset.title} <span class="badge-quality ${badgeClass}">${qual}</span>`;
+      };
+    }
+
+    window.initViewerPresenceEngine = () => {
+      const uriName = window.location.pathname.split('/').pop() || 'lobby';
+      const channel = window.globalSupabaseInstance.channel(`viewers_${uriName}`);
+      
+      channel.on('presence', { event: 'sync' }, () => {
+        const presenceState = channel.presenceState();
+        realActivePresenceCount = Object.keys(presenceState).length;
+        window.renderConsolidatedViewers();
+      }).subscribe(async (status) => {
+        if (status === 'SUBSCRIBED') {
+          await channel.track({ online_at: new Date().toISOString() });
+        }
+      });
+      
+      function executeOrganicUpdateStep() {
+        if (!foundEvent || !foundEvent.max_simulated_viewers) {
+          calculatedViewerSimulationState = 0;
+          window.renderConsolidatedViewers();
+          setTimeout(executeOrganicUpdateStep, 3000);
+          return;
+        }
+
+        const maximumLimit = parseInt(foundEvent.max_simulated_viewers, 10);
+        if (isNaN(maximumLimit) || maximumLimit <= 0) {
+          calculatedViewerSimulationState = 0;
+          window.renderConsolidatedViewers();
+          setTimeout(executeOrganicUpdateStep, 3000);
+          return;
+        }
+
+        const operationalCapBase = maximumLimit - 20;
+        if (calculatedViewerSimulationState === 0) {
+          calculatedViewerSimulationState = Math.floor(operationalCapBase * 0.94);
+        }
+
+        const behaviorRoll = Math.random();
+        
+        if (behaviorRoll < 0.45) {
+          // Plateau.
+        } else {
+          const timestamp = Date.now() / 60000;
+          const macroeconomicTrend = Math.sin(timestamp) * 0.15;
+          
+          let microShiftDelta = Math.floor(Math.random() * 7) - 3;
+          
+          if (calculatedViewerSimulationState > (operationalCapBase + 5)) {
+            microShiftDelta -= 2; 
+          } else if (calculatedViewerSimulationState < (operationalCapBase * 0.88)) {
+            microShiftDelta += 2;
+          } else if (macroeconomicTrend > 0.05) {
+            microShiftDelta += 1;
+          } else if (macroeconomicTrend < -0.05) {
+            microShiftDelta -= 1;
+          }
+
+          calculatedViewerSimulationState += microShiftDelta;
+          
+          if (calculatedViewerSimulationState > operationalCapBase) {
+            calculatedViewerSimulationState = operationalCapBase - Math.floor(Math.random() * 5);
+          }
+        }
+
+        window.renderConsolidatedViewers();
+
+        const nextIntervalDelay = Math.floor(Math.random() * 6000) + 3500;
+        setTimeout(executeOrganicUpdateStep, nextIntervalDelay);
+      }
+
+      setTimeout(executeOrganicUpdateStep, 2000);
+    };
+
+    window.renderConsolidatedViewers = () => {
+      const element = document.getElementById('onlineCount');
+      const wrapper = document.getElementById('viewerCountWrapper');
+      if (!element || !wrapper) return;
+      
+      const nowEpoch = Math.floor(Date.now() / 1000);
+      if (eventStartTime && nowEpoch >= eventStartTime) {
+        wrapper.classList.remove('viewer-wrap-hidden');
+      } else {
+        wrapper.classList.add('viewer-wrap-hidden');
+      }
+
+      const totalCombinedViews = realActivePresenceCount + calculatedViewerSimulationState;
+      element.innerText = totalCombinedViews;
+    };
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const uriName = window.location.pathname.split('/').pop();
+      const startBtn = document.getElementById('startLivestream');
+      try {
+        const catListRes = await fetchWithRetry('/api/stream');
+        const fetchPromises = catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ success: true, streams: [] })));
+        const allCategoryData = await Promise.all(fetchPromises);
+        for (const data of allCategoryData) {
+          for (const catObj of data.streams) {
+            foundEvent = catObj.streams.find(ev => ev.uri_name === uriName);
+            if (foundEvent) break;
+          }
+          if (foundEvent) break;
+        }
+        if (foundEvent) {
+          document.getElementById('eventTitle').textContent = foundEvent.name;
+          document.getElementById('chatEventTitle').textContent = foundEvent.name + " Chat";
+          
+          eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
+          eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
+          
+          setInterval(() => {
+            const now = Math.floor(Date.now() / 1000);
+            if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
+                liveWindowActive = true; 
+                document.getElementById('statusArea').style.display = 'none'; 
+                if(!streamStarted) startBtn.style.display = 'inline-block';
+            } else if (now < eventStartTime) {
+                liveWindowActive = false;
+                const diff = eventStartTime - now;
+                const h = Math.floor(diff/3600); const m = Math.floor((diff%3600)/60); const s = diff%60;
+                
+                if (h >= 24) {
+                  const days = Math.floor(h / 24);
+                  const remHours = h % 24;
+                  document.getElementById('countdownDisplay').textContent = `${days}day ${remHours}hr ${m}m ${s}s`;
+                } else {
+                  document.getElementById('countdownDisplay').textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                }
+            }
+          }, 1000);
+        }
+        startBtn.onclick = () => {
+          document.getElementById('mainVideoContainer').style.display = 'block';
+          document.getElementById('streamLinksContainer').style.display = 'block';
+          startBtn.style.display = 'none';
+          document.getElementById('liveStreamTitle').classList.remove('d-none');
+          
+          const dynamicInitialFeed = foundEvent.streams[0];
+          const initialUrl = typeof dynamicInitialFeed === 'string' ? dynamicInitialFeed : dynamicInitialFeed.url;
+          const initialQuality = dynamicInitialFeed.quality ? dynamicInitialFeed.quality.toLowerCase() : 'sd';
+          let initialBadgeClass = initialQuality === 'fhd' ? 'badge-fhd' : initialQuality === 'hd' ? 'badge-hd' : initialQuality === '4k' ? 'badge-4k' : 'badge-default';
+          
+          document.getElementById('currentStreamName').innerHTML = `${dynamicInitialFeed.title || 'Main Feed'} <span class="badge-quality ${initialBadgeClass}">${initialQuality}</span>`;
+          
+          playStream(initialUrl);
+          populateStreamDropdown(foundEvent);
+          streamStarted = true;
+        };
+      } catch (err) {}
+
+      document.getElementById('fullscreenBtn').onclick = () => {
+        if (!adClickedFullscreen) { window.open(AD_URLS[0], '_blank'); adClickedFullscreen = true; }
+        if (playerInstance) playerInstance.setFullscreen(true);
+      };
+    });
   </script>
 </body>
-</html>
+  </html>
