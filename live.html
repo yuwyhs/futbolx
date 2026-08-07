@@ -669,7 +669,7 @@
         try {
             const res = await fetch('https://api.ipify.org?format=json');
             const data = await res.json();
-            currentIP = data.ip;
+            if (data.ip) currentIP = data.ip;
         } catch (e) {}
 
         if (currentUser) {
@@ -685,7 +685,9 @@
         await loadPin();
         setupRealtime();
         setupInputHandlers();
-        window.initViewerPresenceEngine();
+        if (typeof window.initViewerPresenceEngine === 'function') {
+            window.initViewerPresenceEngine();
+        }
     }
 
     function initEmotePicker() {
@@ -731,13 +733,16 @@
     }
 
     async function verifySession() {
-        const { data } = await supabase.from('profiles').select('*').eq('username', currentUser).maybeSingle();
+        const { data } = await supabase.from('profiles').select('*').ilike('username', currentUser).maybeSingle();
         if (!data) {
             localStorage.removeItem('chat_user');
             currentUser = null;
             showRegisterUI();
             return;
         }
+
+        currentUser = data.username;
+        localStorage.setItem('chat_user', currentUser);
 
         isOwner = !!data.is_owner;
         isMod = !!data.is_mod;
@@ -850,17 +855,58 @@
     }
 
     window.registerGuestUser = async () => {
-        const user = document.getElementById('guestUsername').value.trim();
-        if (!user) return alert("Please enter a username");
+        const userRaw = document.getElementById('guestUsername').value.trim();
+        if (!userRaw) return alert("Please enter a username");
+        if (userRaw.length < 2 || userRaw.length > 20) return alert("Username must be between 2 and 20 characters.");
 
-        const isFutbolx = user.toLowerCase() === 'futbolx';
-        const { error } = await supabase.from('profiles').upsert([
-            { username: isFutbolx ? 'Futbolx' : user, device_ip: currentIP, is_owner: isFutbolx }
-        ], { onConflict: 'username' });
+        // Check exact existing account in Supabase (case-insensitive)
+        const { data: existingUser, error: checkErr } = await supabase
+            .from('profiles')
+            .select('*')
+            .ilike('username', userRaw)
+            .maybeSingle();
 
-        if (error) { alert("Username taken."); }
-        else {
-            localStorage.setItem('chat_user', isFutbolx ? 'Futbolx' : user);
+        if (checkErr) {
+            return alert("Error checking username availability. Please try again.");
+        }
+
+        // If user profile exists, log them into their existing account
+        if (existingUser) {
+            localStorage.setItem('chat_user', existingUser.username);
+            currentUser = existingUser.username;
+            location.reload();
+            return;
+        }
+
+        // If creating a NEW account, enforce the 2 accounts per IP limit
+        if (currentIP) {
+            const { data: ipAccounts, error: ipErr } = await supabase
+                .from('profiles')
+                .select('username')
+                .eq('device_ip', currentIP);
+
+            if (!ipErr && ipAccounts && ipAccounts.length >= 2) {
+                return alert("Account creation limit reached: Maximum 2 accounts per IP allowed.");
+            }
+        }
+
+        const isFutbolx = userRaw.toLowerCase() === 'futbolx';
+        const finalUsername = isFutbolx ? 'Futbolx' : userRaw;
+
+        // Insert new user account
+        const { error: insertErr } = await supabase.from('profiles').insert([
+            { username: finalUsername, device_ip: currentIP, is_owner: isFutbolx }
+        ]);
+
+        if (insertErr) {
+            if (insertErr.code === '23505' || insertErr.message.includes('unique')) {
+                alert("Username taken.");
+            } else {
+                alert("Failed to create profile. " + insertErr.message);
+            }
+        } else {
+            localStorage.setItem('chat_user', finalUsername);
+            currentUser = finalUsername;
             location.reload();
         }
     };
@@ -1498,121 +1544,15 @@
         const triggerAd = () => {
           if (adTriggered) return;
           adTriggered = true;
-          const popunderScript = document.createElement('script');
-          popunderScript.src = "https://pl29465843.effectivecpmnetwork.com/ed/a2/e5/eda2e566755b4b6a812d6d5af6d26193.js";
-          document.body.appendChild(popunderScript);
-          window.open("https://omg10.com/4/11347966", "_blank");
-          container.removeEventListener('click', triggerAd);
         };
-
-        container.addEventListener('click', triggerAd);
-
-        playerInstance = {
-          setFullscreen: (val) => {
-            if (val) requestFullscreen();
-          },
-          remove: () => {
-            if (hlsEngine) hlsEngine.destroy();
-            video.pause();
-            video.removeAttribute('src');
-            video.load();
-            container.innerHTML = '';
-          }
-        };
-
       } else {
-        document.getElementById('oplayer-container').style.display = 'none';
-        const iframe = document.getElementById('embedPlayer');
-        iframe.style.display = 'block';
-        try { const u = new URL(url); u.searchParams.set('autoplay', '0'); iframe.src = u.toString(); } catch { iframe.src = url; }
+        const oPlayer = document.getElementById('oplayer-container');
+        oPlayer.style.display = 'none';
+        oPlayer.innerHTML = '';
+        const embed = document.getElementById('embedPlayer');
+        embed.style.display = 'block';
+        embed.src = url;
       }
-    }
-
-    function getCleanStreamTitle(titleStr) {
-      if (!titleStr) return '';
-      return titleStr.replace(/\[?(fhd|hd|sd|4k)\]?/gi, '').trim();
-    }
-
-    function populateStreamDropdown(event) {
-      const selectMenu = document.getElementById('streamSelect');
-      const streamContainer = document.getElementById('streamLinksContainer');
-      
-      if (!event.streams || event.streams.length <= 1) {
-        if (streamContainer) streamContainer.style.display = 'none';
-        return;
-      }
-
-      if (streamContainer) streamContainer.style.display = 'block';
-      
-      selectMenu.innerHTML = event.streams.map((s, i) => {
-        const realUrl = typeof s === 'string' ? s : s.url;
-        const rawTitle = s.title || `Stream ${i+1}`;
-        const cleanTitle = getCleanStreamTitle(rawTitle);
-        
-        const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
-        return `<option value="${payload}" data-title="${cleanTitle}">${cleanTitle}</option>`;
-      }).join('');
-
-      selectMenu.onchange = (e) => {
-        const selectedOption = selectMenu.options[selectMenu.selectedIndex];
-        if (!selectedOption) return;
-        
-        const realUrl = atob(atob(selectedOption.value).split('||')[0]);
-        playStream(realUrl);
-        
-        const titleContainer = document.getElementById('currentStreamName');
-        titleContainer.textContent = selectedOption.dataset.title;
-      };
-    }
-
-    window.initViewerPresenceEngine = () => {
-      const uriName = window.location.pathname.split('/').pop() || 'lobby';
-      const channel = window.globalSupabaseInstance.channel(`viewers_${uriName}`, {
-        config: {
-          presence: {
-            key: `user_${Math.random().toString(36).substring(2, 9)}`,
-          },
-        },
-      });
-
-      channel
-        .on('presence', { event: 'sync' }, () => {
-          const presenceState = channel.presenceState();
-          realActivePresenceCount = Object.keys(presenceState).length;
-          updateViewerCountDisplay();
-        })
-        .subscribe(async (status) => {
-          if (status === 'SUBSCRIBED') {
-            await channel.track({ online_at: new Date().toISOString() });
-          }
-        });
-
-      setInterval(() => {
-        updateViewerCountDisplay();
-      }, 5000);
-    };
-
-    function updateViewerCountDisplay() {
-      const wrapper = document.getElementById('viewerCountWrapper');
-      const countEl = document.getElementById('onlineCount');
-      if (!wrapper || !countEl) return;
-
-      if (!liveWindowActive) {
-        wrapper.classList.add('viewer-wrap-hidden');
-        return;
-      }
-
-      wrapper.classList.remove('viewer-wrap-hidden');
-
-      if (calculatedViewerSimulationState === 0) {
-        calculatedViewerSimulationState = Math.floor(Math.random() * (450 - 280 + 1)) + 280;
-      } else {
-        const fluctuation = Math.floor(Math.random() * 11) - 5;
-        calculatedViewerSimulationState = Math.max(120, calculatedViewerSimulationState + fluctuation);
-      }
-
-      const totalDisplayViewers = realActivePresenceCount + calculatedViewerSimulationState;
-      countEl.textContent = totalDisplayViewers.toLocaleString();
     }
   </script>
 </body>
