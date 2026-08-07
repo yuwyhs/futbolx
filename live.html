@@ -105,7 +105,6 @@
     .fx-volume-slider { width: 70px; height: 4px; -webkit-appearance: none; appearance: none; background: rgba(255,255,255,0.3); border-radius: 2px; outline: none; cursor: pointer; }
     .fx-volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #ff4d4d; cursor: pointer; }
     
-    /* Hide Volume Slider on Mobile screens (only show mute icon) */
     @media (max-width: 768px) {
       .fx-volume-slider { display: none !important; }
     }
@@ -193,14 +192,30 @@
     .msg-row:hover { background: #111827; }
 
     .chat-author { font-weight: 700; margin-right: 4px; cursor: pointer; }
-    .chat-author.owner { color: #ff4d4d; text-shadow: 0 0 6px rgba(255,77,77,0.4); }
+    
+    /* Owner Sparkling Name Effect */
+    .chat-author.owner { 
+      background: linear-gradient(90deg, #ff4d4d, #f59e0b, #ef4444, #ff4d4d);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: sparkleGlow 3s linear infinite;
+      font-weight: 800;
+    }
+
+    @keyframes sparkleGlow {
+      0% { background-position: 0% center; filter: drop-shadow(0 0 2px rgba(255, 77, 77, 0.8)); }
+      50% { background-position: 100% center; filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.9)); }
+      100% { background-position: 0% center; filter: drop-shadow(0 0 2px rgba(255, 77, 77, 0.8)); }
+    }
+
     .chat-author.user { color: #38bdf8; }
-    .chat-author.mod { color: #34d399; }
+    .chat-author.mod { color: #facc15; font-weight: 700; }
     .chat-author.system { color: #c084fc; font-weight: 800; }
 
-    .user-badge { font-size: 0.6rem; font-weight: 800; padding: 1px 4px; border-radius: 3px; margin-right: 4px; vertical-align: middle; text-transform: uppercase; }
-    .badge-owner { background: #ff4d4d; color: #fff; }
-    .badge-mod { background: #10b981; color: #fff; }
+    .user-badge { font-size: 0.65rem; font-weight: 800; padding: 1px 4px; border-radius: 3px; margin-right: 4px; vertical-align: middle; text-transform: uppercase; }
+    .badge-owner { color: #ffc107; font-size: 0.85rem; margin-right: 3px; }
+    .badge-mod { background: #ca8a04; color: #fff; }
 
     .msg-text { color: #e5e7eb; }
     .chat-emote { height: 26px; width: auto; vertical-align: middle; margin: 0 2px; object-fit: contain; }
@@ -228,6 +243,18 @@
 
     #typingIndicator { font-size: 0.72rem; color: #6b7280; padding: 2px 16px; font-style: italic; min-height: 20px; }
 
+    /* Mute / Closed State Banners */
+    .chat-status-notice {
+      padding: 12px 16px;
+      background: rgba(127, 29, 29, 0.3);
+      border-top: 1px solid #ef4444;
+      color: #fca5a5;
+      font-size: 0.82rem;
+      text-align: center;
+      line-height: 1.4;
+    }
+    .chat-status-notice a { color: #38bdf8; text-decoration: underline; }
+
     /* Emote Picker Styles */
     .emote-picker-popover {
       position: absolute;
@@ -253,6 +280,14 @@
     .admin-dashboard-modal .modal-content { background: #0b0f19; border: 1px solid #ef444455; color: #e5e7eb; }
     .admin-dashboard-modal .nav-tabs .nav-link { color: #9ca3af; border: none; font-weight: 600; font-size: 0.85rem; }
     .admin-dashboard-modal .nav-tabs .nav-link.active { color: #ff4d4d; background: transparent; border-bottom: 2px solid #ff4d4d; }
+
+    .member-item-row {
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .member-item-row:hover {
+      background: #111827 !important;
+    }
 
     #futbolx-chat-messages::-webkit-scrollbar, .emote-grid::-webkit-scrollbar { width: 5px; }
     #futbolx-chat-messages::-webkit-scrollbar-thumb, .emote-grid::-webkit-scrollbar-thumb { background: #1f293d; border-radius: 10px; }
@@ -413,20 +448,32 @@
                   <div class="emote-grid" id="emoteGrid"></div>
                 </div>
 
+                <!-- Chat Input Controls & Status Banners -->
                 <div id="chatInputArea" style="border-top:1px solid #1f293d; padding:10px 12px; background:#0f172a; position:relative;">
+                  
                   <div id="activeInputRow" style="display:flex; gap:8px; align-items:center;">
                     <textarea id="chatInput" rows="1" placeholder="Send a message..." style="flex:1; background:#030712; border:1px solid #1f293d; border-radius:8px; padding:6px 12px; color:#f3f4f6; outline:none; font-size:13px; resize:none;"></textarea>
                     
-                    <!-- Emote Picker Button -->
                     <button id="emoteToggleBtn" type="button" style="background:none; border:none; color:#ffc107; font-size:18px; padding:0 4px; transition:transform 0.1s;">
                       <i class="far fa-smile"></i>
                     </button>
 
                     <button id="sendChatBtn" style="background:none; border:none; color:#ff4d4d; font-size:18px;"><i class="fas fa-paper-plane"></i></button>
                   </div>
+
                   <div id="chatMetaRow" class="d-flex justify-content-between align-items-center mt-1 text-muted" style="font-size: 10px;">
                     <span id="charCounter">0/250</span>
                     <span>Enter to send • Shift+Enter newline</span>
+                  </div>
+
+                  <!-- Muted Lockout Banner -->
+                  <div id="mutedBanner" class="chat-status-notice d-none">
+                    You have been muted.<br>Join <a href="https://discord.gg/UzHzerb6XY" target="_blank">Discord</a> or <a href="https://t.me/+H-GY0RZpdHc3ZDdl" target="_blank">Telegram</a> to appeal (bring your chat username).
+                  </div>
+
+                  <!-- Chat Closed Banner -->
+                  <div id="closedBanner" class="chat-status-notice d-none" style="background: rgba(30, 41, 59, 0.6); border-top-color: #64748b; color: #cbd5e1;">
+                    <i class="fas fa-lock me-1"></i> Chat is currently closed by moderators.
                   </div>
 
                   <div id="usernameRegisterRow" class="d-none mt-2">
@@ -454,35 +501,67 @@
     </div>
   </div>
 
-  <!-- Admin Dashboard Modal -->
+  <!-- Dashboard Modal (Owner & Moderator) -->
   <div class="modal fade admin-dashboard-modal" id="adminDashboardModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header border-bottom border-secondary">
-          <h5 class="modal-title text-danger"><i class="fas fa-crown me-2"></i>FutbolX Owner Dashboard</h5>
+          <h5 class="modal-title text-danger" id="dashTitle"><i class="fas fa-shield-alt me-2"></i>FutbolX Moderation Dashboard</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <ul class="nav nav-tabs mb-3" id="adminTabs" role="tablist">
-            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabMembers">Members & Mutes</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabMod">Moderation Actions</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabAnnouncements">Announcements</button></li>
+            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabMembers">Members List</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabMod">Room Actions</button></li>
+            <li class="nav-item owner-only-tab"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabAnnouncements">Announcements</button></li>
           </ul>
           
           <div class="tab-content">
+            <!-- Members List Tab -->
             <div class="tab-pane fade show active" id="tabMembers">
-              <div id="adminMemberList" class="list-group" style="max-height: 300px; overflow-y: auto;"></div>
+              <div class="mb-3">
+                <input type="text" id="memberSearchInput" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="Search members by username or IP...">
+              </div>
+              <div id="adminMemberList" class="list-group" style="max-height: 320px; overflow-y: auto;"></div>
             </div>
+
+            <!-- Moderation & Room Control Tab -->
             <div class="tab-pane fade" id="tabMod">
-              <p class="text-muted small">Wipe room messages or monitor moderation actions.</p>
-              <button class="btn btn-sm btn-danger" onclick="clearAllChat()"><i class="fas fa-trash me-1"></i> Clear Room Chat</button>
+              <div class="d-flex flex-column gap-3">
+                <div>
+                  <h6>Chat Lock State</h6>
+                  <button id="toggleChatClosedBtn" class="btn btn-sm btn-warning" onclick="toggleChatClosedState()"></button>
+                  <small class="text-muted d-block mt-1">Closing chat prevents normal users from typing. Mods & Owner can still speak.</small>
+                </div>
+                <hr class="border-secondary my-1">
+                <div>
+                  <h6>Room History</h6>
+                  <button class="btn btn-sm btn-danger" onclick="clearAllChat()"><i class="fas fa-trash me-1"></i> Clear Room Chat</button>
+                </div>
+              </div>
             </div>
-            <div class="tab-pane fade" id="tabAnnouncements">
+
+            <!-- Announcements Tab (Owner Only) -->
+            <div class="tab-pane fade owner-only-tab" id="tabAnnouncements">
               <textarea id="announcementInput" class="form-control form-control-sm mb-2" rows="2" placeholder="Broadcast message..."></textarea>
               <button class="btn btn-sm btn-danger" onclick="publishAnnouncement()">Publish Banner</button>
               <button class="btn btn-sm btn-outline-secondary ms-2" onclick="dismissAnnouncement()">Clear Banner</button>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Member Action Popup Modal -->
+  <div class="modal fade" id="memberActionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content bg-dark border border-secondary text-white">
+        <div class="modal-header border-bottom border-secondary py-2">
+          <h6 class="modal-title text-danger" id="actionModalUsername">User Options</h6>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body d-flex flex-column gap-2" id="memberActionButtons">
         </div>
       </div>
     </div>
@@ -520,9 +599,12 @@
     let currentUser = localStorage.getItem('chat_user');
     let currentIP = "127.0.0.1";
     let isOwner = false;
+    let isMod = false;
     let isMuted = false;
+    let isChatClosedGlobal = false;
     let replyTo = null;
     let currentPinnedMessageId = null;
+    let allMembersCache = [];
 
     // Emote Library Configuration
     const EMOTE_LIBRARY = [
@@ -597,6 +679,7 @@
         }
 
         initEmotePicker();
+        loadRoomSettings();
         loadMessages();
         loadAnnouncement();
         loadPin();
@@ -657,27 +740,104 @@
         }
 
         isOwner = !!data.is_owner;
+        isMod = !!data.is_mod;
         isMuted = !!data.is_muted;
 
-        if (isOwner) {
-            document.getElementById('openAdminDashboardBtn').classList.remove('d-none');
-            document.getElementById('unpinBtn').classList.remove('d-none');
-            document.getElementById('dismissAnnounceBtn').classList.remove('d-none');
-            loadAllMembers();
-        }
+        updateDashboardAccess();
+        updateInputState();
         showChatUI();
     }
 
+    function updateDashboardAccess() {
+        const dashBtn = document.getElementById('openAdminDashboardBtn');
+        const dashTitle = document.getElementById('dashTitle');
+        const ownerTabs = document.querySelectorAll('.owner-only-tab');
+        const unpinBtn = document.getElementById('unpinBtn');
+        const dismissAnnounceBtn = document.getElementById('dismissAnnounceBtn');
+
+        if (isOwner) {
+            dashBtn.classList.remove('d-none');
+            dashTitle.innerHTML = `<i class="fas fa-crown me-2"></i>FutbolX Owner Dashboard`;
+            ownerTabs.forEach(el => el.classList.remove('d-none'));
+            if (unpinBtn) unpinBtn.classList.remove('d-none');
+            if (dismissAnnounceBtn) dismissAnnounceBtn.classList.remove('d-none');
+            loadAllMembers();
+        } else if (isMod) {
+            dashBtn.classList.remove('d-none');
+            dashTitle.innerHTML = `<i class="fas fa-shield-alt me-2"></i>FutbolX Moderator Dashboard`;
+            ownerTabs.forEach(el => el.classList.add('d-none'));
+            if (unpinBtn) unpinBtn.classList.remove('d-none');
+            if (dismissAnnounceBtn) dismissAnnounceBtn.classList.add('d-none');
+            loadAllMembers();
+        } else {
+            dashBtn.classList.add('d-none');
+            if (unpinBtn) unpinBtn.classList.add('d-none');
+            if (dismissAnnounceBtn) dismissAnnounceBtn.classList.add('d-none');
+        }
+    }
+
+    function updateInputState() {
+        const activeRow = document.getElementById('activeInputRow');
+        const metaRow = document.getElementById('chatMetaRow');
+        const mutedBanner = document.getElementById('mutedBanner');
+        const closedBanner = document.getElementById('closedBanner');
+
+        if (isMuted) {
+            activeRow.style.setProperty('display', 'none', 'important');
+            metaRow.style.setProperty('display', 'none', 'important');
+            closedBanner.classList.add('d-none');
+            mutedBanner.classList.remove('d-none');
+        } else if (isChatClosedGlobal && !isOwner && !isMod) {
+            activeRow.style.setProperty('display', 'none', 'important');
+            metaRow.style.setProperty('display', 'none', 'important');
+            mutedBanner.classList.add('d-none');
+            closedBanner.classList.remove('d-none');
+        } else {
+            mutedBanner.classList.add('d-none');
+            closedBanner.classList.add('d-none');
+            activeRow.style.display = 'flex';
+            metaRow.style.display = 'flex';
+        }
+    }
+
+    async function loadRoomSettings() {
+        const { data } = await supabase.from('room_settings').select('*').eq('event_id', eventID).maybeSingle();
+        if (data) {
+            isChatClosedGlobal = !!data.chat_closed;
+        } else {
+            isChatClosedGlobal = false;
+        }
+        updateToggleChatBtnText();
+        updateInputState();
+    }
+
+    function updateToggleChatBtnText() {
+        const btn = document.getElementById('toggleChatClosedBtn');
+        if (btn) {
+            btn.innerHTML = isChatClosedGlobal 
+                ? `<i class="fas fa-lock-open me-1"></i> Open Room Chat`
+                : `<i class="fas fa-lock me-1"></i> Close Room Chat`;
+            btn.className = isChatClosedGlobal ? "btn btn-sm btn-success" : "btn btn-sm btn-warning";
+        }
+    }
+
+    window.toggleChatClosedState = async () => {
+        if (!isOwner && !isMod) return;
+        const nextState = !isChatClosedGlobal;
+        await supabase.from('room_settings').upsert([
+            { event_id: eventID, chat_closed: nextState }
+        ], { onConflict: 'event_id' });
+    };
+
     function showRegisterUI() {
         document.getElementById('usernameRegisterRow').classList.remove('d-none');
-        document.getElementById('activeInputRow').style.display = 'none';
-        document.getElementById('chatMetaRow').style.display = 'none';
+        document.getElementById('activeInputRow').style.setProperty('display', 'none', 'important');
+        document.getElementById('chatMetaRow').style.setProperty('display', 'none', 'important');
     }
 
     function showChatUI() {
         document.getElementById('usernameRegisterRow').classList.add('d-none');
-        document.getElementById('activeInputRow').style.display = 'flex';
-        document.getElementById('chatMetaRow').style.display = 'flex';
+        updateInputState();
     }
 
     window.registerGuestUser = async () => {
@@ -712,6 +872,14 @@
           document.getElementById('sendChatBtn').click();
         }
       });
+
+      // Dashboard Search Input Filter
+      const searchInput = document.getElementById('memberSearchInput');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          renderFilteredMemberList(e.target.value.toLowerCase().trim());
+        });
+      }
     }
 
     async function loadMessages() {
@@ -739,14 +907,14 @@
         let badge = '';
         let authorClass = 'user';
         if (msg.username.toLowerCase() === 'futbolx') {
-          badge = `<span class="user-badge badge-owner"><i class="fas fa-crown"></i> OWNER</span>`;
+          badge = `<span class="user-badge badge-owner" title="Owner"><i class="fas fa-crown"></i></span>`;
           authorClass = 'owner';
         } else if (msg.is_mod) {
-          badge = `<span class="user-badge badge-mod">MOD</span>`;
+          badge = `<span class="user-badge badge-mod" title="Moderator"><i class="fas fa-shield-alt"></i></span>`;
           authorClass = 'mod';
         }
 
-        let adminControls = isOwner ? `
+        let adminControls = (isOwner || isMod) ? `
           <i class="fas fa-thumbtack action-icon" onclick="togglePinMessage('${msg.id}', '${msg.username}', \`${msg.message.replace(/`/g, '')}\`)" title="${currentPinnedMessageId === msg.id ? 'Unpin Message' : 'Pin Message'}"></i>
           <i class="fas fa-trash action-icon danger" onclick="deleteMessage('${msg.id}')" title="Delete"></i>
         ` : '';
@@ -781,7 +949,8 @@
 
     document.getElementById('sendChatBtn').onclick = async () => {
         if (!currentUser) return;
-        if (isMuted) return alert("You are muted in this room.");
+        if (isMuted) return;
+        if (isChatClosedGlobal && !isOwner && !isMod) return;
 
         const input = document.getElementById('chatInput');
         const text = input.value.trim();
@@ -791,6 +960,7 @@
             username: currentUser,
             message: text,
             event_id: eventID,
+            is_mod: isMod,
             reply_to_username: replyTo?.user,
             reply_to_msg: replyTo?.msg,
             reply_to_id: replyTo?.id
@@ -829,8 +999,11 @@
           let badge = '';
           let authorClass = 'user';
           if (data.username.toLowerCase() === 'futbolx') {
-            badge = `<span class="user-badge badge-owner"><i class="fas fa-crown"></i> OWNER</span>`;
+            badge = `<span class="user-badge badge-owner" title="Owner"><i class="fas fa-crown"></i></span>`;
             authorClass = 'owner';
+          } else if (data.is_mod) {
+            badge = `<span class="user-badge badge-mod" title="Moderator"><i class="fas fa-shield-alt"></i></span>`;
+            authorClass = 'mod';
           }
           
           pinnedContent.innerHTML = `${badge}<span class="chat-author ${authorClass}">${data.username}:</span> <span class="msg-text">${parseEmotes(data.message_text)}</span>`;
@@ -843,6 +1016,7 @@
     }
 
     window.togglePinMessage = async (msgId, username, messageText) => {
+        if (!isOwner && !isMod) return;
         if (currentPinnedMessageId === msgId) {
             await unpinMessage();
             return;
@@ -853,11 +1027,13 @@
             message_id: msgId,
             username: username,
             message_text: messageText,
-            is_pinned: true
+            is_pinned: true,
+            is_mod: isMod
         }]);
     };
 
     window.unpinMessage = async () => {
+        if (!isOwner && !isMod) return;
         await supabase.from('pinned_messages').delete().eq('event_id', eventID);
     };
 
@@ -872,6 +1048,7 @@
     }
 
     window.publishAnnouncement = async () => {
+        if (!isOwner) return;
         const text = document.getElementById('announcementInput').value.trim();
         if (!text) return;
         await supabase.from('announcements').delete().eq('event_id', eventID);
@@ -880,51 +1057,121 @@
     };
 
     window.dismissAnnouncement = async () => {
+        if (!isOwner) return;
         await supabase.from('announcements').delete().eq('event_id', eventID);
     };
 
     /* Moderation Tools & Mutes */
     window.deleteMessage = async (id) => {
+        if (!isOwner && !isMod) return;
         await supabase.from('messages').delete().eq('id', id);
     };
 
     window.clearAllChat = async () => {
+        if (!isOwner && !isMod) return;
         if (!confirm("Clear entire room chat?")) return;
         await supabase.from('messages').delete().eq('event_id', eventID);
     };
 
     async function loadAllMembers() {
-        const { data } = await supabase.from('profiles').select('*');
+        const { data } = await supabase.from('profiles').select('*').order('username', { ascending: true });
         if (!data) return;
+        allMembersCache = data;
+        const query = document.getElementById('memberSearchInput')?.value.toLowerCase().trim() || '';
+        renderFilteredMemberList(query);
+    }
 
+    function renderFilteredMemberList(filterText = '') {
         const list = document.getElementById('adminMemberList');
+        if (!list) return;
         list.innerHTML = '';
-        data.forEach(u => {
+
+        const filtered = allMembersCache.filter(u => 
+          u.username.toLowerCase().includes(filterText) || 
+          (u.device_ip && u.device_ip.toLowerCase().includes(filterText))
+        );
+
+        if (filtered.length === 0) {
+          list.innerHTML = `<div class="text-muted small p-3 text-center">No members found</div>`;
+          return;
+        }
+
+        filtered.forEach(u => {
             const item = document.createElement('div');
-            item.className = "list-group-item bg-dark text-white border-secondary d-flex justify-content-between align-items-center";
+            item.className = "list-group-item bg-dark text-white border-secondary d-flex justify-content-between align-items-center member-item-row";
+            
+            let nameColor = '#38bdf8';
+            let roleBadge = '';
+            if (u.is_owner) {
+              nameColor = '#ff4d4d';
+              roleBadge = `<span class="badge bg-danger ms-2"><i class="fas fa-crown"></i> OWNER</span>`;
+            } else if (u.is_mod) {
+              nameColor = '#facc15';
+              roleBadge = `<span class="badge bg-warning text-dark ms-2"><i class="fas fa-shield-alt"></i> MOD</span>`;
+            }
+
+            let statusBadge = u.is_muted ? `<span class="badge bg-secondary ms-2">MUTED</span>` : '';
+
             item.innerHTML = `
               <div>
-                <span style="color:${u.is_owner ? '#ff4d4d' : '#38bdf8'}; font-weight:bold;">${u.username}</span>
+                <span style="color:${nameColor}; font-weight:bold;">${u.username}</span>
+                ${roleBadge}
+                ${statusBadge}
                 <small class="text-muted d-block">${u.device_ip || 'IP N/A'}</small>
               </div>
               <div>
-                ${!u.is_owner ? `
-                  <button class="btn btn-xs ${u.is_muted ? 'btn-success' : 'btn-warning'}" onclick="toggleMuteUser('${u.username}', ${!u.is_muted})">
-                    ${u.is_muted ? 'Unmute' : 'Mute'}
-                  </button>
-                ` : ''}
+                <i class="fas fa-chevron-right text-muted"></i>
               </div>
             `;
+
+            item.onclick = () => openMemberActionModal(u);
             list.appendChild(item);
         });
     }
 
-    window.toggleMuteUser = async (targetUsername, shouldMute) => {
-        await supabase.from('profiles').update({ is_muted: shouldMute }).eq('username', targetUsername);
-        loadAllMembers();
+    window.openMemberActionModal = (userObj) => {
+        if (!isOwner && !isMod) return;
+
+        const modalTitle = document.getElementById('actionModalUsername');
+        const container = document.getElementById('memberActionButtons');
+        
+        modalTitle.innerText = userObj.username;
+        container.innerHTML = '';
+
+        if (userObj.is_owner) {
+          container.innerHTML = `<div class="text-muted small text-center">Owner cannot be modified.</div>`;
+        } else {
+          // Mute / Unmute Option (Available to Owner and Mods)
+          const muteBtn = document.createElement('button');
+          muteBtn.className = `btn btn-sm ${userObj.is_muted ? 'btn-success' : 'btn-danger'} w-100`;
+          muteBtn.innerHTML = userObj.is_muted ? `<i class="fas fa-volume-up me-1"></i> Unmute User` : `<i class="fas fa-volume-mute me-1"></i> Mute User`;
+          muteBtn.onclick = async () => {
+            await supabase.from('profiles').update({ is_muted: !userObj.is_muted }).eq('username', userObj.username);
+            bootstrap.Modal.getInstance(document.getElementById('memberActionModal')).hide();
+            loadAllMembers();
+          };
+          container.appendChild(muteBtn);
+
+          // Add / Remove Mod Option (Strictly Owner Only)
+          if (isOwner) {
+            const modBtn = document.createElement('button');
+            modBtn.className = `btn btn-sm ${userObj.is_mod ? 'btn-outline-warning' : 'btn-warning'} w-100 mt-2`;
+            modBtn.innerHTML = userObj.is_mod ? `<i class="fas fa-user-minus me-1"></i> Remove Moderator` : `<i class="fas fa-user-shield me-1"></i> Make Moderator`;
+            modBtn.onclick = async () => {
+              await supabase.from('profiles').update({ is_mod: !userObj.is_mod }).eq('username', userObj.username);
+              bootstrap.Modal.getInstance(document.getElementById('memberActionModal')).hide();
+              loadAllMembers();
+            };
+            container.appendChild(modBtn);
+          }
+        }
+
+        const modal = new bootstrap.Modal(document.getElementById('memberActionModal'));
+        modal.show();
     };
 
     function setupRealtime() {
+        // Chat messages stream
         supabase.channel('room_updates')
           .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `event_id=eq.${eventID}` }, p => renderMsg(p.new))
           .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages' }, p => {
@@ -937,7 +1184,29 @@
           })
           .on('postgres_changes', { event: '*', schema: 'public', table: 'announcements' }, () => loadAnnouncement())
           .on('postgres_changes', { event: '*', schema: 'public', table: 'pinned_messages' }, () => loadPin())
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'room_settings', filter: `event_id=eq.${eventID}` }, p => {
+             if (p.new) {
+               isChatClosedGlobal = !!p.new.chat_closed;
+               updateToggleChatBtnText();
+               updateInputState();
+             }
+          })
           .subscribe();
+
+        // Realtime user status updates (Mute / Unmute & Role changes)
+        if (currentUser) {
+            supabase.channel('user_profile_changes')
+              .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles', filter: `username=eq.${currentUser}` }, p => {
+                 if (p.new) {
+                   isMuted = !!p.new.is_muted;
+                   isMod = !!p.new.is_mod;
+                   isOwner = !!p.new.is_owner;
+                   updateDashboardAccess();
+                   updateInputState();
+                 }
+              })
+              .subscribe();
+        }
     }
 
     window.onload = init;
@@ -1059,7 +1328,6 @@
         let hlsEngine = null;
 
         if (Hls.isSupported()) {
-          // Optimized for low-latency live streaming & instant buffer playback
           hlsEngine = new Hls({ 
             enableWorker: true, 
             lowLatencyMode: true,
@@ -1167,7 +1435,6 @@
             else if (wrapper.webkitRequestFullscreen) await wrapper.webkitRequestFullscreen();
             else if (video.webkitEnterFullscreen) await video.webkitEnterFullscreen();
 
-            // Auto-rotate device screen to landscape orientation upon entering fullscreen
             if (screen.orientation && typeof screen.orientation.lock === 'function') {
               try {
                 await screen.orientation.lock('landscape');
@@ -1178,7 +1445,6 @@
           } else {
             if (document.exitFullscreen) await document.exitFullscreen();
             
-            // Unlock screen orientation when exiting fullscreen
             if (screen.orientation && typeof screen.orientation.unlock === 'function') {
               try {
                 screen.orientation.unlock();
@@ -1236,7 +1502,6 @@
       }
     }
 
-    // Helper function to strip quality tokens from stream titles
     function getCleanStreamTitle(titleStr) {
       if (!titleStr) return '';
       return titleStr.replace(/\[?(fhd|hd|sd|4k)\]?/gi, '').trim();
@@ -1246,7 +1511,6 @@
       const selectMenu = document.getElementById('streamSelect');
       const streamContainer = document.getElementById('streamLinksContainer');
       
-      // HIDE stream selector section entirely if there is 1 or 0 stream sources available
       if (!event.streams || event.streams.length <= 1) {
         if (streamContainer) streamContainer.style.display = 'none';
         return;
