@@ -1274,6 +1274,7 @@
     window.onload = init;
   </script>
 
+  <!-- RESTORED: Core Page Initialization, Countdown Timer, and Stream Loader Script Block -->
   <script>
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
@@ -1299,10 +1300,6 @@
     let streamStarted = false;
     let foundEvent = null; 
     const PRE_LIVE_BUFFER = 900; 
-
-    let realActivePresenceCount = 0;
-    let calculatedViewerSimulationState = 0;
-    let liveWindowActive = false;
 
     const htmlEl = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
@@ -1538,6 +1535,96 @@
         embed.src = url;
       }
     }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const pathSegments = window.location.pathname.split('/');
+      const currentSlug = pathSegments[pathSegments.length - 1];
+
+      try {
+        const data = await fetchWithRetry('/api/stream');
+        if (data && data.categories) {
+          for (const catKey in data.categories) {
+            const matches = data.categories[catKey];
+            const found = matches.find(m => m.id === currentSlug || m.slug === currentSlug);
+            if (found) {
+              foundEvent = found;
+              break;
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load event metadata from /api/stream:", err);
+      }
+
+      if (foundEvent) {
+        document.getElementById('eventTitle').innerText = foundEvent.title;
+        document.getElementById('chatEventTitle').innerText = foundEvent.title;
+        document.getElementById('currentStreamName').innerText = foundEvent.title;
+        
+        if (foundEvent.time) {
+          eventStartTime = new Date(foundEvent.time).getTime();
+        }
+        if (foundEvent.endTime) {
+          eventEndTime = new Date(foundEvent.endTime).getTime();
+        }
+      } else {
+        document.getElementById('eventTitle').innerText = "Live Stream Event";
+        eventStartTime = Date.now() - 10000; // Fallback to live immediately if slug isn't found
+      }
+
+      function updateCountdown() {
+        if (!eventStartTime) return;
+        const now = Date.now();
+        const diff = eventStartTime - now;
+
+        if (diff <= PRE_LIVE_BUFFER * 1000) {
+          document.getElementById('statusArea').style.display = 'none';
+          document.getElementById('mainVideoContainer').style.display = 'block';
+          document.getElementById('liveStreamTitle').classList.remove('d-none');
+          
+          if (!streamStarted) {
+            streamStarted = true;
+            if (foundEvent && foundEvent.sources && foundEvent.sources.length > 0) {
+              const select = document.getElementById('streamSelect');
+              select.innerHTML = foundEvent.sources.map((s, i) => `<option value="${s.url}" ${i===0?'selected':''}>${s.name || 'Source ' + (i+1)}</option>`).join('');
+              document.getElementById('streamLinksContainer').style.display = 'block';
+              playStream(foundEvent.sources[0].url);
+              select.onchange = (e) => playStream(e.target.value);
+            } else if (foundEvent && foundEvent.url) {
+              playStream(foundEvent.url);
+            }
+          }
+          return;
+        }
+
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById('countdownDisplay').innerText = 
+          `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+      }
+
+      if (eventStartTime) {
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+      }
+
+      const startBtn = document.getElementById('startLivestream');
+      if (startBtn) {
+        startBtn.style.display = 'inline-block';
+        startBtn.onclick = () => {
+          document.getElementById('statusArea').style.display = 'none';
+          document.getElementById('mainVideoContainer').style.display = 'block';
+          document.getElementById('liveStreamTitle').classList.remove('d-none');
+          if (foundEvent && foundEvent.sources && foundEvent.sources.length > 0) {
+            playStream(foundEvent.sources[0].url);
+          } else if (foundEvent && foundEvent.url) {
+            playStream(foundEvent.url);
+          }
+        };
+      }
+    });
   </script>
 </body>
 </html>
