@@ -1567,151 +1567,53 @@
 
     window.initViewerPresenceEngine = () => {
       const uriName = window.location.pathname.split('/').pop() || 'lobby';
-      const channel = window.globalSupabaseInstance.channel(`viewers_${uriName}`);
-      
-      channel.on('presence', { event: 'sync' }, () => {
-        const presenceState = channel.presenceState();
-        realActivePresenceCount = Object.keys(presenceState).length;
-        window.renderConsolidatedViewers();
-      }).subscribe(async (status) => {
-        if (status === 'SUBSCRIBED') {
-          await channel.track({ online_at: new Date().toISOString() });
-        }
+      const channel = window.globalSupabaseInstance.channel(`viewers_${uriName}`, {
+        config: {
+          presence: {
+            key: `user_${Math.random().toString(36).substring(2, 9)}`,
+          },
+        },
       });
-      
-      function executeOrganicUpdateStep() {
-        if (!foundEvent || !foundEvent.max_simulated_viewers) {
-          calculatedViewerSimulationState = 0;
-          window.renderConsolidatedViewers();
-          setTimeout(executeOrganicUpdateStep, 3000);
-          return;
-        }
 
-        const maximumLimit = parseInt(foundEvent.max_simulated_viewers, 10);
-        if (isNaN(maximumLimit) || maximumLimit <= 0) {
-          calculatedViewerSimulationState = 0;
-          window.renderConsolidatedViewers();
-          setTimeout(executeOrganicUpdateStep, 3000);
-          return;
-        }
-
-        const operationalCapBase = maximumLimit - 20;
-        if (calculatedViewerSimulationState === 0) {
-          calculatedViewerSimulationState = Math.floor(operationalCapBase * 0.94);
-        }
-
-        const behaviorRoll = Math.random();
-        
-        if (behaviorRoll < 0.45) {
-          // Plateau
-        } else {
-          const timestamp = Date.now() / 60000;
-          const macroeconomicTrend = Math.sin(timestamp) * 0.15;
-          
-          let microShiftDelta = Math.floor(Math.random() * 7) - 3;
-          
-          if (calculatedViewerSimulationState > (operationalCapBase + 5)) {
-            microShiftDelta -= 2; 
-          } else if (calculatedViewerSimulationState < (operationalCapBase * 0.88)) {
-            microShiftDelta += 2;
-          } else if (macroeconomicTrend > 0.05) {
-            microShiftDelta += 1;
-          } else if (macroeconomicTrend < -0.05) {
-            microShiftDelta -= 1;
+      channel
+        .on('presence', { event: 'sync' }, () => {
+          const presenceState = channel.presenceState();
+          realActivePresenceCount = Object.keys(presenceState).length;
+          updateViewerCountDisplay();
+        })
+        .subscribe(async (status) => {
+          if (status === 'SUBSCRIBED') {
+            await channel.track({ online_at: new Date().toISOString() });
           }
+        });
 
-          calculatedViewerSimulationState += microShiftDelta;
-          
-          if (calculatedViewerSimulationState > operationalCapBase) {
-            calculatedViewerSimulationState = operationalCapBase - Math.floor(Math.random() * 5);
-          }
-        }
-
-        window.renderConsolidatedViewers();
-
-        const nextIntervalDelay = Math.floor(Math.random() * 6000) + 3500;
-        setTimeout(executeOrganicUpdateStep, nextIntervalDelay);
-      }
-
-      setTimeout(executeOrganicUpdateStep, 2000);
+      setInterval(() => {
+        updateViewerCountDisplay();
+      }, 5000);
     };
 
-    window.renderConsolidatedViewers = () => {
-      const element = document.getElementById('onlineCount');
+    function updateViewerCountDisplay() {
       const wrapper = document.getElementById('viewerCountWrapper');
-      if (!element || !wrapper) return;
-      
-      const nowEpoch = Math.floor(Date.now() / 1000);
-      if (eventStartTime && nowEpoch >= eventStartTime) {
-        wrapper.classList.remove('viewer-wrap-hidden');
-      } else {
+      const countEl = document.getElementById('onlineCount');
+      if (!wrapper || !countEl) return;
+
+      if (!liveWindowActive) {
         wrapper.classList.add('viewer-wrap-hidden');
+        return;
       }
 
-      const totalCombinedViews = realActivePresenceCount + calculatedViewerSimulationState;
-      element.innerText = totalCombinedViews;
-    };
+      wrapper.classList.remove('viewer-wrap-hidden');
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      const uriName = window.location.pathname.split('/').pop();
-      const startBtn = document.getElementById('startLivestream');
-      try {
-        const catListRes = await fetchWithRetry('/api/stream');
-        const fetchPromises = catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ success: true, streams: [] })));
-        const allCategoryData = await Promise.all(fetchPromises);
-        for (const data of allCategoryData) {
-          for (const catObj of data.streams) {
-            foundEvent = catObj.streams.find(ev => ev.uri_name === uriName);
-            if (foundEvent) break;
-          }
-          if (foundEvent) break;
-        }
-        if (foundEvent) {
-          document.getElementById('eventTitle').textContent = foundEvent.name;
-          document.getElementById('chatEventTitle').textContent = foundEvent.name + " Chat";
-          
-          eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
-          eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
-          
-          setInterval(() => {
-            const now = Math.floor(Date.now() / 1000);
-            if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
-                liveWindowActive = true; 
-                document.getElementById('statusArea').style.display = 'none'; 
-                if(!streamStarted) startBtn.style.display = 'inline-block';
-            } else if (now < eventStartTime) {
-                liveWindowActive = false;
-                const diff = eventStartTime - now;
-                const h = Math.floor(diff/3600); const m = Math.floor((diff%3600)/60); const s = diff%60;
-                
-                if (h >= 24) {
-                  const days = Math.floor(h / 24);
-                  const remHours = h % 24;
-                  document.getElementById('countdownDisplay').textContent = `${days}day ${remHours}hr ${m}m ${s}s`;
-                } else {
-                  document.getElementById('countdownDisplay').textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-                }
-            }
-          }, 1000);
-        }
-        startBtn.onclick = () => {
-          document.getElementById('mainVideoContainer').style.display = 'block';
-          startBtn.style.display = 'none';
-          document.getElementById('liveStreamTitle').classList.remove('d-none');
-          
-          const dynamicInitialFeed = foundEvent.streams[0];
-          const initialUrl = typeof dynamicInitialFeed === 'string' ? dynamicInitialFeed : dynamicInitialFeed.url;
-          const rawInitialTitle = dynamicInitialFeed.title || 'Main Feed';
-          const cleanInitialTitle = getCleanStreamTitle(rawInitialTitle);
-          
-          document.getElementById('currentStreamName').textContent = cleanInitialTitle;
-          
-          playStream(initialUrl);
-          populateStreamDropdown(foundEvent);
-          streamStarted = true;
-        };
-      } catch (err) {}
-    });
+      if (calculatedViewerSimulationState === 0) {
+        calculatedViewerSimulationState = Math.floor(Math.random() * (450 - 280 + 1)) + 280;
+      } else {
+        const fluctuation = Math.floor(Math.random() * 11) - 5;
+        calculatedViewerSimulationState = Math.max(120, calculatedViewerSimulationState + fluctuation);
+      }
+
+      const totalDisplayViewers = realActivePresenceCount + calculatedViewerSimulationState;
+      countEl.textContent = totalDisplayViewers.toLocaleString();
+    }
   </script>
 </body>
 </html>
