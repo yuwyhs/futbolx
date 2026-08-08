@@ -65,7 +65,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://embedindia.st/embed/friendly/2026-08-08/tot-get"
             }
           ]
         },
@@ -90,8 +90,8 @@
           "uri_name": "b4r1v1r7",
           "poster": "https://cdn.phototourl.com/free/2026-08-08-29b05ae5-0d25-4300-a198-645a3902bdec.png",
           "tag": "Friendlies",
-          "starts_at": "2026-08-08T17:00:00",
-          "ends_at": "2026-08-08T19:10:00",
+          "starts_at": "2026-08-07T17:00:00",
+          "ends_at": "2026-08-07T19:10:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
@@ -113,7 +113,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://embedindia.st/embed/carabao-cup/2026-08-08/bur-nco"
             }
           ]
         },
