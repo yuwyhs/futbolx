@@ -141,15 +141,15 @@
           "starts_at": "2026-08-08T18:00:00",
           "ends_at": "2026-08-08T20:10:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 200,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Eng",
+              "url": "https://site.futx.sryze.cc/mufc/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
-              "url": ""
+              "title": "Fr",
+              "url": "https://site.futx.sryze.cc/psg/index.m3u8"
             }
           ]
         },
