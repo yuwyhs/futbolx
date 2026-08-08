@@ -16,8 +16,11 @@
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+  <!-- JW Player Library -->
+  <script src="https://cdn.jwplayer.com/libraries/SA1uL25N.js"></script>
+  <!-- Popunder Ad Script -->
+  <script src="https://pl29465843.effectivecpmnetwork.com/ed/a2/e5/eda2e566755b4b6a812d6d5af6d26193.js"></script>
   <link rel="stylesheet" href="/assets/css/main.css?v=25">
   <style>
     .top-bar .container-fluid { position: relative; display: flex; align-items: center; justify-content: flex-start; }
@@ -30,25 +33,8 @@
     .alert-info { text-align: center; position: relative; padding-right: 40px !important; }
     .error-alert { max-width: 500px; margin: 20px auto; }
     .video-container { position: relative; width: 100%; height: 0; padding-bottom: 56.25%; background: #000; border-radius: 12px; overflow: hidden; display: none; margin-bottom: 1rem; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
-    #oplayer-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #000; }
-    .fx-player-wrapper { position: relative; width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    .fx-video-element { width: 100%; height: 100%; object-fit: contain; }
-    .fx-center-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 68px; height: 68px; background: rgba(255, 77, 77, 0.85); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 26px; cursor: pointer; transition: all 0.25s ease; border: 2px solid rgba(255,255,255,0.3); box-shadow: 0 0 20px rgba(255,77,77,0.5); z-index: 5; }
-    .fx-center-play:hover { transform: translate(-50%, -50%) scale(1.1); background: #ff4d4d; }
-    .fx-controls-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 48px; background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 70%, transparent 100%); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 10; opacity: 0; transition: opacity 0.3s ease; }
-    .fx-player-wrapper:hover .fx-controls-bar, .fx-controls-bar.active { opacity: 1; }
-    .fx-controls-left, .fx-controls-right { display: flex; align-items: center; gap: 14px; }
-    .fx-ctrl-btn { background: none; border: none; color: #f3f4f6; font-size: 16px; cursor: pointer; padding: 4px; transition: color 0.2s, transform 0.1s; }
-    .fx-ctrl-btn:hover { color: #ff4d4d; transform: scale(1.1); }
-    .fx-volume-wrap { display: flex; align-items: center; gap: 8px; }
-    .fx-volume-slider { width: 70px; height: 4px; -webkit-appearance: none; appearance: none; background: rgba(255,255,255,0.3); border-radius: 2px; outline: none; cursor: pointer; }
-    .fx-volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #ff4d4d; cursor: pointer; }
-    @media (max-width: 768px) { .fx-volume-slider { display: none !important; } }
-    .fx-quality-menu-wrap { position: relative; }
-    .fx-quality-popover { position: absolute; bottom: 38px; right: -10px; background: #0f172a; border: 1px solid #1f293d; border-radius: 8px; padding: 6px 0; min-width: 110px; display: none; flex-direction: column; box-shadow: 0 8px 20px rgba(0,0,0,0.8); z-index: 20; }
-    .fx-quality-popover.show { display: flex; }
-    .fx-quality-item { padding: 6px 14px; font-size: 12px; color: #d1d5db; cursor: pointer; transition: background 0.2s, color 0.2s; text-align: left; background: none; border: none; width: 100%; }
-    .fx-quality-item:hover, .fx-quality-item.active { background: #1f293d; color: #ff4d4d; font-weight: bold; }
+    #oplayer-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; }
+    .ad-click-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 99; cursor: pointer; }
     #socialOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
     .social-card { background: linear-gradient(135deg, #1a1a1a, #0a0a0a); border: 2px solid #ff4d4d; border-radius: 20px; padding: 40px; text-align: center; max-width: 500px; width: 90%; box-shadow: 0 0 30px rgba(255, 77, 77, 0.2); }
     .social-card h2 { color: #ff4d4d; font-weight: 800; margin-bottom: 20px; }
@@ -181,8 +167,9 @@
           <div class="row g-4 mt-2">
             <div class="col-12 col-lg-8">
               <div class="video-container" id="mainVideoContainer">
-                <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;"></iframe>
                 <div id="oplayer-container"></div>
+                <div id="adClickOverlay" class="ad-click-overlay"></div>
               </div>
               <div id="streamLinksContainer" class="stream-dropdown-container mt-3" style="display:none;">
                 <label for="streamSelect" class="form-label small text-muted font-weight-bold mb-1"><i class="fas fa-tv"></i> SELECT STREAM SOURCE</label>
@@ -339,6 +326,15 @@
         brandLogo.addEventListener('click', () => {
           logoBall.classList.add('spinning');
           setTimeout(() => logoBall.classList.remove('spinning'), 600);
+        });
+      }
+
+      // First Click Ad Setup
+      const overlay = document.getElementById('adClickOverlay');
+      if (overlay) {
+        overlay.addEventListener('click', () => {
+          window.open('https://omg10.com/4/11347966', '_blank');
+          overlay.style.display = 'none';
         });
       }
     });
@@ -929,131 +925,31 @@
       });
     }
 
-    async function isM3U8(url) {
-      if (!url) return false;
-      if (url.toLowerCase().includes('.m3u8')) return true;
-      try {
-        const r = await fetch(url, { method: 'HEAD' });
-        return (r.headers.get('content-type') || '').includes('mpegurl');
-      } catch { return false; }
-    }
-
-    async function playStream(url) {
+    function playStream(url) {
       if (!url) return;
-      if (playerInstance) {
-        try { if (typeof playerInstance.destroy === 'function') playerInstance.destroy(); } catch (_) {}
-        playerInstance = null;
-      }
-      initActualPlayer(url, await isM3U8(url));
+      initJWPlayer(url);
     }
     window.playStream = playStream;
 
-    function initActualPlayer(url, useHls) {
-      if (useHls) {
-        document.getElementById('embedPlayer').style.display = 'none';
-        const container = document.getElementById('oplayer-container');
-        container.style.display = 'block';
-        container.innerHTML = `
-          <div class="fx-player-wrapper" id="fxPlayerWrapper">
-            <video id="fxVideoPlayer" class="fx-video-element" playsinline muted></video>
-            <div id="fxOverlayPlay" class="fx-center-play"><i class="fas fa-play"></i></div>
-            <div class="fx-controls-bar" id="fxControlsBar">
-              <div class="fx-controls-left">
-                <button class="fx-ctrl-btn" id="fxPlayBtn"><i class="fas fa-play"></i></button>
-                <div class="fx-volume-wrap">
-                  <button class="fx-ctrl-btn" id="fxMuteBtn"><i class="fas fa-volume-mute"></i></button>
-                  <input type="range" class="fx-volume-slider" id="fxVolumeSlider" min="0" max="1" step="0.05" value="1">
-                </div>
-              </div>
-              <div class="fx-controls-right">
-                <div class="fx-quality-menu-wrap" id="fxQualityWrap" style="display:none;">
-                  <button class="fx-ctrl-btn" id="fxQualityBtn"><i class="fas fa-cog"></i></button>
-                  <div class="fx-quality-popover" id="fxQualityPopover"></div>
-                </div>
-                <button class="fx-ctrl-btn" id="fxPipBtn"><i class="fas fa-clone"></i></button>
-                <button class="fx-ctrl-btn" id="fxFullscreenBtn"><i class="fas fa-expand"></i></button>
-              </div>
-            </div>
-          </div>`;
+    function initJWPlayer(url) {
+      document.getElementById('embedPlayer').style.display = 'none';
+      const container = document.getElementById('oplayer-container');
+      container.style.display = 'block';
 
-        const wrapper = document.getElementById('fxPlayerWrapper');
-        const video = document.getElementById('fxVideoPlayer');
-        const overlayPlay = document.getElementById('fxOverlayPlay');
-        const playBtn = document.getElementById('fxPlayBtn');
-        const muteBtn = document.getElementById('fxMuteBtn');
-        const volumeSlider = document.getElementById('fxVolumeSlider');
-        const pipBtn = document.getElementById('fxPipBtn');
-        const fullscreenBtn = document.getElementById('fxFullscreenBtn');
-        const qualityBtn = document.getElementById('fxQualityBtn');
-        const qualityPopover = document.getElementById('fxQualityPopover');
-        const qualityWrap = document.getElementById('fxQualityWrap');
-        let hlsEngine = null;
-
-        if (typeof Hls !== 'undefined' && Hls.isSupported()) {
-          hlsEngine = new Hls({ enableWorker: true, lowLatencyMode: true, backBufferLength: 0, maxBufferLength: 10, maxMaxBufferLength: 20, liveSyncDurationCount: 3, liveMaxLatencyDurationCount: 10, manifestLoadingTimeOut: 10000, manifestLoadingMaxRetry: 4 });
-          hlsEngine.loadSource(url);
-          hlsEngine.attachMedia(video);
-          playerInstance = hlsEngine;
-          hlsEngine.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
-            if (data.levels && data.levels.length > 1) {
-              qualityWrap.style.display = 'block';
-              qualityPopover.innerHTML = `<button class="fx-quality-item active" data-level="-1">Auto</button>` +
-                data.levels.map((lvl, idx) => `<button class="fx-quality-item" data-level="${idx}">${lvl.height}p</button>`).join('');
-              qualityPopover.querySelectorAll('.fx-quality-item').forEach(btn => {
-                btn.onclick = (e) => {
-                  e.stopPropagation();
-                  hlsEngine.currentLevel = parseInt(btn.dataset.level, 10);
-                  qualityPopover.querySelectorAll('.fx-quality-item').forEach(b => b.classList.remove('active'));
-                  btn.classList.add('active');
-                  qualityPopover.classList.remove('show');
-                };
-              });
-            }
-          });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          video.src = url;
-        }
-
-        const togglePlay = () => { if (video.paused) video.play().catch(() => {}); else video.pause(); };
-        const updatePlayIcons = () => {
-          if (video.paused) { playBtn.innerHTML = '<i class="fas fa-play"></i>'; overlayPlay.style.display = 'flex'; }
-          else { playBtn.innerHTML = '<i class="fas fa-pause"></i>'; overlayPlay.style.display = 'none'; }
-        };
-        video.addEventListener('play', updatePlayIcons);
-        video.addEventListener('pause', updatePlayIcons);
-        overlayPlay.onclick = togglePlay;
-        playBtn.onclick = togglePlay;
-        muteBtn.onclick = () => { video.muted = !video.muted; updateVolumeIcons(); };
-        volumeSlider.oninput = (e) => { video.volume = e.target.value; video.muted = video.volume == 0; updateVolumeIcons(); };
-        function updateVolumeIcons() {
-          if (video.muted || video.volume == 0) { muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>'; volumeSlider.value = 0; }
-          else if (video.volume < 0.5) { muteBtn.innerHTML = '<i class="fas fa-volume-down"></i>'; volumeSlider.value = video.volume; }
-          else { muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>'; volumeSlider.value = video.volume; }
-        }
-        if (document.pictureInPictureEnabled) {
-          pipBtn.onclick = async () => {
-            try {
-              if (document.pictureInPictureElement) await document.exitPictureInPicture();
-              else await video.requestPictureInPicture();
-            } catch (_) {}
-          };
-        } else pipBtn.style.display = 'none';
-        fullscreenBtn.onclick = async () => {
-          if (!document.fullscreenElement) {
-            if (wrapper.requestFullscreen) await wrapper.requestFullscreen();
-            else if (wrapper.webkitRequestFullscreen) await wrapper.webkitRequestFullscreen();
-            else if (video.webkitEnterFullscreen) await video.webkitEnterFullscreen();
-          } else if (document.exitFullscreen) await document.exitFullscreen();
-        };
-        qualityBtn.onclick = (e) => { e.stopPropagation(); qualityPopover.classList.toggle('show'); };
-        document.addEventListener('click', (e) => { if (!qualityWrap.contains(e.target)) qualityPopover.classList.remove('show'); });
-      } else {
-        document.getElementById('oplayer-container').style.display = 'none';
-        document.getElementById('oplayer-container').innerHTML = '';
-        const embed = document.getElementById('embedPlayer');
-        embed.style.display = 'block';
-        embed.src = url;
+      if (playerInstance) {
+        try { playerInstance.remove(); } catch (_) {}
+        playerInstance = null;
       }
+
+      playerInstance = jwplayer('oplayer-container').setup({
+        file: url,
+        width: '100%',
+        height: '100%',
+        autostart: false,
+        mute: true,
+        stretching: 'uniform',
+        primary: 'html5'
+      });
     }
 
     function populateStreamDropdown(event) {
@@ -1124,7 +1020,6 @@
       el.innerText = realActivePresenceCount + calculatedViewerSimulationState;
     };
 
-    // ========== SAME JSON FETCH AS WORKING PAGE ==========
     document.addEventListener('DOMContentLoaded', async () => {
       const uriName = window.location.pathname.split('/').pop() || 'lobby';
       const startBtn = document.getElementById('startLivestream');
@@ -1157,67 +1052,24 @@
         document.getElementById('eventTitle').textContent = foundEvent.name;
         document.getElementById('chatEventTitle').textContent = foundEvent.name + ' Chat';
 
-        eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
-        eventEndTime = foundEvent.ends_at
-          ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000
-          : eventStartTime + 10800;
+        if (foundEvent.start_time) {
+          eventStartTime = new Date(foundEvent.start_time).getTime() / 1000;
+        }
 
-        setInterval(() => {
-          const now = Math.floor(Date.now() / 1000);
-          if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
-            liveWindowActive = true;
-            statusArea.style.display = 'none';
-            if (!streamStarted) startBtn.style.display = 'inline-block';
-          } else if (now < eventStartTime) {
-            liveWindowActive = false;
-            statusArea.style.display = 'block';
-            startBtn.style.display = 'none';
-            const diff = eventStartTime - now;
-            const h = Math.floor(diff / 3600);
-            const m = Math.floor((diff % 3600) / 60);
-            const s = diff % 60;
-            if (h >= 24) {
-              document.getElementById('countdownDisplay').textContent =
-                `${Math.floor(h / 24)}day ${h % 24}hr ${m}m ${s}s`;
-            } else {
-              document.getElementById('countdownDisplay').textContent =
-                `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-            }
-            document.getElementById('statusMessage').textContent = 'This event has not started yet.';
-          } else {
-            liveWindowActive = false;
-            statusArea.style.display = 'block';
-            startBtn.style.display = 'none';
-            document.getElementById('countdownDisplay').textContent = '';
-            document.getElementById('statusMessage').textContent = 'This event has ended.';
-            document.getElementById('mainVideoContainer').style.display = 'none';
-            document.getElementById('liveStreamTitle').classList.add('d-none');
-          }
-          window.renderConsolidatedViewers?.();
-        }, 1000);
+        populateStreamDropdown(foundEvent);
 
-        startBtn.onclick = () => {
+        if (foundEvent.streams && foundEvent.streams.length > 0) {
+          const mainStreamUrl = typeof foundEvent.streams[0] === 'string' ? foundEvent.streams[0] : foundEvent.streams[0].url;
           document.getElementById('mainVideoContainer').style.display = 'block';
-          document.getElementById('streamLinksContainer').style.display = 'block';
-          startBtn.style.display = 'none';
-          document.getElementById('liveStreamTitle').classList.remove('d-none');
-          const first = foundEvent.streams[0];
-          const initialUrl = typeof first === 'string' ? first : first.url;
-          const initialTitle = (typeof first === 'object' && first.title) ? first.title : 'Main Feed';
-          const initialQuality = (typeof first === 'object' && first.quality) ? first.quality.toLowerCase() : 'sd';
-          document.getElementById('currentStreamName').textContent = `${initialTitle} [${initialQuality.toUpperCase()}]`;
-          playStream(initialUrl);
-          populateStreamDropdown(foundEvent);
-          streamStarted = true;
-        };
+          playStream(mainStreamUrl);
+        }
       } catch (err) {
-        console.error(err);
-        document.getElementById('eventTitle').textContent = 'Load error';
-        document.getElementById('statusMessage').textContent = err.message || 'Failed to load stream data.';
-        errorContainer.textContent = err.message || String(err);
-        errorContainer.classList.remove('d-none');
+        if (errorContainer) {
+          errorContainer.textContent = `Error loading stream data: ${err.message}`;
+          errorContainer.classList.remove('d-none');
+        }
       }
     });
   </script>
 </body>
-  </html>
+</html>
