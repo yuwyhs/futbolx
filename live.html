@@ -72,9 +72,6 @@
     .alert-info {text-align:center;position:relative;padding-right:40px !important;}
     .error-alert {max-width:500px;margin:20px auto;}
     .fade-out {animation:fadeOut .5s forwards;} @keyframes fadeOut {from{opacity:1}to{opacity:0}}
-    .btn-fullscreen {display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#ff4d4d;color:#fff;border:none;border-radius:20px;transition:.3s;}
-    [data-bs-theme="light"] .btn-fullscreen {background:#e63939;color:#333;}
-    .btn-fullscreen:hover {transform:scale(1.05);background:#e63939;}
     
     .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
     #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
@@ -207,12 +204,6 @@
     .stream-select-custom { background: #0b1020 !important; color: #fff !important; border: 2px solid #ff4d4d !important; border-radius: 12px; padding: 10px 15px; font-weight: 600; cursor: pointer; box-shadow: 0 0 15px rgba(255, 77, 77, 0.15); }
     .stream-select-custom:focus { box-shadow: 0 0 20px rgba(255, 77, 77, 0.4); outline: none; }
     
-    .badge-quality { display: inline-block; padding: 2px 6px; font-size: 0.75rem; font-weight: 900; border-radius: 6px; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
-    .badge-fhd { background-color: #0088cc; color: #fff; }
-    .badge-hd { background-color: #22d3ee; color: #0a0a0a; }
-    .badge-4k { background-color: #ff4d4d; color: #fff; }
-    .badge-default { background-color: #555; color: #fff; }
-    
     .viewer-wrap-hidden { display: none !important; }
   </style>
 </head>
@@ -283,7 +274,6 @@
           <div class="d-flex align-items-center mb-3">
             <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
             <button id="startLivestream" class="btn btn-danger ms-3" style="display:none;">Click to Start Livestream</button>
-            <button id="fullscreenBtn" class="btn btn-fullscreen ms-3 d-none">Go Fullscreen</button>
           </div>
 
           <div id="liveStreamTitle" class="live-title d-none">
@@ -679,14 +669,6 @@
 
     checkOverlay();
 
-    const AD_URLS = [
-        "https://www.profitablecpmratenetwork.com/bgx385dt?key=570a422270e074afbc58506bf1030ae4",
-        "https://www.profitablecpmratenetwork.com/g1yq1jpz3?key=cd1df924cb59e3a00865a760d1fc509e",
-        "https://www.profitablecpmratenetwork.com/pt2cpxsy?key=95503223709f1dae246e94013437dcfe"
-    ];
-
-    let clicksStart = 0;
-    let adClickedFullscreen = false;
     let playerInstance = null;
     let eventStartTime = null;
     let eventEndTime = null;
@@ -746,8 +728,6 @@
         playerInstance = jwplayer("jw-player").setup({ file: url, autostart: false, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
         
         playerInstance.on('ready', () => { 
-          document.getElementById('fullscreenBtn').classList.remove('d-none'); 
-          
           const triggerAd = () => {
             const popunderScript = document.createElement('script');
             popunderScript.src = "https://pl29465843.effectivecpmnetwork.com/ed/a2/e5/eda2e566755b4b6a812d6d5af6d26193.js";
@@ -773,11 +753,9 @@
       
       selectMenu.innerHTML = event.streams.map((s, i) => {
         const realUrl = typeof s === 'string' ? s : s.url;
-        const qualityStr = s.quality ? s.quality.toLowerCase() : 'sd';
-        let labelAddon = `[${qualityStr.toUpperCase()}]`;
         
         const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
-        return `<option value="${payload}" data-title="${s.title || `Stream ${i+1}`}" data-quality="${qualityStr}">${s.title || `Stream ${i+1}`} ${labelAddon}</option>`;
+        return `<option value="${payload}" data-title="${s.title || `Stream ${i+1}`}">${s.title || `Stream ${i+1}`}</option>`;
       }).join('');
 
       selectMenu.onchange = (e) => {
@@ -788,10 +766,7 @@
         playStream(realUrl);
         
         const titleContainer = document.getElementById('currentStreamName');
-        const qual = selectedOption.dataset.quality;
-        let badgeClass = qual === 'fhd' ? 'badge-fhd' : qual === 'hd' ? 'badge-hd' : qual === '4k' ? 'badge-4k' : 'badge-default';
-        
-        titleContainer.innerHTML = `${selectedOption.dataset.title} <span class="badge-quality ${badgeClass}">${qual}</span>`;
+        titleContainer.innerHTML = `${selectedOption.dataset.title}`;
       };
     }
 
@@ -932,22 +907,15 @@
           
           const dynamicInitialFeed = foundEvent.streams[0];
           const initialUrl = typeof dynamicInitialFeed === 'string' ? dynamicInitialFeed : dynamicInitialFeed.url;
-          const initialQuality = dynamicInitialFeed.quality ? dynamicInitialFeed.quality.toLowerCase() : 'sd';
-          let initialBadgeClass = initialQuality === 'fhd' ? 'badge-fhd' : initialQuality === 'hd' ? 'badge-hd' : initialQuality === '4k' ? 'badge-4k' : 'badge-default';
           
-          document.getElementById('currentStreamName').innerHTML = `${dynamicInitialFeed.title || 'Main Feed'} <span class="badge-quality ${initialBadgeClass}">${initialQuality}</span>`;
+          document.getElementById('currentStreamName').innerHTML = `${dynamicInitialFeed.title || 'Main Feed'}`;
           
           playStream(initialUrl);
           populateStreamDropdown(foundEvent);
           streamStarted = true;
         };
       } catch (err) {}
-
-      document.getElementById('fullscreenBtn').onclick = () => {
-        if (!adClickedFullscreen) { window.open(AD_URLS[0], '_blank'); adClickedFullscreen = true; }
-        if (playerInstance) playerInstance.setFullscreen(true);
-      };
     });
   </script>
 </body>
-  </html>
+</html>
