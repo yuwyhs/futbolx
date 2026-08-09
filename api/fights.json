@@ -11,9 +11,9 @@
           "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-wvyc1LyNsMNRoPRR4cIeiIf0HOAVY_xtvf7tVMElQYLLjBoy8zfwvoLh&s=10",
           "tag": "UFC",
           "starts_at": "2026-08-09T00:00:00",
-          "ends_at": "2026-08-09T07:50:00",
+          "ends_at": "2026-08-09T06:20:00",
           "always_live": 0,
-          "max_simulated_viewers": 50,
+          "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
