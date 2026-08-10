@@ -715,30 +715,7 @@
     async function playStream(url) {
       if (playerInstance) { playerInstance.remove(); playerInstance = null; }
       const useJW = await isM3U8(url);
-      
-      let finalPlayUrl = url;
-
-      if (useJW) {
-        try {
-          const urlObj = new URL(url);
-          const pathSegments = urlObj.pathname.split('/').filter(Boolean);
-          const streamName = pathSegments[0]; // Extracts the stream identifier dynamically
-
-          if (streamName) {
-            const tokenRes = await fetch(`/api/token?stream=${streamName}`);
-            if (tokenRes.ok) {
-              const tokenData = await tokenRes.json();
-              if (tokenData.url) {
-                finalPlayUrl = tokenData.url;
-              }
-            }
-          }
-        } catch (e) {
-          console.error("Token resolution error, falling back to raw URL:", e);
-        }
-      }
-
-      initActualPlayer(finalPlayUrl, useJW);
+      initActualPlayer(url, useJW);
     }
 
     function initActualPlayer(url, useJW) {
@@ -781,12 +758,12 @@
         return `<option value="${payload}" data-title="${s.title || `Stream ${i+1}`}">${s.title || `Stream ${i+1}`}</option>`;
       }).join('');
 
-      selectMenu.onchange = async (e) => {
+      selectMenu.onchange = (e) => {
         const selectedOption = selectMenu.options[selectMenu.selectedIndex];
         if (!selectedOption) return;
         
         const realUrl = atob(atob(selectedOption.value).split('||')[0]);
-        await playStream(realUrl);
+        playStream(realUrl);
         
         const titleContainer = document.getElementById('currentStreamName');
         titleContainer.innerHTML = `${selectedOption.dataset.title}`;
@@ -922,7 +899,7 @@
             }
           }, 1000);
         }
-        startBtn.onclick = async () => {
+        startBtn.onclick = () => {
           document.getElementById('mainVideoContainer').style.display = 'block';
           document.getElementById('streamLinksContainer').style.display = 'block';
           startBtn.style.display = 'none';
@@ -933,7 +910,7 @@
           
           document.getElementById('currentStreamName').innerHTML = `${dynamicInitialFeed.title || 'Main Feed'}`;
           
-          await playStream(initialUrl);
+          playStream(initialUrl);
           populateStreamDropdown(foundEvent);
           streamStarted = true;
         };
@@ -941,4 +918,4 @@
     });
   </script>
 </body>
-</html>
+                    </html>
