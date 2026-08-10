@@ -462,9 +462,13 @@
     let mutedUsers = new Set();
 
     async function init() {
-        const res = await fetch('https://api.ipify.org?format=json');
-        const data = await res.json();
-        currentIP = data.ip;
+        try {
+          const res = await fetch('https://api.ipify.org?format=json');
+          const data = await res.json();
+          currentIP = data.ip;
+        } catch (e) {
+          console.warn("Could not determine client IP", e);
+        }
 
         if (currentUser) await checkAccess();
 
@@ -481,25 +485,28 @@
         if (!user) return alert("Please enter a username");
         
         const { data: existing } = await supabase.from('profiles').select('username').eq('device_ip', currentIP);
-        if (existing.length >= 3 && user.toLowerCase() !== 'futbolx') {
+        if (existing && existing.length >= 3 && user.toLowerCase() !== 'futbolx') {
             alert("Limit reached: 3 accounts per IP.");
             return;
         }
 
         const isFutbolx = user.toLowerCase() === 'futbolx';
+        const targetUsername = isFutbolx ? 'Futbolx' : user;
+        
         const { error } = await supabase.from('profiles').upsert([
-            { username: isFutbolx ? 'Futbolx' : user, device_ip: currentIP, is_owner: isFutbolx }
+            { username: targetUsername, device_ip: currentIP, is_owner: isFutbolx }
         ], { onConflict: 'username' });
 
-        if (error) { alert("Username taken."); } 
-        else {
-            localStorage.setItem('chat_user', isFutbolx ? 'Futbolx' : user);
+        if (error) { 
+            alert("Username taken."); 
+        } else {
+            localStorage.setItem('chat_user', targetUsername);
             location.reload();
         }
     };
 
     async function checkAccess() {
-        const { data } = await supabase.from('profiles').select('*').eq('username', currentUser).single();
+        const { data } = await supabase.from('profiles').select('*').eq('username', currentUser).maybeSingle();
         if (data && data.is_owner) {
             isOwner = true;
             document.getElementById('adminSidebarBtn').classList.remove('d-none');
@@ -534,7 +541,7 @@
         if (!data) return;
 
         const list = document.getElementById('memberList');
-        list.innerHTML = `<div style="padding:8px 5px; font-weight:700; color:#ff4d4d;">OWNER</div>`;
+        list.innerHTML = `<div style="padding:8px 5px; font-weight:700; color:#ff4d4d;">MEMBERS</div>`;
 
         data.forEach(u => {
             const color = u.is_owner ? '#ff4d4d' : '#22d3ee';
@@ -722,7 +729,7 @@
         try {
           const urlObj = new URL(url);
           const pathSegments = urlObj.pathname.split('/').filter(Boolean);
-          const streamName = pathSegments[0]; // Extracts the stream identifier dynamically
+          const streamName = pathSegments[0];
 
           if (streamName) {
             const tokenRes = await fetch(`/api/token?stream=${streamName}`);
@@ -748,7 +755,17 @@
         container.style.display = 'block';
         container.innerHTML = '<div id="jw-player"></div>';
         
-        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: false, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
+        playerInstance = jwplayer("jw-player").setup({ 
+          file: url, 
+          autostart: true, 
+          mute: true, 
+          width: "100%", 
+          aspectratio: "16:9", 
+          cast: {},
+          autoPause: {
+            viewability: false
+          }
+        });
         
         playerInstance.on('ready', () => { 
           const triggerAd = () => {
@@ -776,7 +793,6 @@
       
       selectMenu.innerHTML = event.streams.map((s, i) => {
         const realUrl = typeof s === 'string' ? s : s.url;
-        
         const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
         return `<option value="${payload}" data-title="${s.title || `Stream ${i+1}`}">${s.title || `Stream ${i+1}`}</option>`;
       }).join('');
@@ -831,7 +847,7 @@
         const behaviorRoll = Math.random();
         
         if (behaviorRoll < 0.45) {
-          // Plateau.
+          // Plateau
         } else {
           const timestamp = Date.now() / 60000;
           const macroeconomicTrend = Math.sin(timestamp) * 0.15;
