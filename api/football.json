@@ -77,19 +77,19 @@
           "starts_at": "2026-08-12T22:00:00",
           "ends_at": "2026-08-13T00:20:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 600,
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://tonight.futbolx.indevs.in/tnt/index.m3u8"
             },
             {
               "title": "Alt Feed 1",
-              "url": ""
+              "url": "https://tonight.futbolx.indevs.in/para/index.m3u8"
             },
             {
               "title": "Alt Feed 2",
-              "url": ""
+              "url": "https://tonight.futbolx.indevs.in/para/index.m3u8"
             }
           ]
         },
