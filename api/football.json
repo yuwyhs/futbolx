@@ -17,7 +17,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://japan.futbolx.indevs.in/hilal/index.m3u8"
             }
           ]
         },
@@ -33,7 +33,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://japan.futbolx.indevs.in/wol/index.m3u8"
             }
           ]
         },
@@ -49,7 +49,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://japan.futbolx.indevs.in/spo/index.m3u8"
             }
           ]
         }
