@@ -90,8 +90,8 @@
           "uri_name": "a4l1v1g7",
           "poster": "https://matchpint-cdn.matchpint.cloud/shared/imagenes/events/2026/08/15/en_GB/e772018_c146_t5468_t8521.jpg",
           "tag": "Laliga",
-          "starts_at": "2026-08-15T20:30:00",
-          "ends_at": "2026-08-15T22:40:00",
+          "starts_at": "2026-08-14T20:30:00",
+          "ends_at": "2026-08-14T22:40:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
@@ -138,8 +138,8 @@
           "uri_name": "s4e1v1r7",
           "poster": "https://matchpint-cdn.matchpint.cloud/shared/imagenes/events/2026/08/15/en_GB/e772023_c146_t7818_t10939.jpg",
           "tag": "Laliga",
-          "starts_at": "2026-08-15T22:30:00",
-          "ends_at": "2026-08-16T00:40:00",
+          "starts_at": "2026-08-14T22:30:00",
+          "ends_at": "2026-08-14T00:40:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
