@@ -49,7 +49,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://usa.futbolx.indevs.in/new/index.m3u8"
             }
           ]
         },
@@ -65,7 +65,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://usa.futbolx.indevs.in/totte/index.m3u8"
             }
           ]
         },
