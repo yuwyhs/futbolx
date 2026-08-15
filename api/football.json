@@ -97,7 +97,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://usa.futbolx.indevs.in/alaves/index.m3u8"
             }
           ]
         },
@@ -113,7 +113,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://usa.futbolx.indevs.in/itti/index.m3u8"
             }
           ]
         },
@@ -129,7 +129,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://usa.futbolx.indevs.in/nassr/index.m3u8"
             }
           ]
         },
@@ -145,7 +145,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://usa.futbolx.indevs.in/sev/index.m3u8"
             }
           ]
         },
@@ -161,7 +161,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://usa.futbolx.indevs.in/por/index.m3u8"
             }
           ]
         }
