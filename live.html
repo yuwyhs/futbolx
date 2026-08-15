@@ -128,7 +128,7 @@
     .stream-select-custom { background: #0b1020 !important; color: #fff !important; border: 2px solid #ff4d4d !important; border-radius: 12px; padding: 10px 15px; font-weight: 600; cursor: pointer; box-shadow: 0 0 15px rgba(255, 77, 77, 0.15); }
     .stream-select-custom:focus { box-shadow: 0 0 20px rgba(255, 77, 77, 0.4); outline: none; }
     
-    /* NEW CHAT STYLES */
+    /* CHAT STYLES */
     .chat-wrapper-container {
         width: 100%;
         height: 680px;
@@ -1008,6 +1008,15 @@
       }
     }
 
+    function parseMessageContent(rawText) {
+      let content = escapeHTML(rawText || "");
+      EMOTE_LIBRARY.forEach(e => {
+        const regex = new RegExp(`:${e.name}:`, 'g');
+        content = content.replace(regex, `<img src="${e.url}" class="chat-emote" alt="${e.name}">`);
+      });
+      return content;
+    }
+
     function renderSingleMessage(msg) {
       const box = document.getElementById('futbolx-chat-messages');
       if (!box) return;
@@ -1016,11 +1025,7 @@
       div.className = 'msg-row';
       div.id = `msg-${msg.id}`;
 
-      let content = escapeHTML(msg.message || "");
-      EMOTE_LIBRARY.forEach(e => {
-        const regex = new RegExp(`:${e.name}:`, 'g');
-        content = content.replace(regex, `<img src="${e.url}" class="chat-emote" alt="${e.name}">`);
-      });
+      let content = parseMessageContent(msg.message);
 
       let replyHTML = '';
       if (msg.reply_to_username) {
@@ -1165,8 +1170,24 @@
         const pContainer = document.getElementById('pinnedMessageContainer');
         const pContent = document.getElementById('pinnedContent');
         const unpinBtn = document.getElementById('unpinBtn');
+
+        let authorClass = 'user';
+        let badgeHTML = '';
+
+        if (data.is_owner || data.username?.toLowerCase() === 'futbolx') {
+          authorClass = 'owner';
+          badgeHTML = `<i class="fas fa-crown badge-owner" title="Owner"></i>`;
+        } else if (data.is_mod) {
+          authorClass = 'mod';
+          badgeHTML = `<span class="user-badge badge-mod">MOD</span>`;
+        }
+
+        const parsedMsg = parseMessageContent(data.message);
+
         if (pContainer) pContainer.classList.remove('d-none');
-        if (pContent) pContent.textContent = `@${data.username}: ${data.message}`;
+        if (pContent) {
+          pContent.innerHTML = `${badgeHTML}<span class="chat-author ${authorClass}">@${escapeHTML(data.username)}</span>: <span class="msg-text">${parsedMsg}</span>`;
+        }
         if (unpinBtn) {
           if (isOwner || isMod) unpinBtn.classList.remove('d-none');
           else unpinBtn.classList.add('d-none');
@@ -1328,6 +1349,7 @@
             isMuted = !!p.new.is_muted;
             isMod = !!p.new.is_mod;
             isOwner = !!p.new.is_owner;
+            verifyUserProfile();
             refreshInputUI();
           })
           .subscribe();
