@@ -128,7 +128,7 @@
     .stream-select-custom { background: #0b1020 !important; color: #fff !important; border: 2px solid #ff4d4d !important; border-radius: 12px; padding: 10px 15px; font-weight: 600; cursor: pointer; box-shadow: 0 0 15px rgba(255, 77, 77, 0.15); }
     .stream-select-custom:focus { box-shadow: 0 0 20px rgba(255, 77, 77, 0.4); outline: none; }
     
-    /* NEW CHAT STYLES */
+    /* CHAT STYLES */
     .chat-wrapper-container {
         width: 100%;
         height: 680px;
@@ -275,6 +275,20 @@
     .chat-author.mod { color: #facc15; font-weight: 700; }
     .msg-text { color: #e5e7eb; }
 
+    .chat-mention {
+        background: rgba(56, 189, 248, 0.15);
+        color: #38bdf8;
+        padding: 1px 4px;
+        border-radius: 4px;
+        font-weight: 600;
+    }
+
+    .chat-mention.me {
+        background: rgba(239, 68, 68, 0.25);
+        color: #fca5a5;
+        border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
     .user-badge {
         font-size: 0.65rem;
         font-weight: 800;
@@ -369,6 +383,11 @@
         color: #ff4d4d;
         font-size: 18px;
         cursor: pointer;
+    }
+
+    .send-chat:disabled {
+        color: #4b5563;
+        cursor: not-allowed;
     }
 
     .chat-meta {
@@ -666,6 +685,7 @@
 
                       <div id="chatMetaRow" class="chat-meta">
                           <span id="charCounter">0/250</span>
+                          <span id="slowModeNotice" class="text-warning d-none"><i class="fas fa-clock me-1"></i>Slow Mode On</span>
                           <span>Enter to send • Shift+Enter newline</span>
                       </div>
 
@@ -748,6 +768,20 @@
                               </div>
                               <hr class="border-secondary my-1">
                               <div>
+                                  <h6>Slow Mode Control</h6>
+                                  <div class="d-flex align-items-center gap-2">
+                                      <select id="slowModeSelect" class="form-select form-select-sm bg-dark text-white border-secondary" style="width: auto;">
+                                          <option value="0">Disabled (0s)</option>
+                                          <option value="3">3 Seconds</option>
+                                          <option value="5">5 Seconds</option>
+                                          <option value="10">10 Seconds</option>
+                                          <option value="30">30 Seconds</option>
+                                      </select>
+                                      <button class="btn btn-sm btn-danger" onclick="saveSlowModeSetting()">Apply Slow Mode</button>
+                                  </div>
+                              </div>
+                              <hr class="border-secondary my-1">
+                              <div>
                                   <h6>Room History</h6>
                                   <button class="btn btn-sm btn-danger" onclick="clearAllChat()">
                                       <i class="fas fa-trash me-1"></i> Clear Room Chat
@@ -818,9 +852,18 @@
     let isMod = false;
     let isMuted = false;
     let isChatClosedGlobal = false;
+    let slowModeSeconds = 0;
+    let lastSentTimestamp = 0;
+    let cooldownTimer = null;
     let replyTo = null;
     let currentPinnedMessageId = null;
     let allMembersCache = [];
+
+    // AUTO MODERATION BAD WORDS LIST
+    const BAD_WORDS = [
+      "nigger", "nigga", "faggot", "retard", "kyf", "kys", 
+      "cunt", "whore", "slut", "chink", "spic"
+    ];
 
     const EMOTE_LIBRARY = [
       { name: "GIGACHAD", url: "https://cdn.7tv.app/emote/01F6MZGCNG000255K4X1K7NTHR/4x.webp" },
@@ -925,6 +968,17 @@
       const { data } = await supabase.from('room_settings').select('*').eq('event_id', eventID).maybeSingle();
       if (data) {
         isChatClosedGlobal = !!data.is_closed;
+        slowModeSeconds = data.slow_mode || 0;
+        
+        const slowNotice = document.getElementById('slowModeNotice');
+        if (slowNotice) {
+          if (slowModeSeconds > 0) slowNotice.classList.remove('d-none');
+          else slowNotice.classList.add('d-none');
+        }
+
+        const slowSelect = document.getElementById('slowModeSelect');
+        if (slowSelect) slowSelect.value = slowModeSeconds.toString();
+
         if (data.announcement) {
           showAnnouncementUI(data.announcement);
         } else {
@@ -1008,6 +1062,12 @@
       }
     }
 
+    // AUTO-MODERATION FILTER FUNCTION
+    function checkAutoMod(text) {
+      const lower = text.toLowerCase();
+      return BAD_WORDS.some(word => lower.includes(word));
+    }
+
     function renderSingleMessage(msg) {
       const box = document.getElementById('futbolx-chat-messages');
       if (!box) return;
@@ -1017,14 +1077,26 @@
       div.id = `msg-${msg.id}`;
 
       let content = escapeHTML(msg.message || "");
+
+      // PARSE EMOTES
       EMOTE_LIBRARY.forEach(e => {
         const regex = new RegExp(`:${e.name}:`, 'g');
         content = content.replace(regex, `<img src="${e.url}" class="chat-emote" alt="${e.name}">`);
       });
 
+      // PARSE @MENTIONS
+      const mentionRegex = /@([a-zA-Z0-9_]+)/g;
+      content = content.replace(mentionRegex, (match, username) => {
+        const isMe = currentUser && username.toLowerCase() === currentUser.toLowerCase();
+        return `<span class="chat-mention ${isMe ? 'me' : ''}">@${username}</span>`;
+      });
+
+      // REPLY PREVIEW IN CHAT
       let replyHTML = '';
       if (msg.reply_to_username) {
-        replyHTML = `<div class="reply-context" onclick="scrollToMsg('${msg.reply_to_id}')">@${escapeHTML(msg.reply_to_username)}: ${escapeHTML(msg.reply_to_msg?.substring(0,30) || "")}...</div>`;
+        replyHTML = `<div class="reply-context" onclick="scrollToMsg('${msg.reply_to_id}')">
+          <i class="fas fa-reply me-1"></i>@${escapeHTML(msg.reply_to_username)}: ${escapeHTML(msg.reply_to_msg?.substring(0,30) || "")}...
+        </div>`;
       }
 
       let authorClass = 'user';
@@ -1049,10 +1121,19 @@
         </div>`;
       }
 
-      div.innerHTML = `${replyHTML}<div>${badgeHTML}<span class="chat-author ${authorClass}" onclick="openMemberActions('${escapeHTML(msg.username)}')">${escapeHTML(msg.username)}</span>: <span class="msg-text">${content}</span></div>${actionsHTML}`;
+      div.innerHTML = `${replyHTML}<div>${badgeHTML}<span class="chat-author ${authorClass}" onclick="mentionUser('${escapeHTML(msg.username)}')">${escapeHTML(msg.username)}</span>: <span class="msg-text">${content}</span></div>${actionsHTML}`;
       box.appendChild(div);
       box.scrollTop = box.scrollHeight;
     }
+
+    window.mentionUser = (username) => {
+      const input = document.getElementById('chatInput');
+      if (input) {
+        input.value += `@${username} `;
+        input.focus();
+        input.dispatchEvent(new Event('input'));
+      }
+    };
 
     function setupInputListeners() {
       const input = document.getElementById('chatInput');
@@ -1087,14 +1168,40 @@
       if (isChatClosedGlobal && !isOwner && !isMod) return;
 
       const input = document.getElementById('chatInput');
+      const sendBtn = document.getElementById('sendChatBtn');
       if (!input) return;
 
       const text = input.value.trim();
       if (!text) return;
 
+      // 1. AUTO MODERATION CHECK
+      if (checkAutoMod(text)) {
+        alert("Your message contained inappropriate words and was automatically blocked.");
+        input.value = '';
+        return;
+      }
+
+      // 2. SLOW MODE CHECK
+      const now = Math.floor(Date.now() / 1000);
+      if (slowModeSeconds > 0 && !isOwner && !isMod) {
+        const timePassed = now - lastSentTimestamp;
+        if (timePassed < slowModeSeconds) {
+          const remaining = slowModeSeconds - timePassed;
+          startCooldownUI(remaining);
+          return;
+        }
+      }
+
       input.value = '';
       const counter = document.getElementById('charCounter');
       if (counter) counter.textContent = '0/250';
+
+      lastSentTimestamp = now;
+
+      // START SLOW MODE TIMING FOR NON-MODS
+      if (slowModeSeconds > 0 && !isOwner && !isMod) {
+        startCooldownUI(slowModeSeconds);
+      }
 
       await supabase.from('messages').insert([{
         username: currentUser,
@@ -1110,12 +1217,32 @@
       cancelReply();
     }
 
+    function startCooldownUI(seconds) {
+      const sendBtn = document.getElementById('sendChatBtn');
+      const input = document.getElementById('chatInput');
+      if (!sendBtn || !input) return;
+
+      sendBtn.disabled = true;
+      let left = seconds;
+
+      clearInterval(cooldownTimer);
+      cooldownTimer = setInterval(() => {
+        left--;
+        if (left <= 0) {
+          clearInterval(cooldownTimer);
+          sendBtn.disabled = false;
+        }
+      }, 1000);
+    }
+
     window.setReplyTarget = (id, username, msg) => {
       replyTo = { id, username, msg };
       const preview = document.getElementById('replyPreview');
       const textNode = document.getElementById('replyText');
       if (preview) preview.classList.remove('d-none');
       if (textNode) textNode.textContent = `Replying to @${username}`;
+      const input = document.getElementById('chatInput');
+      if (input) input.focus();
     };
 
     window.cancelReply = () => {
@@ -1210,6 +1337,14 @@
       if (!isOwner) return;
       await supabase.from('room_settings').upsert([{ event_id: eventID, announcement: null }], { onConflict: 'event_id' });
       hideAnnouncementUI();
+    };
+
+    window.saveSlowModeSetting = async () => {
+      if (!isOwner && !isMod) return;
+      const select = document.getElementById('slowModeSelect');
+      const val = parseInt(select.value, 10);
+      await supabase.from('room_settings').upsert([{ event_id: eventID, slow_mode: val }], { onConflict: 'event_id' });
+      alert(`Slow mode set to ${val} seconds.`);
     };
 
     window.toggleChatClosedState = async () => {
@@ -1336,7 +1471,11 @@
 
     window.scrollToMsg = (id) => {
       const el = document.getElementById(`msg-${id}`);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        el.style.background = '#1f293d';
+        setTimeout(() => { el.style.background = ''; }, 2000);
+      }
     };
 
     function escapeHTML(str) {
