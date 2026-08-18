@@ -4,12 +4,35 @@ Deno.serve(async (req) => {
   const url = new URL(req.url);
   const path = url.pathname;
 
-  // 1. Specific API Aliases
-  if (path === "/api/stream") {
-    return serveDir(new Request(new URL("/api/stream.json", req.url), req), { fsRoot: "." });
+  // 1. Execute Dynamic API Endpoints
+  if (path === "/api/stream" || path === "/api/stream.js") {
+    try {
+      const handler = await import("./api/stream.js");
+      // Calls default export function (req, res) or web standard handler
+      return await handler.default(req); 
+    } catch (err) {
+      // Fallback: serve stream.json directly if static
+      return serveDir(new Request(new URL("/api/stream.json", req.url), req), { fsRoot: "." });
+    }
   }
-  if (path === "/api/stream-24-7") {
-    return serveDir(new Request(new URL("/api/stream-24-7.json", req.url), req), { fsRoot: "." });
+
+  if (path === "/api/stream-24-7" || path === "/api/stream-24-7.js") {
+    try {
+      const handler = await import("./api/stream-24-7.js");
+      return await handler.default(req);
+    } catch (err) {
+      return serveDir(new Request(new URL("/api/stream-24-7.json", req.url), req), { fsRoot: "." });
+    }
+  }
+
+  // Handle generic /api/*.js dynamic calls
+  if (path.startsWith("/api/") && path.endsWith(".js")) {
+    try {
+      const handler = await import(`.${path}`);
+      return await handler.default(req);
+    } catch {
+      // Skip to file server if import fails
+    }
   }
 
   // 2. Auth Routes
@@ -20,7 +43,7 @@ Deno.serve(async (req) => {
     return serveDir(new Request(new URL("/auth/signup.html", req.url), req), { fsRoot: "." });
   }
 
-  // 3. Dynamic Live & Page Rewrites
+  // 3. Dynamic Page Rewrites
   if (path === "/dashboard") {
     return serveDir(new Request(new URL("/dashboard.html", req.url), req), { fsRoot: "." });
   }
@@ -37,8 +60,7 @@ Deno.serve(async (req) => {
     return serveDir(new Request(new URL("/24-7.html", req.url), req), { fsRoot: "." });
   }
 
-  // 4. Default Static File Server (assets, sw.js, api/*.json, api/*.js)
-  // Falls back to index.html if file doesn't exist
+  // 4. Default Static File Server
   const res = await serveDir(req, { fsRoot: "." });
   if (res.status === 404) {
     return serveDir(new Request(new URL("/index.html", req.url), req), { fsRoot: "." });
