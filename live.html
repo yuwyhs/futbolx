@@ -1570,7 +1570,7 @@
     }
 
     async function isM3U8(url) {
-      if (url.toLowerCase().includes('.m3u8') || url.includes('/api/token')) return true;
+      if (url.toLowerCase().includes('.m3u8')) return true;
       try { const r = await fetch(url, {method:'HEAD'}); return (r.headers.get('content-type') || '').includes('mpegurl'); } catch { return false; }
     }
 
@@ -1614,10 +1614,7 @@
       const selectMenu = document.getElementById('streamSelect');
       
       selectMenu.innerHTML = event.streams.map((s, i) => {
-        let realUrl = typeof s === 'string' ? s : s.url;
-        if (realUrl === 'f1') {
-          realUrl = 'https://www.futbol-x.top/api/token?stream=f1';
-        }
+        const realUrl = typeof s === 'string' ? s : s.url;
         
         const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
         return `<option value="${payload}" data-title="${s.title || `Stream ${i+1}`}">${s.title || `Stream ${i+1}`}</option>`;
@@ -1771,10 +1768,7 @@
           document.getElementById('liveStreamTitle').classList.remove('d-none');
           
           const dynamicInitialFeed = foundEvent.streams[0];
-          let initialUrl = typeof dynamicInitialFeed === 'string' ? dynamicInitialFeed : dynamicInitialFeed.url;
-          if (initialUrl === 'f1') {
-            initialUrl = 'https://www.futbol-x.top/api/token?stream=f1';
-          }
+          const initialUrl = typeof dynamicInitialFeed === 'string' ? dynamicInitialFeed : dynamicInitialFeed.url;
           
           document.getElementById('currentStreamName').innerHTML = `${dynamicInitialFeed.title || 'Main Feed'}`;
           
@@ -1786,4 +1780,4 @@
     });
   </script>
 </body>
-</html>
+                        </html>
