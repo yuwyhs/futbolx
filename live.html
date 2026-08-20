@@ -1511,7 +1511,7 @@
     window.onload = initChat;
   </script>
 
-  <!-- EXISTING PAGE CONTROLLER SCRIPT -->
+  <!-- EXISTING PAGE CONTROLLER SCRIPT (UPDATED STREAM PLAYER HANDLER) -->
   <script>
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
@@ -1532,6 +1532,7 @@
     checkOverlay();
 
     let playerInstance = null;
+    let tokenRefreshInterval = null;
     let eventStartTime = null;
     let eventEndTime = null;
     let streamStarted = false;
@@ -1574,8 +1575,62 @@
       try { const r = await fetch(url, {method:'HEAD'}); return (r.headers.get('content-type') || '').includes('mpegurl'); } catch { return false; }
     }
 
+    // Helper: Extracts stream name if URL requires dynamic token generation
+    function getStreamTokenName(rawUrl) {
+      if (!rawUrl.includes('?token=')) return null;
+      try {
+        const parsed = new URL(rawUrl);
+        const parts = parsed.pathname.split('/').filter(Boolean);
+        return parts.length > 0 ? parts[0] : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function fetchFreshTokenUrl(streamName) {
+      try {
+        const res = await fetch(`/api/token?stream=${encodeURIComponent(streamName)}`);
+        const data = await res.json();
+        return data.url || null;
+      } catch (err) {
+        return null;
+      }
+    }
+
     async function playStream(url) {
-      if (playerInstance) { playerInstance.remove(); playerInstance = null; }
+      if (tokenRefreshInterval) {
+        clearInterval(tokenRefreshInterval);
+        tokenRefreshInterval = null;
+      }
+
+      if (playerInstance) { 
+        playerInstance.remove(); 
+        playerInstance = null; 
+      }
+
+      const streamName = getStreamTokenName(url);
+
+      if (streamName) {
+        const tokenizedUrl = await fetchFreshTokenUrl(streamName);
+        if (tokenizedUrl) {
+          initActualPlayer(tokenizedUrl, true);
+
+          // Auto-renew token every 45 seconds to keep Flussonic link active
+          tokenRefreshInterval = setInterval(async () => {
+            const nextUrl = await fetchFreshTokenUrl(streamName);
+            if (nextUrl && playerInstance) {
+              const currentPos = playerInstance.getPosition();
+              const isPlaying = playerInstance.getState() === 'playing';
+              playerInstance.load([{ file: nextUrl }]);
+              if (isPlaying) {
+                playerInstance.play();
+              }
+            }
+          }, 45000);
+          return;
+        }
+      }
+
       const useJW = await isM3U8(url);
       initActualPlayer(url, useJW);
     }
@@ -1587,7 +1642,7 @@
         container.style.display = 'block';
         container.innerHTML = '<div id="jw-player"></div>';
         
-        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: false, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
+        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: true, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
         
         playerInstance.on('ready', () => { 
           const triggerAd = () => {
@@ -1606,7 +1661,7 @@
         document.getElementById('oplayer-container').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
-        try { const u = new URL(url); u.searchParams.set('autoplay', '0'); iframe.src = u.toString(); } catch { iframe.src = url; }
+        try { const u = new URL(url); u.searchParams.set('autoplay', '1'); iframe.src = u.toString(); } catch { iframe.src = url; }
       }
     }
 
@@ -1780,4 +1835,4 @@
     });
   </script>
 </body>
-                        </html>
+</html>
