@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
   if (!stream) return res.status(400).json({ error: 'Missing stream parameter' });
 
   const SECRET_KEY = process.env.STREAM_SECRET_KEY || 'my_super_secret_key_123';
-  const CDN_BASE_URL = process.env.CDN_BASE_URL || 'https://fix.futx.sryze.cc';
+  const CDN_BASE_URL = process.env.CDN_BASE_URL || 'https://hotelfix.futx.sryze.cc';
 
   // Get real user IP from Vercel headers
   const userIp = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress;
