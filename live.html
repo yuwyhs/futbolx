@@ -1511,7 +1511,7 @@
     window.onload = initChat;
   </script>
 
-  <!-- EXISTING PAGE CONTROLLER SCRIPT (UPDATED STREAM PLAYER HANDLER) -->
+  <!-- EXISTING PAGE CONTROLLER SCRIPT -->
   <script>
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
@@ -1532,7 +1532,6 @@
     checkOverlay();
 
     let playerInstance = null;
-    let tokenRefreshInterval = null;
     let eventStartTime = null;
     let eventEndTime = null;
     let streamStarted = false;
@@ -1575,64 +1574,46 @@
       try { const r = await fetch(url, {method:'HEAD'}); return (r.headers.get('content-type') || '').includes('mpegurl'); } catch { return false; }
     }
 
-    // Helper: Extracts stream name if URL requires dynamic token generation
-    function getStreamTokenName(rawUrl) {
-      if (!rawUrl.includes('?token=')) return null;
+    async function resolveTokenizedStreamUrl(url) {
       try {
-        const parsed = new URL(rawUrl);
-        const parts = parsed.pathname.split('/').filter(Boolean);
-        return parts.length > 0 ? parts[0] : null;
-      } catch (e) {
-        return null;
-      }
-    }
+        const parsedUrl = new URL(url);
+        const pathSegments = parsedUrl.pathname.split('/').filter(Boolean);
+        let streamKey = null;
 
-    async function fetchFreshTokenUrl(streamName) {
-      try {
-        const res = await fetch(`/api/token?stream=${encodeURIComponent(streamName)}`);
+        for (let seg of pathSegments) {
+          if (seg.toLowerCase() !== 'index.m3u8' && !seg.toLowerCase().endsWith('.m3u8')) {
+            streamKey = seg;
+            break;
+          }
+        }
+
+        if (!streamKey) return url;
+
+        const tokenApiUrl = `https://www.futbol-x.top/api/token?stream=${encodeURIComponent(streamKey)}`;
+        const res = await fetch(tokenApiUrl);
+        if (!res.ok) return url;
+
         const data = await res.json();
-        return data.url || null;
+        if (data && (data.url || data.token || data.stream)) {
+          return data.url || data.stream || `${url}?token=${data.token}`;
+        }
+        return url;
       } catch (err) {
-        return null;
+        console.warn("Token API resolution failed, playing raw stream:", err);
+        return url;
       }
     }
 
     async function playStream(url) {
-      if (tokenRefreshInterval) {
-        clearInterval(tokenRefreshInterval);
-        tokenRefreshInterval = null;
-      }
-
-      if (playerInstance) { 
-        playerInstance.remove(); 
-        playerInstance = null; 
-      }
-
-      const streamName = getStreamTokenName(url);
-
-      if (streamName) {
-        const tokenizedUrl = await fetchFreshTokenUrl(streamName);
-        if (tokenizedUrl) {
-          initActualPlayer(tokenizedUrl, true);
-
-          // Auto-renew token every 45 seconds to keep Flussonic link active
-          tokenRefreshInterval = setInterval(async () => {
-            const nextUrl = await fetchFreshTokenUrl(streamName);
-            if (nextUrl && playerInstance) {
-              const currentPos = playerInstance.getPosition();
-              const isPlaying = playerInstance.getState() === 'playing';
-              playerInstance.load([{ file: nextUrl }]);
-              if (isPlaying) {
-                playerInstance.play();
-              }
-            }
-          }, 45000);
-          return;
-        }
-      }
-
+      if (playerInstance) { playerInstance.remove(); playerInstance = null; }
       const useJW = await isM3U8(url);
-      initActualPlayer(url, useJW);
+      
+      let finalUrl = url;
+      if (useJW) {
+        finalUrl = await resolveTokenizedStreamUrl(url);
+      }
+      
+      initActualPlayer(finalUrl, useJW);
     }
 
     function initActualPlayer(url, useJW) {
@@ -1642,7 +1623,7 @@
         container.style.display = 'block';
         container.innerHTML = '<div id="jw-player"></div>';
         
-        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: true, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
+        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: false, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
         
         playerInstance.on('ready', () => { 
           const triggerAd = () => {
@@ -1661,7 +1642,7 @@
         document.getElementById('oplayer-container').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
-        try { const u = new URL(url); u.searchParams.set('autoplay', '1'); iframe.src = u.toString(); } catch { iframe.src = url; }
+        try { const u = new URL(url); u.searchParams.set('autoplay', '0'); iframe.src = u.toString(); } catch { iframe.src = url; }
       }
     }
 
@@ -1831,7 +1812,9 @@
           populateStreamDropdown(foundEvent);
           streamStarted = true;
         };
-      } catch (err) {}
+      } catch (e) {
+        console.error("Error loading event data:", e);
+      }
     });
   </script>
 </body>
