@@ -6,18 +6,18 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "UFC 330: Makhachev vs Machado Garry",
-          "uri_name": "u4f1m1v1",
-          "poster": "https://sportify.press/wp-content/uploads/2026/08/makhachev-garry-ufc-330-gde-smotret-cover.webp",
+          "name": "UFC Fight Night: Hernandez vs Rodrigues",
+          "uri_name": "u4f1h1v1",
+          "poster": "https://bloodyelbow.com/wp-content/uploads/1/2026/08/UFC-Sacramento-poster-1140x622.png",
           "tag": "UFC",
-          "starts_at": "2026-08-16T00:00:00",
-          "ends_at": "2026-08-16T07:50:00",
+          "starts_at": "2026-08-22T22:00:00",
+          "ends_at": "2026-08-23T06:00:00",
           "always_live": 0,
-          "max_simulated_viewers": 20,
+          "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Paramount",
-              "url": "https://u.futx.sryze.cc/ufc/index.m3u8"
+              "title": "Main Feed",
+              "url": ""
             }
           ]
         }
