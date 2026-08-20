@@ -6,24 +6,102 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Hungarian Grand Prix - Race",
-          "uri_name": "h4g1r8",
-          "poster": "https://i.postimg.cc/rpG7mnQz/file-00000000dd4081f49929db6ba7615397.png",
+          "name": "Dutch Grand Prix Practice 1",
+          "uri_name": "d4u1v1p7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/ngw27v1774920402.jpg/medium",
           "tag": "F1",
-          "starts_at": "2026-07-26T16:00:00",
-          "ends_at": "2026-07-26T18:30:00",
+          "starts_at": "2026-08-21T13:30:00",
+          "ends_at": "2026-08-21T15:30:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Sky Sports F1",
-              "quality": "fhd",
-              "url": "https://germany.futbolx.indevs.in/f1/index.m3u8"
+              "title": "Main Feed",
+              "url": ""
             },
             {
-              "title": "Sky Sports F1",
-              "quality": "4k",
-              "url": "https://germany.futbolx.indevs.in/4k/index.m3u8"
+              "title": "Alt Feed 1",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Dutch Grand Prix Sprint Qualifying",
+          "uri_name": "d4u1v1s7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/hc17d41774920412.jpg/medium",
+          "tag": "F1",
+          "starts_at": "2026-08-21T17:30:00",
+          "ends_at": "2026-08-21T19:40:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 1",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Dutch Grand Prix Sprint",
+          "uri_name": "d4u1v1s7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/d06vj21774920422.jpg/medium",
+          "tag": "F1",
+          "starts_at": "2026-08-22T13:00:00",
+          "ends_at": "2026-08-22T15:30:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 1",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Dutch Grand Prix Qualifying",
+          "uri_name": "d4u1v1q7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/y5qy2s1774920432.jpg",
+          "tag": "F1",
+          "starts_at": "2026-08-22T17:00:00",
+          "ends_at": "2026-08-22T19:30:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 1",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Dutch Grand Prix Race",
+          "uri_name": "d4u1v1r7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/jzj7wk1774920442.jpg",
+          "tag": "F1",
+          "starts_at": "2026-08-23T16:00:00",
+          "ends_at": "2026-08-23T19:20:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 1",
+              "url": ""
             }
           ]
         }
