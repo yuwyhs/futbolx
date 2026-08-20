@@ -854,7 +854,7 @@
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
     const SB_URL = "https://usxpqfbpvlppzldvnerp.supabase.co";
-    const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInRefiI6InVzeHBxZmJwdmxwcHpsZHZuZXJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNjYzODcsImV4cCI6MjA5Mzg0MjM4N30.zwvsvJRtcTRmVLTHGR3AB9gApShbTswZkmDWGbzI-uY";
+    const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzeHBxZmJwdmxwcHpsZHZuZXJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNjYzODcsImV4cCI6MjA5Mzg0MjM4N30.zwvsvJRtcTRmVLTHGR3AB9gApShbTswZkmDWGbzI-uY";
 
     const supabase = createClient(SB_URL, SB_KEY);
     window.globalSupabaseInstance = supabase;
@@ -1570,38 +1570,14 @@
     }
 
     async function isM3U8(url) {
-      if (url.toLowerCase().includes('.m3u8')) return true;
+      if (url.toLowerCase().includes('.m3u8') || url.includes('/api/token')) return true;
       try { const r = await fetch(url, {method:'HEAD'}); return (r.headers.get('content-type') || '').includes('mpegurl'); } catch { return false; }
     }
 
-    async function resolveStreamUrl(streamInput) {
-      if (!streamInput) return '';
-      const inputStr = streamInput.trim();
-      
-      // If it's a direct URL (m3u8 or embed)
-      if (inputStr.startsWith('http://') || inputStr.startsWith('https://')) {
-        return inputStr;
-      }
-      
-      // If it's a stream key (e.g., 'f1'), request tokenized URL from API
-      try {
-        const response = await fetch(`https://www.futbol-x.top/api/token?stream=${encodeURIComponent(inputStr)}`);
-        const data = await response.json();
-        if (data && data.url) {
-          return data.url;
-        }
-      } catch (err) {
-        console.error("Token fetch failed:", err);
-      }
-      return inputStr;
-    }
-
-    async function playStream(streamInput) {
+    async function playStream(url) {
       if (playerInstance) { playerInstance.remove(); playerInstance = null; }
-      
-      const finalUrl = await resolveStreamUrl(streamInput);
-      const useJW = await isM3U8(finalUrl);
-      initActualPlayer(finalUrl, useJW);
+      const useJW = await isM3U8(url);
+      initActualPlayer(url, useJW);
     }
 
     function initActualPlayer(url, useJW) {
@@ -1638,7 +1614,10 @@
       const selectMenu = document.getElementById('streamSelect');
       
       selectMenu.innerHTML = event.streams.map((s, i) => {
-        const realUrl = typeof s === 'string' ? s : s.url;
+        let realUrl = typeof s === 'string' ? s : s.url;
+        if (realUrl === 'f1') {
+          realUrl = 'https://www.futbol-x.top/api/token?stream=f1';
+        }
         
         const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
         return `<option value="${payload}" data-title="${s.title || `Stream ${i+1}`}">${s.title || `Stream ${i+1}`}</option>`;
@@ -1792,7 +1771,10 @@
           document.getElementById('liveStreamTitle').classList.remove('d-none');
           
           const dynamicInitialFeed = foundEvent.streams[0];
-          const initialUrl = typeof dynamicInitialFeed === 'string' ? dynamicInitialFeed : dynamicInitialFeed.url;
+          let initialUrl = typeof dynamicInitialFeed === 'string' ? dynamicInitialFeed : dynamicInitialFeed.url;
+          if (initialUrl === 'f1') {
+            initialUrl = 'https://www.futbol-x.top/api/token?stream=f1';
+          }
           
           document.getElementById('currentStreamName').innerHTML = `${dynamicInitialFeed.title || 'Main Feed'}`;
           
