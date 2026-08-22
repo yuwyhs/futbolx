@@ -53,7 +53,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotelfix.futx.sryze.cc/eve/index.m3u8"
             }
           ]
         },
@@ -69,7 +69,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotelfix.futx.sryze.cc/ips/index.m3u8"
             }
           ]
         },
@@ -85,7 +85,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotelfix.futx.sryze.cc/nott/index.m3u8"
             }
           ]
         },
@@ -101,7 +101,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotelfix.futx.sryze.cc/wolv/index.m3u8"
             }
           ]
         },
@@ -117,7 +117,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotelfix.futx.sryze.cc/westh/index.m3u8"
             }
           ]
         },
