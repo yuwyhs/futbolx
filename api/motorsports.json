@@ -77,11 +77,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotelfix.futx.sryze.cc/f1/index.m3u8"
             },
             {
               "title": "Alt Feed 1",
-              "url": ""
+              "url": "https://hotelfix.futx.sryze.cc/f1/index.m3u8"
             }
           ]
         },
