@@ -132,8 +132,8 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Ligue+",
-              "url": "https://hotelfix.futx.sryze.cc/ligu/index.m3u8"
+              "title": "Main Feed",
+              "url": ""
             }
           ]
         },
@@ -145,11 +145,11 @@
           "starts_at": "2026-08-22T19:30:00",
           "ends_at": "2026-08-22T21:40:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 60,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Sky Sports",
+              "url": "https://hotelfix.futx.sryze.cc/sky/index.m3u8"
             },
             {
               "title": "Alt Feed 1",
@@ -165,11 +165,11 @@
           "starts_at": "2026-08-22T19:30:00",
           "ends_at": "2026-08-22T21:40:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 20,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Cbs",
+              "url": "https://hotelfix.futx.sryze.cc/inter/index.m3u8"
             }
           ]
         },
