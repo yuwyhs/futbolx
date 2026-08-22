@@ -16,28 +16,28 @@
           "max_simulated_viewers": 400,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Tnt Sports 1",
+              "url": "https://hotelfix.futx.sryze.cc/tnt/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
-              "url": ""
+              "title": "Stan Sports",
+              "url": "https://hotelfix.futx.sryze.cc/stan/index.m3u8"
             },
             {
-              "title": "Alt Feed 2",
-              "url": ""
+              "title": "Usa Net",
+              "url": "https://hotelfix.futx.sryze.cc/usa/index.m3u8"
             },
             {
-              "title": "Alt Feed 3",
-              "url": ""
+              "title": "Hub",
+              "url": "https://hotelfix.futx.sryze.cc/hub/index.m3u8"
             },
             {
-              "title": "Alt Feed 4",
-              "url": ""
+              "title": "Ar",
+              "url": "https://hotelfix.futx.sryze.cc/ar/index.m3u8"
             },
             {
-              "title": "Alt Feed 5",
-              "url": ""
+              "title": "4k",
+              "url": "https://hotelfix.futx.sryze.cc/4k/index.m3u8"
             }
           ]
         },
