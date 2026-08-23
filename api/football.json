@@ -137,7 +137,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotelfix.futx.sryze.cc/mil/index.m3u8"
             }
           ]
         },
@@ -149,11 +149,11 @@
           "starts_at": "2026-08-23T21:45:00",
           "ends_at": "2026-08-23T23:50:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 50,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Ligue+",
+              "url": "https://hotelfix.futx.sryze.cc/ligu/index.m3u8"
             }
           ]
         },
