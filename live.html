@@ -1574,46 +1574,10 @@
       try { const r = await fetch(url, {method:'HEAD'}); return (r.headers.get('content-type') || '').includes('mpegurl'); } catch { return false; }
     }
 
-    async function resolveTokenizedStreamUrl(url) {
-      try {
-        const parsedUrl = new URL(url);
-        const pathSegments = parsedUrl.pathname.split('/').filter(Boolean);
-        let streamKey = null;
-
-        for (let seg of pathSegments) {
-          if (seg.toLowerCase() !== 'index.m3u8' && !seg.toLowerCase().endsWith('.m3u8')) {
-            streamKey = seg;
-            break;
-          }
-        }
-
-        if (!streamKey) return url;
-
-        const tokenApiUrl = `https://www.futbol-x.top/api/token?stream=${encodeURIComponent(streamKey)}`;
-        const res = await fetch(tokenApiUrl);
-        if (!res.ok) return url;
-
-        const data = await res.json();
-        if (data && (data.url || data.token || data.stream)) {
-          return data.url || data.stream || `${url}?token=${data.token}`;
-        }
-        return url;
-      } catch (err) {
-        console.warn("Token API resolution failed, playing raw stream:", err);
-        return url;
-      }
-    }
-
     async function playStream(url) {
       if (playerInstance) { playerInstance.remove(); playerInstance = null; }
       const useJW = await isM3U8(url);
-      
-      let finalUrl = url;
-      if (useJW) {
-        finalUrl = await resolveTokenizedStreamUrl(url);
-      }
-      
-      initActualPlayer(finalUrl, useJW);
+      initActualPlayer(url, useJW);
     }
 
     function initActualPlayer(url, useJW) {
@@ -1812,10 +1776,8 @@
           populateStreamDropdown(foundEvent);
           streamStarted = true;
         };
-      } catch (e) {
-        console.error("Error loading event data:", e);
-      }
+      } catch (err) {}
     });
   </script>
 </body>
-</html>
+  </html>
