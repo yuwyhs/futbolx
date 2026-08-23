@@ -76,7 +76,7 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
+              "title": "Ligue+",
               "url": ""
             }
           ]
@@ -92,20 +92,20 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Sky Main",
+              "url": "https://hotelfix.futx.sryze.cc/skymain/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
-              "url": ""
+              "title": "Sky Pl",
+              "url": "https://hotelfix.futx.sryze.cc/skypl/index.m3u8"
             },
             {
-              "title": "Alt Feed 2",
-              "url": ""
+              "title": "Stan",
+              "url": "https://hotelfix.futx.sryze.cc/ppv/index.m3u8"
             },
             {
-              "title": "Alt Feed 3",
-              "url": ""
+              "title": "Fr",
+              "url": "https://hotelfix.futx.sryze.cc/fr/index.m3u8"
             }
           ]
         },
