@@ -6,334 +6,174 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Hull City vs Manchester United",
-          "uri_name": "h4u1v1m7",
-          "poster": "https://i.postimg.cc/Vk2bPTKf/file-00000000056481f492a5199c7f8811cd.png",
+          "name": "Manchester City vs Bournemouth",
+          "uri_name": "m4a1v1b7",
+          "poster": "https://i.postimg.cc/Pr4vhbz4/file-00000000b59882438cfdacde450dc889.png",
           "tag": "Epl",
-          "starts_at": "2026-08-22T14:30:00",
-          "ends_at": "2026-08-22T16:40:00",
-          "always_live": 0,
-          "max_simulated_viewers": 50,
-          "streams": [
-            {
-              "title": "Tnt Sports 1",
-              "url": "https://hotelfix.futx.sryze.cc/tnt/index.m3u8"
-            },
-            {
-              "title": "Stan Sports",
-              "url": "https://hotelfix.futx.sryze.cc/stan/index.m3u8"
-            },
-            {
-              "title": "Usa Net",
-              "url": "https://hotelfix.futx.sryze.cc/usa/index.m3u8"
-            },
-            {
-              "title": "Hub",
-              "url": "https://hotelfix.futx.sryze.cc/hub/index.m3u8"
-            },
-            {
-              "title": "Ar",
-              "url": "https://hotelfix.futx.sryze.cc/ar/index.m3u8"
-            },
-            {
-              "title": "4k",
-              "url": "https://hotelfix.futx.sryze.cc/4k/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Everton vs Crystal Palace",
-          "uri_name": "e4v1v1c7",
-          "poster": "https://i.postimg.cc/PqZvX47Z/file-000000005c3c81f4bbb21329f9c6b63b.png",
-          "tag": "Epl",
-          "starts_at": "2026-08-22T17:00:00",
-          "ends_at": "2026-08-22T19:10:00",
-          "always_live": 0,
-          "max_simulated_viewers": 30,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotelfix.futx.sryze.cc/eve/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Ipswich vs Sunderland",
-          "uri_name": "i4p1v1s7",
-          "poster": "https://i.postimg.cc/fLf3XbZ5/file-000000008d0481f48f02ea9b9431a4ae.png",
-          "tag": "Epl",
-          "starts_at": "2026-08-22T17:00:00",
-          "ends_at": "2026-08-22T19:10:00",
+          "starts_at": "2026-08-23T16:00:00",
+          "ends_at": "2026-08-23T18:05:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://hotelfix.futx.sryze.cc/ips/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Nottingham Forest vs Leeds",
-          "uri_name": "n4o1v1l7",
-          "poster": "https://i.postimg.cc/85mFWCNs/file-00000000b3dc81f4a9462d8017e00aeb.png",
-          "tag": "Epl",
-          "starts_at": "2026-08-22T17:00:00",
-          "ends_at": "2026-08-22T19:10:00",
-          "always_live": 0,
-          "max_simulated_viewers": 40,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotelfix.futx.sryze.cc/nott/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Preston vs Wolves",
-          "uri_name": "p4r1v1w7",
-          "poster": "https://i.postimg.cc/wv2vMbcn/file-00000000b6cc81f49d9784d5feedb1e7.png",
-          "tag": "Efl",
-          "starts_at": "2026-08-21T17:00:00",
-          "ends_at": "2026-08-21T19:10:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotelfix.futx.sryze.cc/wolv/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "West Ham vs Charlton Athletic",
-          "uri_name": "w4e1v1c7",
-          "poster": "https://i.postimg.cc/V6mvYcMM/file-00000000f34881f4a78d3da88f9d90d6.png",
-          "tag": "Efl",
-          "starts_at": "2026-08-21T17:00:00",
-          "ends_at": "2026-08-21T19:10:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotelfix.futx.sryze.cc/westh/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Lens vs Auxerre",
-          "uri_name": "l4e1v1a7",
-          "poster": "https://i.postimg.cc/xTCkJYZ3/file-000000007e8881f49ac22dfb2f0e718c.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-08-22T18:15:00",
-          "ends_at": "2026-08-22T20:20:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotelfix.futx.sryze.cc/ligu/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Brentford vs Tottenham",
-          "uri_name": "b4r1v1t7",
-          "poster": "https://i.postimg.cc/W4MtL4DF/file-00000000b3a881f4b78c5e7b3069fe71.png",
-          "tag": "Epl",
-          "starts_at": "2026-08-22T19:30:00",
-          "ends_at": "2026-08-22T21:40:00",
-          "always_live": 0,
-          "max_simulated_viewers": 60,
-          "streams": [
-            {
-              "title": "Sky Sports",
-              "url": "https://hotelfix.futx.sryze.cc/sky/index.m3u8"
+              "url": ""
             },
             {
               "title": "Alt Feed 1",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 2",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 3",
               "url": ""
             }
           ]
         },
         {
-          "name": "Inter vs Monza",
-          "uri_name": "i4n1v1m7",
-          "poster": "https://i.postimg.cc/qM5N2SVt/file-00000000bb6481f48251b7e483d2dc42.png",
-          "tag": "Seria A",
-          "starts_at": "2026-08-22T19:30:00",
-          "ends_at": "2026-08-22T21:40:00",
-          "always_live": 0,
-          "max_simulated_viewers": 20,
-          "streams": [
-            {
-              "title": "Cbs",
-              "url": "https://hotelfix.futx.sryze.cc/inter/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Udinese vs Como",
-          "uri_name": "u4d1v1c7",
-          "poster": "https://i.postimg.cc/NfMy9YnW/file-0000000033ac81f486800c0cce40a3d2.png",
-          "tag": "Seria A",
-          "starts_at": "2026-08-22T19:30:00",
-          "ends_at": "2026-08-22T21:40:00",
+          "name": "Brighton vs Aston Villa",
+          "uri_name": "b4r1v1a7",
+          "poster": "https://i.postimg.cc/4N5HZvb1/file-0000000087f48243bb135a744ed85ede.png",
+          "tag": "Epl",
+          "starts_at": "2026-08-23T16:00:00",
+          "ends_at": "2026-08-23T18:05:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://w2.sportsonlinee.click/channels/hd/hd8.php"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Dortmund vs Bayern Munich",
-          "uri_name": "d4o1v1b7",
-          "poster": "https://i.postimg.cc/sgGvmm3F/file-0000000038d081f4afe496b1f39adf3d.png",
-          "tag": "DFL Supercup",
-          "starts_at": "2026-08-22T21:30:00",
-          "ends_at": "2026-08-22T23:40:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedindia.st/embed/german-supercup/2026-08-22/dor-mun"
-            }
-          ]
-        },
-        {
-          "name": "Le Mans vs Brestois",
-          "uri_name": "l4e1v1b7",
-          "poster": "https://i.postimg.cc/XNxGYXsJ/file-00000000571081f48344437fdb82b8d1.png",
+          "name": "Angers vs Lille",
+          "uri_name": "a4n1v1l7",
+          "poster": "https://i.postimg.cc/jS3Wns1W/file-00000000c59881f48436b8380cd133d6.png",
           "tag": "Ligue 1",
-          "starts_at": "2026-08-22T21:45:00",
-          "ends_at": "2026-08-22T23:50:00",
+          "starts_at": "2026-08-23T16:00:00",
+          "ends_at": "2026-08-23T18:05:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedindia.st/embed/ligue1/2026-08-22/mns-bre/ligue-1-fr"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Nice vs Lorient",
-          "uri_name": "n4i1v1l7",
-          "poster": "https://i.postimg.cc/0jtbWH6q/file-000000004d1481f4b10f6355095c90ed.png",
+          "name": "Le Havre vs Monaco",
+          "uri_name": "l4e1v1m7",
+          "poster": "https://i.postimg.cc/DzWSq9VW/file-00000000c02881f4aa15c0dd9230775b.png",
           "tag": "Ligue 1",
-          "starts_at": "2026-08-22T21:45:00",
-          "ends_at": "2026-08-22T23:50:00",
+          "starts_at": "2026-08-23T18:15:00",
+          "ends_at": "2026-08-23T20:20:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedindia.st/embed/ligue1/2026-08-22/nice-lor/ligue-1-fr"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Toulouse vs Lyon",
-          "uri_name": "t4o1v1l7",
-          "poster": "https://i.postimg.cc/Xq2pHDrd/file-00000000a12881f4bee2733a490080c2.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-08-22T21:45:00",
-          "ends_at": "2026-08-22T23:50:00",
+          "name": "Newcastle vs Liverpool",
+          "uri_name": "n4e1v1l7",
+          "poster": "https://i.postimg.cc/gkdLftRw/file-00000000424881f49a6d7e89763f53bf.png",
+          "tag": "Epl",
+          "starts_at": "2026-08-23T18:30:00",
+          "ends_at": "2026-08-23T20:35:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedindia.st/embed/ligue1/2026-08-22/tou-lyon/ligue-1-fr"
-            }
-          ]
-        },
-        {
-          "name": "Troyes vs Paris Fc",
-          "uri_name": "t4r1v1p7",
-          "poster": "https://i.postimg.cc/26ryzfvM/file-000000005aa081f4bccf9c1631f64b41.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-08-22T21:45:00",
-          "ends_at": "2026-08-22T23:50:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
+              "url": ""
+            },
             {
-              "title": "Main Feed",
-              "url": "https://embedindia.st/embed/ligue1/2026-08-22/try-par/ligue-1-fr"
+              "title": "Alt Feed 1",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 2",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 3",
+              "url": ""
             }
           ]
         },
         {
-          "name": "Genoa vs Napoli",
-          "uri_name": "g4e1v1n7",
-          "poster": "https://i.postimg.cc/sfKQg1TK/file-000000000c7c81f48be4fe464ea7d93e.png",
+          "name": "Frosinone vs Juventus",
+          "uri_name": "f4r1v1j7",
+          "poster": "https://i.postimg.cc/Z55Bq9VM/file-00000000f0c8824690b77d02c41cfcf0.png",
           "tag": "Seria A",
-          "starts_at": "2026-08-22T21:45:00",
-          "ends_at": "2026-08-22T23:50:00",
+          "starts_at": "2026-08-23T19:30:00",
+          "ends_at": "2026-08-23T21:35:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedindia.st/embed/seriea/2026-08-22/gen-nap"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Parma vs Cagliari",
-          "uri_name": "p4a1v1c7",
-          "poster": "https://i.postimg.cc/PfKp5NS8/file-000000006b8081f489ffe2cada3da330.png",
+          "name": "Torino vs Ac Milan",
+          "uri_name": "t4o1v1a7",
+          "poster": "https://i.postimg.cc/7ZtCJxR4/file-00000000ad3c8243bc78fe69fc5582be.png",
           "tag": "Seria A",
-          "starts_at": "2026-08-22T21:45:00",
-          "ends_at": "2026-08-22T23:50:00",
+          "starts_at": "2026-08-23T21:45:00",
+          "ends_at": "2026-08-23T23:50:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedindia.st/embed/seriea/2026-08-22/par-cag"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Espanyol vs Real Madrid",
-          "uri_name": "e4s1v1r7",
-          "poster": "https://i.postimg.cc/CKjdTKZY/file-00000000800c81f483e185e614f032de.png",
+          "name": "Rennais vs Psg",
+          "uri_name": "r4e1v1p7",
+          "poster": "https://i.postimg.cc/zfLynsmw/file-00000000582c81f49eb7ca973b943b84.png",
+          "tag": "Ligue 1",
+          "starts_at": "2026-08-23T21:45:00",
+          "ends_at": "2026-08-23T23:50:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Elche vs Barcelona",
+          "uri_name": "e4l1v1b7",
+          "poster": "https://i.postimg.cc/Hs28H04Q/file-0000000050e88243a852a193f3fcebfd.png",
           "tag": "Laliga",
-          "starts_at": "2026-08-22T22:45:00",
-          "ends_at": "2026-08-23T00:55:00",
+          "starts_at": "2026-08-23T22:30:00",
+          "ends_at": "2026-08-24T00:40:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://embedindia.st/embed/laliga/2026-08-22/esp-rma"
+              "url": ""
             },
             {
               "title": "Alt Feed 1",
               "url": ""
-            }
-          ]
-        },
-        {
-          "name": "Sporting Cp vs Alverca",
-          "uri_name": "s4p1v1a7",
-          "poster": "https://i.postimg.cc/1zp4hzgs/file-0000000035e881f48f84c106e9292deb.png",
-          "tag": "Liga Portugal",
-          "starts_at": "2026-08-22T22:45:00",
-          "ends_at": "2026-08-23T00:55:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://w2.sportsonlinee.click/channels/pt/sporttv1.php"
             }
           ]
         }
