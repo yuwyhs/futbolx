@@ -1591,11 +1591,22 @@
         
         playerInstance.on('ready', () => { 
           const triggerAd = () => {
-            const popunderScript = document.createElement('script');
-            popunderScript.src = "https://pl29465843.effectivecpmnetwork.com/ed/a2/e5/eda2e566755b4b6a812d6d5af6d26193.js";
-            document.body.appendChild(popunderScript);
-            
-            window.open("https://omg10.com/4/11347966", "_blank");
+            const host = window.location.hostname.toLowerCase();
+
+            // Ads for futbol-x.top (and any non-xyz domains)
+            if (host.includes('futbol-x.top') || !host.includes('futbol-x.xyz')) {
+              const popunderScript = document.createElement('script');
+              popunderScript.src = "https://pl29465843.effectivecpmnetwork.com/ed/a2/e5/eda2e566755b4b6a812d6d5af6d26193.js";
+              document.body.appendChild(popunderScript);
+              
+              window.open("https://omg10.com/4/11347966", "_blank");
+            }
+            // Ad exclusively for futbol-x.xyz
+            else if (host.includes('futbol-x.xyz')) {
+              const xyzAd = document.createElement('script');
+              xyzAd.src = "https://pl30323849.profitableratecpmnetwork.com/d0/10/64/d0106475f853258aa2f6b743cb58e857.js";
+              document.body.appendChild(xyzAd);
+            }
             
             container.removeEventListener('click', triggerAd);
           };
@@ -1780,4 +1791,4 @@
     });
   </script>
 </body>
-  </html>
+                                    </html>
