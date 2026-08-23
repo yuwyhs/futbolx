@@ -120,8 +120,8 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Paramount",
+              "url": "https://hotelfix.futx.sryze.cc/juve/index.m3u8"
             }
           ]
         },
