@@ -87,21 +87,21 @@
         },
         {
           "name": "Dutch Grand Prix Race",
-          "uri_name": "dfi9v1r7",
+          "uri_name": "dfi931r7",
           "poster": "https://r2.thesportsdb.com/images/media/event/thumb/jzj7wk1774920442.jpg",
           "tag": "F1",
           "starts_at": "2026-08-23T16:00:00",
           "ends_at": "2026-08-23T19:20:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 80,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Sky F1",
+              "url": "https://hotelfix.futx.sryze.cc/f1sky/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
-              "url": ""
+              "title": "Apple Tv",
+              "url": "https://hotelfix.futx.sryze.cc/f1apple/index.m3u8"
             }
           ]
         }
