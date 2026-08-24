@@ -6,174 +6,26 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Manchester City vs Bournemouth",
-          "uri_name": "m4a1v1b7",
-          "poster": "https://i.postimg.cc/Pr4vhbz4/file-00000000b59882438cfdacde450dc889.png",
+          "name": "Fulham vs Chelsea",
+          "uri_name": "f4u1v1c7",
+          "poster": "",
           "tag": "Epl",
-          "starts_at": "2026-08-23T16:00:00",
-          "ends_at": "2026-08-23T18:05:00",
+          "starts_at": "2026-08-24T22:00:00",
+          "ends_at": "2026-08-25T00:00:00",
           "always_live": 0,
           "max_simulated_viewers": 300,
           "streams": [
             {
-              "title": "Sky Main",
-              "url": "https://hotelfix.futx.sryze.cc/skymain/index.m3u8"
-            },
-            {
-              "title": "Ppv",
-              "url": "https://hotelfix.futx.sryze.cc/ppv/index.m3u8"
-            },
-            {
-              "title": "Canal+Foot",
-              "url": "https://hotelfix.futx.sryze.cc/fr/index.m3u8"
-            },
-            {
-              "title": "Bein Ar",
-              "url": "https://hotelfix.futx.sryze.cc/ar/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Brighton vs Aston Villa",
-          "uri_name": "b4r1v1a7",
-          "poster": "https://i.postimg.cc/4N5HZvb1/file-0000000087f48243bb135a744ed85ede.png",
-          "tag": "Epl",
-          "starts_at": "2026-08-23T16:00:00",
-          "ends_at": "2026-08-23T18:05:00",
-          "always_live": 0,
-          "max_simulated_viewers": 20,
-          "streams": [
-            {
-              "title": "Sky Pl",
-              "url": "https://hotelfix.futx.sryze.cc/skypl/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Angers vs Lille",
-          "uri_name": "a4n1v1l7",
-          "poster": "https://i.postimg.cc/jS3Wns1W/file-00000000c59881f48436b8380cd133d6.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-08-23T16:00:00",
-          "ends_at": "2026-08-23T18:05:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Ligue+",
-              "url": "https://hotelfix.futx.sryze.cc/ligu/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Le Havre vs Monaco",
-          "uri_name": "l4e1v1m7",
-          "poster": "https://i.postimg.cc/DzWSq9VW/file-00000000c02881f4aa15c0dd9230775b.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-08-23T18:15:00",
-          "ends_at": "2026-08-23T20:20:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Ligue+",
-              "url": "https://hotelfix.futx.sryze.cc/ligu/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Newcastle vs Liverpool",
-          "uri_name": "n4e1v1l7",
-          "poster": "https://i.postimg.cc/gkdLftRw/file-00000000424881f49a6d7e89763f53bf.png",
-          "tag": "Epl",
-          "starts_at": "2026-08-23T18:30:00",
-          "ends_at": "2026-08-23T20:35:00",
-          "always_live": 0,
-          "max_simulated_viewers": 200,
-          "streams": [
-            {
-              "title": "Sky Main",
-              "url": "https://hotelfix.futx.sryze.cc/skymain/index.m3u8"
-            },
-            {
-              "title": "Sky Pl",
-              "url": "https://hotelfix.futx.sryze.cc/skypl/index.m3u8"
+              "title": "Usa Network",
+              "url": "https://fut.futbolx.ryzn.pro/usa/index.m3u8"
             },
             {
               "title": "Stan",
-              "url": "https://hotelfix.futx.sryze.cc/ppv/index.m3u8"
+              "url": "https://fut.futbolx.ryzn.pro/stan/index.m3u8"
             },
             {
-              "title": "Fr",
-              "url": "https://hotelfix.futx.sryze.cc/fr/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Frosinone vs Juventus",
-          "uri_name": "f4r1v1j7",
-          "poster": "https://i.postimg.cc/Z55Bq9VM/file-00000000f0c8824690b77d02c41cfcf0.png",
-          "tag": "Seria A",
-          "starts_at": "2026-08-23T19:30:00",
-          "ends_at": "2026-08-23T21:35:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Paramount",
-              "url": "https://hotelfix.futx.sryze.cc/juve/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Torino vs Ac Milan",
-          "uri_name": "t4o1v1a7",
-          "poster": "https://i.postimg.cc/7ZtCJxR4/file-00000000ad3c8243bc78fe69fc5582be.png",
-          "tag": "Seria A",
-          "starts_at": "2026-08-23T21:45:00",
-          "ends_at": "2026-08-23T23:50:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotelfix.futx.sryze.cc/mil/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Rennais vs Psg",
-          "uri_name": "r4e1v1p7",
-          "poster": "https://i.postimg.cc/zfLynsmw/file-00000000582c81f49eb7ca973b943b84.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-08-23T21:45:00",
-          "ends_at": "2026-08-23T23:50:00",
-          "always_live": 0,
-          "max_simulated_viewers": 50,
-          "streams": [
-            {
-              "title": "Ligue+",
-              "url": "https://hotelfix.futx.sryze.cc/ligu/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Elche vs Barcelona",
-          "uri_name": "e4l1v1b7",
-          "poster": "https://i.postimg.cc/Hs28H04Q/file-0000000050e88243a852a193f3fcebfd.png",
-          "tag": "Laliga",
-          "starts_at": "2026-08-23T22:30:00",
-          "ends_at": "2026-08-24T00:40:00",
-          "always_live": 0,
-          "max_simulated_viewers": 80,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://fut.futbolx.ryzn.pro/test/index.m3u8"
-            },
-            {
-              "title": "Alt Feed 1",
-              "url": "https://hotelfix.futx.sryze.cc/elc/index.m3u8"
+              "title": "Sky Sports",
+              "url": "https://fut.futbolx.ryzn.pro/sky/index.m3u8"
             }
           ]
         }
