@@ -4,46 +4,91 @@ Deno.serve(async (req) => {
   const url = new URL(req.url);
   const path = url.pathname;
 
-  // 1. Execute Dynamic API Endpoints
-  if (path === "/api/stream" || path === "/api/stream.js") {
+  // ---------- API ROUTES ----------
+
+  // /api/stream  →  serve api/stream.json
+  if (path === "/api/stream" || path === "/api/stream/") {
     try {
-      const handler = await import("./api/stream.js");
-      // Calls default export function (req, res) or web standard handler
-      return await handler.default(req); 
-    } catch (err) {
-      // Fallback: serve stream.json directly if static
-      return serveDir(new Request(new URL("/api/stream.json", req.url), req), { fsRoot: "." });
+      const file = await Deno.readFile("./api/stream.json");
+      return new Response(file, {
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache",
+          "Expires": "0",
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
+    } catch {
+      return new Response(JSON.stringify({ success: false, categories: [] }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
     }
   }
 
-  if (path === "/api/stream-24-7" || path === "/api/stream-24-7.js") {
+  // /api/stream-24-7  →  serve api/stream-24-7.json
+  if (path === "/api/stream-24-7" || path === "/api/stream-24-7/") {
     try {
-      const handler = await import("./api/stream-24-7.js");
-      return await handler.default(req);
-    } catch (err) {
-      return serveDir(new Request(new URL("/api/stream-24-7.json", req.url), req), { fsRoot: "." });
+      const file = await Deno.readFile("./api/stream-24-7.json");
+      return new Response(file, {
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache",
+          "Expires": "0",
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
+    } catch {
+      return new Response(JSON.stringify({ success: false }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
     }
   }
 
-  // Handle generic /api/*.js dynamic calls
+  // Any other /api/*.json (football.json, nba.json, etc.)
+  if (path.startsWith("/api/") && path.endsWith(".json")) {
+    try {
+      const file = await Deno.readFile(`.${path}`);
+      return new Response(file, {
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache",
+          "Expires": "0",
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
+    } catch {
+      return new Response(JSON.stringify({ success: false, streams: [] }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+  }
+
+  // Optional: support dynamic .js handlers if you ever need them
   if (path.startsWith("/api/") && path.endsWith(".js")) {
     try {
       const handler = await import(`.${path}`);
-      return await handler.default(req);
+      if (typeof handler.default === "function") {
+        return await handler.default(req);
+      }
     } catch {
-      // Skip to file server if import fails
+      // fall through
     }
   }
 
-  // 2. Auth Routes
+  // ---------- PAGE REWRITES ----------
+
   if (path === "/auth/login") {
     return serveDir(new Request(new URL("/auth/login.html", req.url), req), { fsRoot: "." });
   }
   if (path === "/auth/signup") {
     return serveDir(new Request(new URL("/auth/signup.html", req.url), req), { fsRoot: "." });
   }
-
-  // 3. Dynamic Page Rewrites
   if (path === "/dashboard") {
     return serveDir(new Request(new URL("/dashboard.html", req.url), req), { fsRoot: "." });
   }
@@ -60,8 +105,16 @@ Deno.serve(async (req) => {
     return serveDir(new Request(new URL("/24-7.html", req.url), req), { fsRoot: "." });
   }
 
-  // 4. Default Static File Server
-  const res = await serveDir(req, { fsRoot: "." });
+  // ---------- STATIC FILES + FALLBACK ----------
+
+  const res = await serveDir(req, {
+    fsRoot: ".",
+    urlRoot: "",
+    showDirListing: false,
+    enableCors: true,
+  });
+
+  // SPA fallback
   if (res.status === 404) {
     return serveDir(new Request(new URL("/index.html", req.url), req), { fsRoot: "." });
   }
