@@ -9,11 +9,11 @@
           "name": "Fulham vs Chelsea",
           "uri_name": "f4u1v1c7",
           "poster": "https://i.postimg.cc/sx4Xwc6H/file-00000000ea8c81f4affb83f8c21fff4c.png",
-          "tag": "Epl",
-          "starts_at": "2026-08-24T22:00:00",
-          "ends_at": "2026-08-25T00:00:00",
+          "tag": "Laliga",
+          "starts_at": "2026-08-25T20:00:00",
+          "ends_at": "2026-08-25T23:00:00",
           "always_live": 0,
-          "max_simulated_viewers": 300,
+          "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Usa Network",
