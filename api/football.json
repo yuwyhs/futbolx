@@ -48,8 +48,8 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": "https://server3.dhammatayartaw.com/api/stream/412.m3u8"
+              "title": "Premier Sports",
+              "url": "https://futxtv.indevs.in/api/stream/550.m3u8"
             },
             {
               "title": "Alt Feed 1",
@@ -68,8 +68,8 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Sky Sports",
+              "url": "https://futxtv.indevs.in/api/stream/35.m3u8"
             }
           ]
         }
