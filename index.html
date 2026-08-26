@@ -590,6 +590,14 @@
           const normalizedName = category.category?.trim().toLowerCase() || '';
           let categoryKey = categoryMap[normalizedName] || 'others';
           category.streams.forEach(stream => {
+            // Hide La Liga only on the Vercel domain (futbol-x.top)
+            const isVercelSite = window.location.hostname === 'www.futbol-x.top' || 
+                                 window.location.hostname === 'futbol-x.top';
+            const tag = (stream.tag || '').toLowerCase().replace(/\s+/g, '');
+            if (isVercelSite && (tag === 'laliga' || tag.includes('laliga'))) {
+              return; // skip this stream on Vercel
+            }
+
             let startTime = new Date(stream.starts_at + '+03:00').getTime() / 1000;
             let endTime = stream.ends_at ? new Date(stream.ends_at + '+03:00').getTime() / 1000 : startTime + 10800;
             if (now > endTime) return;
@@ -736,4 +744,4 @@
     });
   </script>
 </body>
-</html>
+  </html>
