@@ -32,7 +32,7 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
+              "title": "Cbs Sports",
               "url": "https://futxtv.indevs.in/api/stream/59.m3u8"
             }
           ]
