@@ -49,11 +49,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotel.fut.ryzn.pro/bar/index.m3u8"
             },
             {
               "title": "Alt Feed 1",
-              "url": ""
+              "url": "https://hotel.fut.ryzn.pro/ath/index.m3u8"
             }
           ]
         },
@@ -69,7 +69,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotel.fut.ryzn.pro/ful/index.m3u8"
             }
           ]
         }
