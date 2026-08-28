@@ -13,11 +13,11 @@
           "starts_at": "2026-08-28T21:00:00",
           "ends_at": "2026-08-28T23:00:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 20,
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotel.fut.ryzn.pro/th1/index.m3u8"
             }
           ]
         },
@@ -33,7 +33,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotel.fut.ryzn.pro/th2/index.m3u8"
             }
           ]
         },
