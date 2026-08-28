@@ -96,24 +96,12 @@
           "max_simulated_viewers": 300,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Stan",
+              "url": "https://hotel.fut.ryzn.pro/stan/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
-              "url": ""
-            },
-            {
-              "title": "Alt Feed 2",
-              "url": ""
-            },
-            {
-              "title": "Alt Feed 3",
-              "url": ""
-            },
-            {
-              "title": "Alt Feed 4",
-              "url": ""
+              "title": "Sky Sports",
+              "url": "https://hotel.fut.ryzn.pro/sky/index.m3u8"
             }
           ]
         },
