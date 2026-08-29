@@ -13,19 +13,19 @@
           "starts_at": "2026-08-29T14:30:00",
           "ends_at": "2026-08-29T16:35:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 400,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Stan",
+              "url": "https://hotel.fut.ryzn.pro/stan/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
-              "url": ""
+              "title": "Tnt Sports 1",
+              "url": "https://hotel.fut.ryzn.pro/tnt/index.m3u8"
             },
             {
-              "title": "Alt Feed 2",
-              "url": ""
+              "title": "Monomax",
+              "url": "https://hotel.fut.ryzn.pro/monomax/index.m3u8"
             },
             {
               "title": "Alt Feed 3",
