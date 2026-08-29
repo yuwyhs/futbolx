@@ -209,7 +209,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotel.fut.ryzn.pro/ll/index.m3u8"
             }
           ]
         },
@@ -225,7 +225,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotel.fut.ryzn.pro/spo/index.m3u8"
             }
           ]
         },
