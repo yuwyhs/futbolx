@@ -44,8 +44,8 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Usa Net",
+              "url": "https://hotel.fut.ryzn.pro/lee/index.m3u8"
             }
           ]
         },
@@ -60,8 +60,8 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Sky Sports+",
+              "url": "https://hotel.fut.ryzn.pro/sun/index.m3u8"
             }
           ]
         },
