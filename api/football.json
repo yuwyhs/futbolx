@@ -6,338 +6,242 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Liverpool vs Nottingham Forest",
-          "uri_name": "l4i1v1n7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/cd465r1784549295.jpg/medium",
+          "name": "Chelsea vs Brighton",
+          "uri_name": "c4h1v1b7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/h0zkpu1785931530.jpg/medium",
           "tag": "Epl",
-          "starts_at": "2026-08-29T14:30:00",
-          "ends_at": "2026-08-29T16:35:00",
-          "always_live": 0,
-          "max_simulated_viewers": 400,
-          "streams": [
-            {
-              "title": "Stan",
-              "url": "https://hotel.fut.ryzn.pro/stan/index.m3u8"
-            },
-            {
-              "title": "Tnt Sports 1",
-              "url": "https://hotel.fut.ryzn.pro/tnt/index.m3u8"
-            },
-            {
-              "title": "Usa Network",
-              "url": "https://hotel.fut.ryzn.pro/monomax/index.m3u8"
-            },
-            {
-              "title": "Bein Ar",
-              "url": "https://hotel.fut.ryzn.pro/ar/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Wolves vs Stoke City",
-          "uri_name": "w4o1v1s7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/940jj21782467906.jpg/medium",
-          "tag": "Efl",
-          "starts_at": "2026-08-29T14:30:00",
-          "ends_at": "2026-08-29T16:35:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Sky Sports+",
-              "url": "https://hotel.fut.ryzn.pro/efl/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Elversberg vs Leverkusen",
-          "uri_name": "e4l1v1l7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/4z02wf1783076732.jpg/medium",
-          "tag": "Bundesliga",
-          "starts_at": "2026-08-29T16:30:00",
-          "ends_at": "2026-08-29T18:35:00",
+          "starts_at": "2026-08-30T16:00:00",
+          "ends_at": "2026-08-30T18:00:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://hotel.fut.ryzn.pro/bd/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Bournemouth vs Everton",
-          "uri_name": "b4o1v1e7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/400hyc1784549294.jpg/medium",
-          "tag": "Epl",
-          "starts_at": "2026-08-29T17:00:00",
-          "ends_at": "2026-08-29T19:00:00",
-          "always_live": 0,
-          "max_simulated_viewers": 30,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotel.fut.ryzn.pro/eve/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Coventry City vs Hull City",
-          "uri_name": "c4o1v1h7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/xcjg311784549301.jpg/medium",
-          "tag": "Efl",
-          "starts_at": "2026-08-29T17:00:00",
-          "ends_at": "2026-08-29T19:00:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotel.fut.ryzn.pro/cov/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Watford vs West Ham",
-          "uri_name": "w4a1v1w7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/10gncl1782467905.jpg/medium",
-          "tag": "Efl",
-          "starts_at": "2026-08-29T17:00:00",
-          "ends_at": "2026-08-29T19:00:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotel.fut.ryzn.pro/wat/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Celtic vs Falkirk",
-          "uri_name": "c4e1v1f7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/27l0dm1782193292.jpg/medium",
-          "tag": "Scottish Premiership",
-          "starts_at": "2026-08-29T17:00:00",
-          "ends_at": "2026-08-29T19:00:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotel.fut.ryzn.pro/cel/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Levante vs Real Betis",
-          "uri_name": "l4e1v1r7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/gwrb4s1784904434.jpg/medium",
-          "tag": "Laliga",
-          "starts_at": "2026-08-29T18:00:00",
-          "ends_at": "2026-08-29T20:00:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotel.fut.ryzn.pro/ll/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Strasbourg vs Lens",
-          "uri_name": "s4t1v1l7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/784uyx1754808729.jpg/medium",
-          "tag": "Ligue 1",
-          "starts_at": "2026-08-29T18:15:00",
-          "ends_at": "2026-08-29T20:20:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotel.fut.ryzn.pro/ligu/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Tottenham vs Newcastle",
-          "uri_name": "t4o1v1n7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/funyr61784549296.jpg/medium",
-          "tag": "Epl",
-          "starts_at": "2026-08-29T19:30:00",
-          "ends_at": "2026-08-29T21:35:00",
-          "always_live": 0,
-          "max_simulated_viewers": 50,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://hotel.fut.ryzn.pro/tot/index.m3u8"
+              "url": ""
             },
             {
               "title": "Alt Feed 1",
-              "url": "https://hotel.fut.ryzn.pro/new/index.m3u8"
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 2",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 3",
+              "url": ""
             }
           ]
         },
         {
-          "name": "Dortmund vs Hamburger",
-          "uri_name": "d4o1v1h7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/666jzk1754041750.jpg/medium",
-          "tag": "Bundesliga",
-          "starts_at": "2026-08-29T19:30:00",
-          "ends_at": "2026-08-29T21:35:00",
+          "name": "Leeds vs Brentford",
+          "uri_name": "l4e1v1b7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/rwjum81784549298.jpg/medium",
+          "tag": "Epl",
+          "starts_at": "2026-08-30T16:00:00",
+          "ends_at": "2026-08-30T18:00:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://hotel.fut.ryzn.pro/bd/index.m3u8"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Real Sociedad vs Espanyol",
-          "uri_name": "r4e1v1e7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/km0w781784904436.jpg/medium",
+          "name": "Sunderland vs Fulham",
+          "uri_name": "s4u1v1f7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/vo99ob1784549300.jpg/medium",
+          "tag": "Epl",
+          "starts_at": "2026-08-30T16:00:00",
+          "ends_at": "2026-08-30T18:00:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Paris Fc vs Nice",
+          "uri_name": "p4a1v1n7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/fjg87d1754808722.jpg/medium",
+          "tag": "Ligue 1",
+          "starts_at": "2026-08-30T16:00:00",
+          "ends_at": "2026-08-30T18:00:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Real Madrid vs Malaga",
+          "uri_name": "r4e1v1m7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/luzbvr1784904438.jpg/medium",
           "tag": "Laliga",
-          "starts_at": "2026-08-29T20:00:00",
-          "ends_at": "2026-08-29T22:00:00",
+          "starts_at": "2026-08-30T18:00:00",
+          "ends_at": "2026-08-30T20:00:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://hotel.fut.ryzn.pro/ll/index.m3u8"
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 1",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 2",
+              "url": ""
             }
           ]
         },
         {
-          "name": "Viseu vs FC Porto",
-          "uri_name": "v4i1v1f7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/94npb31786718943.jpg/medium",
-          "tag": "Liga Portugal",
-          "starts_at": "2026-08-29T20:00:00",
-          "ends_at": "2026-08-29T22:00:00",
+          "name": "Rennais vs Le Mans",
+          "uri_name": "r4e1v1l7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/e1m47f1781249119.jpg/medium",
+          "tag": "Ligue 1",
+          "starts_at": "2026-08-30T18:15:00",
+          "ends_at": "2026-08-30T20:20:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://hotel.fut.ryzn.pro/spo/index.m3u8"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Al Fateh vs Al Ittihad",
-          "uri_name": "a4l1v1a7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/bnitkx1758292357.jpg/medium",
-          "tag": "SPL",
-          "starts_at": "2026-08-29T21:00:00",
-          "ends_at": "2026-08-29T23:00:00",
+          "name": "Manchester United vs Ipswich",
+          "uri_name": "m4a1v1i7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/inyd4k1784549294.jpg/medium",
+          "tag": "Epl",
+          "starts_at": "2026-08-30T18:30:00",
+          "ends_at": "2026-08-30T20:40:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://hotel.fut.ryzn.pro/spl/index.m3u8"
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 1",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 2",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 3",
+              "url": ""
             }
           ]
         },
         {
-          "name": "Juventus vs Parma",
-          "uri_name": "j4u1v1p7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/4ws5hx1755933705.jpg/medium",
+          "name": "Napoli vs Como",
+          "uri_name": "n4a1v1c7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/3od4z51755934079.jpg/medium",
           "tag": "Seria A",
-          "starts_at": "2026-08-29T21:45:00",
-          "ends_at": "2026-08-29T23:50:00",
+          "starts_at": "2026-08-30T19:30:00",
+          "ends_at": "2026-08-30T21:35:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://hotel.fut.ryzn.pro/juv/index.m3u8"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Auxerre vs Angers",
-          "uri_name": "a4u1v1a7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/egpp551754808996.jpg/medium",
-          "tag": "Ligue 1",
-          "starts_at": "2026-08-29T21:45:00",
-          "ends_at": "2026-08-29T23:50:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedindia.st/embed/ligue1/2026-08-29/aux-ang"
-            }
-          ]
-        },
-        {
-          "name": "Brestois vs Toulouse",
-          "uri_name": "b4r1v1t7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/vpa6db1754808524.jpg/medium",
-          "tag": "Ligue 1",
-          "starts_at": "2026-08-29T21:45:00",
-          "ends_at": "2026-08-29T23:50:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedindia.st/embed/ligue1/2026-08-29/bre-tou"
-            }
-          ]
-        },
-        {
-          "name": "Lorient vs Troyes",
-          "uri_name": "l4o1v1t7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/vbfnd61781249120.jpg/medium",
-          "tag": "Ligue 1",
-          "starts_at": "2026-08-29T21:45:00",
-          "ends_at": "2026-08-29T23:50:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedindia.st/embed/ligue1/2026-08-29/lor-try"
-            }
-          ]
-        },
-        {
-          "name": "Lyon vs Le Havre",
-          "uri_name": "l4y1v1l7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/elcpwk1754727280.jpg/medium",
-          "tag": "Ligue 1",
-          "starts_at": "2026-08-29T21:45:00",
-          "ends_at": "2026-08-29T23:50:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://embedindia.st/embed/ligue1/2026-08-29/lyon-hac"
-            }
-          ]
-        },
-        {
-          "name": "Sevilla vs Atlético",
-          "uri_name": "s4e1v1a7",
-          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/5v3rwf1784904437.jpg/medium",
+          "name": "La Coruna vs Valencia",
+          "uri_name": "l4a1v1v7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/0o9ha11784904440.jpg/medium",
           "tag": "Laliga",
-          "starts_at": "2026-08-29T22:30:00",
-          "ends_at": "2026-08-30T00:35:00",
+          "starts_at": "2026-08-30T20:30:00",
+          "ends_at": "2026-08-30T22:35:00",
           "always_live": 0,
-          "max_simulated_viewers": 40,
+          "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://hotel.fut.ryzn.pro/ll/index.m3u8"
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Monaco vs Marseille",
+          "uri_name": "m4o1v1m7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/tdj6n81781249483.jpg/medium",
+          "tag": "Ligue 1",
+          "starts_at": "2026-08-30T21:45:00",
+          "ends_at": "2026-08-30T23:50:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Cagliari vs Inter Milan",
+          "uri_name": "c4a1v1i7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/w35gk71755933867.jpg/medium",
+          "tag": "Seria A",
+          "starts_at": "2026-08-30T21:45:00",
+          "ends_at": "2026-08-30T23:50:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Lazio vs Genoa",
+          "uri_name": "l4a1v1g7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/ktum9s1755934616.jpg/medium",
+          "tag": "Seria A",
+          "starts_at": "2026-08-30T21:45:00",
+          "ends_at": "2026-08-30T23:50:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Celta Vigo vs Athletic Bilbao",
+          "uri_name": "c4e1v1a7",
+          "poster": "https://r2.thesportsdb.com/images/media/event/thumb/dtxf2n1784904441.jpg/medium",
+          "tag": "Laliga",
+          "starts_at": "2026-08-30T22:30:00",
+          "ends_at": "2026-08-31T00:35:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
             }
           ]
         }
