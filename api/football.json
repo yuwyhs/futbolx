@@ -92,11 +92,11 @@
           "max_simulated_viewers": 40,
           "streams": [
             {
-              "title": "Main Feed",
+              "title": "Espn",
               "url": "https://hotel.fut.ryzn.pro/ll1/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
+              "title": "Dazn Fr",
               "url": "https://hotel.fut.ryzn.pro/ll2/index.m3u8"
             },
             {
@@ -116,8 +116,8 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Ligue+",
+              "url": "https://hotel.fut.ryzn.pro/ligu/index.m3u8"
             }
           ]
         },
