@@ -60,7 +60,7 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Sky Sports+",
+              "title": "Hub",
               "url": "https://hotel.fut.ryzn.pro/sun/index.m3u8"
             }
           ]
