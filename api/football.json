@@ -192,8 +192,8 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Ligue+",
+              "url": "https://hotel.fut.ryzn.pro/ligu/index.m3u8"
             }
           ]
         },
@@ -209,7 +209,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotel.fut.ryzn.pro/sr/index.m3u8"
             }
           ]
         },
@@ -225,7 +225,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotel.fut.ryzn.pro/laz/index.m3u8"
             }
           ]
         },
@@ -241,7 +241,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotel.fut.ryzn.pro/ll1/index.m3u8"
             }
           ]
         }
