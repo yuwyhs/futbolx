@@ -21,15 +21,15 @@
             },
             {
               "title": "Sky Sports",
-              "url": ""
+              "url": "https://hotel.fut.ryzn.pro/sky/index.m3u8"
             },
             {
               "title": "Canal Fr",
-              "url": ""
+              "url": "https://hotel.fut.ryzn.pro/fr/index.m3u8"
             },
             {
               "title": "Bein Ar",
-              "url": ""
+              "url": "https://hotel.fut.ryzn.pro/ar/index.m3u8"
             }
           ]
         },
