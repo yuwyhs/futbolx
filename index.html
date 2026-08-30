@@ -6,7 +6,7 @@
   <title>FutbolX - Free PPV and More</title>
   
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#0a0a0a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
@@ -30,38 +30,59 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
 
   <style>
-    /* --- CUSTOM NAVBAR & CENTERED BRAND LOGO --- */
+    :root {
+      --accent: #ff4d4d;
+      --accent-hover: #e63939;
+      --gold: #ffc107;
+      --bg-deep: #0a0a0a;
+      --card-bg: #141414;
+      --card-border: rgba(255,255,255,0.06);
+      --text-muted: #a0a0a0;
+    }
+
+    body {
+      background: var(--bg-deep);
+      font-family: 'Kanit', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ========== NAVBAR ========== */
+    .top-bar {
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      height: 64px;
+      z-index: 1030;
+    }
+
     .top-bar .container-fluid {
       position: relative;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      height: 64px;
+      padding: 0 1rem;
     }
 
     .futbolx-brand {
       font-family: 'Kanit', sans-serif;
       font-weight: 900;
-      font-size: 1.4rem;
-      text-transform: uppercase;
+      font-size: 1.45rem;
       letter-spacing: 1.5px;
-      color: #ffffff;
+      color: #fff;
       display: inline-flex;
       align-items: center;
-      user-select: none;
       text-decoration: none;
-      
-      /* Center alignment */
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      cursor: pointer;
+      user-select: none;
     }
 
     .futbolx-brand .ball-o {
-      color: #ffc107; /* Yellow/Gold matching the original logo */
-      font-size: 1.15rem;
-      margin: 0 1px;
-      text-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
+      color: var(--gold);
+      font-size: 1.2rem;
+      margin: 0 2px;
+      text-shadow: 0 0 12px rgba(255, 193, 7, 0.5);
       transition: transform 0.5s ease;
       display: inline-block;
     }
@@ -70,79 +91,420 @@
       transform: rotate(180deg);
     }
 
-    /* Ball Spin Animation on Click */
     .futbolx-brand .ball-o.spinning {
       animation: ballSpin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     @keyframes ballSpin {
       0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.2); }
+      50% { transform: rotate(180deg) scale(1.25); }
       100% { transform: rotate(360deg) scale(1); }
     }
 
-    /* --- SITE STYLES --- */
+    #sidebarToggler {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #fff;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #sidebarToggler:hover {
+      background: rgba(255,77,77,0.15);
+      border-color: var(--accent);
+    }
+
+    /* ========== HERO ========== */
     .hero-background {
       background-image: url('https://cdn.phototourl.com/free/2026-07-30-b4eb4fe7-50b2-4b18-8f9b-605f09574de3.png') !important;
-      background-size: contain !important;
+      background-size: cover !important;
       background-position: center center !important;
       background-repeat: no-repeat !important;
-      background-color: #000000 !important;
-      min-height: 220px !important;
+      background-color: #000 !important;
+      min-height: 240px !important;
       width: 100%;
+      border-radius: 0 0 24px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-background::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 30%, rgba(10,10,10,0.85) 100%);
+    }
+
+    /* ========== SECTION HEADERS ========== */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.25rem;
+      padding: 0 4px;
+    }
+
+    .section-header h2 {
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin: 0;
+      letter-spacing: 0.5px;
+    }
+
+    .live-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7);
+      animation: livePulse 1.5s infinite;
+    }
+
+    @keyframes livePulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(255, 77, 77, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
+    }
+
+    /* ========== EVENT GRID & CARDS ========== */
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 0.5rem 0 1.5rem;
+    }
+
+    .event-grid a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    /* Base card (Desktop / Tablet landscape) */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
       border-radius: 16px;
-      -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
-      mask-image: radial-gradient(circle, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), 
+                  box-shadow 0.35s ease,
+                  border-color 0.3s ease;
+      height: 100%;
+      opacity: 0;
+      transform: translateY(30px);
     }
 
-    [data-bs-theme="light"] .hero-background {
-      background-color: #000000 !important;
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,77,77,0.3);
+      border-color: rgba(255,77,77,0.4);
+    }
+
+    .card-img-wrapper {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+    }
+
+    .card-img-top {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .card:hover .card-img-top {
+      transform: scale(1.08);
+    }
+
+    .card-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 55%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1rem;
+    }
+
+    .live-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--accent);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 4px 12px rgba(255,77,77,0.4);
+    }
+
+    .live-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      animation: livePulse 1.2s infinite;
+    }
+
+    .card-body {
+      padding: 1rem 1.1rem 1.15rem;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0 0 0.4rem;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-top: 0.6rem;
+    }
+
+    .event-tag {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .event-timer {
+      flex-shrink: 0;
+    }
+
+    .watch-button {
+      background: var(--accent) !important;
+      border: none !important;
+      color: white !important;
+      font-weight: 600;
+      font-size: 0.8rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 8px;
+      animation: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .watch-button:hover {
+      background: var(--accent-hover) !important;
+      transform: scale(1.05);
+    }
+
+    .countdown {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #e0e0e0;
+      background: rgba(255,255,255,0.08);
+      padding: 0.3rem 0.7rem;
+      border-radius: 8px;
+    }
+
+    /* ========== RESPONSIVE BREAKPOINTS ========== */
+
+    /* Large tablets & small desktops */
+    @media (min-width: 768px) {
+      .event-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1.4rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1200px) {
+      .event-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.75rem;
+      }
+      .card-title { font-size: 1.15rem; }
+    }
+
+    /* Large screens / TV */
+    @media (min-width: 1600px) {
+      .event-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+      .card-title { font-size: 1.2rem; }
+      .section-header h2 { font-size: 1.75rem; }
+    }
+
+    /* ========== MOBILE HORIZONTAL CARDS ========== */
+    @media (max-width: 767.98px) {
+      .hero-background {
+        min-height: 180px !important;
+        border-radius: 0 0 16px 16px;
+      }
+
+      .event-grid {
+        display: flex !important;
+        flex-direction: column;
+        gap: 12px !important;
+        padding: 0.25rem 0 1rem;
+      }
+
+      .card {
+        display: flex !important;
+        flex-direction: row !important;
+        height: 118px;
+        border-radius: 12px;
+        background: #161616;
+        border: 1px solid rgba(255,255,255,0.05);
+      }
+
+      .card:hover {
+        transform: none;
+        box-shadow: none;
+        border-color: rgba(255,77,77,0.35);
+      }
+
+      .card-img-wrapper {
+        width: 140px;
+        min-width: 140px;
+        height: 100%;
+        aspect-ratio: auto;
+        flex-shrink: 0;
+      }
+
+      .card-img-top {
+        height: 100%;
+        width: 100%;
+      }
+
+      .card-img-overlay {
+        display: none; /* hide overlay text on mobile for cleaner look */
+      }
+
+      .live-badge {
+        top: 8px;
+        left: 8px;
+        font-size: 0.62rem;
+        padding: 3px 7px;
+      }
+
+      .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 10px 14px !important;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .card-title {
+        font-size: 0.98rem !important;
+        margin-bottom: 6px !important;
+        -webkit-line-clamp: 2;
+      }
+
+      .card-meta {
+        margin-top: auto;
+      }
+
+      .event-tag {
+        font-size: 0.75rem;
+      }
+
+      .countdown {
+        font-size: 0.75rem;
+        padding: 0.22rem 0.55rem;
+      }
+
+      .watch-button {
+        font-size: 0.72rem !important;
+        padding: 0.28rem 0.7rem !important;
+      }
+
+      .section-header h2 {
+        font-size: 1.25rem;
+      }
+    }
+
+    /* Extra small phones */
+    @media (max-width: 380px) {
+      .card-img-wrapper {
+        width: 120px;
+        min-width: 120px;
+      }
+      .card {
+        height: 110px;
+      }
+    }
+
+    /* ========== MISC ========== */
     #disclaimer-overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       z-index: 12000;
       display: none; 
       align-items: center;
       justify-content: center;
       padding: 20px;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
       transition: opacity 0.5s ease;
     }
+
     .disclaimer-content {
-      max-width: 550px;
-      padding: 30px;
+      max-width: 520px;
+      padding: 32px;
       border-radius: 20px;
       text-align: center;
-      border: 1px solid rgba(255, 77, 77, 0.3);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255, 77, 77, 0.25);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      background: #121212;
+      color: #e0e0e0;
     }
-    [data-bs-theme="dark"] .disclaimer-content { background: #121212; color: #e0e0e0; }
-    [data-bs-theme="light"] .disclaimer-content { background: #ffffff; color: #212529; }
-    
-    .disclaimer-content p { font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; }
+
+    .disclaimer-content p { font-size: 0.9rem; line-height: 1.65; margin-bottom: 18px; }
+
     .btn-understood {
-      background: #ff4d4d;
+      background: var(--accent);
       color: white;
       border: none;
-      padding: 12px 40px;
+      padding: 13px 42px;
       border-radius: 50px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
       transition: all 0.3s ease;
     }
-    .btn-understood:hover { background: #e63939; transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 77, 77, 0.4); }
+    .btn-understood:hover { background: var(--accent-hover); transform: scale(1.04); }
+
     .site-blurred { filter: blur(8px); pointer-events: none; user-select: none; }
 
     #splash-screen {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: #000000;
+      background: #000;
       z-index: 11000;
       display: none; 
       flex-direction: column;
@@ -154,16 +516,12 @@
       width: 130px; 
       border-radius: 22%; 
       margin-bottom: 20px; 
-      filter: drop-shadow(0 0 10px rgba(255, 77, 77, 0.2));
+      filter: drop-shadow(0 0 12px rgba(255, 77, 77, 0.25));
     }
     
-    .slogan-container {
-      height: 24px;
-      overflow: hidden;
-      text-align: center;
-    }
+    .slogan-container { height: 24px; overflow: hidden; text-align: center; }
     #cycling-text {
-      color: #ff4d4d;
+      color: var(--accent);
       font-weight: 600;
       font-size: 1rem;
       text-transform: uppercase;
@@ -178,7 +536,7 @@
       bottom: 10%; 
     }
     .bouncing-loader span {
-      color: #ff4d4d;
+      color: var(--accent);
       font-size: 1rem;
       font-weight: 800;
       margin: 0 3px;
@@ -196,104 +554,89 @@
     @keyframes bounceText { from { transform: translateY(0); } to { transform: translateY(-10px); } }
 
     .error-alert { max-width: 500px; margin: 20px auto; }
-    .card { opacity: 0; transform: translateY(50px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-    .card.visible { opacity: 1; transform: translateY(0); }
     .fade-out { animation: fadeOut 0.5s ease-out forwards; }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-    .watch-button { animation: pulse 1s infinite; }
-    @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
-    .event-grid, #livecards.event-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; padding: 1rem; }
-    .event-grid a { text-decoration: none; }
-    .card { width: 100%; max-width: 400px; margin: 0 auto; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; border-radius: 10px; overflow: hidden; border: 2px solid transparent; position: relative; }
-    .card:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); border-color: #ff4d4d; }
-    [data-bs-theme="light"] .card:hover { border-color: #e63939; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); }
-    .card-img-top { height: 220px; object-fit: cover; }
-    .card-body { padding: 1rem; }
-    .card-title { font-size: 1.3rem; margin-bottom: 0.5rem; }
-    .event-tag { font-size: 0.95rem; }
-    .watch-button { font-size: 0.95rem; padding: 0.5rem 1.2rem; }
-    #discordBtn { position: fixed; bottom: 20px; right: 20px; z-index: 9999; opacity: 0.92; transition: opacity .3s, transform .2s; }
-    #discordBtn img { width: 48px; height: 48px; border-radius: 50%; display: block; box-shadow: 0 3px 10px rgba(0,0,0,0.5); animation: glowPulse 2.5s infinite ease-in-out; }
-    @keyframes glowPulse { 0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.5); } 50% { box-shadow: 0 0 18px #5865F2, 0 3px 10px rgba(88,101,242,0.3); } }
-    
-    #pwaWrapper { position: fixed; bottom: 20px; left: 20px; z-index: 9999; display: none; align-items: center; }
-    #installAppBtn { background: #ff4d4d; color: white; border: none; border-radius: 50px; padding: 10px 18px; font-weight: bold; box-shadow: 0 3px 10px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
-    #closePwa { background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; margin-left: -8px; margin-top: -28px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10000; }
 
-    @media (max-width: 767px) {
-      .event-grid {
-        display: flex !important;
-        flex-direction: column;
-        gap: 12px !important;
-        padding: 10px !important;
-      }
-      .card {
-        display: flex !important;
-        flex-direction: row !important;
-        max-width: 100% !important;
-        height: 125px; 
-        background: var(--bs-tertiary-bg); 
-        border-radius: 8px;
-        align-items: stretch;
-        overflow: hidden;
-        border: none !important; 
-        box-shadow: none !important; 
-      }
-      .card-img-top {
-        width: 165px !important;
-        height: 100% !important;
-        object-fit: cover;
-        border-radius: 0;
-      }
-      .card-body {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        padding: 12px 15px !important;
-        flex-grow: 1;
-        overflow: hidden;
-        background: none !important; 
-      }
-      .card-title {
-        font-size: 1.05rem !important; 
-        margin: 0 0 5px 0 !important;
-        white-space: normal;
-        font-weight: 600;
-        color: var(--bs-emphasis-color); 
-      }
-      .card-text {
-        margin-top: auto !important; 
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        width: 100%;
-        color: var(--bs-body-color);
-        background: none !important; 
-      }
-      .event-tag {
-        font-size: 0.8rem !important;
-        opacity: 0.7;
-        margin-bottom: 2px;
-        color: var(--bs-body-color) !important;
-      }
-      .event-timer {
-        font-size: 0.8rem !important;
-        font-weight: 500;
-        margin-bottom: 2px;
-        color: var(--bs-body-color) !important;
-      }
-      .watch-button {
-        padding: 4px 12px !important;
-        font-size: 0.75rem !important;
-        animation: none !important;
-      }
-      .live-badge {
-        top: 8px !important;
-        right: auto !important;
-        left: 8px !important;
-        font-size: 0.65rem !important;
-        padding: 2px 8px !important;
-      }
+    #discordBtn { 
+      position: fixed; 
+      bottom: 22px; 
+      right: 22px; 
+      z-index: 9999; 
+      opacity: 0.9; 
+      transition: opacity .3s, transform .2s; 
+    }
+    #discordBtn img { 
+      width: 52px; 
+      height: 52px; 
+      border-radius: 50%; 
+      display: block; 
+      box-shadow: 0 4px 14px rgba(0,0,0,0.5); 
+      animation: glowPulse 2.5s infinite ease-in-out; 
+    }
+    @keyframes glowPulse { 
+      0%, 100% { box-shadow: 0 4px 14px rgba(0,0,0,0.5); } 
+      50% { box-shadow: 0 0 22px #5865F2, 0 4px 14px rgba(88,101,242,0.35); } 
+    }
+    
+    #pwaWrapper { 
+      position: fixed; 
+      bottom: 22px; 
+      left: 22px; 
+      z-index: 9999; 
+      display: none; 
+      align-items: center; 
+    }
+    #installAppBtn { 
+      background: var(--accent); 
+      color: white; 
+      border: none; 
+      border-radius: 50px; 
+      padding: 11px 20px; 
+      font-weight: 600; 
+      box-shadow: 0 4px 14px rgba(0,0,0,0.45); 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      gap: 8px; 
+      font-size: 0.9rem; 
+    }
+    #closePwa { 
+      background: rgba(0,0,0,0.75); 
+      color: white; 
+      border: none; 
+      border-radius: 50%; 
+      width: 22px; 
+      height: 22px; 
+      font-size: 11px; 
+      margin-left: -10px; 
+      margin-top: -30px; 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      z-index: 10000; 
+    }
+
+    /* Offcanvas polish */
+    .offcanvas {
+      background: #111;
+      border-right: 1px solid rgba(255,255,255,0.06);
+    }
+    .offcanvas .nav-link {
+      color: #ddd;
+      font-weight: 500;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      margin-bottom: 2px;
+    }
+    .offcanvas .nav-link:hover {
+      background: rgba(255,77,77,0.12);
+      color: #fff;
+    }
+
+    footer {
+      border-color: rgba(255,255,255,0.06) !important;
+      margin-top: 3rem !important;
     }
   </style>
 </head>
@@ -328,11 +671,10 @@
 
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
-      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+      <button class="btn" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
         <i class="fas fa-bars"></i>
       </button>
 
-      <!-- CENTERED TEXT LOGO WITH CLICK ANIMATION -->
       <a href="/" class="futbolx-brand" id="brandLogo">
         FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
       </a>
@@ -341,7 +683,7 @@
 
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
       <ul class="nav flex-column">
@@ -352,45 +694,91 @@
           <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-user-circle me-2"></i>Account
           </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="accountDropdown">
             <li><a class="dropdown-item" href="/auth/login" id="menuLogin">Login</a></li>
             <li><a class="dropdown-item" href="/auth/signup" id="menuSignup">Create account</a></li>
             <li><button class="dropdown-item text-danger" id="menuLogout" style="display: none;"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li>
           </ul>
         </li>
         <li class="nav-item">
-          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+          <button id="themeToggle" class="nav-link btn btn-link text-start w-100" aria-label="Toggle theme"><i class="fas fa-moon"></i> Theme</button>
         </li>
       </ul>
     </div>
   </div>
 
-  <div class="container-fluid main-content">
+  <div class="container-fluid main-content" style="padding-top: 64px;">
     <div class="hero-background"></div>
     
-    <div class="container pt-2">
+    <div class="container pt-3">
       <div id="errorContainer" class="d-none error-alert"></div>
+
       <div id="live" class="mt-4">
-        <h2 class="m-0">Live Now <span id="liveAnimation" class="live-animation d-none"></span></h2>
-        <div id="livecards" class="event-grid py-3"><p>Loading streams...</p></div>
+        <div class="section-header">
+          <div class="live-dot"></div>
+          <h2>Live Now</h2>
+        </div>
+        <div id="livecards" class="event-grid"><p class="text-muted">Loading streams...</p></div>
       </div>
 
-      <div id="football" class="mt-5 d-none"><h2 class="m-0">Football</h2><div id="footballcards" class="event-grid py-3"></div></div>
-      <div id="nba" class="mt-5 d-none"><h2 class="m-0">Basketball</h2><div id="nbacards" class="event-grid py-3"></div></div>
-      <div id="fights" class="mt-5 d-none"><h2 class="m-0">Fights</h2><div id="fightscards" class="event-grid py-3"></div></div>
-      <div id="wrestling" class="mt-5 d-none"><h2 class="m-0">Wrestling</h2><div id="wrestlingcards" class="event-grid py-3"></div></div>
-      <div id="darts" class="mt-5 d-none"><h2 class="m-0">Darts</h2><div id="dartscards" class="event-grid py-3"></div></div>
-      <div id="motorsports" class="mt-5 d-none"><h2 class="m-0">Motorsports</h2><div id="motorsportscards" class="event-grid py-3"></div></div>
-      <div id="nfl" class="mt-5 d-none"><h2 class="m-0">NFL</h2><div id="nflcards" class="event-grid py-3"></div></div>
-      <div id="nhl" class="mt-5 d-none"><h2 class="m-0">NHL</h2><div id="nhlcards" class="event-grid py-3"></div></div>
-      <div id="mlb" class="mt-5 d-none"><h2 class="m-0">MLB</h2><div id="mlbcards" class="event-grid py-3"></div></div>
-      <div id="icehockey" class="mt-5 d-none"><h2 class="m-0">Ice Hockey</h2><div id="icehockeycards" class="event-grid py-3"></div></div>
-      <div id="tennis" class="mt-5 d-none"><h2 class="m-0">Tennis</h2><div id="tenniscards" class="event-grid py-3"></div></div>
-      <div id="rugby" class="mt-5 d-none"><h2 class="m-0">Rugby</h2><div id="rugbycards" class="event-grid py-3"></div></div>
-      <div id="golf" class="mt-5 d-none"><h2 class="m-0">Golf</h2><div id="golfcards" class="event-grid py-3"></div></div>
-      <div id="others" class="mt-5 d-none"><h2 class="m-0">Others</h2><div id="otherscards" class="event-grid py-3"></div></div>
+      <div id="football" class="mt-5 d-none">
+        <div class="section-header"><h2>Football</h2></div>
+        <div id="footballcards" class="event-grid"></div>
+      </div>
+      <div id="nba" class="mt-5 d-none">
+        <div class="section-header"><h2>Basketball</h2></div>
+        <div id="nbacards" class="event-grid"></div>
+      </div>
+      <div id="fights" class="mt-5 d-none">
+        <div class="section-header"><h2>Fights</h2></div>
+        <div id="fightscards" class="event-grid"></div>
+      </div>
+      <div id="wrestling" class="mt-5 d-none">
+        <div class="section-header"><h2>Wrestling</h2></div>
+        <div id="wrestlingcards" class="event-grid"></div>
+      </div>
+      <div id="darts" class="mt-5 d-none">
+        <div class="section-header"><h2>Darts</h2></div>
+        <div id="dartscards" class="event-grid"></div>
+      </div>
+      <div id="motorsports" class="mt-5 d-none">
+        <div class="section-header"><h2>Motorsports</h2></div>
+        <div id="motorsportscards" class="event-grid"></div>
+      </div>
+      <div id="nfl" class="mt-5 d-none">
+        <div class="section-header"><h2>NFL</h2></div>
+        <div id="nflcards" class="event-grid"></div>
+      </div>
+      <div id="nhl" class="mt-5 d-none">
+        <div class="section-header"><h2>NHL</h2></div>
+        <div id="nhlcards" class="event-grid"></div>
+      </div>
+      <div id="mlb" class="mt-5 d-none">
+        <div class="section-header"><h2>MLB</h2></div>
+        <div id="mlbcards" class="event-grid"></div>
+      </div>
+      <div id="icehockey" class="mt-5 d-none">
+        <div class="section-header"><h2>Ice Hockey</h2></div>
+        <div id="icehockeycards" class="event-grid"></div>
+      </div>
+      <div id="tennis" class="mt-5 d-none">
+        <div class="section-header"><h2>Tennis</h2></div>
+        <div id="tenniscards" class="event-grid"></div>
+      </div>
+      <div id="rugby" class="mt-5 d-none">
+        <div class="section-header"><h2>Rugby</h2></div>
+        <div id="rugbycards" class="event-grid"></div>
+      </div>
+      <div id="golf" class="mt-5 d-none">
+        <div class="section-header"><h2>Golf</h2></div>
+        <div id="golfcards" class="event-grid"></div>
+      </div>
+      <div id="others" class="mt-5 d-none">
+        <div class="section-header"><h2>Others</h2></div>
+        <div id="otherscards" class="event-grid"></div>
+      </div>
 
-      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-3 border-top mt-5">
         <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
           <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
@@ -493,13 +881,13 @@
             hour: 'numeric', minute: '2-digit', hour12: true,
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
           });
-          if (days >= 7) { displayText = `${weeks}w (${localTimeString})`; } 
-          else if (days >= 1) { displayText = `${days}d (${localTimeString})`; } 
+          if (days >= 7) { displayText = `\( {weeks}w ( \){localTimeString})`; } 
+          else if (days >= 1) { displayText = `\( {days}d ( \){localTimeString})`; } 
           else {
             let hh = hours - days * 24;
             let mm = mins - hours * 60;
             let ss = secs - mins * 60;
-            displayText = `${zeropad(hh)}:${zeropad(mm)}:${zeropad(ss)}`;
+            displayText = `\( {zeropad(hh)}: \){zeropad(mm)}:${zeropad(ss)}`;
           }
           if (element.innerHTML !== displayText) { element.innerHTML = displayText; }
         } else if (timer <= 0 && !element.innerHTML.includes('watch-button')) {
@@ -537,14 +925,14 @@
       const liveAnimation = document.getElementById('liveAnimation');
       const livecards = document.getElementById('livecards');
       if (!livecards) return;
-      livecards.innerHTML = '<p>Loading streams...</p>';
+      livecards.innerHTML = '<p class="text-muted">Loading streams...</p>';
 
       try {
         const baseUrl = api.baseUrl || `${window.location.origin}/api`;
-        const catListUrl = baseUrl.endsWith('/') ? `${baseUrl}stream` : `${baseUrl}/stream`;
+        const catListUrl = baseUrl.endsWith('/') ? `\( {baseUrl}stream` : ` \){baseUrl}/stream`;
         const catListRes = await fetchWithRetry(catListUrl);
         const categoryNames = catListRes.categories || [];
-        const fetchPromises = categoryNames.map(cat => fetchWithRetry(`${baseUrl}/${cat}.json`).catch(() => ({ success: true, streams: [] })));
+        const fetchPromises = categoryNames.map(cat => fetchWithRetry(`\( {baseUrl}/ \){cat}.json`).catch(() => ({ success: true, streams: [] })));
         const allCategoryData = await Promise.all(fetchPromises);
 
         const combined = {
@@ -553,8 +941,8 @@
         };
 
         if (combined.streams.length === 0) {
-          livecards.innerHTML = '<p>No streams available right now.</p>';
-          liveAnimation.classList.add('d-none');
+          livecards.innerHTML = '<p class="text-muted">No streams available right now.</p>';
+          if (liveAnimation) liveAnimation.classList.add('d-none');
           return;
         }
 
@@ -605,17 +993,25 @@
             const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
             let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
 
+            // NEW CARD STRUCTURE (UI only change)
             let html = `
                 <a href="/live/${stream.uri_name}">
                   <div class="card">
-                    ${isLive ? '<span class="live-badge" style="position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; padding: 2px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; z-index: 10;">LIVE</span>' : ''}
-                    <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
+                    <div class="card-img-wrapper">
+                      ${isLive ? '<span class="live-badge">LIVE</span>' : ''}
+                      <img src="\( {poster}" class="card-img-top" alt=" \){stream.name}" loading="lazy">
+                      <div class="card-img-overlay">
+                        <h5 class="card-title text-white mb-1" style="font-size:1.05rem;">${stream.name}</h5>
+                      </div>
+                    </div>
                     <div class="card-body">
-                      <h5 class="card-title">${stream.name}</h5>
-                      <div class="card-text">
+                      <h5 class="card-title d-none d-md-block">${stream.name}</h5>
+                      <div class="card-meta">
                         <span class="event-tag">${stream.tag}</span>
                         <span class="event-timer">
-                          ${isLive ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
+                          ${isLive 
+                            ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` 
+                            : `<span class="countdown" data-start="\( {startTime}" data-uri="/live/ \){stream.uri_name}"></span>`}
                         </span>
                       </div>
                     </div>
@@ -636,10 +1032,7 @@
         });
 
         if (!hasLiveEvents) {
-          livecards.innerHTML = '<p>No live events right now. Check back later!</p>';
-          liveAnimation.classList.add('d-none');
-        } else {
-          liveAnimation.classList.remove('d-none');
+          livecards.innerHTML = '<p class="text-muted">No live events right now. Check back later!</p>';
         }
 
         const observer = new IntersectionObserver((entries) => {
@@ -647,7 +1040,7 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.card').forEach(card => observer.observe(card));
 
-      } catch (error) { livecards.innerHTML = '<p>Failed to load streams.</p>'; }
+      } catch (error) { livecards.innerHTML = '<p class="text-muted">Failed to load streams.</p>'; }
     }
 
     function initPage() {
@@ -656,12 +1049,12 @@
       const currentTheme = localStorage.getItem('theme') || 'dark';
       htmlElement.setAttribute('data-bs-theme', currentTheme);
       if (themeToggle) {
-        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon me-2"></i> Theme' : '<i class="fas fa-sun me-2"></i> Theme';
         themeToggle.addEventListener('click', () => {
           const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
           htmlElement.setAttribute('data-bs-theme', newTheme);
           localStorage.setItem('theme', newTheme);
-          themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+          themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon me-2"></i> Theme' : '<i class="fas fa-sun me-2"></i> Theme';
         });
       }
       apiInstance = typeof Api !== 'undefined' ? new Api(`${window.location.origin}/api`) : { baseUrl: window.location.origin + '/api' };
