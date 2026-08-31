@@ -6,9 +6,9 @@
   <title>FutbolX - Free PPV and More</title>
   
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#080a0f">
+  <meta name="theme-color" content="#000000">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
   <meta name="monetag" content="5b3ffb94740c374760e5ec47d558c5fa"> 
 
@@ -21,7 +21,7 @@
   <meta name="twitter:description" content="Free PPV boxing and other content available live and on-demand.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
-  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900|plus-jakarta-sans:400,600,700" rel="stylesheet">
+  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
@@ -30,34 +30,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
 
   <style>
-    :root {
-      --fx-bg: #080a0f;
-      --fx-card-bg: rgba(18, 24, 38, 0.7);
-      --fx-card-border: rgba(0, 242, 254, 0.15);
-      --fx-accent-cyan: #00f2fe;
-      --fx-accent-blue: #4facfe;
-      --fx-accent-glow: rgba(0, 242, 254, 0.35);
-      --fx-live-red: #ff3366;
-      --fx-text-main: #f0f4f8;
-      --fx-text-muted: #8a99ad;
-    }
-
-    body {
-      background-color: var(--fx-bg) !important;
-      color: var(--fx-text-main) !important;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      overflow-x: hidden;
-    }
-
-    /* --- GLASS NAVBAR --- */
-    .top-bar {
-      background: rgba(8, 10, 15, 0.85) !important;
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--fx-card-border);
-      padding: 12px 0;
-      z-index: 1000;
-    }
-
+    /* --- CUSTOM NAVBAR & CENTERED BRAND LOGO --- */
     .top-bar .container-fluid {
       position: relative;
       display: flex;
@@ -68,26 +41,27 @@
     .futbolx-brand {
       font-family: 'Kanit', sans-serif;
       font-weight: 900;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 1.5px;
       color: #ffffff;
       display: inline-flex;
       align-items: center;
       user-select: none;
       text-decoration: none;
+      
+      /* Center alignment */
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
       cursor: pointer;
-      text-shadow: 0 0 12px rgba(0, 242, 254, 0.3);
     }
 
     .futbolx-brand .ball-o {
-      color: var(--fx-accent-cyan);
-      font-size: 1.1rem;
-      margin: 0 2px;
-      text-shadow: 0 0 12px var(--fx-accent-cyan);
+      color: #ffc107; /* Yellow/Gold matching the original logo */
+      font-size: 1.15rem;
+      margin: 0 1px;
+      text-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
       transition: transform 0.5s ease;
       display: inline-block;
     }
@@ -96,75 +70,63 @@
       transform: rotate(180deg);
     }
 
+    /* Ball Spin Animation on Click */
     .futbolx-brand .ball-o.spinning {
       animation: ballSpin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     @keyframes ballSpin {
       0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.3); }
+      50% { transform: rotate(180deg) scale(1.2); }
       100% { transform: rotate(360deg) scale(1); }
     }
 
-    .btn-nav-toggle {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--fx-card-border);
-      color: var(--fx-text-main);
-      border-radius: 10px;
-      padding: 6px 14px;
-      transition: all 0.3s ease;
-    }
-
-    .btn-nav-toggle:hover {
-      background: var(--fx-accent-cyan);
-      color: #000;
-      box-shadow: 0 0 15px var(--fx-accent-glow);
-    }
-
-    /* --- HERO CONTAINER --- */
+    /* --- SITE STYLES --- */
     .hero-background {
-      background-image: linear-gradient(180deg, rgba(8,10,15,0.2) 0%, rgba(8,10,15,1) 100%), url('https://cdn.phototourl.com/free/2026-07-30-b4eb4fe7-50b2-4b18-8f9b-605f09574de3.png') !important;
-      background-size: cover !important;
+      background-image: url('https://cdn.phototourl.com/free/2026-07-30-b4eb4fe7-50b2-4b18-8f9b-605f09574de3.png') !important;
+      background-size: contain !important;
       background-position: center center !important;
       background-repeat: no-repeat !important;
-      min-height: 180px !important;
+      background-color: #000000 !important;
+      min-height: 220px !important;
       width: 100%;
       border-radius: 16px;
-      border: 1px solid var(--fx-card-border);
-      box-shadow: inset 0 0 40px rgba(0,0,0,0.8);
-      margin-top: 60px;
+      -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
+      mask-image: radial-gradient(circle, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
     }
 
-    /* --- DISCLAIMER & OVERLAYS --- */
+    [data-bs-theme="light"] .hero-background {
+      background-color: #000000 !important;
+    }
+
     #disclaimer-overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(4, 6, 10, 0.88);
+      background: rgba(0, 0, 0, 0.8);
       z-index: 12000;
       display: none; 
       align-items: center;
       justify-content: center;
       padding: 20px;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(10px);
       transition: opacity 0.5s ease;
     }
-
     .disclaimer-content {
-      max-width: 520px;
+      max-width: 550px;
       padding: 30px;
       border-radius: 20px;
       text-align: center;
-      background: #0f141c;
-      border: 1px solid var(--fx-card-border);
-      box-shadow: 0 20px 50px rgba(0,242,254,0.1);
+      border: 1px solid rgba(255, 77, 77, 0.3);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
     }
-
-    .disclaimer-content p { font-size: 0.88rem; line-height: 1.6; margin-bottom: 20px; color: var(--fx-text-muted); }
-
+    [data-bs-theme="dark"] .disclaimer-content { background: #121212; color: #e0e0e0; }
+    [data-bs-theme="light"] .disclaimer-content { background: #ffffff; color: #212529; }
+    
+    .disclaimer-content p { font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; }
     .btn-understood {
-      background: linear-gradient(135deg, var(--fx-accent-cyan), var(--fx-accent-blue));
-      color: #000;
+      background: #ff4d4d;
+      color: white;
       border: none;
       padding: 12px 40px;
       border-radius: 50px;
@@ -173,20 +135,14 @@
       letter-spacing: 1px;
       transition: all 0.3s ease;
     }
-
-    .btn-understood:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 20px var(--fx-accent-glow);
-    }
-
+    .btn-understood:hover { background: #e63939; transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 77, 77, 0.4); }
     .site-blurred { filter: blur(8px); pointer-events: none; user-select: none; }
 
-    /* --- SPLASH SCREEN --- */
     #splash-screen {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: var(--fx-bg);
+      background: #000000;
       z-index: 11000;
       display: none; 
       flex-direction: column;
@@ -194,26 +150,35 @@
       align-items: center;
       transition: opacity 0.8s ease-out;
     }
-
     .splash-logo { 
-      width: 110px; 
-      border-radius: 20%; 
+      width: 130px; 
+      border-radius: 22%; 
       margin-bottom: 20px; 
-      box-shadow: 0 0 25px var(--fx-accent-glow);
+      filter: drop-shadow(0 0 10px rgba(255, 77, 77, 0.2));
     }
-
+    
+    .slogan-container {
+      height: 24px;
+      overflow: hidden;
+      text-align: center;
+    }
     #cycling-text {
-      color: var(--fx-accent-cyan);
-      font-weight: 700;
+      color: #ff4d4d;
+      font-weight: 600;
       font-size: 1rem;
       text-transform: uppercase;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       display: block;
       animation: textSlide 0.6s ease-out;
     }
 
+    .bouncing-loader {
+      display: flex;
+      position: absolute;
+      bottom: 10%; 
+    }
     .bouncing-loader span {
-      color: var(--fx-accent-cyan);
+      color: #ff4d4d;
       font-size: 1rem;
       font-weight: 800;
       margin: 0 3px;
@@ -230,172 +195,105 @@
     @keyframes textSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes bounceText { from { transform: translateY(0); } to { transform: translateY(-10px); } }
 
-    /* --- CATEGORY HEADERS & LAYOUT --- */
-    h2 {
-      font-family: 'Kanit', sans-serif;
-      font-size: 1.35rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    h2::before {
-      content: '';
-      display: inline-block;
-      width: 4px;
-      height: 18px;
-      background: var(--fx-accent-cyan);
-      border-radius: 2px;
-      box-shadow: 0 0 10px var(--fx-accent-cyan);
-    }
-
-    .live-animation {
-      width: 10px;
-      height: 10px;
-      background-color: var(--fx-live-red);
-      border-radius: 50%;
-      display: inline-block;
-      box-shadow: 0 0 10px var(--fx-live-red);
-      animation: pulseGlow 1.5s infinite;
-    }
-
-    @keyframes pulseGlow {
-      0% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(1.3); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-
-    /* --- MODERN HORIZONTAL CYBER-CARDS (DESKTOP & MOBILE) --- */
-    .event-grid, #livecards.event-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 1rem;
-      padding: 0.8rem 0;
-    }
-    .event-grid a { text-decoration: none; }
-
-    .card {
-      display: flex !important;
-      flex-direction: row !important;
-      height: 110px;
-      background: var(--fx-card-bg) !important;
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--fx-card-border) !important;
-      border-radius: 14px !important;
-      overflow: hidden;
-      position: relative;
-      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
+    .error-alert { max-width: 500px; margin: 20px auto; }
+    .card { opacity: 0; transform: translateY(50px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
     .card.visible { opacity: 1; transform: translateY(0); }
-
-    .card:hover {
-      transform: translateY(-4px) !important;
-      border-color: var(--fx-accent-cyan) !important;
-      box-shadow: 0 10px 25px rgba(0, 242, 254, 0.15) !important;
-    }
-
-    .card-img-top {
-      width: 130px !important;
-      height: 100% !important;
-      object-fit: cover;
-      border-radius: 0 !important;
-      border-right: 1px solid var(--fx-card-border);
-    }
-
-    .card-body {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 10px 14px !important;
-      flex-grow: 1;
-      overflow: hidden;
-      background: transparent !important;
-    }
-
-    .card-title {
-      font-size: 0.95rem !important;
-      font-weight: 700;
-      color: var(--fx-text-main) !important;
-      margin: 0 !important;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      line-height: 1.3;
-    }
-
-    .card-text {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      margin: 0 !important;
-      background: transparent !important;
-    }
-
-    .event-tag {
-      font-size: 0.72rem !important;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--fx-accent-cyan) !important;
-      background: rgba(0, 242, 254, 0.08);
-      padding: 2px 8px;
-      border-radius: 6px;
-      border: 1px solid rgba(0, 242, 254, 0.2);
-    }
-
-    .event-timer {
-      font-size: 0.78rem !important;
-      font-weight: 600;
-      color: var(--fx-text-muted) !important;
-    }
-
-    .watch-button {
-      background: linear-gradient(135deg, var(--fx-accent-cyan), var(--fx-accent-blue)) !important;
-      color: #000 !important;
-      border: none !important;
-      font-weight: 800 !important;
-      font-size: 0.72rem !important;
-      padding: 4px 14px !important;
-      border-radius: 20px !important;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      box-shadow: 0 0 10px var(--fx-accent-glow);
-      animation: none !important;
-    }
-
-    .live-badge {
-      top: 8px !important;
-      right: auto !important;
-      left: 8px !important;
-      background: var(--fx-live-red) !important;
-      color: white !important;
-      padding: 2px 7px !important;
-      border-radius: 6px !important;
-      font-size: 0.65rem !important;
-      font-weight: 800 !important;
-      letter-spacing: 0.5px;
-      box-shadow: 0 0 8px var(--fx-live-red);
-    }
-
-    /* --- FLOATING DISCORD & PWA BUTTONS --- */
-    #discordBtn { position: fixed; bottom: 20px; right: 20px; z-index: 9999; }
-    #discordBtn img { width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--fx-accent-cyan); box-shadow: 0 0 15px var(--fx-accent-glow); }
-
+    .fade-out { animation: fadeOut 0.5s ease-out forwards; }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    .watch-button { animation: pulse 1s infinite; }
+    @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
+    .event-grid, #livecards.event-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; padding: 1rem; }
+    .event-grid a { text-decoration: none; }
+    .card { width: 100%; max-width: 400px; margin: 0 auto; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; border-radius: 10px; overflow: hidden; border: 2px solid transparent; position: relative; }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); border-color: #ff4d4d; }
+    [data-bs-theme="light"] .card:hover { border-color: #e63939; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); }
+    .card-img-top { height: 220px; object-fit: cover; }
+    .card-body { padding: 1rem; }
+    .card-title { font-size: 1.3rem; margin-bottom: 0.5rem; }
+    .event-tag { font-size: 0.95rem; }
+    .watch-button { font-size: 0.95rem; padding: 0.5rem 1.2rem; }
+    #discordBtn { position: fixed; bottom: 20px; right: 20px; z-index: 9999; opacity: 0.92; transition: opacity .3s, transform .2s; }
+    #discordBtn img { width: 48px; height: 48px; border-radius: 50%; display: block; box-shadow: 0 3px 10px rgba(0,0,0,0.5); animation: glowPulse 2.5s infinite ease-in-out; }
+    @keyframes glowPulse { 0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.5); } 50% { box-shadow: 0 0 18px #5865F2, 0 3px 10px rgba(88,101,242,0.3); } }
+    
     #pwaWrapper { position: fixed; bottom: 20px; left: 20px; z-index: 9999; display: none; align-items: center; }
-    #installAppBtn { background: linear-gradient(135deg, var(--fx-accent-cyan), var(--fx-accent-blue)); color: #000; border: none; border-radius: 50px; padding: 10px 18px; font-weight: 700; box-shadow: 0 0 20px var(--fx-accent-glow); cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
-    #closePwa { background: rgba(0,0,0,0.8); color: white; border: 1px solid var(--fx-card-border); border-radius: 50%; width: 22px; height: 22px; font-size: 11px; margin-left: -8px; margin-top: -26px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    #installAppBtn { background: #ff4d4d; color: white; border: none; border-radius: 50px; padding: 10px 18px; font-weight: bold; box-shadow: 0 3px 10px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+    #closePwa { background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; margin-left: -8px; margin-top: -28px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10000; }
 
     @media (max-width: 767px) {
-      .event-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
-      .card { height: 100px; }
-      .card-img-top { width: 115px !important; }
+      .event-grid {
+        display: flex !important;
+        flex-direction: column;
+        gap: 12px !important;
+        padding: 10px !important;
+      }
+      .card {
+        display: flex !important;
+        flex-direction: row !important;
+        max-width: 100% !important;
+        height: 125px; 
+        background: var(--bs-tertiary-bg); 
+        border-radius: 8px;
+        align-items: stretch;
+        overflow: hidden;
+        border: none !important; 
+        box-shadow: none !important; 
+      }
+      .card-img-top {
+        width: 165px !important;
+        height: 100% !important;
+        object-fit: cover;
+        border-radius: 0;
+      }
+      .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 12px 15px !important;
+        flex-grow: 1;
+        overflow: hidden;
+        background: none !important; 
+      }
+      .card-title {
+        font-size: 1.05rem !important; 
+        margin: 0 0 5px 0 !important;
+        white-space: normal;
+        font-weight: 600;
+        color: var(--bs-emphasis-color); 
+      }
+      .card-text {
+        margin-top: auto !important; 
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        width: 100%;
+        color: var(--bs-body-color);
+        background: none !important; 
+      }
+      .event-tag {
+        font-size: 0.8rem !important;
+        opacity: 0.7;
+        margin-bottom: 2px;
+        color: var(--bs-body-color) !important;
+      }
+      .event-timer {
+        font-size: 0.8rem !important;
+        font-weight: 500;
+        margin-bottom: 2px;
+        color: var(--bs-body-color) !important;
+      }
+      .watch-button {
+        padding: 4px 12px !important;
+        font-size: 0.75rem !important;
+        animation: none !important;
+      }
+      .live-badge {
+        top: 8px !important;
+        right: auto !important;
+        left: 8px !important;
+        font-size: 0.65rem !important;
+        padding: 2px 8px !important;
+      }
     }
   </style>
 </head>
@@ -403,7 +301,7 @@
 
   <div id="disclaimer-overlay">
     <div class="disclaimer-content">
-      <h4 class="mb-3" style="color: var(--fx-accent-cyan); font-weight: 800; font-family: 'Kanit';">IMPORTANT NOTICE</h4>
+      <h4 class="mb-3" style="color: #ff4d4d; font-weight: 800;">IMPORTANT NOTICE</h4>
       <p>
         We DO NOT host nor transmit any audiovisual content itself and DO NOT control nor influence such content. 
         We cannot accept any liability for the content transmitted by others. Any responsibility for this content 
@@ -411,8 +309,8 @@
         the owners of streams and/or videos. All content is copyright of their respective owners.
       </p>
       <p class="small opacity-75">
-        In case of copyright issues or any other inquiry contact us at: <br>
-        <span style="color: var(--fx-accent-cyan); font-weight: bold;">futbolx@proton.me</span>
+        Incase of copyrights issue or any other inquiry contact us at: <br>
+        <span style="color: #ff4d4d; font-weight: bold;">futbolx@proton.me</span>
       </p>
       <button id="btn-understood" class="btn-understood">Understood</button>
     </div>
@@ -420,7 +318,7 @@
 
   <div id="splash-screen">
       <img src="https://cdn.phototourl.com/free/2026-07-30-b4eb4fe7-50b2-4b18-8f9b-605f09574de3.png" class="splash-logo" alt="Logo">
-      <div class="slogan-container mb-3">
+      <div class="slogan-container">
         <span id="cycling-text">Free PPV</span>
       </div>
       <div class="bouncing-loader">
@@ -429,74 +327,73 @@
   </div>
 
   <nav class="top-bar fixed-top">
-    <div class="container-fluid px-3">
-      <button class="btn btn-nav-toggle" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+    <div class="container-fluid">
+      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
         <i class="fas fa-bars"></i>
       </button>
 
+      <!-- CENTERED TEXT LOGO WITH CLICK ANIMATION -->
       <a href="/" class="futbolx-brand" id="brandLogo">
         FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
       </a>
     </div>
   </nav>
 
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel" style="background: #0d1117; color: #fff;">
-    <div class="offcanvas-header border-bottom border-secondary">
-      <h5 class="offcanvas-title text-white font-weight-bold">NAVIGATION</h5>
-      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+    <div class="offcanvas-header">
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
       <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link text-white" href="/"><i class="fas fa-house me-2"></i>Home</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="https://discord.gg/CmRcPbBB2k" target="_blank" rel="noopener"><i class="fab fa-discord me-2"></i>Discord</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="/vip"><i class="fas fa-crown me-2" style="color: var(--fx-accent-cyan);"></i>VIP</a></li>
-        <li class="nav-item dropdown mt-2">
-          <a class="nav-link dropdown-toggle text-white" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
+        <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-user-circle me-2"></i>Account
           </a>
-          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="accountDropdown">
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
             <li><a class="dropdown-item" href="/auth/login" id="menuLogin">Login</a></li>
             <li><a class="dropdown-item" href="/auth/signup" id="menuSignup">Create account</a></li>
             <li><button class="dropdown-item text-danger" id="menuLogout" style="display: none;"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li>
           </ul>
         </li>
-        <li class="nav-item mt-3">
-          <button id="themeToggle" class="btn btn-nav-toggle w-100 text-start" aria-label="Toggle theme"><i class="fas fa-moon me-2"></i> Toggle Theme</button>
+        <li class="nav-item">
+          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
         </li>
       </ul>
     </div>
   </div>
 
-  <div class="container-fluid main-content px-3 px-md-4">
+  <div class="container-fluid main-content">
     <div class="hero-background"></div>
     
-    <div class="container-fluid pt-2">
+    <div class="container pt-2">
       <div id="errorContainer" class="d-none error-alert"></div>
-      
       <div id="live" class="mt-4">
         <h2 class="m-0">Live Now <span id="liveAnimation" class="live-animation d-none"></span></h2>
-        <div id="livecards" class="event-grid py-2"><p class="text-muted small">Loading streams...</p></div>
+        <div id="livecards" class="event-grid py-3"><p>Loading streams...</p></div>
       </div>
 
-      <div id="football" class="mt-4 d-none"><h2 class="m-0">Football</h2><div id="footballcards" class="event-grid py-2"></div></div>
-      <div id="nba" class="mt-4 d-none"><h2 class="m-0">Basketball</h2><div id="nbacards" class="event-grid py-2"></div></div>
-      <div id="fights" class="mt-4 d-none"><h2 class="m-0">Fights</h2><div id="fightscards" class="event-grid py-2"></div></div>
-      <div id="wrestling" class="mt-4 d-none"><h2 class="m-0">Wrestling</h2><div id="wrestlingcards" class="event-grid py-2"></div></div>
-      <div id="darts" class="mt-4 d-none"><h2 class="m-0">Darts</h2><div id="dartscards" class="event-grid py-2"></div></div>
-      <div id="motorsports" class="mt-4 d-none"><h2 class="m-0">Motorsports</h2><div id="motorsportscards" class="event-grid py-2"></div></div>
-      <div id="nfl" class="mt-4 d-none"><h2 class="m-0">NFL</h2><div id="nflcards" class="event-grid py-2"></div></div>
-      <div id="nhl" class="mt-4 d-none"><h2 class="m-0">NHL</h2><div id="nhlcards" class="event-grid py-2"></div></div>
-      <div id="mlb" class="mt-4 d-none"><h2 class="m-0">MLB</h2><div id="mlbcards" class="event-grid py-2"></div></div>
-      <div id="icehockey" class="mt-4 d-none"><h2 class="m-0">Ice Hockey</h2><div id="icehockeycards" class="event-grid py-2"></div></div>
-      <div id="tennis" class="mt-4 d-none"><h2 class="m-0">Tennis</h2><div id="tenniscards" class="event-grid py-2"></div></div>
-      <div id="rugby" class="mt-4 d-none"><h2 class="m-0">Rugby</h2><div id="rugbycards" class="event-grid py-2"></div></div>
-      <div id="golf" class="mt-4 d-none"><h2 class="m-0">Golf</h2><div id="golfcards" class="event-grid py-2"></div></div>
-      <div id="others" class="mt-4 d-none"><h2 class="m-0">Others</h2><div id="otherscards" class="event-grid py-2"></div></div>
+      <div id="football" class="mt-5 d-none"><h2 class="m-0">Football</h2><div id="footballcards" class="event-grid py-3"></div></div>
+      <div id="nba" class="mt-5 d-none"><h2 class="m-0">Basketball</h2><div id="nbacards" class="event-grid py-3"></div></div>
+      <div id="fights" class="mt-5 d-none"><h2 class="m-0">Fights</h2><div id="fightscards" class="event-grid py-3"></div></div>
+      <div id="wrestling" class="mt-5 d-none"><h2 class="m-0">Wrestling</h2><div id="wrestlingcards" class="event-grid py-3"></div></div>
+      <div id="darts" class="mt-5 d-none"><h2 class="m-0">Darts</h2><div id="dartscards" class="event-grid py-3"></div></div>
+      <div id="motorsports" class="mt-5 d-none"><h2 class="m-0">Motorsports</h2><div id="motorsportscards" class="event-grid py-3"></div></div>
+      <div id="nfl" class="mt-5 d-none"><h2 class="m-0">NFL</h2><div id="nflcards" class="event-grid py-3"></div></div>
+      <div id="nhl" class="mt-5 d-none"><h2 class="m-0">NHL</h2><div id="nhlcards" class="event-grid py-3"></div></div>
+      <div id="mlb" class="mt-5 d-none"><h2 class="m-0">MLB</h2><div id="mlbcards" class="event-grid py-3"></div></div>
+      <div id="icehockey" class="mt-5 d-none"><h2 class="m-0">Ice Hockey</h2><div id="icehockeycards" class="event-grid py-3"></div></div>
+      <div id="tennis" class="mt-5 d-none"><h2 class="m-0">Tennis</h2><div id="tenniscards" class="event-grid py-3"></div></div>
+      <div id="rugby" class="mt-5 d-none"><h2 class="m-0">Rugby</h2><div id="rugbycards" class="event-grid py-3"></div></div>
+      <div id="golf" class="mt-5 d-none"><h2 class="m-0">Golf</h2><div id="golfcards" class="event-grid py-3"></div></div>
+      <div id="others" class="mt-5 d-none"><h2 class="m-0">Others</h2><div id="otherscards" class="event-grid py-3"></div></div>
 
-      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-4 border-top border-dark mt-5 text-muted small">
-        <p class="mb-2 mb-lg-0 text-center text-lg-start">FutbolX 2026</p>
+      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-muted">Donate / VIP Access</a></li>
+          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
         </ul>
       </footer>
     </div>
@@ -508,19 +405,20 @@
   </div>
 
   <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener" id="discordBtn">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" alt="Join Discord" width="46" height="46">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" alt="Join Discord" width="48" height="48">
   </a>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="/assets/js/api.js"></script>
 
   <script>
+    // Logo Ball Click/Tap Spin Handler
     document.addEventListener('DOMContentLoaded', () => {
       const brandLogo = document.getElementById('brandLogo');
       const logoBall = document.getElementById('logoBall');
       
       if (brandLogo && logoBall) {
-        brandLogo.addEventListener('click', () => {
+        brandLogo.addEventListener('click', (e) => {
           logoBall.classList.add('spinning');
           setTimeout(() => {
             logoBall.classList.remove('spinning');
@@ -605,7 +503,7 @@
           }
           if (element.innerHTML !== displayText) { element.innerHTML = displayText; }
         } else if (timer <= 0 && !element.innerHTML.includes('watch-button')) {
-          element.innerHTML = `<span class="btn watch-button">Watch</span>`;
+          element.innerHTML = `<span class="btn btn-danger btn-sm watch-button">Watch</span>`;
           if (cardLink) cardLink.classList.add('clickable');
           needsRefresh = true;
         }
@@ -639,7 +537,7 @@
       const liveAnimation = document.getElementById('liveAnimation');
       const livecards = document.getElementById('livecards');
       if (!livecards) return;
-      livecards.innerHTML = '<p class="text-muted small">Loading streams...</p>';
+      livecards.innerHTML = '<p>Loading streams...</p>';
 
       try {
         const baseUrl = api.baseUrl || `${window.location.origin}/api`;
@@ -655,7 +553,7 @@
         };
 
         if (combined.streams.length === 0) {
-          livecards.innerHTML = '<p class="text-muted small">No streams available right now.</p>';
+          livecards.innerHTML = '<p>No streams available right now.</p>';
           liveAnimation.classList.add('d-none');
           return;
         }
@@ -686,35 +584,18 @@
         const categoryEvents = {};
         Object.keys(categories).forEach(key => categoryEvents[key] = []);
 
-        const categoryMap = { 
-          'football': 'football', 
-          'basketball': 'nba', 
-          'nba': 'nba',
-          'fights': 'fights', 
-          'wrestling': 'wrestling', 
-          'darts': 'darts', 
-          'motorsports': 'motorsports', 
-          'nfl': 'nfl', 
-          'nhl': 'nhl', 
-          'mlb': 'mlb', 
-          'icehockey': 'icehockey', 
-          'ice-hockey': 'icehockey', 
-          'ice hockey': 'icehockey',
-          'tennis': 'tennis', 
-          'rugby': 'rugby', 
-          'golf': 'golf' 
-        };
+        const categoryMap = { 'football': 'football', 'basketball': 'nba', 'fights': 'fights', 'wrestling': 'wrestling', 'darts': 'darts', 'motorsports': 'motorsports', 'nfl': 'nfl', 'nhl': 'nhl', 'mlb': 'mlb', 'icehockey': 'icehockey', 'tennis': 'tennis', 'rugby': 'rugby', 'golf': 'golf' };
 
         combined.streams.forEach(category => {
           const normalizedName = category.category?.trim().toLowerCase() || '';
           let categoryKey = categoryMap[normalizedName] || 'others';
           category.streams.forEach(stream => {
-            const isVercelSite = window.location.hostname.includes('vercel.app') || 
-                                 window.location.hostname === 'www.futbol-x.top' || 
+            // Hide La Liga only on the Vercel domain (futbol-x.top)
+            const isVercelSite = window.location.hostname === 'www.futbol-x.top' || 
                                  window.location.hostname === 'futbol-x.top';
             const tag = (stream.tag || '').toLowerCase().replace(/\s+/g, '');
             if (isVercelSite && (tag === 'laliga' || tag.includes('laliga'))) {
-              return;
+              return; // skip this stream on Vercel
             }
 
             let startTime = new Date(stream.starts_at + '+03:00').getTime() / 1000;
@@ -727,14 +608,14 @@
             let html = `
                 <a href="/live/${stream.uri_name}">
                   <div class="card">
-                    ${isLive ? '<span class="live-badge">LIVE</span>' : ''}
+                    ${isLive ? '<span class="live-badge" style="position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; padding: 2px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; z-index: 10;">LIVE</span>' : ''}
                     <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
                     <div class="card-body">
                       <h5 class="card-title">${stream.name}</h5>
                       <div class="card-text">
                         <span class="event-tag">${stream.tag}</span>
                         <span class="event-timer">
-                          ${isLive ? `<span class="btn watch-button">Watch</span>` : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
+                          ${isLive ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
                         </span>
                       </div>
                     </div>
@@ -755,7 +636,7 @@
         });
 
         if (!hasLiveEvents) {
-          livecards.innerHTML = '<p class="text-muted small">No live events right now. Check back later!</p>';
+          livecards.innerHTML = '<p>No live events right now. Check back later!</p>';
           liveAnimation.classList.add('d-none');
         } else {
           liveAnimation.classList.remove('d-none');
@@ -766,7 +647,7 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.card').forEach(card => observer.observe(card));
 
-      } catch (error) { livecards.innerHTML = '<p class="text-muted small">Failed to load streams.</p>'; }
+      } catch (error) { livecards.innerHTML = '<p>Failed to load streams.</p>'; }
     }
 
     function initPage() {
@@ -775,12 +656,12 @@
       const currentTheme = localStorage.getItem('theme') || 'dark';
       htmlElement.setAttribute('data-bs-theme', currentTheme);
       if (themeToggle) {
-        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon me-2"></i> Dark Mode' : '<i class="fas fa-sun me-2"></i> Light Mode';
+        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
         themeToggle.addEventListener('click', () => {
           const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
           htmlElement.setAttribute('data-bs-theme', newTheme);
           localStorage.setItem('theme', newTheme);
-          themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon me-2"></i> Dark Mode' : '<i class="fas fa-sun me-2"></i> Light Mode';
+          themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
         });
       }
       apiInstance = typeof Api !== 'undefined' ? new Api(`${window.location.origin}/api`) : { baseUrl: window.location.origin + '/api' };
@@ -863,4 +744,4 @@
     });
   </script>
 </body>
-</html>
+  </html>
