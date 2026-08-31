@@ -448,7 +448,7 @@
     <div class="offcanvas-body">
       <ul class="nav flex-column">
         <li class="nav-item"><a class="nav-link text-white" href="/"><i class="fas fa-house me-2"></i>Home</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="https://discord.gg/CmRcPbBB2k"><i class="fab fa-discord me-2"></i>Discord</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="https://discord.gg/CmRcPbBB2k" target="_blank" rel="noopener"><i class="fab fa-discord me-2"></i>Discord</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="/vip"><i class="fas fa-crown me-2" style="color: var(--fx-accent-cyan);"></i>VIP</a></li>
         <li class="nav-item dropdown mt-2">
           <a class="nav-link dropdown-toggle text-white" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -515,13 +515,12 @@
   <script src="/assets/js/api.js"></script>
 
   <script>
-    // Logo Ball Click/Tap Spin Handler
     document.addEventListener('DOMContentLoaded', () => {
       const brandLogo = document.getElementById('brandLogo');
       const logoBall = document.getElementById('logoBall');
       
       if (brandLogo && logoBall) {
-        brandLogo.addEventListener('click', (e) => {
+        brandLogo.addEventListener('click', () => {
           logoBall.classList.add('spinning');
           setTimeout(() => {
             logoBall.classList.remove('spinning');
@@ -687,18 +686,35 @@
         const categoryEvents = {};
         Object.keys(categories).forEach(key => categoryEvents[key] = []);
 
-        const categoryMap = { 'football': 'football', 'basketball': 'nba', 'fights': 'fights', 'wrestling': 'wrestling', 'darts': 'darts', 'motorsports': 'motorsports', 'nfl': 'nfl', 'nhl': 'nhl', 'mlb': 'mlb', 'icehockey': 'icehockey', 'tennis': 'tennis', 'rugby': 'rugby', 'golf': 'golf' };
+        const categoryMap = { 
+          'football': 'football', 
+          'basketball': 'nba', 
+          'nba': 'nba',
+          'fights': 'fights', 
+          'wrestling': 'wrestling', 
+          'darts': 'darts', 
+          'motorsports': 'motorsports', 
+          'nfl': 'nfl', 
+          'nhl': 'nhl', 
+          'mlb': 'mlb', 
+          'icehockey': 'icehockey', 
+          'ice-hockey': 'icehockey', 
+          'ice hockey': 'icehockey',
+          'tennis': 'tennis', 
+          'rugby': 'rugby', 
+          'golf': 'golf' 
+        };
 
         combined.streams.forEach(category => {
           const normalizedName = category.category?.trim().toLowerCase() || '';
           let categoryKey = categoryMap[normalizedName] || 'others';
           category.streams.forEach(stream => {
-            // Hide La Liga only on the Vercel domain (futbol-x.top)
-            const isVercelSite = window.location.hostname === 'www.futbol-x.top' || 
+            const isVercelSite = window.location.hostname.includes('vercel.app') || 
+                                 window.location.hostname === 'www.futbol-x.top' || 
                                  window.location.hostname === 'futbol-x.top';
             const tag = (stream.tag || '').toLowerCase().replace(/\s+/g, '');
             if (isVercelSite && (tag === 'laliga' || tag.includes('laliga'))) {
-              return; // skip this stream on Vercel
+              return;
             }
 
             let startTime = new Date(stream.starts_at + '+03:00').getTime() / 1000;
