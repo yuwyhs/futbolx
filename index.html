@@ -6,7 +6,7 @@
   <title>FutbolX - Free PPV and More</title>
   
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#0a0c10">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
@@ -20,280 +20,653 @@
   <meta name="twitter:title" content="FutbolX - Free PPV and More">
   <meta name="twitter:description" content="Free PPV boxing and other content available live and on-demand.">
   <meta name="twitter:card" content="summary_large_image">
+  
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
-  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  <link href="https://fonts.bunny.net/css?family=kanit:300,400,500,600,700,800,900|space-grotesk:400,500,600,700" rel="stylesheet">
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="/assets/css/main.css?v=26">
 
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
 
   <style>
-    /* --- CUSTOM NAVBAR & CENTERED BRAND LOGO --- */
+    :root {
+      --bg-deep: #07090e;
+      --bg-card: rgba(18, 22, 32, 0.85);
+      --bg-card-hover: rgba(24, 30, 44, 0.95);
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(0, 229, 255, 0.35);
+      --text-primary: #f0f4f8;
+      --text-secondary: #94a3b8;
+      --accent: #00e5ff;
+      --accent-soft: rgba(0, 229, 255, 0.12);
+      --accent-strong: #00b8d4;
+      --live: #ff2d55;
+      --live-glow: rgba(255, 45, 85, 0.45);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+      --font-display: 'Space Grotesk', 'Kanit', system-ui, sans-serif;
+      --font-body: 'Kanit', system-ui, sans-serif;
+    }
+
+    [data-bs-theme="light"] {
+      --bg-deep: #f1f5f9;
+      --bg-card: rgba(255, 255, 255, 0.92);
+      --bg-card-hover: #ffffff;
+      --border-subtle: rgba(0, 0, 0, 0.08);
+      --border-accent: rgba(0, 180, 216, 0.4);
+      --text-primary: #0f172a;
+      --text-secondary: #64748b;
+      --accent: #0891b2;
+      --accent-soft: rgba(8, 145, 178, 0.1);
+      --live: #e11d48;
+      --live-glow: rgba(225, 29, 72, 0.3);
+      --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ========== NAVBAR ========== */
+    .top-bar {
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      height: 64px;
+      z-index: 1030;
+    }
+    [data-bs-theme="light"] .top-bar {
+      background: rgba(255, 255, 255, 0.9);
+    }
     .top-bar .container-fluid {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: flex-start;
+      height: 100%;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+    #sidebarToggler {
+      background: var(--accent-soft);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    #sidebarToggler:hover {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
     }
 
     .futbolx-brand {
-      font-family: 'Kanit', sans-serif;
-      font-weight: 900;
-      font-size: 1.4rem;
-      text-transform: uppercase;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.45rem;
       letter-spacing: 1.5px;
-      color: #ffffff;
+      color: var(--text-primary);
       display: inline-flex;
       align-items: center;
-      user-select: none;
       text-decoration: none;
-      
-      /* Center alignment */
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      cursor: pointer;
+      user-select: none;
     }
-
     .futbolx-brand .ball-o {
-      color: #ffc107; /* Yellow/Gold matching the original logo */
+      color: var(--accent);
       font-size: 1.15rem;
-      margin: 0 1px;
-      text-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
-      transition: transform 0.5s ease;
+      margin: 0 2px;
       display: inline-block;
+      transition: transform 0.5s ease;
+      filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.5));
     }
-
-    .futbolx-brand:hover .ball-o {
-      transform: rotate(180deg);
-    }
-
-    /* Ball Spin Animation on Click */
+    .futbolx-brand:hover .ball-o { transform: rotate(180deg); }
     .futbolx-brand .ball-o.spinning {
       animation: ballSpin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     }
-
     @keyframes ballSpin {
       0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.2); }
+      50% { transform: rotate(180deg) scale(1.25); }
       100% { transform: rotate(360deg) scale(1); }
     }
 
-    /* --- SITE STYLES --- */
+    /* ========== SIDEBAR ========== */
+    .offcanvas {
+      background: #0c0f16;
+      border-right: 1px solid var(--border-subtle);
+      width: min(300px, 85vw);
+    }
+    [data-bs-theme="light"] .offcanvas { background: #f8fafc; }
+    .offcanvas-header { border-bottom: 1px solid var(--border-subtle); }
+    .offcanvas .nav-link {
+      color: var(--text-secondary);
+      font-weight: 500;
+      padding: 0.85rem 1.25rem;
+      border-radius: 10px;
+      margin: 0.15rem 0.5rem;
+      transition: all 0.2s;
+    }
+    .offcanvas .nav-link:hover,
+    .offcanvas .nav-link:focus {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    /* ========== MAIN LAYOUT ========== */
+    .main-content {
+      padding-top: 72px;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    /* Hero */
     .hero-background {
       background-image: url('https://cdn.phototourl.com/free/2026-07-30-b4eb4fe7-50b2-4b18-8f9b-605f09574de3.png') !important;
-      background-size: contain !important;
+      background-size: cover !important;
       background-position: center center !important;
       background-repeat: no-repeat !important;
-      background-color: #000000 !important;
-      min-height: 220px !important;
+      background-color: #000 !important;
+      min-height: 180px;
       width: 100%;
-      border-radius: 16px;
-      -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
-      mask-image: radial-gradient(circle, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
+      border-radius: var(--radius-lg);
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+    .hero-background::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, var(--bg-deep) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    @media (min-width: 768px) {
+      .hero-background { min-height: 240px; }
+    }
+    @media (min-width: 1200px) {
+      .hero-background { min-height: 280px; }
     }
 
-    [data-bs-theme="light"] .hero-background {
-      background-color: #000000 !important;
+    /* Section headers */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      padding-left: 0.25rem;
+    }
+    .section-header h2 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+      margin: 0;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+    .live-animation {
+      width: 10px;
+      height: 10px;
+      background: var(--live);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 var(--live-glow);
+      animation: livePulse 1.6s infinite;
+    }
+    @keyframes livePulse {
+      0% { box-shadow: 0 0 0 0 var(--live-glow); }
+      70% { box-shadow: 0 0 0 12px transparent; }
+      100% { box-shadow: 0 0 0 0 transparent; }
     }
 
+    /* ========== EVENT GRID ========== */
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.35rem;
+      padding: 0.25rem 0 1.5rem;
+    }
+    .event-grid a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      height: 100%;
+    }
+
+    /* ========== CARDS ========== */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.28s ease,
+                  border-color 0.28s ease,
+                  background 0.28s ease;
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-accent);
+      background: var(--bg-card-hover);
+      box-shadow: var(--shadow-card), 0 0 0 1px var(--border-accent);
+    }
+
+    .card-img-top {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      background: #111;
+      transition: transform 0.4s ease;
+    }
+    .card:hover .card-img-top {
+      transform: scale(1.04);
+    }
+
+    .live-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--live);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      z-index: 5;
+      box-shadow: 0 2px 12px var(--live-glow);
+      text-transform: uppercase;
+    }
+
+    .card-body {
+      padding: 1rem 1.15rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      gap: 0.6rem;
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+      line-height: 1.3;
+      margin: 0;
+      color: var(--text-primary);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: auto;
+    }
+    .event-tag {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 55%;
+    }
+    .event-timer {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .countdown {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.02em;
+    }
+    .watch-button {
+      background: var(--live) !important;
+      border: none !important;
+      color: #fff !important;
+      font-weight: 700 !important;
+      font-size: 0.8rem !important;
+      padding: 0.4rem 1rem !important;
+      border-radius: 8px !important;
+      letter-spacing: 0.03em;
+      box-shadow: 0 2px 12px var(--live-glow);
+      animation: pulseWatch 1.8s infinite;
+    }
+    @keyframes pulseWatch {
+      0%, 100% { transform: scale(1); box-shadow: 0 2px 12px var(--live-glow); }
+      50% { transform: scale(1.04); box-shadow: 0 4px 18px var(--live-glow); }
+    }
+
+    /* ========== MOBILE CARDS (horizontal) ========== */
+    @media (max-width: 639px) {
+      .event-grid {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+      }
+      .card {
+        flex-direction: row;
+        height: 118px;
+        border-radius: var(--radius-md);
+      }
+      .card:hover {
+        transform: none;
+      }
+      .card-img-top {
+        width: 140px;
+        min-width: 140px;
+        height: 100%;
+        border-radius: 0;
+      }
+      .card:hover .card-img-top { transform: none; }
+      .card-body {
+        padding: 0.75rem 0.9rem;
+        justify-content: center;
+        gap: 0.35rem;
+      }
+      .card-title {
+        font-size: 0.95rem;
+        -webkit-line-clamp: 2;
+      }
+      .event-tag {
+        font-size: 0.7rem;
+        padding: 2px 8px;
+        max-width: 50%;
+      }
+      .event-timer, .countdown {
+        font-size: 0.75rem;
+      }
+      .watch-button {
+        padding: 0.3rem 0.75rem !important;
+        font-size: 0.72rem !important;
+        animation: none;
+      }
+      .live-badge {
+        top: 8px;
+        left: 8px;
+        font-size: 0.62rem;
+        padding: 2px 7px;
+      }
+    }
+
+    /* ========== TABLET+ ========== */
+    @media (min-width: 640px) and (max-width: 1023px) {
+      .event-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1.1rem;
+      }
+      .card-img-top { height: 160px; }
+    }
+
+    /* Large screens / TV */
+    @media (min-width: 1400px) {
+      .event-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.6rem;
+      }
+      .card-img-top { height: 200px; }
+      .card-title { font-size: 1.15rem; }
+      .section-header h2 { font-size: 1.75rem; }
+    }
+    @media (min-width: 1800px) {
+      .main-content { max-width: 1800px; }
+      .event-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      }
+    }
+
+    /* ========== DISCLAIMER ========== */
     #disclaimer-overlay {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
       z-index: 12000;
-      display: none; 
+      display: none;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      backdrop-filter: blur(10px);
-      transition: opacity 0.5s ease;
+      backdrop-filter: blur(12px);
+      transition: opacity 0.45s ease;
     }
     .disclaimer-content {
-      max-width: 550px;
-      padding: 30px;
+      max-width: 520px;
+      padding: 2rem 1.75rem;
       border-radius: 20px;
       text-align: center;
-      border: 1px solid rgba(255, 77, 77, 0.3);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+      background: #12161f;
+      border: 1px solid rgba(0, 229, 255, 0.15);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.55);
+      color: #e2e8f0;
     }
-    [data-bs-theme="dark"] .disclaimer-content { background: #121212; color: #e0e0e0; }
-    [data-bs-theme="light"] .disclaimer-content { background: #ffffff; color: #212529; }
-    
-    .disclaimer-content p { font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; }
+    [data-bs-theme="light"] .disclaimer-content {
+      background: #fff;
+      color: #1e293b;
+      border-color: rgba(8, 145, 178, 0.2);
+    }
+    .disclaimer-content h4 {
+      color: var(--accent);
+      font-weight: 800;
+      font-family: var(--font-display);
+      letter-spacing: -0.02em;
+    }
+    .disclaimer-content p {
+      font-size: 0.9rem;
+      line-height: 1.65;
+      margin-bottom: 1.1rem;
+      color: var(--text-secondary);
+    }
     .btn-understood {
-      background: #ff4d4d;
-      color: white;
+      background: var(--accent);
+      color: #000;
       border: none;
-      padding: 12px 40px;
+      padding: 0.75rem 2.5rem;
       border-radius: 50px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all 0.3s ease;
+      letter-spacing: 0.06em;
+      font-size: 0.85rem;
+      transition: all 0.25s ease;
     }
-    .btn-understood:hover { background: #e63939; transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 77, 77, 0.4); }
-    .site-blurred { filter: blur(8px); pointer-events: none; user-select: none; }
+    .btn-understood:hover {
+      background: #fff;
+      transform: scale(1.04);
+      box-shadow: 0 0 24px rgba(0, 229, 255, 0.4);
+    }
+    .site-blurred {
+      filter: blur(8px);
+      pointer-events: none;
+      user-select: none;
+    }
 
+    /* ========== SPLASH ========== */
     #splash-screen {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: #000000;
+      inset: 0;
+      background: #07090e;
       z-index: 11000;
-      display: none; 
+      display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       transition: opacity 0.8s ease-out;
     }
-    .splash-logo { 
-      width: 130px; 
-      border-radius: 22%; 
-      margin-bottom: 20px; 
-      filter: drop-shadow(0 0 10px rgba(255, 77, 77, 0.2));
+    .splash-logo {
+      width: 120px;
+      border-radius: 22%;
+      margin-bottom: 1.25rem;
+      filter: drop-shadow(0 0 16px rgba(0, 229, 255, 0.25));
     }
-    
     .slogan-container {
-      height: 24px;
+      height: 26px;
       overflow: hidden;
       text-align: center;
     }
     #cycling-text {
-      color: #ff4d4d;
+      color: var(--accent);
       font-weight: 600;
       font-size: 1rem;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 2.5px;
       display: block;
-      animation: textSlide 0.6s ease-out;
+      animation: textSlide 0.55s ease-out;
+      font-family: var(--font-display);
     }
-
     .bouncing-loader {
       display: flex;
       position: absolute;
-      bottom: 10%; 
+      bottom: 12%;
     }
     .bouncing-loader span {
-      color: #ff4d4d;
-      font-size: 1rem;
+      color: var(--accent);
+      font-size: 0.95rem;
       font-weight: 800;
       margin: 0 3px;
-      opacity: 0.6;
-      animation: bounceText 0.6s infinite alternate;
+      opacity: 0.55;
+      animation: bounceText 0.55s infinite alternate;
     }
-    .bouncing-loader span:nth-child(2) { animation-delay: 0.1s; }
-    .bouncing-loader span:nth-child(3) { animation-delay: 0.2s; }
-    .bouncing-loader span:nth-child(4) { animation-delay: 0.3s; }
-    .bouncing-loader span:nth-child(5) { animation-delay: 0.4s; }
-    .bouncing-loader span:nth-child(6) { animation-delay: 0.5s; }
-    .bouncing-loader span:nth-child(7) { animation-delay: 0.6s; }
+    .bouncing-loader span:nth-child(2) { animation-delay: 0.08s; }
+    .bouncing-loader span:nth-child(3) { animation-delay: 0.16s; }
+    .bouncing-loader span:nth-child(4) { animation-delay: 0.24s; }
+    .bouncing-loader span:nth-child(5) { animation-delay: 0.32s; }
+    .bouncing-loader span:nth-child(6) { animation-delay: 0.40s; }
+    .bouncing-loader span:nth-child(7) { animation-delay: 0.48s; }
+    @keyframes textSlide {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounceText {
+      from { transform: translateY(0); }
+      to { transform: translateY(-9px); }
+    }
 
-    @keyframes textSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes bounceText { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+    /* ========== FOOTER ========== */
+    footer {
+      border-top: 1px solid var(--border-subtle) !important;
+      margin-top: 3rem !important;
+      padding: 1.5rem 0 !important;
+    }
+    footer p, footer a {
+      color: var(--text-secondary) !important;
+      font-size: 0.9rem;
+    }
+    footer a:hover { color: var(--accent) !important; }
 
-    .error-alert { max-width: 500px; margin: 20px auto; }
-    .card { opacity: 0; transform: translateY(50px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-    .card.visible { opacity: 1; transform: translateY(0); }
-    .fade-out { animation: fadeOut 0.5s ease-out forwards; }
-    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-    .watch-button { animation: pulse 1s infinite; }
-    @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
-    .event-grid, #livecards.event-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; padding: 1rem; }
-    .event-grid a { text-decoration: none; }
-    .card { width: 100%; max-width: 400px; margin: 0 auto; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; border-radius: 10px; overflow: hidden; border: 2px solid transparent; position: relative; }
-    .card:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); border-color: #ff4d4d; }
-    [data-bs-theme="light"] .card:hover { border-color: #e63939; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); }
-    .card-img-top { height: 220px; object-fit: cover; }
-    .card-body { padding: 1rem; }
-    .card-title { font-size: 1.3rem; margin-bottom: 0.5rem; }
-    .event-tag { font-size: 0.95rem; }
-    .watch-button { font-size: 0.95rem; padding: 0.5rem 1.2rem; }
-    #discordBtn { position: fixed; bottom: 20px; right: 20px; z-index: 9999; opacity: 0.92; transition: opacity .3s, transform .2s; }
-    #discordBtn img { width: 48px; height: 48px; border-radius: 50%; display: block; box-shadow: 0 3px 10px rgba(0,0,0,0.5); animation: glowPulse 2.5s infinite ease-in-out; }
-    @keyframes glowPulse { 0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.5); } 50% { box-shadow: 0 0 18px #5865F2, 0 3px 10px rgba(88,101,242,0.3); } }
-    
-    #pwaWrapper { position: fixed; bottom: 20px; left: 20px; z-index: 9999; display: none; align-items: center; }
-    #installAppBtn { background: #ff4d4d; color: white; border: none; border-radius: 50px; padding: 10px 18px; font-weight: bold; box-shadow: 0 3px 10px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
-    #closePwa { background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; margin-left: -8px; margin-top: -28px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10000; }
+    /* ========== FLOATING BUTTONS ========== */
+    #discordBtn {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 9999;
+      opacity: 0.92;
+      transition: opacity 0.25s, transform 0.2s;
+    }
+    #discordBtn:hover { opacity: 1; transform: scale(1.08); }
+    #discordBtn img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: block;
+      box-shadow: 0 4px 16px rgba(88, 101, 242, 0.4);
+    }
 
-    @media (max-width: 767px) {
-      .event-grid {
-        display: flex !important;
-        flex-direction: column;
-        gap: 12px !important;
-        padding: 10px !important;
-      }
-      .card {
-        display: flex !important;
-        flex-direction: row !important;
-        max-width: 100% !important;
-        height: 125px; 
-        background: var(--bs-tertiary-bg); 
-        border-radius: 8px;
-        align-items: stretch;
-        overflow: hidden;
-        border: none !important; 
-        box-shadow: none !important; 
-      }
-      .card-img-top {
-        width: 165px !important;
-        height: 100% !important;
-        object-fit: cover;
-        border-radius: 0;
-      }
-      .card-body {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        padding: 12px 15px !important;
-        flex-grow: 1;
-        overflow: hidden;
-        background: none !important; 
-      }
-      .card-title {
-        font-size: 1.05rem !important; 
-        margin: 0 0 5px 0 !important;
-        white-space: normal;
-        font-weight: 600;
-        color: var(--bs-emphasis-color); 
-      }
-      .card-text {
-        margin-top: auto !important; 
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        width: 100%;
-        color: var(--bs-body-color);
-        background: none !important; 
-      }
-      .event-tag {
-        font-size: 0.8rem !important;
-        opacity: 0.7;
-        margin-bottom: 2px;
-        color: var(--bs-body-color) !important;
-      }
-      .event-timer {
-        font-size: 0.8rem !important;
-        font-weight: 500;
-        margin-bottom: 2px;
-        color: var(--bs-body-color) !important;
-      }
-      .watch-button {
-        padding: 4px 12px !important;
-        font-size: 0.75rem !important;
-        animation: none !important;
-      }
-      .live-badge {
-        top: 8px !important;
-        right: auto !important;
-        left: 8px !important;
-        font-size: 0.65rem !important;
-        padding: 2px 8px !important;
-      }
+    #pwaWrapper {
+      position: fixed;
+      bottom: 22px;
+      left: 22px;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      gap: 0;
+    }
+    #installAppBtn {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 50px;
+      padding: 0.7rem 1.25rem;
+      font-weight: 700;
+      font-size: 0.85rem;
+      box-shadow: 0 4px 18px rgba(0, 229, 255, 0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #closePwa {
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      font-size: 11px;
+      margin-left: -10px;
+      margin-top: -32px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+
+    /* Error */
+    .error-alert { max-width: 520px; margin: 1.5rem auto; }
+    .fade-out { animation: fadeOut 0.45s ease-out forwards; }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    /* Loading text */
+    #livecards p,
+    .event-grid p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      padding: 1.5rem 0.5rem;
+    }
+
+    /* Focus states for accessibility / TV remote */
+    a:focus-visible .card,
+    .card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
     }
   </style>
 </head>
@@ -301,7 +674,7 @@
 
   <div id="disclaimer-overlay">
     <div class="disclaimer-content">
-      <h4 class="mb-3" style="color: #ff4d4d; font-weight: 800;">IMPORTANT NOTICE</h4>
+      <h4 class="mb-3">IMPORTANT NOTICE</h4>
       <p>
         We DO NOT host nor transmit any audiovisual content itself and DO NOT control nor influence such content. 
         We cannot accept any liability for the content transmitted by others. Any responsibility for this content 
@@ -309,8 +682,8 @@
         the owners of streams and/or videos. All content is copyright of their respective owners.
       </p>
       <p class="small opacity-75">
-        Incase of copyrights issue or any other inquiry contact us at: <br>
-        <span style="color: #ff4d4d; font-weight: bold;">futbolx@proton.me</span>
+        In case of copyright issues or any other inquiry contact us at:<br>
+        <span style="color: var(--accent); font-weight: 700;">futbolx@proton.me</span>
       </p>
       <button id="btn-understood" class="btn-understood">Understood</button>
     </div>
@@ -328,11 +701,10 @@
 
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
-      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+      <button class="btn" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
         <i class="fas fa-bars"></i>
       </button>
 
-      <!-- CENTERED TEXT LOGO WITH CLICK ANIMATION -->
       <a href="/" class="futbolx-brand" id="brandLogo">
         FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
       </a>
@@ -341,7 +713,7 @@
 
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
       <ul class="nav flex-column">
@@ -368,32 +740,78 @@
   <div class="container-fluid main-content">
     <div class="hero-background"></div>
     
-    <div class="container pt-2">
+    <div class="container-fluid px-0">
       <div id="errorContainer" class="d-none error-alert"></div>
-      <div id="live" class="mt-4">
-        <h2 class="m-0">Live Now <span id="liveAnimation" class="live-animation d-none"></span></h2>
-        <div id="livecards" class="event-grid py-3"><p>Loading streams...</p></div>
+      
+      <div id="live" class="mt-3">
+        <div class="section-header">
+          <h2>Live Now</h2>
+          <span id="liveAnimation" class="live-animation d-none"></span>
+        </div>
+        <div id="livecards" class="event-grid"><p>Loading streams...</p></div>
       </div>
 
-      <div id="football" class="mt-5 d-none"><h2 class="m-0">Football</h2><div id="footballcards" class="event-grid py-3"></div></div>
-      <div id="nba" class="mt-5 d-none"><h2 class="m-0">Basketball</h2><div id="nbacards" class="event-grid py-3"></div></div>
-      <div id="fights" class="mt-5 d-none"><h2 class="m-0">Fights</h2><div id="fightscards" class="event-grid py-3"></div></div>
-      <div id="wrestling" class="mt-5 d-none"><h2 class="m-0">Wrestling</h2><div id="wrestlingcards" class="event-grid py-3"></div></div>
-      <div id="darts" class="mt-5 d-none"><h2 class="m-0">Darts</h2><div id="dartscards" class="event-grid py-3"></div></div>
-      <div id="motorsports" class="mt-5 d-none"><h2 class="m-0">Motorsports</h2><div id="motorsportscards" class="event-grid py-3"></div></div>
-      <div id="nfl" class="mt-5 d-none"><h2 class="m-0">NFL</h2><div id="nflcards" class="event-grid py-3"></div></div>
-      <div id="nhl" class="mt-5 d-none"><h2 class="m-0">NHL</h2><div id="nhlcards" class="event-grid py-3"></div></div>
-      <div id="mlb" class="mt-5 d-none"><h2 class="m-0">MLB</h2><div id="mlbcards" class="event-grid py-3"></div></div>
-      <div id="icehockey" class="mt-5 d-none"><h2 class="m-0">Ice Hockey</h2><div id="icehockeycards" class="event-grid py-3"></div></div>
-      <div id="tennis" class="mt-5 d-none"><h2 class="m-0">Tennis</h2><div id="tenniscards" class="event-grid py-3"></div></div>
-      <div id="rugby" class="mt-5 d-none"><h2 class="m-0">Rugby</h2><div id="rugbycards" class="event-grid py-3"></div></div>
-      <div id="golf" class="mt-5 d-none"><h2 class="m-0">Golf</h2><div id="golfcards" class="event-grid py-3"></div></div>
-      <div id="others" class="mt-5 d-none"><h2 class="m-0">Others</h2><div id="otherscards" class="event-grid py-3"></div></div>
+      <div id="football" class="mt-5 d-none">
+        <div class="section-header"><h2>Football</h2></div>
+        <div id="footballcards" class="event-grid"></div>
+      </div>
+      <div id="nba" class="mt-5 d-none">
+        <div class="section-header"><h2>Basketball</h2></div>
+        <div id="nbacards" class="event-grid"></div>
+      </div>
+      <div id="fights" class="mt-5 d-none">
+        <div class="section-header"><h2>Fights</h2></div>
+        <div id="fightscards" class="event-grid"></div>
+      </div>
+      <div id="wrestling" class="mt-5 d-none">
+        <div class="section-header"><h2>Wrestling</h2></div>
+        <div id="wrestlingcards" class="event-grid"></div>
+      </div>
+      <div id="darts" class="mt-5 d-none">
+        <div class="section-header"><h2>Darts</h2></div>
+        <div id="dartscards" class="event-grid"></div>
+      </div>
+      <div id="motorsports" class="mt-5 d-none">
+        <div class="section-header"><h2>Motorsports</h2></div>
+        <div id="motorsportscards" class="event-grid"></div>
+      </div>
+      <div id="nfl" class="mt-5 d-none">
+        <div class="section-header"><h2>NFL</h2></div>
+        <div id="nflcards" class="event-grid"></div>
+      </div>
+      <div id="nhl" class="mt-5 d-none">
+        <div class="section-header"><h2>NHL</h2></div>
+        <div id="nhlcards" class="event-grid"></div>
+      </div>
+      <div id="mlb" class="mt-5 d-none">
+        <div class="section-header"><h2>MLB</h2></div>
+        <div id="mlbcards" class="event-grid"></div>
+      </div>
+      <div id="icehockey" class="mt-5 d-none">
+        <div class="section-header"><h2>Ice Hockey</h2></div>
+        <div id="icehockeycards" class="event-grid"></div>
+      </div>
+      <div id="tennis" class="mt-5 d-none">
+        <div class="section-header"><h2>Tennis</h2></div>
+        <div id="tenniscards" class="event-grid"></div>
+      </div>
+      <div id="rugby" class="mt-5 d-none">
+        <div class="section-header"><h2>Rugby</h2></div>
+        <div id="rugbycards" class="event-grid"></div>
+      </div>
+      <div id="golf" class="mt-5 d-none">
+        <div class="section-header"><h2>Golf</h2></div>
+        <div id="golfcards" class="event-grid"></div>
+      </div>
+      <div id="others" class="mt-5 d-none">
+        <div class="section-header"><h2>Others</h2></div>
+        <div id="otherscards" class="event-grid"></div>
+      </div>
 
-      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
+      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-3">
+        <p class="mb-2 mb-lg-0 text-center text-lg-start">FutbolX 2026</p>
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
+          <li class="nav-item"><a href="/vip" class="nav-link px-2">Donate / VIP Access</a></li>
         </ul>
       </footer>
     </div>
@@ -405,7 +823,7 @@
   </div>
 
   <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener" id="discordBtn">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" alt="Join Discord" width="48" height="48">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" alt="Join Discord" width="50" height="50">
   </a>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
@@ -493,13 +911,13 @@
             hour: 'numeric', minute: '2-digit', hour12: true,
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
           });
-          if (days >= 7) { displayText = `${weeks}w (${localTimeString})`; } 
-          else if (days >= 1) { displayText = `${days}d (${localTimeString})`; } 
+          if (days >= 7) { displayText = `\( {weeks}w ( \){localTimeString})`; } 
+          else if (days >= 1) { displayText = `\( {days}d ( \){localTimeString})`; } 
           else {
             let hh = hours - days * 24;
             let mm = mins - hours * 60;
             let ss = secs - mins * 60;
-            displayText = `${zeropad(hh)}:${zeropad(mm)}:${zeropad(ss)}`;
+            displayText = `\( {zeropad(hh)}: \){zeropad(mm)}:${zeropad(ss)}`;
           }
           if (element.innerHTML !== displayText) { element.innerHTML = displayText; }
         } else if (timer <= 0 && !element.innerHTML.includes('watch-button')) {
@@ -541,10 +959,10 @@
 
       try {
         const baseUrl = api.baseUrl || `${window.location.origin}/api`;
-        const catListUrl = baseUrl.endsWith('/') ? `${baseUrl}stream` : `${baseUrl}/stream`;
+        const catListUrl = baseUrl.endsWith('/') ? `\( {baseUrl}stream` : ` \){baseUrl}/stream`;
         const catListRes = await fetchWithRetry(catListUrl);
         const categoryNames = catListRes.categories || [];
-        const fetchPromises = categoryNames.map(cat => fetchWithRetry(`${baseUrl}/${cat}.json`).catch(() => ({ success: true, streams: [] })));
+        const fetchPromises = categoryNames.map(cat => fetchWithRetry(`\( {baseUrl}/ \){cat}.json`).catch(() => ({ success: true, streams: [] })));
         const allCategoryData = await Promise.all(fetchPromises);
 
         const combined = {
@@ -608,14 +1026,14 @@
             let html = `
                 <a href="/live/${stream.uri_name}">
                   <div class="card">
-                    ${isLive ? '<span class="live-badge" style="position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; padding: 2px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; z-index: 10;">LIVE</span>' : ''}
-                    <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
+                    ${isLive ? '<span class="live-badge">LIVE</span>' : ''}
+                    <img src="\( {poster}" class="card-img-top" alt=" \){stream.name}" loading="lazy">
                     <div class="card-body">
                       <h5 class="card-title">${stream.name}</h5>
                       <div class="card-text">
                         <span class="event-tag">${stream.tag}</span>
                         <span class="event-timer">
-                          ${isLive ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
+                          \( {isLive ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` : `<span class="countdown" data-start=" \){startTime}" data-uri="/live/${stream.uri_name}"></span>`}
                         </span>
                       </div>
                     </div>
@@ -744,4 +1162,4 @@
     });
   </script>
 </body>
-</html>
+    </html>
