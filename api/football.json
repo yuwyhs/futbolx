@@ -109,11 +109,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://hotel.fut.ryzn.pro/bar/index.m3u8"
             },
             {
               "title": "Alt Feed 1",
-              "url": ""
+              "url": "https://hotel.fut.ryzn.pro/alt/index.m3u8"
             },
             {
               "title": "Alt Feed 2",
