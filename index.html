@@ -6,7 +6,7 @@
   <title>FutbolX - Free PPV and More</title>
   
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#0a0f0d">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
@@ -20,280 +20,665 @@
   <meta name="twitter:title" content="FutbolX - Free PPV and More">
   <meta name="twitter:description" content="Free PPV boxing and other content available live and on-demand.">
   <meta name="twitter:card" content="summary_large_image">
+
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
-  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  <link href="https://fonts.bunny.net/css?family=syne:400,500,600,700,800|dm-sans:400,500,600,700" rel="stylesheet">
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="/assets/css/main.css?v=26">
 
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
 
   <style>
-    /* --- CUSTOM NAVBAR & CENTERED BRAND LOGO --- */
-    .top-bar .container-fluid {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
+    :root {
+      --bg: #0a0f0d;
+      --bg-2: #0f1613;
+      --surface: #141c18;
+      --surface-2: #1a2420;
+      --border: rgba(255,255,255,0.06);
+      --text: #eef2f0;
+      --muted: #8b9a93;
+      --accent: #34d399;
+      --accent-dim: rgba(52,211,153,0.15);
+      --live: #f43f5e;
+      --live-dim: rgba(244,63,94,0.2);
+      --font: 'DM Sans', system-ui, sans-serif;
+      --display: 'Syne', system-ui, sans-serif;
     }
 
-    .futbolx-brand {
-      font-family: 'Kanit', sans-serif;
-      font-weight: 900;
-      font-size: 1.4rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #ffffff;
-      display: inline-flex;
-      align-items: center;
-      user-select: none;
+    [data-bs-theme="light"] {
+      --bg: #f0f4f2;
+      --bg-2: #e8eeea;
+      --surface: #ffffff;
+      --surface-2: #f7faf8;
+      --border: rgba(0,0,0,0.08);
+      --text: #0f1714;
+      --muted: #5c6b64;
+      --accent: #059669;
+      --accent-dim: rgba(5,150,105,0.12);
+      --live: #e11d48;
+      --live-dim: rgba(225,29,72,0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ========== APP SHELL ========== */
+    .app {
+      display: grid;
+      grid-template-columns: 1fr;
+      min-height: 100vh;
+    }
+
+    @media (min-width: 1024px) {
+      .app {
+        grid-template-columns: 240px 1fr;
+      }
+    }
+
+    /* ========== SIDE RAIL (desktop) / DRAWER (mobile) ========== */
+    .rail {
+      display: none;
+      background: var(--bg-2);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 1rem;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    @media (min-width: 1024px) {
+      .rail { display: flex; flex-direction: column; gap: 1.5rem; }
+    }
+
+    .rail-brand {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 1.6rem;
+      letter-spacing: -0.03em;
+      color: var(--text);
       text-decoration: none;
-      
-      /* Center alignment */
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0 0.5rem;
+    }
+    .rail-brand span {
+      color: var(--accent);
+    }
+
+    .rail-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .rail-nav a, .rail-nav button {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 0.85rem;
+      border-radius: 10px;
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .rail-nav a:hover, .rail-nav button:hover {
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    /* ========== MOBILE TOP ========== */
+    .mobile-top {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,15,13,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+    }
+    [data-bs-theme="light"] .mobile-top {
+      background: rgba(240,244,242,0.92);
+    }
+    @media (min-width: 1024px) {
+      .mobile-top { display: none; }
+    }
+    .mobile-brand {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .mobile-brand span { color: var(--accent); }
+    .mobile-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .icon-btn {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
     }
 
-    .futbolx-brand .ball-o {
-      color: #ffc107; /* Yellow/Gold matching the original logo */
-      font-size: 1.15rem;
-      margin: 0 1px;
-      text-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
-      transition: transform 0.5s ease;
-      display: inline-block;
+    /* ========== MAIN COLUMN ========== */
+    .main-col {
+      min-width: 0;
+      padding-bottom: 5rem;
     }
 
-    .futbolx-brand:hover .ball-o {
-      transform: rotate(180deg);
+    /* ========== FEATURED LIVE BAND ========== */
+    .featured {
+      padding: 1.25rem 1rem 0.5rem;
+    }
+    @media (min-width: 1024px) {
+      .featured { padding: 1.75rem 1.75rem 0.75rem; }
     }
 
-    /* Ball Spin Animation on Click */
-    .futbolx-brand .ball-o.spinning {
-      animation: ballSpin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    .featured-label {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--live);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+    }
+    .featured-label .dot {
+      width: 8px; height: 8px;
+      background: var(--live);
+      border-radius: 50%;
+      animation: livePulse 1.4s infinite;
+    }
+    @keyframes livePulse {
+      0% { box-shadow: 0 0 0 0 rgba(244,63,94,0.5); }
+      70% { box-shadow: 0 0 0 10px transparent; }
+      100% { box-shadow: 0 0 0 0 transparent; }
     }
 
-    @keyframes ballSpin {
-      0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.2); }
-      100% { transform: rotate(360deg) scale(1); }
+    #livecards {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 0.5rem;
+      scrollbar-width: none;
+    }
+    #livecards::-webkit-scrollbar { display: none; }
+
+    #livecards > a {
+      flex: 0 0 auto;
+      width: min(85vw, 340px);
+      scroll-snap-align: start;
+      text-decoration: none;
+      color: inherit;
+    }
+    @media (min-width: 768px) {
+      #livecards > a { width: 320px; }
+    }
+    @media (min-width: 1200px) {
+      #livecards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        overflow: visible;
+      }
+      #livecards > a { width: auto; }
     }
 
-    /* --- SITE STYLES --- */
-    .hero-background {
-      background-image: url('https://cdn.phototourl.com/free/2026-07-30-b4eb4fe7-50b2-4b18-8f9b-605f09574de3.png') !important;
-      background-size: contain !important;
-      background-position: center center !important;
-      background-repeat: no-repeat !important;
-      background-color: #000000 !important;
-      min-height: 220px !important;
-      width: 100%;
-      border-radius: 16px;
-      -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
-      mask-image: radial-gradient(circle, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
+    #livecards > p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 0.5rem 0;
     }
 
-    [data-bs-theme="light"] .hero-background {
-      background-color: #000000 !important;
+    /* Featured card style (live) */
+    .fx-card-live {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      aspect-ratio: 16/9;
+      transition: transform 0.2s, border-color 0.2s;
     }
-
-    #disclaimer-overlay {
-      position: fixed;
-      top: 0; left: 0;
+    .fx-card-live:hover {
+      transform: translateY(-3px);
+      border-color: var(--live);
+    }
+    .fx-card-live img {
       width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      object-fit: cover;
+      display: block;
+    }
+    .fx-card-live .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.35) 50%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1rem;
+    }
+    .fx-card-live .badge-live {
+      position: absolute;
+      top: 12px; left: 12px;
+      background: var(--live);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 4px 9px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+    .fx-card-live h3 {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 1.05rem;
+      line-height: 1.25;
+      color: #fff;
+      margin: 0 0 0.4rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .fx-card-live .meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .fx-card-live .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.75);
+      background: rgba(255,255,255,0.12);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .watch-button {
+      background: var(--live) !important;
+      color: #fff !important;
+      border: none !important;
+      font-size: 0.75rem !important;
+      font-weight: 700 !important;
+      padding: 0.35rem 0.85rem !important;
+      border-radius: 6px !important;
+    }
+
+    /* ========== CATEGORY CHIPS ========== */
+    .chips-wrap {
+      position: sticky;
+      top: 56px;
+      z-index: 90;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0.65rem 1rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .chips-wrap::-webkit-scrollbar { display: none; }
+    @media (min-width: 1024px) {
+      .chips-wrap { top: 0; padding: 0.85rem 1.75rem; }
+    }
+    .chips {
+      display: flex;
+      gap: 0.5rem;
+      width: max-content;
+    }
+    .chip {
+      flex-shrink: 0;
+      padding: 0.4rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.15s;
+      white-space: nowrap;
+    }
+    .chip:hover, .chip.active {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ========== UPCOMING SECTIONS ========== */
+    .content {
+      padding: 1rem;
+    }
+    @media (min-width: 1024px) {
+      .content { padding: 1.25rem 1.75rem; }
+    }
+
+    .cat-block {
+      margin-bottom: 2rem;
+    }
+    .cat-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 0.85rem;
+    }
+    .cat-head h2 {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    /* Upcoming: LIST layout (completely different from original grid cards) */
+    .event-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .event-grid > a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .fx-row {
+      display: grid;
+      grid-template-columns: 96px 1fr auto;
+      gap: 0.85rem;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.55rem;
+      transition: background 0.15s, border-color 0.15s;
+      min-height: 72px;
+    }
+    .fx-row:hover {
+      background: var(--surface-2);
+      border-color: var(--accent);
+    }
+
+    .fx-row .thumb {
+      width: 96px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #111;
+    }
+
+    .fx-row .info {
+      min-width: 0;
+    }
+    .fx-row .info h3 {
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin: 0 0 0.2rem;
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .fx-row .info .sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .fx-row .info .sub .event-tag {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .fx-row .right {
+      padding-right: 0.5rem;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .fx-row .countdown,
+    .fx-row .event-timer {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Wider rows on large screens → 2-column list */
+    @media (min-width: 900px) {
+      .event-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+    }
+    @media (min-width: 1400px) {
+      .event-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .fx-row {
+        grid-template-columns: 120px 1fr auto;
+      }
+      .fx-row .thumb {
+        width: 120px;
+        height: 72px;
+      }
+    }
+
+    /* ========== FOOTER ========== */
+    .site-footer {
+      margin: 2rem 1rem 0;
+      padding: 1.25rem 0;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.75rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    @media (min-width: 1024px) {
+      .site-footer { margin: 2rem 1.75rem 0; }
+    }
+    .site-footer a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .site-footer a:hover { color: var(--accent); }
+
+    /* ========== OVERLAYS (disclaimer / splash) ========== */
+    #disclaimer-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85);
       z-index: 12000;
-      display: none; 
+      display: none;
       align-items: center;
       justify-content: center;
-      padding: 20px;
-      backdrop-filter: blur(10px);
-      transition: opacity 0.5s ease;
+      padding: 1.25rem;
+      backdrop-filter: blur(12px);
+      transition: opacity 0.4s;
     }
     .disclaimer-content {
-      max-width: 550px;
-      padding: 30px;
-      border-radius: 20px;
+      max-width: 460px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem 1.5rem;
       text-align: center;
-      border: 1px solid rgba(255, 77, 77, 0.3);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
     }
-    [data-bs-theme="dark"] .disclaimer-content { background: #121212; color: #e0e0e0; }
-    [data-bs-theme="light"] .disclaimer-content { background: #ffffff; color: #212529; }
-    
-    .disclaimer-content p { font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; }
+    .disclaimer-content h4 {
+      font-family: var(--display);
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 0.85rem;
+    }
+    .disclaimer-content p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
     .btn-understood {
-      background: #ff4d4d;
-      color: white;
+      background: var(--accent);
+      color: #042f1a;
       border: none;
-      padding: 12px 40px;
-      border-radius: 50px;
+      padding: 0.7rem 2rem;
+      border-radius: 999px;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all 0.3s ease;
+      font-size: 0.85rem;
+      cursor: pointer;
     }
-    .btn-understood:hover { background: #e63939; transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 77, 77, 0.4); }
-    .site-blurred { filter: blur(8px); pointer-events: none; user-select: none; }
+    .btn-understood:hover { filter: brightness(1.1); }
+    .site-blurred {
+      filter: blur(8px);
+      pointer-events: none;
+      user-select: none;
+    }
 
     #splash-screen {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: #000000;
+      position: fixed; inset: 0;
+      background: var(--bg);
       z-index: 11000;
-      display: none; 
+      display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      transition: opacity 0.8s ease-out;
+      transition: opacity 0.7s;
     }
-    .splash-logo { 
-      width: 130px; 
-      border-radius: 22%; 
-      margin-bottom: 20px; 
-      filter: drop-shadow(0 0 10px rgba(255, 77, 77, 0.2));
+    .splash-logo {
+      width: 100px;
+      border-radius: 20%;
+      margin-bottom: 1rem;
     }
-    
-    .slogan-container {
-      height: 24px;
-      overflow: hidden;
-      text-align: center;
-    }
+    .slogan-container { height: 24px; overflow: hidden; }
     #cycling-text {
-      color: #ff4d4d;
+      color: var(--accent);
       font-weight: 600;
-      font-size: 1rem;
-      text-transform: uppercase;
+      font-size: 0.9rem;
       letter-spacing: 2px;
-      display: block;
-      animation: textSlide 0.6s ease-out;
+      text-transform: uppercase;
     }
-
     .bouncing-loader {
       display: flex;
       position: absolute;
-      bottom: 10%; 
+      bottom: 12%;
+      gap: 3px;
     }
     .bouncing-loader span {
-      color: #ff4d4d;
-      font-size: 1rem;
+      color: var(--accent);
       font-weight: 800;
-      margin: 0 3px;
-      opacity: 0.6;
-      animation: bounceText 0.6s infinite alternate;
+      font-size: 0.85rem;
+      opacity: 0.5;
+      animation: bounce 0.5s infinite alternate;
     }
-    .bouncing-loader span:nth-child(2) { animation-delay: 0.1s; }
-    .bouncing-loader span:nth-child(3) { animation-delay: 0.2s; }
-    .bouncing-loader span:nth-child(4) { animation-delay: 0.3s; }
-    .bouncing-loader span:nth-child(5) { animation-delay: 0.4s; }
-    .bouncing-loader span:nth-child(6) { animation-delay: 0.5s; }
-    .bouncing-loader span:nth-child(7) { animation-delay: 0.6s; }
+    .bouncing-loader span:nth-child(2){animation-delay:.07s}
+    .bouncing-loader span:nth-child(3){animation-delay:.14s}
+    .bouncing-loader span:nth-child(4){animation-delay:.21s}
+    .bouncing-loader span:nth-child(5){animation-delay:.28s}
+    .bouncing-loader span:nth-child(6){animation-delay:.35s}
+    .bouncing-loader span:nth-child(7){animation-delay:.42s}
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-7px); }
+    }
 
-    @keyframes textSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes bounceText { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+    /* Floating */
+    #discordBtn {
+      position: fixed;
+      bottom: 18px; right: 18px;
+      z-index: 999;
+    }
+    #discordBtn img {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      box-shadow: 0 4px 14px rgba(88,101,242,0.35);
+    }
+    #pwaWrapper {
+      position: fixed;
+      bottom: 18px; left: 18px;
+      z-index: 999;
+      display: none;
+      align-items: center;
+    }
+    #installAppBtn {
+      background: var(--accent);
+      color: #042f1a;
+      border: none;
+      border-radius: 999px;
+      padding: 0.6rem 1.1rem;
+      font-weight: 700;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    #closePwa {
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 20px; height: 20px;
+      font-size: 10px;
+      margin-left: -8px;
+      margin-top: -26px;
+      cursor: pointer;
+    }
 
-    .error-alert { max-width: 500px; margin: 20px auto; }
-    .card { opacity: 0; transform: translateY(50px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-    .card.visible { opacity: 1; transform: translateY(0); }
-    .fade-out { animation: fadeOut 0.5s ease-out forwards; }
-    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-    .watch-button { animation: pulse 1s infinite; }
-    @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
-    .event-grid, #livecards.event-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; padding: 1rem; }
-    .event-grid a { text-decoration: none; }
-    .card { width: 100%; max-width: 400px; margin: 0 auto; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; border-radius: 10px; overflow: hidden; border: 2px solid transparent; position: relative; }
-    .card:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); border-color: #ff4d4d; }
-    [data-bs-theme="light"] .card:hover { border-color: #e63939; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); }
-    .card-img-top { height: 220px; object-fit: cover; }
-    .card-body { padding: 1rem; }
-    .card-title { font-size: 1.3rem; margin-bottom: 0.5rem; }
-    .event-tag { font-size: 0.95rem; }
-    .watch-button { font-size: 0.95rem; padding: 0.5rem 1.2rem; }
-    #discordBtn { position: fixed; bottom: 20px; right: 20px; z-index: 9999; opacity: 0.92; transition: opacity .3s, transform .2s; }
-    #discordBtn img { width: 48px; height: 48px; border-radius: 50%; display: block; box-shadow: 0 3px 10px rgba(0,0,0,0.5); animation: glowPulse 2.5s infinite ease-in-out; }
-    @keyframes glowPulse { 0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.5); } 50% { box-shadow: 0 0 18px #5865F2, 0 3px 10px rgba(88,101,242,0.3); } }
-    
-    #pwaWrapper { position: fixed; bottom: 20px; left: 20px; z-index: 9999; display: none; align-items: center; }
-    #installAppBtn { background: #ff4d4d; color: white; border: none; border-radius: 50px; padding: 10px 18px; font-weight: bold; box-shadow: 0 3px 10px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
-    #closePwa { background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; margin-left: -8px; margin-top: -28px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10000; }
+    .error-alert { max-width: 440px; margin: 1rem auto; }
+    .fade-out { animation: fadeOut 0.4s forwards; }
+    @keyframes fadeOut { to { opacity: 0; } }
 
-    @media (max-width: 767px) {
-      .event-grid {
-        display: flex !important;
-        flex-direction: column;
-        gap: 12px !important;
-        padding: 10px !important;
-      }
-      .card {
-        display: flex !important;
-        flex-direction: row !important;
-        max-width: 100% !important;
-        height: 125px; 
-        background: var(--bs-tertiary-bg); 
-        border-radius: 8px;
-        align-items: stretch;
-        overflow: hidden;
-        border: none !important; 
-        box-shadow: none !important; 
-      }
-      .card-img-top {
-        width: 165px !important;
-        height: 100% !important;
-        object-fit: cover;
-        border-radius: 0;
-      }
-      .card-body {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        padding: 12px 15px !important;
-        flex-grow: 1;
-        overflow: hidden;
-        background: none !important; 
-      }
-      .card-title {
-        font-size: 1.05rem !important; 
-        margin: 0 0 5px 0 !important;
-        white-space: normal;
-        font-weight: 600;
-        color: var(--bs-emphasis-color); 
-      }
-      .card-text {
-        margin-top: auto !important; 
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        width: 100%;
-        color: var(--bs-body-color);
-        background: none !important; 
-      }
-      .event-tag {
-        font-size: 0.8rem !important;
-        opacity: 0.7;
-        margin-bottom: 2px;
-        color: var(--bs-body-color) !important;
-      }
-      .event-timer {
-        font-size: 0.8rem !important;
-        font-weight: 500;
-        margin-bottom: 2px;
-        color: var(--bs-body-color) !important;
-      }
-      .watch-button {
-        padding: 4px 12px !important;
-        font-size: 0.75rem !important;
-        animation: none !important;
-      }
-      .live-badge {
-        top: 8px !important;
-        right: auto !important;
-        left: 8px !important;
-        font-size: 0.65rem !important;
-        padding: 2px 8px !important;
-      }
+    a:focus-visible .fx-card-live,
+    a:focus-visible .fx-row {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Offcanvas still used on mobile for menu */
+    .offcanvas {
+      background: var(--bg-2);
+      width: min(280px, 85vw);
+    }
+    .offcanvas .nav-link {
+      color: var(--muted);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin: 0.1rem 0.5rem;
+    }
+    .offcanvas .nav-link:hover {
+      background: var(--accent-dim);
+      color: var(--accent);
     }
   </style>
 </head>
@@ -301,101 +686,165 @@
 
   <div id="disclaimer-overlay">
     <div class="disclaimer-content">
-      <h4 class="mb-3" style="color: #ff4d4d; font-weight: 800;">IMPORTANT NOTICE</h4>
+      <h4>IMPORTANT NOTICE</h4>
       <p>
         We DO NOT host nor transmit any audiovisual content itself and DO NOT control nor influence such content. 
         We cannot accept any liability for the content transmitted by others. Any responsibility for this content 
         lies with those who host or transmit it. We are not affiliated nor claim to be affiliated with any of 
         the owners of streams and/or videos. All content is copyright of their respective owners.
       </p>
-      <p class="small opacity-75">
-        Incase of copyrights issue or any other inquiry contact us at: <br>
-        <span style="color: #ff4d4d; font-weight: bold;">futbolx@proton.me</span>
+      <p class="small" style="opacity:0.75">
+        Copyright or other inquiries:<br>
+        <strong style="color:var(--accent)">futbolx@proton.me</strong>
       </p>
       <button id="btn-understood" class="btn-understood">Understood</button>
     </div>
   </div>
 
   <div id="splash-screen">
-      <img src="https://cdn.phototourl.com/free/2026-07-30-b4eb4fe7-50b2-4b18-8f9b-605f09574de3.png" class="splash-logo" alt="Logo">
-      <div class="slogan-container">
-        <span id="cycling-text">Free PPV</span>
-      </div>
-      <div class="bouncing-loader">
-        <span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span>
-      </div>
+    <img src="https://cdn.phototourl.com/free/2026-07-30-b4eb4fe7-50b2-4b18-8f9b-605f09574de3.png" class="splash-logo" alt="Logo">
+    <div class="slogan-container">
+      <span id="cycling-text">Free PPV</span>
+    </div>
+    <div class="bouncing-loader">
+      <span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span>
+    </div>
   </div>
 
-  <nav class="top-bar fixed-top">
-    <div class="container-fluid">
-      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
-        <i class="fas fa-bars"></i>
-      </button>
+  <div class="app" id="appRoot">
+    <!-- Desktop side rail -->
+    <aside class="rail">
+      <a href="/" class="rail-brand">Futbol<span>X</span></a>
+      <nav class="rail-nav">
+        <a href="/"><i class="fas fa-home"></i> Home</a>
+        <a href="https://discord.gg/CmRcPbBB2k"><i class="fab fa-discord"></i> Discord</a>
+        <a href="/vip"><i class="fas fa-crown"></i> VIP</a>
+        <a href="/auth/login" id="menuLogin"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="/auth/signup" id="menuSignup"><i class="fas fa-user-plus"></i> Sign up</a>
+        <button id="menuLogout" style="display:none"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        <button id="themeToggle"><i class="fas fa-moon"></i> Theme</button>
+      </nav>
+    </aside>
 
-      <!-- CENTERED TEXT LOGO WITH CLICK ANIMATION -->
-      <a href="/" class="futbolx-brand" id="brandLogo">
-        FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
-      </a>
-    </div>
-  </nav>
+    <div class="main-col">
+      <!-- Mobile top bar -->
+      <header class="mobile-top">
+        <a href="/" class="mobile-brand">Futbol<span>X</span></a>
+        <div class="mobile-actions">
+          <button class="icon-btn" id="themeToggleMobile" aria-label="Theme"><i class="fas fa-moon"></i></button>
+          <button class="icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </header>
 
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
-    <div class="offcanvas-header">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-user-circle me-2"></i>Account
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-            <li><a class="dropdown-item" href="/auth/login" id="menuLogin">Login</a></li>
-            <li><a class="dropdown-item" href="/auth/signup" id="menuSignup">Create account</a></li>
-            <li><button class="dropdown-item text-danger" id="menuLogout" style="display: none;"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li>
+      <!-- Mobile offcanvas (same links) -->
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebarMenu">
+        <div class="offcanvas-header">
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
+            <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
+            <li class="nav-item"><a class="nav-link" href="/auth/login" id="menuLoginMobile">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="/auth/signup" id="menuSignupMobile">Create account</a></li>
+            <li class="nav-item"><button class="nav-link btn btn-link text-danger" id="menuLogoutMobile" style="display:none">Logout</button></li>
           </ul>
-        </li>
-        <li class="nav-item">
-          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="container-fluid main-content">
-    <div class="hero-background"></div>
-    
-    <div class="container pt-2">
-      <div id="errorContainer" class="d-none error-alert"></div>
-      <div id="live" class="mt-4">
-        <h2 class="m-0">Live Now <span id="liveAnimation" class="live-animation d-none"></span></h2>
-        <div id="livecards" class="event-grid py-3"><p>Loading streams...</p></div>
+        </div>
       </div>
 
-      <div id="football" class="mt-5 d-none"><h2 class="m-0">Football</h2><div id="footballcards" class="event-grid py-3"></div></div>
-      <div id="nba" class="mt-5 d-none"><h2 class="m-0">Basketball</h2><div id="nbacards" class="event-grid py-3"></div></div>
-      <div id="fights" class="mt-5 d-none"><h2 class="m-0">Fights</h2><div id="fightscards" class="event-grid py-3"></div></div>
-      <div id="wrestling" class="mt-5 d-none"><h2 class="m-0">Wrestling</h2><div id="wrestlingcards" class="event-grid py-3"></div></div>
-      <div id="darts" class="mt-5 d-none"><h2 class="m-0">Darts</h2><div id="dartscards" class="event-grid py-3"></div></div>
-      <div id="motorsports" class="mt-5 d-none"><h2 class="m-0">Motorsports</h2><div id="motorsportscards" class="event-grid py-3"></div></div>
-      <div id="nfl" class="mt-5 d-none"><h2 class="m-0">NFL</h2><div id="nflcards" class="event-grid py-3"></div></div>
-      <div id="nhl" class="mt-5 d-none"><h2 class="m-0">NHL</h2><div id="nhlcards" class="event-grid py-3"></div></div>
-      <div id="mlb" class="mt-5 d-none"><h2 class="m-0">MLB</h2><div id="mlbcards" class="event-grid py-3"></div></div>
-      <div id="icehockey" class="mt-5 d-none"><h2 class="m-0">Ice Hockey</h2><div id="icehockeycards" class="event-grid py-3"></div></div>
-      <div id="tennis" class="mt-5 d-none"><h2 class="m-0">Tennis</h2><div id="tenniscards" class="event-grid py-3"></div></div>
-      <div id="rugby" class="mt-5 d-none"><h2 class="m-0">Rugby</h2><div id="rugbycards" class="event-grid py-3"></div></div>
-      <div id="golf" class="mt-5 d-none"><h2 class="m-0">Golf</h2><div id="golfcards" class="event-grid py-3"></div></div>
-      <div id="others" class="mt-5 d-none"><h2 class="m-0">Others</h2><div id="otherscards" class="event-grid py-3"></div></div>
+      <!-- LIVE band (replaces old hero + live grid) -->
+      <section class="featured" id="live">
+        <div class="featured-label">
+          <span class="dot" id="liveAnimation" style="display:none"></span>
+          Live Now
+        </div>
+        <div id="livecards"><p>Loading streams...</p></div>
+      </section>
 
-      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
-        <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
-        </ul>
-      </footer>
+      <!-- Sticky category chips -->
+      <div class="chips-wrap">
+        <div class="chips" id="categoryChips">
+          <a href="#live" class="chip active">Live</a>
+          <a href="#football" class="chip">Football</a>
+          <a href="#nba" class="chip">Basketball</a>
+          <a href="#fights" class="chip">Fights</a>
+          <a href="#wrestling" class="chip">Wrestling</a>
+          <a href="#nfl" class="chip">NFL</a>
+          <a href="#nhl" class="chip">NHL</a>
+          <a href="#mlb" class="chip">MLB</a>
+          <a href="#tennis" class="chip">Tennis</a>
+          <a href="#others" class="chip">More</a>
+        </div>
+      </div>
+
+      <div class="content">
+        <div id="errorContainer" class="d-none error-alert"></div>
+
+        <section id="football" class="cat-block d-none">
+          <div class="cat-head"><h2>Football</h2></div>
+          <div id="footballcards" class="event-grid"></div>
+        </section>
+        <section id="nba" class="cat-block d-none">
+          <div class="cat-head"><h2>Basketball</h2></div>
+          <div id="nbacards" class="event-grid"></div>
+        </section>
+        <section id="fights" class="cat-block d-none">
+          <div class="cat-head"><h2>Fights</h2></div>
+          <div id="fightscards" class="event-grid"></div>
+        </section>
+        <section id="wrestling" class="cat-block d-none">
+          <div class="cat-head"><h2>Wrestling</h2></div>
+          <div id="wrestlingcards" class="event-grid"></div>
+        </section>
+        <section id="darts" class="cat-block d-none">
+          <div class="cat-head"><h2>Darts</h2></div>
+          <div id="dartscards" class="event-grid"></div>
+        </section>
+        <section id="motorsports" class="cat-block d-none">
+          <div class="cat-head"><h2>Motorsports</h2></div>
+          <div id="motorsportscards" class="event-grid"></div>
+        </section>
+        <section id="nfl" class="cat-block d-none">
+          <div class="cat-head"><h2>NFL</h2></div>
+          <div id="nflcards" class="event-grid"></div>
+        </section>
+        <section id="nhl" class="cat-block d-none">
+          <div class="cat-head"><h2>NHL</h2></div>
+          <div id="nhlcards" class="event-grid"></div>
+        </section>
+        <section id="mlb" class="cat-block d-none">
+          <div class="cat-head"><h2>MLB</h2></div>
+          <div id="mlbcards" class="event-grid"></div>
+        </section>
+        <section id="icehockey" class="cat-block d-none">
+          <div class="cat-head"><h2>Ice Hockey</h2></div>
+          <div id="icehockeycards" class="event-grid"></div>
+        </section>
+        <section id="tennis" class="cat-block d-none">
+          <div class="cat-head"><h2>Tennis</h2></div>
+          <div id="tenniscards" class="event-grid"></div>
+        </section>
+        <section id="rugby" class="cat-block d-none">
+          <div class="cat-head"><h2>Rugby</h2></div>
+          <div id="rugbycards" class="event-grid"></div>
+        </section>
+        <section id="golf" class="cat-block d-none">
+          <div class="cat-head"><h2>Golf</h2></div>
+          <div id="golfcards" class="event-grid"></div>
+        </section>
+        <section id="others" class="cat-block d-none">
+          <div class="cat-head"><h2>Others</h2></div>
+          <div id="otherscards" class="event-grid"></div>
+        </section>
+
+        <footer class="site-footer">
+          <span>FutbolX 2026</span>
+          <a href="/vip">Donate / VIP Access</a>
+        </footer>
+      </div>
     </div>
   </div>
 
@@ -405,55 +854,34 @@
   </div>
 
   <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener" id="discordBtn">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" alt="Join Discord" width="48" height="48">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" alt="Join Discord" width="46" height="46">
   </a>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="/assets/js/api.js"></script>
 
   <script>
-    // Logo Ball Click/Tap Spin Handler
-    document.addEventListener('DOMContentLoaded', () => {
-      const brandLogo = document.getElementById('brandLogo');
-      const logoBall = document.getElementById('logoBall');
-      
-      if (brandLogo && logoBall) {
-        brandLogo.addEventListener('click', (e) => {
-          logoBall.classList.add('spinning');
-          setTimeout(() => {
-            logoBall.classList.remove('spinning');
-          }, 600);
-        });
-      }
-    });
-
     (function() {
       const overlay = document.getElementById('disclaimer-overlay');
       const btn = document.getElementById('btn-understood');
-      const mainContent = document.querySelector('.main-content');
-      const navBar = document.querySelector('.top-bar');
+      const appRoot = document.getElementById('appRoot');
       const storageKey = 'futbolx_disclaimer_timestamp';
       const twentyFourHours = 24 * 60 * 60 * 1000;
 
       function initDisclaimer() {
         const lastSeen = localStorage.getItem(storageKey);
-        const now = new Date().getTime();
-
+        const now = Date.now();
         if (!lastSeen || (now - lastSeen) > twentyFourHours) {
           overlay.style.display = 'flex';
-          mainContent.classList.add('site-blurred');
-          if(navBar) navBar.classList.add('site-blurred');
+          appRoot.classList.add('site-blurred');
         }
       }
-
       btn.addEventListener('click', () => {
-        localStorage.setItem(storageKey, new Date().getTime());
+        localStorage.setItem(storageKey, Date.now());
         overlay.style.opacity = '0';
-        mainContent.classList.remove('site-blurred');
-        if(navBar) navBar.classList.remove('site-blurred');
-        setTimeout(() => overlay.style.display = 'none', 500);
+        appRoot.classList.remove('site-blurred');
+        setTimeout(() => overlay.style.display = 'none', 400);
       });
-
       initDisclaimer();
     })();
 
@@ -469,15 +897,14 @@
         setTimeout(() => {
           errorContainer.className = 'd-none error-alert';
           errorContainer.innerHTML = '';
-        }, 500);
+        }, 400);
       }
     }
 
     function countdown() {
       const now = Math.floor(Date.now() / 1000);
       let needsRefresh = false;
-      const countdownElements = document.querySelectorAll('.countdown');
-      countdownElements.forEach(element => {
+      document.querySelectorAll('.countdown').forEach(element => {
         const startTime = parseInt(element.getAttribute('data-start'), 10);
         const cardLink = element.closest('a[href]');
         let timer = startTime - now;
@@ -493,15 +920,15 @@
             hour: 'numeric', minute: '2-digit', hour12: true,
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
           });
-          if (days >= 7) { displayText = `${weeks}w (${localTimeString})`; } 
-          else if (days >= 1) { displayText = `${days}d (${localTimeString})`; } 
+          if (days >= 7) displayText = `\( {weeks}w ( \){localTimeString})`;
+          else if (days >= 1) displayText = `\( {days}d ( \){localTimeString})`;
           else {
             let hh = hours - days * 24;
             let mm = mins - hours * 60;
             let ss = secs - mins * 60;
-            displayText = `${zeropad(hh)}:${zeropad(mm)}:${zeropad(ss)}`;
+            displayText = `\( {zeropad(hh)}: \){zeropad(mm)}:${zeropad(ss)}`;
           }
-          if (element.innerHTML !== displayText) { element.innerHTML = displayText; }
+          if (element.innerHTML !== displayText) element.innerHTML = displayText;
         } else if (timer <= 0 && !element.innerHTML.includes('watch-button')) {
           element.innerHTML = `<span class="btn btn-danger btn-sm watch-button">Watch</span>`;
           if (cardLink) cardLink.classList.add('clickable');
@@ -533,7 +960,6 @@
     }
 
     async function loadContent(api) {
-      const errorContainer = document.getElementById('errorContainer');
       const liveAnimation = document.getElementById('liveAnimation');
       const livecards = document.getElementById('livecards');
       if (!livecards) return;
@@ -541,10 +967,10 @@
 
       try {
         const baseUrl = api.baseUrl || `${window.location.origin}/api`;
-        const catListUrl = baseUrl.endsWith('/') ? `${baseUrl}stream` : `${baseUrl}/stream`;
+        const catListUrl = baseUrl.endsWith('/') ? `\( {baseUrl}stream` : ` \){baseUrl}/stream`;
         const catListRes = await fetchWithRetry(catListUrl);
         const categoryNames = catListRes.categories || [];
-        const fetchPromises = categoryNames.map(cat => fetchWithRetry(`${baseUrl}/${cat}.json`).catch(() => ({ success: true, streams: [] })));
+        const fetchPromises = categoryNames.map(cat => fetchWithRetry(`\( {baseUrl}/ \){cat}.json`).catch(() => ({ success: true, streams: [] })));
         const allCategoryData = await Promise.all(fetchPromises);
 
         const combined = {
@@ -554,7 +980,7 @@
 
         if (combined.streams.length === 0) {
           livecards.innerHTML = '<p>No streams available right now.</p>';
-          liveAnimation.classList.add('d-none');
+          if (liveAnimation) liveAnimation.style.display = 'none';
           return;
         }
 
@@ -595,7 +1021,7 @@
                                  window.location.hostname === 'futbol-x.top';
             const tag = (stream.tag || '').toLowerCase().replace(/\s+/g, '');
             if (isVercelSite && (tag === 'laliga' || tag.includes('laliga'))) {
-              return; // skip this stream on Vercel
+              return;
             }
 
             let startTime = new Date(stream.starts_at + '+03:00').getTime() / 1000;
@@ -603,27 +1029,52 @@
             if (now > endTime) return;
 
             const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
-            let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=FutbolX';
+            let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/400x225?text=FutbolX';
 
-            let html = `
+            // LIVE → cinematic overlay card
+            // UPCOMING → compact list row (completely different arrangement)
+            let html;
+            if (isLive) {
+              html = `
                 <a href="/live/${stream.uri_name}">
-                  <div class="card">
-                    ${isLive ? '<span class="live-badge" style="position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; padding: 2px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; z-index: 10;">LIVE</span>' : ''}
-                    <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
-                    <div class="card-body">
-                      <h5 class="card-title">${stream.name}</h5>
-                      <div class="card-text">
-                        <span class="event-tag">${stream.tag}</span>
-                        <span class="event-timer">
-                          ${isLive ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}
-                        </span>
+                  <div class="fx-card-live">
+                    <span class="badge-live">LIVE</span>
+                    <img src="\( {poster}" alt=" \){stream.name}" loading="lazy">
+                    <div class="overlay">
+                      <h3>${stream.name}</h3>
+                      <div class="meta">
+                        <span class="tag">${stream.tag}</span>
+                        <span class="btn btn-danger btn-sm watch-button">Watch</span>
                       </div>
                     </div>
                   </div>
                 </a>`;
+            } else {
+              html = `
+                <a href="/live/${stream.uri_name}">
+                  <div class="fx-row">
+                    <img class="thumb" src="${poster}" alt="" loading="lazy">
+                    <div class="info">
+                      <h3>${stream.name}</h3>
+                      <div class="sub">
+                        <span class="event-tag">${stream.tag}</span>
+                      </div>
+                    </div>
+                    <div class="right">
+                      <span class="event-timer">
+                        <span class="countdown" data-start="\( {startTime}" data-uri="/live/ \){stream.uri_name}"></span>
+                      </span>
+                    </div>
+                  </div>
+                </a>`;
+            }
 
-            if (isLive) { livecards.innerHTML += html; hasLiveEvents = true; } 
-            else { categoryEvents[categoryKey].push({ html, startTime }); }
+            if (isLive) {
+              livecards.innerHTML += html;
+              hasLiveEvents = true;
+            } else {
+              categoryEvents[categoryKey].push({ html, startTime });
+            }
           });
         });
 
@@ -637,33 +1088,38 @@
 
         if (!hasLiveEvents) {
           livecards.innerHTML = '<p>No live events right now. Check back later!</p>';
-          liveAnimation.classList.add('d-none');
+          if (liveAnimation) liveAnimation.style.display = 'none';
         } else {
-          liveAnimation.classList.remove('d-none');
+          if (liveAnimation) liveAnimation.style.display = 'inline-block';
         }
 
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.card').forEach(card => observer.observe(card));
+      } catch (error) {
+        livecards.innerHTML = '<p>Failed to load streams.</p>';
+      }
+    }
 
-      } catch (error) { livecards.innerHTML = '<p>Failed to load streams.</p>'; }
+    function setupTheme(btn) {
+      if (!btn) return;
+      const html = document.documentElement;
+      const current = localStorage.getItem('theme') || 'dark';
+      html.setAttribute('data-bs-theme', current);
+      const icon = current === 'dark' ? 'fa-moon' : 'fa-sun';
+      btn.innerHTML = `<i class="fas ${icon}"></i>` + (btn.id === 'themeToggle' ? ' Theme' : '');
+      btn.addEventListener('click', () => {
+        const next = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-bs-theme', next);
+        localStorage.setItem('theme', next);
+        const ic = next === 'dark' ? 'fa-moon' : 'fa-sun';
+        document.querySelectorAll('#themeToggle, #themeToggleMobile').forEach(b => {
+          b.innerHTML = `<i class="fas ${ic}"></i>` + (b.id === 'themeToggle' ? ' Theme' : '');
+        });
+      });
     }
 
     function initPage() {
-      const themeToggle = document.getElementById('themeToggle');
-      const htmlElement = document.documentElement;
-      const currentTheme = localStorage.getItem('theme') || 'dark';
-      htmlElement.setAttribute('data-bs-theme', currentTheme);
-      if (themeToggle) {
-        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-        themeToggle.addEventListener('click', () => {
-          const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
-          htmlElement.setAttribute('data-bs-theme', newTheme);
-          localStorage.setItem('theme', newTheme);
-          themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-        });
-      }
+      setupTheme(document.getElementById('themeToggle'));
+      setupTheme(document.getElementById('themeToggleMobile'));
+
       apiInstance = typeof Api !== 'undefined' ? new Api(`${window.location.origin}/api`) : { baseUrl: window.location.origin + '/api' };
       loadContent(apiInstance);
       countdown();
@@ -677,17 +1133,14 @@
         splash.style.display = 'flex';
         const sloganTimer = setInterval(() => {
           sloganIdx++;
-          if(sloganIdx < slogans.length) {
-            cycle.style.animation = 'none';
-            cycle.offsetHeight; 
-            cycle.style.animation = 'textSlide 0.6s ease-out';
+          if (sloganIdx < slogans.length) {
             cycle.innerText = slogans[sloganIdx];
-          } else { clearInterval(sloganTimer); }
+          } else clearInterval(sloganTimer);
         }, 1500);
         setTimeout(() => {
           splash.style.opacity = '0';
-          setTimeout(() => splash.style.display = 'none', 800);
-        }, 6500); 
+          setTimeout(() => splash.style.display = 'none', 700);
+        }, 6500);
       }
     }
     document.addEventListener('DOMContentLoaded', initPage);
@@ -697,11 +1150,16 @@
     const firebaseConfig = { apiKey: "AIzaSyBulGl-96u38wmkAs_R9FcuQMsBTkLN6ak", authDomain: "futbolx-auth-31bc6.firebaseapp.com", projectId: "futbolx-auth-31bc6", storageBucket: "futbolx-auth-31bc6.firebasestorage.app", messagingSenderId: "262628908181", appId: "1:262628908181:web:c823d458e2e2685ab48f9c" };
     firebase.initializeApp(firebaseConfig);
     firebase.auth().onAuthStateChanged(user => {
-      document.getElementById('menuLogin').style.display = user ? 'none' : 'block';
-      document.getElementById('menuSignup').style.display = user ? 'none' : 'block';
-      document.getElementById('menuLogout').style.display = user ? 'block' : 'none';
+      const show = (id, v) => { const el = document.getElementById(id); if (el) el.style.display = v; };
+      show('menuLogin', user ? 'none' : 'flex');
+      show('menuSignup', user ? 'none' : 'flex');
+      show('menuLogout', user ? 'flex' : 'none');
+      show('menuLoginMobile', user ? 'none' : 'block');
+      show('menuSignupMobile', user ? 'none' : 'block');
+      show('menuLogoutMobile', user ? 'block' : 'none');
     });
-    document.getElementById('menuLogout')?.addEventListener('click', () => firebase.auth().signOut().then(() => window.location.href = '/'));
+    document.getElementById('menuLogout')?.addEventListener('click', () => firebase.auth().signOut().then(() => location.href = '/'));
+    document.getElementById('menuLogoutMobile')?.addEventListener('click', () => firebase.auth().signOut().then(() => location.href = '/'));
   </script>
 
   <script>
@@ -712,23 +1170,21 @@
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW Registration failed:', err));
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
       });
     }
 
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      if (!sessionStorage.getItem('pwaDismissed')) {
-        pwaWrapper.style.display = 'flex';
-      }
+      if (!sessionStorage.getItem('pwaDismissed')) pwaWrapper.style.display = 'flex';
     });
 
     installBtn.addEventListener('click', async () => {
       if (deferredPrompt) {
         pwaWrapper.style.display = 'none';
         deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
+        await deferredPrompt.userChoice;
         deferredPrompt = null;
       }
     });
