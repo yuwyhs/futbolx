@@ -64,20 +64,20 @@
           "max_simulated_viewers": 200,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Sky Sports",
+              "url": "https://hotel.fut.ryzn.pro/sky/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
-              "url": ""
+              "title": "Usa Net",
+              "url": "https://hotel.fut.ryzn.pro/usa/index.m3u8"
             },
             {
-              "title": "Alt Feed 2",
-              "url": ""
+              "title": "Bein Ar",
+              "url": "https://hotel.fut.ryzn.pro/ar/index.m3u8"
             },
             {
-              "title": "Alt Feed 3",
-              "url": ""
+              "title": "Canal Fr",
+              "url": "https://hotel.fut.ryzn.pro/fr/index.m3u8"
             }
           ]
         },
