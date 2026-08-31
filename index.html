@@ -42,11 +42,9 @@
       --accent: #34d399;
       --accent-dim: rgba(52,211,153,0.15);
       --live: #f43f5e;
-      --live-dim: rgba(244,63,94,0.2);
       --font: 'DM Sans', system-ui, sans-serif;
       --display: 'Syne', system-ui, sans-serif;
     }
-
     [data-bs-theme="light"] {
       --bg: #f0f4f2;
       --bg-2: #e8eeea;
@@ -58,9 +56,7 @@
       --accent: #059669;
       --accent-dim: rgba(5,150,105,0.12);
       --live: #e11d48;
-      --live-dim: rgba(225,29,72,0.12);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -70,21 +66,10 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-
-    /* ========== APP SHELL ========== */
-    .app {
-      display: grid;
-      grid-template-columns: 1fr;
-      min-height: 100vh;
-    }
-
+    .app { display: grid; grid-template-columns: 1fr; min-height: 100vh; }
     @media (min-width: 1024px) {
-      .app {
-        grid-template-columns: 240px 1fr;
-      }
+      .app { grid-template-columns: 240px 1fr; }
     }
-
-    /* ========== SIDE RAIL (desktop) / DRAWER (mobile) ========== */
     .rail {
       display: none;
       background: var(--bg-2);
@@ -98,7 +83,6 @@
     @media (min-width: 1024px) {
       .rail { display: flex; flex-direction: column; gap: 1.5rem; }
     }
-
     .rail-brand {
       font-family: var(--display);
       font-weight: 800;
@@ -111,15 +95,8 @@
       gap: 0.4rem;
       padding: 0 0.5rem;
     }
-    .rail-brand span {
-      color: var(--accent);
-    }
-
-    .rail-nav {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
+    .rail-brand span { color: var(--accent); }
+    .rail-nav { display: flex; flex-direction: column; gap: 0.25rem; }
     .rail-nav a, .rail-nav button {
       display: flex;
       align-items: center;
@@ -141,8 +118,6 @@
       background: var(--accent-dim);
       color: var(--accent);
     }
-
-    /* ========== MOBILE TOP ========== */
     .mobile-top {
       position: sticky;
       top: 0;
@@ -156,12 +131,8 @@
       justify-content: space-between;
       padding: 0 1rem;
     }
-    [data-bs-theme="light"] .mobile-top {
-      background: rgba(240,244,242,0.92);
-    }
-    @media (min-width: 1024px) {
-      .mobile-top { display: none; }
-    }
+    [data-bs-theme="light"] .mobile-top { background: rgba(240,244,242,0.92); }
+    @media (min-width: 1024px) { .mobile-top { display: none; } }
     .mobile-brand {
       font-family: var(--display);
       font-weight: 800;
@@ -171,10 +142,7 @@
       text-decoration: none;
     }
     .mobile-brand span { color: var(--accent); }
-    .mobile-actions {
-      display: flex;
-      gap: 0.5rem;
-    }
+    .mobile-actions { display: flex; gap: 0.5rem; }
     .icon-btn {
       width: 40px; height: 40px;
       border-radius: 10px;
@@ -186,21 +154,9 @@
       justify-content: center;
       cursor: pointer;
     }
-
-    /* ========== MAIN COLUMN ========== */
-    .main-col {
-      min-width: 0;
-      padding-bottom: 5rem;
-    }
-
-    /* ========== FEATURED LIVE BAND ========== */
-    .featured {
-      padding: 1.25rem 1rem 0.5rem;
-    }
-    @media (min-width: 1024px) {
-      .featured { padding: 1.75rem 1.75rem 0.75rem; }
-    }
-
+    .main-col { min-width: 0; padding-bottom: 5rem; }
+    .featured { padding: 1.25rem 1rem 0.5rem; }
+    @media (min-width: 1024px) { .featured { padding: 1.75rem 1.75rem 0.75rem; } }
     .featured-label {
       font-family: var(--display);
       font-weight: 700;
@@ -224,7 +180,6 @@
       70% { box-shadow: 0 0 0 10px transparent; }
       100% { box-shadow: 0 0 0 0 transparent; }
     }
-
     #livecards {
       display: flex;
       gap: 12px;
@@ -235,7 +190,6 @@
       scrollbar-width: none;
     }
     #livecards::-webkit-scrollbar { display: none; }
-
     #livecards > a {
       flex: 0 0 auto;
       width: min(85vw, 340px);
@@ -243,9 +197,7 @@
       text-decoration: none;
       color: inherit;
     }
-    @media (min-width: 768px) {
-      #livecards > a { width: 320px; }
-    }
+    @media (min-width: 768px) { #livecards > a { width: 320px; } }
     @media (min-width: 1200px) {
       #livecards {
         display: grid;
@@ -254,14 +206,7 @@
       }
       #livecards > a { width: auto; }
     }
-
-    #livecards > p {
-      color: var(--muted);
-      font-size: 0.9rem;
-      padding: 0.5rem 0;
-    }
-
-    /* Featured card style (live) */
+    #livecards > p { color: var(--muted); font-size: 0.9rem; padding: 0.5rem 0; }
     .fx-card-live {
       position: relative;
       border-radius: 14px;
@@ -271,15 +216,8 @@
       aspect-ratio: 16/9;
       transition: transform 0.2s, border-color 0.2s;
     }
-    .fx-card-live:hover {
-      transform: translateY(-3px);
-      border-color: var(--live);
-    }
-    .fx-card-live img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .fx-card-live:hover { transform: translateY(-3px); border-color: var(--live); }
+    .fx-card-live img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .fx-card-live .overlay {
       position: absolute;
       inset: 0;
@@ -336,8 +274,6 @@
       padding: 0.35rem 0.85rem !important;
       border-radius: 6px !important;
     }
-
-    /* ========== CATEGORY CHIPS ========== */
     .chips-wrap {
       position: sticky;
       top: 56px;
@@ -349,14 +285,8 @@
       scrollbar-width: none;
     }
     .chips-wrap::-webkit-scrollbar { display: none; }
-    @media (min-width: 1024px) {
-      .chips-wrap { top: 0; padding: 0.85rem 1.75rem; }
-    }
-    .chips {
-      display: flex;
-      gap: 0.5rem;
-      width: max-content;
-    }
+    @media (min-width: 1024px) { .chips-wrap { top: 0; padding: 0.85rem 1.75rem; } }
+    .chips { display: flex; gap: 0.5rem; width: max-content; }
     .chip {
       flex-shrink: 0;
       padding: 0.4rem 0.95rem;
@@ -375,18 +305,9 @@
       border-color: var(--accent);
       color: var(--accent);
     }
-
-    /* ========== UPCOMING SECTIONS ========== */
-    .content {
-      padding: 1rem;
-    }
-    @media (min-width: 1024px) {
-      .content { padding: 1.25rem 1.75rem; }
-    }
-
-    .cat-block {
-      margin-bottom: 2rem;
-    }
+    .content { padding: 1rem; }
+    @media (min-width: 1024px) { .content { padding: 1.25rem 1.75rem; } }
+    .cat-block { margin-bottom: 2rem; }
     .cat-head {
       display: flex;
       align-items: baseline;
@@ -400,19 +321,8 @@
       letter-spacing: -0.02em;
       margin: 0;
     }
-
-    /* Upcoming: LIST layout (completely different from original grid cards) */
-    .event-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .event-grid > a {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
-
+    .event-grid { display: flex; flex-direction: column; gap: 8px; }
+    .event-grid > a { text-decoration: none; color: inherit; display: block; }
     .fx-row {
       display: grid;
       grid-template-columns: 96px 1fr auto;
@@ -425,22 +335,14 @@
       transition: background 0.15s, border-color 0.15s;
       min-height: 72px;
     }
-    .fx-row:hover {
-      background: var(--surface-2);
-      border-color: var(--accent);
-    }
-
+    .fx-row:hover { background: var(--surface-2); border-color: var(--accent); }
     .fx-row .thumb {
-      width: 96px;
-      height: 60px;
+      width: 96px; height: 60px;
       border-radius: 8px;
       object-fit: cover;
       background: #111;
     }
-
-    .fx-row .info {
-      min-width: 0;
-    }
+    .fx-row .info { min-width: 0; }
     .fx-row .info h3 {
       font-size: 0.92rem;
       font-weight: 600;
@@ -457,46 +359,21 @@
       gap: 0.5rem;
       align-items: center;
     }
-    .fx-row .info .sub .event-tag {
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .fx-row .right {
-      padding-right: 0.5rem;
-      text-align: right;
-      white-space: nowrap;
-    }
-    .fx-row .countdown,
-    .fx-row .event-timer {
+    .fx-row .info .sub .event-tag { color: var(--accent); font-weight: 600; }
+    .fx-row .right { padding-right: 0.5rem; text-align: right; white-space: nowrap; }
+    .fx-row .countdown, .fx-row .event-timer {
       font-size: 0.8rem;
       font-weight: 600;
       color: var(--muted);
       font-variant-numeric: tabular-nums;
     }
-
-    /* Wider rows on large screens → 2-column list */
     @media (min-width: 900px) {
-      .event-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
+      .event-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     }
     @media (min-width: 1400px) {
-      .event-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-      .fx-row {
-        grid-template-columns: 120px 1fr auto;
-      }
-      .fx-row .thumb {
-        width: 120px;
-        height: 72px;
-      }
+      .fx-row { grid-template-columns: 120px 1fr auto; }
+      .fx-row .thumb { width: 120px; height: 72px; }
     }
-
-    /* ========== FOOTER ========== */
     .site-footer {
       margin: 2rem 1rem 0;
       padding: 1.25rem 0;
@@ -508,16 +385,9 @@
       color: var(--muted);
       font-size: 0.85rem;
     }
-    @media (min-width: 1024px) {
-      .site-footer { margin: 2rem 1.75rem 0; }
-    }
-    .site-footer a {
-      color: var(--muted);
-      text-decoration: none;
-    }
+    @media (min-width: 1024px) { .site-footer { margin: 2rem 1.75rem 0; } }
+    .site-footer a { color: var(--muted); text-decoration: none; }
     .site-footer a:hover { color: var(--accent); }
-
-    /* ========== OVERLAYS (disclaimer / splash) ========== */
     #disclaimer-overlay {
       position: fixed; inset: 0;
       background: rgba(0,0,0,0.85);
@@ -559,13 +429,7 @@
       font-size: 0.85rem;
       cursor: pointer;
     }
-    .btn-understood:hover { filter: brightness(1.1); }
-    .site-blurred {
-      filter: blur(8px);
-      pointer-events: none;
-      user-select: none;
-    }
-
+    .site-blurred { filter: blur(8px); pointer-events: none; user-select: none; }
     #splash-screen {
       position: fixed; inset: 0;
       background: var(--bg);
@@ -576,11 +440,7 @@
       align-items: center;
       transition: opacity 0.7s;
     }
-    .splash-logo {
-      width: 100px;
-      border-radius: 20%;
-      margin-bottom: 1rem;
-    }
+    .splash-logo { width: 100px; border-radius: 20%; margin-bottom: 1rem; }
     .slogan-container { height: 24px; overflow: hidden; }
     #cycling-text {
       color: var(--accent);
@@ -612,13 +472,7 @@
       from { transform: translateY(0); }
       to { transform: translateY(-7px); }
     }
-
-    /* Floating */
-    #discordBtn {
-      position: fixed;
-      bottom: 18px; right: 18px;
-      z-index: 999;
-    }
+    #discordBtn { position: fixed; bottom: 18px; right: 18px; z-index: 999; }
     #discordBtn img {
       width: 46px; height: 46px;
       border-radius: 50%;
@@ -654,22 +508,10 @@
       margin-top: -26px;
       cursor: pointer;
     }
-
-    .error-alert { max-width: 440px; margin: 1rem auto; }
+    .error-alert { max-width: 520px; margin: 1rem auto; }
     .fade-out { animation: fadeOut 0.4s forwards; }
     @keyframes fadeOut { to { opacity: 0; } }
-
-    a:focus-visible .fx-card-live,
-    a:focus-visible .fx-row {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    /* Offcanvas still used on mobile for menu */
-    .offcanvas {
-      background: var(--bg-2);
-      width: min(280px, 85vw);
-    }
+    .offcanvas { background: var(--bg-2); width: min(280px, 85vw); }
     .offcanvas .nav-link {
       color: var(--muted);
       padding: 0.75rem 1rem;
@@ -712,7 +554,6 @@
   </div>
 
   <div class="app" id="appRoot">
-    <!-- Desktop side rail -->
     <aside class="rail">
       <a href="/" class="rail-brand">Futbol<span>X</span></a>
       <nav class="rail-nav">
@@ -727,7 +568,6 @@
     </aside>
 
     <div class="main-col">
-      <!-- Mobile top bar -->
       <header class="mobile-top">
         <a href="/" class="mobile-brand">Futbol<span>X</span></a>
         <div class="mobile-actions">
@@ -738,7 +578,6 @@
         </div>
       </header>
 
-      <!-- Mobile offcanvas (same links) -->
       <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebarMenu">
         <div class="offcanvas-header">
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
@@ -755,7 +594,6 @@
         </div>
       </div>
 
-      <!-- LIVE band (replaces old hero + live grid) -->
       <section class="featured" id="live">
         <div class="featured-label">
           <span class="dot" id="liveAnimation" style="display:none"></span>
@@ -764,7 +602,6 @@
         <div id="livecards"><p>Loading streams...</p></div>
       </section>
 
-      <!-- Sticky category chips -->
       <div class="chips-wrap">
         <div class="chips" id="categoryChips">
           <a href="#live" class="chip active">Live</a>
@@ -867,7 +704,6 @@
       const appRoot = document.getElementById('appRoot');
       const storageKey = 'futbolx_disclaimer_timestamp';
       const twentyFourHours = 24 * 60 * 60 * 1000;
-
       function initDisclaimer() {
         const lastSeen = localStorage.getItem(storageKey);
         const now = Date.now();
@@ -950,10 +786,16 @@
         let attempts = 0;
         function attempt() {
           attempts++;
-          fetch(url, { signal: AbortSignal.timeout(5000) })
-            .then(res => res.ok ? res.json() : reject())
+          fetch(url, { signal: AbortSignal.timeout(8000) })
+            .then(res => {
+              if (!res.ok) throw new Error('HTTP ' + res.status + ' for ' + url);
+              return res.json();
+            })
             .then(data => { clearError(); resolve(data); })
-            .catch(error => attempts < maxRetries ? setTimeout(attempt, delay) : reject(error));
+            .catch(error => {
+              if (attempts < maxRetries) setTimeout(attempt, delay);
+              else reject(error);
+            });
         }
         attempt();
       });
@@ -966,16 +808,21 @@
       livecards.innerHTML = '<p>Loading streams...</p>';
 
       try {
-        const baseUrl = api.baseUrl || `${window.location.origin}/api`;
-        const catListUrl = baseUrl.endsWith('/') ? `\( {baseUrl}stream` : ` \){baseUrl}/stream`;
+        const baseUrl = (api && api.baseUrl) ? api.baseUrl : (window.location.origin + '/api');
+        const catListUrl = baseUrl.endsWith('/') ? (baseUrl + 'stream') : (baseUrl + '/stream');
+
         const catListRes = await fetchWithRetry(catListUrl);
         const categoryNames = catListRes.categories || [];
-        const fetchPromises = categoryNames.map(cat => fetchWithRetry(`\( {baseUrl}/ \){cat}.json`).catch(() => ({ success: true, streams: [] })));
+        const fetchPromises = categoryNames.map(cat =>
+          fetchWithRetry(baseUrl.replace(/\/?$/, '/') + cat + '.json').catch(() => ({ success: true, streams: [] }))
+        );
         const allCategoryData = await Promise.all(fetchPromises);
 
         const combined = {
           success: true,
-          streams: allCategoryData.filter(d => d && d.success && Array.isArray(d.streams)).flatMap(d => d.streams || [])
+          streams: allCategoryData
+            .filter(d => d && d.success && Array.isArray(d.streams))
+            .flatMap(d => d.streams || [])
         };
 
         if (combined.streams.length === 0) {
@@ -1010,14 +857,20 @@
         const categoryEvents = {};
         Object.keys(categories).forEach(key => categoryEvents[key] = []);
 
-        const categoryMap = { 'football': 'football', 'basketball': 'nba', 'fights': 'fights', 'wrestling': 'wrestling', 'darts': 'darts', 'motorsports': 'motorsports', 'nfl': 'nfl', 'nhl': 'nhl', 'mlb': 'mlb', 'icehockey': 'icehockey', 'tennis': 'tennis', 'rugby': 'rugby', 'golf': 'golf' };
+        const categoryMap = {
+          'football': 'football', 'basketball': 'nba', 'fights': 'fights', 'wrestling': 'wrestling',
+          'darts': 'darts', 'motorsports': 'motorsports', 'nfl': 'nfl', 'nhl': 'nhl', 'mlb': 'mlb',
+          'icehockey': 'icehockey', 'tennis': 'tennis', 'rugby': 'rugby', 'golf': 'golf'
+        };
 
         combined.streams.forEach(category => {
-          const normalizedName = category.category?.trim().toLowerCase() || '';
+          const normalizedName = (category.category || '').trim().toLowerCase();
           let categoryKey = categoryMap[normalizedName] || 'others';
-          category.streams.forEach(stream => {
+          const streamList = Array.isArray(category.streams) ? category.streams : [];
+
+          streamList.forEach(stream => {
             // Hide La Liga only on the Vercel domain (futbol-x.top)
-            const isVercelSite = window.location.hostname === 'www.futbol-x.top' || 
+            const isVercelSite = window.location.hostname === 'www.futbol-x.top' ||
                                  window.location.hostname === 'futbol-x.top';
             const tag = (stream.tag || '').toLowerCase().replace(/\s+/g, '');
             if (isVercelSite && (tag === 'laliga' || tag.includes('laliga'))) {
@@ -1025,14 +878,16 @@
             }
 
             let startTime = new Date(stream.starts_at + '+03:00').getTime() / 1000;
-            let endTime = stream.ends_at ? new Date(stream.ends_at + '+03:00').getTime() / 1000 : startTime + 10800;
+            let endTime = stream.ends_at
+              ? new Date(stream.ends_at + '+03:00').getTime() / 1000
+              : startTime + 10800;
             if (now > endTime) return;
 
             const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
-            let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/400x225?text=FutbolX';
+            let poster = stream.poster && stream.poster !== ''
+              ? stream.poster
+              : 'https://via.placeholder.com/400x225?text=FutbolX';
 
-            // LIVE → cinematic overlay card
-            // UPCOMING → compact list row (completely different arrangement)
             let html;
             if (isLive) {
               html = `
@@ -1043,7 +898,7 @@
                     <div class="overlay">
                       <h3>${stream.name}</h3>
                       <div class="meta">
-                        <span class="tag">${stream.tag}</span>
+                        <span class="tag">${stream.tag || ''}</span>
                         <span class="btn btn-danger btn-sm watch-button">Watch</span>
                       </div>
                     </div>
@@ -1057,7 +912,7 @@
                     <div class="info">
                       <h3>${stream.name}</h3>
                       <div class="sub">
-                        <span class="event-tag">${stream.tag}</span>
+                        <span class="event-tag">${stream.tag || ''}</span>
                       </div>
                     </div>
                     <div class="right">
@@ -1094,7 +949,9 @@
         }
 
       } catch (error) {
-        livecards.innerHTML = '<p>Failed to load streams.</p>';
+        console.error('loadContent error:', error);
+        const msg = (error && error.message) ? error.message : 'Unknown error';
+        livecards.innerHTML = '<p>Failed to load streams. <small style="opacity:0.7">' + msg + '</small></p>';
       }
     }
 
@@ -1103,16 +960,22 @@
       const html = document.documentElement;
       const current = localStorage.getItem('theme') || 'dark';
       html.setAttribute('data-bs-theme', current);
-      const icon = current === 'dark' ? 'fa-moon' : 'fa-sun';
-      btn.innerHTML = `<i class="fas ${icon}"></i>` + (btn.id === 'themeToggle' ? ' Theme' : '');
+      const syncIcons = () => {
+        const next = html.getAttribute('data-bs-theme');
+        const ic = next === 'dark' ? 'fa-moon' : 'fa-sun';
+        document.querySelectorAll('#themeToggle, #themeToggleMobile').forEach(b => {
+          if (!b) return;
+          b.innerHTML = b.id === 'themeToggle'
+            ? '<i class="fas ' + ic + '"></i> Theme'
+            : '<i class="fas ' + ic + '"></i>';
+        });
+      };
+      syncIcons();
       btn.addEventListener('click', () => {
         const next = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
         html.setAttribute('data-bs-theme', next);
         localStorage.setItem('theme', next);
-        const ic = next === 'dark' ? 'fa-moon' : 'fa-sun';
-        document.querySelectorAll('#themeToggle, #themeToggleMobile').forEach(b => {
-          b.innerHTML = `<i class="fas ${ic}"></i>` + (b.id === 'themeToggle' ? ' Theme' : '');
-        });
+        syncIcons();
       });
     }
 
@@ -1120,7 +983,10 @@
       setupTheme(document.getElementById('themeToggle'));
       setupTheme(document.getElementById('themeToggleMobile'));
 
-      apiInstance = typeof Api !== 'undefined' ? new Api(`${window.location.origin}/api`) : { baseUrl: window.location.origin + '/api' };
+      apiInstance = (typeof Api !== 'undefined')
+        ? new Api(window.location.origin + '/api')
+        : { baseUrl: window.location.origin + '/api' };
+
       loadContent(apiInstance);
       countdown();
 
@@ -1128,14 +994,13 @@
       if (isApp) {
         const splash = document.getElementById('splash-screen');
         const cycle = document.getElementById('cycling-text');
-        const slogans = ["Free PPV", "Sports Everywhere", "Anytime", "On the Go"];
+        const slogans = ['Free PPV', 'Sports Everywhere', 'Anytime', 'On the Go'];
         let sloganIdx = 0;
         splash.style.display = 'flex';
         const sloganTimer = setInterval(() => {
           sloganIdx++;
-          if (sloganIdx < slogans.length) {
-            cycle.innerText = slogans[sloganIdx];
-          } else clearInterval(sloganTimer);
+          if (sloganIdx < slogans.length) cycle.innerText = slogans[sloganIdx];
+          else clearInterval(sloganTimer);
         }, 1500);
         setTimeout(() => {
           splash.style.opacity = '0';
@@ -1147,7 +1012,14 @@
   </script>
 
   <script>
-    const firebaseConfig = { apiKey: "AIzaSyBulGl-96u38wmkAs_R9FcuQMsBTkLN6ak", authDomain: "futbolx-auth-31bc6.firebaseapp.com", projectId: "futbolx-auth-31bc6", storageBucket: "futbolx-auth-31bc6.firebasestorage.app", messagingSenderId: "262628908181", appId: "1:262628908181:web:c823d458e2e2685ab48f9c" };
+    const firebaseConfig = {
+      apiKey: "AIzaSyBulGl-96u38wmkAs_R9FcuQMsBTkLN6ak",
+      authDomain: "futbolx-auth-31bc6.firebaseapp.com",
+      projectId: "futbolx-auth-31bc6",
+      storageBucket: "futbolx-auth-31bc6.firebasestorage.app",
+      messagingSenderId: "262628908181",
+      appId: "1:262628908181:web:c823d458e2e2685ab48f9c"
+    };
     firebase.initializeApp(firebaseConfig);
     firebase.auth().onAuthStateChanged(user => {
       const show = (id, v) => { const el = document.getElementById(id); if (el) el.style.display = v; };
@@ -1158,8 +1030,12 @@
       show('menuSignupMobile', user ? 'none' : 'block');
       show('menuLogoutMobile', user ? 'block' : 'none');
     });
-    document.getElementById('menuLogout')?.addEventListener('click', () => firebase.auth().signOut().then(() => location.href = '/'));
-    document.getElementById('menuLogoutMobile')?.addEventListener('click', () => firebase.auth().signOut().then(() => location.href = '/'));
+    document.getElementById('menuLogout')?.addEventListener('click', () =>
+      firebase.auth().signOut().then(() => location.href = '/')
+    );
+    document.getElementById('menuLogoutMobile')?.addEventListener('click', () =>
+      firebase.auth().signOut().then(() => location.href = '/')
+    );
   </script>
 
   <script>
