@@ -1,0 +1,81 @@
+<div class="chat-wrapper-container">
+                  <div class="chat-header-area d-flex justify-content-between align-items-center">
+                      <div>
+                          <h2 id="chatEventTitle" class="chat-header-title">Live Chat</h2>
+                          <span id="typingIndicator" class="chat-typing"></span>
+                      </div>
+                      <div class="d-flex align-items-center gap-2">
+                          <div id="viewerCountWrapper" class="viewer-count d-none">
+                              <span id="onlineCount">0</span> viewers
+                          </div>
+                          <button id="openAdminDashboardBtn" class="btn btn-sm btn-outline-fx-accent d-none" data-bs-toggle="modal" data-bs-target="#adminDashboardModal">
+                              <i class="fas fa-user-shield"></i>
+                          </button>
+                      </div>
+                  </div>
+
+                  <div id="announcementContainer" class="announcement-banner d-none">
+                      <div>
+                          <i class="fas fa-bullhorn me-1"></i>
+                          <span id="announcementText"></span>
+                      </div>
+                      <button id="dismissAnnounceBtn" class="btn-close btn-close-white btn-sm ms-2 d-none" onclick="dismissAnnouncement()"></button>
+                  </div>
+
+                  <div class="chat-rules">
+                      be respectful • no spam • enjoy the streams
+                  </div>
+
+                  <div id="pinnedMessageContainer" class="pinned-message-container d-none">
+                      <i class="fas fa-thumbtack pinned-badge-icon"></i>
+                      <div id="pinnedContent" class="overflow-hidden text-truncate flex-grow-1"></div>
+                      <button id="unpinBtn" class="pinned-unpin-btn d-none" onclick="unpinMessage()" title="Unpin Message">
+                          <i class="fas fa-times"></i>
+                      </button>
+                  </div>
+
+                  <div id="futbolx-chat-messages"></div>
+
+                  <div id="replyPreview" class="reply-preview d-none">
+                      <span id="replyText">Replying...</span>
+                      <i class="fas fa-times" onclick="cancelReply()" style="cursor:pointer;"></i>
+                  </div>
+
+                  <div id="emotePickerPopover" class="emote-picker-popover d-none">
+                      <div class="emote-header">FutbolX Emotes</div>
+                      <div class="emote-grid" id="emoteGrid"></div>
+                  </div>
+
+                  <div class="chat-input-area">
+                      <div id="activeInputRow" class="active-input-row">
+                          <textarea id="chatInput" class="chat-input" rows="1" maxlength="250" placeholder="Send a message..."></textarea>
+                          <button id="emoteToggleBtn" class="emote-toggle" type="button">
+                              <i class="far fa-smile"></i>
+                          </button>
+                          <button id="sendChatBtn" class="send-chat">
+                              <i class="fas fa-paper-plane"></i>
+                          </button>
+                      </div>
+
+                      <div id="chatMetaRow" class="chat-meta">
+                          <span id="charCounter">0/250</span>
+                          <span id="slowModeNotice" class="text-warning d-none"><i class="fas fa-clock me-1"></i>Slow Mode On</span>
+                          <span>Enter to send • Shift+Enter newline</span>
+                      </div>
+
+                      <div id="mutedBanner" class="chat-status-notice d-none">
+                          You have been muted.<br>
+                          Join <a href="https://discord.gg/UzHzerb6XY" target="_blank">Discord</a> or <a href="https://t.me/+H-GY0RZpdHc3ZDdl" target="_blank">Telegram</a> to appeal.
+                      </div>
+
+                      <div id="closedBanner" class="chat-status-notice d-none" style="background:rgba(30,41,59,.6); border-top-color:#64748b; color:#cbd5e1;">
+                          <i class="fas fa-lock me-1"></i>
+                          Chat is currently closed by moderators.
+                      </div>
+
+                      <div id="usernameRegisterRow" class="username-register d-none">
+                          <input type="text" id="guestUsername" class="form-control form-control-sm mb-2" maxlength="20" placeholder="Choose username...">
+                          <button onclick="registerGuestUser()" class="btn btn-sm btn-fx-accent w-100">Register & Chat</button>
+                      </div>
+                  </div>
+              </div>
