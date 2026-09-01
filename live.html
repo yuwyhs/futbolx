@@ -21,7 +21,7 @@
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
   <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
-    /* --- THEME VARIABLES (matched to index.html) --- */
+    /* ===== THEME + GLASS UI (from index.html) ===== */
     :root {
       --fx-bg: #07080b;
       --fx-surface: #0f1118;
@@ -54,7 +54,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* --- GLASS NAVBAR (matched to index.html) --- */
+    /* Glass top bar */
     .top-bar {
       background: var(--fx-glass) !important;
       backdrop-filter: blur(16px) saturate(180%);
@@ -86,7 +86,7 @@
       transform: scale(1.03);
     }
 
-    /* --- CLEAN FUTBOL-X BRAND (matched to index.html) --- */
+    /* Brand (no glow) */
     .futbolx-brand {
       font-family: 'Kanit', sans-serif;
       font-weight: 900;
@@ -130,7 +130,7 @@
       100% { transform: rotate(360deg) scale(1); }
     }
 
-    /* --- SIDEBAR MENU (matched to index.html) --- */
+    /* Sidebar */
     .offcanvas {
       background-color: var(--fx-surface) !important;
       border-right: 1px solid var(--fx-glass-border) !important;
@@ -155,12 +155,12 @@
       transform: translateX(4px);
     }
 
-    /* Extra space under fixed navbar */
+    /* Space under fixed navbar */
     .main-content {
       padding-top: 72px;
     }
 
-    /* Existing live.html styles below (untouched) */
+    /* ===== ORIGINAL LIVE.HTML STYLES (untouched) ===== */
     .tip-container {max-width:600px;margin:20px auto;overflow:hidden;display:flex;flex-direction:column;gap:10px;}
     .alert-info {text-align:center;position:relative;padding-right:40px !important;}
     .error-alert {max-width:500px;margin:20px auto;}
@@ -644,7 +644,7 @@
     </div>
   </div>
 
-  <!-- FIXED GLASS NAVIGATION BAR (matched to index.html) -->
+  <!-- Glass top bar -->
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
       <button class="btn" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
@@ -657,21 +657,21 @@
     </div>
   </nav>
 
-  <!-- OFFCANVAS SIDEBAR (same look, original items + IDs preserved) -->
+  <!-- Sidebar (same structure + IDs as original, just styled) -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title font-weight-bold" style="font-family: 'Kanit';">NAVIGATION</h5>
+      <h5 class="offcanvas-title" style="font-family: 'Kanit'; font-weight: 700;">NAVIGATION</h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
       <ul class="nav flex-column">
         <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-house me-3"></i>Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k" target="_blank"><i class="fab fa-discord me-3"></i>Discord Community</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vip"><i class="fas fa-crown me-3" style="color: var(--fx-gold);"></i>VIP Access</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k" target="_blank"><i class="fab fa-discord me-3"></i>Discord</a></li>
+        <li class="nav-item"><a class="nav-link" href="/vip"><i class="fas fa-crown me-3" style="color: var(--fx-gold);"></i>VIP</a></li>
         <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink"><i class="fas fa-user-circle me-3"></i>Login</a></li>
-        <li class="nav-item mt-4">
+        <li class="nav-item mt-3">
           <button id="themeToggle" class="nav-link btn btn-link w-100 text-start" aria-label="Toggle theme">
-            <i class="fas fa-moon me-3"></i>Toggle Theme
+            <i class="fas fa-moon me-3"></i>Theme
           </button>
         </li>
       </ul>
@@ -945,7 +945,7 @@
     });
   </script>
 
-  <!-- SUPABASE CHAT ENGINE SCRIPT -->
+  <!-- SUPABASE CHAT ENGINE SCRIPT (100% original) -->
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -1607,7 +1607,7 @@
     window.onload = initChat;
   </script>
 
-  <!-- EXISTING PAGE CONTROLLER SCRIPT -->
+  <!-- EXISTING PAGE CONTROLLER SCRIPT (100% original) -->
   <script>
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
@@ -1643,23 +1643,13 @@
     const savedTheme = localStorage.getItem('theme') || 'dark';
     htmlEl.setAttribute('data-bs-theme', savedTheme);
 
-    // Proper theme toggle (matches index.html behaviour)
-    if (themeToggle) {
-      const updateThemeButton = (theme) => {
-        themeToggle.innerHTML = theme === 'dark'
-          ? '<i class="fas fa-moon me-3"></i>Dark Theme'
-          : '<i class="fas fa-sun me-3"></i>Light Theme';
-      };
-      updateThemeButton(savedTheme);
-
-      themeToggle.addEventListener('click', () => {
-        const current = htmlEl.getAttribute('data-bs-theme');
-        const next = current === 'dark' ? 'light' : 'dark';
-        htmlEl.setAttribute('data-bs-theme', next);
-        localStorage.setItem('theme', next);
-        updateThemeButton(next);
-      });
-    }
+    themeToggle.addEventListener('click', () => {
+      const current = htmlEl.getAttribute('data-bs-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-bs-theme', next);
+      localStorage.setItem('theme', next);
+      themeToggle.innerHTML = next === 'dark' ? '<i class="fas fa-moon me-3"></i>Theme' : '<i class="fas fa-sun me-3"></i>Theme';
+    });
 
     async function fetchWithRetry(url, maxRetries = 3, delay = 1000) {
       return new Promise((resolve, reject) => {
