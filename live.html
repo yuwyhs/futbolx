@@ -155,6 +155,11 @@
       transform: translateX(4px);
     }
 
+    /* Extra space under fixed navbar */
+    .main-content {
+      padding-top: 72px;
+    }
+
     /* Existing live.html styles below (untouched) */
     .tip-container {max-width:600px;margin:20px auto;overflow:hidden;display:flex;flex-direction:column;gap:10px;}
     .alert-info {text-align:center;position:relative;padding-right:40px !important;}
@@ -646,14 +651,13 @@
         <i class="fas fa-bars"></i>
       </button>
 
-      <!-- CENTERED BRAND LOGO -->
       <a href="/" class="futbolx-brand" id="brandLogo">
         FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
       </a>
     </div>
   </nav>
 
-  <!-- OFFCANVAS SIDEBAR (matched to index.html) -->
+  <!-- OFFCANVAS SIDEBAR (same look, original items + IDs preserved) -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title font-weight-bold" style="font-family: 'Kanit';">NAVIGATION</h5>
@@ -664,16 +668,7 @@
         <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-house me-3"></i>Home</a></li>
         <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k" target="_blank"><i class="fab fa-discord me-3"></i>Discord Community</a></li>
         <li class="nav-item"><a class="nav-link" href="/vip"><i class="fas fa-crown me-3" style="color: var(--fx-gold);"></i>VIP Access</a></li>
-        <li class="nav-item dropdown mt-2">
-          <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-user-circle me-3"></i>Account
-          </a>
-          <ul class="dropdown-menu border-0 shadow" aria-labelledby="accountDropdown">
-            <li><a class="dropdown-item" href="/auth/login" id="loginLink">Login</a></li>
-            <li><a class="dropdown-item" href="/auth/signup" id="menuSignup">Create account</a></li>
-            <li><button class="dropdown-item text-danger" id="menuLogout" style="display: none;"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li>
-          </ul>
-        </li>
+        <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink"><i class="fas fa-user-circle me-3"></i>Login</a></li>
         <li class="nav-item mt-4">
           <button id="themeToggle" class="nav-link btn btn-link w-100 text-start" aria-label="Toggle theme">
             <i class="fas fa-moon me-3"></i>Toggle Theme
@@ -1648,19 +1643,21 @@
     const savedTheme = localStorage.getItem('theme') || 'dark';
     htmlEl.setAttribute('data-bs-theme', savedTheme);
 
+    // Proper theme toggle (matches index.html behaviour)
     if (themeToggle) {
-      themeToggle.innerHTML = savedTheme === 'dark' 
-        ? '<i class="fas fa-moon me-3"></i>Dark Theme' 
-        : '<i class="fas fa-sun me-3"></i>Light Theme';
+      const updateThemeButton = (theme) => {
+        themeToggle.innerHTML = theme === 'dark'
+          ? '<i class="fas fa-moon me-3"></i>Dark Theme'
+          : '<i class="fas fa-sun me-3"></i>Light Theme';
+      };
+      updateThemeButton(savedTheme);
 
       themeToggle.addEventListener('click', () => {
         const current = htmlEl.getAttribute('data-bs-theme');
         const next = current === 'dark' ? 'light' : 'dark';
         htmlEl.setAttribute('data-bs-theme', next);
         localStorage.setItem('theme', next);
-        themeToggle.innerHTML = next === 'dark' 
-          ? '<i class="fas fa-moon me-3"></i>Dark Theme' 
-          : '<i class="fas fa-sun me-3"></i>Light Theme';
+        updateThemeButton(next);
       });
     }
 
@@ -1900,4 +1897,4 @@
     });
   </script>
 </body>
-        </html>
+  </html>
