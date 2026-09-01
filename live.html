@@ -212,9 +212,172 @@
     .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 1200px; margin-left: auto; margin-right: auto; }
     [data-bs-theme="dark"] .disclaimer { color: #aaa; background: rgba(0,0,0,0.3); border-top-color: #444; }
 
-    .stream-dropdown-container { max-width: 320px; margin-bottom: 1rem; }
-    .stream-select-custom { background: #0b1020 !important; color: #fff !important; border: 2px solid #38bdf8 !important; border-radius: 12px; padding: 10px 15px; font-weight: 600; cursor: pointer; box-shadow: 0 0 15px rgba(56, 189, 248, 0.15); }
-    .stream-select-custom:focus { box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); outline: none; }
+    /* ===== STREAM SOURCE PICKER ===== */
+    .stream-dropdown-container { max-width: 540px; margin-bottom: 1rem; }
+
+    /* Custom picker: the same popup is shown on phones, tablets, desktops and TVs. */
+    .stream-select-custom {
+      width: 100%;
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      background: #0b1020 !important;
+      color: #e7edf5 !important;
+      border: 2px solid #167da5 !important;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: none;
+      transition: border-color .18s ease, background .18s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .stream-select-custom:hover,
+    .stream-select-custom:focus-visible {
+      border-color: #2297c2 !important;
+      background: #0e1424 !important;
+      outline: none;
+    }
+
+    .stream-select-custom .stream-select-value {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .stream-select-custom .stream-select-arrow {
+      color: #7fb4c9;
+      flex: 0 0 auto;
+      transition: transform .18s ease;
+    }
+
+    .stream-select-custom.is-open .stream-select-arrow { transform: rotate(180deg); }
+
+    .stream-popup-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 11000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, .68);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+
+    .stream-popup-overlay.is-open { display: flex; }
+
+    .stream-popup {
+      width: min(460px, 100%);
+      max-height: min(620px, calc(100vh - 40px));
+      overflow: hidden;
+      background: #202126;
+      color: #f4f4f5;
+      border: 1px solid #3a3b40;
+      border-radius: 16px;
+      box-shadow: 0 18px 55px rgba(0,0,0,.65);
+      animation: streamPopupIn .16s ease-out;
+    }
+
+    @keyframes streamPopupIn {
+      from { opacity: 0; transform: translateY(8px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .stream-popup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      border-bottom: 1px solid #3a3b40;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .stream-popup-close {
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: #aeb0b7;
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+
+    .stream-popup-close:hover,
+    .stream-popup-close:focus-visible {
+      background: #303137;
+      color: #fff;
+      outline: none;
+    }
+
+    .stream-popup-options {
+      max-height: calc(100vh - 150px);
+      overflow-y: auto;
+    }
+
+    .stream-popup-option {
+      width: 100%;
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 20px;
+      border: 0;
+      border-bottom: 1px solid #393a3f;
+      background: transparent;
+      color: #f1f1f3;
+      text-align: left;
+      font: inherit;
+      cursor: pointer;
+      transition: background .15s ease;
+    }
+
+    .stream-popup-option:last-child { border-bottom: 0; }
+
+    .stream-popup-option:hover,
+    .stream-popup-option:focus-visible {
+      background: #2b2c31;
+      outline: none;
+    }
+
+    .stream-popup-radio {
+      width: 22px;
+      height: 22px;
+      border: 2px solid #8e9098;
+      border-radius: 50%;
+      flex: 0 0 22px;
+      display: grid;
+      place-items: center;
+    }
+
+    .stream-popup-option.selected .stream-popup-radio { border-color: #8fb9ff; }
+
+    .stream-popup-option.selected .stream-popup-radio::after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #8fb9ff;
+    }
+
+    @media (max-width: 600px) {
+      .stream-popup-overlay { padding: 14px; }
+      .stream-popup { width: 100%; border-radius: 14px; }
+      .stream-popup-header { padding: 16px; }
+      .stream-popup-option { padding: 14px 16px; }
+    }
+
+    @media (min-width: 1200px) {
+      .stream-popup { width: 500px; }
+    }
     
     /* CHAT STYLES - EXACTLY AS ORIGINAL */
     .chat-wrapper-container {
@@ -624,15 +787,15 @@
     /* ===== FUTBOLX CYAN ACCENT OVERRIDES ===== */
     .btn-fx-accent {
       --bs-btn-color: #07111a;
-      --bs-btn-bg: #38bdf8;
-      --bs-btn-border-color: #38bdf8;
+      --bs-btn-bg: #1683ad;
+      --bs-btn-border-color: #1683ad;
       --bs-btn-hover-color: #07111a;
-      --bs-btn-hover-bg: #7dd3fc;
-      --bs-btn-hover-border-color: #7dd3fc;
+      --bs-btn-hover-bg: #2297c2;
+      --bs-btn-hover-border-color: #2297c2;
       --bs-btn-focus-shadow-rgb: 56, 189, 248;
       --bs-btn-active-color: #07111a;
-      --bs-btn-active-bg: #0ea5e9;
-      --bs-btn-active-border-color: #0ea5e9;
+      --bs-btn-active-bg: #126b8d;
+      --bs-btn-active-border-color: #126b8d;
       font-weight: 700;
     }
 
@@ -657,15 +820,15 @@
     }
 
     .btn-back {
-      background: #38bdf8 !important;
-      border-color: #38bdf8 !important;
+      background: #1683ad !important;
+      border-color: #1683ad !important;
       color: #07111a !important;
       font-weight: 700;
-      box-shadow: 0 0 18px rgba(56, 189, 248, 0.22);
+      box-shadow: none;
     }
     .btn-back:hover {
-      background: #7dd3fc !important;
-      border-color: #7dd3fc !important;
+      background: #2297c2 !important;
+      border-color: #2297c2 !important;
       color: #07111a !important;
     }
 
@@ -765,8 +928,26 @@
               </div>
               
               <div id="streamLinksContainer" class="stream-dropdown-container mt-3" style="display:none;">
-                <label for="streamSelect" class="form-label small text-muted font-weight-bold mb-1"><i class="fas fa-tv"></i> SELECT STREAM SOURCE</label>
-                <select id="streamSelect" class="form-select stream-select-custom"></select>
+                <label for="streamSelect" class="form-label small text-muted font-weight-bold mb-1">
+                  <i class="fas fa-tv"></i> SELECT STREAM SOURCE
+                </label>
+                <button type="button" id="streamSelect" class="stream-select-custom" aria-haspopup="dialog" aria-expanded="false">
+                  <span id="streamSelectLabel" class="stream-select-value">Select stream source</span>
+                  <i class="fas fa-chevron-down stream-select-arrow" aria-hidden="true"></i>
+                </button>
+              </div>
+
+              <!-- Same custom stream popup on phone, tablet, desktop and TV browsers -->
+              <div id="streamPopupOverlay" class="stream-popup-overlay" aria-hidden="true">
+                <div class="stream-popup" role="dialog" aria-modal="true" aria-labelledby="streamPopupTitle">
+                  <div class="stream-popup-header">
+                    <span id="streamPopupTitle">Select Stream Source</span>
+                    <button type="button" id="streamPopupClose" class="stream-popup-close" aria-label="Close">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                  <div id="streamPopupOptions" class="stream-popup-options"></div>
+                </div>
               </div>
             </div>
 
@@ -1745,25 +1926,114 @@
     }
 
     function populateStreamDropdown(event) {
-      const selectMenu = document.getElementById('streamSelect');
-      
-      selectMenu.innerHTML = event.streams.map((s, i) => {
+      const picker = document.getElementById('streamSelect');
+      const label = document.getElementById('streamSelectLabel');
+      const overlay = document.getElementById('streamPopupOverlay');
+      const optionsContainer = document.getElementById('streamPopupOptions');
+      const closeButton = document.getElementById('streamPopupClose');
+
+      if (!picker || !label || !overlay || !optionsContainer) return;
+
+      const streams = Array.isArray(event.streams) ? event.streams : [];
+
+      optionsContainer.innerHTML = streams.map((s, i) => {
         const realUrl = typeof s === 'string' ? s : s.url;
-        
+        const title = typeof s === 'string'
+          ? `Stream ${i + 1}`
+          : (s.title || `Stream ${i + 1}`);
+
         const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
-        return `<option value="${payload}" data-title="${s.title || `Stream ${i+1}`}">${s.title || `Stream ${i+1}`}</option>`;
+
+        return `
+          <button type="button"
+                  class="stream-popup-option${i === 0 ? ' selected' : ''}"
+                  data-value="${payload}"
+                  data-title="${String(title).replace(/"/g, '&quot;')}">
+            <span class="stream-popup-radio" aria-hidden="true"></span>
+            <span>${title}</span>
+          </button>`;
       }).join('');
 
-      selectMenu.onchange = (e) => {
-        const selectedOption = selectMenu.options[selectMenu.selectedIndex];
-        if (!selectedOption) return;
-        
-        const realUrl = atob(atob(selectedOption.value).split('||')[0]);
-        playStream(realUrl);
-        
-        const titleContainer = document.getElementById('currentStreamName');
-        titleContainer.innerHTML = `${selectedOption.dataset.title}`;
+      const openPopup = () => {
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden', 'false');
+        picker.classList.add('is-open');
+        picker.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+
+        const firstOption = optionsContainer.querySelector('.stream-popup-option');
+        if (firstOption) firstOption.focus();
       };
+
+      const closePopup = () => {
+        overlay.classList.remove('is-open');
+        overlay.setAttribute('aria-hidden', 'true');
+        picker.classList.remove('is-open');
+        picker.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        picker.focus();
+      };
+
+      picker.onclick = openPopup;
+      picker.onkeydown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openPopup();
+        }
+      };
+
+      closeButton.onclick = closePopup;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closePopup();
+      };
+
+      optionsContainer.querySelectorAll('.stream-popup-option').forEach(option => {
+        option.onclick = () => {
+          const realUrl = atob(atob(option.dataset.value).split('||')[0]);
+          const title = option.dataset.title || 'Stream';
+
+          playStream(realUrl);
+
+          label.textContent = title;
+          document.getElementById('currentStreamName').innerHTML = title;
+
+          optionsContainer.querySelectorAll('.stream-popup-option')
+            .forEach(item => item.classList.remove('selected'));
+          option.classList.add('selected');
+
+          closePopup();
+        };
+      });
+
+      if (streams.length) {
+        const first = streams[0];
+        label.textContent = typeof first === 'string'
+          ? 'Stream 1'
+          : (first.title || 'Main Feed');
+      }
+
+      if (!window.__futbolxStreamEscapeHandler) {
+        window.__futbolxStreamEscapeHandler = true;
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            const currentOverlay = document.getElementById('streamPopupOverlay');
+            if (currentOverlay && currentOverlay.classList.contains('is-open')) {
+              currentOverlay.classList.remove('is-open');
+              currentOverlay.setAttribute('aria-hidden', 'true');
+
+              const currentPicker = document.getElementById('streamSelect');
+              if (currentPicker) {
+                currentPicker.classList.remove('is-open');
+                currentPicker.setAttribute('aria-expanded', 'false');
+                currentPicker.focus();
+              }
+
+              document.body.style.overflow = '';
+            }
+          }
+        });
+      }
     }
 
     window.initViewerPresenceEngine = () => {
@@ -1914,4 +2184,4 @@
     });
   </script>
 </body>
-          </html>
+  </html>
