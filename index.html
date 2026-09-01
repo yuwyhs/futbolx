@@ -164,23 +164,29 @@
       transform: translateX(4px);
     }
 
-    /* --- HERO BACKGROUND --- */
+    /* --- HERO BACKGROUND (FULLY VISIBLE BANNER) --- */
     .hero-container-wrapper {
       padding-top: 80px;
     }
 
     .hero-background {
-      background-image: linear-gradient(180deg, rgba(7, 8, 11, 0.2) 0%, var(--fx-bg) 100%), 
+      background-image: linear-gradient(180deg, rgba(7, 8, 11, 0.1) 0%, var(--fx-bg) 100%), 
                         url('https://cdn.phototourl.com/free/2026-07-30-b4eb4fe7-50b2-4b18-8f9b-605f09574de3.png') !important;
-      background-size: cover !important;
+      background-size: contain !important;
       background-position: center center !important;
       background-repeat: no-repeat !important;
-      min-height: 240px !important;
       width: 100%;
+      aspect-ratio: 16 / 6;
       border-radius: var(--fx-radius);
       border: 1px solid var(--fx-glass-border);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
       position: relative;
+    }
+
+    @media (max-width: 767px) {
+      .hero-background {
+        aspect-ratio: 16 / 9;
+      }
     }
 
     /* --- SECTION HEADERS --- */
