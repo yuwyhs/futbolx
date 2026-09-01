@@ -396,8 +396,10 @@
       }
 
       .card-img-top {
-        width: 125px !important;
+        width: auto !important;
         height: 100% !important;
+        aspect-ratio: 16 / 9;
+        flex-shrink: 0;
         object-fit: cover;
         border-radius: var(--fx-radius) 0 0 var(--fx-radius);
       }
@@ -408,7 +410,8 @@
         justify-content: space-between;
         padding: 10px 14px !important;
         height: 100%;
-        width: 100%;
+        flex: 1;
+        min-width: 0;
       }
 
       .card-title {
@@ -432,12 +435,11 @@
       h2 { font-size: 1.2rem; }
     }
 
-    /* --- 6. SMALL MOBIL / FOLDABLES (< 480px) --- */
+    /* --- 6. SMALL MOBILE / FOLDABLES (< 480px) --- */
     @media (max-width: 480px) {
       .futbolx-brand { font-size: 1.25rem; }
       .futbolx-brand .ball-o { font-size: 1rem; }
       .card { height: 95px !important; }
-      .card-img-top { width: 105px !important; }
       .card-title { font-size: 0.85rem !important; }
       .event-tag { font-size: 0.7rem; padding: 2px 6px; }
       .watch-button { font-size: 0.7rem !important; padding: 4px 10px !important; }
