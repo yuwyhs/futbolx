@@ -1171,7 +1171,7 @@
 
       EMOTE_LIBRARY.forEach(e => {
         const regex = new RegExp(`:${e.name}:`, 'g');
-        content = content.replace(regex, `<img src="\( {e.url}" class="chat-emote" alt=" \){e.name}">`);
+        content = content.replace(regex, `<img src="${e.url}" class="chat-emote" alt="${e.name}">`);
       });
 
       const mentionRegex = /@([a-zA-Z0-9_]+)/g;
@@ -1186,7 +1186,7 @@
           tagClass += ' owner-tag';
         }
         
-        return `<span class="\( {tagClass}">@ \){username}</span>`;
+        return `<span class="${tagClass}">@${username}</span>`;
       });
 
       let replyHTML = '';
@@ -1212,13 +1212,13 @@
         let pinIcon = (isOwner || isMod) ? `<i class="fas fa-thumbtack action-icon" title="Pin" onclick="pinMessage('${msg.id}')"></i>` : '';
         let delIcon = (isOwner || isMod || msg.username === currentUser) ? `<i class="fas fa-trash action-icon danger" title="Delete" onclick="deleteMessage('${msg.id}')"></i>` : '';
         actionsHTML = `<div class="msg-hover-actions">
-          <i class="fas fa-reply action-icon" title="Reply" onclick="setReplyTarget('\( {msg.id}', ' \){escapeHTML(msg.username)}', '${escapeHTML(msg.message)}')"></i>
+          <i class="fas fa-reply action-icon" title="Reply" onclick="setReplyTarget('${msg.id}', '${escapeHTML(msg.username)}', '${escapeHTML(msg.message)}')"></i>
           ${pinIcon}
           ${delIcon}
         </div>`;
       }
 
-      div.innerHTML = `\( {replyHTML}<div> \){badgeHTML}<span class="chat-author \( {authorClass}" onclick="mentionUser(' \){escapeHTML(msg.username)}')">\( {escapeHTML(msg.username)}</span>: <span class="msg-text"> \){content}</span></div>${actionsHTML}`;
+      div.innerHTML = `${replyHTML}<div>${badgeHTML}<span class="chat-author ${authorClass}" onclick="mentionUser('${escapeHTML(msg.username)}')">${escapeHTML(msg.username)}</span>: <span class="msg-text">${content}</span></div>${actionsHTML}`;
       box.appendChild(div);
       box.scrollTop = box.scrollHeight;
     }
@@ -1350,7 +1350,7 @@
       EMOTE_LIBRARY.forEach(e => {
         const item = document.createElement('div');
         item.className = 'emote-item';
-        item.innerHTML = `<img src="\( {e.url}" title=" \){e.name}">`;
+        item.innerHTML = `<img src="${e.url}" title="${e.name}">`;
         item.onclick = () => {
           const input = document.getElementById('chatInput');
           if (input) {
@@ -1492,8 +1492,8 @@
           let muted = m.is_muted ? ' (Muted)' : '';
           
           item.innerHTML = `<div>
-            <strong class="\( {m.is_owner ? 'text-danger' : (m.is_mod ? 'text-warning' : 'text-info')}"> \){escapeHTML(m.username)}</strong>
-            <small class="text-muted ms-2">\( {role} \){muted} - ${m.device_ip || 'No IP'}</small>
+            <strong class="${m.is_owner ? 'text-danger' : (m.is_mod ? 'text-warning' : 'text-info')}">${escapeHTML(m.username)}</strong>
+            <small class="text-muted ms-2">${role}${muted} - ${m.device_ip || 'No IP'}</small>
           </div>`;
           item.onclick = () => openMemberActions(m.username);
           list.appendChild(item);
@@ -1703,7 +1703,7 @@
         const realUrl = typeof s === 'string' ? s : s.url;
         
         const payload = btoa(btoa(realUrl) + '||' + Math.random().toString(36).slice(2, 10));
-        return `<option value="\( {payload}" data-title=" \){s.title || `Stream \( {i+1}`}"> \){s.title || `Stream ${i+1}`}</option>`;
+        return `<option value="${payload}" data-title="${s.title || `Stream ${i+1}`}">${s.title || `Stream ${i+1}`}</option>`;
       }).join('');
 
       selectMenu.onchange = (e) => {
@@ -1842,7 +1842,7 @@
                   const remHours = h % 24;
                   document.getElementById('countdownDisplay').textContent = `${days}day ${remHours}hr ${m}m ${s}s`;
                 } else {
-                  document.getElementById('countdownDisplay').textContent = `\( {h.toString().padStart(2,'0')}: \){m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                  document.getElementById('countdownDisplay').textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
                 }
             }
           }, 1000);
@@ -1866,4 +1866,4 @@
     });
   </script>
 </body>
-                        </html>
+  </html>
