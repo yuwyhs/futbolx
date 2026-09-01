@@ -924,6 +924,7 @@
         }
         if (foundEvent) {
           document.getElementById('eventTitle').textContent = foundEvent.name;
+          document.getElementById('chatEventTitle').textContent = foundEvent.name + " Chat";
           
           eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
           eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
