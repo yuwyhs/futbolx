@@ -28,8 +28,8 @@
       --fx-surface-hover: #171a26;
       --fx-glass: rgba(15, 17, 24, 0.75);
       --fx-glass-border: rgba(255, 255, 255, 0.08);
-      --fx-accent: #38bdf8;
-      --fx-accent-glow: rgba(56, 189, 248, 0.35);
+      --fx-accent: #ff3b30;
+      --fx-accent-glow: rgba(255, 59, 48, 0.35);
       --fx-gold: #ffc107;
       --fx-text-main: #f1f5f9;
       --fx-text-muted: #94a3b8;
@@ -172,11 +172,11 @@
     }
     .social-card {
       background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
-      border: 2px solid #38bdf8; border-radius: 20px;
+      border: 2px solid var(--fx-accent); border-radius: 20px;
       padding: 40px; text-align: center; max-width: 500px; width: 90%;
-      box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
+      box-shadow: 0 0 30px var(--fx-accent-glow);
     }
-    .social-card h2 { color: #38bdf8; font-weight: 800; margin-bottom: 20px; }
+    .social-card h2 { color: var(--fx-accent); font-weight: 800; margin-bottom: 20px; }
     .social-card p { color: #ddd; font-size: 1.1rem; margin-bottom: 30px; line-height: 1.6; }
     .social-btns { display: flex; flex-direction: column; gap: 15px; }
     .btn-social {
@@ -192,12 +192,12 @@
       background: linear-gradient(135deg, #1a1a1a, #0b1f33);
       padding: 12px 20px;
       border-radius: 12px;
-      border: 2px solid #38bdf8;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+      border: 2px solid var(--fx-accent);
+      box-shadow: 0 0 20px var(--fx-accent-glow);
       margin: 1rem 0;
     }
     .live-title h3 { margin: 0; color: #fff; font-size: 1.8rem; font-weight: 600; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
-    .live-title::before { content: "● LIVE"; color: #38bdf8; font-weight: bold; margin-right: 10px; animation: pulse 2s infinite; }
+    .live-title::before { content: "● LIVE"; color: var(--fx-accent); font-weight: bold; margin-right: 10px; animation: pulse 2s infinite; }
     
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
@@ -206,8 +206,8 @@
       background: rgba(30,30,30,0.7); border-radius: 12px;
       margin: 25px auto; max-width: 720px;
     }
-    #eventTitle { font-size: 2.4rem; margin-bottom: 1rem; color: #38bdf8; }
-    .countdown-display { font-size: 4rem; font-weight: bold; color: #38bdf8; letter-spacing: 5px; margin: 20px 0; text-shadow: 0 0 20px rgba(56, 189, 248, 0.5); }
+    #eventTitle { font-size: 2.4rem; margin-bottom: 1rem; color: var(--fx-accent); }
+    .countdown-display { font-size: 4rem; font-weight: bold; color: var(--fx-accent); letter-spacing: 5px; margin: 20px 0; text-shadow: 0 0 20px var(--fx-accent-glow); }
     .permanent-noti { background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; }
     .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 1200px; margin-left: auto; margin-right: auto; }
     [data-bs-theme="dark"] .disclaimer { color: #aaa; background: rgba(0,0,0,0.3); border-top-color: #444; }
@@ -225,7 +225,7 @@
       gap: 14px;
       background: #0b1020 !important;
       color: #e7edf5 !important;
-      border: 2px solid #167da5 !important;
+      border: 2px solid var(--fx-accent) !important;
       border-radius: 12px;
       padding: 12px 16px;
       font-weight: 600;
@@ -239,7 +239,7 @@
 
     .stream-select-custom:hover,
     .stream-select-custom:focus-visible {
-      border-color: #2297c2 !important;
+      border-color: var(--fx-accent) !important;
       background: #0e1424 !important;
       outline: none;
     }
@@ -251,7 +251,7 @@
     }
 
     .stream-select-custom .stream-select-arrow {
-      color: #7fb4c9;
+      color: var(--fx-accent);
       flex: 0 0 auto;
       transition: transform .18s ease;
     }
@@ -358,14 +358,14 @@
       place-items: center;
     }
 
-    .stream-popup-option.selected .stream-popup-radio { border-color: #8fb9ff; }
+    .stream-popup-option.selected .stream-popup-radio { border-color: var(--fx-accent); }
 
     .stream-popup-option.selected .stream-popup-radio::after {
       content: "";
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #8fb9ff;
+      background: var(--fx-accent);
     }
 
     @media (max-width: 600px) {
@@ -379,34 +379,34 @@
       .stream-popup { width: 500px; }
     }
     
-    /* ===== FUTBOLX CYAN ACCENT OVERRIDES ===== */
+    /* ===== FUTBOLX RED ACCENT OVERRIDES ===== */
     .btn-fx-accent {
-      --bs-btn-color: #07111a;
-      --bs-btn-bg: #1683ad;
-      --bs-btn-border-color: #1683ad;
-      --bs-btn-hover-color: #07111a;
-      --bs-btn-hover-bg: #2297c2;
-      --bs-btn-hover-border-color: #2297c2;
-      --bs-btn-focus-shadow-rgb: 56, 189, 248;
-      --bs-btn-active-color: #07111a;
-      --bs-btn-active-bg: #126b8d;
-      --bs-btn-active-border-color: #126b8d;
+      --bs-btn-color: #fff;
+      --bs-btn-bg: #ff3b30;
+      --bs-btn-border-color: #ff3b30;
+      --bs-btn-hover-color: #fff;
+      --bs-btn-hover-bg: #e0281b;
+      --bs-btn-hover-border-color: #e0281b;
+      --bs-btn-focus-shadow-rgb: 255, 59, 48;
+      --bs-btn-active-color: #fff;
+      --bs-btn-active-bg: #d32f2f;
+      --bs-btn-active-border-color: #d32f2f;
       font-weight: 700;
     }
 
     .btn-outline-fx-accent {
-      --bs-btn-color: #38bdf8;
-      --bs-btn-border-color: #38bdf8;
-      --bs-btn-hover-color: #07111a;
-      --bs-btn-hover-bg: #38bdf8;
-      --bs-btn-hover-border-color: #38bdf8;
-      --bs-btn-focus-shadow-rgb: 56, 189, 248;
-      --bs-btn-active-color: #07111a;
-      --bs-btn-active-bg: #0ea5e9;
-      --bs-btn-active-border-color: #0ea5e9;
+      --bs-btn-color: #ff3b30;
+      --bs-btn-border-color: #ff3b30;
+      --bs-btn-hover-color: #fff;
+      --bs-btn-hover-bg: #ff3b30;
+      --bs-btn-hover-border-color: #ff3b30;
+      --bs-btn-focus-shadow-rgb: 255, 59, 48;
+      --bs-btn-active-color: #fff;
+      --bs-btn-active-bg: #e0281b;
+      --bs-btn-active-border-color: #e0281b;
     }
 
-    .text-fx-accent { color: #38bdf8 !important; }
+    .text-fx-accent { color: #ff3b30 !important; }
 
     .alert-fx-danger {
       --bs-alert-color: #bae6fd;
@@ -415,16 +415,17 @@
     }
 
     .btn-back {
-      background: #1683ad !important;
-      border-color: #1683ad !important;
-      color: #07111a !important;
+      background: #ff3b30 !important;
+      border-color: #ff3b30 !important;
+      color: #fff !important;
       font-weight: 700;
       box-shadow: none;
     }
+
     .btn-back:hover {
-      background: #2297c2 !important;
-      border-color: #2297c2 !important;
-      color: #07111a !important;
+      background: #e0281b !important;
+      border-color: #e0281b !important;
+      color: #fff !important;
     }
 
     #futbolx-chat-mount { width: 100%; }
@@ -590,8 +591,6 @@
       }
     });
   </script>
-
-
 
   <!-- EXISTING PAGE CONTROLLER SCRIPT - EXACTLY AS YOUR ORIGINAL -->
   <script>
@@ -969,4 +968,4 @@
     });
   </script>
 </body>
-</html>
+  </html>
