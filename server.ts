@@ -69,6 +69,8 @@ Deno.serve(async (req) => {
         userIp,
         forwardedFor,
         realIp: req.headers.get("x-real-ip"),
+        cfConnectingIp: req.headers.get("cf-connecting-ip"),
+        host: req.headers.get("host"),
         cdn: CDN_BASE_URL,
       });
 
@@ -93,6 +95,17 @@ Deno.serve(async (req) => {
       return new Response(
         JSON.stringify({
           url: tokenizedUrl,
+          debug: {
+            stream,
+            userIp,
+            forwardedFor,
+            realIp: req.headers.get("x-real-ip"),
+            cfConnectingIp: req.headers.get("cf-connecting-ip"),
+            host: req.headers.get("host"),
+            cdn: CDN_BASE_URL,
+            start,
+            end,
+          },
         }),
         {
           status: 200,
