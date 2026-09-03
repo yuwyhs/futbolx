@@ -258,19 +258,17 @@
       outline: none;
     }
 
-    /*
-      CARD IMAGE FIX:
-      Keep the complete event image visible instead of cropping it.
-      The image sits inside a fixed 16:9 area and scales down when needed.
+    /* CARD IMAGE
+       Original full-width desktop behavior preserved.
+       No contain.
     */
     .card-img-top {
       width: 100%;
       aspect-ratio: 16 / 9;
       height: auto;
-      object-fit: contain;
+      object-fit: cover;
       object-position: center;
       display: block;
-      background: var(--fx-bg);
       transition: transform 0.5s ease;
     }
 
@@ -284,11 +282,7 @@
       min-width: 0;
     }
 
-    /*
-      CARD TITLE FIX:
-      Let the event name naturally wrap instead of forcing it
-      into an unnecessary two-line clamp.
-    */
+    /* TEXT FIX */
     .card-title {
       font-family: 'Kanit', sans-serif;
       font-weight: 700;
@@ -355,7 +349,7 @@
     }
 
     /* =========================================================
-       RESPONSIVE DESIGN BREAKPOINTS (PHONES, TABS, PCS, TVS)
+       RESPONSIVE DESIGN BREAKPOINTS
        ========================================================= */
 
     /* --- 1. SMART TVS & ULTRA-WIDE MONITORS (> 1920px) --- */
@@ -363,14 +357,17 @@
       html { font-size: 18px; }
       .container { max-width: 1800px !important; }
       .hero-background { aspect-ratio: 21 / 6; max-height: 480px; }
+
       .event-grid, #livecards.event-grid {
         grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
         gap: 2rem;
       }
+
       .card-img-top {
         aspect-ratio: 16 / 9;
         height: auto;
       }
+
       .futbolx-brand { font-size: 2rem; }
       .futbolx-brand .ball-o { font-size: 1.6rem; }
     }
@@ -378,6 +375,7 @@
     /* --- 2. LARGE DESKTOPS / 1080P MONITORS (1440px - 1920px) --- */
     @media (min-width: 1440px) and (max-width: 1920px) {
       .container { max-width: 1400px !important; }
+
       .event-grid, #livecards.event-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       }
@@ -386,6 +384,7 @@
     /* --- 3. LAPTOPS & SMALL MONITORS (1025px - 1439px) --- */
     @media (min-width: 1025px) and (max-width: 1439px) {
       .container { max-width: 1140px !important; }
+
       .event-grid, #livecards.event-grid {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 1.25rem;
@@ -396,6 +395,7 @@
     @media (min-width: 768px) and (max-width: 1024px) {
       .container { max-width: 100% !important; padding: 0 24px; }
       .hero-background { aspect-ratio: 16 / 7; max-height: 320px; }
+
       .event-grid, #livecards.event-grid {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 1.2rem;
@@ -409,9 +409,19 @@
 
     /* --- 5. MOBILE PHONES (STANDARD & LARGE 481px - 767px) --- */
     @media (max-width: 767px) {
-      .container { padding: 0 12px !important; }
-      .hero-container-wrapper { padding-top: 72px; }
-      .hero-background { aspect-ratio: 16 / 9; max-height: 220px; }
+
+      .container {
+        padding: 0 12px !important;
+      }
+
+      .hero-container-wrapper {
+        padding-top: 72px;
+      }
+
+      .hero-background {
+        aspect-ratio: 16 / 9;
+        max-height: 220px;
+      }
 
       .event-grid {
         display: flex !important;
@@ -432,19 +442,24 @@
       }
 
       /*
-        MOBILE IMAGE FIX:
-        Keep the complete image visible.
-        The image gets a stable width but is never cropped.
+        MOBILE IMAGE FIX
+
+        The image fills the complete left side:
+        - touches top
+        - touches bottom
+        - touches left
+        - touches right of its image area
+        - NO contain
+        - NO cropping
       */
       .card-img-top {
         width: 38% !important;
-        height: auto !important;
+        height: 100% !important;
         min-height: 105px;
-        aspect-ratio: 16 / 9;
+        aspect-ratio: auto !important;
         flex-shrink: 0;
-        object-fit: contain !important;
+        object-fit: fill !important;
         object-position: center;
-        background: var(--fx-bg);
         border-radius: var(--fx-radius) 0 0 var(--fx-radius);
       }
 
@@ -460,29 +475,47 @@
       }
 
       /*
-        MOBILE TITLE FIX:
-        No two-line clamp.
-        The card can grow if the title needs another line.
+        TEXT FIX ONLY
+
+        The title is allowed to use the available width
+        without the old forced two-line clamp.
       */
       .card-title {
         font-size: 0.92rem !important;
         font-weight: 600;
         margin-bottom: 4px !important;
-        line-height: 1.25 !important;
+        line-height: 1.2 !important;
         display: block !important;
         white-space: normal !important;
         overflow: visible !important;
         overflow-wrap: break-word;
         word-break: normal;
+        flex-shrink: 0;
       }
 
+      /*
+        Keep league and timer together on one row
+        so they don't push the title around.
+      */
       .card-text {
-        flex-wrap: nowrap;
+        flex-wrap: nowrap !important;
         gap: 6px;
+        min-width: 0;
+        flex-shrink: 0;
       }
 
       .event-tag {
         max-width: 55%;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        flex: 1 1 auto;
+      }
+
+      .event-timer {
+        flex-shrink: 0;
+        white-space: nowrap;
       }
 
       .live-badge {
@@ -493,25 +526,37 @@
         padding: 2px 8px !important;
       }
 
-      h2 { font-size: 1.2rem; }
+      h2 {
+        font-size: 1.2rem;
+      }
     }
 
     /* --- 6. SMALL MOBILE / FOLDABLES (< 480px) --- */
     @media (max-width: 480px) {
-      .futbolx-brand { font-size: 1.25rem; }
-      .futbolx-brand .ball-o { font-size: 1rem; }
+
+      .futbolx-brand {
+        font-size: 1.25rem;
+      }
+
+      .futbolx-brand .ball-o {
+        font-size: 1rem;
+      }
 
       .card {
         min-height: 95px !important;
         height: auto !important;
       }
 
+      /*
+        IMAGE STILL FILLS THE WHOLE LEFT SIDE.
+        No crop and no contain.
+      */
       .card-img-top {
         width: 38% !important;
         min-height: 95px;
-        height: auto !important;
-        aspect-ratio: 16 / 9;
-        object-fit: contain !important;
+        height: 100% !important;
+        aspect-ratio: auto !important;
+        object-fit: fill !important;
       }
 
       .card-body {
@@ -521,7 +566,7 @@
 
       .card-title {
         font-size: 0.85rem !important;
-        line-height: 1.25 !important;
+        line-height: 1.2 !important;
       }
 
       .event-tag {
@@ -534,8 +579,14 @@
         padding: 4px 10px !important;
       }
 
-      .disclaimer-content { padding: 24px 16px; }
-      #discordBtn img { width: 44px; height: 44px; }
+      .disclaimer-content {
+        padding: 24px 16px;
+      }
+
+      #discordBtn img {
+        width: 44px;
+        height: 44px;
+      }
     }
 
     /* --- OVERLAYS & MODALS --- */
@@ -683,6 +734,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <!-- DISCLAIMER OVERLAY -->
@@ -734,21 +786,43 @@
       <h5 class="offcanvas-title font-weight-bold" style="font-family: 'Kanit';">NAVIGATION</h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
+
     <div class="offcanvas-body">
       <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-house me-3"></i>Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k" target="_blank"><i class="fab fa-discord me-3"></i>Discord Community</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vip"><i class="fas fa-crown me-3" style="color: var(--fx-gold);"></i>VIP Access</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            <i class="fas fa-house me-3"></i>Home
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="https://discord.gg/CmRcPbBB2k" target="_blank">
+            <i class="fab fa-discord me-3"></i>Discord Community
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/vip">
+            <i class="fas fa-crown me-3" style="color: var(--fx-gold);"></i>VIP Access
+          </a>
+        </li>
+
         <li class="nav-item dropdown mt-2">
           <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-user-circle me-3"></i>Account
           </a>
+
           <ul class="dropdown-menu border-0 shadow" aria-labelledby="accountDropdown">
             <li><a class="dropdown-item" href="/auth/login" id="menuLogin">Login</a></li>
             <li><a class="dropdown-item" href="/auth/signup" id="menuSignup">Create account</a></li>
-            <li><button class="dropdown-item text-danger" id="menuLogout" style="display: none;"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li>
+            <li>
+              <button class="dropdown-item text-danger" id="menuLogout" style="display: none;">
+                <i class="fas fa-sign-out-alt me-2"></i>Logout
+              </button>
+            </li>
           </ul>
         </li>
+
         <li class="nav-item mt-4">
           <button id="themeToggle" class="nav-link btn btn-link w-100 text-start" aria-label="Toggle theme">
             <i class="fas fa-moon me-3"></i>Toggle Theme
@@ -767,30 +841,95 @@
       
       <!-- LIVE NOW SECTION -->
       <div id="live" class="mt-4">
-        <h2 class="m-0">Live Now <span id="liveAnimation" class="live-animation d-none"></span></h2>
-        <div id="livecards" class="event-grid py-3"><p class="text-muted">Loading streams...</p></div>
+        <h2 class="m-0">
+          Live Now <span id="liveAnimation" class="live-animation d-none"></span>
+        </h2>
+
+        <div id="livecards" class="event-grid py-3">
+          <p class="text-muted">Loading streams...</p>
+        </div>
       </div>
 
       <!-- CATEGORY SECTIONS -->
-      <div id="football" class="mt-5 d-none"><h2 class="m-0">Football</h2><div id="footballcards" class="event-grid py-3"></div></div>
-      <div id="nba" class="mt-5 d-none"><h2 class="m-0">Basketball</h2><div id="nbacards" class="event-grid py-3"></div></div>
-      <div id="fights" class="mt-5 d-none"><h2 class="m-0">Fights</h2><div id="fightscards" class="event-grid py-3"></div></div>
-      <div id="wrestling" class="mt-5 d-none"><h2 class="m-0">Wrestling</h2><div id="wrestlingcards" class="event-grid py-3"></div></div>
-      <div id="darts" class="mt-5 d-none"><h2 class="m-0">Darts</h2><div id="dartscards" class="event-grid py-3"></div></div>
-      <div id="motorsports" class="mt-5 d-none"><h2 class="m-0">Motorsports</h2><div id="motorsportscards" class="event-grid py-3"></div></div>
-      <div id="nfl" class="mt-5 d-none"><h2 class="m-0">NFL</h2><div id="nflcards" class="event-grid py-3"></div></div>
-      <div id="nhl" class="mt-5 d-none"><h2 class="m-0">NHL</h2><div id="nhlcards" class="event-grid py-3"></div></div>
-      <div id="mlb" class="mt-5 d-none"><h2 class="m-0">MLB</h2><div id="mlbcards" class="event-grid py-3"></div></div>
-      <div id="icehockey" class="mt-5 d-none"><h2 class="m-0">Ice Hockey</h2><div id="icehockeycards" class="event-grid py-3"></div></div>
-      <div id="tennis" class="mt-5 d-none"><h2 class="m-0">Tennis</h2><div id="tenniscards" class="event-grid py-3"></div></div>
-      <div id="rugby" class="mt-5 d-none"><h2 class="m-0">Rugby</h2><div id="rugbycards" class="event-grid py-3"></div></div>
-      <div id="golf" class="mt-5 d-none"><h2 class="m-0">Golf</h2><div id="golfcards" class="event-grid py-3"></div></div>
-      <div id="others" class="mt-5 d-none"><h2 class="m-0">Others</h2><div id="otherscards" class="event-grid py-3"></div></div>
+      <div id="football" class="mt-5 d-none">
+        <h2 class="m-0">Football</h2>
+        <div id="footballcards" class="event-grid py-3"></div>
+      </div>
+
+      <div id="nba" class="mt-5 d-none">
+        <h2 class="m-0">Basketball</h2>
+        <div id="nbacards" class="event-grid py-3"></div>
+      </div>
+
+      <div id="fights" class="mt-5 d-none">
+        <h2 class="m-0">Fights</h2>
+        <div id="fightscards" class="event-grid py-3"></div>
+      </div>
+
+      <div id="wrestling" class="mt-5 d-none">
+        <h2 class="m-0">Wrestling</h2>
+        <div id="wrestlingcards" class="event-grid py-3"></div>
+      </div>
+
+      <div id="darts" class="mt-5 d-none">
+        <h2 class="m-0">Darts</h2>
+        <div id="dartscards" class="event-grid py-3"></div>
+      </div>
+
+      <div id="motorsports" class="mt-5 d-none">
+        <h2 class="m-0">Motorsports</h2>
+        <div id="motorsportscards" class="event-grid py-3"></div>
+      </div>
+
+      <div id="nfl" class="mt-5 d-none">
+        <h2 class="m-0">NFL</h2>
+        <div id="nflcards" class="event-grid py-3"></div>
+      </div>
+
+      <div id="nhl" class="mt-5 d-none">
+        <h2 class="m-0">NHL</h2>
+        <div id="nhlcards" class="event-grid py-3"></div>
+      </div>
+
+      <div id="mlb" class="mt-5 d-none">
+        <h2 class="m-0">MLB</h2>
+        <div id="mlbcards" class="event-grid py-3"></div>
+      </div>
+
+      <div id="icehockey" class="mt-5 d-none">
+        <h2 class="m-0">Ice Hockey</h2>
+        <div id="icehockeycards" class="event-grid py-3"></div>
+      </div>
+
+      <div id="tennis" class="mt-5 d-none">
+        <h2 class="m-0">Tennis</h2>
+        <div id="tenniscards" class="event-grid py-3"></div>
+      </div>
+
+      <div id="rugby" class="mt-5 d-none">
+        <h2 class="m-0">Rugby</h2>
+        <div id="rugbycards" class="event-grid py-3"></div>
+      </div>
+
+      <div id="golf" class="mt-5 d-none">
+        <h2 class="m-0">Golf</h2>
+        <div id="golfcards" class="event-grid py-3"></div>
+      </div>
+
+      <div id="others" class="mt-5 d-none">
+        <h2 class="m-0">Others</h2>
+        <div id="otherscards" class="event-grid py-3"></div>
+      </div>
 
       <footer class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-4 mt-5">
-        <p class="mb-2 mb-lg-0 text-muted text-center text-lg-start">FutbolX &copy; 2026</p>
+        <p class="mb-2 mb-lg-0 text-muted text-center text-lg-start">
+          FutbolX &copy; 2026
+        </p>
+
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-muted">Donate / VIP Access</a></li>
+          <li class="nav-item">
+            <a href="/vip" class="nav-link px-2 text-muted">Donate / VIP Access</a>
+          </li>
         </ul>
       </footer>
     </div>
@@ -798,7 +937,10 @@
 
   <!-- PWA FLOATING PROMPT -->
   <div id="pwaWrapper">
-    <button id="installAppBtn"><i class="fas fa-download"></i> Download App</button>
+    <button id="installAppBtn">
+      <i class="fas fa-download"></i> Download App
+    </button>
+
     <button id="closePwa">✕</button>
   </div>
 
@@ -820,6 +962,7 @@
       if (brandLogo && logoBall) {
         brandLogo.addEventListener('click', (e) => {
           logoBall.classList.add('spinning');
+
           setTimeout(() => {
             logoBall.classList.remove('spinning');
           }, 600);
@@ -842,7 +985,10 @@
         if (!lastSeen || (now - lastSeen) > twentyFourHours) {
           overlay.style.display = 'flex';
           mainContent.classList.add('site-blurred');
-          if(navBar) navBar.classList.add('site-blurred');
+
+          if(navBar) {
+            navBar.classList.add('site-blurred');
+          }
         }
       }
 
@@ -850,22 +996,36 @@
         localStorage.setItem(storageKey, new Date().getTime());
         overlay.style.opacity = '0';
         mainContent.classList.remove('site-blurred');
-        if(navBar) navBar.classList.remove('site-blurred');
-        setTimeout(() => overlay.style.display = 'none', 500);
+
+        if(navBar) {
+          navBar.classList.remove('site-blurred');
+        }
+
+        setTimeout(() => {
+          overlay.style.display = 'none';
+        }, 500);
       });
 
       initDisclaimer();
     })();
 
-    window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
+    window.plausible = window.plausible || function() {
+      (window.plausible.q = window.plausible.q || []).push(arguments)
+    };
+
     let lastApiCall = 0;
     let apiInstance = null;
-    function zeropad(num) { return num > 9 ? num : '0' + num; }
+
+    function zeropad(num) {
+      return num > 9 ? num : '0' + num;
+    }
 
     function clearError() {
       const errorContainer = document.getElementById('errorContainer');
+
       if (errorContainer && !errorContainer.classList.contains('d-none')) {
         errorContainer.classList.add('fade-out');
+
         setTimeout(() => {
           errorContainer.className = 'd-none error-alert';
           errorContainer.innerHTML = '';
@@ -876,58 +1036,95 @@
     function countdown() {
       const now = Math.floor(Date.now() / 1000);
       let needsRefresh = false;
+
       const countdownElements = document.querySelectorAll('.countdown');
+
       countdownElements.forEach(element => {
         const startTime = parseInt(element.getAttribute('data-start'), 10);
         const cardLink = element.closest('a[href]');
         let timer = startTime - now;
+
         if (timer > 0) {
           let days = Math.floor(timer / 86400);
           let weeks = Math.floor(days / 7);
           let hours = Math.floor(timer / 3600);
           let mins = Math.floor(timer / 60);
           let secs = Math.floor(timer);
+
           let displayText = '';
+
           const startDate = new Date(startTime * 1000);
+
           const localTimeString = startDate.toLocaleString('en-US', {
-            hour: 'numeric', minute: '2-digit', hour12: true,
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
           });
-          if (days >= 7) { displayText = `${weeks}w (${localTimeString})`; } 
-          else if (days >= 1) { displayText = `${days}d (${localTimeString})`; } 
+
+          if (days >= 7) {
+            displayText = `${weeks}w (${localTimeString})`;
+          } 
+          else if (days >= 1) {
+            displayText = `${days}d (${localTimeString})`;
+          } 
           else {
             let hh = hours - days * 24;
             let mm = mins - hours * 60;
             let ss = secs - mins * 60;
+
             displayText = `${zeropad(hh)}:${zeropad(mm)}:${zeropad(ss)}`;
           }
-          if (element.innerHTML !== displayText) { element.innerHTML = displayText; }
-        } else if (timer <= 0 && !element.innerHTML.includes('watch-button')) {
+
+          if (element.innerHTML !== displayText) {
+            element.innerHTML = displayText;
+          }
+        } 
+        else if (timer <= 0 && !element.innerHTML.includes('watch-button')) {
           element.innerHTML = `<span class="btn btn-danger btn-sm watch-button">Watch</span>`;
-          if (cardLink) cardLink.classList.add('clickable');
+
+          if (cardLink) {
+            cardLink.classList.add('clickable');
+          }
+
           needsRefresh = true;
         }
       });
+
       if (needsRefresh && apiInstance) {
         const currentTime = Date.now();
+
         if (currentTime - lastApiCall >= 1000) {
           lastApiCall = currentTime;
           loadContent(apiInstance);
         }
       }
+
       setTimeout(countdown, 1000);
     }
 
     function fetchWithRetry(url, maxRetries = 3, delay = 1000) {
       return new Promise((resolve, reject) => {
         let attempts = 0;
+
         function attempt() {
           attempts++;
-          fetch(url, { signal: AbortSignal.timeout(5000) })
+
+          fetch(url, {
+            signal: AbortSignal.timeout(5000)
+          })
             .then(res => res.ok ? res.json() : reject())
-            .then(data => { clearError(); resolve(data); })
-            .catch(error => attempts < maxRetries ? setTimeout(attempt, delay) : reject(error));
+            .then(data => {
+              clearError();
+              resolve(data);
+            })
+            .catch(error => {
+              attempts < maxRetries
+                ? setTimeout(attempt, delay)
+                : reject(error);
+            });
         }
+
         attempt();
       });
     }
@@ -936,20 +1133,37 @@
       const errorContainer = document.getElementById('errorContainer');
       const liveAnimation = document.getElementById('liveAnimation');
       const livecards = document.getElementById('livecards');
+
       if (!livecards) return;
+
       livecards.innerHTML = '<p class="text-muted">Loading streams...</p>';
 
       try {
         const baseUrl = api.baseUrl || `${window.location.origin}/api`;
-        const catListUrl = baseUrl.endsWith('/') ? `${baseUrl}stream` : `${baseUrl}/stream`;
+
+        const catListUrl = baseUrl.endsWith('/')
+          ? `${baseUrl}stream`
+          : `${baseUrl}/stream`;
+
         const catListRes = await fetchWithRetry(catListUrl);
+
         const categoryNames = catListRes.categories || [];
-        const fetchPromises = categoryNames.map(cat => fetchWithRetry(`${baseUrl}/${cat}.json`).catch(() => ({ success: true, streams: [] })));
+
+        const fetchPromises = categoryNames.map(cat =>
+          fetchWithRetry(`${baseUrl}/${cat}.json`)
+            .catch(() => ({
+              success: true,
+              streams: []
+            }))
+        );
+
         const allCategoryData = await Promise.all(fetchPromises);
 
         const combined = {
           success: true,
-          streams: allCategoryData.filter(d => d && d.success && Array.isArray(d.streams)).flatMap(d => d.streams || [])
+          streams: allCategoryData
+            .filter(d => d && d.success && Array.isArray(d.streams))
+            .flatMap(d => d.streams || [])
         };
 
         if (combined.streams.length === 0) {
@@ -959,71 +1173,172 @@
         }
 
         const categories = {
-          football: { id: 'football', element: document.getElementById('footballcards') },
-          nba: { id: 'nba', element: document.getElementById('nbacards') },
-          fights: { id: 'fights', element: document.getElementById('fightscards') },
-          wrestling: { id: 'wrestling', element: document.getElementById('wrestlingcards') },
-          darts: { id: 'darts', element: document.getElementById('dartscards') },
-          motorsports: { id: 'motorsports', element: document.getElementById('motorsportscards') },
-          nfl: { id: 'nfl', element: document.getElementById('nflcards') },
-          nhl: { id: 'nhl', element: document.getElementById('nhlcards') },
-          mlb: { id: 'mlb', element: document.getElementById('mlbcards') },
-          icehockey: { id: 'icehockey', element: document.getElementById('icehockeycards') },
-          tennis: { id: 'tennis', element: document.getElementById('tenniscards') },
-          rugby: { id: 'rugby', element: document.getElementById('rugbycards') },
-          golf: { id: 'golf', element: document.getElementById('golfcards') },
-          others: { id: 'others', element: document.getElementById('otherscards') }
+          football: {
+            id: 'football',
+            element: document.getElementById('footballcards')
+          },
+          nba: {
+            id: 'nba',
+            element: document.getElementById('nbacards')
+          },
+          fights: {
+            id: 'fights',
+            element: document.getElementById('fightscards')
+          },
+          wrestling: {
+            id: 'wrestling',
+            element: document.getElementById('wrestlingcards')
+          },
+          darts: {
+            id: 'darts',
+            element: document.getElementById('dartscards')
+          },
+          motorsports: {
+            id: 'motorsports',
+            element: document.getElementById('motorsportscards')
+          },
+          nfl: {
+            id: 'nfl',
+            element: document.getElementById('nflcards')
+          },
+          nhl: {
+            id: 'nhl',
+            element: document.getElementById('nhlcards')
+          },
+          mlb: {
+            id: 'mlb',
+            element: document.getElementById('mlbcards')
+          },
+          icehockey: {
+            id: 'icehockey',
+            element: document.getElementById('icehockeycards')
+          },
+          tennis: {
+            id: 'tennis',
+            element: document.getElementById('tenniscards')
+          },
+          rugby: {
+            id: 'rugby',
+            element: document.getElementById('rugbycards')
+          },
+          golf: {
+            id: 'golf',
+            element: document.getElementById('golfcards')
+          },
+          others: {
+            id: 'others',
+            element: document.getElementById('otherscards')
+          }
         };
 
-        Object.values(categories).forEach(cat => { if (cat.element) cat.element.innerHTML = ''; });
-        Object.keys(categories).forEach(key => document.getElementById(categories[key].id)?.classList.add('d-none'));
+        Object.values(categories).forEach(cat => {
+          if (cat.element) {
+            cat.element.innerHTML = '';
+          }
+        });
+
+        Object.keys(categories).forEach(key => {
+          document
+            .getElementById(categories[key].id)
+            ?.classList.add('d-none');
+        });
+
         livecards.innerHTML = '';
 
         let hasLiveEvents = false;
-        const now = Math.floor(Date.now() / 1000);
-        const categoryEvents = {};
-        Object.keys(categories).forEach(key => categoryEvents[key] = []);
 
-        const categoryMap = { 'football': 'football', 'basketball': 'nba', 'fights': 'fights', 'wrestling': 'wrestling', 'darts': 'darts', 'motorsports': 'motorsports', 'nfl': 'nfl', 'nhl': 'nhl', 'mlb': 'mlb', 'icehockey': 'icehockey', 'tennis': 'tennis', 'rugby': 'rugby', 'golf': 'golf' };
+        const now = Math.floor(Date.now() / 1000);
+
+        const categoryEvents = {};
+
+        Object.keys(categories).forEach(key => {
+          categoryEvents[key] = [];
+        });
+
+        const categoryMap = {
+          'football': 'football',
+          'basketball': 'nba',
+          'fights': 'fights',
+          'wrestling': 'wrestling',
+          'darts': 'darts',
+          'motorsports': 'motorsports',
+          'nfl': 'nfl',
+          'nhl': 'nhl',
+          'mlb': 'mlb',
+          'icehockey': 'icehockey',
+          'tennis': 'tennis',
+          'rugby': 'rugby',
+          'golf': 'golf'
+        };
 
         combined.streams.forEach(category => {
-          const normalizedName = category.category?.trim().toLowerCase() || '';
-          let categoryKey = categoryMap[normalizedName] || 'others';
+          const normalizedName =
+            category.category?.trim().toLowerCase() || '';
+
+          let categoryKey =
+            categoryMap[normalizedName] || 'others';
 
           category.streams.forEach(stream => {
-            const isVercelSite = window.location.hostname === 'www.futbol-x.top' || 
-                                 window.location.hostname === 'futbol-x.top';
 
-            const tag = (stream.tag || '').toLowerCase().replace(/\s+/g, '');
+            const isVercelSite =
+              window.location.hostname === 'www.futbol-x.top' ||
+              window.location.hostname === 'futbol-x.top';
 
-            if (isVercelSite && (tag === 'laliga' || tag.includes('laliga'))) {
+            const tag =
+              (stream.tag || '')
+                .toLowerCase()
+                .replace(/\s+/g, '');
+
+            if (
+              isVercelSite &&
+              (tag === 'laliga' || tag.includes('laliga'))
+            ) {
               return;
             }
 
-            let startTime = new Date(stream.starts_at + '+03:00').getTime() / 1000;
-            let endTime = stream.ends_at ? new Date(stream.ends_at + '+03:00').getTime() / 1000 : startTime + 10800;
+            let startTime =
+              new Date(stream.starts_at + '+03:00')
+                .getTime() / 1000;
+
+            let endTime =
+              stream.ends_at
+                ? new Date(stream.ends_at + '+03:00').getTime() / 1000
+                : startTime + 10800;
 
             if (now > endTime) return;
 
-            const isLive = (startTime <= now && now <= endTime) || stream.always_live === 1;
+            const isLive =
+              (startTime <= now && now <= endTime) ||
+              stream.always_live === 1;
 
-            let poster = stream.poster && stream.poster !== '' 
-              ? stream.poster 
-              : 'https://via.placeholder.com/285x160?text=FutbolX';
+            let poster =
+              stream.poster && stream.poster !== ''
+                ? stream.poster
+                : 'https://via.placeholder.com/285x160?text=FutbolX';
 
             let html = `
                 <a href="/live/${stream.uri_name}">
                   <div class="card">
                     ${isLive ? '<span class="live-badge">LIVE</span>' : ''}
-                    <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
+                    
+                    <img
+                      src="${poster}"
+                      class="card-img-top"
+                      alt="${stream.name}"
+                      loading="lazy"
+                    >
+
                     <div class="card-body">
                       <h5 class="card-title">${stream.name}</h5>
+
                       <div class="card-text">
                         <span class="event-tag">${stream.tag}</span>
+
                         <span class="event-timer">
-                          ${isLive 
-                            ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` 
-                            : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`
+                          ${
+                            isLive 
+                              ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` 
+                              : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`
                           }
                         </span>
                       </div>
@@ -1034,105 +1349,191 @@
             if (isLive) { 
               livecards.innerHTML += html; 
               hasLiveEvents = true; 
-            } else { 
-              categoryEvents[categoryKey].push({ html, startTime }); 
+            } 
+            else { 
+              categoryEvents[categoryKey].push({
+                html,
+                startTime
+              }); 
             }
           });
         });
 
         Object.keys(categories).forEach(key => {
+
           if (categoryEvents[key].length > 0) {
-            categoryEvents[key].sort((a, b) => a.startTime - b.startTime);
-            categories[key].element.innerHTML = categoryEvents[key].map(item => item.html).join('');
-            document.getElementById(categories[key].id)?.classList.remove('d-none');
+
+            categoryEvents[key].sort(
+              (a, b) => a.startTime - b.startTime
+            );
+
+            categories[key].element.innerHTML =
+              categoryEvents[key]
+                .map(item => item.html)
+                .join('');
+
+            document
+              .getElementById(categories[key].id)
+              ?.classList.remove('d-none');
           }
         });
 
         if (!hasLiveEvents) {
-          livecards.innerHTML = '<p class="text-muted">No live events right now. Check back later!</p>';
+          livecards.innerHTML =
+            '<p class="text-muted">No live events right now. Check back later!</p>';
+
           liveAnimation.classList.add('d-none');
-        } else {
+        } 
+        else {
           liveAnimation.classList.remove('d-none');
         }
 
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(e => { 
-            if (e.isIntersecting) { 
-              e.target.classList.add('visible'); 
-              observer.unobserve(e.target); 
-            } 
-          });
-        }, { threshold: 0.1 });
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach(e => { 
+              if (e.isIntersecting) { 
+                e.target.classList.add('visible'); 
+                observer.unobserve(e.target); 
+              } 
+            });
+          },
+          {
+            threshold: 0.1
+          }
+        );
 
-        document.querySelectorAll('.card').forEach(card => observer.observe(card));
+        document
+          .querySelectorAll('.card')
+          .forEach(card => observer.observe(card));
 
-      } catch (error) { 
-        livecards.innerHTML = '<p class="text-muted">Failed to load streams.</p>'; 
+      } 
+      catch (error) { 
+        livecards.innerHTML =
+          '<p class="text-muted">Failed to load streams.</p>'; 
       }
     }
 
     function initPage() {
-      const themeToggle = document.getElementById('themeToggle');
-      const htmlElement = document.documentElement;
-      const currentTheme = localStorage.getItem('theme') || 'dark';
 
-      htmlElement.setAttribute('data-bs-theme', currentTheme);
+      const themeToggle =
+        document.getElementById('themeToggle');
+
+      const htmlElement =
+        document.documentElement;
+
+      const currentTheme =
+        localStorage.getItem('theme') || 'dark';
+
+      htmlElement.setAttribute(
+        'data-bs-theme',
+        currentTheme
+      );
 
       if (themeToggle) {
-        themeToggle.innerHTML = currentTheme === 'dark' 
-          ? '<i class="fas fa-moon me-3"></i>Dark Theme' 
-          : '<i class="fas fa-sun me-3"></i>Light Theme';
 
-        themeToggle.addEventListener('click', () => {
-          const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
-
-          htmlElement.setAttribute('data-bs-theme', newTheme);
-          localStorage.setItem('theme', newTheme);
-
-          themeToggle.innerHTML = newTheme === 'dark' 
+        themeToggle.innerHTML =
+          currentTheme === 'dark' 
             ? '<i class="fas fa-moon me-3"></i>Dark Theme' 
             : '<i class="fas fa-sun me-3"></i>Light Theme';
+
+        themeToggle.addEventListener('click', () => {
+
+          const newTheme =
+            htmlElement.getAttribute('data-bs-theme') === 'dark'
+              ? 'light'
+              : 'dark';
+
+          htmlElement.setAttribute(
+            'data-bs-theme',
+            newTheme
+          );
+
+          localStorage.setItem(
+            'theme',
+            newTheme
+          );
+
+          themeToggle.innerHTML =
+            newTheme === 'dark' 
+              ? '<i class="fas fa-moon me-3"></i>Dark Theme' 
+              : '<i class="fas fa-sun me-3"></i>Light Theme';
         });
       }
 
-      apiInstance = typeof Api !== 'undefined' 
-        ? new Api(`${window.location.origin}/api`) 
-        : { baseUrl: window.location.origin + '/api' };
+      apiInstance =
+        typeof Api !== 'undefined' 
+          ? new Api(`${window.location.origin}/api`) 
+          : {
+              baseUrl:
+                window.location.origin + '/api'
+            };
 
       loadContent(apiInstance);
+
       countdown();
 
-      const isApp = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      const isApp =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.navigator.standalone === true;
 
       if (isApp) {
-        const splash = document.getElementById('splash-screen');
-        const cycle = document.getElementById('cycling-text');
-        const slogans = ["Free PPV", "Sports Everywhere", "Anytime", "On the Go"];
+
+        const splash =
+          document.getElementById('splash-screen');
+
+        const cycle =
+          document.getElementById('cycling-text');
+
+        const slogans = [
+          "Free PPV",
+          "Sports Everywhere",
+          "Anytime",
+          "On the Go"
+        ];
+
         let sloganIdx = 0;
 
         splash.style.display = 'flex';
 
         const sloganTimer = setInterval(() => {
+
           sloganIdx++;
 
           if(sloganIdx < slogans.length) {
+
             cycle.style.animation = 'none';
+
             cycle.offsetHeight; 
-            cycle.style.animation = 'textSlide 0.6s ease-out';
-            cycle.innerText = slogans[sloganIdx];
-          } else { 
+
+            cycle.style.animation =
+              'textSlide 0.6s ease-out';
+
+            cycle.innerText =
+              slogans[sloganIdx];
+
+          } 
+          else { 
             clearInterval(sloganTimer); 
           }
+
         }, 1500);
 
         setTimeout(() => {
+
           splash.style.opacity = '0';
-          setTimeout(() => splash.style.display = 'none', 800);
+
+          setTimeout(() => {
+            splash.style.display = 'none';
+          }, 800);
+
         }, 6500); 
       }
     }
 
-    document.addEventListener('DOMContentLoaded', initPage);
+    document.addEventListener(
+      'DOMContentLoaded',
+      initPage
+    );
   </script>
 
   <!-- FIREBASE AUTHENTICATION SCRIPT -->
@@ -1149,56 +1550,114 @@
     firebase.initializeApp(firebaseConfig);
 
     firebase.auth().onAuthStateChanged(user => {
-      document.getElementById('menuLogin').style.display = user ? 'none' : 'block';
-      document.getElementById('menuSignup').style.display = user ? 'none' : 'block';
-      document.getElementById('menuLogout').style.display = user ? 'block' : 'none';
+
+      document.getElementById('menuLogin').style.display =
+        user ? 'none' : 'block';
+
+      document.getElementById('menuSignup').style.display =
+        user ? 'none' : 'block';
+
+      document.getElementById('menuLogout').style.display =
+        user ? 'block' : 'none';
     });
 
-    document.getElementById('menuLogout')?.addEventListener('click', () => 
-      firebase.auth().signOut().then(() => window.location.href = '/')
-    );
+    document
+      .getElementById('menuLogout')
+      ?.addEventListener('click', () => 
+        firebase.auth()
+          .signOut()
+          .then(() => window.location.href = '/')
+      );
   </script>
 
   <!-- PWA INSTALL PROMPT SCRIPT -->
   <script>
     let deferredPrompt;
-    const pwaWrapper = document.getElementById('pwaWrapper');
-    const installBtn = document.getElementById('installAppBtn');
-    const closeBtn = document.getElementById('closePwa');
+
+    const pwaWrapper =
+      document.getElementById('pwaWrapper');
+
+    const installBtn =
+      document.getElementById('installAppBtn');
+
+    const closeBtn =
+      document.getElementById('closePwa');
 
     if ('serviceWorker' in navigator) {
+
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW Registration failed:', err));
+
+        navigator.serviceWorker
+          .register('/sw.js')
+          .catch(err =>
+            console.log(
+              'SW Registration failed:',
+              err
+            )
+          );
+
       });
     }
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
+    window.addEventListener(
+      'beforeinstallprompt',
+      (e) => {
 
-      if (!sessionStorage.getItem('pwaDismissed')) {
-        pwaWrapper.style.display = 'flex';
+        e.preventDefault();
+
+        deferredPrompt = e;
+
+        if (!sessionStorage.getItem('pwaDismissed')) {
+          pwaWrapper.style.display = 'flex';
+        }
+
       }
-    });
+    );
 
-    installBtn.addEventListener('click', async () => {
-      if (deferredPrompt) {
+    installBtn.addEventListener(
+      'click',
+      async () => {
+
+        if (deferredPrompt) {
+
+          pwaWrapper.style.display = 'none';
+
+          deferredPrompt.prompt();
+
+          const { outcome } =
+            await deferredPrompt.userChoice;
+
+          deferredPrompt = null;
+        }
+
+      }
+    );
+
+    closeBtn.addEventListener(
+      'click',
+      () => {
+
         pwaWrapper.style.display = 'none';
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        deferredPrompt = null;
+
+        sessionStorage.setItem(
+          'pwaDismissed',
+          'true'
+        );
+
       }
-    });
+    );
 
-    closeBtn.addEventListener('click', () => {
-      pwaWrapper.style.display = 'none';
-      sessionStorage.setItem('pwaDismissed', 'true');
-    });
+    window.addEventListener(
+      'appinstalled',
+      () => {
 
-    window.addEventListener('appinstalled', () => {
-      pwaWrapper.style.display = 'none';
-      deferredPrompt = null;
-    });
+        pwaWrapper.style.display = 'none';
+
+        deferredPrompt = null;
+
+      }
+    );
   </script>
+
 </body>
   </html>
