@@ -6,27 +6,97 @@
   <title>FutbolX - Watch 24/7</title>
   <meta name="description" content="FutbolX - Watch 24/7 cartoons and other content.">
   <meta name="keywords" content="futbolx, cartoons, 24/7, stream, online, free">
+
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
-  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900|outfit:300,400,500,600,700" rel="stylesheet">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
 
   <style>
+    /* ===== FUTBOLX UI THEME ===== */
+    :root {
+      --fx-bg: #07080b;
+      --fx-surface: #0f1118;
+      --fx-surface-hover: #171a26;
+      --fx-glass: rgba(15, 17, 24, 0.75);
+      --fx-glass-border: rgba(255, 255, 255, 0.08);
+
+      --fx-accent: #ef4444;
+      --fx-accent-hover: #f87171;
+      --fx-accent-dark: #dc2626;
+      --fx-accent-glow: rgba(239, 68, 68, 0.30);
+
+      --fx-gold: #ffc107;
+      --fx-text-main: #f1f5f9;
+      --fx-text-muted: #94a3b8;
+      --fx-radius: 14px;
+    }
+
+    [data-bs-theme="light"] {
+      --fx-bg: #f8fafc;
+      --fx-surface: #ffffff;
+      --fx-surface-hover: #f1f5f9;
+      --fx-glass: rgba(255, 255, 255, 0.85);
+      --fx-glass-border: rgba(0, 0, 0, 0.08);
+      --fx-text-main: #0f172a;
+      --fx-text-muted: #64748b;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--fx-bg) !important;
+      color: var(--fx-text-main);
+      font-family: 'Outfit', sans-serif;
+      transition: background-color 0.3s ease;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== GLASS TOP BAR ===== */
+    .top-bar {
+      background: var(--fx-glass) !important;
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid var(--fx-glass-border);
+      padding: 12px 0;
+      transition: all 0.3s ease;
+    }
+
     .top-bar .container-fluid {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: flex-start;
+      max-width: 1600px;
     }
 
+    #sidebarToggler {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border: 1px solid var(--fx-glass-border) !important;
+      color: var(--fx-text-main) !important;
+      border-radius: 10px;
+      padding: 8px 14px;
+      transition: all 0.2s ease;
+    }
+
+    #sidebarToggler:hover {
+      background: rgba(255, 255, 255, 0.12) !important;
+      transform: scale(1.03);
+    }
+
+    /* ===== BRAND ===== */
     .futbolx-brand {
       font-family: 'Kanit', sans-serif;
       font-weight: 900;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #ffffff;
+      letter-spacing: 2px;
+      color: var(--fx-text-main) !important;
       display: inline-flex;
       align-items: center;
       user-select: none;
@@ -35,19 +105,22 @@
       left: 50%;
       transform: translateX(-50%);
       cursor: pointer;
+      text-shadow: none !important;
+      filter: none !important;
     }
 
     .futbolx-brand .ball-o {
-      color: #ffc107;
-      font-size: 1.15rem;
-      margin: 0 1px;
-      text-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
-      transition: transform 0.5s ease;
+      color: var(--fx-gold);
+      font-size: 1.25rem;
+      margin: 0 2px;
+      filter: none !important;
+      text-shadow: none !important;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
       display: inline-block;
     }
 
     .futbolx-brand:hover .ball-o {
-      transform: rotate(180deg);
+      transform: rotate(180deg) scale(1.1);
     }
 
     .futbolx-brand .ball-o.spinning {
@@ -56,156 +129,580 @@
 
     @keyframes ballSpin {
       0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.2); }
+      50% { transform: rotate(180deg) scale(1.3); }
       100% { transform: rotate(360deg) scale(1); }
     }
 
-    .player-container { max-width: 1200px; margin: 0 auto; }
-    .error-alert { max-width: 500px; margin: 20px auto; }
+    /* ===== SIDEBAR ===== */
+    .offcanvas {
+      background-color: var(--fx-surface) !important;
+      border-right: 1px solid var(--fx-glass-border) !important;
+    }
+
+    .offcanvas-header {
+      border-bottom: 1px solid var(--fx-glass-border);
+      padding: 16px;
+    }
+
+    .offcanvas-header .offcanvas-title {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .offcanvas-body {
+      padding: 16px;
+    }
+
+    .offcanvas .nav-link {
+      color: var(--fx-text-main) !important;
+      font-weight: 500;
+      padding: 12px 16px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      margin-bottom: 4px;
+      text-decoration: none;
+    }
+
+    .offcanvas .nav-link:hover {
+      background: var(--fx-surface-hover);
+      color: var(--fx-accent) !important;
+      transform: translateX(4px);
+    }
+
+    .offcanvas .nav-link.btn-link {
+      width: 100%;
+      text-align: left;
+      border: 0;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+      padding-top: 70px;
+    }
+
+    .player-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .btn-back {
+      background: var(--fx-accent-dark) !important;
+      border-color: var(--fx-accent-dark) !important;
+      color: #fff !important;
+      font-weight: 700;
+      border-radius: 10px;
+      box-shadow: 0 5px 18px rgba(239, 68, 68, 0.12);
+      transition: all 0.2s ease;
+    }
+
+    .btn-back:hover {
+      background: var(--fx-accent) !important;
+      border-color: var(--fx-accent) !important;
+      color: #fff !important;
+      transform: translateY(-1px);
+      box-shadow: 0 7px 22px var(--fx-accent-glow);
+    }
+
+    /* ===== EVENT TITLE ===== */
+    #eventTitle {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 700;
+      color: var(--fx-text-main);
+      background: var(--fx-glass);
+      border: 1px solid var(--fx-glass-border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-top: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* ===== VIDEO PLAYER ===== */
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 56.25%;
+      background: #000;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--fx-glass-border);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    }
+
+    #embedPlayer,
+    #videoPlayerContainer {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* ===== STREAM SELECTOR ===== */
+    .stream-dropdown {
+      background: var(--fx-glass);
+      border: 1px solid var(--fx-glass-border);
+      border-radius: 12px;
+      padding: 10px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .btn-stream {
+      min-width: 180px;
+      background: #0b1020 !important;
+      color: #e7edf5 !important;
+      border: 2px solid #167da5 !important;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-weight: 600;
+      transition: border-color .18s ease, background .18s ease;
+    }
+
+    .btn-stream:hover,
+    .btn-stream:focus {
+      background: #0e1424 !important;
+      border-color: #2297c2 !important;
+      color: #fff !important;
+      box-shadow: none;
+    }
+
+    .stream-dropdown .dropdown-menu {
+      background: #202126 !important;
+      border: 1px solid #3a3b40 !important;
+      border-radius: 12px;
+      padding: 6px;
+      box-shadow: 0 18px 55px rgba(0, 0, 0, 0.65);
+    }
+
+    .stream-dropdown .dropdown-item {
+      color: #f1f1f3 !important;
+      border-radius: 8px;
+      padding: 10px 12px;
+      transition: background .15s ease;
+    }
+
+    .stream-dropdown .dropdown-item:hover,
+    .stream-dropdown .dropdown-item:focus {
+      background: #2b2c31 !important;
+      color: #fff !important;
+    }
+
+    /* ===== ERROR ===== */
+    .error-alert {
+      max-width: 500px;
+      margin: 20px auto;
+      border-radius: 12px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      border-top-color: var(--fx-glass-border) !important;
+    }
+
+    footer .nav-link {
+      transition: color 0.2s ease;
+    }
+
+    footer .nav-link:hover {
+      color: var(--fx-accent) !important;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 767.98px) {
+      .main-content {
+        padding-top: 65px;
+      }
+
+      .player-container {
+        width: 100%;
+      }
+
+      #eventTitle {
+        font-size: 1.5rem;
+        padding: 12px 14px;
+      }
+
+      .stream-dropdown {
+        padding: 8px;
+      }
+
+      .btn-stream {
+        width: 100%;
+        min-width: 0;
+      }
+    }
   </style>
 </head>
+
 <body>
 
+  <!-- ===== TOP BAR ===== -->
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
-      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+
+      <button class="btn btn-dark"
+              type="button"
+              id="sidebarToggler"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#sidebarMenu">
+
         <i class="fas fa-bars"></i>
+
       </button>
 
       <a href="/" class="futbolx-brand" id="brandLogo">
         FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
       </a>
+
     </div>
   </nav>
 
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
+  <!-- ===== SIDEBAR ===== -->
+  <div class="offcanvas offcanvas-start"
+       tabindex="-1"
+       id="sidebarMenu">
+
     <div class="offcanvas-header">
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
+      <h5 class="offcanvas-title">
+        NAVIGATION
+      </h5>
+
+      <button type="button"
+              class="btn-close"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close">
+      </button>
+
     </div>
+
     <div class="offcanvas-body">
+
       <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/request">Request</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
-        <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
-        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
-        <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
+
         <li class="nav-item">
-          <button id="themeToggle" class="nav-link btn btn-link"><i class="fas fa-moon"></i></button>
+          <a class="nav-link" href="/">
+            <i class="fas fa-house me-3"></i>Home
+          </a>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/request">
+            <i class="fas fa-paper-plane me-3"></i>Request
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/vods">
+            <i class="fas fa-film me-3"></i>VODs
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/24-7">
+            <i class="fas fa-tv me-3"></i>24/7
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="https://discord.gg/CmRcPbBB2k">
+            <i class="fab fa-discord me-3"></i>Discord
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/vip">
+            <i class="fas fa-crown me-3" style="color: var(--fx-gold);"></i>VIP
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/auth/login" id="loginLink">
+            <i class="fas fa-user me-3"></i>Login
+          </a>
+        </li>
+
+        <li class="nav-item mt-2">
+          <button id="themeToggle"
+                  class="nav-link btn btn-link">
+            <i class="fas fa-moon me-3"></i>Toggle Theme
+          </button>
+        </li>
+
       </ul>
+
     </div>
   </div>
 
+  <!-- ===== MAIN CONTENT ===== -->
   <div class="container-fluid main-content">
+
     <div class="container mt-4">
+
       <div class="row">
+
         <div class="col-12">
+
           <div class="d-flex align-items-center justify-content-between mb-3">
-            <a href="/24-7" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to 24/7 Streams</a>
+
+            <a href="/24-7" class="btn btn-back">
+              <i class="fas fa-arrow-left"></i>
+              Back to 24/7 Streams
+            </a>
+
           </div>
 
           <h2 id="eventTitle" class="mb-3"></h2>
-          
+
           <div class="player-container">
+
             <div class="video-container">
-              <iframe id="embedPlayer" src="about:blank" frameborder="0" style="width: 100%; height: 100%;" allow="autoplay; encrypted-media; fullscreen" referrerpolicy="no-referrer"></iframe>
-              <div id="videoPlayerContainer" style="width: 100%; height: 100%;">
+
+              <iframe
+                id="embedPlayer"
+                src="about:blank"
+                frameborder="0"
+                style="width: 100%; height: 100%;"
+                allow="autoplay; encrypted-media; fullscreen"
+                referrerpolicy="no-referrer">
+              </iframe>
+
+              <div id="videoPlayerContainer"
+                   style="width: 100%; height: 100%;">
+
                 <div id="videoPlayer"></div>
+
               </div>
+
             </div>
-            
+
             <div class="stream-dropdown d-flex align-items-center justify-content-between mt-3">
+
               <div class="dropdown">
-                <button class="btn btn-stream dropdown-toggle" type="button" id="streamDropdown" data-bs-toggle="dropdown">
+
+                <button class="btn btn-stream dropdown-toggle"
+                        type="button"
+                        id="streamDropdown"
+                        data-bs-toggle="dropdown">
+
                   Select Stream
+
                 </button>
-                <ul class="dropdown-menu" id="streamDropdownMenu"></ul>
+
+                <ul class="dropdown-menu"
+                    id="streamDropdownMenu">
+                </ul>
+
               </div>
+
             </div>
+
           </div>
 
-          <div id="errorContainer" class="alert alert-danger error-alert mt-3 d-none"></div>
+          <div id="errorContainer"
+               class="alert alert-danger error-alert mt-3 d-none">
+          </div>
+
         </div>
+
       </div>
 
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary">FutbolX 2026</p>
+
+        <p class="mb-2 mb-lg-0 text-body-secondary">
+          FutbolX 2026
+        </p>
+
         <ul class="nav">
-          <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">Discord</a></li>
+
+          <li class="nav-item">
+            <a href="https://discord.gg/CmRcPbBB2k"
+               class="nav-link px-2 text-body-secondary">
+              Discord
+            </a>
+          </li>
+
         </ul>
+
       </footer>
+
     </div>
+
   </div>
 
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
+
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
   <script>
+
     let videoPlayerInstance = null;
     let streamData = null;
 
     document.addEventListener('DOMContentLoaded', () => {
+
       const brandLogo = document.getElementById('brandLogo');
       const logoBall = document.getElementById('logoBall');
-      
+
       if (brandLogo && logoBall) {
+
         brandLogo.addEventListener('click', () => {
+
           logoBall.classList.add('spinning');
+
           setTimeout(() => {
             logoBall.classList.remove('spinning');
           }, 600);
+
         });
+
       }
+
     });
 
     function initTheme() {
-      const themeToggle = document.getElementById('themeToggle');
-      const html = document.documentElement;
-      const currentTheme = localStorage.getItem('theme') || 'dark';
-      html.setAttribute('data-bs-theme', currentTheme);
+
+      const themeToggle =
+        document.getElementById('themeToggle');
+
+      const html =
+        document.documentElement;
+
+      const currentTheme =
+        localStorage.getItem('theme') || 'dark';
+
+      html.setAttribute(
+        'data-bs-theme',
+        currentTheme
+      );
+
       themeToggle.onclick = () => {
-        const next = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
-        html.setAttribute('data-bs-theme', next);
-        localStorage.setItem('theme', next);
+
+        const next =
+          html.getAttribute('data-bs-theme') === 'dark'
+            ? 'light'
+            : 'dark';
+
+        html.setAttribute(
+          'data-bs-theme',
+          next
+        );
+
+        localStorage.setItem(
+          'theme',
+          next
+        );
+
       };
+
     }
 
     async function initPlayer(event, index) {
-      const url = event.streams[index].url;
-      const embed = document.getElementById('embedPlayer');
-      const container = document.getElementById('videoPlayerContainer');
+
+      const url =
+        event.streams[index].url;
+
+      const embed =
+        document.getElementById('embedPlayer');
+
+      const container =
+        document.getElementById('videoPlayerContainer');
+
       if (url.includes('.m3u8')) {
+
         embed.style.display = 'none';
+
         container.style.display = 'block';
-        videoPlayerInstance = jwplayer('videoPlayer').setup({ file: url, autostart: true, mute: true, width: '100%', aspectratio: '16:9' });
+
+        videoPlayerInstance =
+          jwplayer('videoPlayer').setup({
+            file: url,
+            autostart: true,
+            mute: true,
+            width: '100%',
+            aspectratio: '16:9'
+          });
+
       } else {
+
         container.style.display = 'none';
+
         embed.style.display = 'block';
-        embed.src = url + (url.includes('?') ? '&' : '?') + 'autoplay=1';
+
+        embed.src =
+          url +
+          (url.includes('?') ? '&' : '?') +
+          'autoplay=1';
+
       }
+
     }
 
     function initPage() {
-      const uriName = window.location.pathname.split('/').pop();
-      fetch('/api/stream-24-7').then(r => r.json()).then(data => {
-        const all = [];
-        Object.keys(data.streams).forEach(cat => all.push(...data.streams[cat]));
-        const event = all.find(s => s.uri_name === uriName);
-        if (event) {
-          document.getElementById('eventTitle').innerText = event.name;
-          streamData = event;
-          const menu = document.getElementById('streamDropdownMenu');
-          menu.innerHTML = event.streams.map((s, i) => `<li><a class="dropdown-item" href="#" onclick="initPlayer(streamData, ${i}); document.getElementById('streamDropdown').innerText='${s.label || 'Stream '+(i+1)}'; return false;">${s.label || 'Stream '+(i+1)}</a></li>`).join('');
-          initPlayer(event, 0);
-        }
-      });
+
+      const uriName =
+        window.location.pathname.split('/').pop();
+
+      fetch('/api/stream-24-7')
+        .then(r => r.json())
+        .then(data => {
+
+          const all = [];
+
+          Object.keys(data.streams)
+            .forEach(cat =>
+              all.push(...data.streams[cat])
+            );
+
+          const event =
+            all.find(
+              s => s.uri_name === uriName
+            );
+
+          if (event) {
+
+            document.getElementById('eventTitle')
+              .innerText = event.name;
+
+            streamData = event;
+
+            const menu =
+              document.getElementById(
+                'streamDropdownMenu'
+              );
+
+            menu.innerHTML =
+              event.streams.map((s, i) =>
+                `<li>
+                  <a class="dropdown-item"
+                     href="#"
+                     onclick="initPlayer(streamData, ${i}); document.getElementById('streamDropdown').innerText='${s.label || 'Stream ' + (i + 1)}'; return false;">
+                    ${s.label || 'Stream ' + (i + 1)}
+                  </a>
+                </li>`
+              ).join('');
+
+            initPlayer(event, 0);
+
+          }
+
+        });
+
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+
       initTheme();
       initPage();
+
     });
+
   </script>
+
 </body>
-</html>
+                </html>
