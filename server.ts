@@ -47,7 +47,6 @@ Deno.serve(async (req) => {
         );
       }
 
-      // Same environment variables as Vercel
       const SECRET_KEY =
         Deno.env.get("STREAM_SECRET_KEY") ||
         "my_super_secret_key_123";
@@ -56,9 +55,10 @@ Deno.serve(async (req) => {
         Deno.env.get("CDN_BASE_URL") ||
         "https://germany.fut.ryzn.pro";
 
-      // Get the real client IP from proxy headers
+      // Match the Vercel token.js IP handling as closely as possible.
       const forwardedFor = req.headers.get("x-forwarded-for");
-      const realIp =
+
+      const userIp =
         forwardedFor?.split(",")[0].trim() ||
         req.headers.get("x-real-ip") ||
         "127.0.0.1";
@@ -70,9 +70,8 @@ Deno.serve(async (req) => {
 
       const salt = randomHex(8);
 
-      // Same Flussonic SHA1 formula used by token.js
       const stringToHash =
-        `${stream}${realIp}${start}${end}${SECRET_KEY}${salt}`;
+        `${stream}${userIp}${start}${end}${SECRET_KEY}${salt}`;
 
       const hash = await sha1Hex(stringToHash);
 
@@ -83,7 +82,6 @@ Deno.serve(async (req) => {
 
       return new Response(
         JSON.stringify({
-          success: true,
           url: tokenizedUrl,
         }),
         {
@@ -203,7 +201,7 @@ Deno.serve(async (req) => {
 
   if (path === "/auth/signup") {
     return serveDir(
-      new Request(new URL("/auth/signup.html", req.url), req),
+      new Request(new URL("/dashboard.html", req.url), req),
       { fsRoot: "." },
     );
   }
