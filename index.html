@@ -302,6 +302,11 @@
       min-width: 0;
     }
 
+    /*
+      TAG FIX:
+      The tag now takes only the width required by its text.
+      It does NOT stretch across the available card space.
+    */
     .event-tag {
       font-size: 0.8rem;
       font-weight: 600;
@@ -316,6 +321,9 @@
       overflow: hidden;
       text-overflow: ellipsis;
       min-width: 0;
+      width: fit-content;
+      max-width: 100%;
+      flex: 0 1 auto;
     }
 
     .watch-button {
@@ -438,17 +446,6 @@
         border: 1px solid var(--fx-glass-border) !important;
       }
 
-      /*
-        MOBILE IMAGE FIX
-
-        The image fills the complete left side:
-        - touches top
-        - touches bottom
-        - touches left
-        - touches right of its image area
-        - NO contain
-        - NO cropping
-      */
       .card-img-top {
         width: 38% !important;
         height: 100% !important;
@@ -471,9 +468,6 @@
         min-width: 0;
       }
 
-      /*
-        TEXT FIX ONLY
-      */
       .card-title {
         font-size: 0.92rem !important;
         font-weight: 600;
@@ -487,9 +481,6 @@
         flex-shrink: 0;
       }
 
-      /*
-        Keep league and timer together on one row.
-      */
       .card-text {
         flex-wrap: nowrap !important;
         gap: 6px;
@@ -498,15 +489,15 @@
       }
 
       /*
-        LEAGUE TAG FIX:
-        The tag now sizes itself automatically according
-        to its actual text instead of taking 55% / flex space.
+        MOBILE TAG FIX:
+        No more 55% width and no flex:1.
+        The tag automatically fits its own text.
       */
       .event-tag {
-        width: max-content;
-        max-width: 100%;
         min-width: 0;
-        flex: 0 0 auto;
+        width: fit-content;
+        max-width: 100%;
+        flex: 0 1 auto;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -546,10 +537,6 @@
         height: auto !important;
       }
 
-      /*
-        IMAGE STILL FILLS THE WHOLE LEFT SIDE.
-        No crop and no contain.
-      */
       .card-img-top {
         width: 38% !important;
         min-height: 95px;
@@ -571,6 +558,9 @@
       .event-tag {
         font-size: 0.7rem;
         padding: 2px 6px;
+        width: fit-content;
+        max-width: 100%;
+        flex: 0 1 auto;
       }
 
       .watch-button {
@@ -1659,4 +1649,4 @@
   </script>
 
 </body>
-            </html>
+  </html>
