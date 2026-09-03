@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900|outfit:300,400,500,600,700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskv1qkXkQnqZ/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
@@ -592,7 +592,7 @@
     });
   </script>
 
-  <!-- EXISTING PAGE CONTROLLER SCRIPT - TOKEN-AWARE JW UPDATE -->
+  <!-- EXISTING PAGE CONTROLLER SCRIPT - EXACTLY AS YOUR ORIGINAL -->
   <script>
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
@@ -661,83 +661,13 @@
 
     async function isM3U8(url) {
       if (url.toLowerCase().includes('.m3u8')) return true;
-      try { 
-        const r = await fetch(url, {method:'HEAD'}); 
-        return (r.headers.get('content-type') || '').includes('mpegurl'); 
-      } catch { 
-        return false; 
-      }
-    }
-
-    /*
-     * TOKEN-AWARE M3U8 HANDLER
-     *
-     * The frontend does NOT know or hardcode the CDN hostname.
-     * The /api/token endpoint decides whether this M3U8 belongs
-     * to the currently configured token CDN.
-     *
-     * Token CDN URL:
-     *   /api/token?url=<full-m3u8-url>
-     *
-     * If the URL belongs to the configured CDN, the API returns
-     * a fresh tokenized URL.
-     *
-     * If it belongs to another domain, the API returns the
-     * original URL unchanged.
-     */
-    async function getTokenizedStreamUrl(url) {
-      try {
-        const tokenResponse = await fetch(
-          `/api/token?url=${encodeURIComponent(url)}`,
-          {
-            method: 'GET',
-            cache: 'no-store',
-            signal: AbortSignal.timeout(5000)
-          }
-        );
-
-        if (!tokenResponse.ok) {
-          throw new Error(`Token API HTTP ${tokenResponse.status}`);
-        }
-
-        const tokenData = await tokenResponse.json();
-
-        if (!tokenData || !tokenData.url) {
-          throw new Error('Token API returned no URL');
-        }
-
-        return tokenData.url;
-
-      } catch (err) {
-        console.error('Token generation failed:', err);
-        throw err;
-      }
+      try { const r = await fetch(url, {method:'HEAD'}); return (r.headers.get('content-type') || '').includes('mpegurl'); } catch { return false; }
     }
 
     async function playStream(url) {
-      if (playerInstance) { 
-        playerInstance.remove(); 
-        playerInstance = null; 
-      }
-
+      if (playerInstance) { playerInstance.remove(); playerInstance = null; }
       const useJW = await isM3U8(url);
-
-      if (useJW) {
-        try {
-          const playbackUrl = await getTokenizedStreamUrl(url);
-          initActualPlayer(playbackUrl, true);
-        } catch (err) {
-          console.error('Unable to prepare stream:', err);
-
-          const errorContainer = document.getElementById('errorContainer');
-          if (errorContainer) {
-            errorContainer.textContent = 'Unable to prepare the stream. Please try another source.';
-            errorContainer.classList.remove('d-none');
-          }
-        }
-      } else {
-        initActualPlayer(url, false);
-      }
+      initActualPlayer(url, useJW);
     }
 
     function initActualPlayer(url, useJW) {
@@ -747,14 +677,7 @@
         container.style.display = 'block';
         container.innerHTML = '<div id="jw-player"></div>';
         
-        playerInstance = jwplayer("jw-player").setup({ 
-          file: url, 
-          autostart: false, 
-          mute: true, 
-          width: "100%", 
-          aspectratio: "16:9", 
-          cast: {} 
-        });
+        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: false, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
         
         playerInstance.on('ready', () => { 
           const triggerAd = () => {
@@ -782,13 +705,7 @@
         document.getElementById('oplayer-container').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
-        try { 
-          const u = new URL(url); 
-          u.searchParams.set('autoplay', '0'); 
-          iframe.src = u.toString(); 
-        } catch { 
-          iframe.src = url; 
-        }
+        try { const u = new URL(url); u.searchParams.set('autoplay', '0'); iframe.src = u.toString(); } catch { iframe.src = url; }
       }
     }
 
@@ -1051,4 +968,4 @@
     });
   </script>
 </body>
-                              </html>
+</html>
