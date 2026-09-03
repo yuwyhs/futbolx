@@ -4,34 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FutbolX - Free PPV and More</title>
-  
+
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#08090c">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <meta name="monetag" content="5b3ffb94740c374760e5ec47d558c5fa"> 
+  <meta name="monetag" content="5b3ffb94740c374760e5ec47d558c5fa">
 
   <meta name="description" content="FutbolX - Free PPV boxing, UFC, Basketball, Football, and more available live and on-demand.">
   <meta name="keywords" content="futbolx, ppv, free ppv, boxing, ufc, basketball, football, stream, online, free">
-  <meta property="og:title" content="FutbolX - Free PPV and More" />
-  <meta property="og:url" content="https://futbol-x.site" />
+  <meta property="og:title" content="FutbolX - Free PPV and More">
+  <meta property="og:url" content="https://futbol-x.site">
   <meta property="og:image" content="/assets/img/og-image.jpg">
   <meta name="twitter:title" content="FutbolX - Free PPV and More">
   <meta name="twitter:description" content="Free PPV boxing and other content available live and on-demand.">
   <meta name="twitter:card" content="summary_large_image">
-  
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
   <link href="https://fonts.bunny.net/css?family=kanit:300,400,600,700,800,900|outfit:300,400,500,600,700" rel="stylesheet">
-  
+
   <!-- Libraries -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
 
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
+  <!-- Firebase
+       IMPORTANT: defer removed so Firebase is available
+       before the authentication code runs. -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 
   <style>
     /* --- THEME VARIABLES & BASE SETUP --- */
@@ -99,7 +102,7 @@
       transform: scale(1.03);
     }
 
-    /* --- CLEAN FUTBOL-X BRAND (NO GLOW) --- */
+    /* --- CLEAN FUTBOL-X BRAND --- */
     .futbolx-brand {
       font-family: 'Kanit', sans-serif;
       font-weight: 900;
@@ -174,8 +177,13 @@
     }
 
     .hero-background {
-      background-image: linear-gradient(180deg, rgba(7, 8, 11, 0.1) 0%, var(--fx-bg) 100%), 
-                        url('https://cdn.phototourl.com/free/2026-07-30-b4eb4fe7-50b2-4b18-8f9b-605f09574de3.png') !important;
+      background-image:
+        linear-gradient(
+          180deg,
+          rgba(7, 8, 11, 0.1) 0%,
+          var(--fx-bg) 100%
+        ),
+        url('https://cdn.phototourl.com/free/2026-07-30-b4eb4fe7-50b2-4b18-8f9b-605f09574de3.png') !important;
       background-size: contain !important;
       background-position: center center !important;
       background-repeat: no-repeat !important;
@@ -222,13 +230,22 @@
     }
 
     @keyframes pulseGlow {
-      0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
+      }
+
+      70% {
+        box-shadow: 0 0 0 10px rgba(255, 59, 48, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 59, 48, 0);
+      }
     }
 
     /* --- EVENT GRID & CARDS --- */
-    .event-grid, #livecards.event-grid {
+    .event-grid,
+    #livecards.event-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
       gap: 1.5rem;
@@ -250,10 +267,13 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     }
 
-    .card:hover, .card:focus-visible {
+    .card:hover,
+    .card:focus-visible {
       transform: translateY(-6px) scale(1.01) !important;
       border-color: rgba(255, 59, 48, 0.6) !important;
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5), 0 0 20px var(--fx-accent-glow) !important;
+      box-shadow:
+        0 16px 32px rgba(0, 0, 0, 0.5),
+        0 0 20px var(--fx-accent-glow) !important;
       outline: none;
     }
 
@@ -273,7 +293,11 @@
 
     .card-body {
       padding: 1.2rem !important;
-      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.4) 100%
+      );
       min-width: 0;
     }
 
@@ -299,7 +323,7 @@
       min-width: 0;
     }
 
-    /* EVENT TAG — FIXED PLACEMENT ONLY */
+    /* EVENT TAG */
     .event-tag {
       font-size: 0.8rem;
       font-weight: 600;
@@ -310,8 +334,6 @@
       border-radius: 6px;
       color: var(--fx-text-muted);
       border: 1px solid var(--fx-glass-border);
-
-      /* Keep tag naturally on the left */
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -347,17 +369,29 @@
       box-shadow: 0 0 12px var(--fx-accent-glow);
     }
 
-    /* =========================================================
-       RESPONSIVE DESIGN BREAKPOINTS
-       ========================================================= */
+    /* --- RESPONSIVE DESIGN --- */
 
     @media (min-width: 1921px) {
-      html { font-size: 18px; }
-      .container { max-width: 1800px !important; }
-      .hero-background { aspect-ratio: 21 / 6; max-height: 480px; }
 
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      html {
+        font-size: 18px;
+      }
+
+      .container {
+        max-width: 1800px !important;
+      }
+
+      .hero-background {
+        aspect-ratio: 21 / 6;
+        max-height: 480px;
+      }
+
+      .event-grid,
+      #livecards.event-grid {
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(340px, 1fr)
+        );
         gap: 2rem;
       }
 
@@ -366,33 +400,64 @@
         height: auto;
       }
 
-      .futbolx-brand { font-size: 2rem; }
-      .futbolx-brand .ball-o { font-size: 1.6rem; }
+      .futbolx-brand {
+        font-size: 2rem;
+      }
+
+      .futbolx-brand .ball-o {
+        font-size: 1.6rem;
+      }
     }
 
     @media (min-width: 1440px) and (max-width: 1920px) {
-      .container { max-width: 1400px !important; }
 
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      .container {
+        max-width: 1400px !important;
+      }
+
+      .event-grid,
+      #livecards.event-grid {
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(300px, 1fr)
+        );
       }
     }
 
     @media (min-width: 1025px) and (max-width: 1439px) {
-      .container { max-width: 1140px !important; }
 
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      .container {
+        max-width: 1140px !important;
+      }
+
+      .event-grid,
+      #livecards.event-grid {
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(280px, 1fr)
+        );
         gap: 1.25rem;
       }
     }
 
     @media (min-width: 768px) and (max-width: 1024px) {
-      .container { max-width: 100% !important; padding: 0 24px; }
-      .hero-background { aspect-ratio: 16 / 7; max-height: 320px; }
 
-      .event-grid, #livecards.event-grid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      .container {
+        max-width: 100% !important;
+        padding: 0 24px;
+      }
+
+      .hero-background {
+        aspect-ratio: 16 / 7;
+        max-height: 320px;
+      }
+
+      .event-grid,
+      #livecards.event-grid {
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(250px, 1fr)
+        );
         gap: 1.2rem;
       }
 
@@ -403,6 +468,7 @@
     }
 
     /* --- MOBILE PHONES --- */
+
     @media (max-width: 767px) {
 
       .container {
@@ -478,7 +544,6 @@
         flex-shrink: 0;
       }
 
-      /* EVENT TAG — FIXED PLACE */
       .event-tag {
         min-width: 0;
         max-width: none;
@@ -540,7 +605,6 @@
         line-height: 1.2 !important;
       }
 
-      /* EVENT TAG — SAME LEFT POSITION ON SMALL PHONES */
       .event-tag {
         font-size: 0.7rem;
         padding: 2px 6px;
@@ -564,13 +628,16 @@
     }
 
     /* --- OVERLAYS & MODALS --- */
+
     #disclaimer-overlay {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: rgba(4, 5, 8, 0.85);
       z-index: 12000;
-      display: none; 
+      display: none;
       align-items: center;
       justify-content: center;
       padding: 20px;
@@ -585,11 +652,17 @@
       text-align: center;
       background: var(--fx-surface) !important;
       border: 1px solid var(--fx-glass-border);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 59, 48, 0.15);
+      box-shadow:
+        0 25px 50px rgba(0, 0, 0, 0.8),
+        0 0 30px rgba(255, 59, 48, 0.15);
     }
 
     .btn-understood {
-      background: linear-gradient(135deg, #ff3b30 0%, #e0281b 100%);
+      background: linear-gradient(
+        135deg,
+        #ff3b30 0%,
+        #e0281b 100%
+      );
       color: white;
       border: none;
       padding: 14px 44px;
@@ -613,24 +686,29 @@
     }
 
     /* --- SPLASH SCREEN --- */
+
     #splash-screen {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: var(--fx-bg);
       z-index: 11000;
-      display: none; 
+      display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       transition: opacity 0.8s ease-out;
     }
 
-    .splash-logo { 
-      width: 120px; 
-      border-radius: 24px; 
-      margin-bottom: 24px; 
-      filter: drop-shadow(0 0 20px var(--fx-accent-glow));
+    .splash-logo {
+      width: 120px;
+      border-radius: 24px;
+      margin-bottom: 24px;
+      filter: drop-shadow(
+        0 0 20px var(--fx-accent-glow)
+      );
     }
 
     #cycling-text {
@@ -643,12 +721,18 @@
     }
 
     /* --- FLOATING DISCORD & PWA BUTTONS --- */
+
     #discordBtn {
       position: fixed;
       bottom: 24px;
       right: 24px;
       z-index: 9999;
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.3s cubic-bezier(
+        0.34,
+        1.56,
+        0.64,
+        1
+      );
     }
 
     #discordBtn:hover {
@@ -659,7 +743,8 @@
       width: 52px;
       height: 52px;
       border-radius: 50%;
-      box-shadow: 0 8px 20px rgba(88, 101, 242, 0.4);
+      box-shadow:
+        0 8px 20px rgba(88, 101, 242, 0.4);
     }
 
     #pwaWrapper {
@@ -672,13 +757,18 @@
     }
 
     #installAppBtn {
-      background: linear-gradient(135deg, var(--fx-accent) 0%, #d32f2f 100%);
+      background: linear-gradient(
+        135deg,
+        var(--fx-accent) 0%,
+        #d32f2f 100%
+      );
       color: white;
       border: none;
       border-radius: 50px;
       padding: 12px 22px;
       font-weight: 700;
-      box-shadow: 0 8px 20px var(--fx-accent-glow);
+      box-shadow:
+        0 8px 20px var(--fx-accent-glow);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -714,902 +804,2756 @@
   <!-- DISCLAIMER OVERLAY -->
   <div id="disclaimer-overlay">
     <div class="disclaimer-content">
-      <h4 class="mb-3" style="color: var(--fx-accent); font-weight: 800; font-family: 'Kanit';">IMPORTANT NOTICE</h4>
+
+      <h4
+        class="mb-3"
+        style="
+          color: var(--fx-accent);
+          font-weight: 800;
+          font-family: 'Kanit';
+        "
+      >
+        IMPORTANT NOTICE
+      </h4>
+
       <p>
-        We DO NOT host nor transmit any audiovisual content itself and DO NOT control nor influence such content. 
-        We cannot accept any liability for the content transmitted by others. Any responsibility for this content 
-        lies with those who host or transmit it. We are not affiliated nor claim to be affiliated with any of 
+        We DO NOT host nor transmit any audiovisual content itself and DO NOT control nor influence such content.
+        We cannot accept any liability for the content transmitted by others. Any responsibility for this content
+        lies with those who host or transmit it. We are not affiliated nor claim to be affiliated with any of
         the owners of streams and/or videos. All content is copyright of their respective owners.
       </p>
+
       <p class="small opacity-75">
-        In case of copyright issues or any other inquiry contact us at: <br>
-        <span style="color: var(--fx-accent); font-weight: bold;">futbolx@proton.me</span>
+        In case of copyright issues or any other inquiry contact us at:
+        <br>
+        <span style="color: var(--fx-accent); font-weight: bold;">
+          futbolx@proton.me
+        </span>
       </p>
-      <button id="btn-understood" class="btn-understood mt-2">Understood</button>
+
+      <button id="btn-understood" class="btn-understood mt-2">
+        Understood
+      </button>
+
     </div>
   </div>
+
 
   <!-- SPLASH SCREEN -->
   <div id="splash-screen">
-      <img src="https://cdn.phototourl.com/free/2026-07-30-b4eb4fe7-50b2-4b18-8f9b-605f09574de3.png" class="splash-logo" alt="Logo">
-      <div class="slogan-container">
-        <span id="cycling-text">Free PPV</span>
-      </div>
-      <div class="bouncing-loader mt-3">
-        <span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span>
-      </div>
+
+    <img
+      src="https://cdn.phototourl.com/free/2026-07-30-b4eb4fe7-50b2-4b18-8f9b-605f09574de3.png"
+      class="splash-logo"
+      alt="Logo"
+    >
+
+    <div class="slogan-container">
+      <span id="cycling-text">
+        Free PPV
+      </span>
+    </div>
+
+    <div class="bouncing-loader mt-3">
+      <span>L</span>
+      <span>O</span>
+      <span>A</span>
+      <span>D</span>
+      <span>I</span>
+      <span>N</span>
+      <span>G</span>
+    </div>
+
   </div>
+
 
   <!-- FIXED GLASS NAVIGATION BAR -->
   <nav class="top-bar fixed-top">
+
     <div class="container-fluid">
-      <button class="btn" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+
+      <button
+        class="btn"
+        type="button"
+        id="sidebarToggler"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#sidebarMenu"
+        aria-controls="sidebarMenu"
+      >
         <i class="fas fa-bars"></i>
       </button>
 
-      <a href="/" class="futbolx-brand" id="brandLogo">
-        FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
+      <a
+        href="/"
+        class="futbolx-brand"
+        id="brandLogo"
+      >
+        FUTB
+        <i
+          class="fas fa-futbol ball-o"
+          id="logoBall"
+        ></i>
+        L-X
       </a>
+
     </div>
+
   </nav>
 
+
   <!-- OFFCANVAS SIDEBAR -->
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+  <div
+    class="offcanvas offcanvas-start"
+    tabindex="-1"
+    id="sidebarMenu"
+    aria-labelledby="sidebarMenuLabel"
+  >
+
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title font-weight-bold" style="font-family: 'Kanit';">NAVIGATION</h5>
-      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
+      <h5
+        class="offcanvas-title font-weight-bold"
+        style="font-family: 'Kanit';"
+      >
+        NAVIGATION
+      </h5>
+
+      <button
+        type="button"
+        class="btn-close text-reset"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
+      ></button>
+
     </div>
 
+
     <div class="offcanvas-body">
+
       <ul class="nav flex-column">
+
         <li class="nav-item">
           <a class="nav-link" href="/">
-            <i class="fas fa-house me-3"></i>Home
+            <i class="fas fa-house me-3"></i>
+            Home
           </a>
         </li>
 
+
         <li class="nav-item">
-          <a class="nav-link" href="https://discord.gg/CmRcPbBB2k" target="_blank">
-            <i class="fab fa-discord me-3"></i>Discord Community
+          <a
+            class="nav-link"
+            href="https://discord.gg/CmRcPbBB2k"
+            target="_blank"
+            rel="noopener"
+          >
+            <i class="fab fa-discord me-3"></i>
+            Discord Community
           </a>
         </li>
+
 
         <li class="nav-item">
           <a class="nav-link" href="/vip">
-            <i class="fas fa-crown me-3" style="color: var(--fx-gold);"></i>VIP Access
+            <i
+              class="fas fa-crown me-3"
+              style="color: var(--fx-gold);"
+            ></i>
+            VIP Access
           </a>
         </li>
+
 
         <li class="nav-item dropdown mt-2">
-          <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-user-circle me-3"></i>Account
+
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="accountDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="fas fa-user-circle me-3"></i>
+            Account
           </a>
 
-          <ul class="dropdown-menu border-0 shadow" aria-labelledby="accountDropdown">
-            <li><a class="dropdown-item" href="/auth/login" id="menuLogin">Login</a></li>
-            <li><a class="dropdown-item" href="/auth/signup" id="menuSignup">Create account</a></li>
+
+          <ul
+            class="dropdown-menu border-0 shadow"
+            aria-labelledby="accountDropdown"
+          >
+
             <li>
-              <button class="dropdown-item text-danger" id="menuLogout" style="display: none;">
-                <i class="fas fa-sign-out-alt me-2"></i>Logout
+              <a
+                class="dropdown-item"
+                href="/auth/login"
+                id="menuLogin"
+              >
+                Login
+              </a>
+            </li>
+
+            <li>
+              <a
+                class="dropdown-item"
+                href="/auth/signup"
+                id="menuSignup"
+              >
+                Create account
+              </a>
+            </li>
+
+            <li>
+              <button
+                class="dropdown-item text-danger"
+                id="menuLogout"
+                style="display: none;"
+              >
+                <i class="fas fa-sign-out-alt me-2"></i>
+                Logout
               </button>
             </li>
+
           </ul>
+
         </li>
 
+
         <li class="nav-item mt-4">
-          <button id="themeToggle" class="nav-link btn btn-link w-100 text-start" aria-label="Toggle theme">
-            <i class="fas fa-moon me-3"></i>Toggle Theme
+
+          <button
+            id="themeToggle"
+            class="nav-link btn btn-link w-100 text-start"
+            aria-label="Toggle theme"
+          >
+            <i class="fas fa-moon me-3"></i>
+            Toggle Theme
           </button>
+
         </li>
+
       </ul>
+
     </div>
+
   </div>
+
 
   <!-- MAIN CONTAINER CONTENT -->
   <div class="container-fluid main-content hero-container-wrapper">
+
     <div class="container">
+
       <div class="hero-background"></div>
-    
-      <div id="errorContainer" class="d-none error-alert"></div>
-      
+
+      <div
+        id="errorContainer"
+        class="d-none error-alert"
+      ></div>
+
+
       <!-- LIVE NOW SECTION -->
       <div id="live" class="mt-4">
+
         <h2 class="m-0">
-          Live Now <span id="liveAnimation" class="live-animation d-none"></span>
+
+          Live Now
+
+          <span
+            id="liveAnimation"
+            class="live-animation d-none"
+          ></span>
+
         </h2>
 
-        <div id="livecards" class="event-grid py-3">
-          <p class="text-muted">Loading streams...</p>
+
+        <div
+          id="livecards"
+          class="event-grid py-3"
+        >
+          <p class="text-muted">
+            Loading streams...
+          </p>
         </div>
+
       </div>
 
+
       <!-- CATEGORY SECTIONS -->
+
       <div id="football" class="mt-5 d-none">
         <h2 class="m-0">Football</h2>
         <div id="footballcards" class="event-grid py-3"></div>
       </div>
+
 
       <div id="nba" class="mt-5 d-none">
         <h2 class="m-0">Basketball</h2>
         <div id="nbacards" class="event-grid py-3"></div>
       </div>
 
+
       <div id="fights" class="mt-5 d-none">
         <h2 class="m-0">Fights</h2>
         <div id="fightscards" class="event-grid py-3"></div>
       </div>
+
 
       <div id="wrestling" class="mt-5 d-none">
         <h2 class="m-0">Wrestling</h2>
         <div id="wrestlingcards" class="event-grid py-3"></div>
       </div>
 
+
       <div id="darts" class="mt-5 d-none">
         <h2 class="m-0">Darts</h2>
         <div id="dartscards" class="event-grid py-3"></div>
       </div>
+
 
       <div id="motorsports" class="mt-5 d-none">
         <h2 class="m-0">Motorsports</h2>
         <div id="motorsportscards" class="event-grid py-3"></div>
       </div>
 
+
       <div id="nfl" class="mt-5 d-none">
         <h2 class="m-0">NFL</h2>
         <div id="nflcards" class="event-grid py-3"></div>
       </div>
+
 
       <div id="nhl" class="mt-5 d-none">
         <h2 class="m-0">NHL</h2>
         <div id="nhlcards" class="event-grid py-3"></div>
       </div>
 
+
       <div id="mlb" class="mt-5 d-none">
         <h2 class="m-0">MLB</h2>
         <div id="mlbcards" class="event-grid py-3"></div>
       </div>
+
 
       <div id="icehockey" class="mt-5 d-none">
         <h2 class="m-0">Ice Hockey</h2>
         <div id="icehockeycards" class="event-grid py-3"></div>
       </div>
 
+
       <div id="tennis" class="mt-5 d-none">
         <h2 class="m-0">Tennis</h2>
         <div id="tenniscards" class="event-grid py-3"></div>
       </div>
+
 
       <div id="rugby" class="mt-5 d-none">
         <h2 class="m-0">Rugby</h2>
         <div id="rugbycards" class="event-grid py-3"></div>
       </div>
 
+
       <div id="golf" class="mt-5 d-none">
         <h2 class="m-0">Golf</h2>
         <div id="golfcards" class="event-grid py-3"></div>
       </div>
+
 
       <div id="others" class="mt-5 d-none">
         <h2 class="m-0">Others</h2>
         <div id="otherscards" class="event-grid py-3"></div>
       </div>
 
-      <footer class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-4 mt-5">
+
+      <footer
+        class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-4 mt-5"
+      >
+
         <p class="mb-2 mb-lg-0 text-muted text-center text-lg-start">
           FutbolX &copy; 2026
         </p>
 
+
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
+
           <li class="nav-item">
-            <a href="/vip" class="nav-link px-2 text-muted">Donate / VIP Access</a>
+
+            <a
+              href="/vip"
+              class="nav-link px-2 text-muted"
+            >
+              Donate / VIP Access
+            </a>
+
           </li>
+
         </ul>
+
       </footer>
+
     </div>
+
   </div>
+
 
   <!-- PWA FLOATING PROMPT -->
   <div id="pwaWrapper">
+
     <button id="installAppBtn">
-      <i class="fas fa-download"></i> Download App
+      <i class="fas fa-download"></i>
+      Download App
     </button>
 
-    <button id="closePwa">✕</button>
+    <button id="closePwa">
+      ✕
+    </button>
+
   </div>
 
+
   <!-- FLOATING DISCORD BUTTON -->
-  <a href="https://discord.gg/UzHzerb6XY" target="_blank" rel="noopener" id="discordBtn">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10" alt="Join Discord">
+  <a
+    href="https://discord.gg/UzHzerb6XY"
+    target="_blank"
+    rel="noopener"
+    id="discordBtn"
+  >
+
+    <img
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeN56pzA4LKgAiLZ8zrvSqhPhTy-WAUWHywdrFq0CjSg&s=10"
+      alt="Join Discord"
+    >
+
   </a>
 
-  <!-- SCRIPTS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+  <!-- BOOTSTRAP -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"
+  ></script>
+
+
+  <!-- API -->
   <script src="/assets/js/api.js"></script>
 
+
+  <!-- MAIN JAVASCRIPT -->
   <script>
+
     document.addEventListener('DOMContentLoaded', () => {
-      const brandLogo = document.getElementById('brandLogo');
-      const logoBall = document.getElementById('logoBall');
-      
+
+      const brandLogo =
+        document.getElementById('brandLogo');
+
+      const logoBall =
+        document.getElementById('logoBall');
+
+
       if (brandLogo && logoBall) {
-        brandLogo.addEventListener('click', (e) => {
+
+        brandLogo.addEventListener('click', () => {
+
           logoBall.classList.add('spinning');
 
           setTimeout(() => {
             logoBall.classList.remove('spinning');
           }, 600);
+
         });
+
       }
+
     });
 
+
+    /* =========================================================
+       DISCLAIMER
+       ========================================================= */
+
     (function() {
-      const overlay = document.getElementById('disclaimer-overlay');
-      const btn = document.getElementById('btn-understood');
-      const mainContent = document.querySelector('.main-content');
-      const navBar = document.querySelector('.top-bar');
-      const storageKey = 'futbolx_disclaimer_timestamp';
-      const twentyFourHours = 24 * 60 * 60 * 1000;
+
+      const overlay =
+        document.getElementById('disclaimer-overlay');
+
+      const btn =
+        document.getElementById('btn-understood');
+
+      const mainContent =
+        document.querySelector('.main-content');
+
+      const navBar =
+        document.querySelector('.top-bar');
+
+      const storageKey =
+        'futbolx_disclaimer_timestamp';
+
+      const twentyFourHours =
+        24 * 60 * 60 * 1000;
+
 
       function initDisclaimer() {
-        const lastSeen = localStorage.getItem(storageKey);
-        const now = new Date().getTime();
 
-        if (!lastSeen || (now - lastSeen) > twentyFourHours) {
+        const lastSeen =
+          localStorage.getItem(storageKey);
+
+        const now =
+          Date.now();
+
+
+        if (
+          !lastSeen ||
+          (now - Number(lastSeen)) > twentyFourHours
+        ) {
+
           overlay.style.display = 'flex';
-          mainContent.classList.add('site-blurred');
 
-          if(navBar) {
-            navBar.classList.add('site-blurred');
+          mainContent.classList.add(
+            'site-blurred'
+          );
+
+          if (navBar) {
+            navBar.classList.add(
+              'site-blurred'
+            );
           }
+
         }
+
       }
 
-      btn.addEventListener('click', () => {
-        localStorage.setItem(storageKey, new Date().getTime());
-        overlay.style.opacity = '0';
-        mainContent.classList.remove('site-blurred');
 
-        if(navBar) {
-          navBar.classList.remove('site-blurred');
+      btn.addEventListener('click', () => {
+
+        localStorage.setItem(
+          storageKey,
+          Date.now()
+        );
+
+        overlay.style.opacity = '0';
+
+        mainContent.classList.remove(
+          'site-blurred'
+        );
+
+        if (navBar) {
+          navBar.classList.remove(
+            'site-blurred'
+          );
         }
 
+
         setTimeout(() => {
+
           overlay.style.display = 'none';
+
         }, 500);
+
       });
 
+
       initDisclaimer();
+
     })();
 
-    window.plausible = window.plausible || function() {
-      (window.plausible.q = window.plausible.q || []).push(arguments)
-    };
+
+    /* =========================================================
+       PLAUSIBLE
+       ========================================================= */
+
+    window.plausible =
+      window.plausible ||
+      function() {
+
+        (
+          window.plausible.q =
+          window.plausible.q || []
+        ).push(arguments);
+
+      };
+
+
+    /* =========================================================
+       GLOBAL VARIABLES
+       ========================================================= */
 
     let lastApiCall = 0;
     let apiInstance = null;
 
+
     function zeropad(num) {
-      return num > 9 ? num : '0' + num;
+      return num > 9
+        ? num
+        : '0' + num;
     }
+
 
     function clearError() {
-      const errorContainer = document.getElementById('errorContainer');
 
-      if (errorContainer && !errorContainer.classList.contains('d-none')) {
-        errorContainer.classList.add('fade-out');
-
-        setTimeout(() => {
-          errorContainer.className = 'd-none error-alert';
-          errorContainer.innerHTML = '';
-        }, 500);
-      }
-    }
-
-    function countdown() {
-      const now = Math.floor(Date.now() / 1000);
-      let needsRefresh = false;
-
-      const countdownElements = document.querySelectorAll('.countdown');
-
-      countdownElements.forEach(element => {
-        const startTime = parseInt(element.getAttribute('data-start'), 10);
-        const cardLink = element.closest('a[href]');
-        let timer = startTime - now;
-
-        if (timer > 0) {
-          let days = Math.floor(timer / 86400);
-          let weeks = Math.floor(days / 7);
-          let hours = Math.floor(timer / 3600);
-          let mins = Math.floor(timer / 60);
-          let secs = Math.floor(timer);
-
-          let displayText = '';
-
-          const startDate = new Date(startTime * 1000);
-
-          const localTimeString = startDate.toLocaleString('en-US', {
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true,
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-          });
-
-          if (days >= 7) {
-            displayText = `${weeks}w (${localTimeString})`;
-          } 
-          else if (days >= 1) {
-            displayText = `${days}d (${localTimeString})`;
-          } 
-          else {
-            let hh = hours - days * 24;
-            let mm = mins - hours * 60;
-            let ss = secs - mins * 60;
-
-            displayText = `${zeropad(hh)}:${zeropad(mm)}:${zeropad(ss)}`;
-          }
-
-          if (element.innerHTML !== displayText) {
-            element.innerHTML = displayText;
-          }
-        } 
-        else if (timer <= 0 && !element.innerHTML.includes('watch-button')) {
-          element.innerHTML = `<span class="btn btn-danger btn-sm watch-button">Watch</span>`;
-
-          if (cardLink) {
-            cardLink.classList.add('clickable');
-          }
-
-          needsRefresh = true;
-        }
-      });
-
-      if (needsRefresh && apiInstance) {
-        const currentTime = Date.now();
-
-        if (currentTime - lastApiCall >= 1000) {
-          lastApiCall = currentTime;
-          loadContent(apiInstance);
-        }
-      }
-
-      setTimeout(countdown, 1000);
-    }
-
-    function fetchWithRetry(url, maxRetries = 3, delay = 1000) {
-      return new Promise((resolve, reject) => {
-        let attempts = 0;
-
-        function attempt() {
-          attempts++;
-
-          fetch(url, {
-            signal: AbortSignal.timeout(5000)
-          })
-            .then(res => res.ok ? res.json() : reject())
-            .then(data => {
-              clearError();
-              resolve(data);
-            })
-            .catch(error => {
-              attempts < maxRetries
-                ? setTimeout(attempt, delay)
-                : reject(error);
-            });
-        }
-
-        attempt();
-      });
-    }
-
-    async function loadContent(api) {
-      const errorContainer = document.getElementById('errorContainer');
-      const liveAnimation = document.getElementById('liveAnimation');
-      const livecards = document.getElementById('livecards');
-
-      if (!livecards) return;
-
-      livecards.innerHTML = '<p class="text-muted">Loading streams...</p>';
-
-      try {
-        const baseUrl = api.baseUrl || `${window.location.origin}/api`;
-
-        const catListUrl = baseUrl.endsWith('/')
-          ? `${baseUrl}stream`
-          : `${baseUrl}/stream`;
-
-        const catListRes = await fetchWithRetry(catListUrl);
-
-        const categoryNames = catListRes.categories || [];
-
-        const fetchPromises = categoryNames.map(cat =>
-          fetchWithRetry(`${baseUrl}/${cat}.json`)
-            .catch(() => ({
-              success: true,
-              streams: []
-            }))
+      const errorContainer =
+        document.getElementById(
+          'errorContainer'
         );
 
-        const allCategoryData = await Promise.all(fetchPromises);
 
-        const combined = {
-          success: true,
-          streams: allCategoryData
-            .filter(d => d && d.success && Array.isArray(d.streams))
-            .flatMap(d => d.streams || [])
-        };
+      if (
+        errorContainer &&
+        !errorContainer.classList.contains('d-none')
+      ) {
 
-        if (combined.streams.length === 0) {
-          livecards.innerHTML = '<p class="text-muted">No streams available right now.</p>';
-          liveAnimation.classList.add('d-none');
+        errorContainer.classList.add(
+          'fade-out'
+        );
+
+
+        setTimeout(() => {
+
+          errorContainer.className =
+            'd-none error-alert';
+
+          errorContainer.innerHTML = '';
+
+        }, 500);
+
+      }
+
+    }
+
+
+    /* =========================================================
+       COUNTDOWN
+       ========================================================= */
+
+    function countdown() {
+
+      const now =
+        Math.floor(
+          Date.now() / 1000
+        );
+
+      let needsRefresh = false;
+
+
+      const countdownElements =
+        document.querySelectorAll(
+          '.countdown'
+        );
+
+
+      countdownElements.forEach(element => {
+
+        const startTime =
+          parseInt(
+            element.getAttribute(
+              'data-start'
+            ),
+            10
+          );
+
+
+        if (!Number.isFinite(startTime)) {
           return;
         }
 
-        const categories = {
-          football: {
-            id: 'football',
-            element: document.getElementById('footballcards')
-          },
-          nba: {
-            id: 'nba',
-            element: document.getElementById('nbacards')
-          },
-          fights: {
-            id: 'fights',
-            element: document.getElementById('fightscards')
-          },
-          wrestling: {
-            id: 'wrestling',
-            element: document.getElementById('wrestlingcards')
-          },
-          darts: {
-            id: 'darts',
-            element: document.getElementById('dartscards')
-          },
-          motorsports: {
-            id: 'motorsports',
-            element: document.getElementById('motorsportscards')
-          },
-          nfl: {
-            id: 'nfl',
-            element: document.getElementById('nflcards')
-          },
-          nhl: {
-            id: 'nhl',
-            element: document.getElementById('nhlcards')
-          },
-          mlb: {
-            id: 'mlb',
-            element: document.getElementById('mlbcards')
-          },
-          icehockey: {
-            id: 'icehockey',
-            element: document.getElementById('icehockeycards')
-          },
-          tennis: {
-            id: 'tennis',
-            element: document.getElementById('tenniscards')
-          },
-          rugby: {
-            id: 'rugby',
-            element: document.getElementById('rugbycards')
-          },
-          golf: {
-            id: 'golf',
-            element: document.getElementById('golfcards')
-          },
-          others: {
-            id: 'others',
-            element: document.getElementById('otherscards')
+
+        const cardLink =
+          element.closest('a[href]');
+
+
+        let timer =
+          startTime - now;
+
+
+        if (timer > 0) {
+
+          const days =
+            Math.floor(
+              timer / 86400
+            );
+
+          const weeks =
+            Math.floor(
+              days / 7
+            );
+
+          const hours =
+            Math.floor(
+              timer / 3600
+            );
+
+          const mins =
+            Math.floor(
+              timer / 60
+            );
+
+          const secs =
+            Math.floor(timer);
+
+
+          let displayText = '';
+
+
+          const startDate =
+            new Date(
+              startTime * 1000
+            );
+
+
+          const localTimeString =
+            startDate.toLocaleString(
+              'en-US',
+              {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true,
+                timeZone:
+                  Intl.DateTimeFormat()
+                    .resolvedOptions()
+                    .timeZone
+              }
+            );
+
+
+          if (days >= 7) {
+
+            displayText =
+              `${weeks}w (${localTimeString})`;
+
+          } else if (days >= 1) {
+
+            displayText =
+              `${days}d (${localTimeString})`;
+
+          } else {
+
+            const hh =
+              hours - days * 24;
+
+            const mm =
+              mins - hours * 60;
+
+            const ss =
+              secs - mins * 60;
+
+
+            displayText =
+              `${zeropad(hh)}:${zeropad(mm)}:${zeropad(ss)}`;
+
           }
-        };
 
-        Object.values(categories).forEach(cat => {
-          if (cat.element) {
-            cat.element.innerHTML = '';
+
+          if (
+            element.innerHTML !== displayText
+          ) {
+
+            element.innerHTML =
+              displayText;
+
           }
-        });
 
-        Object.keys(categories).forEach(key => {
-          document
-            .getElementById(categories[key].id)
-            ?.classList.add('d-none');
-        });
+        } else if (
+          timer <= 0 &&
+          !element.innerHTML.includes(
+            'watch-button'
+          )
+        ) {
 
-        livecards.innerHTML = '';
+          element.innerHTML =
+            `<span class="btn btn-danger btn-sm watch-button">Watch</span>`;
 
-        let hasLiveEvents = false;
 
-        const now = Math.floor(Date.now() / 1000);
+          if (cardLink) {
+            cardLink.classList.add(
+              'clickable'
+            );
+          }
 
-        const categoryEvents = {};
 
-        Object.keys(categories).forEach(key => {
-          categoryEvents[key] = [];
-        });
+          needsRefresh = true;
 
-        const categoryMap = {
-          'football': 'football',
-          'basketball': 'nba',
-          'fights': 'fights',
-          'wrestling': 'wrestling',
-          'darts': 'darts',
-          'motorsports': 'motorsports',
-          'nfl': 'nfl',
-          'nhl': 'nhl',
-          'mlb': 'mlb',
-          'icehockey': 'icehockey',
-          'tennis': 'tennis',
-          'rugby': 'rugby',
-          'golf': 'golf'
-        };
+        }
 
-        combined.streams.forEach(category => {
-          const normalizedName =
-            category.category?.trim().toLowerCase() || '';
+      });
 
-          let categoryKey =
-            categoryMap[normalizedName] || 'others';
 
-          category.streams.forEach(stream => {
+      if (
+        needsRefresh &&
+        apiInstance
+      ) {
 
-            const isVercelSite =
-              window.location.hostname === 'www.futbol-x.top' ||
-              window.location.hostname === 'futbol-x.top';
+        const currentTime =
+          Date.now();
 
-            const tag =
-              (stream.tag || '')
-                .toLowerCase()
-                .replace(/\s+/g, '');
+
+        if (
+          currentTime - lastApiCall >= 1000
+        ) {
+
+          lastApiCall =
+            currentTime;
+
+          loadContent(
+            apiInstance
+          );
+
+        }
+
+      }
+
+
+      setTimeout(
+        countdown,
+        1000
+      );
+
+    }
+
+
+    /* =========================================================
+       ROBUST FETCH WITH TIMEOUT + RETRIES
+       ========================================================= */
+
+    async function fetchWithRetry(
+      url,
+      maxRetries = 3,
+      delay = 1000
+    ) {
+
+      let lastError;
+
+
+      for (
+        let attempt = 1;
+        attempt <= maxRetries;
+        attempt++
+      ) {
+
+        const controller =
+          new AbortController();
+
+
+        const timeout =
+          setTimeout(() => {
+
+            controller.abort();
+
+          }, 8000);
+
+
+        try {
+
+          console.log(
+            `FutbolX API request ${attempt}/${maxRetries}:`,
+            url
+          );
+
+
+          const response =
+            await fetch(
+              url,
+              {
+                method: 'GET',
+                cache: 'no-store',
+                headers: {
+                  'Accept':
+                    'application/json'
+                },
+                signal:
+                  controller.signal
+              }
+            );
+
+
+          clearTimeout(timeout);
+
+
+          if (!response.ok) {
+
+            throw new Error(
+              `HTTP ${response.status} ${response.statusText}`
+            );
+
+          }
+
+
+          const contentType =
+            response.headers.get(
+              'content-type'
+            ) || '';
+
+
+          if (
+            !contentType.toLowerCase()
+              .includes('application/json')
+          ) {
+
+            throw new Error(
+              `Server returned non-JSON response`
+            );
+
+          }
+
+
+          const data =
+            await response.json();
+
+
+          clearError();
+
+
+          return data;
+
+
+        } catch (error) {
+
+          clearTimeout(timeout);
+
+          lastError =
+            error;
+
+
+          console.warn(
+            `FutbolX request failed (${attempt}/${maxRetries}):`,
+            url,
+            error
+          );
+
+
+          if (
+            attempt < maxRetries
+          ) {
+
+            await new Promise(
+              resolve =>
+                setTimeout(
+                  resolve,
+                  delay * attempt
+                )
+            );
+
+          }
+
+        }
+
+      }
+
+
+      throw (
+        lastError ||
+        new Error(
+          'API request failed'
+        )
+      );
+
+    }
+
+
+    /* =========================================================
+       LOAD STREAM CONTENT
+       ========================================================= */
+
+    async function loadContent(api) {
+
+      const errorContainer =
+        document.getElementById(
+          'errorContainer'
+        );
+
+      const liveAnimation =
+        document.getElementById(
+          'liveAnimation'
+        );
+
+      const livecards =
+        document.getElementById(
+          'livecards'
+        );
+
+
+      if (!livecards) {
+        return;
+      }
+
+
+      livecards.innerHTML =
+        '<p class="text-muted">Loading streams...</p>';
+
+
+      try {
+
+        /* -----------------------------------------------------
+           API BASE URL
+           ----------------------------------------------------- */
+
+        const baseUrl =
+          (
+            api &&
+            api.baseUrl
+              ? api.baseUrl
+              : `${window.location.origin}/api`
+          ).replace(
+            /\/+$/,
+            ''
+          );
+
+
+        console.log(
+          'FutbolX API base:',
+          baseUrl
+        );
+
+
+        /* -----------------------------------------------------
+           GET CATEGORY LIST
+           ----------------------------------------------------- */
+
+        const categoryUrl =
+          `${baseUrl}/stream`;
+
+
+        console.log(
+          'Fetching category list:',
+          categoryUrl
+        );
+
+
+        const categoryResponse =
+          await fetchWithRetry(
+            categoryUrl,
+            3,
+            1000
+          );
+
+
+        /* -----------------------------------------------------
+           NORMALIZE CATEGORY RESPONSE
+           ----------------------------------------------------- */
+
+        let rawCategories = [];
+
+
+        if (
+          Array.isArray(
+            categoryResponse
+          )
+        ) {
+
+          rawCategories =
+            categoryResponse;
+
+        } else if (
+          categoryResponse &&
+          Array.isArray(
+            categoryResponse.categories
+          )
+        ) {
+
+          rawCategories =
+            categoryResponse.categories;
+
+        } else if (
+          categoryResponse &&
+          Array.isArray(
+            categoryResponse.data
+          )
+        ) {
+
+          rawCategories =
+            categoryResponse.data;
+
+        }
+
+
+        const categoryNames =
+          rawCategories
+            .map(category => {
+
+              if (
+                typeof category ===
+                'string'
+              ) {
+
+                return category.trim();
+
+              }
+
+
+              if (
+                category &&
+                typeof category ===
+                'object'
+              ) {
+
+                return String(
+                  category.name ||
+                  category.category ||
+                  category.slug ||
+                  category.id ||
+                  ''
+                ).trim();
+
+              }
+
+
+              return '';
+
+            })
+            .filter(Boolean);
+
+
+        console.log(
+          'Categories received:',
+          categoryNames
+        );
+
+
+        /* -----------------------------------------------------
+           FALLBACK CATEGORIES
+
+           If /api/stream doesn't return a usable category
+           list, try the known FutbolX categories.
+           ----------------------------------------------------- */
+
+        const fallbackCategories = [
+
+          'football',
+          'basketball',
+          'fights',
+          'wrestling',
+          'darts',
+          'motorsports',
+          'nfl',
+          'nhl',
+          'mlb',
+          'icehockey',
+          'tennis',
+          'rugby',
+          'golf',
+          'others'
+
+        ];
+
+
+        const categoriesToFetch =
+          categoryNames.length > 0
+
+            ? [
+                ...new Set(
+                  categoryNames
+                )
+              ]
+
+            : fallbackCategories;
+
+
+        console.log(
+          'Categories to fetch:',
+          categoriesToFetch
+        );
+
+
+        /* -----------------------------------------------------
+           FETCH ALL CATEGORY JSON FILES
+
+           Individual category failure no longer kills the
+           entire page.
+           ----------------------------------------------------- */
+
+        const allCategoryData =
+          await Promise.all(
+
+            categoriesToFetch.map(
+              async category => {
+
+                const cleanCategory =
+                  encodeURIComponent(
+                    String(category)
+                      .replace(
+                        /^\/+|\/+$/g,
+                        ''
+                      )
+                  );
+
+
+                const url =
+                  `${baseUrl}/${cleanCategory}.json`;
+
+
+                try {
+
+                  console.log(
+                    'Fetching category:',
+                    url
+                  );
+
+
+                  const data =
+                    await fetchWithRetry(
+                      url,
+                      2,
+                      700
+                    );
+
+
+                  return {
+                    category:
+                      String(category),
+                    data
+                  };
+
+
+                } catch (error) {
+
+                  console.warn(
+                    `Skipping category ${category}:`,
+                    error
+                  );
+
+
+                  return {
+                    category:
+                      String(category),
+                    data: null
+                  };
+
+                }
+
+              }
+            )
+
+          );
+
+
+        /* -----------------------------------------------------
+           COMBINE STREAM DATA
+           ----------------------------------------------------- */
+
+        const combinedStreams = [];
+
+
+        allCategoryData.forEach(
+          result => {
 
             if (
-              isVercelSite &&
-              (tag === 'laliga' || tag.includes('laliga'))
+              !result ||
+              !result.data
             ) {
               return;
             }
 
-            let startTime =
-              new Date(stream.starts_at + '+03:00')
-                .getTime() / 1000;
 
-            let endTime =
-              stream.ends_at
-                ? new Date(stream.ends_at + '+03:00').getTime() / 1000
-                : startTime + 10800;
+            const data =
+              result.data;
 
-            if (now > endTime) return;
 
-            const isLive =
-              (startTime <= now && now <= endTime) ||
-              stream.always_live === 1;
+            /* Standard format:
+               {
+                 success: true,
+                 streams: [...]
+               }
+            */
 
-            let poster =
-              stream.poster && stream.poster !== ''
-                ? stream.poster
-                : 'https://via.placeholder.com/285x160?text=FutbolX';
+            if (
+              Array.isArray(
+                data.streams
+              )
+            ) {
 
-            let html = `
-                <a href="/live/${stream.uri_name}">
-                  <div class="card">
-                    ${isLive ? '<span class="live-badge">LIVE</span>'}
-                    
-                    <img
-                      src="${poster}"
-                      class="card-img-top"
-                      alt="${stream.name}"
-                      loading="lazy"
-                    >
+              combinedStreams.push({
 
-                    <div class="card-body">
-                      <h5 class="card-title">${stream.name}</h5>
+                category:
+                  data.category ||
+                  data.name ||
+                  result.category,
 
-                      <div class="card-text">
-                        <span class="event-tag">${stream.tag}</span>
+                streams:
+                  data.streams
 
-                        <span class="event-timer">
-                          ${
-                            isLive 
-                              ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` 
-                              : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`
-                          }
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>`;
+              });
 
-            if (isLive) { 
-              livecards.innerHTML += html; 
-              hasLiveEvents = true; 
-            } 
-            else { 
-              categoryEvents[categoryKey].push({
-                html,
-                startTime
-              }); 
+
+              return;
             }
-          });
-        });
 
-        Object.keys(categories).forEach(key => {
 
-          if (categoryEvents[key].length > 0) {
+            /* Direct array format */
 
-            categoryEvents[key].sort(
-              (a, b) => a.startTime - b.startTime
-            );
+            if (
+              Array.isArray(data)
+            ) {
 
-            categories[key].element.innerHTML =
-              categoryEvents[key]
-                .map(item => item.html)
-                .join('');
+              combinedStreams.push({
 
-            document
-              .getElementById(categories[key].id)
-              ?.classList.remove('d-none');
-          }
-        });
+                category:
+                  result.category,
 
-        if (!hasLiveEvents) {
-          livecards.innerHTML =
-            '<p class="text-muted">No live events right now. Check back later!</p>';
+                streams:
+                  data
 
-          liveAnimation.classList.add('d-none');
-        } 
-        else {
-          liveAnimation.classList.remove('d-none');
-        }
+              });
 
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach(e => { 
-              if (e.isIntersecting) { 
-                e.target.classList.add('visible'); 
-                observer.unobserve(e.target); 
-              } 
-            });
-          },
-          {
-            threshold: 0.1
+
+              return;
+            }
+
+
+            /* Wrapped data format */
+
+            if (
+              data.data &&
+              Array.isArray(
+                data.data
+              )
+            ) {
+
+              combinedStreams.push({
+
+                category:
+                  data.category ||
+                  data.name ||
+                  result.category,
+
+                streams:
+                  data.data
+
+              });
+
+            }
+
           }
         );
 
-        document
-          .querySelectorAll('.card')
-          .forEach(card => observer.observe(card));
 
-      } 
-      catch (error) { 
+        console.log(
+          'Usable stream categories:',
+          combinedStreams.length
+        );
+
+
+        /* -----------------------------------------------------
+           NO DATA
+
+           IMPORTANT: Loading state is always replaced.
+           ----------------------------------------------------- */
+
+        if (
+          combinedStreams.length === 0
+        ) {
+
+          livecards.innerHTML =
+            '<p class="text-muted">No streams available right now.</p>';
+
+
+          liveAnimation.classList.add(
+            'd-none'
+          );
+
+
+          console.warn(
+            'FutbolX API returned no usable stream data.'
+          );
+
+
+          return;
+
+        }
+
+
+        /* -----------------------------------------------------
+           CATEGORY CONFIGURATION
+           ----------------------------------------------------- */
+
+        const categories = {
+
+          football: {
+            id: 'football',
+            element:
+              document.getElementById(
+                'footballcards'
+              )
+          },
+
+          nba: {
+            id: 'nba',
+            element:
+              document.getElementById(
+                'nbacards'
+              )
+          },
+
+          fights: {
+            id: 'fights',
+            element:
+              document.getElementById(
+                'fightscards'
+              )
+          },
+
+          wrestling: {
+            id: 'wrestling',
+            element:
+              document.getElementById(
+                'wrestlingcards'
+              )
+          },
+
+          darts: {
+            id: 'darts',
+            element:
+              document.getElementById(
+                'dartscards'
+              )
+          },
+
+          motorsports: {
+            id: 'motorsports',
+            element:
+              document.getElementById(
+                'motorsportscards'
+              )
+          },
+
+          nfl: {
+            id: 'nfl',
+            element:
+              document.getElementById(
+                'nflcards'
+              )
+          },
+
+          nhl: {
+            id: 'nhl',
+            element:
+              document.getElementById(
+                'nhlcards'
+              )
+          },
+
+          mlb: {
+            id: 'mlb',
+            element:
+              document.getElementById(
+                'mlbcards'
+              )
+          },
+
+          icehockey: {
+            id: 'icehockey',
+            element:
+              document.getElementById(
+                'icehockeycards'
+              )
+          },
+
+          tennis: {
+            id: 'tennis',
+            element:
+              document.getElementById(
+                'tenniscards'
+              )
+          },
+
+          rugby: {
+            id: 'rugby',
+            element:
+              document.getElementById(
+                'rugbycards'
+              )
+          },
+
+          golf: {
+            id: 'golf',
+            element:
+              document.getElementById(
+                'golfcards'
+              )
+          },
+
+          others: {
+            id: 'others',
+            element:
+              document.getElementById(
+                'otherscards'
+              )
+          }
+
+        };
+
+
+        /* -----------------------------------------------------
+           RESET CATEGORIES
+           ----------------------------------------------------- */
+
+        Object.values(
+          categories
+        ).forEach(category => {
+
+          if (
+            category.element
+          ) {
+
+            category.element.innerHTML =
+              '';
+
+          }
+
+
+          document
+            .getElementById(
+              category.id
+            )
+            ?.classList.add(
+              'd-none'
+            );
+
+        });
+
+
         livecards.innerHTML =
-          '<p class="text-muted">Failed to load streams.</p>'; 
+          '';
+
+
+        /* -----------------------------------------------------
+           CATEGORY MAP
+           ----------------------------------------------------- */
+
+        const categoryMap = {
+
+          football:
+            'football',
+
+          soccer:
+            'football',
+
+          basketball:
+            'nba',
+
+          nba:
+            'nba',
+
+          fights:
+            'fights',
+
+          boxing:
+            'fights',
+
+          ufc:
+            'fights',
+
+          wrestling:
+            'wrestling',
+
+          darts:
+            'darts',
+
+          motorsports:
+            'motorsports',
+
+          motorsport:
+            'motorsports',
+
+          formula1:
+            'motorsports',
+
+          f1:
+            'motorsports',
+
+          nfl:
+            'nfl',
+
+          nhl:
+            'nhl',
+
+          mlb:
+            'mlb',
+
+          icehockey:
+            'icehockey',
+
+          'ice-hockey':
+            'icehockey',
+
+          hockey:
+            'icehockey',
+
+          tennis:
+            'tennis',
+
+          rugby:
+            'rugby',
+
+          golf:
+            'golf'
+
+        };
+
+
+        const categoryEvents = {};
+
+
+        Object.keys(
+          categories
+        ).forEach(key => {
+
+          categoryEvents[key] =
+            [];
+
+        });
+
+
+        const now =
+          Math.floor(
+            Date.now() / 1000
+          );
+
+
+        let hasLiveEvents =
+          false;
+
+
+        /* -----------------------------------------------------
+           PROCESS EVERY CATEGORY
+           ----------------------------------------------------- */
+
+        combinedStreams.forEach(
+          categoryData => {
+
+            if (
+              !categoryData ||
+              !Array.isArray(
+                categoryData.streams
+              )
+            ) {
+              return;
+            }
+
+
+            const categoryName =
+              String(
+                categoryData.category ||
+                ''
+              )
+                .trim()
+                .toLowerCase();
+
+
+            let categoryKey =
+              categoryMap[
+                categoryName
+              ] ||
+              categoryName ||
+              'others';
+
+
+            if (
+              !categories[
+                categoryKey
+              ]
+            ) {
+
+              categoryKey =
+                'others';
+
+            }
+
+
+            categoryData.streams.forEach(
+              stream => {
+
+                if (
+                  !stream ||
+                  typeof stream !==
+                    'object'
+                ) {
+                  return;
+                }
+
+
+                /* Invalid streams */
+
+                if (
+                  !stream.uri_name
+                ) {
+
+                  console.warn(
+                    'Skipping stream without uri_name:',
+                    stream
+                  );
+
+                  return;
+
+                }
+
+
+                /* ------------------------------------------------
+                   VERCEL LALIGA FILTER
+                   ------------------------------------------------ */
+
+                const isVercelSite =
+                  window.location.hostname ===
+                    'www.futbol-x.top' ||
+                  window.location.hostname ===
+                    'futbol-x.top';
+
+
+                const tag =
+                  String(
+                    stream.tag ||
+                    ''
+                  )
+                    .toLowerCase()
+                    .replace(
+                      /\s+/g,
+                      ''
+                    );
+
+
+                if (
+                  isVercelSite &&
+                  (
+                    tag === 'laliga' ||
+                    tag.includes(
+                      'laliga'
+                    )
+                  )
+                ) {
+
+                  return;
+
+                }
+
+
+                /* ------------------------------------------------
+                   START TIME
+                   ------------------------------------------------ */
+
+                let startTime;
+
+
+                if (
+                  stream.starts_at
+                ) {
+
+                  let startValue =
+                    String(
+                      stream.starts_at
+                    );
+
+
+                  /*
+                   * Add +03:00 only when the API has not supplied
+                   * an explicit timezone offset.
+                   */
+
+                  if (
+                    !/[zZ]|[+-]\d{2}:?\d{2}$/
+                      .test(
+                        startValue
+                      )
+                  ) {
+
+                    startValue +=
+                      '+03:00';
+
+                  }
+
+
+                  const parsedStart =
+                    new Date(
+                      startValue
+                    ).getTime();
+
+
+                  if (
+                    Number.isFinite(
+                      parsedStart
+                    )
+                  ) {
+
+                    startTime =
+                      parsedStart / 1000;
+
+                  }
+
+                }
+
+
+                /* ------------------------------------------------
+                   INVALID START TIME
+                   ------------------------------------------------ */
+
+                if (
+                  !Number.isFinite(
+                    startTime
+                  )
+                ) {
+
+                  if (
+                    Number(
+                      stream.always_live
+                    ) === 1
+                  ) {
+
+                    startTime =
+                      now;
+
+                  } else {
+
+                    console.warn(
+                      'Skipping stream with invalid starts_at:',
+                      stream.name
+                    );
+
+                    return;
+
+                  }
+
+                }
+
+
+                /* ------------------------------------------------
+                   END TIME
+                   ------------------------------------------------ */
+
+                let endTime;
+
+
+                if (
+                  stream.ends_at
+                ) {
+
+                  let endValue =
+                    String(
+                      stream.ends_at
+                    );
+
+
+                  if (
+                    !/[zZ]|[+-]\d{2}:?\d{2}$/
+                      .test(
+                        endValue
+                      )
+                  ) {
+
+                    endValue +=
+                      '+03:00';
+
+                  }
+
+
+                  const parsedEnd =
+                    new Date(
+                      endValue
+                    ).getTime();
+
+
+                  if (
+                    Number.isFinite(
+                      parsedEnd
+                    )
+                  ) {
+
+                    endTime =
+                      parsedEnd / 1000;
+
+                  }
+
+                }
+
+
+                if (
+                  !Number.isFinite(
+                    endTime
+                  )
+                ) {
+
+                  endTime =
+                    startTime + 10800;
+
+                }
+
+
+                /* ------------------------------------------------
+                   EXPIRED EVENT
+                   ------------------------------------------------ */
+
+                if (
+                  now > endTime &&
+                  Number(
+                    stream.always_live
+                  ) !== 1
+                ) {
+
+                  return;
+
+                }
+
+
+                /* ------------------------------------------------
+                   LIVE STATUS
+                   ------------------------------------------------ */
+
+                const isLive =
+                  (
+                    startTime <= now &&
+                    now <= endTime
+                  ) ||
+                  Number(
+                    stream.always_live
+                  ) === 1;
+
+
+                /* ------------------------------------------------
+                   POSTER
+                   ------------------------------------------------ */
+
+                const poster =
+                  stream.poster &&
+                  String(
+                    stream.poster
+                  ).trim() !== ''
+
+                    ? stream.poster
+
+                    : 'https://via.placeholder.com/285x160?text=FutbolX';
+
+
+                const streamName =
+                  String(
+                    stream.name ||
+                    'Live Event'
+                  );
+
+
+                const streamTag =
+                  String(
+                    stream.tag ||
+                    'Sports'
+                  );
+
+
+                const streamUrl =
+                  `/live/${encodeURIComponent(
+                    stream.uri_name
+                  )}`;
+
+
+                /* ------------------------------------------------
+                   CARD HTML
+                   ------------------------------------------------ */
+
+                const html = `
+
+                  <a href="${streamUrl}">
+
+                    <div class="card">
+
+                      ${
+                        isLive
+                          ? '<span class="live-badge">LIVE</span>'
+                          : ''
+                      }
+
+                      <img
+                        src="${poster}"
+                        class="card-img-top"
+                        alt="${streamName.replace(
+                          /"/g,
+                          '&quot;'
+                        )}"
+                        loading="lazy"
+                        onerror="this.src='https://via.placeholder.com/285x160?text=FutbolX';"
+                      >
+
+                      <div class="card-body">
+
+                        <h5 class="card-title">
+                          ${streamName}
+                        </h5>
+
+                        <div class="card-text">
+
+                          <span class="event-tag">
+                            ${streamTag}
+                          </span>
+
+                          <span class="event-timer">
+
+                            ${
+                              isLive
+
+                                ? `
+                                  <span class="btn btn-danger btn-sm watch-button">
+                                    Watch
+                                  </span>
+                                `
+
+                                : `
+                                  <span
+                                    class="countdown"
+                                    data-start="${startTime}"
+                                    data-uri="${streamUrl}"
+                                  ></span>
+                                `
+                            }
+
+                          </span>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </a>
+
+                `;
+
+
+                /* ------------------------------------------------
+                   LIVE OR UPCOMING
+                   ------------------------------------------------ */
+
+                if (isLive) {
+
+                  livecards.innerHTML +=
+                    html;
+
+                  hasLiveEvents =
+                    true;
+
+                } else {
+
+                  categoryEvents[
+                    categoryKey
+                  ].push({
+
+                    html:
+                      html,
+
+                    startTime:
+                      startTime
+
+                  });
+
+                }
+
+              }
+            );
+
+          }
+        );
+
+
+        /* -----------------------------------------------------
+           RENDER UPCOMING EVENTS
+           ----------------------------------------------------- */
+
+        Object.keys(
+          categories
+        ).forEach(key => {
+
+          if (
+            categoryEvents[key] &&
+            categoryEvents[key].length >
+              0
+          ) {
+
+            categoryEvents[key].sort(
+              (a, b) =>
+                a.startTime -
+                b.startTime
+            );
+
+
+            if (
+              categories[key].element
+            ) {
+
+              categories[key]
+                .element
+                .innerHTML =
+                categoryEvents[key]
+                  .map(
+                    item =>
+                      item.html
+                  )
+                  .join('');
+
+            }
+
+
+            document
+              .getElementById(
+                categories[key].id
+              )
+              ?.classList.remove(
+                'd-none'
+              );
+
+          }
+
+        });
+
+
+        /* -----------------------------------------------------
+           LIVE SECTION
+           ----------------------------------------------------- */
+
+        if (
+          !hasLiveEvents
+        ) {
+
+          livecards.innerHTML =
+            '<p class="text-muted">No live events right now. Check back later!</p>';
+
+
+          liveAnimation.classList.add(
+            'd-none'
+          );
+
+        } else {
+
+          liveAnimation.classList.remove(
+            'd-none'
+          );
+
+        }
+
+
+        /* -----------------------------------------------------
+           INTERSECTION OBSERVER
+           ----------------------------------------------------- */
+
+        if (
+          'IntersectionObserver'
+          in window
+        ) {
+
+          const observer =
+            new IntersectionObserver(
+              entries => {
+
+                entries.forEach(
+                  entry => {
+
+                    if (
+                      entry.isIntersecting
+                    ) {
+
+                      entry.target.classList.add(
+                        'visible'
+                      );
+
+
+                      observer.unobserve(
+                        entry.target
+                      );
+
+                    }
+
+                  }
+                );
+
+              },
+              {
+                threshold: 0.1
+              }
+            );
+
+
+          document
+            .querySelectorAll(
+              '.card'
+            )
+            .forEach(card =>
+              observer.observe(
+                card
+              )
+            );
+
+        }
+
+
+        console.log(
+          'FutbolX streams loaded successfully.',
+          {
+            categories:
+              categoriesToFetch.length,
+
+            live:
+              hasLiveEvents,
+
+            totalCategories:
+              combinedStreams.length
+          }
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          'FutbolX stream loading failed:',
+          error
+        );
+
+
+        /*
+         * IMPORTANT:
+         * Never leave the page stuck on Loading streams.
+         */
+
+        livecards.innerHTML = `
+
+          <div class="text-muted">
+
+            Failed to load streams.
+
+            <br>
+
+            <small>
+              Please refresh the page and try again.
+            </small>
+
+          </div>
+
+        `;
+
+
+        liveAnimation.classList.add(
+          'd-none'
+        );
+
+
+        if (
+          errorContainer
+        ) {
+
+          errorContainer.classList.remove(
+            'd-none'
+          );
+
+          errorContainer.innerHTML =
+            'Unable to connect to the stream server.';
+
+        }
+
       }
+
     }
+
+
+    /* =========================================================
+       INITIALIZE PAGE
+       ========================================================= */
 
     function initPage() {
 
+      /* -------------------------------------------------------
+         THEME
+         ------------------------------------------------------- */
+
       const themeToggle =
-        document.getElementById('themeToggle');
+        document.getElementById(
+          'themeToggle'
+        );
+
 
       const htmlElement =
         document.documentElement;
 
+
       const currentTheme =
-        localStorage.getItem('theme') || 'dark';
+        localStorage.getItem(
+          'theme'
+        ) || 'dark';
+
 
       htmlElement.setAttribute(
         'data-bs-theme',
         currentTheme
       );
 
-      if (themeToggle) {
+
+      if (
+        themeToggle
+      ) {
 
         themeToggle.innerHTML =
-          currentTheme === 'dark' 
-            ? '<i class="fas fa-moon me-3"></i>Dark Theme' 
+          currentTheme === 'dark'
+
+            ? '<i class="fas fa-moon me-3"></i>Dark Theme'
+
             : '<i class="fas fa-sun me-3"></i>Light Theme';
 
-        themeToggle.addEventListener('click', () => {
 
-          const newTheme =
-            htmlElement.getAttribute('data-bs-theme') === 'dark'
-              ? 'light'
-              : 'dark';
+        themeToggle.addEventListener(
+          'click',
+          () => {
 
-          htmlElement.setAttribute(
-            'data-bs-theme',
-            newTheme
-          );
+            const newTheme =
+              htmlElement.getAttribute(
+                'data-bs-theme'
+              ) === 'dark'
 
-          localStorage.setItem(
-            'theme',
-            newTheme
-          );
+                ? 'light'
 
-          themeToggle.innerHTML =
-            newTheme === 'dark' 
-              ? '<i class="fas fa-moon me-3"></i>Dark Theme' 
-              : '<i class="fas fa-sun me-3"></i>Light Theme';
-        });
+                : 'dark';
+
+
+            htmlElement.setAttribute(
+              'data-bs-theme',
+              newTheme
+            );
+
+
+            localStorage.setItem(
+              'theme',
+              newTheme
+            );
+
+
+            themeToggle.innerHTML =
+              newTheme === 'dark'
+
+                ? '<i class="fas fa-moon me-3"></i>Dark Theme'
+
+                : '<i class="fas fa-sun me-3"></i>Light Theme';
+
+          }
+        );
+
       }
 
+
+      /* -------------------------------------------------------
+         API
+         ------------------------------------------------------- */
+
       apiInstance =
-        typeof Api !== 'undefined' 
-          ? new Api(`${window.location.origin}/api`) 
+        typeof Api !== 'undefined'
+
+          ? new Api(
+              `${window.location.origin}/api`
+            )
+
           : {
               baseUrl:
-                window.location.origin + '/api'
+                `${window.location.origin}/api`
             };
 
-      loadContent(apiInstance);
+
+      console.log(
+        'FutbolX API instance:',
+        apiInstance
+      );
+
+
+      /* -------------------------------------------------------
+         LOAD STREAMS
+         ------------------------------------------------------- */
+
+      loadContent(
+        apiInstance
+      );
+
+
+      /* -------------------------------------------------------
+         COUNTDOWN
+         ------------------------------------------------------- */
 
       countdown();
 
+
+      /* -------------------------------------------------------
+         PWA SPLASH
+         ------------------------------------------------------- */
+
       const isApp =
-        window.matchMedia('(display-mode: standalone)').matches ||
+        window.matchMedia(
+          '(display-mode: standalone)'
+        ).matches ||
         window.navigator.standalone === true;
+
 
       if (isApp) {
 
         const splash =
-          document.getElementById('splash-screen');
+          document.getElementById(
+            'splash-screen'
+          );
+
 
         const cycle =
-          document.getElementById('cycling-text');
+          document.getElementById(
+            'cycling-text'
+          );
+
 
         const slogans = [
-          "Free PPV",
-          "Sports Everywhere",
-          "Anytime",
-          "On the Go"
+
+          'Free PPV',
+          'Sports Everywhere',
+          'Anytime',
+          'On the Go'
+
         ];
+
 
         let sloganIdx = 0;
 
-        splash.style.display = 'flex';
 
-        const sloganTimer = setInterval(() => {
+        splash.style.display =
+          'flex';
 
-          sloganIdx++;
 
-          if(sloganIdx < slogans.length) {
+        const sloganTimer =
+          setInterval(
+            () => {
 
-            cycle.style.animation = 'none';
+              sloganIdx++;
 
-            cycle.offsetHeight; 
 
-            cycle.style.animation =
-              'textSlide 0.6s ease-out';
+              if (
+                sloganIdx <
+                slogans.length
+              ) {
 
-            cycle.innerText =
-              slogans[sloganIdx];
+                cycle.style.animation =
+                  'none';
 
-          } 
-          else { 
-            clearInterval(sloganTimer); 
-          }
 
-        }, 1500);
+                cycle.offsetHeight;
 
-        setTimeout(() => {
 
-          splash.style.opacity = '0';
+                cycle.style.animation =
+                  'textSlide 0.6s ease-out';
 
-          setTimeout(() => {
-            splash.style.display = 'none';
-          }, 800);
 
-        }, 6500); 
+                cycle.innerText =
+                  slogans[
+                    sloganIdx
+                  ];
+
+              } else {
+
+                clearInterval(
+                  sloganTimer
+                );
+
+              }
+
+            },
+            1500
+          );
+
+
+        setTimeout(
+          () => {
+
+            splash.style.opacity =
+              '0';
+
+
+            setTimeout(
+              () => {
+
+                splash.style.display =
+                  'none';
+
+              },
+              800
+            );
+
+          },
+          6500
+        );
+
       }
+
     }
+
 
     document.addEventListener(
       'DOMContentLoaded',
       initPage
     );
+
   </script>
 
-  <!-- FIREBASE AUTHENTICATION SCRIPT -->
+
+  <!-- =========================================================
+       FIREBASE AUTHENTICATION
+       ========================================================= -->
+
   <script>
-    const firebaseConfig = { 
-      apiKey: "AIzaSyBulGl-96u38wmkAs_R9FcuQMsBTkLN6ak", 
-      authDomain: "futbolx-auth-31bc6.firebaseapp.com", 
-      projectId: "futbolx-auth-31bc6", 
-      storageBucket: "futbolx-auth-31bc6.firebasestorage.app", 
-      messagingSenderId: "262628908181", 
-      appId: "1:262628908181:web:c823d458e2e2685ab48f9c" 
+
+    const firebaseConfig = {
+
+      apiKey:
+        "AIzaSyBulGl-96u38wmkAs_R9FcuQMsBTkLN6ak",
+
+      authDomain:
+        "futbolx-auth-31bc6.firebaseapp.com",
+
+      projectId:
+        "futbolx-auth-31bc6",
+
+      storageBucket:
+        "futbolx-auth-31bc6.firebasestorage.app",
+
+      messagingSenderId:
+        "262628908181",
+
+      appId:
+        "1:262628908181:web:c823d458e2e2685ab48f9c"
+
     };
 
-    firebase.initializeApp(firebaseConfig);
 
-    firebase.auth().onAuthStateChanged(user => {
+    if (
+      typeof firebase !==
+      'undefined'
+    ) {
 
-      document.getElementById('menuLogin').style.display =
-        user ? 'none' : 'block';
-
-      document.getElementById('menuSignup').style.display =
-        user ? 'none' : 'block';
-
-      document.getElementById('menuLogout').style.display =
-        user ? 'block' : 'none';
-    });
-
-    document
-      .getElementById('menuLogout')
-      ?.addEventListener('click', () => 
-        firebase.auth()
-          .signOut()
-          .then(() => window.location.href = '/')
+      firebase.initializeApp(
+        firebaseConfig
       );
+
+
+      firebase
+        .auth()
+        .onAuthStateChanged(
+          user => {
+
+            const login =
+              document.getElementById(
+                'menuLogin'
+              );
+
+            const signup =
+              document.getElementById(
+                'menuSignup'
+              );
+
+            const logout =
+              document.getElementById(
+                'menuLogout'
+              );
+
+
+            if (login) {
+
+              login.style.display =
+                user
+                  ? 'none'
+                  : 'block';
+
+            }
+
+
+            if (signup) {
+
+              signup.style.display =
+                user
+                  ? 'none'
+                  : 'block';
+
+            }
+
+
+            if (logout) {
+
+              logout.style.display =
+                user
+                  ? 'block'
+                  : 'none';
+
+            }
+
+          }
+        );
+
+
+      document
+        .getElementById(
+          'menuLogout'
+        )
+        ?.addEventListener(
+          'click',
+          () => {
+
+            firebase
+              .auth()
+              .signOut()
+              .then(
+                () =>
+                  window.location.href =
+                    '/'
+              )
+              .catch(
+                error =>
+                  console.error(
+                    'Logout failed:',
+                    error
+                  )
+              );
+
+          }
+        );
+
+    } else {
+
+      console.error(
+        'Firebase failed to load.'
+      );
+
+    }
+
   </script>
 
-  <!-- PWA INSTALL PROMPT SCRIPT -->
+
+  <!-- =========================================================
+       PWA INSTALL PROMPT
+       ========================================================= -->
+
   <script>
+
     let deferredPrompt;
 
+
     const pwaWrapper =
-      document.getElementById('pwaWrapper');
+      document.getElementById(
+        'pwaWrapper'
+      );
+
 
     const installBtn =
-      document.getElementById('installAppBtn');
+      document.getElementById(
+        'installAppBtn'
+      );
+
 
     const closeBtn =
-      document.getElementById('closePwa');
+      document.getElementById(
+        'closePwa'
+      );
 
-    if ('serviceWorker' in navigator) {
 
-      window.addEventListener('load', () => {
+    /* ---------------------------------------------------------
+       SERVICE WORKER
+       --------------------------------------------------------- */
 
-        navigator.serviceWorker
-          .register('/sw.js')
-          .catch(err =>
-            console.log(
-              'SW Registration failed:',
-              err
+    if (
+      'serviceWorker'
+      in navigator
+    ) {
+
+      window.addEventListener(
+        'load',
+        () => {
+
+          navigator.serviceWorker
+            .register(
+              '/sw.js'
             )
-          );
+            .then(
+              registration =>
+                console.log(
+                  'Service Worker registered:',
+                  registration.scope
+                )
+            )
+            .catch(
+              err =>
+                console.log(
+                  'SW Registration failed:',
+                  err
+                )
+            );
 
-      });
+        }
+      );
+
     }
+
+
+    /* ---------------------------------------------------------
+       INSTALL PROMPT
+       --------------------------------------------------------- */
 
     window.addEventListener(
       'beforeinstallprompt',
-      (e) => {
+      e => {
 
         e.preventDefault();
 
-        deferredPrompt = e;
+        deferredPrompt =
+          e;
 
-        if (!sessionStorage.getItem('pwaDismissed')) {
-          pwaWrapper.style.display = 'flex';
+
+        if (
+          !sessionStorage.getItem(
+            'pwaDismissed'
+          )
+        ) {
+
+          pwaWrapper.style.display =
+            'flex';
+
         }
 
       }
     );
+
 
     installBtn.addEventListener(
       'click',
       async () => {
 
-        if (deferredPrompt) {
+        if (
+          deferredPrompt
+        ) {
 
-          pwaWrapper.style.display = 'none';
+          pwaWrapper.style.display =
+            'none';
+
 
           deferredPrompt.prompt();
 
-          const { outcome } =
+
+          try {
+
             await deferredPrompt.userChoice;
 
-          deferredPrompt = null;
+          } catch (error) {
+
+            console.warn(
+              'PWA install prompt error:',
+              error
+            );
+
+          }
+
+
+          deferredPrompt =
+            null;
+
         }
 
       }
     );
 
+
     closeBtn.addEventListener(
       'click',
       () => {
 
-        pwaWrapper.style.display = 'none';
+        pwaWrapper.style.display =
+          'none';
+
 
         sessionStorage.setItem(
           'pwaDismissed',
@@ -1619,17 +3563,22 @@
       }
     );
 
+
     window.addEventListener(
       'appinstalled',
       () => {
 
-        pwaWrapper.style.display = 'none';
+        pwaWrapper.style.display =
+          'none';
 
-        deferredPrompt = null;
+
+        deferredPrompt =
+          null;
 
       }
     );
+
   </script>
 
 </body>
-  </html>
+        </html>
