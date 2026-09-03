@@ -12,27 +12,100 @@
   <meta name="twitter:title" content="FutbolX - VIP Membership">
   <meta name="twitter:description" content="Unlock premium sports streaming with FutbolX VIP membership.">
   <meta name="twitter:card" content="summary_large_image">
+
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
-  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet"> 
+  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900|outfit:300,400,500,600,700" rel="stylesheet">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
-  
+
   <style>
+    /* ===== FUTBOLX UI THEME ===== */
+    :root {
+      --fx-bg: #07080b;
+      --fx-surface: #0f1118;
+      --fx-surface-hover: #171a26;
+      --fx-glass: rgba(15, 17, 24, 0.75);
+      --fx-glass-border: rgba(255, 255, 255, 0.08);
+
+      /* Same red accent used across the updated FutbolX UI */
+      --fx-accent: #ef4444;
+      --fx-accent-hover: #f87171;
+      --fx-accent-dark: #dc2626;
+      --fx-accent-glow: rgba(239, 68, 68, 0.30);
+
+      --fx-gold: #ffc107;
+      --fx-text-main: #f1f5f9;
+      --fx-text-muted: #94a3b8;
+      --fx-radius: 14px;
+    }
+
+    [data-bs-theme="light"] {
+      --fx-bg: #f8fafc;
+      --fx-surface: #ffffff;
+      --fx-surface-hover: #f1f5f9;
+      --fx-glass: rgba(255, 255, 255, 0.85);
+      --fx-glass-border: rgba(0, 0, 0, 0.08);
+      --fx-text-main: #0f172a;
+      --fx-text-muted: #64748b;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--fx-bg) !important;
+      color: var(--fx-text-main);
+      font-family: 'Outfit', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== GLASS TOP BAR ===== */
+    .top-bar {
+      background: var(--fx-glass) !important;
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid var(--fx-glass-border);
+      padding: 12px 0;
+      transition: all 0.3s ease;
+    }
+
     .top-bar .container-fluid {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: flex-start;
+      max-width: 1600px;
     }
 
+    .top-bar .btn-dark,
+    #sidebarMenu ~ .top-bar .btn-dark {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border: 1px solid var(--fx-glass-border) !important;
+      color: var(--fx-text-main) !important;
+      border-radius: 10px;
+      padding: 8px 14px;
+      transition: all 0.2s ease;
+    }
+
+    .top-bar .btn-dark:hover {
+      background: rgba(255, 255, 255, 0.12) !important;
+      transform: scale(1.03);
+    }
+
+    /* ===== BRAND ===== */
     .futbolx-brand {
       font-family: 'Kanit', sans-serif;
       font-weight: 900;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #ffffff;
+      letter-spacing: 2px;
+      color: var(--fx-text-main) !important;
       display: inline-flex;
       align-items: center;
       user-select: none;
@@ -41,19 +114,22 @@
       left: 50%;
       transform: translateX(-50%);
       cursor: pointer;
+      text-shadow: none !important;
+      filter: none !important;
     }
 
     .futbolx-brand .ball-o {
-      color: #ffc107;
-      font-size: 1.15rem;
-      margin: 0 1px;
-      text-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
-      transition: transform 0.5s ease;
+      color: var(--fx-gold);
+      font-size: 1.25rem;
+      margin: 0 2px;
+      filter: none !important;
+      text-shadow: none !important;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
       display: inline-block;
     }
 
     .futbolx-brand:hover .ball-o {
-      transform: rotate(180deg);
+      transform: rotate(180deg) scale(1.1);
     }
 
     .futbolx-brand .ball-o.spinning {
@@ -62,10 +138,294 @@
 
     @keyframes ballSpin {
       0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.2); }
+      50% { transform: rotate(180deg) scale(1.3); }
       100% { transform: rotate(360deg) scale(1); }
     }
 
+    /* ===== SIDEBAR ===== */
+    .offcanvas {
+      background-color: var(--fx-surface) !important;
+      border-right: 1px solid var(--fx-glass-border) !important;
+    }
+
+    .offcanvas-header {
+      border-bottom: 1px solid var(--fx-glass-border);
+      padding: 16px;
+    }
+
+    .offcanvas-body {
+      padding: 16px;
+    }
+
+    .offcanvas .nav-link {
+      color: var(--fx-text-main) !important;
+      font-weight: 500;
+      padding: 12px 16px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      margin-bottom: 4px;
+      text-decoration: none;
+    }
+
+    .offcanvas .nav-link:hover {
+      background: var(--fx-surface-hover);
+      color: var(--fx-accent) !important;
+      transform: translateX(4px);
+    }
+
+    .offcanvas .nav-link.btn-link {
+      width: 100%;
+      text-align: left;
+      border: 0;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+      padding-top: 70px;
+    }
+
+    .hero-section {
+      min-height: 500px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-section h1 {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--fx-text-main);
+    }
+
+    .hero-section .lead {
+      color: var(--fx-text-muted);
+      line-height: 1.7;
+    }
+
+    .hero-section img {
+      border: 1px solid var(--fx-glass-border);
+      background: var(--fx-surface);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35) !important;
+    }
+
+    /* ===== HEADINGS ===== */
+    h2 {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 700;
+      color: var(--fx-text-main);
+      margin-bottom: 1.25rem;
+    }
+
+    /* ===== RED BUTTONS ===== */
+    .btn-danger {
+      --bs-btn-color: #fff;
+      --bs-btn-bg: var(--fx-accent-dark);
+      --bs-btn-border-color: var(--fx-accent-dark);
+      --bs-btn-hover-color: #fff;
+      --bs-btn-hover-bg: var(--fx-accent);
+      --bs-btn-hover-border-color: var(--fx-accent);
+      --bs-btn-active-color: #fff;
+      --bs-btn-active-bg: #b91c1c;
+      --bs-btn-active-border-color: #b91c1c;
+      font-weight: 700;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      box-shadow: 0 5px 18px rgba(239, 68, 68, 0.12);
+    }
+
+    .btn-danger:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 7px 22px var(--fx-accent-glow);
+    }
+
+    /* ===== PRICING CARDS ===== */
+    .pricing-plans {
+      gap: 20px;
+    }
+
+    .pricing-plans .plan {
+      flex: 1;
+    }
+
+    .classic-card,
+    .card {
+      background: var(--fx-glass) !important;
+      border: 1px solid var(--fx-glass-border) !important;
+      color: var(--fx-text-main);
+      border-radius: var(--fx-radius) !important;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.16);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .plan {
+      padding: 28px 24px;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      text-align: center;
+    }
+
+    .plan:hover {
+      transform: translateY(-5px);
+      border-color: rgba(239, 68, 68, 0.35) !important;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.28);
+    }
+
+    .plan .card-title {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 700;
+      color: var(--fx-text-main);
+      margin-bottom: 18px;
+    }
+
+    .price {
+      font-family: 'Kanit', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--fx-accent);
+      margin-bottom: 5px;
+    }
+
+    .price span {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--fx-text-muted);
+    }
+
+    .duration {
+      color: var(--fx-text-muted);
+      margin-bottom: 22px;
+    }
+
+    .live-badge {
+      color: #fff !important;
+      border-radius: 7px;
+      padding: 5px 10px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ===== PAYMENT METHODS ===== */
+    .payment-methods {
+      gap: 20px;
+    }
+
+    .payment-methods .method {
+      flex: 1;
+      min-height: 170px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .payment-methods .method:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.14) !important;
+    }
+
+    .payment-methods img {
+      max-width: 120px;
+      max-height: 55px;
+      object-fit: contain;
+      margin-bottom: 15px;
+      filter: none;
+    }
+
+    .payment-methods p {
+      margin: 0;
+      color: var(--fx-text-muted);
+      font-weight: 600;
+    }
+
+    /* ===== INFO CARDS ===== */
+    .instructions,
+    .benefits {
+      padding: 28px;
+      height: 100%;
+    }
+
+    .instructions .card-title,
+    .benefits .card-title {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 700;
+      margin-bottom: 22px;
+    }
+
+    .instructions ul,
+    .benefits ul {
+      margin: 0;
+      padding-left: 22px;
+      color: var(--fx-text-muted);
+    }
+
+    .instructions li,
+    .benefits li {
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .instructions li:last-child,
+    .benefits li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ===== ADMIN SECTION ===== */
+    .admin-section {
+      padding: 30px;
+    }
+
+    .admin-section > .card-title {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .contact-card {
+      padding: 0 !important;
+      overflow: hidden;
+      background: rgba(15, 17, 24, 0.55) !important;
+    }
+
+    .contact-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
+      color: var(--fx-text-main);
+      font-weight: 700;
+      border-bottom: 1px solid var(--fx-glass-border);
+    }
+
+    .contact-header i {
+      color: var(--fx-accent);
+      font-size: 1.2rem;
+    }
+
+    .telegram-btn {
+      width: calc(100% - 30px);
+      margin: 15px;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .support-text {
+      margin: 18px 0 0;
+    }
+
+    .support-text i {
+      color: var(--fx-accent);
+    }
+
+    /* ===== COMING SOON OVERLAY ===== */
     .coming-soon-overlay {
       position: fixed;
       top: 56px;
@@ -79,112 +439,270 @@
       background: rgba(0, 0, 0, 0.2);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      pointer-events: none; 
+      pointer-events: none;
     }
+
     .coming-soon-text {
+      font-family: 'Kanit', sans-serif;
       font-size: clamp(2rem, 8vw, 5rem);
       font-weight: 900;
       color: #ffffff;
       text-transform: uppercase;
       text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+      letter-spacing: 1px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      border-top-color: var(--fx-glass-border) !important;
+    }
+
+    footer .nav-link {
+      transition: color 0.2s ease;
+    }
+
+    footer .nav-link:hover {
+      color: var(--fx-accent) !important;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 767.98px) {
+      .main-content {
+        padding-top: 65px;
+      }
+
+      .hero-section {
+        min-height: auto;
+        padding-top: 35px !important;
+        padding-bottom: 35px !important;
+      }
+
+      .hero-section h1 {
+        font-size: 2.3rem;
+      }
+
+      .pricing-plans,
+      .payment-methods {
+        gap: 14px;
+      }
+
+      .plan {
+        padding: 24px 18px;
+      }
+
+      .price {
+        font-size: 2.2rem;
+      }
+
+      .instructions,
+      .benefits,
+      .admin-section {
+        padding: 22px;
+      }
+
+      .coming-soon-overlay {
+        top: 60px;
+        height: calc(100% - 60px);
+      }
+    }
+
+    @media (min-width: 992px) {
+      .container {
+        max-width: 1200px;
+      }
     }
   </style>
 </head>
+
 <body>
+
   <div class="coming-soon-overlay">
     <div class="coming-soon-text">Coming Soon</div>
   </div>
 
+  <!-- ===== TOP BAR ===== -->
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
+
       <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
         <i class="fas fa-bars"></i>
       </button>
-      
+
       <a href="/" class="futbolx-brand" id="brandLogo">
         FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
       </a>
+
     </div>
   </nav>
 
+  <!-- ===== SIDEBAR ===== -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+
     <div class="offcanvas-header">
+      <h5 class="offcanvas-title" style="font-family: 'Kanit'; font-weight: 700;">
+        NAVIGATION
+      </h5>
+
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
+
     <div class="offcanvas-body">
       <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
-        <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
-        <li class="nav-item"><button class="nav-link btn btn-link d-none" id="logoutButton">Logout</button></li>
+
         <li class="nav-item">
-          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
-            <i class="fas fa-moon"></i>
+          <a class="nav-link" href="/">
+            <i class="fas fa-house me-3"></i>Home
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="https://discord.gg/CmRcPbBB2k">
+            <i class="fab fa-discord me-3"></i>Discord
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/vip">
+            <i class="fas fa-crown me-3" style="color: var(--fx-gold);"></i>VIP
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/auth/login" id="loginLink">
+            <i class="fas fa-user me-3"></i>Login
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <button class="nav-link btn btn-link d-none" id="logoutButton">
+            <i class="fas fa-right-from-bracket me-3"></i>Logout
           </button>
         </li>
+
+        <li class="nav-item mt-2">
+          <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
+            <i class="fas fa-moon me-3"></i>Toggle Theme
+          </button>
+        </li>
+
       </ul>
     </div>
   </div>
 
+  <!-- ===== MAIN CONTENT ===== -->
   <div class="container-fluid main-content">
     <div class="container">
+
       <section class="hero-section py-5">
         <div class="row align-items-center">
+
           <div class="col-lg-6 mb-4 mb-lg-0">
-            <h1 class="display-4 fw-bold">Premium Sports Streaming in HD Quality</h1>
-            <p class="lead">Watch all your favorite sports in crystal clear HD quality with zero buffering. Our premium streams work on all devices with multi-language commentary options.</p>
-            <a href="#pricing" class="btn btn-danger mt-3">View Pricing Plans</a>
+
+            <h1 class="display-4 fw-bold">
+              Premium Sports Streaming in HD Quality
+            </h1>
+
+            <p class="lead">
+              Watch all your favorite sports in crystal clear HD quality with zero buffering.
+              Our premium streams work on all devices with multi-language commentary options.
+            </p>
+
+            <a href="#pricing" class="btn btn-danger mt-3">
+              View Pricing Plans
+            </a>
+
           </div>
+
           <div class="col-lg-6 text-center">
-            <img src="https://l.top4top.io/p3424mditd1.png" alt="FutbolX Sports Streaming" class="img-fluid rounded shadow" style="max-width: 100%;">
+            <img src="https://l.top4top.io/p3424mditd1.png"
+                 alt="FutbolX Sports Streaming"
+                 class="img-fluid rounded shadow"
+                 style="max-width: 100%;">
           </div>
+
         </div>
       </section>
 
-      <h2 id="pricing" class="mt-5">Choose Your Plan</h2>
+      <h2 id="pricing" class="mt-5">
+        Choose Your Plan
+      </h2>
+
       <div class="event-grid pricing-plans mb-5">
+
         <div class="card plan classic-card">
           <h3 class="card-title">Silver Package</h3>
           <p class="price">$8.00 <span>per month</span></p>
           <p class="duration">1 Month Subscription</p>
-          <a href="#admin" class="btn btn-danger">Choose Plan</a>
+          <a href="#admin" class="btn btn-danger">
+            Choose Plan
+          </a>
         </div>
+
         <div class="card plan classic-card">
           <h3 class="card-title">Golden Package</h3>
           <p class="price">$21.00 <span>3 Months</span></p>
           <p class="duration">Save 13% ($7.00/month)</p>
-          <a href="#admin" class="btn btn-danger">Choose Plan</a>
+          <a href="#admin" class="btn btn-danger">
+            Choose Plan
+          </a>
         </div>
+
         <div class="card plan classic-card position-relative">
-          <span class="live-badge" style="background: #ff4d4d;">MOST POPULAR</span>
+          <span class="live-badge"
+                style="background: #ef4444;">
+            MOST POPULAR
+          </span>
+
           <h3 class="card-title">VIP Package</h3>
+
           <p class="price">$50.00 <span>12 Months</span></p>
-          <p class="duration">Save 48% ($4.17/month)</p>
-          <a href="#admin" class="btn btn-danger">Choose Plan</a>
+
+          <p class="duration">
+            Save 48% ($4.17/month)
+          </p>
+
+          <a href="#admin" class="btn btn-danger">
+            Choose Plan
+          </a>
         </div>
+
       </div>
 
-      <h2>Secure Payment Methods</h2>
+      <h2>
+        Secure Payment Methods
+      </h2>
+
       <div class="event-grid payment-methods mb-5">
+
         <div class="card method">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
+               alt="PayPal">
           <p>PayPal</p>
         </div>
+
         <div class="card method">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg"
+               alt="Visa">
           <p>Credit/Debit</p>
         </div>
+
         <div class="card method">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg" alt="Bitcoin">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg"
+               alt="Bitcoin">
           <p>Crypto</p>
         </div>
+
       </div>
 
       <div class="row info-section mb-5">
+
         <div class="col-lg-6 mb-4 mb-lg-0">
           <div class="card instructions">
-            <h3 class="card-title text-center">How To Subscribe</h3>
+
+            <h3 class="card-title text-center">
+              How To Subscribe
+            </h3>
+
             <ul>
               <li>Contact the admin on Telegram</li>
               <li>The admin will send you payment links</li>
@@ -192,11 +710,17 @@
               <li>The admin will send you login details</li>
               <li>Enjoy unlimited sports streaming!</li>
             </ul>
+
           </div>
         </div>
+
         <div class="col-lg-6">
           <div class="card benefits">
-            <h3 class="card-title text-center">Premium Benefits</h3>
+
+            <h3 class="card-title text-center">
+              Premium Benefits
+            </h3>
+
             <ul>
               <li>No ads or popups - pure streaming</li>
               <li>Up to Full HD and 4K quality</li>
@@ -205,49 +729,106 @@
               <li>Global CDN for fastest streaming</li>
               <li>Works on all devices</li>
             </ul>
+
           </div>
         </div>
+
       </div>
 
       <div id="admin" class="card admin-section mb-5">
-        <h3 class="card-title text-center">Want To Buy Account?</h3>
+
+        <h3 class="card-title text-center">
+          Want To Buy Account?
+        </h3>
+
         <div class="contact-card card">
+
           <div class="contact-header">
             <i class="fas fa-headset"></i>
             <span>Contact The Admin On Telegram</span>
           </div>
-          <a href="https://t.me/iniccur1" class="telegram-btn btn btn-danger" target="_blank">
-            <i class="fab fa-telegram"></i> 
+
+          <a href="https://t.me/iniccur1"
+             class="telegram-btn btn btn-danger"
+             target="_blank">
+
+            <i class="fab fa-telegram"></i>
+
             <span>Message on Telegram</span>
+
             <i class="fas fa-paper-plane"></i>
+
           </a>
+
         </div>
-        <p class="support-text text-center text-muted"><i class="fas fa-clock"></i> 24/7 support available</p>
+
+        <p class="support-text text-center text-muted">
+          <i class="fas fa-clock"></i>
+          24/7 support available
+        </p>
+
       </div>
 
+      <!-- ===== FOOTER ===== -->
       <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2025</p>
+
+        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">
+          FutbolX 2025
+        </p>
+
         <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item"><a href="/api" class="nav-link px-2 text-body-secondary">API</a></li>
-          <li class="nav-item"><a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">Discord</a></li>
-          <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
-          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
-          <li class="nav-item"><a href="/contact" class="nav-link px-2 text-body-secondary">Contact us</a></li>
+
+          <li class="nav-item">
+            <a href="/api" class="nav-link px-2 text-body-secondary">
+              API
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="https://discord.gg/CmRcPbBB2k" class="nav-link px-2 text-body-secondary">
+              Discord
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="/changelog" class="nav-link px-2 text-body-secondary">
+              Changelog
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="/vip" class="nav-link px-2 text-body-secondary">
+              Donate / VIP Access
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="/contact" class="nav-link px-2 text-body-secondary">
+              Contact us
+            </a>
+          </li>
+
         </ul>
       </footer>
+
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+          crossorigin="anonymous"></script>
+
   <script src="/assets/js/auth.js" async></script>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const brandLogo = document.getElementById('brandLogo');
       const logoBall = document.getElementById('logoBall');
-      
+
       if (brandLogo && logoBall) {
         brandLogo.addEventListener('click', (e) => {
           logoBall.classList.add('spinning');
+
           setTimeout(() => {
             logoBall.classList.remove('spinning');
           }, 600);
@@ -260,31 +841,58 @@
         const htmlElement = document.documentElement;
         const themeToggle = document.getElementById('themeToggle');
         const currentTheme = localStorage.getItem('theme') || 'dark';
+
         htmlElement.setAttribute('data-bs-theme', currentTheme);
-        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+
+        themeToggle.innerHTML = currentTheme === 'dark'
+          ? '<i class="fas fa-moon me-3"></i>Toggle Theme'
+          : '<i class="fas fa-sun me-3"></i>Toggle Theme';
+
         themeToggle.addEventListener('click', () => {
-          const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+          const newTheme =
+            htmlElement.getAttribute('data-bs-theme') === 'dark'
+              ? 'light'
+              : 'dark';
+
           htmlElement.setAttribute('data-bs-theme', newTheme);
           localStorage.setItem('theme', newTheme);
-          themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+
+          themeToggle.innerHTML = newTheme === 'dark'
+            ? '<i class="fas fa-moon me-3"></i>Toggle Theme'
+            : '<i class="fas fa-sun me-3"></i>Toggle Theme';
         });
+
         const offcanvasElement = document.getElementById('sidebarMenu');
+
         document.addEventListener('click', (event) => {
-          const toggler = document.querySelector('[data-bs-toggle="offcanvas"]');
-          const isOffcanvasOpen = offcanvasElement.classList.contains('show');
-          const clickedInside = offcanvasElement.contains(event.target) || toggler.contains(event.target);
+          const toggler =
+            document.querySelector('[data-bs-toggle="offcanvas"]');
+
+          const isOffcanvasOpen =
+            offcanvasElement.classList.contains('show');
+
+          const clickedInside =
+            offcanvasElement.contains(event.target) ||
+            toggler.contains(event.target);
+
           if (isOffcanvasOpen && !clickedInside) {
-            bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement).hide();
+            bootstrap.Offcanvas
+              .getOrCreateInstance(offcanvasElement)
+              .hide();
           }
         });
+
         checkAuthStatus();
+
       } catch (error) {
         console.error('Init page error:', error);
       }
     }
+
     document.addEventListener('DOMContentLoaded', () => {
       initPage();
     });
   </script>
+
 </body>
-</html>
+            </html>
