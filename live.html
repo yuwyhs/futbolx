@@ -781,15 +781,7 @@
           mute: true,
           width: "100%",
           aspectratio: "16:9",
-          cast: {},
-
-          // Only change: prevent JW/HLS from sending credentials
-          // with cross-origin media requests.
-          hlsjsConfig: {
-            xhrSetup: function(xhr) {
-              xhr.withCredentials = false;
-            }
-          }
+          cast: {}
         });
         
         playerInstance.on('ready', () => { 
@@ -1127,4 +1119,4 @@
     });
   </script>
 </body>
-</html>
+  </html>
