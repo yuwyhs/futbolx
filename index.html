@@ -210,7 +210,6 @@
       box-shadow: 0 0 10px var(--fx-accent-glow);
     }
 
-    /* Dynamic Live Pulse Indicator */
     .live-animation {
       display: inline-block;
       width: 10px;
@@ -228,7 +227,7 @@
       100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
     }
 
-    /* --- EVENT GRID & CARDS (BASE DESKTOP) --- */
+    /* --- EVENT GRID & CARDS --- */
     .event-grid, #livecards.event-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
@@ -258,7 +257,6 @@
       outline: none;
     }
 
-    /* CARD IMAGE */
     .card-img-top {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -279,7 +277,6 @@
       min-width: 0;
     }
 
-    /* TEXT FIX */
     .card-title {
       font-family: 'Kanit', sans-serif;
       font-weight: 700;
@@ -302,11 +299,7 @@
       min-width: 0;
     }
 
-    /*
-      TAG FIX:
-      The tag now takes only the width required by its text.
-      It does NOT stretch across the available card space.
-    */
+    /* EVENT TAG — FIXED PLACEMENT ONLY */
     .event-tag {
       font-size: 0.8rem;
       font-weight: 600;
@@ -317,12 +310,13 @@
       border-radius: 6px;
       color: var(--fx-text-muted);
       border: 1px solid var(--fx-glass-border);
+
+      /* Keep tag naturally on the left */
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       min-width: 0;
-      width: fit-content;
-      max-width: 100%;
+      max-width: none;
       flex: 0 1 auto;
     }
 
@@ -357,7 +351,6 @@
        RESPONSIVE DESIGN BREAKPOINTS
        ========================================================= */
 
-    /* --- 1. SMART TVS & ULTRA-WIDE MONITORS (> 1920px) --- */
     @media (min-width: 1921px) {
       html { font-size: 18px; }
       .container { max-width: 1800px !important; }
@@ -377,7 +370,6 @@
       .futbolx-brand .ball-o { font-size: 1.6rem; }
     }
 
-    /* --- 2. LARGE DESKTOPS / 1080P MONITORS (1440px - 1920px) --- */
     @media (min-width: 1440px) and (max-width: 1920px) {
       .container { max-width: 1400px !important; }
 
@@ -386,7 +378,6 @@
       }
     }
 
-    /* --- 3. LAPTOPS & SMALL MONITORS (1025px - 1439px) --- */
     @media (min-width: 1025px) and (max-width: 1439px) {
       .container { max-width: 1140px !important; }
 
@@ -396,7 +387,6 @@
       }
     }
 
-    /* --- 4. TABLETS IN LANDSCAPE / IPADS (768px - 1024px) --- */
     @media (min-width: 768px) and (max-width: 1024px) {
       .container { max-width: 100% !important; padding: 0 24px; }
       .hero-background { aspect-ratio: 16 / 7; max-height: 320px; }
@@ -412,7 +402,7 @@
       }
     }
 
-    /* --- 5. MOBILE PHONES (STANDARD & LARGE 481px - 767px) --- */
+    /* --- MOBILE PHONES --- */
     @media (max-width: 767px) {
 
       .container {
@@ -488,15 +478,10 @@
         flex-shrink: 0;
       }
 
-      /*
-        MOBILE TAG FIX:
-        No more 55% width and no flex:1.
-        The tag automatically fits its own text.
-      */
+      /* EVENT TAG — FIXED PLACE */
       .event-tag {
         min-width: 0;
-        width: fit-content;
-        max-width: 100%;
+        max-width: none;
         flex: 0 1 auto;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -506,6 +491,7 @@
       .event-timer {
         flex-shrink: 0;
         white-space: nowrap;
+        margin-left: auto;
       }
 
       .live-badge {
@@ -521,7 +507,6 @@
       }
     }
 
-    /* --- 6. SMALL MOBILE / FOLDABLES (< 480px) --- */
     @media (max-width: 480px) {
 
       .futbolx-brand {
@@ -555,11 +540,11 @@
         line-height: 1.2 !important;
       }
 
+      /* EVENT TAG — SAME LEFT POSITION ON SMALL PHONES */
       .event-tag {
         font-size: 0.7rem;
         padding: 2px 6px;
-        width: fit-content;
-        max-width: 100%;
+        max-width: none;
         flex: 0 1 auto;
       }
 
@@ -762,7 +747,6 @@
         <i class="fas fa-bars"></i>
       </button>
 
-      <!-- CENTERED BRAND LOGO WITHOUT GLOW -->
       <a href="/" class="futbolx-brand" id="brandLogo">
         FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
       </a>
@@ -943,7 +927,6 @@
   <script src="/assets/js/api.js"></script>
 
   <script>
-    // Logo Ball Click/Tap Spin Handler
     document.addEventListener('DOMContentLoaded', () => {
       const brandLogo = document.getElementById('brandLogo');
       const logoBall = document.getElementById('logoBall');
