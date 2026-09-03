@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900|outfit:300,400,500,600,700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskkqvF7kXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozmpT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
@@ -429,6 +429,7 @@
 
     #futbolx-chat-mount { width: 100%; }
 
+    /* Small padding so content is not under the fixed navbar */
     .main-content {
       padding-top: 70px;
     }
@@ -450,6 +451,7 @@
     </div>
   </div>
 
+  <!-- ===== UPDATED TOP BAR ===== -->
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
       <button class="btn" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
@@ -462,6 +464,7 @@
     </div>
   </nav>
 
+  <!-- ===== UPDATED SIDEBAR (same links + IDs as original) ===== -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" style="font-family: 'Kanit'; font-weight: 700;">NAVIGATION</h5>
@@ -531,6 +534,7 @@
                 </button>
               </div>
 
+              <!-- Same custom stream popup on phone, tablet, desktop and TV browsers -->
               <div id="streamPopupOverlay" class="stream-popup-overlay" aria-hidden="true">
                 <div class="stream-popup" role="dialog" aria-modal="true" aria-labelledby="streamPopupTitle">
                   <div class="stream-popup-header">
@@ -544,6 +548,7 @@
               </div>
             </div>
 
+            <!-- CHAT MODULE IS LOADED FROM /chat/ BY chat/loader.js -->
             <div class="col-12 col-lg-4">
               <div id="futbolx-chat-mount"></div>
             </div>
@@ -586,6 +591,7 @@
     });
   </script>
 
+  <!-- EXISTING PAGE CONTROLLER SCRIPT -->
   <script>
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
@@ -621,6 +627,7 @@
     const savedTheme = localStorage.getItem('theme') || 'dark';
     htmlEl.setAttribute('data-bs-theme', savedTheme);
 
+    // Theme toggle - kept compatible with original
     if (themeToggle) {
       themeToggle.innerHTML = savedTheme === 'dark' 
         ? '<i class="fas fa-moon me-3"></i>Toggle Theme' 
@@ -651,110 +658,87 @@
       });
     }
 
-    /*
-     * TOKEN SUPPORT
-     * Only used for direct M3U8 streams.
-     *
-     * The source URL is converted to:
-     * /api/token?stream=<stream-name>
-     *
-     * The API returns the Flussonic tokenized M3U8 URL.
-     */
-    async function getTokenizedStreamUrl(url) {
-      try {
-        const parsed = new URL(url);
-
-        if (!parsed.pathname.toLowerCase().includes('.m3u8')) {
-          return url;
-        }
-
-        /*
-         * Flussonic stream name is normally the first path component
-         * after the CDN hostname.
-         *
-         * Example:
-         * https://germany.fut.ryzn.pro/hd1/index.m3u8
-         *                         ^^^
-         */
-        const pathParts = parsed.pathname.split('/').filter(Boolean);
-
-        if (pathParts.length < 2) {
-          return url;
-        }
-
-        const streamName = pathParts[0];
-
-        const response = await fetch(
-          `/api/token?stream=${encodeURIComponent(streamName)}`,
-          {
-            method: 'GET',
-            cache: 'no-store',
-            credentials: 'same-origin',
-            headers: {
-              'Accept': 'application/json'
-            },
-            signal: AbortSignal.timeout(8000)
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`Token API HTTP ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (!data || !data.url) {
-          throw new Error('Token API returned no stream URL');
-        }
-
-        return data.url;
-      } catch (err) {
-        console.error('Token generation failed:', err);
-        throw err;
+    async function isM3U8(url) {
+      if (url.toLowerCase().includes('.m3u8')) return true;
+      try { 
+        const r = await fetch(url, {method:'HEAD'}); 
+        return (r.headers.get('content-type') || '').includes('mpegurl'); 
+      } catch { 
+        return false; 
       }
     }
 
-    async function isM3U8(url) {
-      if (url.toLowerCase().includes('.m3u8')) return true;
+    /*
+     * TOKEN SUPPORT
+     *
+     * Only direct M3U8 streams use the token endpoint.
+     * Non-M3U8/embed streams remain completely unchanged.
+     */
+    async function getTokenizedStreamUrl(url) {
+      const parsed = new URL(url);
 
-      try {
-        const r = await fetch(url, {
-          method: 'HEAD',
-          cache: 'no-store'
-        });
-
-        return (r.headers.get('content-type') || '').toLowerCase().includes('mpegurl');
-      } catch {
-        return false;
+      if (!parsed.pathname.toLowerCase().includes('.m3u8')) {
+        return url;
       }
+
+      const pathParts = parsed.pathname.split('/').filter(Boolean);
+
+      if (pathParts.length < 2) {
+        throw new Error('Invalid Flussonic stream URL');
+      }
+
+      /*
+       * Example:
+       *
+       * https://germany.fut.ryzn.pro/hd1/index.m3u8
+       *
+       * stream name = hd1
+       */
+      const streamName = pathParts[0];
+
+      const response = await fetch(
+        `/api/token?stream=${encodeURIComponent(streamName)}`,
+        {
+          method: 'GET',
+          cache: 'no-store',
+          headers: {
+            'Accept': 'application/json'
+          }
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Token API HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (!data || !data.url) {
+        throw new Error('Token API returned no URL');
+      }
+
+      return data.url;
     }
 
     async function playStream(url) {
-      if (playerInstance) {
-        try {
-          playerInstance.remove();
-        } catch {}
-        playerInstance = null;
+      if (playerInstance) { 
+        playerInstance.remove(); 
+        playerInstance = null; 
       }
 
       const useJW = await isM3U8(url);
 
       if (useJW) {
         try {
-          /*
-           * Get the Flussonic token BEFORE JW Player is initialized.
-           * JW receives the final tokenized M3U8 URL directly.
-           */
           const tokenizedUrl = await getTokenizedStreamUrl(url);
           initActualPlayer(tokenizedUrl, true);
         } catch (err) {
-          console.error('Unable to prepare protected stream:', err);
+          console.error('Token stream error:', err);
 
           const errorContainer = document.getElementById('errorContainer');
 
           if (errorContainer) {
-            errorContainer.textContent =
-              'Unable to authorize this stream. Please try selecting the stream again.';
+            errorContainer.textContent = 'Unable to authorize this stream. Please try again.';
             errorContainer.classList.remove('d-none');
           }
         }
@@ -770,23 +754,16 @@
         const container = document.getElementById('oplayer-container');
         container.style.display = 'block';
         container.innerHTML = '<div id="jw-player"></div>';
-
-        /*
-         * JW receives the tokenized URL returned by /api/token.
-         *
-         * No URL rewriting, no additional proxying and no second
-         * token request is performed here.
-         */
-        playerInstance = jwplayer("jw-player").setup({
-          file: url,
-          type: "hls",
-          autostart: false,
-          mute: true,
-          width: "100%",
-          aspectratio: "16:9",
-          cast: {}
+        
+        playerInstance = jwplayer("jw-player").setup({ 
+          file: url, 
+          autostart: false, 
+          mute: true, 
+          width: "100%", 
+          aspectratio: "16:9", 
+          cast: {} 
         });
-
+        
         playerInstance.on('ready', () => { 
           const triggerAd = () => {
             const host = window.location.hostname.toLowerCase();
@@ -809,23 +786,16 @@
           
           container.addEventListener('click', triggerAd);
         });
-
-        playerInstance.on('error', (event) => {
-          console.error('JW Player error:', event);
-        });
-
       } else {
         document.getElementById('oplayer-container').style.display = 'none';
-
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
-
-        try {
-          const u = new URL(url);
-          u.searchParams.set('autoplay', '0');
-          iframe.src = u.toString();
-        } catch {
-          iframe.src = url;
+        try { 
+          const u = new URL(url); 
+          u.searchParams.set('autoplay', '0'); 
+          iframe.src = u.toString(); 
+        } catch { 
+          iframe.src = url; 
         }
       }
     }
@@ -880,7 +850,6 @@
       };
 
       picker.onclick = openPopup;
-
       picker.onkeydown = (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -906,7 +875,6 @@
 
           optionsContainer.querySelectorAll('.stream-popup-option')
             .forEach(item => item.classList.remove('selected'));
-
           option.classList.add('selected');
 
           closePopup();
@@ -915,7 +883,6 @@
 
       if (streams.length) {
         const first = streams[0];
-
         label.textContent = typeof first === 'string'
           ? 'Stream 1'
           : (first.title || 'Main Feed');
@@ -923,17 +890,14 @@
 
       if (!window.__futbolxStreamEscapeHandler) {
         window.__futbolxStreamEscapeHandler = true;
-
         document.addEventListener('keydown', (e) => {
           if (e.key === 'Escape') {
             const currentOverlay = document.getElementById('streamPopupOverlay');
-
             if (currentOverlay && currentOverlay.classList.contains('is-open')) {
               currentOverlay.classList.remove('is-open');
               currentOverlay.setAttribute('aria-hidden', 'true');
 
               const currentPicker = document.getElementById('streamSelect');
-
               if (currentPicker) {
                 currentPicker.classList.remove('is-open');
                 currentPicker.setAttribute('aria-expanded', 'false');
@@ -970,7 +934,6 @@
         }
 
         const maximumLimit = parseInt(foundEvent.max_simulated_viewers, 10);
-
         if (isNaN(maximumLimit) || maximumLimit <= 0) {
           calculatedViewerSimulationState = 0;
           window.renderConsolidatedViewers();
@@ -979,7 +942,6 @@
         }
 
         const operationalCapBase = maximumLimit - 20;
-
         if (calculatedViewerSimulationState === 0) {
           calculatedViewerSimulationState = Math.floor(operationalCapBase * 0.94);
         }
@@ -987,6 +949,7 @@
         const behaviorRoll = Math.random();
         
         if (behaviorRoll < 0.45) {
+          // Plateau.
         } else {
           const timestamp = Date.now() / 60000;
           const macroeconomicTrend = Math.sin(timestamp) * 0.15;
@@ -1022,20 +985,16 @@
     window.renderConsolidatedViewers = () => {
       const element = document.getElementById('onlineCount');
       const wrapper = document.getElementById('viewerCountWrapper');
-
       if (!element || !wrapper) return;
       
       const nowEpoch = Math.floor(Date.now() / 1000);
-
       if (eventStartTime && nowEpoch >= eventStartTime) {
         wrapper.classList.remove('d-none');
       } else {
         wrapper.classList.add('d-none');
       }
 
-      const totalCombinedViews =
-        realActivePresenceCount + calculatedViewerSimulationState;
-
+      const totalCombinedViews = realActivePresenceCount + calculatedViewerSimulationState;
       element.innerText = totalCombinedViews;
     };
 
@@ -1045,67 +1004,45 @@
 
       try {
         const catListRes = await fetchWithRetry('/api/stream');
-
-        const fetchPromises = catListRes.categories.map(cat =>
-          fetchWithRetry(`/api/${cat}.json`)
-            .catch(() => ({ success: true, streams: [] }))
-        );
-
+        const fetchPromises = catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ success: true, streams: [] })));
         const allCategoryData = await Promise.all(fetchPromises);
 
         for (const data of allCategoryData) {
           for (const catObj of data.streams) {
             foundEvent = catObj.streams.find(ev => ev.uri_name === uriName);
-
             if (foundEvent) break;
           }
-
           if (foundEvent) break;
         }
 
         if (foundEvent) {
           document.getElementById('eventTitle').textContent = foundEvent.name;
-          document.getElementById('chatEventTitle').textContent =
-            foundEvent.name + " Chat";
+          document.getElementById('chatEventTitle').textContent = foundEvent.name + " Chat";
           
-          eventStartTime =
-            new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
-
-          eventEndTime = foundEvent.ends_at
-            ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000
-            : eventStartTime + 10800;
+          eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
+          eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
           
           setInterval(() => {
             const now = Math.floor(Date.now() / 1000);
 
-            if (
-              now >= (eventStartTime - PRE_LIVE_BUFFER) &&
-              now <= eventEndTime
-            ) {
-              liveWindowActive = true;
-              document.getElementById('statusArea').style.display = 'none';
-
-              if (!streamStarted) {
-                startBtn.style.display = 'inline-block';
-              }
+            if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
+                liveWindowActive = true; 
+                document.getElementById('statusArea').style.display = 'none'; 
+                if(!streamStarted) startBtn.style.display = 'inline-block';
             } else if (now < eventStartTime) {
-              liveWindowActive = false;
-
-              const diff = eventStartTime - now;
-              const h = Math.floor(diff / 3600);
-              const m = Math.floor((diff % 3600) / 60);
-              const s = diff % 60;
-
-              if (h >= 24) {
-                const days = Math.floor(h / 24);
-                const remHours = h % 24;
-
-                document.getElementById('countdownDisplay').textContent =
-                  `${days}day ${remHours}hr ${m}m ${s}s`;
-              } else {
-                document.getElementById('countdownDisplay').textContent =
-                  `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-              }
+                liveWindowActive = false;
+                const diff = eventStartTime - now;
+                const h = Math.floor(diff/3600);
+                const m = Math.floor((diff%3600)/60);
+                const s = diff%60;
+                
+                if (h >= 24) {
+                  const days = Math.floor(h / 24);
+                  const remHours = h % 24;
+                  document.getElementById('countdownDisplay').textContent = `${days}day ${remHours}hr ${m}m ${s}s`;
+                } else {
+                  document.getElementById('countdownDisplay').textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                }
             }
           }, 1000);
         }
@@ -1117,22 +1054,16 @@
           document.getElementById('liveStreamTitle').classList.remove('d-none');
           
           const dynamicInitialFeed = foundEvent.streams[0];
-
-          const initialUrl =
-            typeof dynamicInitialFeed === 'string'
-              ? dynamicInitialFeed
-              : dynamicInitialFeed.url;
+          const initialUrl = typeof dynamicInitialFeed === 'string' ? dynamicInitialFeed : dynamicInitialFeed.url;
           
-          document.getElementById('currentStreamName').innerHTML =
-            `${dynamicInitialFeed.title || 'Main Feed'}`;
+          document.getElementById('currentStreamName').innerHTML = `${dynamicInitialFeed.title || 'Main Feed'}`;
           
           playStream(initialUrl);
           populateStreamDropdown(foundEvent);
           streamStarted = true;
         };
-
       } catch (err) {}
     });
   </script>
 </body>
-</html>
+  </html>
