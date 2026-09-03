@@ -215,7 +215,6 @@
     /* ===== STREAM SOURCE PICKER ===== */
     .stream-dropdown-container { max-width: 540px; margin-bottom: 1rem; }
 
-    /* Custom picker: the same popup is shown on phones, tablets, desktops and TVs. */
     .stream-select-custom {
       width: 100%;
       min-height: 58px;
@@ -430,7 +429,6 @@
 
     #futbolx-chat-mount { width: 100%; }
 
-    /* Small padding so content is not under the fixed navbar */
     .main-content {
       padding-top: 70px;
     }
@@ -452,7 +450,6 @@
     </div>
   </div>
 
-  <!-- ===== UPDATED TOP BAR ===== -->
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
       <button class="btn" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
@@ -465,7 +462,6 @@
     </div>
   </nav>
 
-  <!-- ===== UPDATED SIDEBAR (same links + IDs as original) ===== -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" style="font-family: 'Kanit'; font-weight: 700;">NAVIGATION</h5>
@@ -535,7 +531,6 @@
                 </button>
               </div>
 
-              <!-- Same custom stream popup on phone, tablet, desktop and TV browsers -->
               <div id="streamPopupOverlay" class="stream-popup-overlay" aria-hidden="true">
                 <div class="stream-popup" role="dialog" aria-modal="true" aria-labelledby="streamPopupTitle">
                   <div class="stream-popup-header">
@@ -549,7 +544,6 @@
               </div>
             </div>
 
-            <!-- CHAT MODULE IS LOADED FROM /chat/ BY chat/loader.js -->
             <div class="col-12 col-lg-4">
               <div id="futbolx-chat-mount"></div>
             </div>
@@ -592,7 +586,6 @@
     });
   </script>
 
-  <!-- EXISTING PAGE CONTROLLER SCRIPT - EXACTLY AS YOUR ORIGINAL -->
   <script>
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
@@ -628,7 +621,6 @@
     const savedTheme = localStorage.getItem('theme') || 'dark';
     htmlEl.setAttribute('data-bs-theme', savedTheme);
 
-    // Theme toggle - kept compatible with original
     if (themeToggle) {
       themeToggle.innerHTML = savedTheme === 'dark' 
         ? '<i class="fas fa-moon me-3"></i>Toggle Theme' 
@@ -664,20 +656,133 @@
       try { const r = await fetch(url, {method:'HEAD'}); return (r.headers.get('content-type') || '').includes('mpegurl'); } catch { return false; }
     }
 
+    /*
+     * ============================================================
+     * FLUSSONIC TOKEN HANDLING
+     * ============================================================
+     *
+     * Example source:
+     * https://germany.fut.ryzn.pro/test/index.m3u8
+     *
+     * The token API expects:
+     * /api/token?stream=test
+     *
+     * The API then returns the tokenized M3U8 URL which JWPlayer uses.
+     */
+
+    async function getFlussonicTokenizedUrl(url) {
+      try {
+        const parsedUrl = new URL(url);
+
+        /*
+         * Only apply the token API to the Flussonic CDN.
+         * Other M3U8 sources continue working exactly as before.
+         */
+        if (parsedUrl.hostname !== 'germany.fut.ryzn.pro') {
+          return url;
+        }
+
+        /*
+         * Extract the stream name.
+         *
+         * /test/index.m3u8
+         * becomes:
+         * test
+         */
+        const pathParts = parsedUrl.pathname.split('/').filter(Boolean);
+
+        if (!pathParts.length) {
+          return url;
+        }
+
+        const streamName = pathParts[0];
+
+        /*
+         * If the URL already contains a token, don't request
+         * another token unnecessarily.
+         */
+        if (parsedUrl.searchParams.has('token')) {
+          return url;
+        }
+
+        const response = await fetch(
+          `/api/token?stream=${encodeURIComponent(streamName)}`,
+          {
+            method: 'GET',
+            cache: 'no-store',
+            headers: {
+              'Accept': 'application/json'
+            }
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Token API HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!data || !data.url) {
+          throw new Error('Token API returned no URL');
+        }
+
+        return data.url;
+
+      } catch (error) {
+        console.error('Flussonic token error:', error);
+        throw error;
+      }
+    }
+
     async function playStream(url) {
-      if (playerInstance) { playerInstance.remove(); playerInstance = null; }
+      if (playerInstance) {
+        playerInstance.remove();
+        playerInstance = null;
+      }
+
       const useJW = await isM3U8(url);
-      initActualPlayer(url, useJW);
+
+      if (useJW) {
+        try {
+          /*
+           * Get the fresh Flussonic token before creating JWPlayer.
+           */
+          const tokenizedUrl = await getFlussonicTokenizedUrl(url);
+
+          initActualPlayer(tokenizedUrl, true);
+
+        } catch (error) {
+          console.error('Unable to obtain stream token:', error);
+
+          const errorContainer = document.getElementById('errorContainer');
+
+          if (errorContainer) {
+            errorContainer.textContent = 'Unable to authorize this stream. Please try again.';
+            errorContainer.classList.remove('d-none');
+          }
+        }
+
+      } else {
+        initActualPlayer(url, false);
+      }
     }
 
     function initActualPlayer(url, useJW) {
       if (useJW) {
         document.getElementById('embedPlayer').style.display = 'none';
+
         const container = document.getElementById('oplayer-container');
         container.style.display = 'block';
         container.innerHTML = '<div id="jw-player"></div>';
-        
-        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: false, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
+
+        playerInstance = jwplayer("jw-player").setup({
+          file: url,
+          autostart: false,
+          mute: true,
+          width: "100%",
+          aspectratio: "16:9",
+          cast: {}
+        });
         
         playerInstance.on('ready', () => { 
           const triggerAd = () => {
@@ -705,7 +810,14 @@
         document.getElementById('oplayer-container').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
-        try { const u = new URL(url); u.searchParams.set('autoplay', '0'); iframe.src = u.toString(); } catch { iframe.src = url; }
+
+        try {
+          const u = new URL(url);
+          u.searchParams.set('autoplay', '0');
+          iframe.src = u.toString();
+        } catch {
+          iframe.src = url;
+        }
       }
     }
 
@@ -759,6 +871,7 @@
       };
 
       picker.onclick = openPopup;
+
       picker.onkeydown = (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -784,6 +897,7 @@
 
           optionsContainer.querySelectorAll('.stream-popup-option')
             .forEach(item => item.classList.remove('selected'));
+
           option.classList.add('selected');
 
           closePopup();
@@ -792,6 +906,7 @@
 
       if (streams.length) {
         const first = streams[0];
+
         label.textContent = typeof first === 'string'
           ? 'Stream 1'
           : (first.title || 'Main Feed');
@@ -799,14 +914,17 @@
 
       if (!window.__futbolxStreamEscapeHandler) {
         window.__futbolxStreamEscapeHandler = true;
+
         document.addEventListener('keydown', (e) => {
           if (e.key === 'Escape') {
             const currentOverlay = document.getElementById('streamPopupOverlay');
+
             if (currentOverlay && currentOverlay.classList.contains('is-open')) {
               currentOverlay.classList.remove('is-open');
               currentOverlay.setAttribute('aria-hidden', 'true');
 
               const currentPicker = document.getElementById('streamSelect');
+
               if (currentPicker) {
                 currentPicker.classList.remove('is-open');
                 currentPicker.setAttribute('aria-expanded', 'false');
@@ -843,6 +961,7 @@
         }
 
         const maximumLimit = parseInt(foundEvent.max_simulated_viewers, 10);
+
         if (isNaN(maximumLimit) || maximumLimit <= 0) {
           calculatedViewerSimulationState = 0;
           window.renderConsolidatedViewers();
@@ -851,6 +970,7 @@
         }
 
         const operationalCapBase = maximumLimit - 20;
+
         if (calculatedViewerSimulationState === 0) {
           calculatedViewerSimulationState = Math.floor(operationalCapBase * 0.94);
         }
@@ -858,7 +978,6 @@
         const behaviorRoll = Math.random();
         
         if (behaviorRoll < 0.45) {
-          // Plateau.
         } else {
           const timestamp = Date.now() / 60000;
           const macroeconomicTrend = Math.sin(timestamp) * 0.15;
@@ -894,9 +1013,11 @@
     window.renderConsolidatedViewers = () => {
       const element = document.getElementById('onlineCount');
       const wrapper = document.getElementById('viewerCountWrapper');
+
       if (!element || !wrapper) return;
       
       const nowEpoch = Math.floor(Date.now() / 1000);
+
       if (eventStartTime && nowEpoch >= eventStartTime) {
         wrapper.classList.remove('d-none');
       } else {
@@ -910,62 +1031,92 @@
     document.addEventListener('DOMContentLoaded', async () => {
       const uriName = window.location.pathname.split('/').pop();
       const startBtn = document.getElementById('startLivestream');
+
       try {
         const catListRes = await fetchWithRetry('/api/stream');
-        const fetchPromises = catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ success: true, streams: [] })));
+
+        const fetchPromises = catListRes.categories.map(cat =>
+          fetchWithRetry(`/api/${cat}.json`)
+            .catch(() => ({ success: true, streams: [] }))
+        );
+
         const allCategoryData = await Promise.all(fetchPromises);
+
         for (const data of allCategoryData) {
           for (const catObj of data.streams) {
             foundEvent = catObj.streams.find(ev => ev.uri_name === uriName);
             if (foundEvent) break;
           }
+
           if (foundEvent) break;
         }
+
         if (foundEvent) {
           document.getElementById('eventTitle').textContent = foundEvent.name;
           document.getElementById('chatEventTitle').textContent = foundEvent.name + " Chat";
           
           eventStartTime = new Date(foundEvent.starts_at + '+03:00').getTime() / 1000;
-          eventEndTime = foundEvent.ends_at ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000 : eventStartTime + 10800;
+          eventEndTime = foundEvent.ends_at
+            ? new Date(foundEvent.ends_at + '+03:00').getTime() / 1000
+            : eventStartTime + 10800;
           
           setInterval(() => {
             const now = Math.floor(Date.now() / 1000);
+
             if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
-                liveWindowActive = true; 
-                document.getElementById('statusArea').style.display = 'none'; 
-                if(!streamStarted) startBtn.style.display = 'inline-block';
+              liveWindowActive = true; 
+              document.getElementById('statusArea').style.display = 'none'; 
+
+              if (!streamStarted) {
+                startBtn.style.display = 'inline-block';
+              }
+
             } else if (now < eventStartTime) {
-                liveWindowActive = false;
-                const diff = eventStartTime - now;
-                const h = Math.floor(diff/3600); const m = Math.floor((diff%3600)/60); const s = diff%60;
+              liveWindowActive = false;
+
+              const diff = eventStartTime - now;
+              const h = Math.floor(diff / 3600);
+              const m = Math.floor((diff % 3600) / 60);
+              const s = diff % 60;
                 
-                if (h >= 24) {
-                  const days = Math.floor(h / 24);
-                  const remHours = h % 24;
-                  document.getElementById('countdownDisplay').textContent = `${days}day ${remHours}hr ${m}m ${s}s`;
-                } else {
-                  document.getElementById('countdownDisplay').textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-                }
+              if (h >= 24) {
+                const days = Math.floor(h / 24);
+                const remHours = h % 24;
+
+                document.getElementById('countdownDisplay').textContent =
+                  `${days}day ${remHours}hr ${m}m ${s}s`;
+              } else {
+                document.getElementById('countdownDisplay').textContent =
+                  `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+              }
             }
           }, 1000);
         }
+
         startBtn.onclick = () => {
           document.getElementById('mainVideoContainer').style.display = 'block';
           document.getElementById('streamLinksContainer').style.display = 'block';
+
           startBtn.style.display = 'none';
+
           document.getElementById('liveStreamTitle').classList.remove('d-none');
           
           const dynamicInitialFeed = foundEvent.streams[0];
-          const initialUrl = typeof dynamicInitialFeed === 'string' ? dynamicInitialFeed : dynamicInitialFeed.url;
+          const initialUrl = typeof dynamicInitialFeed === 'string'
+            ? dynamicInitialFeed
+            : dynamicInitialFeed.url;
           
-          document.getElementById('currentStreamName').innerHTML = `${dynamicInitialFeed.title || 'Main Feed'}`;
+          document.getElementById('currentStreamName').innerHTML =
+            `${dynamicInitialFeed.title || 'Main Feed'}`;
           
           playStream(initialUrl);
           populateStreamDropdown(foundEvent);
+
           streamStarted = true;
         };
+
       } catch (err) {}
     });
   </script>
 </body>
-  </html>
+</html>
