@@ -61,27 +61,7 @@ Deno.serve(async (req) => {
       const userIp =
         forwardedFor?.split(",")[0].trim() ||
         req.headers.get("x-real-ip") ||
-        req.headers.get("cf-connecting-ip") ||
         "127.0.0.1";
-
-      // TEMPORARY DEBUG: capture all request headers
-      const headersDebug: Record<string, string> = {};
-
-      for (const [key, value] of req.headers.entries()) {
-        headersDebug[key] = value;
-      }
-
-      console.log("TOKEN HEADERS:", headersDebug);
-
-      console.log("TOKEN DEBUG:", {
-        stream,
-        userIp,
-        forwardedFor,
-        realIp: req.headers.get("x-real-ip"),
-        cfConnectingIp: req.headers.get("cf-connecting-ip"),
-        host: req.headers.get("host"),
-        cdn: CDN_BASE_URL,
-      });
 
       const now = Math.floor(Date.now() / 1000);
 
@@ -104,18 +84,6 @@ Deno.serve(async (req) => {
       return new Response(
         JSON.stringify({
           url: tokenizedUrl,
-          debug: {
-            stream,
-            userIp,
-            forwardedFor,
-            realIp: req.headers.get("x-real-ip"),
-            cfConnectingIp: req.headers.get("cf-connecting-ip"),
-            host: req.headers.get("host"),
-            headers: headersDebug,
-            cdn: CDN_BASE_URL,
-            start,
-            end,
-          },
         }),
         {
           status: 200,
