@@ -258,10 +258,7 @@
       outline: none;
     }
 
-    /* CARD IMAGE
-       Original full-width desktop behavior preserved.
-       No contain.
-    */
+    /* CARD IMAGE */
     .card-img-top {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -476,9 +473,6 @@
 
       /*
         TEXT FIX ONLY
-
-        The title is allowed to use the available width
-        without the old forced two-line clamp.
       */
       .card-title {
         font-size: 0.92rem !important;
@@ -494,8 +488,7 @@
       }
 
       /*
-        Keep league and timer together on one row
-        so they don't push the title around.
+        Keep league and timer together on one row.
       */
       .card-text {
         flex-wrap: nowrap !important;
@@ -504,13 +497,19 @@
         flex-shrink: 0;
       }
 
+      /*
+        LEAGUE TAG FIX:
+        The tag now sizes itself automatically according
+        to its actual text instead of taking 55% / flex space.
+      */
       .event-tag {
-        max-width: 55%;
+        width: max-content;
+        max-width: 100%;
         min-width: 0;
+        flex: 0 0 auto;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        flex: 1 1 auto;
       }
 
       .event-timer {
@@ -1319,7 +1318,7 @@
             let html = `
                 <a href="/live/${stream.uri_name}">
                   <div class="card">
-                    ${isLive ? '<span class="live-badge">LIVE</span>' : ''}
+                    ${isLive ? '<span class="live-badge">LIVE</span>'}
                     
                     <img
                       src="${poster}"
@@ -1660,4 +1659,4 @@
   </script>
 
 </body>
-  </html>
+            </html>
