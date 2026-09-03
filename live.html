@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900|outfit:300,400,500,600,700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskv1qkXkqXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
@@ -664,10 +664,54 @@
       try { const r = await fetch(url, {method:'HEAD'}); return (r.headers.get('content-type') || '').includes('mpegurl'); } catch { return false; }
     }
 
+    /*
+     * ONLY UPDATED PART:
+     * M3U8 streams are sent to /api/token.
+     * The frontend does not contain a CDN hostname.
+     */
     async function playStream(url) {
-      if (playerInstance) { playerInstance.remove(); playerInstance = null; }
+      if (playerInstance) { 
+        playerInstance.remove(); 
+        playerInstance = null; 
+      }
+
       const useJW = await isM3U8(url);
-      initActualPlayer(url, useJW);
+
+      if (useJW) {
+        try {
+          const tokenResponse = await fetch(
+            `/api/token?url=${encodeURIComponent(url)}`,
+            {
+              method: 'GET',
+              cache: 'no-store',
+              signal: AbortSignal.timeout(5000)
+            }
+          );
+
+          if (!tokenResponse.ok) {
+            throw new Error(`Token API HTTP ${tokenResponse.status}`);
+          }
+
+          const tokenData = await tokenResponse.json();
+
+          if (!tokenData || !tokenData.url) {
+            throw new Error('Token API returned no URL');
+          }
+
+          initActualPlayer(tokenData.url, true);
+
+        } catch (err) {
+          console.error('Token generation failed:', err);
+
+          const errorContainer = document.getElementById('errorContainer');
+          if (errorContainer) {
+            errorContainer.textContent = 'Unable to prepare the stream. Please try another source.';
+            errorContainer.classList.remove('d-none');
+          }
+        }
+      } else {
+        initActualPlayer(url, false);
+      }
     }
 
     function initActualPlayer(url, useJW) {
@@ -968,4 +1012,4 @@
     });
   </script>
 </body>
-</html>
+                      </html>
