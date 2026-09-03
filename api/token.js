@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
   const { stream, url } = req.query;
 
   const SECRET_KEY = process.env.STREAM_SECRET_KEY || 'my_super_secret_key_123';
-  const CDN_BASE_URL = process.env.CDN_BASE_URL || 'https://hotelfix.futx.sryze.cc';
+  const CDN_BASE_URL = process.env.CDN_BASE_URL || 'https://germany.fut.ryzn.pro';
 
   /*
    * NEW:
