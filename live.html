@@ -215,6 +215,7 @@
     /* ===== STREAM SOURCE PICKER ===== */
     .stream-dropdown-container { max-width: 540px; margin-bottom: 1rem; }
 
+    /* Custom picker: the same popup is shown on phones, tablets, desktops and TVs. */
     .stream-select-custom {
       width: 100%;
       min-height: 58px;
@@ -591,7 +592,7 @@
     });
   </script>
 
-  <!-- EXISTING PAGE CONTROLLER SCRIPT -->
+  <!-- EXISTING PAGE CONTROLLER SCRIPT - EXACTLY AS YOUR ORIGINAL -->
   <script>
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
@@ -660,109 +661,23 @@
 
     async function isM3U8(url) {
       if (url.toLowerCase().includes('.m3u8')) return true;
-      try { 
-        const r = await fetch(url, {method:'HEAD'}); 
-        return (r.headers.get('content-type') || '').includes('mpegurl'); 
-      } catch { 
-        return false; 
-      }
-    }
-
-    /*
-     * TOKEN SUPPORT
-     *
-     * Only direct M3U8 streams use the token endpoint.
-     * Non-M3U8/embed streams remain completely unchanged.
-     */
-    async function getTokenizedStreamUrl(url) {
-      const parsed = new URL(url);
-
-      if (!parsed.pathname.toLowerCase().includes('.m3u8')) {
-        return url;
-      }
-
-      const pathParts = parsed.pathname.split('/').filter(Boolean);
-
-      if (pathParts.length < 2) {
-        throw new Error('Invalid Flussonic stream URL');
-      }
-
-      /*
-       * Example:
-       *
-       * https://germany.fut.ryzn.pro/hd1/index.m3u8
-       *
-       * stream name = hd1
-       */
-      const streamName = pathParts[0];
-
-      const response = await fetch(
-        `/api/token?stream=${encodeURIComponent(streamName)}`,
-        {
-          method: 'GET',
-          cache: 'no-store',
-          headers: {
-            'Accept': 'application/json'
-          }
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Token API HTTP ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      if (!data || !data.url) {
-        throw new Error('Token API returned no URL');
-      }
-
-      return data.url;
+      try { const r = await fetch(url, {method:'HEAD'}); return (r.headers.get('content-type') || '').includes('mpegurl'); } catch { return false; }
     }
 
     async function playStream(url) {
-      if (playerInstance) { 
-        playerInstance.remove(); 
-        playerInstance = null; 
-      }
-
+      if (playerInstance) { playerInstance.remove(); playerInstance = null; }
       const useJW = await isM3U8(url);
-
-      if (useJW) {
-        try {
-          const tokenizedUrl = await getTokenizedStreamUrl(url);
-          initActualPlayer(tokenizedUrl, true);
-        } catch (err) {
-          console.error('Token stream error:', err);
-
-          const errorContainer = document.getElementById('errorContainer');
-
-          if (errorContainer) {
-            errorContainer.textContent = 'Unable to authorize this stream. Please try again.';
-            errorContainer.classList.remove('d-none');
-          }
-        }
-      } else {
-        initActualPlayer(url, false);
-      }
+      initActualPlayer(url, useJW);
     }
 
     function initActualPlayer(url, useJW) {
       if (useJW) {
         document.getElementById('embedPlayer').style.display = 'none';
-
         const container = document.getElementById('oplayer-container');
         container.style.display = 'block';
         container.innerHTML = '<div id="jw-player"></div>';
         
-        playerInstance = jwplayer("jw-player").setup({ 
-          file: url, 
-          autostart: false, 
-          mute: true, 
-          width: "100%", 
-          aspectratio: "16:9", 
-          cast: {} 
-        });
+        playerInstance = jwplayer("jw-player").setup({ file: url, autostart: false, mute: true, width: "100%", aspectratio: "16:9", cast: {} });
         
         playerInstance.on('ready', () => { 
           const triggerAd = () => {
@@ -790,13 +705,7 @@
         document.getElementById('oplayer-container').style.display = 'none';
         const iframe = document.getElementById('embedPlayer');
         iframe.style.display = 'block';
-        try { 
-          const u = new URL(url); 
-          u.searchParams.set('autoplay', '0'); 
-          iframe.src = u.toString(); 
-        } catch { 
-          iframe.src = url; 
-        }
+        try { const u = new URL(url); u.searchParams.set('autoplay', '0'); iframe.src = u.toString(); } catch { iframe.src = url; }
       }
     }
 
@@ -1001,12 +910,10 @@
     document.addEventListener('DOMContentLoaded', async () => {
       const uriName = window.location.pathname.split('/').pop();
       const startBtn = document.getElementById('startLivestream');
-
       try {
         const catListRes = await fetchWithRetry('/api/stream');
         const fetchPromises = catListRes.categories.map(cat => fetchWithRetry(`/api/${cat}.json`).catch(() => ({ success: true, streams: [] })));
         const allCategoryData = await Promise.all(fetchPromises);
-
         for (const data of allCategoryData) {
           for (const catObj of data.streams) {
             foundEvent = catObj.streams.find(ev => ev.uri_name === uriName);
@@ -1014,7 +921,6 @@
           }
           if (foundEvent) break;
         }
-
         if (foundEvent) {
           document.getElementById('eventTitle').textContent = foundEvent.name;
           document.getElementById('chatEventTitle').textContent = foundEvent.name + " Chat";
@@ -1024,7 +930,6 @@
           
           setInterval(() => {
             const now = Math.floor(Date.now() / 1000);
-
             if (now >= (eventStartTime - PRE_LIVE_BUFFER) && now <= eventEndTime) {
                 liveWindowActive = true; 
                 document.getElementById('statusArea').style.display = 'none'; 
@@ -1032,9 +937,7 @@
             } else if (now < eventStartTime) {
                 liveWindowActive = false;
                 const diff = eventStartTime - now;
-                const h = Math.floor(diff/3600);
-                const m = Math.floor((diff%3600)/60);
-                const s = diff%60;
+                const h = Math.floor(diff/3600); const m = Math.floor((diff%3600)/60); const s = diff%60;
                 
                 if (h >= 24) {
                   const days = Math.floor(h / 24);
@@ -1046,7 +949,6 @@
             }
           }, 1000);
         }
-
         startBtn.onclick = () => {
           document.getElementById('mainVideoContainer').style.display = 'block';
           document.getElementById('streamLinksContainer').style.display = 'block';
