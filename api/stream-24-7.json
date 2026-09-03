@@ -10,7 +10,7 @@
         "streams": [
           {
             "label": "Stream 1",
-            "url": "https://futbolx4-live.hf.space/api/stream/38.m3u8"
+            "url": "https://futbolx4-live.hf.space/api/proxy?url=https%3A%2F%2Fhdesx.cdx-08192.website%2Fmain%2Fsecure%2Ff916ff69c9264089b0d03cabb6a3e9518be155c73fd4c5811ede5c56e3e2b3ed%2F1788412214%2Fespn-usa.m3u8&referer=https%3A%2F%2Fepiembeds.online%2Fembed%2Fespn-usa"
           }
         ],
         "always_live": 1
