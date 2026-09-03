@@ -54,6 +54,22 @@
           ]
         },
         {
+          "name": "Başakşehir vs Galatasaray",
+          "uri_name": "b4a1v1g7",
+          "poster": "https://i.ibb.co/5WW3jBXX/file-0000000015a882108506ee5e888cb08e.png",
+          "tag": "Süper Lig",
+          "starts_at": "2026-09-04T20:00:00",
+          "ends_at": "2026-09-04T22:00:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
           "name": "Al Shabab vs Al Hilal",
           "uri_name": "a4l1v1a7",
           "poster": "https://i.ibb.co/qY9rMpDH/file-00000000f238820aaeabbb26f3243b5b.png",
@@ -156,6 +172,22 @@
           "tag": "Ligue 1",
           "starts_at": "2026-09-04T22:05:00",
           "ends_at": "2026-09-05T00:10:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Fc Porto vs Moreirense",
+          "uri_name": "f4c1v1m7",
+          "poster": "https://i.ibb.co/xbysJGx/file-00000000ad3c81f4af03a6104c9230be.png",
+          "tag": "Liga Portugal",
+          "starts_at": "2026-09-04T22:15:00",
+          "ends_at": "2026-09-05T00:20:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
