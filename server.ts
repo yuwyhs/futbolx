@@ -69,6 +69,36 @@ Deno.serve(async (req) => {
     }
   }
 
+  // /api/token  →  execute api/token.js
+  if (path === "/api/token" || path === "/api/token/") {
+    try {
+      const handler = await import("./api/token.js");
+
+      if (typeof handler.default === "function") {
+        return await handler.default(req);
+      }
+
+      return new Response(
+        JSON.stringify({ success: false, error: "Invalid token handler" }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    } catch (error) {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: "Token handler failed",
+        }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+  }
+
   // Optional: support dynamic .js handlers if you ever need them
   if (path.startsWith("/api/") && path.endsWith(".js")) {
     try {
@@ -86,21 +116,27 @@ Deno.serve(async (req) => {
   if (path === "/auth/login") {
     return serveDir(new Request(new URL("/auth/login.html", req.url), req), { fsRoot: "." });
   }
+
   if (path === "/auth/signup") {
     return serveDir(new Request(new URL("/auth/signup.html", req.url), req), { fsRoot: "." });
   }
+
   if (path === "/dashboard") {
     return serveDir(new Request(new URL("/dashboard.html", req.url), req), { fsRoot: "." });
   }
+
   if (path.startsWith("/live/")) {
     return serveDir(new Request(new URL("/live.html", req.url), req), { fsRoot: "." });
   }
+
   if (path.startsWith("/live-24-7/")) {
     return serveDir(new Request(new URL("/live-24-7.html", req.url), req), { fsRoot: "." });
   }
+
   if (path === "/vip") {
     return serveDir(new Request(new URL("/vip.html", req.url), req), { fsRoot: "." });
   }
+
   if (path === "/24-7") {
     return serveDir(new Request(new URL("/24-7.html", req.url), req), { fsRoot: "." });
   }
