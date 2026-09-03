@@ -4,28 +4,97 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FutbolX - 24/7 Streams</title>
+
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin="anonymous">
-  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900|outfit:300,400,500,600,700" rel="stylesheet">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
+
   <style>
-    body { font-family: 'Kanit', sans-serif; transition: background-color 0.3s ease; }
-    
+    /* ===== FUTBOLX UI THEME ===== */
+    :root {
+      --fx-bg: #07080b;
+      --fx-surface: #0f1118;
+      --fx-surface-hover: #171a26;
+      --fx-glass: rgba(15, 17, 24, 0.75);
+      --fx-glass-border: rgba(255, 255, 255, 0.08);
+
+      --fx-accent: #ef4444;
+      --fx-accent-hover: #f87171;
+      --fx-accent-dark: #dc2626;
+      --fx-accent-glow: rgba(239, 68, 68, 0.30);
+
+      --fx-gold: #ffc107;
+      --fx-text-main: #f1f5f9;
+      --fx-text-muted: #94a3b8;
+      --fx-radius: 14px;
+    }
+
+    [data-bs-theme="light"] {
+      --fx-bg: #f8fafc;
+      --fx-surface: #ffffff;
+      --fx-surface-hover: #f1f5f9;
+      --fx-glass: rgba(255, 255, 255, 0.85);
+      --fx-glass-border: rgba(0, 0, 0, 0.08);
+      --fx-text-main: #0f172a;
+      --fx-text-muted: #64748b;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--fx-bg) !important;
+      color: var(--fx-text-main);
+      font-family: 'Outfit', sans-serif;
+      transition: background-color 0.3s ease;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== GLASS TOP BAR ===== */
+    .top-bar {
+      background: var(--fx-glass) !important;
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid var(--fx-glass-border);
+      padding: 12px 0;
+      transition: all 0.3s ease;
+    }
+
     .top-bar .container-fluid {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: flex-start;
+      max-width: 1600px;
     }
 
+    #sidebarToggler {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border: 1px solid var(--fx-glass-border) !important;
+      color: var(--fx-text-main) !important;
+      border-radius: 10px;
+      padding: 8px 14px;
+      transition: all 0.2s ease;
+    }
+
+    #sidebarToggler:hover {
+      background: rgba(255, 255, 255, 0.12) !important;
+      transform: scale(1.03);
+    }
+
+    /* ===== BRAND ===== */
     .futbolx-brand {
       font-family: 'Kanit', sans-serif;
       font-weight: 900;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #ffffff;
+      letter-spacing: 2px;
+      color: var(--fx-text-main) !important;
       display: inline-flex;
       align-items: center;
       user-select: none;
@@ -34,19 +103,22 @@
       left: 50%;
       transform: translateX(-50%);
       cursor: pointer;
+      text-shadow: none !important;
+      filter: none !important;
     }
 
     .futbolx-brand .ball-o {
-      color: #ffc107;
-      font-size: 1.15rem;
-      margin: 0 1px;
-      text-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
-      transition: transform 0.5s ease;
+      color: var(--fx-gold);
+      font-size: 1.25rem;
+      margin: 0 2px;
+      filter: none !important;
+      text-shadow: none !important;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
       display: inline-block;
     }
 
     .futbolx-brand:hover .ball-o {
-      transform: rotate(180deg);
+      transform: rotate(180deg) scale(1.1);
     }
 
     .futbolx-brand .ball-o.spinning {
@@ -55,67 +127,255 @@
 
     @keyframes ballSpin {
       0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.2); }
+      50% { transform: rotate(180deg) scale(1.3); }
       100% { transform: rotate(360deg) scale(1); }
     }
 
-    .card { 
-      opacity: 0; 
-      transform: translateY(30px); 
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(5px);
-    }
-    .card.visible { opacity: 1; transform: translateY(0); }
-    
-    .watch-button { animation: pulse 1s infinite; font-weight: 600; }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
+    /* ===== SIDEBAR ===== */
+    .offcanvas {
+      background-color: var(--fx-surface) !important;
+      border-right: 1px solid var(--fx-glass-border) !important;
     }
 
+    .offcanvas-header {
+      border-bottom: 1px solid var(--fx-glass-border);
+      padding: 16px;
+    }
+
+    .offcanvas-header .offcanvas-title {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .offcanvas-body {
+      padding: 16px;
+    }
+
+    .offcanvas .nav-link {
+      color: var(--fx-text-main) !important;
+      font-weight: 500;
+      padding: 12px 16px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      margin-bottom: 4px;
+      text-decoration: none;
+    }
+
+    .offcanvas .nav-link:hover {
+      background: var(--fx-surface-hover);
+      color: var(--fx-accent) !important;
+      transform: translateX(4px);
+    }
+
+    .offcanvas .nav-link.btn-link {
+      width: 100%;
+      text-align: left;
+      border: 0;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+      padding-top: 75px !important;
+    }
+
+    /* ===== CATEGORY DROPDOWN ===== */
+    .category-dropdown {
+      margin: 1.5rem 0 2rem;
+    }
+
+    .category-dropdown .dropdown-toggle {
+      background: rgba(15, 17, 24, 0.75) !important;
+      color: var(--fx-text-main) !important;
+      border: 1px solid var(--fx-glass-border) !important;
+      border-radius: 10px;
+      padding: 10px 20px !important;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      box-shadow: none;
+    }
+
+    .category-dropdown .dropdown-toggle:hover,
+    .category-dropdown .dropdown-toggle:focus {
+      background: var(--fx-surface-hover) !important;
+      border-color: rgba(239, 68, 68, 0.45) !important;
+      color: #fff !important;
+      box-shadow: 0 0 18px rgba(239, 68, 68, 0.10);
+    }
+
+    .dropdown-menu {
+      background: #171a20 !important;
+      border: 1px solid var(--fx-glass-border) !important;
+      border-radius: 12px;
+      padding: 6px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+    }
+
+    .dropdown-item {
+      color: #e5e7eb !important;
+      border-radius: 8px;
+      padding: 9px 12px;
+      transition: all 0.15s ease;
+    }
+
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+      background: rgba(239, 68, 68, 0.12) !important;
+      color: var(--fx-accent-hover) !important;
+    }
+
+    /* ===== LIVE SECTION ===== */
+    #live h2 {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 700;
+      color: var(--fx-text-main);
+    }
+
+    /* ===== LIVE DOT ===== */
     .live-dot {
-      height: 12px; width: 12px; background-color: #ff4d4d;
-      border-radius: 50%; display: inline-block; margin-left: 10px;
-      box-shadow: 0 0 0 rgba(255, 77, 77, 0.7);
-      animation: pulse-red 2s infinite; vertical-align: middle;
-    }
-    @keyframes pulse-red {
-      0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7); }
-      70% { box-shadow: 0 0 0 12px rgba(255, 77, 77, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
+      height: 12px;
+      width: 12px;
+      background-color: var(--fx-accent);
+      border-radius: 50%;
+      display: inline-block;
+      margin-left: 10px;
+      box-shadow: 0 0 0 rgba(239, 68, 68, 0.7);
+      animation: pulse-red 2s infinite;
+      vertical-align: middle;
     }
 
+    @keyframes pulse-red {
+      0% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+      }
+
+      70% {
+        box-shadow: 0 0 0 12px rgba(239, 68, 68, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+      }
+    }
+
+    /* ===== EVENT GRID ===== */
     .event-grid {
       display: grid;
-      gap: 2rem;
-      padding: 1.5rem;
+      gap: 1.5rem;
+      padding: 0.5rem 0 1.5rem;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     }
 
+    /* ===== STREAM CARDS ===== */
     .card {
-      width: 100%; border-radius: 12px; overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.1); position: relative;
-    }
-    
-    .card:hover { 
-      transform: scale(1.03); 
-      border-color: #ff4d4d; 
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(255, 77, 77, 0.2);
-    }
-    
-    .card-img-top { height: 200px; object-fit: cover; transition: transform 0.5s ease; }
-    .card:hover .card-img-top { transform: scale(1.1); }
-    
-    .live-badge { 
-      position: absolute; top: 12px; right: 12px; 
-      background: #dc3545; color: white; padding: 3px 12px; 
-      border-radius: 6px; font-size: 0.7rem; font-weight: 800; z-index: 5; 
-    }
-    
-    .category-dropdown { margin: 2rem 0; }
+      width: 100%;
+      border-radius: var(--fx-radius) !important;
+      overflow: hidden;
+      border: 1px solid var(--fx-glass-border) !important;
+      position: relative;
 
+      background: var(--fx-glass) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
+      opacity: 0;
+      transform: translateY(30px);
+
+      transition:
+        opacity 0.4s ease,
+        transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(239, 68, 68, 0.5) !important;
+      box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.35),
+        0 0 20px rgba(239, 68, 68, 0.10);
+    }
+
+    .card-img-top {
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .card:hover .card-img-top {
+      transform: scale(1.06);
+    }
+
+    .card-body {
+      padding: 18px;
+    }
+
+    .card-title {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 600;
+    }
+
+    /* ===== LIVE BADGE ===== */
+    .live-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--fx-accent-dark);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 7px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      z-index: 5;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+    }
+
+    /* ===== WATCH BUTTON ===== */
+    .watch-button {
+      animation: pulse 1s infinite;
+      font-weight: 600;
+      border-radius: 9px;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .btn-danger {
+      --bs-btn-color: #fff;
+      --bs-btn-bg: var(--fx-accent-dark);
+      --bs-btn-border-color: var(--fx-accent-dark);
+      --bs-btn-hover-color: #fff;
+      --bs-btn-hover-bg: var(--fx-accent);
+      --bs-btn-hover-border-color: var(--fx-accent);
+      --bs-btn-active-color: #fff;
+      --bs-btn-active-bg: #b91c1c;
+      --bs-btn-active-border-color: #b91c1c;
+      font-weight: 700;
+    }
+
+    /* ===== STREAM TITLE ===== */
+    .stream-name {
+      color: var(--fx-text-main) !important;
+    }
+
+    /* ===== COMING SOON OVERLAY ===== */
     .coming-soon-overlay {
       position: fixed;
       top: 56px;
@@ -129,19 +389,77 @@
       background: rgba(0, 0, 0, 0.2);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      pointer-events: none; 
+      pointer-events: none;
     }
-    
-    .no-click-mode { pointer-events: none; }
-    
+
+    .no-click-mode {
+      pointer-events: none;
+    }
+
     .coming-soon-text {
+      font-family: 'Kanit', sans-serif;
       font-size: clamp(3rem, 10vw, 7rem);
       font-weight: 900;
       color: white;
       text-transform: uppercase;
-      text-shadow: 0 0 20px rgba(0,0,0,0.5);
+      text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      border-top-color: var(--fx-glass-border) !important;
+    }
+
+    footer .nav-link {
+      transition: color 0.2s ease;
+    }
+
+    footer .nav-link:hover {
+      color: var(--fx-accent) !important;
+    }
+
+    footer .text-primary {
+      color: var(--fx-accent) !important;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 767.98px) {
+      .main-content {
+        padding-top: 70px !important;
+      }
+
+      .event-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .card-img-top {
+        height: 190px;
+      }
+
+      .category-dropdown {
+        margin-top: 1rem;
+      }
+
+      .coming-soon-overlay {
+        top: 60px;
+        height: calc(100% - 60px);
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1199.98px) {
+      .event-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .container {
+        max-width: 1200px;
+      }
     }
   </style>
+
   <script>
     (function() {
       const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -149,171 +467,436 @@
     })();
   </script>
 </head>
+
 <body>
 
+  <!-- ===== TOP BAR ===== -->
   <nav class="top-bar fixed-top">
     <div class="container-fluid">
-      <button class="btn btn-dark" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+
+      <button class="btn btn-dark"
+              type="button"
+              id="sidebarToggler"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#sidebarMenu">
+
         <i class="fas fa-bars"></i>
       </button>
 
       <a href="/" class="futbolx-brand" id="brandLogo">
         FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
       </a>
+
     </div>
   </nav>
 
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
+  <!-- ===== SIDEBAR ===== -->
+  <div class="offcanvas offcanvas-start"
+       tabindex="-1"
+       id="sidebarMenu">
+
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title">Menu</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+
+      <h5 class="offcanvas-title">
+        NAVIGATION
+      </h5>
+
+      <button type="button"
+              class="btn-close"
+              data-bs-dismiss="offcanvas">
+      </button>
+
     </div>
+
     <div class="offcanvas-body">
+
       <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/request">Request</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
-        <li class="nav-item"><a class="nav-link" href="/24-7">24/7</a></li>
-        <li class="nav-item"><a class="nav-link" href="https://discord.gg/CmRcPbBB2k">Discord</a></li>
-        <li class="nav-item"><a class="nav-link" href="/vip">VIP</a></li>
-        <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
+
         <li class="nav-item">
+          <a class="nav-link" href="/">
+            <i class="fas fa-house me-3"></i>Home
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/request">
+            <i class="fas fa-paper-plane me-3"></i>Request
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/vods">
+            <i class="fas fa-film me-3"></i>VODs
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/24-7">
+            <i class="fas fa-tv me-3"></i>24/7
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="https://discord.gg/CmRcPbBB2k">
+            <i class="fab fa-discord me-3"></i>Discord
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/vip">
+            <i class="fas fa-crown me-3" style="color: var(--fx-gold);"></i>VIP
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/auth/login" id="loginLink">
+            <i class="fas fa-user me-3"></i>Login
+          </a>
+        </li>
+
+        <li class="nav-item mt-2">
           <button id="themeToggle" class="nav-link btn btn-link">
-            <i class="fas fa-moon"></i>
+            <i class="fas fa-moon me-3"></i>Toggle Theme
           </button>
         </li>
+
       </ul>
+
     </div>
   </div>
 
+  <!-- ===== MAIN CONTENT ===== -->
   <div class="container-fluid main-content pt-5">
+
     <div class="container">
+
+      <!-- ===== CATEGORY SELECTOR ===== -->
       <div class="category-dropdown text-center">
+
         <div class="dropdown">
-          <button class="btn btn-outline-primary dropdown-toggle px-4" type="button" id="categoryDropdown" data-bs-toggle="dropdown">
+
+          <button class="btn btn-outline-primary dropdown-toggle px-4"
+                  type="button"
+                  id="categoryDropdown"
+                  data-bs-toggle="dropdown">
+
             Browse Categories
+
           </button>
+
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#" data-category="All">All Streams</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Sports">Sports</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Entertainment">Entertainment</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Kids">Kids</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Music">Music</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Movies VOD">Movies VOD</a></li>
-            <li><a class="dropdown-item" href="#" data-category="News">News</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Religion">Religion</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Anime">Anime</a></li>
-            <li><a class="dropdown-item" href="#" data-category="Movies Live">Movies Live</a></li>
+
+            <li>
+              <a class="dropdown-item" href="#" data-category="All">
+                All Streams
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="#" data-category="Sports">
+                Sports
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="#" data-category="Entertainment">
+                Entertainment
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="#" data-category="Kids">
+                Kids
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="#" data-category="Music">
+                Music
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="#" data-category="Movies VOD">
+                Movies VOD
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="#" data-category="News">
+                News
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="#" data-category="Religion">
+                Religion
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="#" data-category="Anime">
+                Anime
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="#" data-category="Movies Live">
+                Movies Live
+              </a>
+            </li>
+
           </ul>
+
         </div>
+
       </div>
 
+      <!-- ===== LIVE STREAMS ===== -->
       <div id="live" class="mt-4">
-        <h2 class="fw-bold mb-4">24/7 Global Streams <span class="live-dot"></span></h2>
+
+        <h2 class="fw-bold mb-4">
+          24/7 Global Streams
+          <span class="live-dot"></span>
+        </h2>
+
         <div id="livecards" class="event-grid">
-          <p class="text-muted">Loading streams...</p>
+          <p class="text-muted">
+            Loading streams...
+          </p>
         </div>
+
       </div>
 
+      <!-- ===== FOOTER ===== -->
       <footer class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-4 border-top mt-5">
-        <p class="mb-0 text-body-secondary">© FutbolX 2026</p>
+
+        <p class="mb-0 text-body-secondary">
+          © FutbolX 2026
+        </p>
+
         <ul class="nav">
-          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-primary fw-bold">Donate / VIP Access</a></li>
+
+          <li class="nav-item">
+            <a href="/vip"
+               class="nav-link px-2 text-primary fw-bold">
+              Donate / VIP Access
+            </a>
+          </li>
+
         </ul>
+
       </footer>
+
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+
       const brandLogo = document.getElementById('brandLogo');
       const logoBall = document.getElementById('logoBall');
-      
+
       if (brandLogo && logoBall) {
+
         brandLogo.addEventListener('click', () => {
+
           logoBall.classList.add('spinning');
+
           setTimeout(() => {
             logoBall.classList.remove('spinning');
           }, 600);
+
         });
+
       }
+
     });
 
     const themeToggle = document.getElementById('themeToggle');
     const htmlEl = document.documentElement;
 
     function updateThemeIcon() {
-      const isDark = htmlEl.getAttribute('data-bs-theme') === 'dark';
-      themeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+
+      const isDark =
+        htmlEl.getAttribute('data-bs-theme') === 'dark';
+
+      themeToggle.innerHTML = isDark
+        ? '<i class="fas fa-moon me-3"></i>Toggle Theme'
+        : '<i class="fas fa-sun me-3"></i>Toggle Theme';
+
     }
+
     updateThemeIcon();
 
     themeToggle.addEventListener('click', () => {
-      const newTheme = htmlEl.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+
+      const newTheme =
+        htmlEl.getAttribute('data-bs-theme') === 'dark'
+          ? 'light'
+          : 'dark';
+
       htmlEl.setAttribute('data-bs-theme', newTheme);
+
       localStorage.setItem('theme', newTheme);
+
       updateThemeIcon();
+
     });
 
     let allStreams = [];
 
     function renderStreams(streams) {
-      const livecards = document.getElementById('livecards');
+
+      const livecards =
+        document.getElementById('livecards');
+
       livecards.innerHTML = '';
+
       if (streams.length === 0) {
-        livecards.innerHTML = '<div class="col-12"><p class="text-center py-5">No streams found in this category.</p></div>';
+
+        livecards.innerHTML =
+          '<div class="col-12"><p class="text-center py-5">No streams found in this category.</p></div>';
+
         return;
       }
+
       streams.forEach(stream => {
-        let poster = stream.poster || 'https://via.placeholder.com/350x200?text=FutbolX';
+
+        let poster =
+          stream.poster ||
+          'https://via.placeholder.com/350x200?text=FutbolX';
+
         livecards.innerHTML += `
           <a href="/live-24-7/${stream.uri_name}" style="text-decoration:none">
             <div class="card h-100">
-              <span class="live-badge">LIVE</span>
-              <img src="${poster}" class="card-img-top" alt="${stream.name}" loading="lazy">
+
+              <span class="live-badge">
+                LIVE
+              </span>
+
+              <img src="${poster}"
+                   class="card-img-top"
+                   alt="${stream.name}"
+                   loading="lazy">
+
               <div class="card-body d-flex flex-column">
-                <h5 class="card-title text-truncate" style="color: #3b82f6;">${stream.name}</h5>
+
+                <h5 class="card-title text-truncate"
+                    style="color: var(--fx-text-main);">
+                  ${stream.name}
+                </h5>
+
                 <div class="mt-auto d-flex justify-content-between align-items-center">
-                  <small class="text-muted">${stream.category}</small>
-                  <button class="btn btn-danger btn-sm watch-button px-3">Watch</button>
+
+                  <small class="text-muted">
+                    ${stream.category}
+                  </small>
+
+                  <button class="btn btn-danger btn-sm watch-button px-3">
+                    Watch
+                  </button>
+
                 </div>
+
               </div>
+
             </div>
           </a>`;
+
       });
-      
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
-      }, { threshold: 0.1 });
-      document.querySelectorAll('.card').forEach(card => observer.observe(card));
+
+      const observer =
+        new IntersectionObserver((entries) => {
+
+          entries.forEach(entry => {
+
+            if (entry.isIntersecting) {
+
+              entry.target.classList.add('visible');
+
+              observer.unobserve(entry.target);
+
+            }
+
+          });
+
+        }, { threshold: 0.1 });
+
+      document
+        .querySelectorAll('.card')
+        .forEach(card => observer.observe(card));
+
     }
 
     function loadContent() {
+
       fetch('/api/stream-24-7')
+
         .then(res => res.json())
+
         .then(data => {
+
           if (data && data.success) {
+
             allStreams = [];
+
             Object.keys(data.streams).forEach(cat => {
-              data.streams[cat].forEach(s => allStreams.push({ ...s, category: cat }));
+
+              data.streams[cat].forEach(s => {
+
+                allStreams.push({
+                  ...s,
+                  category: cat
+                });
+
+              });
+
             });
+
             renderStreams(allStreams);
+
           }
+
         });
+
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+
       loadContent();
-      document.querySelectorAll('.dropdown-item').forEach(item => {
-        item.addEventListener('click', (e) => {
-          e.preventDefault();
-          const category = item.getAttribute('data-category');
-          document.getElementById('categoryDropdown').textContent = item.textContent;
-          renderStreams(category === 'All' ? allStreams : allStreams.filter(s => s.category === category));
+
+      document
+        .querySelectorAll('.dropdown-item')
+        .forEach(item => {
+
+          item.addEventListener('click', (e) => {
+
+            e.preventDefault();
+
+            const category =
+              item.getAttribute('data-category');
+
+            document
+              .getElementById('categoryDropdown')
+              .textContent = item.textContent;
+
+            renderStreams(
+              category === 'All'
+                ? allStreams
+                : allStreams.filter(
+                    s => s.category === category
+                  )
+            );
+
+          });
+
         });
-      });
+
     });
   </script>
+
 </body>
 </html>
