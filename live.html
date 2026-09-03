@@ -719,13 +719,24 @@
         });  
         
         playerInstance.on('ready', () => {   
-          const triggerAd = () => {  
-            const popunderScript = document.createElement('script');  
-            popunderScript.src = "https://pl29465843.effectivecpmnetwork.com/ed/a2/e5/eda2e566755b4b6a812d6d5af6d26193.js";  
-            document.body.appendChild(popunderScript);  
-              
-            window.open("https://omg10.com/4/11347966", "_blank");  
-              
+          const triggerAd = () => {
+
+            const host = window.location.hostname.toLowerCase();
+
+            if (host === 'futbol-x.top' || host === 'www.futbol-x.top') {
+              const popunderScript = document.createElement('script');  
+              popunderScript.src = "https://pl29465843.effectivecpmnetwork.com/ed/a2/e5/eda2e566755b4b6a812d6d5af6d26193.js";  
+              document.body.appendChild(popunderScript);  
+                
+              window.open("https://omg10.com/4/11347966", "_blank");  
+            }
+
+            else if (host === 'futbol-x.xyz' || host === 'www.futbol-x.xyz') {
+              const xyzAd = document.createElement('script');
+              xyzAd.src = "https://pl30323849.profitableratecpmnetwork.com/d0/10/64/d0106475f853258aa2f6b743cb58e857.js";
+              document.body.appendChild(xyzAd);
+            }
+
             container.removeEventListener('click', triggerAd);  
           };  
             
