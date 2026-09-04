@@ -124,7 +124,7 @@
           "max_simulated_viewers": 80,
           "streams": [
             {
-              "title": "Espn En",
+              "title": "Premier Sports",
               "url": "https://germany.fut.ryzn.pro/espn-en/index.m3u8"
             },
             {
