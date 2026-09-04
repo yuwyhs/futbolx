@@ -6,38 +6,6 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Toulouse vs Lille",
-          "uri_name": "t4o1v1l7",
-          "poster": "https://i.ibb.co/PZXJhDCs/image-336b95d6.jpg",
-          "tag": "Ligue 1",
-          "starts_at": "2026-09-03T21:45:00",
-          "ends_at": "2026-09-03T23:50:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Ligue+",
-              "url": "https://germany.fut.ryzn.pro/tou-lil/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Real Sociedad vs Celta Vigo",
-          "uri_name": "r4e1v1c7",
-          "poster": "https://i.ibb.co/fztGJgtC/image-cea2d64.jpg",
-          "tag": "Laliga",
-          "starts_at": "2026-09-03T22:00:00",
-          "ends_at": "2026-09-04T00:00:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Laliga",
-              "url": "https://germany.fut.ryzn.pro/soc-cel/index.m3u8"
-            }
-          ]
-        },
-        {
           "name": "Lyon vs Auxerre",
           "uri_name": "l4y1v1a7",
           "poster": "https://i.ibb.co/5hRvjw2v/image-d35c2f0d.jpg",
@@ -48,8 +16,8 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Ligue+",
+              "url": "https://germany.fut.ryzn.pro/ly-aux/index.m3u8"
             }
           ]
         },
@@ -64,15 +32,15 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Bein 1 Tr",
+              "url": "https://germany.fut.ryzn.pro/bes-gala/index.m3u8"
             }
           ]
         },
         {
           "name": "Al Shabab vs Al Hilal",
           "uri_name": "a4l1v1a7",
-          "poster": "https://i.ibb.co/qY9rMpDH/file-00000000f238820aaeabbb26f3243b5b.png",
+          "poster": "",
           "tag": "SPL",
           "starts_at": "2026-09-04T21:00:00",
           "ends_at": "2026-09-04T23:00:00",
@@ -80,8 +48,8 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Thmanyah",
+              "url": "https://germany.fut.ryzn.pro/sha-hil/index.m3u8"
             }
           ]
         },
@@ -97,7 +65,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://germany.fut.ryzn.pro/stu-kol/index.m3u8"
             }
           ]
         },
@@ -113,7 +81,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://germany.fut.ryzn.pro/gen-com/index.m3u8"
             }
           ]
         },
