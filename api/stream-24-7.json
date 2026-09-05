@@ -10,7 +10,7 @@
         "streams": [
           {
             "label": "Stream 1",
-            "url": "https://rebel.heyfengenic.com/stream/us/fox.m3u8"
+            "url": "https://rebel.heyfengenic.com/stream/us/fox.ts"
           }
         ],
         "always_live": 1
