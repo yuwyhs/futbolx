@@ -289,7 +289,6 @@
       pointer-events: auto;
     }
 
-    /* Top area */
     .fx-player-top {
       position: absolute;
       top: 0;
@@ -338,7 +337,6 @@
       }
     }
 
-    /* Center play button */
     .fx-center-play {
       position: absolute;
       top: 50%;
@@ -368,7 +366,6 @@
       pointer-events: none;
     }
 
-    /* Bottom controls */
     .fx-player-controls {
       position: absolute;
       left: 0;
@@ -421,7 +418,6 @@
       text-shadow: 0 1px 3px #000;
     }
 
-    /* Volume */
     .fx-volume-wrap {
       display: flex;
       align-items: center;
@@ -444,12 +440,10 @@
       pointer-events: auto;
     }
 
-    /* AirPlay button hidden unless supported */
     #fxAirplay {
       display: none;
     }
 
-    /* Fullscreen player */
     #videoPlayerContainer.fx-fullscreen {
       position: fixed !important;
       inset: 0 !important;
@@ -516,6 +510,337 @@
     .stream-dropdown .dropdown-item:focus {
       background: #2b2c31 !important;
       color: #fff !important;
+    }
+
+    /* =========================================================
+       FUTBOLX EPG
+       ========================================================= */
+
+    .fx-epg {
+      width: 100%;
+      margin-top: 18px;
+      background: var(--fx-glass);
+      border: 1px solid var(--fx-glass-border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 14px 40px rgba(0,0,0,.18);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .fx-epg-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--fx-glass-border);
+      background: rgba(255,255,255,.025);
+    }
+
+    .fx-epg-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .fx-epg-heading-icon {
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9px;
+      background: rgba(239,68,68,.12);
+      color: var(--fx-accent);
+    }
+
+    .fx-epg-title {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: .5px;
+      margin: 0;
+      color: var(--fx-text-main);
+    }
+
+    .fx-epg-channel {
+      color: var(--fx-text-muted);
+      font-size: .78rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .fx-epg-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--fx-text-muted);
+      font-size: .72rem;
+      white-space: nowrap;
+    }
+
+    .fx-epg-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34,197,94,.6);
+    }
+
+    .fx-epg-body {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .fx-epg-grid {
+      width: 100%;
+    }
+
+    .fx-epg-time-row {
+      display: grid;
+      grid-template-columns: 105px repeat(8, minmax(0, 1fr));
+      min-height: 40px;
+      border-bottom: 1px solid var(--fx-glass-border);
+      background: rgba(255,255,255,.025);
+    }
+
+    .fx-epg-date-heading {
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      border-right: 1px solid var(--fx-glass-border);
+      color: var(--fx-text-muted);
+      font-family: 'Kanit', sans-serif;
+      font-size: .68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .fx-epg-time {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+      border-right: 1px solid var(--fx-glass-border);
+      color: var(--fx-text-muted);
+      font-size: .68rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .fx-epg-time:last-child {
+      border-right: 0;
+    }
+
+    .fx-epg-day {
+      position: relative;
+      display: grid;
+      grid-template-columns: 105px 1fr;
+      min-height: 92px;
+      border-bottom: 1px solid var(--fx-glass-border);
+    }
+
+    .fx-epg-day:last-child {
+      border-bottom: 0;
+    }
+
+    .fx-epg-date {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10px 12px;
+      border-right: 1px solid var(--fx-glass-border);
+      background: rgba(255,255,255,.018);
+    }
+
+    .fx-epg-date-name {
+      font-family: 'Kanit', sans-serif;
+      font-size: .76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--fx-text-main);
+    }
+
+    .fx-epg-date-full {
+      margin-top: 2px;
+      color: var(--fx-text-muted);
+      font-size: .68rem;
+    }
+
+    .fx-epg-timeline {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      background:
+        repeating-linear-gradient(
+          to right,
+          transparent 0,
+          transparent calc(12.5% - 1px),
+          var(--fx-glass-border) calc(12.5% - 1px),
+          var(--fx-glass-border) 12.5%
+        );
+    }
+
+    .fx-epg-event {
+      position: absolute;
+      top: 9px;
+      bottom: 9px;
+      min-width: 8px;
+      overflow: hidden;
+      padding: 9px 10px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 9px;
+      background: #151923;
+      box-shadow: 0 5px 15px rgba(0,0,0,.18);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+      cursor: default;
+    }
+
+    .fx-epg-event:hover {
+      transform: translateY(-1px);
+      border-color: rgba(239,68,68,.45);
+      background: #1b1f2b;
+      z-index: 6 !important;
+    }
+
+    .fx-epg-event.live {
+      border-color: rgba(239,68,68,.65);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(239,68,68,.18),
+          rgba(21,25,35,.98) 55%
+        );
+      box-shadow:
+        0 0 0 1px rgba(239,68,68,.08),
+        0 7px 20px rgba(0,0,0,.25);
+      z-index: 5;
+    }
+
+    .fx-epg-event-title {
+      position: relative;
+      z-index: 2;
+      color: #f8fafc;
+      font-size: .74rem;
+      line-height: 1.25;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .fx-epg-event-time {
+      position: relative;
+      z-index: 2;
+      margin-top: 4px;
+      color: var(--fx-text-muted);
+      font-size: .62rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .fx-epg-live-label {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 3px;
+      color: #f87171;
+      font-family: 'Kanit', sans-serif;
+      font-size: .57rem;
+      font-weight: 700;
+      letter-spacing: .7px;
+    }
+
+    .fx-epg-live-label i {
+      font-size: .43rem;
+    }
+
+    .fx-epg-progress {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 3px;
+      background: rgba(255,255,255,.08);
+    }
+
+    .fx-epg-progress-bar {
+      height: 100%;
+      width: 0;
+      background: var(--fx-accent);
+      box-shadow: 0 0 8px rgba(239,68,68,.55);
+      transition: width 1s linear;
+    }
+
+    .fx-epg-now-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--fx-accent);
+      box-shadow: 0 0 10px rgba(239,68,68,.65);
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .fx-epg-now-line::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--fx-accent);
+      transform: translateX(-50%);
+      box-shadow: 0 0 10px rgba(239,68,68,.8);
+    }
+
+    .fx-epg-empty {
+      padding: 32px 20px;
+      text-align: center;
+      color: var(--fx-text-muted);
+    }
+
+    .fx-epg-empty i {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 28px;
+      opacity: .45;
+    }
+
+    .fx-epg-empty-title {
+      color: var(--fx-text-main);
+      font-family: 'Kanit', sans-serif;
+      font-size: .95rem;
+      font-weight: 600;
+    }
+
+    .fx-epg-empty-text {
+      margin-top: 3px;
+      font-size: .75rem;
+    }
+
+    .fx-epg-loading {
+      padding: 30px 20px;
+      text-align: center;
+      color: var(--fx-text-muted);
+      font-size: .8rem;
+    }
+
+    .fx-epg-loading i {
+      margin-right: 7px;
+      color: var(--fx-accent);
     }
 
     /* ===== ERROR ===== */
@@ -590,6 +915,120 @@
       .fx-live-badge {
         padding: 5px 9px;
         font-size: 11px;
+      }
+
+      /* EPG mobile */
+      .fx-epg-header {
+        padding: 12px;
+      }
+
+      .fx-epg-heading-icon {
+        width: 32px;
+        height: 32px;
+        flex-basis: 32px;
+      }
+
+      .fx-epg-title {
+        font-size: .95rem;
+      }
+
+      .fx-epg-channel {
+        font-size: .68rem;
+      }
+
+      .fx-epg-status {
+        display: none;
+      }
+
+      .fx-epg-time-row {
+        grid-template-columns: 70px repeat(8, minmax(0, 1fr));
+        min-height: 34px;
+      }
+
+      .fx-epg-day {
+        grid-template-columns: 70px 1fr;
+        min-height: 82px;
+      }
+
+      .fx-epg-date {
+        padding: 8px 7px;
+      }
+
+      .fx-epg-date-name {
+        font-size: .64rem;
+      }
+
+      .fx-epg-date-full {
+        font-size: .57rem;
+      }
+
+      .fx-epg-time {
+        font-size: .57rem;
+      }
+
+      .fx-epg-event {
+        top: 7px;
+        bottom: 7px;
+        padding: 7px 7px;
+        border-radius: 7px;
+      }
+
+      .fx-epg-event-title {
+        font-size: .62rem;
+      }
+
+      .fx-epg-event-time {
+        font-size: .54rem;
+        margin-top: 3px;
+      }
+
+      .fx-epg-live-label {
+        font-size: .48rem;
+        margin-bottom: 2px;
+      }
+
+      .fx-epg-progress {
+        height: 2px;
+      }
+    }
+
+    @media (max-width: 420px) {
+
+      .fx-epg-time-row {
+        grid-template-columns: 62px repeat(8, minmax(0, 1fr));
+      }
+
+      .fx-epg-day {
+        grid-template-columns: 62px 1fr;
+      }
+
+      .fx-epg-date {
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+
+      .fx-epg-date-name {
+        font-size: .59rem;
+      }
+
+      .fx-epg-date-full {
+        font-size: .53rem;
+      }
+
+      .fx-epg-time {
+        font-size: .51rem;
+      }
+
+      .fx-epg-event {
+        padding: 6px 5px;
+      }
+
+      .fx-epg-event-title {
+        font-size: .56rem;
+      }
+
+      .fx-epg-event-time {
+        font-size: .49rem;
       }
     }
   </style>
@@ -760,6 +1199,53 @@
 
           </div>
 
+          <!-- =====================================================
+               EPG
+               ===================================================== -->
+
+          <section id="epgSection" class="fx-epg">
+
+            <div class="fx-epg-header">
+
+              <div class="fx-epg-heading">
+
+                <div class="fx-epg-heading-icon">
+                  <i class="fas fa-tv"></i>
+                </div>
+
+                <div>
+                  <h3 class="fx-epg-title">
+                    TV GUIDE
+                  </h3>
+
+                  <div class="fx-epg-channel"
+                       id="epgChannelName">
+                    Loading schedule...
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="fx-epg-status">
+                <span class="fx-epg-status-dot"></span>
+                <span id="epgStatusText">
+                  Updating automatically
+                </span>
+              </div>
+
+            </div>
+
+            <div id="epgBody" class="fx-epg-body">
+
+              <div class="fx-epg-loading">
+                <i class="fas fa-circle-notch fa-spin"></i>
+                Loading TV guide...
+              </div>
+
+            </div>
+
+          </section>
+
           <div id="errorContainer"
                class="alert alert-danger error-alert mt-3 d-none">
           </div>
@@ -804,23 +1290,44 @@
     let fxVideo = null;
     let fxControlsTimer = null;
 
-    /*
-     * Each player load gets its own session.
-     * This prevents an old stream from trying to
-     * reconnect after the user switches streams.
-     */
     let playerSession = 0;
 
-    /*
-     * Maximum automatic recovery attempts for one
-     * player session.
-     */
     const MAX_RECOVERY_ATTEMPTS = 8;
+    const RECOVERY_DELAY = 1500;
+
+    /* =========================================================
+       EPG SETTINGS
+       ========================================================= */
+
+    const EPG_ENDPOINT = '/api/epg';
 
     /*
-     * Delay between recovery attempts.
+     * Refresh the EPG data periodically.
+     *
+     * This does not mean the visitor has to refresh the page.
+     * FutbolX will check for updated EPG information automatically.
      */
-    const RECOVERY_DELAY = 1500;
+    const EPG_REFRESH_INTERVAL = 10 * 60 * 1000;
+
+    /*
+     * Refresh the currently visible clock/progress every second.
+     */
+    const EPG_CLOCK_INTERVAL = 1000;
+
+    /*
+     * Show the current day plus the next 3 days.
+     */
+    const EPG_DAYS_TO_SHOW = 4;
+
+    /*
+     * The guide uses 8 time columns.
+     * Each column represents 3 hours.
+     */
+    const EPG_HOURS_PER_COLUMN = 3;
+
+    let epgData = null;
+    let epgRefreshTimer = null;
+    let epgClockTimer = null;
 
     document.addEventListener('DOMContentLoaded', () => {
 
@@ -1066,12 +1573,6 @@
       const fullscreenButton =
         document.getElementById('fxFullscreen');
 
-      /*
-       * =====================================================
-       * PLAY / PAUSE
-       * =====================================================
-       */
-
       function togglePlay(event) {
 
         if (event) {
@@ -1094,10 +1595,6 @@
 
       playButton.onclick = togglePlay;
       centerPlay.onclick = togglePlay;
-
-      /*
-       * Update play icons
-       */
 
       video.addEventListener('play', () => {
 
@@ -1124,12 +1621,6 @@
         showPlayerControls();
 
       });
-
-      /*
-       * =====================================================
-       * MUTE / UNMUTE
-       * =====================================================
-       */
 
       function updateMuteIcon() {
 
@@ -1182,12 +1673,6 @@
         showPlayerControls();
 
       };
-
-      /*
-       * =====================================================
-       * PICTURE IN PICTURE
-       * =====================================================
-       */
 
       if (
         document.pictureInPictureEnabled ||
@@ -1248,12 +1733,6 @@
 
       };
 
-      /*
-       * =====================================================
-       * AIRPLAY
-       * =====================================================
-       */
-
       if (
         typeof video.webkitShowPlaybackTargetPicker ===
         'function'
@@ -1284,12 +1763,6 @@
         };
 
       }
-
-      /*
-       * =====================================================
-       * FULLSCREEN
-       * =====================================================
-       */
 
       fullscreenButton.onclick = async (event) => {
 
@@ -1358,12 +1831,6 @@
         }
       );
 
-      /*
-       * =====================================================
-       * DOUBLE CLICK = FULLSCREEN
-       * =====================================================
-       */
-
       video.addEventListener(
         'dblclick',
         (event) => {
@@ -1374,20 +1841,6 @@
 
         }
       );
-
-      /*
-       * =====================================================
-       * PLAYER CONTROLS
-       *
-       * IMPORTANT:
-       * We no longer use video.click() to toggle the UI.
-       *
-       * A click/tap simply SHOWS the controls.
-       * They then remain visible for the full timer.
-       * This prevents the mobile "appear then instantly
-       * disappear" problem.
-       * =====================================================
-       */
 
       function showPlayerControls() {
 
@@ -1400,10 +1853,6 @@
           fxControlsTimer =
             setTimeout(() => {
 
-              /*
-               * Don't hide while the user is actively
-               * interacting with a control.
-               */
               ui.classList.add('hidden');
 
             }, 4000);
@@ -1411,11 +1860,6 @@
         }
 
       }
-
-      /*
-       * Mouse movement:
-       * show controls and reset the timer.
-       */
 
       player.addEventListener(
         'mousemove',
@@ -1425,13 +1869,6 @@
 
         }
       );
-
-      /*
-       * Touch:
-       * show controls and keep them visible.
-       *
-       * No toggle here.
-       */
 
       player.addEventListener(
         'touchstart',
@@ -1445,21 +1882,10 @@
         }
       );
 
-      /*
-       * Clicking anywhere on the player:
-       * SHOW controls only.
-       *
-       * This is the important fix.
-       */
-
       player.addEventListener(
         'click',
         (event) => {
 
-          /*
-           * Buttons already call their own actions.
-           * Don't interfere with them here.
-           */
           if (
             event.target.closest('.fx-control-btn') ||
             event.target.closest('.fx-center-play') ||
@@ -1476,10 +1902,6 @@
         }
       );
 
-      /*
-       * Keep controls alive while the pointer is over them.
-       */
-
       ui.addEventListener(
         'mouseenter',
         () => {
@@ -1488,11 +1910,6 @@
 
         }
       );
-
-      /*
-       * Once the pointer leaves the controls,
-       * restart the hide timer.
-       */
 
       ui.addEventListener(
         'mouseleave',
@@ -1507,11 +1924,6 @@
         }
       );
 
-      /*
-       * Touching/clicking controls should never cause
-       * an immediate hide.
-       */
-
       ui.addEventListener(
         'touchstart',
         () => {
@@ -1524,20 +1936,12 @@
         }
       );
 
-      /*
-       * Initial state
-       */
-
       video.muted = true;
       video.volume = 1;
 
       updateMuteIcon();
 
       fxVideo = video;
-
-      /*
-       * Start with controls visible.
-       */
 
       showPlayerControls();
 
@@ -1554,15 +1958,6 @@
 
     }
 
-    /*
-     * =========================================================
-     * CREATE MPEG-TS PLAYER
-     * =========================================================
-     *
-     * This is separated from initPlayer so the player can
-     * recreate itself automatically after a recoverable error.
-     */
-
     function createMpegtsPlayer(
       url,
       event,
@@ -1570,11 +1965,6 @@
       sessionId,
       recoveryAttempt = 0
     ) {
-
-      /*
-       * If the user already switched streams,
-       * don't start an old player.
-       */
 
       if (sessionId !== playerSession) {
         return;
@@ -1596,10 +1986,6 @@
       if (!player) {
         return;
       }
-
-      /*
-       * Make sure any old player is completely gone.
-       */
 
       if (videoPlayerInstance) {
 
@@ -1629,16 +2015,8 @@
 
       player.innerHTML = '';
 
-      /*
-       * Hide the final error while attempting recovery.
-       */
-
       errorContainer.classList.add('d-none');
       errorContainer.innerText = '';
-
-      /*
-       * Create fresh video element.
-       */
 
       const video =
         document.createElement('video');
@@ -1675,10 +2053,6 @@
         'LIVE STREAM'
       );
 
-      /*
-       * Browser doesn't support mpegts.js.
-       */
-
       if (
         typeof mpegts === 'undefined' ||
         !mpegts.isSupported()
@@ -1695,10 +2069,6 @@
 
       }
 
-      /*
-       * Create mpegts.js player.
-       */
-
       try {
 
         videoPlayerInstance =
@@ -1709,10 +2079,6 @@
             isLive: true,
 
             url: url,
-
-            /*
-             * Keep live latency reasonably low.
-             */
 
             liveBufferLatencyChasing: true,
 
@@ -1726,12 +2092,6 @@
           video
         );
 
-        /*
-         * =====================================================
-         * MPEG-TS ERROR HANDLER
-         * =====================================================
-         */
-
         videoPlayerInstance.on(
           mpegts.Events.ERROR,
           function(type, detail, info) {
@@ -1743,11 +2103,6 @@
               info
             );
 
-            /*
-             * Ignore this error if the user has already
-             * moved to another stream.
-             */
-
             if (
               sessionId !== playerSession
             ) {
@@ -1756,10 +2111,6 @@
 
             }
 
-            /*
-             * Stop current instance cleanly.
-             */
-
             try {
               videoPlayerInstance.pause();
             } catch (e) {}
@@ -1767,10 +2118,6 @@
             try {
               videoPlayerInstance.unload();
             } catch (e) {}
-
-            /*
-             * Automatically recover.
-             */
 
             if (
               recoveryAttempt < MAX_RECOVERY_ATTEMPTS
@@ -1781,11 +2128,6 @@
                   recoveryAttempt + 1
                 }/${MAX_RECOVERY_ATTEMPTS}`
               );
-
-              /*
-               * Don't show the ugly error immediately.
-               * Give the stream time to reconnect.
-               */
 
               errorContainer.classList.add(
                 'd-none'
@@ -1815,15 +2157,6 @@
 
             } else {
 
-              /*
-               * Only show an error after all recovery
-               * attempts have failed.
-               */
-
-              console.error(
-                'MPEG-TS recovery failed after maximum attempts.'
-              );
-
               errorContainer.innerText =
                 'Unable to play this stream in the browser. The stream may be temporarily unavailable.';
 
@@ -1836,20 +2169,9 @@
           }
         );
 
-        /*
-         * =====================================================
-         * MEDIA EVENTS
-         * =====================================================
-         */
-
         video.addEventListener(
           'playing',
           () => {
-
-            /*
-             * Once playback is successfully running,
-             * hide any old error.
-             */
 
             errorContainer.classList.add(
               'd-none'
@@ -1871,12 +2193,6 @@
           }
         );
 
-        /*
-         * If the media element itself reports an error,
-         * mpegts.js should normally catch it, but keep this
-         * as an additional safeguard.
-         */
-
         video.addEventListener(
           'error',
           () => {
@@ -1888,15 +2204,7 @@
           }
         );
 
-        /*
-         * Load stream.
-         */
-
         videoPlayerInstance.load();
-
-        /*
-         * Start playback.
-         */
 
         videoPlayerInstance.play()
           .catch((error) => {
@@ -1906,12 +2214,6 @@
               error
             );
 
-            /*
-             * Autoplay can be blocked by some browsers.
-             * The player remains available for the user
-             * to press the play button.
-             */
-
           });
 
       } catch (error) {
@@ -1920,10 +2222,6 @@
           'Failed to create MPEG-TS player:',
           error
         );
-
-        /*
-         * Try recovery instead of immediately failing.
-         */
 
         if (
           recoveryAttempt < MAX_RECOVERY_ATTEMPTS
@@ -1966,12 +2264,6 @@
 
     async function initPlayer(event, index) {
 
-      /*
-       * Every manual stream change creates a new session.
-       * This automatically invalidates recovery attempts
-       * from the previous stream.
-       */
-
       playerSession++;
 
       const currentSession =
@@ -2002,12 +2294,6 @@
 
       embed.src = 'about:blank';
 
-      /*
-       * =====================================================
-       * MPEG-TS STREAM
-       * =====================================================
-       */
-
       if (
         url.toLowerCase().includes('.ts')
       ) {
@@ -2027,14 +2313,6 @@
 
       }
 
-      /*
-       * =====================================================
-       * EXISTING IFRAME
-       * =====================================================
-       *
-       * The iframe remains untouched for non-.ts streams.
-       */
-
       container.style.display = 'none';
       embed.style.display = 'block';
 
@@ -2044,6 +2322,1523 @@
         'autoplay=1';
 
     }
+
+    /* =========================================================
+       EPG FUNCTIONS
+       ========================================================= */
+
+    function normalizeChannelName(name) {
+
+      return String(name || '')
+        .toLowerCase()
+        .replace(/&/g, 'and')
+        .replace(/[^a-z0-9]+/g, '')
+        .trim();
+
+    }
+
+    function parseXmltvDate(value) {
+
+      if (!value) {
+        return null;
+      }
+
+      const text =
+        String(value).trim();
+
+      /*
+       * XMLTV format:
+       *
+       * 20260906010000 +0000
+       * 20260906010000 +0300
+       * 20260906010000
+       */
+
+      const match =
+        text.match(
+          /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(?:\s*([+-]\d{2})(\d{2}))?/
+        );
+
+      if (!match) {
+
+        const fallback =
+          new Date(text);
+
+        return isNaN(
+          fallback.getTime()
+        )
+          ? null
+          : fallback;
+
+      }
+
+      const year = Number(match[1]);
+      const month = Number(match[2]) - 1;
+      const day = Number(match[3]);
+      const hour = Number(match[4]);
+      const minute = Number(match[5]);
+      const second = Number(match[6]);
+
+      if (match[7]) {
+
+        const offsetHours =
+          Number(match[7]);
+
+        const offsetMinutes =
+          Number(match[8]);
+
+        const sign =
+          match[7].startsWith('-')
+            ? -1
+            : 1;
+
+        const utc =
+          Date.UTC(
+            year,
+            month,
+            day,
+            hour,
+            minute,
+            second
+          );
+
+        const offset =
+          sign *
+          (
+            Math.abs(offsetHours) * 60 +
+            offsetMinutes
+          );
+
+        return new Date(
+          utc - offset * 60000
+        );
+
+      }
+
+      /*
+       * XMLTV feeds without a timezone are treated
+       * as UTC, which is the safest assumption.
+       */
+
+      return new Date(
+        Date.UTC(
+          year,
+          month,
+          day,
+          hour,
+          minute,
+          second
+        )
+      );
+
+    }
+
+    function decodeXmlEntities(value) {
+
+      if (!value) {
+        return '';
+      }
+
+      const textarea =
+        document.createElement('textarea');
+
+      textarea.innerHTML =
+        value;
+
+      return textarea.value;
+
+    }
+
+    function parseEPGXml(xmlText) {
+
+      const parser =
+        new DOMParser();
+
+      const xml =
+        parser.parseFromString(
+          xmlText,
+          'application/xml'
+        );
+
+      const parserError =
+        xml.querySelector('parsererror');
+
+      if (parserError) {
+
+        throw new Error(
+          'Invalid EPG XML'
+        );
+
+      }
+
+      const channels =
+        Array.from(
+          xml.querySelectorAll('channel')
+        );
+
+      const channelMap = {};
+
+      channels.forEach(channel => {
+
+        const id =
+          channel.getAttribute('id');
+
+        if (!id) {
+          return;
+        }
+
+        const names =
+          Array.from(
+            channel.querySelectorAll('display-name')
+          )
+          .map(el =>
+            el.textContent.trim()
+          )
+          .filter(Boolean);
+
+        channelMap[id] = {
+          id,
+          name: names[0] || id,
+          aliases: names,
+          normalized: names.map(
+            normalizeChannelName
+          )
+        };
+
+      });
+
+      const programmes =
+        Array.from(
+          xml.querySelectorAll('programme')
+        )
+        .map(programme => {
+
+          const channel =
+            programme.getAttribute(
+              'channel'
+            );
+
+          const start =
+            parseXmltvDate(
+              programme.getAttribute(
+                'start'
+              )
+            );
+
+          const stop =
+            parseXmltvDate(
+              programme.getAttribute(
+                'stop'
+              )
+            );
+
+          const titleElement =
+            programme.querySelector(
+              'title'
+            );
+
+          const descElement =
+            programme.querySelector(
+              'desc'
+            );
+
+          if (
+            !channel ||
+            !start ||
+            !stop ||
+            !titleElement
+          ) {
+
+            return null;
+
+          }
+
+          return {
+
+            channel,
+
+            title:
+              decodeXmlEntities(
+                titleElement.textContent.trim()
+              ),
+
+            description:
+              descElement
+                ? decodeXmlEntities(
+                    descElement.textContent.trim()
+                  )
+                : '',
+
+            start,
+
+            stop
+
+          };
+
+        })
+        .filter(Boolean);
+
+      return {
+        channels: channelMap,
+        programmes
+      };
+
+    }
+
+    function parseEPGJson(data) {
+
+      /*
+       * Supports our parsed API format.
+       */
+
+      if (
+        data &&
+        Array.isArray(data.programmes)
+      ) {
+
+        const channels =
+          data.channels || {};
+
+        return {
+          channels,
+          programmes:
+            data.programmes.map(p => ({
+              ...p,
+              start:
+                parseXmltvDate(p.start),
+              stop:
+                parseXmltvDate(p.stop)
+            }))
+            .filter(p =>
+              p.start &&
+              p.stop
+            )
+        };
+
+      }
+
+      /*
+       * Also support a possible array format.
+       */
+
+      if (Array.isArray(data)) {
+
+        return {
+          channels: {},
+          programmes: data
+            .map(p => ({
+              ...p,
+              start:
+                parseXmltvDate(p.start),
+              stop:
+                parseXmltvDate(p.stop)
+            }))
+            .filter(p =>
+              p.start &&
+              p.stop
+            )
+        };
+
+      }
+
+      throw new Error(
+        'Unsupported EPG JSON format'
+      );
+
+    }
+
+    async function fetchEPG() {
+
+      const response =
+        await fetch(
+          EPG_ENDPOINT,
+          {
+            method: 'GET',
+            cache: 'no-store',
+            headers: {
+              'Accept':
+                'application/json, application/xml, text/xml, */*'
+            }
+          }
+        );
+
+      if (!response.ok) {
+
+        throw new Error(
+          `EPG request failed: HTTP ${response.status}`
+        );
+
+      }
+
+      const contentType =
+        (
+          response.headers.get(
+            'content-type'
+          ) || ''
+        ).toLowerCase();
+
+      const text =
+        await response.text();
+
+      /*
+       * JSON response
+       */
+
+      if (
+        contentType.includes(
+          'application/json'
+        ) ||
+        text.trim().startsWith('{') ||
+        text.trim().startsWith('[')
+      ) {
+
+        try {
+
+          const json =
+            JSON.parse(text);
+
+          return parseEPGJson(json);
+
+        } catch (error) {
+
+          /*
+           * If JSON parsing fails, continue and
+           * attempt XML parsing.
+           */
+
+        }
+
+      }
+
+      /*
+       * XML response
+       */
+
+      return parseEPGXml(text);
+
+    }
+
+    function findEPGChannel(channelName) {
+
+      if (
+        !epgData ||
+        !epgData.channels
+      ) {
+
+        return null;
+
+      }
+
+      const wanted =
+        normalizeChannelName(
+          channelName
+        );
+
+      if (!wanted) {
+        return null;
+      }
+
+      /*
+       * Exact normalized match.
+       */
+
+      for (
+        const id in epgData.channels
+      ) {
+
+        const channel =
+          epgData.channels[id];
+
+        const names =
+          channel.aliases ||
+          [channel.name];
+
+        for (
+          const name of names
+        ) {
+
+          if (
+            normalizeChannelName(name) ===
+            wanted
+          ) {
+
+            return channel;
+
+          }
+
+        }
+
+      }
+
+      /*
+       * Second pass:
+       * allow names such as "USA Network HD"
+       * to match "USA Network".
+       */
+
+      for (
+        const id in epgData.channels
+      ) {
+
+        const channel =
+          epgData.channels[id];
+
+        const names =
+          channel.aliases ||
+          [channel.name];
+
+        for (
+          const name of names
+        ) {
+
+          const normalized =
+            normalizeChannelName(name);
+
+          if (
+            normalized.includes(wanted) ||
+            wanted.includes(normalized)
+          ) {
+
+            if (
+              normalized.length >= 5
+            ) {
+
+              return channel;
+
+            }
+
+          }
+
+        }
+
+      }
+
+      return null;
+
+    }
+
+    function getChannelProgrammes(channel) {
+
+      if (
+        !epgData ||
+        !epgData.programmes ||
+        !channel
+      ) {
+
+        return [];
+
+      }
+
+      const ids =
+        new Set([
+          channel.id
+        ]);
+
+      return epgData.programmes
+        .filter(programme =>
+          ids.has(
+            programme.channel
+          )
+        )
+        .sort(
+          (a, b) =>
+            a.start.getTime() -
+            b.start.getTime()
+        );
+
+    }
+
+    function getUserTimeZone() {
+
+      try {
+
+        return Intl.DateTimeFormat()
+          .resolvedOptions()
+          .timeZone || 'UTC';
+
+      } catch (error) {
+
+        return 'UTC';
+
+      }
+
+    }
+
+    function formatTime(date) {
+
+      return new Intl.DateTimeFormat(
+        undefined,
+        {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+          timeZone: getUserTimeZone()
+        }
+      ).format(date);
+
+    }
+
+    function formatDate(date) {
+
+      return new Intl.DateTimeFormat(
+        undefined,
+        {
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric',
+          timeZone: getUserTimeZone()
+        }
+      ).format(date);
+
+    }
+
+    function dateKey(date) {
+
+      const parts =
+        new Intl.DateTimeFormat(
+          'en-CA',
+          {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            timeZone: getUserTimeZone()
+          }
+        ).formatToParts(date);
+
+      const result = {};
+
+      parts.forEach(part => {
+        result[part.type] = part.value;
+      });
+
+      return `${result.year}-${result.month}-${result.day}`;
+
+    }
+
+    function getLocalDateParts(date) {
+
+      const formatter =
+        new Intl.DateTimeFormat(
+          'en-US',
+          {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            hourCycle: 'h23',
+            timeZone: getUserTimeZone()
+          }
+        );
+
+      const parts =
+        formatter.formatToParts(date);
+
+      const result = {};
+
+      parts.forEach(part => {
+
+        if (
+          part.type !== 'literal'
+        ) {
+
+          result[part.type] =
+            Number(part.value);
+
+        }
+
+      });
+
+      return result;
+
+    }
+
+    function getStartOfLocalDay(date) {
+
+      const p =
+        getLocalDateParts(date);
+
+      /*
+       * Convert local calendar date midnight
+       * back into a Date object representing that
+       * local midnight in the visitor's timezone.
+       *
+       * We calculate the timezone offset by comparing
+       * the formatted local parts with UTC.
+       */
+
+      const guess =
+        new Date(
+          Date.UTC(
+            p.year,
+            p.month - 1,
+            p.day,
+            0,
+            0,
+            0
+          )
+        );
+
+      const localParts =
+        getLocalDateParts(guess);
+
+      const desired =
+        Date.UTC(
+          p.year,
+          p.month - 1,
+          p.day,
+          0,
+          0,
+          0
+        );
+
+      const actual =
+        Date.UTC(
+          localParts.year,
+          localParts.month - 1,
+          localParts.day,
+          localParts.hour,
+          localParts.minute,
+          localParts.second
+        );
+
+      return new Date(
+        guess.getTime() +
+        (desired - actual)
+      );
+
+    }
+
+    function addLocalDays(date, days) {
+
+      const p =
+        getLocalDateParts(date);
+
+      const target =
+        new Date(
+          Date.UTC(
+            p.year,
+            p.month - 1,
+            p.day + days,
+            p.hour,
+            p.minute,
+            p.second
+          )
+        );
+
+      /*
+       * Re-resolve the timezone for the target date.
+       * This also handles daylight-saving transitions.
+       */
+
+      const targetParts =
+        getLocalDateParts(target);
+
+      const desired =
+        Date.UTC(
+          targetParts.year,
+          targetParts.month - 1,
+          targetParts.day,
+          p.hour,
+          p.minute,
+          p.second
+        );
+
+      const actual =
+        Date.UTC(
+          targetParts.year,
+          targetParts.month - 1,
+          targetParts.day,
+          targetParts.hour,
+          targetParts.minute,
+          targetParts.second
+        );
+
+      return new Date(
+        target.getTime() +
+        (desired - actual)
+      );
+
+    }
+
+    function getDayLabel(dayIndex) {
+
+      if (dayIndex === 0) {
+        return 'Today';
+      }
+
+      if (dayIndex === 1) {
+        return 'Tomorrow';
+      }
+
+      return formatDate(
+        addLocalDays(
+          new Date(),
+          dayIndex
+        )
+      );
+
+    }
+
+    function formatDuration(ms) {
+
+      const totalMinutes =
+        Math.max(
+          0,
+          Math.floor(
+            ms / 60000
+          )
+        );
+
+      if (
+        totalMinutes < 60
+      ) {
+
+        return `${totalMinutes}m`;
+
+      }
+
+      const hours =
+        Math.floor(
+          totalMinutes / 60
+        );
+
+      const minutes =
+        totalMinutes % 60;
+
+      return minutes
+        ? `${hours}h ${minutes}m`
+        : `${hours}h`;
+
+    }
+
+    function renderNoEPG(channelName) {
+
+      const body =
+        document.getElementById(
+          'epgBody'
+        );
+
+      const channel =
+        document.getElementById(
+          'epgChannelName'
+        );
+
+      channel.textContent =
+        channelName || 'Current channel';
+
+      body.innerHTML = `
+
+        <div class="fx-epg-empty">
+
+          <i class="fas fa-calendar-xmark"></i>
+
+          <div class="fx-epg-empty-title">
+            No EPG for this channel
+          </div>
+
+          <div class="fx-epg-empty-text">
+            No matching TV schedule was found for this channel.
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+    function renderEPG() {
+
+      const body =
+        document.getElementById(
+          'epgBody'
+        );
+
+      if (
+        !streamData ||
+        !streamData.name
+      ) {
+
+        return;
+
+      }
+
+      const channel =
+        findEPGChannel(
+          streamData.name
+        );
+
+      const channelName =
+        document.getElementById(
+          'epgChannelName'
+        );
+
+      if (!channel) {
+
+        renderNoEPG(
+          streamData.name
+        );
+
+        return;
+
+      }
+
+      channelName.textContent =
+        channel.name ||
+        streamData.name;
+
+      const programmes =
+        getChannelProgrammes(
+          channel
+        );
+
+      if (!programmes.length) {
+
+        renderNoEPG(
+          streamData.name
+        );
+
+        return;
+
+      }
+
+      const now =
+        new Date();
+
+      /*
+       * Find current programme and programmes
+       * from now through the next few days.
+       */
+
+      const visibleStart =
+        getStartOfLocalDay(now);
+
+      const visibleEnd =
+        addLocalDays(
+          visibleStart,
+          EPG_DAYS_TO_SHOW
+        );
+
+      const visiblePrograms =
+        programmes.filter(programme =>
+          programme.stop > visibleStart &&
+          programme.start < visibleEnd
+        );
+
+      if (!visiblePrograms.length) {
+
+        renderNoEPG(
+          streamData.name
+        );
+
+        return;
+
+      }
+
+      /*
+       * Build the guide.
+       */
+
+      let html = '';
+
+      /*
+       * Timeline header.
+       * 8 columns × 3 hours = 24 hours.
+       */
+
+      html += `
+        <div class="fx-epg-grid">
+
+          <div class="fx-epg-time-row">
+
+            <div class="fx-epg-date-heading">
+              DATE
+            </div>
+      `;
+
+      for (
+        let hour = 0;
+        hour < 24;
+        hour += EPG_HOURS_PER_COLUMN
+      ) {
+
+        html += `
+          <div class="fx-epg-time">
+            ${String(hour).padStart(2, '0')}:00
+          </div>
+        `;
+
+      }
+
+      html += `
+          </div>
+      `;
+
+      /*
+       * Each date gets its own row.
+       */
+
+      for (
+        let dayIndex = 0;
+        dayIndex < EPG_DAYS_TO_SHOW;
+        dayIndex++
+      ) {
+
+        const dayStart =
+          addLocalDays(
+            visibleStart,
+            dayIndex
+          );
+
+        const dayEnd =
+          addLocalDays(
+            visibleStart,
+            dayIndex + 1
+          );
+
+        const dayKeyValue =
+          dateKey(dayStart);
+
+        const dayPrograms =
+          visiblePrograms.filter(programme =>
+            programme.stop > dayStart &&
+            programme.start < dayEnd
+          );
+
+        html += `
+
+          <div class="fx-epg-day"
+               data-day="${dayKeyValue}">
+
+            <div class="fx-epg-date">
+
+              <div class="fx-epg-date-name">
+                ${escapeHtml(
+                  getDayLabel(dayIndex)
+                )}
+              </div>
+
+              <div class="fx-epg-date-full">
+                ${escapeHtml(
+                  formatDate(dayStart)
+                )}
+              </div>
+
+            </div>
+
+            <div class="fx-epg-timeline"
+                 data-timeline="${dayKeyValue}">
+        `;
+
+        /*
+         * Current time line.
+         */
+
+        if (
+          now >= dayStart &&
+          now < dayEnd
+        ) {
+
+          const dayProgress =
+            (
+              now.getTime() -
+              dayStart.getTime()
+            ) /
+            (
+              dayEnd.getTime() -
+              dayStart.getTime()
+            );
+
+          const percent =
+            Math.max(
+              0,
+              Math.min(
+                100,
+                dayProgress * 100
+              )
+            );
+
+          html += `
+            <div
+              class="fx-epg-now-line"
+              data-now-line="${dayKeyValue}"
+              style="left:${percent}%">
+            </div>
+          `;
+
+        }
+
+        /*
+         * Programmes.
+         */
+
+        dayPrograms.forEach(programme => {
+
+          const start =
+            programme.start < dayStart
+              ? dayStart
+              : programme.start;
+
+          const stop =
+            programme.stop > dayEnd
+              ? dayEnd
+              : programme.stop;
+
+          const total =
+            dayEnd.getTime() -
+            dayStart.getTime();
+
+          const left =
+            (
+              (
+                start.getTime() -
+                dayStart.getTime()
+              ) /
+              total
+            ) * 100;
+
+          const width =
+            (
+              (
+                stop.getTime() -
+                start.getTime()
+              ) /
+              total
+            ) * 100;
+
+          const actualDuration =
+            programme.stop.getTime() -
+            programme.start.getTime();
+
+          const isLive =
+            programme.start <= now &&
+            programme.stop > now;
+
+          let progress =
+            0;
+
+          if (isLive) {
+
+            progress =
+              (
+                (
+                  now.getTime() -
+                  programme.start.getTime()
+                ) /
+                actualDuration
+              ) * 100;
+
+          }
+
+          const safeLeft =
+            Math.max(
+              0,
+              Math.min(
+                100,
+                left
+              )
+            );
+
+          const safeWidth =
+            Math.max(
+              1,
+              Math.min(
+                100 - safeLeft,
+                width
+              )
+            );
+
+          html += `
+
+            <div
+              class="fx-epg-event ${isLive ? 'live' : ''}"
+              style="
+                left:${safeLeft}%;
+                width:${safeWidth}%;
+              "
+              title="${escapeHtml(
+                programme.title
+              )}"
+            >
+
+              ${
+                isLive
+                  ? `
+                    <div class="fx-epg-live-label">
+                      <i class="fas fa-circle"></i>
+                      LIVE NOW
+                    </div>
+                  `
+                  : ''
+              }
+
+              <div class="fx-epg-event-title">
+                ${escapeHtml(
+                  programme.title
+                )}
+              </div>
+
+              <div class="fx-epg-event-time">
+                ${escapeHtml(
+                  formatTime(
+                    programme.start
+                  )
+                )}
+                –
+                ${escapeHtml(
+                  formatTime(
+                    programme.stop
+                  )
+                )}
+              </div>
+
+              ${
+                isLive
+                  ? `
+                    <div class="fx-epg-progress">
+                      <div
+                        class="fx-epg-progress-bar"
+                        data-progress-start="${programme.start.getTime()}"
+                        data-progress-stop="${programme.stop.getTime()}"
+                        style="width:${Math.max(
+                          0,
+                          Math.min(
+                            100,
+                            progress
+                          )
+                        )}%">
+                      </div>
+                    </div>
+                  `
+                  : ''
+              }
+
+            </div>
+
+          `;
+
+        });
+
+        html += `
+            </div>
+          </div>
+        `;
+
+      }
+
+      html += `
+        </div>
+      `;
+
+      body.innerHTML =
+        html;
+
+      updateEPGLiveState();
+
+    }
+
+    function updateEPGLiveState() {
+
+      if (!epgData || !streamData) {
+        return;
+      }
+
+      const now =
+        Date.now();
+
+      /*
+       * Update every live progress bar.
+       */
+
+      document
+        .querySelectorAll(
+          '.fx-epg-progress-bar'
+        )
+        .forEach(bar => {
+
+          const start =
+            Number(
+              bar.dataset.progressStart
+            );
+
+          const stop =
+            Number(
+              bar.dataset.progressStop
+            );
+
+          if (
+            now >= start &&
+            now < stop
+          ) {
+
+            const progress =
+              (
+                (
+                  now - start
+                ) /
+                (
+                  stop - start
+                )
+              ) * 100;
+
+            bar.style.width =
+              `${Math.max(
+                0,
+                Math.min(
+                  100,
+                  progress
+                )
+              )}%`;
+
+          }
+
+        });
+
+      /*
+       * Move current-time indicators.
+       */
+
+      document
+        .querySelectorAll(
+          '[data-now-line]'
+        )
+        .forEach(line => {
+
+          const dayKeyValue =
+            line.dataset.nowLine;
+
+          const todayKey =
+            dateKey(
+              new Date()
+            );
+
+          if (
+            dayKeyValue !==
+            todayKey
+          ) {
+
+            line.style.display =
+              'none';
+
+            return;
+
+          }
+
+          const todayStart =
+            getStartOfLocalDay(
+              new Date()
+            );
+
+          const tomorrow =
+            addLocalDays(
+              todayStart,
+              1
+            );
+
+          const percentage =
+            (
+              (
+                Date.now() -
+                todayStart.getTime()
+              ) /
+              (
+                tomorrow.getTime() -
+                todayStart.getTime()
+              )
+            ) * 100;
+
+          line.style.display =
+            'block';
+
+          line.style.left =
+            `${Math.max(
+              0,
+              Math.min(
+                100,
+                percentage
+              )
+            )}%`;
+
+        });
+
+      /*
+       * If a programme has just ended, rebuild the guide.
+       * This makes LIVE NOW automatically move to the next event.
+       */
+
+      const currentLive =
+        epgData.programmes.find(
+          programme =>
+            programme.start.getTime() <= now &&
+            programme.stop.getTime() > now &&
+            findEPGChannel(streamData.name) &&
+            programme.channel ===
+            findEPGChannel(streamData.name).id
+        );
+
+      const currentLiveId =
+        currentLive
+          ? `${currentLive.channel}_${currentLive.start.getTime()}`
+          : '';
+
+      if (
+        window.fxCurrentLiveId &&
+        window.fxCurrentLiveId !== currentLiveId
+      ) {
+
+        renderEPG();
+
+      }
+
+      window.fxCurrentLiveId =
+        currentLiveId;
+
+    }
+
+    async function loadEPG() {
+
+      if (!streamData) {
+        return;
+      }
+
+      const status =
+        document.getElementById(
+          'epgStatusText'
+        );
+
+      try {
+
+        status.textContent =
+          'Updating automatically';
+
+        epgData =
+          await fetchEPG();
+
+        renderEPG();
+
+        status.textContent =
+          'Guide updated';
+
+        /*
+         * Return to automatic status after a few seconds.
+         */
+
+        setTimeout(() => {
+
+          if (status) {
+
+            status.textContent =
+              'Updating automatically';
+
+          }
+
+        }, 4000);
+
+      } catch (error) {
+
+        console.error(
+          'EPG loading error:',
+          error
+        );
+
+        const body =
+          document.getElementById(
+            'epgBody'
+          );
+
+        body.innerHTML = `
+
+          <div class="fx-epg-empty">
+
+            <i class="fas fa-triangle-exclamation"></i>
+
+            <div class="fx-epg-empty-title">
+              Unable to load TV guide
+            </div>
+
+            <div class="fx-epg-empty-text">
+              The EPG source is temporarily unavailable.
+            </div>
+
+          </div>
+
+        `;
+
+        status.textContent =
+          'EPG unavailable';
+
+      }
+
+    }
+
+    function startEPGUpdates() {
+
+      if (epgRefreshTimer) {
+
+        clearInterval(
+          epgRefreshTimer
+        );
+
+      }
+
+      if (epgClockTimer) {
+
+        clearInterval(
+          epgClockTimer
+        );
+
+      }
+
+      /*
+       * Fetch the EPG again periodically.
+       */
+
+      epgRefreshTimer =
+        setInterval(
+          () => {
+
+            loadEPG();
+
+          },
+          EPG_REFRESH_INTERVAL
+        );
+
+      /*
+       * Update live progress every second.
+       */
+
+      epgClockTimer =
+        setInterval(
+          () => {
+
+            updateEPGLiveState();
+
+          },
+          EPG_CLOCK_INTERVAL
+        );
+
+    }
+
+    function initEPG() {
+
+      /*
+       * Wait until the channel has been loaded.
+       */
+
+      if (!streamData) {
+        return;
+      }
+
+      loadEPG();
+
+      startEPGUpdates();
+
+    }
+
+    /* =========================================================
+       PAGE INIT
+       ========================================================= */
 
     function initPage() {
 
@@ -2090,6 +3885,12 @@
               ).join('');
 
             initPlayer(event, 0);
+
+            /*
+             * Start EPG after the channel is known.
+             */
+
+            initEPG();
 
           }
 
