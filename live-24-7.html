@@ -242,7 +242,231 @@
       height: 100% !important;
     }
 
-    /* ===== STREAM SELECTOR ===== */
+    /* =========================================================
+       FUTBOLX CUSTOM VIDEO PLAYER
+       ========================================================= */
+
+    #videoPlayer {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+
+    #videoPlayer video {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+      background: #000;
+    }
+
+    .fx-player-ui {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity .3s ease;
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(0,0,0,.38),
+          transparent 22%,
+          transparent 65%,
+          rgba(0,0,0,.78)
+        );
+    }
+
+    .fx-player-ui.hidden {
+      opacity: 0;
+    }
+
+    .fx-player-ui > * {
+      pointer-events: auto;
+    }
+
+    /* Top area */
+    .fx-player-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+    }
+
+    .fx-live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 11px;
+      border-radius: 7px;
+      background: rgba(0,0,0,.58);
+      border: 1px solid rgba(255,255,255,.12);
+      color: #fff;
+      font-family: 'Kanit', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .fx-live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 0 0 9px rgba(239,68,68,.9);
+      animation: fxLivePulse 1.4s infinite;
+    }
+
+    @keyframes fxLivePulse {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: .45;
+        transform: scale(.72);
+      }
+    }
+
+    /* Center play button */
+    .fx-center-play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 66px;
+      height: 66px;
+      border: 0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(239,68,68,.95);
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+      box-shadow: 0 8px 35px rgba(0,0,0,.5);
+      transition: transform .2s ease, opacity .25s ease;
+    }
+
+    .fx-center-play:hover {
+      transform: translate(-50%, -50%) scale(1.08);
+    }
+
+    .fx-center-play.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Bottom controls */
+    .fx-player-controls {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 12px 14px 14px;
+    }
+
+    .fx-control-btn {
+      width: 40px;
+      height: 40px;
+      border: 0;
+      border-radius: 9px;
+      background: rgba(15,17,24,.78);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background .18s ease, transform .18s ease;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .fx-control-btn:hover {
+      background: rgba(239,68,68,.9);
+      transform: translateY(-1px);
+    }
+
+    .fx-control-btn:active {
+      transform: scale(.94);
+    }
+
+    .fx-controls-spacer {
+      flex: 1;
+    }
+
+    .fx-player-label {
+      color: rgba(255,255,255,.82);
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 4px;
+      margin-right: 5px;
+      white-space: nowrap;
+      text-shadow: 0 1px 3px #000;
+    }
+
+    /* Volume */
+    .fx-volume-wrap {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .fx-volume-slider {
+      width: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: width .2s ease, opacity .2s ease;
+      accent-color: var(--fx-accent);
+      cursor: pointer;
+    }
+
+    .fx-volume-wrap:hover .fx-volume-slider,
+    .fx-volume-slider:focus {
+      width: 70px;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* AirPlay button hidden unless supported */
+    #fxAirplay {
+      display: none;
+    }
+
+    /* Fullscreen player */
+    #videoPlayerContainer.fx-fullscreen {
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      padding: 0 !important;
+      z-index: 99999 !important;
+      background: #000 !important;
+    }
+
+    #videoPlayerContainer.fx-fullscreen #videoPlayer {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* =========================================================
+       STREAM SELECTOR
+       ========================================================= */
+
     .stream-dropdown {
       background: var(--fx-glass);
       border: 1px solid var(--fx-glass-border);
@@ -314,6 +538,7 @@
 
     /* ===== MOBILE ===== */
     @media (max-width: 767.98px) {
+
       .main-content {
         padding-top: 65px;
       }
@@ -334,6 +559,35 @@
       .btn-stream {
         width: 100%;
         min-width: 0;
+      }
+
+      .fx-player-controls {
+        padding: 8px 9px 10px;
+        gap: 4px;
+      }
+
+      .fx-control-btn {
+        width: 38px;
+        height: 38px;
+      }
+
+      .fx-volume-slider {
+        display: none;
+      }
+
+      .fx-player-label {
+        display: none;
+      }
+
+      .fx-center-play {
+        width: 58px;
+        height: 58px;
+        font-size: 19px;
+      }
+
+      .fx-live-badge {
+        padding: 5px 9px;
+        font-size: 11px;
       }
     }
   </style>
@@ -535,7 +789,7 @@
 
   </div>
 
-  <!-- ONLY PLAYER LIBRARY CHANGE: JW Player → mpegts.js -->
+  <!-- mpegts.js -->
   <script src="https://cdn.jsdelivr.net/npm/mpegts.js@latest/dist/mpegts.min.js"></script>
 
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
@@ -544,6 +798,9 @@
 
     let videoPlayerInstance = null;
     let streamData = null;
+
+    let fxVideo = null;
+    let fxControlsTimer = null;
 
     document.addEventListener('DOMContentLoaded', () => {
 
@@ -603,23 +860,8 @@
 
     }
 
-    async function initPlayer(event, index) {
+    function destroyMpegtsPlayer() {
 
-      const url =
-        event.streams[index].url;
-
-      const embed =
-        document.getElementById('embedPlayer');
-
-      const container =
-        document.getElementById('videoPlayerContainer');
-
-      const player =
-        document.getElementById('videoPlayer');
-
-      /*
-       * Clean up previous mpegts.js player
-       */
       if (videoPlayerInstance) {
 
         try {
@@ -642,13 +884,533 @@
 
       }
 
+      fxVideo = null;
+
+      const player =
+        document.getElementById('videoPlayer');
+
+      if (player) {
+        player.innerHTML = '';
+      }
+
+    }
+
+    function createPlayerUI(video, streamName) {
+
+      const player =
+        document.getElementById('videoPlayer');
+
       player.innerHTML = '';
 
+      const ui =
+        document.createElement('div');
+
+      ui.className = 'fx-player-ui';
+
+      ui.innerHTML = `
+
+        <div class="fx-player-top">
+
+          <div class="fx-live-badge">
+            <span class="fx-live-dot"></span>
+            LIVE
+          </div>
+
+        </div>
+
+        <button
+          type="button"
+          class="fx-center-play"
+          id="fxCenterPlay"
+          aria-label="Play">
+
+          <i class="fas fa-play"></i>
+
+        </button>
+
+        <div class="fx-player-controls">
+
+          <button
+            type="button"
+            class="fx-control-btn"
+            id="fxPlay"
+            aria-label="Play/Pause">
+
+            <i class="fas fa-play"></i>
+
+          </button>
+
+          <div class="fx-volume-wrap">
+
+            <button
+              type="button"
+              class="fx-control-btn"
+              id="fxMute"
+              aria-label="Mute/Unmute">
+
+              <i class="fas fa-volume-mute"></i>
+
+            </button>
+
+            <input
+              type="range"
+              class="fx-volume-slider"
+              id="fxVolume"
+              min="0"
+              max="1"
+              step="0.05"
+              value="1"
+              aria-label="Volume">
+
+          </div>
+
+          <span class="fx-player-label">
+            ${escapeHtml(streamName || 'LIVE STREAM')}
+          </span>
+
+          <div class="fx-controls-spacer"></div>
+
+          <button
+            type="button"
+            class="fx-control-btn"
+            id="fxPip"
+            aria-label="Picture in Picture"
+            title="Picture in Picture">
+
+            <i class="fas fa-clone"></i>
+
+          </button>
+
+          <button
+            type="button"
+            class="fx-control-btn"
+            id="fxAirplay"
+            aria-label="AirPlay"
+            title="AirPlay">
+
+            <i class="fab fa-apple"></i>
+
+          </button>
+
+          <button
+            type="button"
+            class="fx-control-btn"
+            id="fxFullscreen"
+            aria-label="Fullscreen"
+            title="Fullscreen">
+
+            <i class="fas fa-expand"></i>
+
+          </button>
+
+        </div>
+      `;
+
+      player.appendChild(video);
+      player.appendChild(ui);
+
+      const playButton =
+        document.getElementById('fxPlay');
+
+      const centerPlay =
+        document.getElementById('fxCenterPlay');
+
+      const muteButton =
+        document.getElementById('fxMute');
+
+      const volumeSlider =
+        document.getElementById('fxVolume');
+
+      const pipButton =
+        document.getElementById('fxPip');
+
+      const airplayButton =
+        document.getElementById('fxAirplay');
+
+      const fullscreenButton =
+        document.getElementById('fxFullscreen');
+
       /*
-       * ===== MPEG-TS =====
-       * .ts streams are handled by mpegts.js
+       * Play / pause
        */
-      if (url.toLowerCase().includes('.ts')) {
+      function togglePlay() {
+
+        if (video.paused) {
+
+          video.play().catch(() => {});
+
+        } else {
+
+          video.pause();
+
+        }
+
+      }
+
+      playButton.onclick = togglePlay;
+      centerPlay.onclick = togglePlay;
+
+      /*
+       * Update play icons
+       */
+      video.addEventListener('play', () => {
+
+        playButton.innerHTML =
+          '<i class="fas fa-pause"></i>';
+
+        centerPlay.innerHTML =
+          '<i class="fas fa-pause"></i>';
+
+        centerPlay.classList.add('hide');
+
+      });
+
+      video.addEventListener('pause', () => {
+
+        playButton.innerHTML =
+          '<i class="fas fa-play"></i>';
+
+        centerPlay.innerHTML =
+          '<i class="fas fa-play"></i>';
+
+        centerPlay.classList.remove('hide');
+
+        showPlayerControls();
+
+      });
+
+      /*
+       * Mute / unmute
+       */
+      function updateMuteIcon() {
+
+        if (
+          video.muted ||
+          video.volume === 0
+        ) {
+
+          muteButton.innerHTML =
+            '<i class="fas fa-volume-mute"></i>';
+
+        } else if (video.volume < 0.5) {
+
+          muteButton.innerHTML =
+            '<i class="fas fa-volume-down"></i>';
+
+        } else {
+
+          muteButton.innerHTML =
+            '<i class="fas fa-volume-up"></i>';
+
+        }
+
+      }
+
+      muteButton.onclick = () => {
+
+        video.muted = !video.muted;
+
+        updateMuteIcon();
+
+      };
+
+      volumeSlider.oninput = () => {
+
+        video.volume =
+          Number(volumeSlider.value);
+
+        video.muted =
+          video.volume === 0;
+
+        updateMuteIcon();
+
+      };
+
+      /*
+       * Picture in Picture
+       */
+      if (
+        document.pictureInPictureEnabled ||
+        video.webkitSupportsPresentationMode
+      ) {
+
+        pipButton.style.display =
+          'inline-flex';
+
+      } else {
+
+        pipButton.style.display =
+          'none';
+
+      }
+
+      pipButton.onclick = async () => {
+
+        try {
+
+          if (
+            document.pictureInPictureElement
+          ) {
+
+            await document.exitPictureInPicture();
+
+          } else if (
+            document.pictureInPictureEnabled
+          ) {
+
+            await video.requestPictureInPicture();
+
+          } else if (
+            video.webkitSetPresentationMode
+          ) {
+
+            video.webkitSetPresentationMode(
+              video.webkitPresentationMode ===
+              'picture-in-picture'
+                ? 'inline'
+                : 'picture-in-picture'
+            );
+
+          }
+
+        } catch (error) {
+
+          console.error(
+            'PiP error:',
+            error
+          );
+
+        }
+
+      };
+
+      /*
+       * AirPlay
+       *
+       * Safari exposes this through
+       * webkitShowPlaybackTargetPicker().
+       */
+      if (
+        typeof video.webkitShowPlaybackTargetPicker ===
+        'function'
+      ) {
+
+        airplayButton.style.display =
+          'inline-flex';
+
+        airplayButton.onclick = () => {
+
+          try {
+
+            video.webkitShowPlaybackTargetPicker();
+
+          } catch (error) {
+
+            console.error(
+              'AirPlay error:',
+              error
+            );
+
+          }
+
+        };
+
+      }
+
+      /*
+       * Fullscreen
+       */
+      fullscreenButton.onclick = async () => {
+
+        const container =
+          document.getElementById(
+            'videoPlayerContainer'
+          );
+
+        try {
+
+          if (
+            document.fullscreenElement
+          ) {
+
+            await document.exitFullscreen();
+
+          } else if (
+            container.requestFullscreen
+          ) {
+
+            await container.requestFullscreen();
+
+          } else {
+
+            container.classList.toggle(
+              'fx-fullscreen'
+            );
+
+          }
+
+        } catch (error) {
+
+          container.classList.toggle(
+            'fx-fullscreen'
+          );
+
+        }
+
+      };
+
+      document.addEventListener(
+        'fullscreenchange',
+        () => {
+
+          const icon =
+            fullscreenButton.querySelector('i');
+
+          if (document.fullscreenElement) {
+
+            icon.className =
+              'fas fa-compress';
+
+          } else {
+
+            icon.className =
+              'fas fa-expand';
+
+          }
+
+        }
+      );
+
+      /*
+       * Double-click video = fullscreen
+       */
+      video.addEventListener(
+        'dblclick',
+        () => {
+
+          fullscreenButton.click();
+
+        }
+      );
+
+      /*
+       * Show/hide controls
+       */
+      function showPlayerControls() {
+
+        ui.classList.remove('hidden');
+
+        clearTimeout(
+          fxControlsTimer
+        );
+
+        if (!video.paused) {
+
+          fxControlsTimer =
+            setTimeout(() => {
+
+              ui.classList.add('hidden');
+
+            }, 3000);
+
+        }
+
+      }
+
+      function toggleControls() {
+
+        if (
+          ui.classList.contains('hidden')
+        ) {
+
+          showPlayerControls();
+
+        } else if (!video.paused) {
+
+          ui.classList.add('hidden');
+
+        }
+
+      }
+
+      player.addEventListener(
+        'mousemove',
+        showPlayerControls
+      );
+
+      player.addEventListener(
+        'touchstart',
+        showPlayerControls,
+        { passive: true }
+      );
+
+      video.addEventListener(
+        'click',
+        toggleControls
+      );
+
+      ui.addEventListener(
+        'click',
+        showPlayerControls
+      );
+
+      /*
+       * Initial state
+       */
+      video.muted = true;
+      video.volume = 1;
+
+      updateMuteIcon();
+
+      fxVideo = video;
+
+    }
+
+    function escapeHtml(value) {
+
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+    }
+
+    async function initPlayer(event, index) {
+
+      const url =
+        event.streams[index].url;
+
+      const embed =
+        document.getElementById('embedPlayer');
+
+      const container =
+        document.getElementById(
+          'videoPlayerContainer'
+        );
+
+      const errorContainer =
+        document.getElementById(
+          'errorContainer'
+        );
+
+      errorContainer.classList.add('d-none');
+      errorContainer.innerText = '';
+
+      destroyMpegtsPlayer();
+
+      embed.src = 'about:blank';
+
+      /*
+       * =====================================================
+       * MPEG-TS STREAM
+       * =====================================================
+       */
+
+      if (
+        url.toLowerCase().includes('.ts')
+      ) {
 
         embed.style.display = 'none';
         container.style.display = 'block';
@@ -656,7 +1418,7 @@
         const video =
           document.createElement('video');
 
-        video.controls = true;
+        video.controls = false;
         video.autoplay = true;
         video.muted = true;
         video.playsInline = true;
@@ -666,12 +1428,22 @@
           ''
         );
 
+        video.setAttribute(
+          'webkit-playsinline',
+          ''
+        );
+
         video.style.width = '100%';
         video.style.height = '100%';
         video.style.objectFit = 'contain';
         video.style.background = '#000';
 
-        player.appendChild(video);
+        createPlayerUI(
+          video,
+          event.streams[index].label ||
+          event.name ||
+          'LIVE STREAM'
+        );
 
         if (
           typeof mpegts !== 'undefined' &&
@@ -695,26 +1467,54 @@
 
           videoPlayerInstance.load();
 
-          videoPlayerInstance
-            .play()
+          videoPlayerInstance.play()
             .catch(() => {});
+
+          videoPlayerInstance.on(
+            mpegts.Events.ERROR,
+            function(type, detail, info) {
+
+              console.error(
+                'mpegts.js error:',
+                type,
+                detail,
+                info
+              );
+
+              errorContainer.innerText =
+                'Unable to play this stream in the browser.';
+
+              errorContainer.classList.remove(
+                'd-none'
+              );
+
+            }
+          );
 
         } else {
 
-          console.error(
-            'mpegts.js is not supported in this browser.'
+          errorContainer.innerText =
+            'This browser does not support MPEG-TS playback.';
+
+          errorContainer.classList.remove(
+            'd-none'
           );
 
         }
 
         return;
+
       }
 
       /*
-       * ===== EXISTING IFRAME =====
-       * Everything that isn't .ts continues
-       * using the iframe exactly as before.
+       * =====================================================
+       * EXISTING IFRAME
+       * =====================================================
+       *
+       * The iframe is intentionally left untouched
+       * for non-.ts streams.
        */
+
       container.style.display = 'none';
       embed.style.display = 'block';
 
@@ -777,12 +1577,15 @@
 
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener(
+      'DOMContentLoaded',
+      () => {
 
-      initTheme();
-      initPage();
+        initTheme();
+        initPage();
 
-    });
+      }
+    );
 
   </script>
 
