@@ -69,7 +69,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://germany.fut.ryzn.pro/rayo/index.m3u8"
             }
           ]
         },
@@ -85,7 +85,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://germany.fut.ryzn.pro/bayern/index.m3u8"
             }
           ]
         },
@@ -101,11 +101,11 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://germany.fut.ryzn.pro/hul/index.m3u8"
             },
             {
               "title": "Alt Feed 1",
-              "url": ""
+              "url": "https://germany.fut.ryzn.pro/avl/index.m3u8"
             }
           ]
         },
