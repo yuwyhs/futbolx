@@ -13,10 +13,10 @@
           "starts_at": "2026-09-05T14:30:00",
           "ends_at": "2026-09-05T16:35:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 20,
           "streams": [
             {
-              "title": "Main Feed",
+              "title": "Tnt Sports 1",
               "url": "https://germany.fut.ryzn.pro/new/index.m3u8"
             }
           ]
