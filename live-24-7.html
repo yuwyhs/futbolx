@@ -252,6 +252,7 @@
       height: 100%;
       background: #000;
       overflow: hidden;
+      cursor: default;
     }
 
     #videoPlayer video {
@@ -394,6 +395,7 @@
       transition: background .18s ease, transform .18s ease;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
+      touch-action: manipulation;
     }
 
     .fx-control-btn:hover {
@@ -802,6 +804,24 @@
     let fxVideo = null;
     let fxControlsTimer = null;
 
+    /*
+     * Each player load gets its own session.
+     * This prevents an old stream from trying to
+     * reconnect after the user switches streams.
+     */
+    let playerSession = 0;
+
+    /*
+     * Maximum automatic recovery attempts for one
+     * player session.
+     */
+    const MAX_RECOVERY_ATTEMPTS = 8;
+
+    /*
+     * Delay between recovery attempts.
+     */
+    const RECOVERY_DELAY = 1500;
+
     document.addEventListener('DOMContentLoaded', () => {
 
       const brandLogo = document.getElementById('brandLogo');
@@ -860,7 +880,23 @@
 
     }
 
+    function clearControlsTimer() {
+
+      if (fxControlsTimer) {
+
+        clearTimeout(
+          fxControlsTimer
+        );
+
+        fxControlsTimer = null;
+
+      }
+
+    }
+
     function destroyMpegtsPlayer() {
+
+      clearControlsTimer();
 
       if (videoPlayerInstance) {
 
@@ -1031,9 +1067,16 @@
         document.getElementById('fxFullscreen');
 
       /*
-       * Play / pause
+       * =====================================================
+       * PLAY / PAUSE
+       * =====================================================
        */
-      function togglePlay() {
+
+      function togglePlay(event) {
+
+        if (event) {
+          event.stopPropagation();
+        }
 
         if (video.paused) {
 
@@ -1045,6 +1088,8 @@
 
         }
 
+        showPlayerControls();
+
       }
 
       playButton.onclick = togglePlay;
@@ -1053,6 +1098,7 @@
       /*
        * Update play icons
        */
+
       video.addEventListener('play', () => {
 
         playButton.innerHTML =
@@ -1080,8 +1126,11 @@
       });
 
       /*
-       * Mute / unmute
+       * =====================================================
+       * MUTE / UNMUTE
+       * =====================================================
        */
+
       function updateMuteIcon() {
 
         if (
@@ -1106,15 +1155,21 @@
 
       }
 
-      muteButton.onclick = () => {
+      muteButton.onclick = (event) => {
+
+        event.stopPropagation();
 
         video.muted = !video.muted;
 
         updateMuteIcon();
 
+        showPlayerControls();
+
       };
 
-      volumeSlider.oninput = () => {
+      volumeSlider.oninput = (event) => {
+
+        event.stopPropagation();
 
         video.volume =
           Number(volumeSlider.value);
@@ -1124,11 +1179,16 @@
 
         updateMuteIcon();
 
+        showPlayerControls();
+
       };
 
       /*
-       * Picture in Picture
+       * =====================================================
+       * PICTURE IN PICTURE
+       * =====================================================
        */
+
       if (
         document.pictureInPictureEnabled ||
         video.webkitSupportsPresentationMode
@@ -1144,7 +1204,9 @@
 
       }
 
-      pipButton.onclick = async () => {
+      pipButton.onclick = async (event) => {
+
+        event.stopPropagation();
 
         try {
 
@@ -1182,14 +1244,16 @@
 
         }
 
+        showPlayerControls();
+
       };
 
       /*
-       * AirPlay
-       *
-       * Safari exposes this through
-       * webkitShowPlaybackTargetPicker().
+       * =====================================================
+       * AIRPLAY
+       * =====================================================
        */
+
       if (
         typeof video.webkitShowPlaybackTargetPicker ===
         'function'
@@ -1198,7 +1262,9 @@
         airplayButton.style.display =
           'inline-flex';
 
-        airplayButton.onclick = () => {
+        airplayButton.onclick = (event) => {
+
+          event.stopPropagation();
 
           try {
 
@@ -1213,14 +1279,21 @@
 
           }
 
+          showPlayerControls();
+
         };
 
       }
 
       /*
-       * Fullscreen
+       * =====================================================
+       * FULLSCREEN
+       * =====================================================
        */
-      fullscreenButton.onclick = async () => {
+
+      fullscreenButton.onclick = async (event) => {
+
+        event.stopPropagation();
 
         const container =
           document.getElementById(
@@ -1257,6 +1330,8 @@
 
         }
 
+        showPlayerControls();
+
       };
 
       document.addEventListener(
@@ -1265,6 +1340,8 @@
 
           const icon =
             fullscreenButton.querySelector('i');
+
+          if (!icon) return;
 
           if (document.fullscreenElement) {
 
@@ -1282,11 +1359,16 @@
       );
 
       /*
-       * Double-click video = fullscreen
+       * =====================================================
+       * DOUBLE CLICK = FULLSCREEN
+       * =====================================================
        */
+
       video.addEventListener(
         'dblclick',
-        () => {
+        (event) => {
+
+          event.preventDefault();
 
           fullscreenButton.click();
 
@@ -1294,75 +1376,170 @@
       );
 
       /*
-       * Show/hide controls
+       * =====================================================
+       * PLAYER CONTROLS
+       *
+       * IMPORTANT:
+       * We no longer use video.click() to toggle the UI.
+       *
+       * A click/tap simply SHOWS the controls.
+       * They then remain visible for the full timer.
+       * This prevents the mobile "appear then instantly
+       * disappear" problem.
+       * =====================================================
        */
+
       function showPlayerControls() {
 
         ui.classList.remove('hidden');
 
-        clearTimeout(
-          fxControlsTimer
-        );
+        clearControlsTimer();
 
         if (!video.paused) {
 
           fxControlsTimer =
             setTimeout(() => {
 
+              /*
+               * Don't hide while the user is actively
+               * interacting with a control.
+               */
               ui.classList.add('hidden');
 
-            }, 3000);
+            }, 4000);
 
         }
 
       }
 
-      function toggleControls() {
-
-        if (
-          ui.classList.contains('hidden')
-        ) {
-
-          showPlayerControls();
-
-        } else if (!video.paused) {
-
-          ui.classList.add('hidden');
-
-        }
-
-      }
+      /*
+       * Mouse movement:
+       * show controls and reset the timer.
+       */
 
       player.addEventListener(
         'mousemove',
-        showPlayerControls
+        () => {
+
+          showPlayerControls();
+
+        }
       );
+
+      /*
+       * Touch:
+       * show controls and keep them visible.
+       *
+       * No toggle here.
+       */
 
       player.addEventListener(
         'touchstart',
-        showPlayerControls,
-        { passive: true }
+        () => {
+
+          showPlayerControls();
+
+        },
+        {
+          passive: true
+        }
       );
 
-      video.addEventListener(
+      /*
+       * Clicking anywhere on the player:
+       * SHOW controls only.
+       *
+       * This is the important fix.
+       */
+
+      player.addEventListener(
         'click',
-        toggleControls
+        (event) => {
+
+          /*
+           * Buttons already call their own actions.
+           * Don't interfere with them here.
+           */
+          if (
+            event.target.closest('.fx-control-btn') ||
+            event.target.closest('.fx-center-play') ||
+            event.target.closest('.fx-volume-slider')
+          ) {
+
+            showPlayerControls();
+            return;
+
+          }
+
+          showPlayerControls();
+
+        }
       );
+
+      /*
+       * Keep controls alive while the pointer is over them.
+       */
 
       ui.addEventListener(
-        'click',
-        showPlayerControls
+        'mouseenter',
+        () => {
+
+          clearControlsTimer();
+
+        }
+      );
+
+      /*
+       * Once the pointer leaves the controls,
+       * restart the hide timer.
+       */
+
+      ui.addEventListener(
+        'mouseleave',
+        () => {
+
+          if (!video.paused) {
+
+            showPlayerControls();
+
+          }
+
+        }
+      );
+
+      /*
+       * Touching/clicking controls should never cause
+       * an immediate hide.
+       */
+
+      ui.addEventListener(
+        'touchstart',
+        () => {
+
+          showPlayerControls();
+
+        },
+        {
+          passive: true
+        }
       );
 
       /*
        * Initial state
        */
+
       video.muted = true;
       video.volume = 1;
 
       updateMuteIcon();
 
       fxVideo = video;
+
+      /*
+       * Start with controls visible.
+       */
+
+      showPlayerControls();
 
     }
 
@@ -1377,7 +1554,428 @@
 
     }
 
+    /*
+     * =========================================================
+     * CREATE MPEG-TS PLAYER
+     * =========================================================
+     *
+     * This is separated from initPlayer so the player can
+     * recreate itself automatically after a recoverable error.
+     */
+
+    function createMpegtsPlayer(
+      url,
+      event,
+      index,
+      sessionId,
+      recoveryAttempt = 0
+    ) {
+
+      /*
+       * If the user already switched streams,
+       * don't start an old player.
+       */
+
+      if (sessionId !== playerSession) {
+        return;
+      }
+
+      const container =
+        document.getElementById(
+          'videoPlayerContainer'
+        );
+
+      const errorContainer =
+        document.getElementById(
+          'errorContainer'
+        );
+
+      const player =
+        document.getElementById('videoPlayer');
+
+      if (!player) {
+        return;
+      }
+
+      /*
+       * Make sure any old player is completely gone.
+       */
+
+      if (videoPlayerInstance) {
+
+        try {
+          videoPlayerInstance.pause();
+        } catch (e) {}
+
+        try {
+          videoPlayerInstance.unload();
+        } catch (e) {}
+
+        try {
+          videoPlayerInstance.detachMediaElement();
+        } catch (e) {}
+
+        try {
+          videoPlayerInstance.destroy();
+        } catch (e) {}
+
+        videoPlayerInstance = null;
+
+      }
+
+      fxVideo = null;
+
+      clearControlsTimer();
+
+      player.innerHTML = '';
+
+      /*
+       * Hide the final error while attempting recovery.
+       */
+
+      errorContainer.classList.add('d-none');
+      errorContainer.innerText = '';
+
+      /*
+       * Create fresh video element.
+       */
+
+      const video =
+        document.createElement('video');
+
+      video.controls = false;
+      video.autoplay = true;
+      video.muted = true;
+      video.playsInline = true;
+
+      video.setAttribute(
+        'playsinline',
+        ''
+      );
+
+      video.setAttribute(
+        'webkit-playsinline',
+        ''
+      );
+
+      video.setAttribute(
+        'preload',
+        'auto'
+      );
+
+      video.style.width = '100%';
+      video.style.height = '100%';
+      video.style.objectFit = 'contain';
+      video.style.background = '#000';
+
+      createPlayerUI(
+        video,
+        event.streams[index].label ||
+        event.name ||
+        'LIVE STREAM'
+      );
+
+      /*
+       * Browser doesn't support mpegts.js.
+       */
+
+      if (
+        typeof mpegts === 'undefined' ||
+        !mpegts.isSupported()
+      ) {
+
+        errorContainer.innerText =
+          'This browser does not support MPEG-TS playback.';
+
+        errorContainer.classList.remove(
+          'd-none'
+        );
+
+        return;
+
+      }
+
+      /*
+       * Create mpegts.js player.
+       */
+
+      try {
+
+        videoPlayerInstance =
+          mpegts.createPlayer({
+
+            type: 'mpegts',
+
+            isLive: true,
+
+            url: url,
+
+            /*
+             * Keep live latency reasonably low.
+             */
+
+            liveBufferLatencyChasing: true,
+
+            liveBufferLatencyMaxLatency: 3,
+
+            liveBufferLatencyMinRemain: 1
+
+          });
+
+        videoPlayerInstance.attachMediaElement(
+          video
+        );
+
+        /*
+         * =====================================================
+         * MPEG-TS ERROR HANDLER
+         * =====================================================
+         */
+
+        videoPlayerInstance.on(
+          mpegts.Events.ERROR,
+          function(type, detail, info) {
+
+            console.error(
+              'mpegts.js error:',
+              type,
+              detail,
+              info
+            );
+
+            /*
+             * Ignore this error if the user has already
+             * moved to another stream.
+             */
+
+            if (
+              sessionId !== playerSession
+            ) {
+
+              return;
+
+            }
+
+            /*
+             * Stop current instance cleanly.
+             */
+
+            try {
+              videoPlayerInstance.pause();
+            } catch (e) {}
+
+            try {
+              videoPlayerInstance.unload();
+            } catch (e) {}
+
+            /*
+             * Automatically recover.
+             */
+
+            if (
+              recoveryAttempt < MAX_RECOVERY_ATTEMPTS
+            ) {
+
+              console.log(
+                `MPEG-TS recovery attempt ${
+                  recoveryAttempt + 1
+                }/${MAX_RECOVERY_ATTEMPTS}`
+              );
+
+              /*
+               * Don't show the ugly error immediately.
+               * Give the stream time to reconnect.
+               */
+
+              errorContainer.classList.add(
+                'd-none'
+              );
+
+              clearControlsTimer();
+
+              setTimeout(() => {
+
+                if (
+                  sessionId !== playerSession
+                ) {
+
+                  return;
+
+                }
+
+                createMpegtsPlayer(
+                  url,
+                  event,
+                  index,
+                  sessionId,
+                  recoveryAttempt + 1
+                );
+
+              }, RECOVERY_DELAY);
+
+            } else {
+
+              /*
+               * Only show an error after all recovery
+               * attempts have failed.
+               */
+
+              console.error(
+                'MPEG-TS recovery failed after maximum attempts.'
+              );
+
+              errorContainer.innerText =
+                'Unable to play this stream in the browser. The stream may be temporarily unavailable.';
+
+              errorContainer.classList.remove(
+                'd-none'
+              );
+
+            }
+
+          }
+        );
+
+        /*
+         * =====================================================
+         * MEDIA EVENTS
+         * =====================================================
+         */
+
+        video.addEventListener(
+          'playing',
+          () => {
+
+            /*
+             * Once playback is successfully running,
+             * hide any old error.
+             */
+
+            errorContainer.classList.add(
+              'd-none'
+            );
+
+            errorContainer.innerText = '';
+
+          }
+        );
+
+        video.addEventListener(
+          'canplay',
+          () => {
+
+            errorContainer.classList.add(
+              'd-none'
+            );
+
+          }
+        );
+
+        /*
+         * If the media element itself reports an error,
+         * mpegts.js should normally catch it, but keep this
+         * as an additional safeguard.
+         */
+
+        video.addEventListener(
+          'error',
+          () => {
+
+            console.warn(
+              'HTML5 video element reported an error.'
+            );
+
+          }
+        );
+
+        /*
+         * Load stream.
+         */
+
+        videoPlayerInstance.load();
+
+        /*
+         * Start playback.
+         */
+
+        videoPlayerInstance.play()
+          .catch((error) => {
+
+            console.warn(
+              'Initial MPEG-TS play attempt:',
+              error
+            );
+
+            /*
+             * Autoplay can be blocked by some browsers.
+             * The player remains available for the user
+             * to press the play button.
+             */
+
+          });
+
+      } catch (error) {
+
+        console.error(
+          'Failed to create MPEG-TS player:',
+          error
+        );
+
+        /*
+         * Try recovery instead of immediately failing.
+         */
+
+        if (
+          recoveryAttempt < MAX_RECOVERY_ATTEMPTS
+        ) {
+
+          setTimeout(() => {
+
+            if (
+              sessionId !== playerSession
+            ) {
+
+              return;
+
+            }
+
+            createMpegtsPlayer(
+              url,
+              event,
+              index,
+              sessionId,
+              recoveryAttempt + 1
+            );
+
+          }, RECOVERY_DELAY);
+
+        } else {
+
+          errorContainer.innerText =
+            'Unable to play this stream in the browser.';
+
+          errorContainer.classList.remove(
+            'd-none'
+          );
+
+        }
+
+      }
+
+    }
+
     async function initPlayer(event, index) {
+
+      /*
+       * Every manual stream change creates a new session.
+       * This automatically invalidates recovery attempts
+       * from the previous stream.
+       */
+
+      playerSession++;
+
+      const currentSession =
+        playerSession;
 
       const url =
         event.streams[index].url;
@@ -1398,6 +1996,8 @@
       errorContainer.classList.add('d-none');
       errorContainer.innerText = '';
 
+      clearControlsTimer();
+
       destroyMpegtsPlayer();
 
       embed.src = 'about:blank';
@@ -1415,92 +2015,13 @@
         embed.style.display = 'none';
         container.style.display = 'block';
 
-        const video =
-          document.createElement('video');
-
-        video.controls = false;
-        video.autoplay = true;
-        video.muted = true;
-        video.playsInline = true;
-
-        video.setAttribute(
-          'playsinline',
-          ''
+        createMpegtsPlayer(
+          url,
+          event,
+          index,
+          currentSession,
+          0
         );
-
-        video.setAttribute(
-          'webkit-playsinline',
-          ''
-        );
-
-        video.style.width = '100%';
-        video.style.height = '100%';
-        video.style.objectFit = 'contain';
-        video.style.background = '#000';
-
-        createPlayerUI(
-          video,
-          event.streams[index].label ||
-          event.name ||
-          'LIVE STREAM'
-        );
-
-        if (
-          typeof mpegts !== 'undefined' &&
-          mpegts.isSupported()
-        ) {
-
-          videoPlayerInstance =
-            mpegts.createPlayer({
-
-              type: 'mpegts',
-
-              isLive: true,
-
-              url: url
-
-            });
-
-          videoPlayerInstance.attachMediaElement(
-            video
-          );
-
-          videoPlayerInstance.load();
-
-          videoPlayerInstance.play()
-            .catch(() => {});
-
-          videoPlayerInstance.on(
-            mpegts.Events.ERROR,
-            function(type, detail, info) {
-
-              console.error(
-                'mpegts.js error:',
-                type,
-                detail,
-                info
-              );
-
-              errorContainer.innerText =
-                'Unable to play this stream in the browser.';
-
-              errorContainer.classList.remove(
-                'd-none'
-              );
-
-            }
-          );
-
-        } else {
-
-          errorContainer.innerText =
-            'This browser does not support MPEG-TS playback.';
-
-          errorContainer.classList.remove(
-            'd-none'
-          );
-
-        }
 
         return;
 
@@ -1511,8 +2032,7 @@
        * EXISTING IFRAME
        * =====================================================
        *
-       * The iframe is intentionally left untouched
-       * for non-.ts streams.
+       * The iframe remains untouched for non-.ts streams.
        */
 
       container.style.display = 'none';
@@ -1563,8 +2083,8 @@
                 `<li>
                   <a class="dropdown-item"
                      href="#"
-                     onclick="initPlayer(streamData, ${i}); document.getElementById('streamDropdown').innerText='${s.label || 'Stream ' + (i + 1)}'; return false;">
-                    ${s.label || 'Stream ' + (i + 1)}
+                     onclick="initPlayer(streamData, ${i}); document.getElementById('streamDropdown').innerText='${escapeHtml(s.label || 'Stream ' + (i + 1))}'; return false;">
+                    ${escapeHtml(s.label || 'Stream ' + (i + 1))}
                   </a>
                 </li>`
               ).join('');
@@ -1572,6 +2092,26 @@
             initPlayer(event, 0);
 
           }
+
+        })
+        .catch(error => {
+
+          console.error(
+            'Failed to load 24/7 stream data:',
+            error
+          );
+
+          const errorContainer =
+            document.getElementById(
+              'errorContainer'
+            );
+
+          errorContainer.innerText =
+            'Unable to load stream information.';
+
+          errorContainer.classList.remove(
+            'd-none'
+          );
 
         });
 
