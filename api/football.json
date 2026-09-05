@@ -33,7 +33,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://germany.fut.ryzn.pro/bayer/index.m3u8"
             }
           ]
         },
@@ -49,7 +49,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://germany.fut.ryzn.pro/dort/index.m3u8"
             }
           ]
         },
