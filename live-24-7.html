@@ -1,20 +1,13 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<!DOCTYPE html><html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FutbolX - Watch 24/7</title>
   <meta name="description" content="FutbolX - Watch 24/7 cartoons and other content.">
-  <meta name="keywords" content="futbolx, cartoons, 24/7, stream, online, free">
-
-  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
-  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900|outfit:300,400,500,600,700" rel="stylesheet">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" />
+  <meta name="keywords" content="futbolx, cartoons, 24/7, stream, online, free">  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+  <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900|outfit:300,400,500,600,700" rel="stylesheet">  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="/assets/css/main.css?v=26">
-
-  <style>
+  <link rel="stylesheet" href="/assets/css/main.css?v=26">  <style>
     /* ===== FUTBOLX UI THEME ===== */
     :root {
       --fx-bg: #07080b;
@@ -181,8 +174,25 @@
       padding-top: 70px;
     }
 
+    /*
+     * Let the player and EPG use the available page width.
+     * Bootstrap's normal .container max-width was leaving
+     * unnecessary empty space on large screens.
+     */
+    .main-content > .container {
+      width: 100%;
+      max-width: none;
+    }
+
+    .main-content > .container > .row,
+    .main-content > .container > .row > .col-12 {
+      width: 100%;
+      max-width: none;
+    }
+
     .player-container {
-      max-width: 1200px;
+      width: 100%;
+      max-width: none;
       margin: 0 auto;
     }
 
@@ -574,30 +584,21 @@
       text-overflow: ellipsis;
     }
 
-    .fx-epg-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      color: var(--fx-text-muted);
-      font-size: .72rem;
-      white-space: nowrap;
-    }
-
-    .fx-epg-status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #22c55e;
-      box-shadow: 0 0 8px rgba(34,197,94,.6);
-    }
-
+    /*
+     * The guide itself handles horizontal scrolling when the
+     * available screen is too narrow. The rest of the page does not.
+     */
     .fx-epg-body {
       width: 100%;
-      overflow: hidden;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
     }
 
     .fx-epg-grid {
       width: 100%;
+      min-width: 0;
     }
 
     .fx-epg-time-row {
@@ -641,7 +642,7 @@
       position: relative;
       display: grid;
       grid-template-columns: 105px 1fr;
-      min-height: 92px;
+      min-height: 104px;
       border-bottom: 1px solid var(--fx-glass-border);
     }
 
@@ -692,7 +693,7 @@
       position: absolute;
       top: 9px;
       bottom: 9px;
-      min-width: 8px;
+      min-width: 12px;
       overflow: hidden;
       padding: 9px 10px;
       border: 1px solid rgba(255,255,255,.08);
@@ -701,6 +702,7 @@
       box-shadow: 0 5px 15px rgba(0,0,0,.18);
       transition: transform .18s ease, border-color .18s ease, background .18s ease;
       cursor: default;
+      box-sizing: border-box;
     }
 
     .fx-epg-event:hover {
@@ -759,6 +761,7 @@
       font-size: .57rem;
       font-weight: 700;
       letter-spacing: .7px;
+      white-space: nowrap;
     }
 
     .fx-epg-live-label i {
@@ -870,6 +873,11 @@
         padding-top: 65px;
       }
 
+      .main-content > .container {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+
       .player-container {
         width: 100%;
       }
@@ -936,22 +944,93 @@
         font-size: .68rem;
       }
 
-      .fx-epg-status {
-        display: none;
+      /*
+       * On smaller screens the guide gets a real timeline width
+       * instead of squeezing 24 hours into the phone width.
+       * The user can swipe the guide left/right.
+       */
+      .fx-epg-grid {
+        min-width: 1200px;
       }
 
       .fx-epg-time-row {
-        grid-template-columns: 70px repeat(8, minmax(0, 1fr));
-        min-height: 34px;
+        grid-template-columns: 95px repeat(8, minmax(0, 1fr));
+        min-height: 38px;
       }
 
       .fx-epg-day {
-        grid-template-columns: 70px 1fr;
-        min-height: 82px;
+        grid-template-columns: 95px 1fr;
+        min-height: 100px;
       }
 
       .fx-epg-date {
-        padding: 8px 7px;
+        padding: 8px 10px;
+      }
+
+      .fx-epg-date-name {
+        font-size: .68rem;
+      }
+
+      .fx-epg-date-full {
+        font-size: .61rem;
+      }
+
+      .fx-epg-time {
+        font-size: .63rem;
+      }
+
+      .fx-epg-event {
+        top: 7px;
+        bottom: 7px;
+        padding: 8px 8px;
+        border-radius: 8px;
+      }
+
+      .fx-epg-event-title {
+        font-size: .68rem;
+      }
+
+      .fx-epg-event-time {
+        font-size: .58rem;
+        margin-top: 3px;
+      }
+
+      .fx-epg-live-label {
+        font-size: .52rem;
+        margin-bottom: 2px;
+      }
+
+      .fx-epg-progress {
+        height: 2px;
+      }
+    }
+
+    @media (max-width: 420px) {
+
+      .main-content > .container {
+        padding-left: 6px;
+        padding-right: 6px;
+      }
+
+      /*
+       * Slightly wider again on very small phones so programme
+       * names remain readable instead of becoming tiny pills.
+       */
+      .fx-epg-grid {
+        min-width: 1150px;
+      }
+
+      .fx-epg-time-row {
+        grid-template-columns: 88px repeat(8, minmax(0, 1fr));
+      }
+
+      .fx-epg-day {
+        grid-template-columns: 88px 1fr;
+      }
+
+      .fx-epg-date {
+        padding-left: 7px;
+        padding-right: 7px;
       }
 
       .fx-epg-date-name {
@@ -963,326 +1042,243 @@
       }
 
       .fx-epg-time {
-        font-size: .57rem;
-      }
-
-      .fx-epg-event {
-        top: 7px;
-        bottom: 7px;
-        padding: 7px 7px;
-        border-radius: 7px;
-      }
-
-      .fx-epg-event-title {
-        font-size: .62rem;
-      }
-
-      .fx-epg-event-time {
-        font-size: .54rem;
-        margin-top: 3px;
-      }
-
-      .fx-epg-live-label {
-        font-size: .48rem;
-        margin-bottom: 2px;
-      }
-
-      .fx-epg-progress {
-        height: 2px;
-      }
-    }
-
-    @media (max-width: 420px) {
-
-      .fx-epg-time-row {
-        grid-template-columns: 62px repeat(8, minmax(0, 1fr));
-      }
-
-      .fx-epg-day {
-        grid-template-columns: 62px 1fr;
-      }
-
-      .fx-epg-date {
-        padding-left: 5px;
-        padding-right: 5px;
-      }
-
-      .fx-epg-date-name {
         font-size: .59rem;
       }
 
-      .fx-epg-date-full {
-        font-size: .53rem;
-      }
-
-      .fx-epg-time {
-        font-size: .51rem;
-      }
-
       .fx-epg-event {
-        padding: 6px 5px;
+        padding: 7px 7px;
       }
 
       .fx-epg-event-title {
-        font-size: .56rem;
+        font-size: .64rem;
       }
 
       .fx-epg-event-time {
-        font-size: .49rem;
+        font-size: .55rem;
       }
     }
-  </style>
-</head>
+  </style></head><body>  <!-- ===== TOP BAR ===== -->  <nav class="top-bar fixed-top">
+    <div class="container-fluid">  <button class="btn btn-dark"
+          type="button"
+          id="sidebarToggler"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#sidebarMenu">
 
-<body>
+    <i class="fas fa-bars"></i>
 
-  <!-- ===== TOP BAR ===== -->
-  <nav class="top-bar fixed-top">
-    <div class="container-fluid">
+  </button>
 
-      <button class="btn btn-dark"
-              type="button"
-              id="sidebarToggler"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#sidebarMenu">
+  <a href="/" class="futbolx-brand" id="brandLogo">
+    FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
+  </a>
 
-        <i class="fas fa-bars"></i>
+</div>
 
-      </button>
-
-      <a href="/" class="futbolx-brand" id="brandLogo">
-        FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
-      </a>
-
-    </div>
-  </nav>
-
-  <!-- ===== SIDEBAR ===== -->
-  <div class="offcanvas offcanvas-start"
+  </nav>  <!-- ===== SIDEBAR ===== -->  <div class="offcanvas offcanvas-start"
        tabindex="-1"
-       id="sidebarMenu">
+       id="sidebarMenu"><div class="offcanvas-header">
 
-    <div class="offcanvas-header">
+  <h5 class="offcanvas-title">
+    NAVIGATION
+  </h5>
 
-      <h5 class="offcanvas-title">
-        NAVIGATION
-      </h5>
+  <button type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close">
+  </button>
 
-      <button type="button"
-              class="btn-close"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close">
+</div>
+
+<div class="offcanvas-body">
+
+  <ul class="nav flex-column">
+
+    <li class="nav-item">
+      <a class="nav-link" href="/">
+        <i class="fas fa-house me-3"></i>Home
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="/request">
+        <i class="fas fa-paper-plane me-3"></i>Request
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="/vods">
+        <i class="fas fa-film me-3"></i>VODs
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="/24-7">
+        <i class="fas fa-tv me-3"></i>24/7
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="https://discord.gg/CmRcPbBB2k">
+        <i class="fab fa-discord me-3"></i>Discord
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="/vip">
+        <i class="fas fa-crown me-3" style="color: var(--fx-gold);"></i>VIP
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="/auth/login" id="loginLink">
+        <i class="fas fa-user me-3"></i>Login
+      </a>
+    </li>
+
+    <li class="nav-item mt-2">
+      <button id="themeToggle"
+              class="nav-link btn btn-link">
+        <i class="fas fa-moon me-3"></i>Toggle Theme
       </button>
+    </li>
 
-    </div>
+  </ul>
 
-    <div class="offcanvas-body">
+</div>
 
-      <ul class="nav flex-column">
+  </div>  <!-- ===== MAIN CONTENT ===== -->  <div class="container-fluid main-content"><div class="container mt-4">
 
-        <li class="nav-item">
-          <a class="nav-link" href="/">
-            <i class="fas fa-house me-3"></i>Home
-          </a>
-        </li>
+  <div class="row">
 
-        <li class="nav-item">
-          <a class="nav-link" href="/request">
-            <i class="fas fa-paper-plane me-3"></i>Request
-          </a>
-        </li>
+    <div class="col-12">
 
-        <li class="nav-item">
-          <a class="nav-link" href="/vods">
-            <i class="fas fa-film me-3"></i>VODs
-          </a>
-        </li>
+      <div class="d-flex align-items-center justify-content-between mb-3">
 
-        <li class="nav-item">
-          <a class="nav-link" href="/24-7">
-            <i class="fas fa-tv me-3"></i>24/7
-          </a>
-        </li>
+        <a href="/24-7" class="btn btn-back">
+          <i class="fas fa-arrow-left"></i>
+          Back to 24/7 Streams
+        </a>
 
-        <li class="nav-item">
-          <a class="nav-link" href="https://discord.gg/CmRcPbBB2k">
-            <i class="fab fa-discord me-3"></i>Discord
-          </a>
-        </li>
+      </div>
 
-        <li class="nav-item">
-          <a class="nav-link" href="/vip">
-            <i class="fas fa-crown me-3" style="color: var(--fx-gold);"></i>VIP
-          </a>
-        </li>
+      <h2 id="eventTitle" class="mb-3"></h2>
 
-        <li class="nav-item">
-          <a class="nav-link" href="/auth/login" id="loginLink">
-            <i class="fas fa-user me-3"></i>Login
-          </a>
-        </li>
+      <div class="player-container">
 
-        <li class="nav-item mt-2">
-          <button id="themeToggle"
-                  class="nav-link btn btn-link">
-            <i class="fas fa-moon me-3"></i>Toggle Theme
-          </button>
-        </li>
+        <div class="video-container">
 
-      </ul>
+          <iframe
+            id="embedPlayer"
+            src="about:blank"
+            frameborder="0"
+            style="width: 100%; height: 100%;"
+            allow="autoplay; encrypted-media; fullscreen"
+            referrerpolicy="no-referrer">
+          </iframe>
 
-    </div>
-  </div>
+          <div id="videoPlayerContainer"
+               style="width: 100%; height: 100%;">
 
-  <!-- ===== MAIN CONTENT ===== -->
-  <div class="container-fluid main-content">
-
-    <div class="container mt-4">
-
-      <div class="row">
-
-        <div class="col-12">
-
-          <div class="d-flex align-items-center justify-content-between mb-3">
-
-            <a href="/24-7" class="btn btn-back">
-              <i class="fas fa-arrow-left"></i>
-              Back to 24/7 Streams
-            </a>
+            <div id="videoPlayer"></div>
 
           </div>
 
-          <h2 id="eventTitle" class="mb-3"></h2>
+        </div>
 
-          <div class="player-container">
+        <div class="stream-dropdown d-flex align-items-center justify-content-between mt-3">
 
-            <div class="video-container">
+          <div class="dropdown">
 
-              <iframe
-                id="embedPlayer"
-                src="about:blank"
-                frameborder="0"
-                style="width: 100%; height: 100%;"
-                allow="autoplay; encrypted-media; fullscreen"
-                referrerpolicy="no-referrer">
-              </iframe>
+            <button class="btn btn-stream dropdown-toggle"
+                    type="button"
+                    id="streamDropdown"
+                    data-bs-toggle="dropdown">
 
-              <div id="videoPlayerContainer"
-                   style="width: 100%; height: 100%;">
+              Select Stream
 
-                <div id="videoPlayer"></div>
+            </button>
 
-              </div>
+            <ul class="dropdown-menu"
+                id="streamDropdownMenu">
+            </ul>
 
-            </div>
-
-            <div class="stream-dropdown d-flex align-items-center justify-content-between mt-3">
-
-              <div class="dropdown">
-
-                <button class="btn btn-stream dropdown-toggle"
-                        type="button"
-                        id="streamDropdown"
-                        data-bs-toggle="dropdown">
-
-                  Select Stream
-
-                </button>
-
-                <ul class="dropdown-menu"
-                    id="streamDropdownMenu">
-                </ul>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          <!-- =====================================================
-               EPG
-               ===================================================== -->
-
-          <section id="epgSection" class="fx-epg">
-
-            <div class="fx-epg-header">
-
-              <div class="fx-epg-heading">
-
-                <div class="fx-epg-heading-icon">
-                  <i class="fas fa-tv"></i>
-                </div>
-
-                <div>
-                  <h3 class="fx-epg-title">
-                    TV GUIDE
-                  </h3>
-
-                  <div class="fx-epg-channel"
-                       id="epgChannelName">
-                    Loading schedule...
-                  </div>
-                </div>
-
-              </div>
-
-              <div class="fx-epg-status">
-                <span class="fx-epg-status-dot"></span>
-                <span id="epgStatusText">
-                  Updating automatically
-                </span>
-              </div>
-
-            </div>
-
-            <div id="epgBody" class="fx-epg-body">
-
-              <div class="fx-epg-loading">
-                <i class="fas fa-circle-notch fa-spin"></i>
-                Loading TV guide...
-              </div>
-
-            </div>
-
-          </section>
-
-          <div id="errorContainer"
-               class="alert alert-danger error-alert mt-3 d-none">
           </div>
 
         </div>
 
       </div>
 
-      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+      <!-- =====================================================
+           EPG
+           ===================================================== -->
 
-        <p class="mb-2 mb-lg-0 text-body-secondary">
-          FutbolX 2026
-        </p>
+      <section id="epgSection" class="fx-epg">
 
-        <ul class="nav">
+        <div class="fx-epg-header">
 
-          <li class="nav-item">
-            <a href="https://discord.gg/CmRcPbBB2k"
-               class="nav-link px-2 text-body-secondary">
-              Discord
-            </a>
-          </li>
+          <div class="fx-epg-heading">
 
-        </ul>
+            <div class="fx-epg-heading-icon">
+              <i class="fas fa-tv"></i>
+            </div>
 
-      </footer>
+            <div>
+              <h3 class="fx-epg-title">
+                TV GUIDE
+              </h3>
+
+              <div class="fx-epg-channel"
+                   id="epgChannelName">
+                Loading schedule...
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div id="epgBody" class="fx-epg-body">
+
+          <div class="fx-epg-loading">
+            <i class="fas fa-circle-notch fa-spin"></i>
+            Loading TV guide...
+          </div>
+
+        </div>
+
+      </section>
+
+      <div id="errorContainer"
+           class="alert alert-danger error-alert mt-3 d-none">
+      </div>
 
     </div>
 
   </div>
 
-  <!-- mpegts.js -->
-  <script src="https://cdn.jsdelivr.net/npm/mpegts.js@latest/dist/mpegts.min.js"></script>
+  <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
 
-  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <p class="mb-2 mb-lg-0 text-body-secondary">
+      FutbolX 2026
+    </p>
 
-  <script>
+    <ul class="nav">
+
+      <li class="nav-item">
+        <a href="https://discord.gg/CmRcPbBB2k"
+           class="nav-link px-2 text-body-secondary">
+          Discord
+        </a>
+      </li>
+
+    </ul>
+
+  </footer>
+
+</div>
+
+  </div>  <!-- mpegts.js -->  <script src="https://cdn.jsdelivr.net/npm/mpegts.js@latest/dist/mpegts.min.js"></script>  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>  <script>
 
     let videoPlayerInstance = null;
     let streamData = null;
@@ -1302,27 +1298,24 @@
     const EPG_ENDPOINT = '/api/epg';
 
     /*
-     * Refresh the EPG data periodically.
-     *
-     * This does not mean the visitor has to refresh the page.
-     * FutbolX will check for updated EPG information automatically.
+     * The source is checked periodically without requiring
+     * the visitor to refresh the page.
      */
     const EPG_REFRESH_INTERVAL = 10 * 60 * 1000;
 
     /*
-     * Refresh the currently visible clock/progress every second.
+     * Keep the live clock/progress moving every second.
      */
     const EPG_CLOCK_INTERVAL = 1000;
 
     /*
-     * Show the current day plus the next 3 days.
+     * This is only a maximum safety window.
+     *
+     * The renderer DOES NOT automatically create empty dates.
+     * It only renders dates that actually contain programmes.
      */
-    const EPG_DAYS_TO_SHOW = 4;
+    const EPG_MAX_DAYS_TO_SEARCH = 14;
 
-    /*
-     * The guide uses 8 time columns.
-     * Each column represents 3 hours.
-     */
     const EPG_HOURS_PER_COLUMN = 3;
 
     let epgData = null;
@@ -2346,14 +2339,6 @@
       const text =
         String(value).trim();
 
-      /*
-       * XMLTV format:
-       *
-       * 20260906010000 +0000
-       * 20260906010000 +0300
-       * 20260906010000
-       */
-
       const match =
         text.match(
           /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(?:\s*([+-]\d{2})(\d{2}))?/
@@ -2414,11 +2399,6 @@
         );
 
       }
-
-      /*
-       * XMLTV feeds without a timezone are treated
-       * as UTC, which is the safest assumption.
-       */
 
       return new Date(
         Date.UTC(
@@ -2587,10 +2567,6 @@
 
     function parseEPGJson(data) {
 
-      /*
-       * Supports our parsed API format.
-       */
-
       if (
         data &&
         Array.isArray(data.programmes)
@@ -2616,10 +2592,6 @@
         };
 
       }
-
-      /*
-       * Also support a possible array format.
-       */
 
       if (Array.isArray(data)) {
 
@@ -2649,9 +2621,19 @@
 
     async function fetchEPG() {
 
+      /*
+       * Cache-busting is intentional.
+       * The upstream provider can update its XML independently
+       * of this page.
+       */
+      const separator =
+        EPG_ENDPOINT.includes('?')
+          ? '&'
+          : '?';
+
       const response =
         await fetch(
-          EPG_ENDPOINT,
+          `${EPG_ENDPOINT}${separator}_=${Date.now()}`,
           {
             method: 'GET',
             cache: 'no-store',
@@ -2680,10 +2662,6 @@
       const text =
         await response.text();
 
-      /*
-       * JSON response
-       */
-
       if (
         contentType.includes(
           'application/json'
@@ -2699,20 +2677,9 @@
 
           return parseEPGJson(json);
 
-        } catch (error) {
-
-          /*
-           * If JSON parsing fails, continue and
-           * attempt XML parsing.
-           */
-
-        }
+        } catch (error) {}
 
       }
-
-      /*
-       * XML response
-       */
 
       return parseEPGXml(text);
 
@@ -2739,9 +2706,12 @@
       }
 
       /*
-       * Exact normalized match.
+       * First: exact normalized match.
+       *
+       * Example:
+       * "Usa Network" -> "usanetwork"
+       * "USA Network" -> "usanetwork"
        */
-
       for (
         const id in epgData.channels
       ) {
@@ -2771,11 +2741,8 @@
       }
 
       /*
-       * Second pass:
-       * allow names such as "USA Network HD"
-       * to match "USA Network".
+       * Second: safe HD/suffix matching.
        */
-
       for (
         const id in epgData.channels
       ) {
@@ -2959,15 +2926,6 @@
       const p =
         getLocalDateParts(date);
 
-      /*
-       * Convert local calendar date midnight
-       * back into a Date object representing that
-       * local midnight in the visitor's timezone.
-       *
-       * We calculate the timezone offset by comparing
-       * the formatted local parts with UTC.
-       */
-
       const guess =
         new Date(
           Date.UTC(
@@ -3027,11 +2985,6 @@
           )
         );
 
-      /*
-       * Re-resolve the timezone for the target date.
-       * This also handles daylight-saving transitions.
-       */
-
       const targetParts =
         getLocalDateParts(target);
 
@@ -3062,54 +3015,45 @@
 
     }
 
-    function getDayLabel(dayIndex) {
+    function getDayLabel(dayStart, todayStart) {
 
-      if (dayIndex === 0) {
-        return 'Today';
-      }
+      const todayKey =
+        dateKey(todayStart);
 
-      if (dayIndex === 1) {
-        return 'Tomorrow';
-      }
-
-      return formatDate(
-        addLocalDays(
-          new Date(),
-          dayIndex
-        )
-      );
-
-    }
-
-    function formatDuration(ms) {
-
-      const totalMinutes =
-        Math.max(
-          0,
-          Math.floor(
-            ms / 60000
+      const tomorrowKey =
+        dateKey(
+          addLocalDays(
+            todayStart,
+            1
           )
         );
 
+      const currentKey =
+        dateKey(dayStart);
+
       if (
-        totalMinutes < 60
+        currentKey === todayKey
       ) {
 
-        return `${totalMinutes}m`;
+        return 'Today';
 
       }
 
-      const hours =
-        Math.floor(
-          totalMinutes / 60
-        );
+      if (
+        currentKey === tomorrowKey
+      ) {
 
-      const minutes =
-        totalMinutes % 60;
+        return 'Tomorrow';
 
-      return minutes
-        ? `${hours}h ${minutes}m`
-        : `${hours}h`;
+      }
+
+      return new Intl.DateTimeFormat(
+        undefined,
+        {
+          weekday: 'long',
+          timeZone: getUserTimeZone()
+        }
+      ).format(dayStart);
 
     }
 
@@ -3145,6 +3089,96 @@
         </div>
 
       `;
+
+    }
+
+    /*
+     * Returns every local calendar day that actually contains
+     * at least one programme.
+     *
+     * Empty days are deliberately NOT returned.
+     */
+    function getDaysWithEvents(programmes, now) {
+
+      const todayStart =
+        getStartOfLocalDay(now);
+
+      const days = new Map();
+
+      programmes.forEach(programme => {
+
+        /*
+         * Only inspect programmes around the current/future
+         * guide window. Older history isn't needed.
+         */
+        if (
+          programme.stop <= now
+        ) {
+
+          return;
+
+        }
+
+        const firstDay =
+          getStartOfLocalDay(
+            programme.start > now
+              ? programme.start
+              : now
+          );
+
+        const lastDay =
+          getStartOfLocalDay(
+            new Date(
+              programme.stop.getTime() - 1
+            )
+          );
+
+        let cursor =
+          firstDay;
+
+        let safety = 0;
+
+        while (
+          cursor <= lastDay &&
+          safety < EPG_MAX_DAYS_TO_SEARCH
+        ) {
+
+          const key =
+            dateKey(cursor);
+
+          days.set(
+            key,
+            cursor
+          );
+
+          cursor =
+            addLocalDays(
+              cursor,
+              1
+            );
+
+          safety++;
+
+        }
+
+      });
+
+      /*
+       * If there is an event later today but nothing tomorrow,
+       * only today appears.
+       *
+       * If tomorrow has events, tomorrow appears.
+       *
+       * If the upstream feed later adds another day, the next
+       * automatic EPG refresh causes that day to appear too.
+       */
+      return Array.from(
+        days.values()
+      ).sort(
+        (a, b) =>
+          a.getTime() -
+          b.getTime()
+      );
 
     }
 
@@ -3207,23 +3241,12 @@
         new Date();
 
       /*
-       * Find current programme and programmes
-       * from now through the next few days.
+       * Only retain current/future programmes.
+       * This is what prevents old empty dates from being shown.
        */
-
-      const visibleStart =
-        getStartOfLocalDay(now);
-
-      const visibleEnd =
-        addLocalDays(
-          visibleStart,
-          EPG_DAYS_TO_SHOW
-        );
-
       const visiblePrograms =
         programmes.filter(programme =>
-          programme.stop > visibleStart &&
-          programme.start < visibleEnd
+          programme.stop > now
         );
 
       if (!visiblePrograms.length) {
@@ -3237,16 +3260,32 @@
       }
 
       /*
-       * Build the guide.
+       * Determine the actual dates represented by the EPG.
        */
+      const days =
+        getDaysWithEvents(
+          visiblePrograms,
+          now
+        );
+
+      if (!days.length) {
+
+        renderNoEPG(
+          streamData.name
+        );
+
+        return;
+
+      }
+
+      const todayStart =
+        getStartOfLocalDay(now);
 
       let html = '';
 
       /*
-       * Timeline header.
-       * 8 columns × 3 hours = 24 hours.
+       * 24-hour timeline header.
        */
-
       html += `
         <div class="fx-epg-grid">
 
@@ -3276,25 +3315,14 @@
       `;
 
       /*
-       * Each date gets its own row.
+       * Render ONLY days containing programmes.
        */
-
-      for (
-        let dayIndex = 0;
-        dayIndex < EPG_DAYS_TO_SHOW;
-        dayIndex++
-      ) {
-
-        const dayStart =
-          addLocalDays(
-            visibleStart,
-            dayIndex
-          );
+      days.forEach(dayStart => {
 
         const dayEnd =
           addLocalDays(
-            visibleStart,
-            dayIndex + 1
+            dayStart,
+            1
           );
 
         const dayKeyValue =
@@ -3306,6 +3334,10 @@
             programme.start < dayEnd
           );
 
+        if (!dayPrograms.length) {
+          return;
+        }
+
         html += `
 
           <div class="fx-epg-day"
@@ -3315,7 +3347,10 @@
 
               <div class="fx-epg-date-name">
                 ${escapeHtml(
-                  getDayLabel(dayIndex)
+                  getDayLabel(
+                    dayStart,
+                    todayStart
+                  )
                 )}
               </div>
 
@@ -3332,9 +3367,8 @@
         `;
 
         /*
-         * Current time line.
+         * Current-time indicator.
          */
-
         if (
           now >= dayStart &&
           now < dayEnd
@@ -3372,7 +3406,6 @@
         /*
          * Programmes.
          */
-
         dayPrograms.forEach(programme => {
 
           const start =
@@ -3442,7 +3475,7 @@
 
           const safeWidth =
             Math.max(
-              1,
+              .5,
               Math.min(
                 100 - safeLeft,
                 width
@@ -3525,7 +3558,7 @@
           </div>
         `;
 
-      }
+      });
 
       html += `
         </div>
@@ -3548,9 +3581,8 @@
         Date.now();
 
       /*
-       * Update every live progress bar.
+       * Update live progress bars.
        */
-
       document
         .querySelectorAll(
           '.fx-epg-progress-bar'
@@ -3598,7 +3630,6 @@
       /*
        * Move current-time indicators.
        */
-
       document
         .querySelectorAll(
           '[data-now-line]'
@@ -3663,19 +3694,24 @@
         });
 
       /*
-       * If a programme has just ended, rebuild the guide.
-       * This makes LIVE NOW automatically move to the next event.
+       * Check whether the LIVE programme changed.
+       * When it does, rebuild the guide so LIVE NOW moves
+       * to the new programme and newly reached dates appear.
        */
+      const channel =
+        findEPGChannel(
+          streamData.name
+        );
 
       const currentLive =
-        epgData.programmes.find(
-          programme =>
-            programme.start.getTime() <= now &&
-            programme.stop.getTime() > now &&
-            findEPGChannel(streamData.name) &&
-            programme.channel ===
-            findEPGChannel(streamData.name).id
-        );
+        channel
+          ? epgData.programmes.find(
+              programme =>
+                programme.start.getTime() <= now &&
+                programme.stop.getTime() > now &&
+                programme.channel === channel.id
+            )
+          : null;
 
       const currentLiveId =
         currentLive
@@ -3683,7 +3719,7 @@
           : '';
 
       if (
-        window.fxCurrentLiveId &&
+        window.fxCurrentLiveId !== undefined &&
         window.fxCurrentLiveId !== currentLiveId
       ) {
 
@@ -3702,38 +3738,19 @@
         return;
       }
 
-      const status =
-        document.getElementById(
-          'epgStatusText'
-        );
-
       try {
 
-        status.textContent =
-          'Updating automatically';
-
-        epgData =
+        /*
+         * No visible "updating automatically" message.
+         * The refresh happens silently.
+         */
+        const freshEPG =
           await fetchEPG();
 
+        epgData =
+          freshEPG;
+
         renderEPG();
-
-        status.textContent =
-          'Guide updated';
-
-        /*
-         * Return to automatic status after a few seconds.
-         */
-
-        setTimeout(() => {
-
-          if (status) {
-
-            status.textContent =
-              'Updating automatically';
-
-          }
-
-        }, 4000);
 
       } catch (error) {
 
@@ -3742,31 +3759,36 @@
           error
         );
 
-        const body =
-          document.getElementById(
-            'epgBody'
-          );
+        /*
+         * Don't destroy an already-working guide just because
+         * one background refresh failed.
+         */
+        if (!epgData) {
 
-        body.innerHTML = `
+          const body =
+            document.getElementById(
+              'epgBody'
+            );
 
-          <div class="fx-epg-empty">
+          body.innerHTML = `
 
-            <i class="fas fa-triangle-exclamation"></i>
+            <div class="fx-epg-empty">
 
-            <div class="fx-epg-empty-title">
-              Unable to load TV guide
+              <i class="fas fa-triangle-exclamation"></i>
+
+              <div class="fx-epg-empty-title">
+                Unable to load TV guide
+              </div>
+
+              <div class="fx-epg-empty-text">
+                The EPG source is temporarily unavailable.
+              </div>
+
             </div>
 
-            <div class="fx-epg-empty-text">
-              The EPG source is temporarily unavailable.
-            </div>
+          `;
 
-          </div>
-
-        `;
-
-        status.textContent =
-          'EPG unavailable';
+        }
 
       }
 
@@ -3791,9 +3813,11 @@
       }
 
       /*
-       * Fetch the EPG again periodically.
+       * Re-fetch the upstream EPG every 10 minutes.
+       *
+       * If the provider adds another day, the next fetch will
+       * automatically display it.
        */
-
       epgRefreshTimer =
         setInterval(
           () => {
@@ -3805,9 +3829,8 @@
         );
 
       /*
-       * Update live progress every second.
+       * Keep LIVE/progress/time indicators moving.
        */
-
       epgClockTimer =
         setInterval(
           () => {
@@ -3821,10 +3844,6 @@
     }
 
     function initEPG() {
-
-      /*
-       * Wait until the channel has been loaded.
-       */
 
       if (!streamData) {
         return;
@@ -3886,10 +3905,6 @@
 
             initPlayer(event, 0);
 
-            /*
-             * Start EPG after the channel is known.
-             */
-
             initEPG();
 
           }
@@ -3928,7 +3943,5 @@
       }
     );
 
-  </script>
-
-</body>
+  </script></body>
   </html>
