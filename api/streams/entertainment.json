@@ -1,1 +1,28 @@
-
+[
+{
+"name": "TBS Usa",
+"uri_name": "w5n8qx",
+"tag": "Entertainment",
+"poster": "https://www.logo-designer.co/storage/2020/06/2020-tbs-new-identity-design-by-trollback-company-main-logo.jpg",
+"streams": [
+{
+"label": "Stream 1",
+"url": "https://www.futbol-x.top/embed/tbs-usa"
+}
+],
+"always_live": 1
+},
+{
+"name": "Usa Network",
+"uri_name": "m4v9pl",
+"tag": "Entertainment",
+"poster": "https://stmify.com/wp-content/uploads/2024/11/361-s.webp",
+"streams": [
+{
+"label": "Stream 1",
+"url": "https://server3.dhammatayartaw.com/api/stream/343.m3u8"
+}
+],
+"always_live": 1
+}
+]
