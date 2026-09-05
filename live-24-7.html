@@ -535,7 +535,8 @@
 
   </div>
 
-  <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
+  <!-- ONLY PLAYER LIBRARY CHANGE: JW Player → mpegts.js -->
+  <script src="https://cdn.jsdelivr.net/npm/mpegts.js@latest/dist/mpegts.min.js"></script>
 
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -613,33 +614,114 @@
       const container =
         document.getElementById('videoPlayerContainer');
 
-      if (url.includes('.m3u8')) {
+      const player =
+        document.getElementById('videoPlayer');
 
-        embed.style.display = 'none';
+      /*
+       * Clean up previous mpegts.js player
+       */
+      if (videoPlayerInstance) {
 
-        container.style.display = 'block';
+        try {
+          videoPlayerInstance.pause();
+        } catch (e) {}
 
-        videoPlayerInstance =
-          jwplayer('videoPlayer').setup({
-            file: url,
-            autostart: true,
-            mute: true,
-            width: '100%',
-            aspectratio: '16:9'
-          });
+        try {
+          videoPlayerInstance.unload();
+        } catch (e) {}
 
-      } else {
+        try {
+          videoPlayerInstance.detachMediaElement();
+        } catch (e) {}
 
-        container.style.display = 'none';
+        try {
+          videoPlayerInstance.destroy();
+        } catch (e) {}
 
-        embed.style.display = 'block';
-
-        embed.src =
-          url +
-          (url.includes('?') ? '&' : '?') +
-          'autoplay=1';
+        videoPlayerInstance = null;
 
       }
+
+      player.innerHTML = '';
+
+      /*
+       * ===== MPEG-TS =====
+       * .ts streams are handled by mpegts.js
+       */
+      if (url.toLowerCase().includes('.ts')) {
+
+        embed.style.display = 'none';
+        container.style.display = 'block';
+
+        const video =
+          document.createElement('video');
+
+        video.controls = true;
+        video.autoplay = true;
+        video.muted = true;
+        video.playsInline = true;
+
+        video.setAttribute(
+          'playsinline',
+          ''
+        );
+
+        video.style.width = '100%';
+        video.style.height = '100%';
+        video.style.objectFit = 'contain';
+        video.style.background = '#000';
+
+        player.appendChild(video);
+
+        if (
+          typeof mpegts !== 'undefined' &&
+          mpegts.isSupported()
+        ) {
+
+          videoPlayerInstance =
+            mpegts.createPlayer({
+
+              type: 'mpegts',
+
+              isLive: true,
+
+              url: url
+
+            });
+
+          videoPlayerInstance.attachMediaElement(
+            video
+          );
+
+          videoPlayerInstance.load();
+
+          videoPlayerInstance
+            .play()
+            .catch(() => {});
+
+        } else {
+
+          console.error(
+            'mpegts.js is not supported in this browser.'
+          );
+
+        }
+
+        return;
+      }
+
+      /*
+       * ===== EXISTING IFRAME =====
+       * Everything that isn't .ts continues
+       * using the iframe exactly as before.
+       */
+      container.style.display = 'none';
+      embed.style.display = 'block';
+
+      embed.src =
+        url +
+        (url.includes('?') ? '&' : '?') +
+        'autoplay=1';
 
     }
 
@@ -705,4 +787,4 @@
   </script>
 
 </body>
-                </html>
+  </html>
