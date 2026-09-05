@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<!DOCTYPE html><html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,11 +14,7 @@
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
   <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900|outfit:300,400,500,600,700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskv7cVqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
-  <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
-  <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
-  <link rel="stylesheet" href="/assets/css/main.css?v=24">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />  <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>  <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>  <link rel="stylesheet" href="/assets/css/main.css?v=24">
   <style>
     /* ===== THEME VARIABLES (from index) ===== */
     :root {
@@ -34,404 +29,403 @@
       --fx-text-main: #f1f5f9;
       --fx-text-muted: #94a3b8;
       --fx-radius: 14px;
-    }
+    }[data-bs-theme="light"] {
+  --fx-bg: #f8fafc;
+  --fx-surface: #ffffff;
+  --fx-surface-hover: #f1f5f9;
+  --fx-glass: rgba(255, 255, 255, 0.85);
+  --fx-glass-border: rgba(0, 0, 0, 0.08);
+  --fx-text-main: #0f172a;
+  --fx-text-muted: #64748b;
+}
 
-    [data-bs-theme="light"] {
-      --fx-bg: #f8fafc;
-      --fx-surface: #ffffff;
-      --fx-surface-hover: #f1f5f9;
-      --fx-glass: rgba(255, 255, 255, 0.85);
-      --fx-glass-border: rgba(0, 0, 0, 0.08);
-      --fx-text-main: #0f172a;
-      --fx-text-muted: #64748b;
-    }
+body {
+  background-color: var(--fx-bg) !important;
+  color: var(--fx-text-main);
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
 
-    body {
-      background-color: var(--fx-bg) !important;
-      color: var(--fx-text-main);
-      font-family: 'Outfit', sans-serif;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
+/* ===== GLASS TOP BAR (matched to index) ===== */
+.top-bar {
+  background: var(--fx-glass) !important;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid var(--fx-glass-border);
+  padding: 12px 0;
+  transition: all 0.3s ease;
+}
 
-    /* ===== GLASS TOP BAR (matched to index) ===== */
-    .top-bar {
-      background: var(--fx-glass) !important;
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border-bottom: 1px solid var(--fx-glass-border);
-      padding: 12px 0;
-      transition: all 0.3s ease;
-    }
+.top-bar .container-fluid {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 1600px;
+}
 
-    .top-bar .container-fluid {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      max-width: 1600px;
-    }
+#sidebarToggler {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--fx-glass-border);
+  color: var(--fx-text-main);
+  border-radius: 10px;
+  padding: 8px 14px;
+  transition: all 0.2s ease;
+}
 
-    #sidebarToggler {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--fx-glass-border);
-      color: var(--fx-text-main);
-      border-radius: 10px;
-      padding: 8px 14px;
-      transition: all 0.2s ease;
-    }
+#sidebarToggler:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(1.03);
+}
 
-    #sidebarToggler:hover {
-      background: rgba(255, 255, 255, 0.12);
-      transform: scale(1.03);
-    }
+/* ===== BRAND (matched to index) ===== */
+.futbolx-brand {
+  font-family: 'Kanit', sans-serif;
+  font-weight: 900;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--fx-text-main);
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+  text-decoration: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  text-shadow: none !important;
+  filter: none !important;
+}
 
-    /* ===== BRAND (matched to index) ===== */
-    .futbolx-brand {
-      font-family: 'Kanit', sans-serif;
-      font-weight: 900;
-      font-size: 1.5rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--fx-text-main);
-      display: inline-flex;
-      align-items: center;
-      user-select: none;
-      text-decoration: none;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      cursor: pointer;
-      text-shadow: none !important;
-      filter: none !important;
-    }
+.futbolx-brand .ball-o {
+  color: var(--fx-gold);
+  font-size: 1.25rem;
+  margin: 0 2px;
+  filter: none !important;
+  text-shadow: none !important;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-block;
+}
 
-    .futbolx-brand .ball-o {
-      color: var(--fx-gold);
-      font-size: 1.25rem;
-      margin: 0 2px;
-      filter: none !important;
-      text-shadow: none !important;
-      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-      display: inline-block;
-    }
+.futbolx-brand:hover .ball-o {
+  transform: rotate(180deg) scale(1.1);
+}
 
-    .futbolx-brand:hover .ball-o {
-      transform: rotate(180deg) scale(1.1);
-    }
+.futbolx-brand .ball-o.spinning {
+  animation: ballSpin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
 
-    .futbolx-brand .ball-o.spinning {
-      animation: ballSpin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-    }
+@keyframes ballSpin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.3); }
+  100% { transform: rotate(360deg) scale(1); }
+}
 
-    @keyframes ballSpin {
-      0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.3); }
-      100% { transform: rotate(360deg) scale(1); }
-    }
+/* ===== SIDEBAR (matched to index) ===== */
+.offcanvas {
+  background-color: var(--fx-surface) !important;
+  border-right: 1px solid var(--fx-glass-border) !important;
+}
 
-    /* ===== SIDEBAR (matched to index) ===== */
-    .offcanvas {
-      background-color: var(--fx-surface) !important;
-      border-right: 1px solid var(--fx-glass-border) !important;
-    }
+.offcanvas-header {
+  border-bottom: 1px solid var(--fx-glass-border);
+}
 
-    .offcanvas-header {
-      border-bottom: 1px solid var(--fx-glass-border);
-    }
+.offcanvas .nav-link {
+  color: var(--fx-text-main);
+  font-weight: 500;
+  padding: 12px 16px;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  margin-bottom: 4px;
+}
 
-    .offcanvas .nav-link {
-      color: var(--fx-text-main);
-      font-weight: 500;
-      padding: 12px 16px;
-      border-radius: 10px;
-      transition: all 0.2s ease;
-      margin-bottom: 4px;
-    }
+.offcanvas .nav-link:hover {
+  background: var(--fx-surface-hover);
+  color: var(--fx-accent);
+  transform: translateX(4px);
+}
 
-    .offcanvas .nav-link:hover {
-      background: var(--fx-surface-hover);
-      color: var(--fx-accent);
-      transform: translateX(4px);
-    }
+/* ===== YOUR ORIGINAL STYLES (kept exactly) ===== */
+.tip-container {max-width:600px;margin:20px auto;overflow:hidden;display:flex;flex-direction:column;gap:10px;}
+.alert-info {text-align:center;position:relative;padding-right:40px !important;}
+.error-alert {max-width:500px;margin:20px auto;}
+.fade-out {animation:fadeOut .5s forwards;} @keyframes fadeOut {from{opacity:1}to{opacity:0}}
 
-    /* ===== YOUR ORIGINAL STYLES (kept exactly) ===== */
-    .tip-container {max-width:600px;margin:20px auto;overflow:hidden;display:flex;flex-direction:column;gap:10px;}
-    .alert-info {text-align:center;position:relative;padding-right:40px !important;}
-    .error-alert {max-width:500px;margin:20px auto;}
-    .fade-out {animation:fadeOut .5s forwards;} @keyframes fadeOut {from{opacity:1}to{opacity:0}}
-    
-    .video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
-    #oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.video-container {position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:10px;overflow:hidden;display:none;margin-bottom:1rem;}
+#oplayer-container {position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 
-    #socialOverlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.95); z-index: 10000;
-      display: none; align-items: center; justify-content: center;
-      backdrop-filter: blur(8px);
-    }
-    .social-card {
-      background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
-      border: 2px solid var(--fx-accent); border-radius: 20px;
-      padding: 40px; text-align: center; max-width: 500px; width: 90%;
-      box-shadow: 0 0 30px var(--fx-accent-glow);
-    }
-    .social-card h2 { color: var(--fx-accent); font-weight: 800; margin-bottom: 20px; }
-    .social-card p { color: #ddd; font-size: 1.1rem; margin-bottom: 30px; line-height: 1.6; }
-    .social-btns { display: flex; flex-direction: column; gap: 15px; }
-    .btn-social {
-      padding: 12px; border-radius: 12px; font-weight: 600; text-decoration: none;
-      transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
-    }
-    .btn-discord { background: #5865F2; color: white; }
-    .btn-telegram { background: #0088cc; color: white; }
-    .btn-social:hover { transform: scale(1.03); opacity: 0.9; color: white; }
+#socialOverlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.95); z-index: 10000;
+  display: none; align-items: center; justify-content: center;
+  backdrop-filter: blur(8px);
+}
+.social-card {
+  background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+  border: 2px solid var(--fx-accent); border-radius: 20px;
+  padding: 40px; text-align: center; max-width: 500px; width: 90%;
+  box-shadow: 0 0 30px var(--fx-accent-glow);
+}
+.social-card h2 { color: var(--fx-accent); font-weight: 800; margin-bottom: 20px; }
+.social-card p { color: #ddd; font-size: 1.1rem; margin-bottom: 30px; line-height: 1.6; }
+.social-btns { display: flex; flex-direction: column; gap: 15px; }
+.btn-social {
+  padding: 12px; border-radius: 12px; font-weight: 600; text-decoration: none;
+  transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.btn-discord { background: #5865F2; color: white; }
+.btn-telegram { background: #0088cc; color: white; }
+.btn-social:hover { transform: scale(1.03); opacity: 0.9; color: white; }
 
-    .live-title {
-      text-align: center;
-      background: linear-gradient(135deg, #1a1a1a, #0b1f33);
-      padding: 12px 20px;
-      border-radius: 12px;
-      border: 2px solid var(--fx-accent);
-      box-shadow: 0 0 20px var(--fx-accent-glow);
-      margin: 1rem 0;
-    }
-    .live-title h3 { margin: 0; color: #fff; font-size: 1.8rem; font-weight: 600; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
-    .live-title::before { content: "● LIVE"; color: var(--fx-accent); font-weight: bold; margin-right: 10px; animation: pulse 2s infinite; }
-    
-    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+.live-title {
+  text-align: center;
+  background: linear-gradient(135deg, #1a1a1a, #0b1f33);
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 2px solid var(--fx-accent);
+  box-shadow: 0 0 20px var(--fx-accent-glow);
+  margin: 1rem 0;
+}
+.live-title h3 { margin: 0; color: #fff; font-size: 1.8rem; font-weight: 600; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+.live-title::before { content: "● LIVE"; color: var(--fx-accent); font-weight: bold; margin-right: 10px; animation: pulse 2s infinite; }
 
-    #statusArea {
-      text-align: center; padding: 30px 15px;
-      background: rgba(30,30,30,0.7); border-radius: 12px;
-      margin: 25px auto; max-width: 720px;
-    }
-    #eventTitle { font-size: 2.4rem; margin-bottom: 1rem; color: var(--fx-accent); }
-    .countdown-display { font-size: 4rem; font-weight: bold; color: var(--fx-accent); letter-spacing: 5px; margin: 20px 0; text-shadow: 0 0 20px var(--fx-accent-glow); }
-    .permanent-noti { background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; }
-    .disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 1200px; margin-left: auto; margin-right: auto; }
-    [data-bs-theme="dark"] .disclaimer { color: #aaa; background: rgba(0,0,0,0.3); border-top-color: #444; }
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-    /* ===== STREAM SOURCE PICKER ===== */
-    .stream-dropdown-container { max-width: 540px; margin-bottom: 1rem; }
+#statusArea {
+  text-align: center; padding: 30px 15px;
+  background: rgba(30,30,30,0.7); border-radius: 12px;
+  margin: 25px auto; max-width: 720px;
+}
+#eventTitle { font-size: 2.4rem; margin-bottom: 1rem; color: var(--fx-accent); }
+.countdown-display { font-size: 4rem; font-weight: bold; color: var(--fx-accent); letter-spacing: 5px; margin: 20px 0; text-shadow: 0 0 20px var(--fx-accent-glow); }
+.permanent-noti { background: linear-gradient(135deg, #1e3a5f, #2a4a7a); border-color: #4a8cff; color: #e0f0ff; text-align: center; position: relative; }
+.disclaimer { text-align: center; font-size: 0.85rem; padding: 20px 15px; margin-top: 30px; border-top: 1px solid #444; max-width: 1200px; margin-left: auto; margin-right: auto; }
+[data-bs-theme="dark"] .disclaimer { color: #aaa; background: rgba(0,0,0,0.3); border-top-color: #444; }
 
-    .stream-select-custom {
-      width: 100%;
-      min-height: 58px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      background: #0b1020 !important;
-      color: #e7edf5 !important;
-      border: 2px solid var(--fx-accent) !important;
-      border-radius: 12px;
-      padding: 12px 16px;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: none;
-      transition: border-color .18s ease, background .18s ease;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-    }
+/* ===== STREAM SOURCE PICKER ===== */
+.stream-dropdown-container { max-width: 540px; margin-bottom: 1rem; }
 
-    .stream-select-custom:hover,
-    .stream-select-custom:focus-visible {
-      border-color: var(--fx-accent) !important;
-      background: #0e1424 !important;
-      outline: none;
-    }
+.stream-select-custom {
+  width: 100%;
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: #0b1020 !important;
+  color: #e7edf5 !important;
+  border: 2px solid var(--fx-accent) !important;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: none;
+  transition: border-color .18s ease, background .18s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
 
-    .stream-select-custom .stream-select-value {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+.stream-select-custom:hover,
+.stream-select-custom:focus-visible {
+  border-color: var(--fx-accent) !important;
+  background: #0e1424 !important;
+  outline: none;
+}
 
-    .stream-select-custom .stream-select-arrow {
-      color: var(--fx-accent);
-      flex: 0 0 auto;
-      transition: transform .18s ease;
-    }
+.stream-select-custom .stream-select-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-    .stream-select-custom.is-open .stream-select-arrow { transform: rotate(180deg); }
+.stream-select-custom .stream-select-arrow {
+  color: var(--fx-accent);
+  flex: 0 0 auto;
+  transition: transform .18s ease;
+}
 
-    .stream-popup-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 11000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(0, 0, 0, .68);
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
-    }
+.stream-select-custom.is-open .stream-select-arrow { transform: rotate(180deg); }
 
-    .stream-popup-overlay.is-open { display: flex; }
+.stream-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 11000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, .68);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
 
-    .stream-popup {
-      width: min(460px, 100%);
-      max-height: min(620px, calc(100vh - 40px));
-      overflow: hidden;
-      background: #202126;
-      color: #f4f4f5;
-      border: 1px solid #3a3b40;
-      border-radius: 16px;
-      box-shadow: 0 18px 55px rgba(0,0,0,.65);
-      animation: streamPopupIn .16s ease-out;
-    }
+.stream-popup-overlay.is-open { display: flex; }
 
-    @keyframes streamPopupIn {
-      from { opacity: 0; transform: translateY(8px) scale(.98); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
+.stream-popup {
+  width: min(460px, 100%);
+  max-height: min(620px, calc(100vh - 40px));
+  overflow: hidden;
+  background: #202126;
+  color: #f4f4f5;
+  border: 1px solid #3a3b40;
+  border-radius: 16px;
+  box-shadow: 0 18px 55px rgba(0,0,0,.65);
+  animation: streamPopupIn .16s ease-out;
+}
 
-    .stream-popup-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 20px;
-      border-bottom: 1px solid #3a3b40;
-      font-size: 1.05rem;
-      font-weight: 700;
-    }
+@keyframes streamPopupIn {
+  from { opacity: 0; transform: translateY(8px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
 
-    .stream-popup-close {
-      width: 34px;
-      height: 34px;
-      border: 0;
-      border-radius: 50%;
-      background: transparent;
-      color: #aeb0b7;
-      font-size: 1.25rem;
-      cursor: pointer;
-    }
+.stream-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid #3a3b40;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
 
-    .stream-popup-close:hover,
-    .stream-popup-close:focus-visible {
-      background: #303137;
-      color: #fff;
-      outline: none;
-    }
+.stream-popup-close {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #aeb0b7;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
 
-    .stream-popup-options {
-      max-height: calc(100vh - 150px);
-      overflow-y: auto;
-    }
+.stream-popup-close:hover,
+.stream-popup-close:focus-visible {
+  background: #303137;
+  color: #fff;
+  outline: none;
+}
 
-    .stream-popup-option {
-      width: 100%;
-      min-height: 64px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 20px;
-      border: 0;
-      border-bottom: 1px solid #393a3f;
-      background: transparent;
-      color: #f1f1f3;
-      text-align: left;
-      font: inherit;
-      cursor: pointer;
-      transition: background .15s ease;
-    }
+.stream-popup-options {
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+}
 
-    .stream-popup-option:last-child { border-bottom: 0; }
+.stream-popup-option {
+  width: 100%;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  border: 0;
+  border-bottom: 1px solid #393a3f;
+  background: transparent;
+  color: #f1f1f3;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  transition: background .15s ease;
+}
 
-    .stream-popup-option:hover,
-    .stream-popup-option:focus-visible {
-      background: #2b2c31;
-      outline: none;
-    }
+.stream-popup-option:last-child { border-bottom: 0; }
 
-    .stream-popup-radio {
-      width: 22px;
-      height: 22px;
-      border: 2px solid #8e9098;
-      border-radius: 50%;
-      flex: 0 0 22px;
-      display: grid;
-      place-items: center;
-    }
+.stream-popup-option:hover,
+.stream-popup-option:focus-visible {
+  background: #2b2c31;
+  outline: none;
+}
 
-    .stream-popup-option.selected .stream-popup-radio { border-color: var(--fx-accent); }
+.stream-popup-radio {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #8e9098;
+  border-radius: 50%;
+  flex: 0 0 22px;
+  display: grid;
+  place-items: center;
+}
 
-    .stream-popup-option.selected .stream-popup-radio::after {
-      content: "";
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--fx-accent);
-    }
+.stream-popup-option.selected .stream-popup-radio { border-color: var(--fx-accent); }
 
-    @media (max-width: 600px) {
-      .stream-popup-overlay { padding: 14px; }
-      .stream-popup { width: 100%; border-radius: 14px; }
-      .stream-popup-header { padding: 16px; }
-      .stream-popup-option { padding: 14px 16px; }
-    }
+.stream-popup-option.selected .stream-popup-radio::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--fx-accent);
+}
 
-    @media (min-width: 1200px) {
-      .stream-popup { width: 500px; }
-    }
-    
-    /* ===== FUTBOLX RED ACCENT OVERRIDES ===== */
-    .btn-fx-accent {
-      --bs-btn-color: #fff;
-      --bs-btn-bg: #ff3b30;
-      --bs-btn-border-color: #ff3b30;
-      --bs-btn-hover-color: #fff;
-      --bs-btn-hover-bg: #e0281b;
-      --bs-btn-hover-border-color: #e0281b;
-      --bs-btn-focus-shadow-rgb: 255, 59, 48;
-      --bs-btn-active-color: #fff;
-      --bs-btn-active-bg: #d32f2f;
-      --bs-btn-active-border-color: #d32f2f;
-      font-weight: 700;
-    }
+@media (max-width: 600px) {
+  .stream-popup-overlay { padding: 14px; }
+  .stream-popup { width: 100%; border-radius: 14px; }
+  .stream-popup-header { padding: 16px; }
+  .stream-popup-option { padding: 14px 16px; }
+}
 
-    .btn-outline-fx-accent {
-      --bs-btn-color: #ff3b30;
-      --bs-btn-border-color: #ff3b30;
-      --bs-btn-hover-color: #fff;
-      --bs-btn-hover-bg: #ff3b30;
-      --bs-btn-hover-border-color: #ff3b30;
-      --bs-btn-focus-shadow-rgb: 255, 59, 48;
-      --bs-btn-active-color: #fff;
-      --bs-btn-active-bg: #e0281b;
-      --bs-btn-active-border-color: #e0281b;
-    }
+@media (min-width: 1200px) {
+  .stream-popup { width: 500px; }
+}
 
-    .text-fx-accent { color: #ff3b30 !important; }
+/* ===== FUTBOLX RED ACCENT OVERRIDES ===== */
+.btn-fx-accent {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #ff3b30;
+  --bs-btn-border-color: #ff3b30;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #e0281b;
+  --bs-btn-hover-border-color: #e0281b;
+  --bs-btn-focus-shadow-rgb: 255, 59, 48;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #d32f2f;
+  --bs-btn-active-border-color: #d32f2f;
+  font-weight: 700;
+}
 
-    .alert-fx-danger {
-      --bs-alert-color: #bae6fd;
-      --bs-alert-bg: rgba(8, 47, 73, 0.55);
-      --bs-alert-border-color: rgba(56, 189, 248, 0.5);
-    }
+.btn-outline-fx-accent {
+  --bs-btn-color: #ff3b30;
+  --bs-btn-border-color: #ff3b30;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #ff3b30;
+  --bs-btn-hover-border-color: #ff3b30;
+  --bs-btn-focus-shadow-rgb: 255, 59, 48;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #e0281b;
+  --bs-btn-active-border-color: #e0281b;
+}
 
-    .btn-back {
-      background: #ff3b30 !important;
-      border-color: #ff3b30 !important;
-      color: #fff !important;
-      font-weight: 700;
-      box-shadow: none;
-    }
+.text-fx-accent { color: #ff3b30 !important; }
 
-    .btn-back:hover {
-      background: #e0281b !important;
-      border-color: #e0281b !important;
-      color: #fff !important;
-    }
+.alert-fx-danger {
+  --bs-alert-color: #bae6fd;
+  --bs-alert-bg: rgba(8, 47, 73, 0.55);
+  --bs-alert-border-color: rgba(56, 189, 248, 0.5);
+}
 
-    #futbolx-chat-mount { width: 100%; }
+.btn-back {
+  background: #ff3b30 !important;
+  border-color: #ff3b30 !important;
+  color: #fff !important;
+  font-weight: 700;
+  box-shadow: none;
+}
 
-    .main-content {
-      padding-top: 70px;
-    }
+.btn-back:hover {
+  background: #e0281b !important;
+  border-color: #e0281b !important;
+  color: #fff !important;
+}
+
+#futbolx-chat-mount { width: 100%; }
+
+.main-content {
+  padding-top: 70px;
+}
+
   </style>
 </head>
 <body>
@@ -448,21 +442,16 @@
         </a>
       </div>
     </div>
-  </div>
-
-  <nav class="top-bar fixed-top">
+  </div>  <nav class="top-bar fixed-top">
     <div class="container-fluid">
       <button class="btn" type="button" id="sidebarToggler" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
         <i class="fas fa-bars"></i>
-      </button>
+      </button>  <a href="/" class="futbolx-brand" id="brandLogo">
+    FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
+  </a>
+</div>
 
-      <a href="/" class="futbolx-brand" id="brandLogo">
-        FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
-      </a>
-    </div>
-  </nav>
-
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+  </nav>  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" style="font-family: 'Kanit'; font-weight: 700;">NAVIGATION</h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -480,9 +469,7 @@
         </li>
       </ul>
     </div>
-  </div>
-
-  <div class="container-fluid main-content">
+  </div>  <div class="container-fluid main-content">
     <div class="container-xl mt-4"> 
       <div class="row">
         <div class="col-12">
@@ -497,80 +484,72 @@
               <strong>Info:</strong> If stream is not loading on your end, try using a VPN to bypass your ISP restrictions.
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
+          </div>      <div class="d-flex align-items-center mb-3">
+        <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        <button id="startLivestream" class="btn btn-fx-accent ms-3" style="display:none;">Click to Start Livestream</button>
+      </div>
+
+      <div id="liveStreamTitle" class="live-title d-none">
+        <h3 id="currentStreamName"></h3>
+      </div>
+
+      <div id="statusArea">
+        <h2 id="eventTitle" class="mb-3"></h2>
+        <div id="countdownDisplay" class="countdown-display"></div>
+        <p id="statusMessage" class="status-message">This event has not started yet.</p>
+      </div>
+
+      <div class="row g-4 mt-2">
+        <div class="col-12 col-lg-8">
+          <div class="video-container" id="mainVideoContainer">
+            <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+            <div id="oplayer-container"></div>
+          </div>
+          
+          <div id="streamLinksContainer" class="stream-dropdown-container mt-3" style="display:none;">
+            <label for="streamSelect" class="form-label small text-muted font-weight-bold mb-1">
+              <i class="fas fa-tv"></i> SELECT STREAM SOURCE
+            </label>
+            <button type="button" id="streamSelect" class="stream-select-custom" aria-haspopup="dialog" aria-expanded="false">
+              <span id="streamSelectLabel" class="stream-select-value">Select stream source</span>
+              <i class="fas fa-chevron-down stream-select-arrow" aria-hidden="true"></i>
+            </button>
           </div>
 
-          <div class="d-flex align-items-center mb-3">
-            <a href="/" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
-            <button id="startLivestream" class="btn btn-fx-accent ms-3" style="display:none;">Click to Start Livestream</button>
-          </div>
-
-          <div id="liveStreamTitle" class="live-title d-none">
-            <h3 id="currentStreamName"></h3>
-          </div>
-
-          <div id="statusArea">
-            <h2 id="eventTitle" class="mb-3"></h2>
-            <div id="countdownDisplay" class="countdown-display"></div>
-            <p id="statusMessage" class="status-message">This event has not started yet.</p>
-          </div>
-
-          <div class="row g-4 mt-2">
-            <div class="col-12 col-lg-8">
-              <div class="video-container" id="mainVideoContainer">
-                <iframe id="embedPlayer" src="about:blank" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-                <div id="oplayer-container"></div>
-              </div>
-              
-              <div id="streamLinksContainer" class="stream-dropdown-container mt-3" style="display:none;">
-                <label for="streamSelect" class="form-label small text-muted font-weight-bold mb-1">
-                  <i class="fas fa-tv"></i> SELECT STREAM SOURCE
-                </label>
-                <button type="button" id="streamSelect" class="stream-select-custom" aria-haspopup="dialog" aria-expanded="false">
-                  <span id="streamSelectLabel" class="stream-select-value">Select stream source</span>
-                  <i class="fas fa-chevron-down stream-select-arrow" aria-hidden="true"></i>
+          <div id="streamPopupOverlay" class="stream-popup-overlay" aria-hidden="true">
+            <div class="stream-popup" role="dialog" aria-modal="true" aria-labelledby="streamPopupTitle">
+              <div class="stream-popup-header">
+                <span id="streamPopupTitle">Select Stream Source</span>
+                <button type="button" id="streamPopupClose" class="stream-popup-close" aria-label="Close">
+                  <i class="fas fa-times"></i>
                 </button>
               </div>
-
-              <div id="streamPopupOverlay" class="stream-popup-overlay" aria-hidden="true">
-                <div class="stream-popup" role="dialog" aria-modal="true" aria-labelledby="streamPopupTitle">
-                  <div class="stream-popup-header">
-                    <span id="streamPopupTitle">Select Stream Source</span>
-                    <button type="button" id="streamPopupClose" class="stream-popup-close" aria-label="Close">
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </div>
-                  <div id="streamPopupOptions" class="stream-popup-options"></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 col-lg-4">
-              <div id="futbolx-chat-mount"></div>
+              <div id="streamPopupOptions" class="stream-popup-options"></div>
             </div>
           </div>
-          <div id="errorContainer" class="alert alert-fx-danger error-alert mt-3 d-none"></div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+          <div id="futbolx-chat-mount"></div>
         </div>
       </div>
-
-      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
-        <ul class="nav justify-content-center justify-content-lg-end mb-0">
-          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
-        </ul>
-      </footer>
-
-      <div class="disclaimer">
-        We DO NOT host nor transmit any audiovisual content itself...
-      </div>
+      <div id="errorContainer" class="alert alert-fx-danger error-alert mt-3 d-none"></div>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/api.js"></script>
-  <script src="/assets/js/auth.js"></script>
-  <script type="module" src="/chat/loader.js"></script>
+  <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+    <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">FutbolX 2026</p>
+    <ul class="nav justify-content-center justify-content-lg-end mb-0">
+      <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
+    </ul>
+  </footer>
 
-  <script>
+  <div class="disclaimer">
+    We DO NOT host nor transmit any audiovisual content itself...
+  </div>
+</div>
+
+  </div>  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>  <script src="/assets/js/api.js"></script>  <script src="/assets/js/auth.js"></script>  <script type="module" src="/chat/loader.js"></script>  <script>
     document.addEventListener('DOMContentLoaded', () => {
       const brandLogo = document.getElementById('brandLogo');
       const logoBall = document.getElementById('logoBall');
@@ -584,9 +563,7 @@
         });
       }
     });
-  </script>
-
-  <script>
+  </script>  <script>
     const OVERLAY_KEY = 'futbolx_social_join';
     const overlay = document.getElementById('socialOverlay');
     
@@ -653,8 +630,18 @@
 
     async function isM3U8(url) {
       if (url.toLowerCase().includes('.m3u8')) return true;
-      try { const r = await fetch(url, {method:'HEAD'}); return (r.headers.get('content-type') || '').includes('mpegurl'); } catch { return false; }
+      try { 
+        const r = await fetch(url, {method:'HEAD'}); 
+        return (r.headers.get('content-type') || '').includes('mpegurl'); 
+      } catch { 
+        return false; 
+      }
     }
+
+    /*
+     * M3U8 TOKEN RESOLUTION REMOVED.
+     * The stream URL is now passed directly to JWPlayer.
+     */
 
     async function playStream(url) {
       if (playerInstance) { 
@@ -664,11 +651,14 @@
 
       const useJW = await isM3U8(url);
 
-      // Normal M3U8 URL is passed directly to JW Player.
-      // No token API, token generation, or URL modification.
-      const finalUrl = url;
-      
-      initActualPlayer(finalUrl, useJW);
+      /*
+       * IMPORTANT:
+       * No token API call.
+       * No URL modification.
+       * No token appended.
+       * Original M3U8 URL goes directly to JWPlayer.
+       */
+      initActualPlayer(url, useJW);
     }
 
     function initActualPlayer(url, useJW) {
@@ -1021,6 +1011,5 @@
 
       } catch (err) {}
     });
-  </script>
-</body>
+  </script></body>
   </html>
