@@ -140,8 +140,8 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Ligue+",
+              "url": "https://germany.fut.ryzn.pro/ligu/index.m3u8"
             }
           ]
         },
@@ -157,7 +157,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://germany.fut.ryzn.pro/fra/index.m3u8"
             }
           ]
         },
@@ -169,19 +169,19 @@
           "starts_at": "2026-09-06T18:30:00",
           "ends_at": "2026-09-06T20:35:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 500,
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://germany.fut.ryzn.pro/ars/index.m3u8"
             },
             {
               "title": "Alt Feed 1",
-              "url": ""
+              "url": "https://germany.fut.ryzn.pro/che1/index.m3u8"
             },
             {
               "title": "Alt Feed 2",
-              "url": ""
+              "url": "https://germany.fut.ryzn.pro/che2/index.m3u8"
             }
           ]
         },
