@@ -32,15 +32,15 @@
           "max_simulated_viewers": 200,
           "streams": [
             {
-              "title": "Main Feed",
+              "title": "Sky Main Event",
               "url": "https://germany.fut.ryzn.pro/eve/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
+              "title": "Bein Ar",
               "url": "https://germany.fut.ryzn.pro/mu1/index.m3u8"
             },
             {
-              "title": "Alt Feed 2",
+              "title": "Canal Fr",
               "url": "https://germany.fut.ryzn.pro/mu2/index.m3u8"
             }
           ]
@@ -88,7 +88,7 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
+              "title": "Ligue+",
               "url": "https://germany.fut.ryzn.pro/ligu/index.m3u8"
             }
           ]
