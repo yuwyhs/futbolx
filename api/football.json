@@ -6,82 +6,250 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Cagliari vs Lecce",
-          "uri_name": "c4v1l7",
-          "poster": "https://i.ibb.co/Hpzpy6wR/image-e6450feb.jpg",
-          "tag": "Seria A",
-          "starts_at": "2026-09-07T19:30:00",
-          "ends_at": "2026-09-07T21:35:00",
+          "name": "Club Brugge vs Aston Villa",
+          "uri_name": "c4v1a7",
+          "poster": "https://i.postimg.cc/SNKmb28w/image-cc5f457.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-09-08T19:45:00",
+          "ends_at": "2026-09-08T21:50:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Paramount+",
-              "url": "https://germany.fut.ryzn.pro/cag-lec/index.m3u8"
+              "title": "Main Feed",
+              "url": ""
             }
           ]
         },
         {
-          "name": "Getafe vs Celta Vigo",
-          "uri_name": "g4v1c7",
-          "poster": "https://i.ibb.co/8D5D9xth/image-2f60096c.jpg",
-          "tag": "Laliga",
-          "starts_at": "2026-09-07T20:00:00",
-          "ends_at": "2026-09-07T22:00:00",
+          "name": "AEK Athens vs LASK",
+          "uri_name": "a4v1l7",
+          "poster": "https://i.postimg.cc/zGntdpBW/image-51646b28.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-09-08T19:45:00",
+          "ends_at": "2026-09-08T21:50:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Espn",
-              "url": "https://germany.fut.ryzn.pro/get-cel/index.m3u8"
+              "title": "Main Feed",
+              "url": ""
             }
           ]
         },
         {
-          "name": "Al Hilal vs NEOM SC",
-          "uri_name": "a4v1n7",
-          "poster": "https://i.ibb.co/FbYktj6c/Chat-GPT-Image-Sep-7-2026-06-37-41-PM.png",
+          "name": "Al Ittihad vs Al Feiha",
+          "uri_name": "a4v1a7-2",
+          "poster": "https://i.postimg.cc/mrjd4D7k/Chat-GPT-Image-Sep-8-2026-12-32-59-AM.png",
           "tag": "SPL",
-          "starts_at": "2026-09-07T21:00:00",
-          "ends_at": "2026-09-07T23:00:00",
+          "starts_at": "2026-09-08T21:00:00",
+          "ends_at": "2026-09-08T23:00:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://germany.fut.ryzn.pro/al/index.m3u8"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Udinese vs Lazio",
-          "uri_name": "u4v1l7",
-          "poster": "https://i.ibb.co/m5Q64WLt/image-ca0ed05a.jpg",
-          "tag": "Seria A",
-          "starts_at": "2026-09-07T21:45:00",
-          "ends_at": "2026-09-07T23:50:00",
+          "name": "Crystal Palace vs Middlesbrough",
+          "uri_name": "c4v1m7",
+          "poster": "https://i.postimg.cc/RZcsPGh4/Chat-GPT-Image-Sep-8-2026-12-24-12-AM.png",
+          "tag": "EFL Cup",
+          "starts_at": "2026-09-08T21:45:00",
+          "ends_at": "2026-09-08T23:50:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://germany.fut.ryzn.pro/ud/index.m3u8"
+              "url": ""
             }
           ]
         },
         {
-          "name": "Elche vs Real Sociedad",
-          "uri_name": "e4v1r7",
-          "poster": "https://i.ibb.co/Fb4p5YGb/image-f68a48d9.jpg",
-          "tag": "Laliga",
-          "starts_at": "2026-09-07T22:30:00",
-          "ends_at": "2026-09-08T00:35:00",
+          "name": "Sunderland vs Hull City",
+          "uri_name": "s4v1h7",
+          "poster": "https://i.postimg.cc/Bv4hRDLy/Chat-GPT-Image-Sep-8-2026-12-24-23-AM.png",
+          "tag": "EFL Cup",
+          "starts_at": "2026-09-08T21:45:00",
+          "ends_at": "2026-09-08T23:50:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://germany.fut.ryzn.pro/elc/index.m3u8"
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Bournemouth vs Lincoln City",
+          "uri_name": "b4v1l7",
+          "poster": "https://i.postimg.cc/x1R7ft2g/Chat-GPT-Image-Sep-8-2026-12-24-36-AM.png",
+          "tag": "EFL Cup",
+          "starts_at": "2026-09-08T21:45:00",
+          "ends_at": "2026-09-08T23:50:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Leyton Orient vs Bradford City",
+          "uri_name": "l4v1b7",
+          "poster": "https://i.postimg.cc/0Ny4bDkG/Chat-GPT-Image-Sep-8-2026-12-24-47-AM.png",
+          "tag": "EFL Cup",
+          "starts_at": "2026-09-08T21:45:00",
+          "ends_at": "2026-09-08T23:50:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Wrexham vs Burnley",
+          "uri_name": "w4v1b7",
+          "poster": "https://i.postimg.cc/JnhpzLqW/Chat-GPT-Image-Sep-8-2026-12-35-51-AM.png",
+          "tag": "EFL Championship",
+          "starts_at": "2026-09-08T21:45:00",
+          "ends_at": "2026-09-08T23:50:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Real Madrid vs Inter Milan",
+          "uri_name": "r4v1i7",
+          "poster": "https://i.postimg.cc/Kz9sPzz2/image-2d00fc5f.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-09-08T22:00:00",
+          "ends_at": "2026-09-09T00:00:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 1",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 2",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Fc Porto vs Manchester City",
+          "uri_name": "f4v1m7",
+          "poster": "https://i.postimg.cc/zXy4knKc/image-9b3f39a.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-09-08T22:00:00",
+          "ends_at": "2026-09-09T00:00:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 1",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 2",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Dortmund vs Villarreal",
+          "uri_name": "d4v1v7",
+          "poster": "https://i.postimg.cc/k47kNzvL/image-aa7c4c82.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-09-08T22:00:00",
+          "ends_at": "2026-09-09T00:00:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 1",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Lille vs Real Betis",
+          "uri_name": "l4v1r7",
+          "poster": "https://i.postimg.cc/8zW32NyB/image-cd86468f.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-09-08T22:00:00",
+          "ends_at": "2026-09-09T00:00:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 1",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Millwall vs Newcastle",
+          "uri_name": "m4v1n7",
+          "poster": "https://i.postimg.cc/VNg7w6Xd/Chat-GPT-Image-Sep-8-2026-12-31-58-AM.png",
+          "tag": "EFL Cup",
+          "starts_at": "2026-09-08T22:00:00",
+          "ends_at": "2026-09-09T00:00:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Bolton vs West Ham",
+          "uri_name": "b4v1w7",
+          "poster": "https://i.postimg.cc/LXsx8pTF/Chat-GPT-Image-Sep-8-2026-12-38-15-AM.png",
+          "tag": "EFL Championship",
+          "starts_at": "2026-09-08T22:00:00",
+          "ends_at": "2026-09-09T00:00:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
             }
           ]
         }
