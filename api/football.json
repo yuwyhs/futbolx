@@ -6,158 +6,82 @@
       "always_live": 0,
       "streams": [
         {
-          "name": "Angers vs Rennais",
-          "uri_name": "a4v1r7",
-          "poster": "https://i.ibb.co/N6QCsSjg/file-00000000cdfc8208af3d5d42cc82db6e.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-09-06T18:15:00",
-          "ends_at": "2026-09-06T20:20:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Ligue+",
-              "url": "https://germany.fut.ryzn.pro/ligu/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Frankfurt vs Augsburg",
-          "uri_name": "f4v1a7",
-          "poster": "https://i.ibb.co/pBG0jD8t/file-000000004dc0820899d80c58eef94278.png",
-          "tag": "Bundesliga",
-          "starts_at": "2026-09-06T18:30:00",
-          "ends_at": "2026-09-06T20:35:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://germany.fut.ryzn.pro/fra/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Arsenal vs Chelsea",
-          "uri_name": "a4v1c7",
-          "poster": "https://i.ibb.co/Vc6739cH/file-000000006ea082119c3ce28e24fdaa47.png",
-          "tag": "Epl",
-          "starts_at": "2026-09-06T18:30:00",
-          "ends_at": "2026-09-06T20:55:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://germany.fut.ryzn.pro/ars/index.m3u8"
-            },
-            {
-              "title": "Alt Feed 1",
-              "url": "https://germany.fut.ryzn.pro/che1/index.m3u8"
-            },
-            {
-              "title": "Alt Feed 2",
-              "url": "https://germany.fut.ryzn.pro/che2/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Bologna vs Sassuolo",
-          "uri_name": "b4v1s7",
-          "poster": "https://i.ibb.co/TMGFjbMC/file-000000008b008211b171a916c28980fd.png",
+          "name": "Cagliari vs Lecce",
+          "uri_name": "c4v1l7",
+          "poster": "https://i.ibb.co/Hpzpy6wR/image-e6450feb.jpg",
           "tag": "Seria A",
-          "starts_at": "2026-09-06T19:00:00",
-          "ends_at": "2026-09-06T21:00:00",
+          "starts_at": "2026-09-07T19:30:00",
+          "ends_at": "2026-09-07T21:35:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
-              "url": "https://germany.fut.ryzn.pro/bol/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Alaves vs Osasuna",
-          "uri_name": "a4v1o7",
-          "poster": "https://i.ibb.co/b523wxSm/file-0000000012dc82118f057a2e35d263db.png",
-          "tag": "Laliga",
-          "starts_at": "2026-09-06T19:30:00",
-          "ends_at": "2026-09-06T21:30:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://germany.fut.ryzn.pro/alaves/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Malaga vs Levante",
-          "uri_name": "m4v1l7",
-          "poster": "https://i.ibb.co/mCjSJx3k/file-00000000a8588208a5f6776c2b82a60e.png",
-          "tag": "Laliga",
-          "starts_at": "2026-09-06T19:30:00",
-          "ends_at": "2026-09-06T21:30:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Main Feed",
-              "url": "https://germany.fut.ryzn.pro/mala/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Juventus vs Ac Milan",
-          "uri_name": "j4v1a7",
-          "poster": "https://i.ibb.co/V0jSXPbs/file-00000000f3888211a1e1c3ff7e0af68b.png",
-          "tag": "Seria A",
-          "starts_at": "2026-09-06T21:45:00",
-          "ends_at": "2026-09-06T23:50:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Paramount+ En",
-              "url": "https://germany.fut.ryzn.pro/juv/index.m3u8"
-            },
-            {
-              "title": "Dazn It",
-              "url": "https://germany.fut.ryzn.pro/mil/index.m3u8"
-            }
-          ]
-        },
-        {
-          "name": "Marseille vs Paris Fc",
-          "uri_name": "m4v1p7",
-          "poster": "https://i.ibb.co/WWrhw7FK/file-0000000091c48211810c007659da3d7c.png",
-          "tag": "Ligue 1",
-          "starts_at": "2026-09-06T21:45:00",
-          "ends_at": "2026-09-06T23:50:00",
-          "always_live": 0,
-          "max_simulated_viewers": 0,
-          "streams": [
-            {
-              "title": "Ligue+",
               "url": ""
             }
           ]
         },
         {
-          "name": "Espanyol vs Sevilla",
-          "uri_name": "e4v1s7",
-          "poster": "https://i.ibb.co/20RtZ3hV/file-000000006fa8821183493af8057f2273.png",
+          "name": "Getafe vs Celta Vigo",
+          "uri_name": "g4v1c7",
+          "poster": "https://i.ibb.co/8D5D9xth/image-2f60096c.jpg",
           "tag": "Laliga",
-          "starts_at": "2026-09-06T22:00:00",
-          "ends_at": "2026-09-07T00:00:00",
+          "starts_at": "2026-09-07T20:00:00",
+          "ends_at": "2026-09-07T22:00:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Espn",
-              "url": "https://germany.fut.ryzn.pro/sev/index.m3u8"
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Al Hilal vs NEOM SC",
+          "uri_name": "a4v1n7",
+          "poster": "https://i.ibb.co/FbYktj6c/Chat-GPT-Image-Sep-7-2026-06-37-41-PM.png",
+          "tag": "SPL",
+          "starts_at": "2026-09-07T21:00:00",
+          "ends_at": "2026-09-07T23:00:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Udinese vs Lazio",
+          "uri_name": "u4v1l7",
+          "poster": "https://i.ibb.co/m5Q64WLt/image-ca0ed05a.jpg",
+          "tag": "Seria A",
+          "starts_at": "2026-09-07T21:45:00",
+          "ends_at": "2026-09-07T23:50:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Elche vs Real Sociedad",
+          "uri_name": "e4v1r7",
+          "poster": "https://i.ibb.co/Fb4p5YGb/image-f68a48d9.jpg",
+          "tag": "Laliga",
+          "starts_at": "2026-09-07T22:30:00",
+          "ends_at": "2026-09-08T00:35:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
             }
           ]
         }
