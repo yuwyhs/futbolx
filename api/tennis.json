@@ -1,0 +1,35 @@
+{
+  "success": true,
+  "streams": [
+    {
+      "category": "Tennis",
+      "always_live": 1,
+      "streams": [
+        {
+          "name": "US Open 2026",
+          "uri_name": "u4o1p7",
+          "poster": "",
+          "tag": "Tennis",
+          "starts_at": null,
+          "ends_at": null,
+          "always_live": 1,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Espn",
+              "url": "https://germany.fut.ryzn.pro/espn/index.m3u8"
+            },
+            {
+              "title": "Espn 2",
+              "url": "https://germany.fut.ryzn.pro/espn2/index.m3u8"
+            },
+            {
+              "title": "ABC",
+              "url": "https://germany.fut.ryzn.pro/abc/index.m3u8"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
