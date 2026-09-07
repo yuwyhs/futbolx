@@ -27,7 +27,7 @@
   
   <!-- Libraries -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskv7kqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
 
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
@@ -188,6 +188,57 @@
       position: relative;
     }
 
+    /* --- MIRROR SITE NOTICE --- */
+    .mirror-notice {
+      position: relative;
+      background: rgba(13, 110, 253, 0.12);
+      border: 1px solid rgba(13, 110, 253, 0.35);
+      color: var(--fx-text-main);
+      border-radius: 10px;
+      padding: 12px 45px 12px 16px;
+      margin-top: 16px;
+      margin-bottom: 0;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .mirror-notice strong {
+      color: var(--fx-text-main);
+    }
+
+    .mirror-notice a {
+      color: #4dabff;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .mirror-notice a:hover {
+      color: #80c7ff;
+    }
+
+    .mirror-notice .mirror-close {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      width: 28px;
+      height: 28px;
+      border: 0;
+      background: transparent;
+      color: var(--fx-text-muted);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+      border-radius: 6px;
+    }
+
+    .mirror-notice .mirror-close:hover {
+      color: var(--fx-text-main);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
     /* --- SECTION HEADERS --- */
     h2 {
       font-family: 'Kanit', sans-serif;
@@ -258,10 +309,6 @@
       outline: none;
     }
 
-    /* CARD IMAGE
-       Original full-width desktop behavior preserved.
-       No contain.
-    */
     .card-img-top {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -282,7 +329,6 @@
       min-width: 0;
     }
 
-    /* TEXT FIX */
     .card-title {
       font-family: 'Kanit', sans-serif;
       font-weight: 700;
@@ -352,7 +398,6 @@
        RESPONSIVE DESIGN BREAKPOINTS
        ========================================================= */
 
-    /* --- 1. SMART TVS & ULTRA-WIDE MONITORS (> 1920px) --- */
     @media (min-width: 1921px) {
       html { font-size: 18px; }
       .container { max-width: 1800px !important; }
@@ -372,7 +417,6 @@
       .futbolx-brand .ball-o { font-size: 1.6rem; }
     }
 
-    /* --- 2. LARGE DESKTOPS / 1080P MONITORS (1440px - 1920px) --- */
     @media (min-width: 1440px) and (max-width: 1920px) {
       .container { max-width: 1400px !important; }
 
@@ -381,7 +425,6 @@
       }
     }
 
-    /* --- 3. LAPTOPS & SMALL MONITORS (1025px - 1439px) --- */
     @media (min-width: 1025px) and (max-width: 1439px) {
       .container { max-width: 1140px !important; }
 
@@ -391,7 +434,6 @@
       }
     }
 
-    /* --- 4. TABLETS IN LANDSCAPE / IPADS (768px - 1024px) --- */
     @media (min-width: 768px) and (max-width: 1024px) {
       .container { max-width: 100% !important; padding: 0 24px; }
       .hero-background { aspect-ratio: 16 / 7; max-height: 320px; }
@@ -407,7 +449,6 @@
       }
     }
 
-    /* --- 5. MOBILE PHONES (STANDARD & LARGE 481px - 767px) --- */
     @media (max-width: 767px) {
 
       .container {
@@ -421,6 +462,12 @@
       .hero-background {
         aspect-ratio: 16 / 9;
         max-height: 220px;
+      }
+
+      .mirror-notice {
+        font-size: 0.85rem;
+        padding: 10px 42px 10px 13px;
+        margin-top: 12px;
       }
 
       .event-grid {
@@ -441,17 +488,6 @@
         border: 1px solid var(--fx-glass-border) !important;
       }
 
-      /*
-        MOBILE IMAGE FIX
-
-        The image fills the complete left side:
-        - touches top
-        - touches bottom
-        - touches left
-        - touches right of its image area
-        - NO contain
-        - NO cropping
-      */
       .card-img-top {
         width: 38% !important;
         height: 100% !important;
@@ -474,12 +510,6 @@
         min-width: 0;
       }
 
-      /*
-        TEXT FIX ONLY
-
-        The title is allowed to use the available width
-        without the old forced two-line clamp.
-      */
       .card-title {
         font-size: 0.92rem !important;
         font-weight: 600;
@@ -493,10 +523,6 @@
         flex-shrink: 0;
       }
 
-      /*
-        Keep league and timer together on one row
-        so they don't push the title around.
-      */
       .card-text {
         flex-wrap: nowrap !important;
         gap: 6px;
@@ -531,7 +557,6 @@
       }
     }
 
-    /* --- 6. SMALL MOBILE / FOLDABLES (< 480px) --- */
     @media (max-width: 480px) {
 
       .futbolx-brand {
@@ -547,10 +572,6 @@
         height: auto !important;
       }
 
-      /*
-        IMAGE STILL FILLS THE WHOLE LEFT SIDE.
-        No crop and no contain.
-      */
       .card-img-top {
         width: 38% !important;
         min-height: 95px;
@@ -836,9 +857,29 @@
   <div class="container-fluid main-content hero-container-wrapper">
     <div class="container">
       <div class="hero-background"></div>
-    
+
       <div id="errorContainer" class="d-none error-alert"></div>
-      
+
+      <!-- MIRROR SITE NOTICE -->
+      <div id="mirrorNotice" class="mirror-notice" role="alert">
+        <strong>Need an alternative link?</strong>
+        Visit our
+        <a href="https://futxtv.indevs.in/" target="_blank" rel="noopener">
+          mirror site
+        </a>
+        to find our updated links in case one of the links on this site goes down.
+        Save it for future use — it may come in handy.
+
+        <button
+          type="button"
+          class="mirror-close"
+          id="closeMirrorNotice"
+          aria-label="Close"
+        >
+          &times;
+        </button>
+      </div>
+
       <!-- LIVE NOW SECTION -->
       <div id="live" class="mt-4">
         <h2 class="m-0">
@@ -950,10 +991,23 @@
   </a>
 
   <!-- SCRIPTS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYe2e2685ab48f9c" crossorigin="anonymous"></script>
   <script src="/assets/js/api.js"></script>
 
   <script>
+    // Mirror site notice
+    // No storage is used, so the notice appears again after every refresh.
+    document.addEventListener('DOMContentLoaded', () => {
+      const mirrorNotice = document.getElementById('mirrorNotice');
+      const closeMirrorNotice = document.getElementById('closeMirrorNotice');
+
+      if (mirrorNotice && closeMirrorNotice) {
+        closeMirrorNotice.addEventListener('click', () => {
+          mirrorNotice.remove();
+        });
+      }
+    });
+
     // Logo Ball Click/Tap Spin Handler
     document.addEventListener('DOMContentLoaded', () => {
       const brandLogo = document.getElementById('brandLogo');
@@ -1319,7 +1373,7 @@
             let html = `
                 <a href="/live/${stream.uri_name}">
                   <div class="card">
-                    ${isLive ? '<span class="live-badge">LIVE</span>' : ''}
+                    ${isLive ? '<span class="live-badge">LIVE</span>'}
                     
                     <img
                       src="${poster}"
@@ -1660,4 +1714,4 @@
   </script>
 
 </body>
-  </html>
+              </html>
