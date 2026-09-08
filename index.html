@@ -1139,6 +1139,33 @@
       });
     }
 
+    /*
+      ============================================================
+      FIXED LOAD CONTENT
+      ============================================================
+
+      This function is the ONLY part changed.
+
+      New API categories:
+        football
+        tennis
+        basketball
+        fights
+        motorsports
+        americanfootball
+        nhl
+        baseball
+        rugby
+        golf
+        others
+        wrestling
+        darts
+
+      Existing HTML sections are preserved:
+        basketball       -> #nba
+        americanfootball -> #nfl
+        baseball         -> #mlb
+    */
     async function loadContent(api) {
       const errorContainer = document.getElementById('errorContainer');
       const liveAnimation = document.getElementById('liveAnimation');
@@ -1155,98 +1182,157 @@
           ? `${baseUrl}stream`
           : `${baseUrl}/stream`;
 
+        /*
+          Get the current category list from /stream.
+
+          Example:
+          {
+            "success": true,
+            "categories": [
+              "football",
+              "tennis",
+              "basketball",
+              "fights",
+              "motorsports",
+              "americanfootball",
+              "nhl",
+              "baseball",
+              "rugby",
+              "golf",
+              "others",
+              "wrestling",
+              "darts"
+            ]
+          }
+        */
         const catListRes = await fetchWithRetry(catListUrl);
 
-        const categoryNames = catListRes.categories || [];
+        const categoryNames =
+          Array.isArray(catListRes.categories)
+            ? catListRes.categories
+            : [];
 
-        const fetchPromises = categoryNames.map(cat =>
-          fetchWithRetry(`${baseUrl}/${cat}.json`)
-            .catch(() => ({
-              success: true,
-              streams: []
-            }))
-        );
+        /*
+          IMPORTANT:
 
-        const allCategoryData = await Promise.all(fetchPromises);
+          These are the ORIGINAL HTML IDs.
 
-        const combined = {
-          success: true,
-          streams: allCategoryData
-            .filter(d => d && d.success && Array.isArray(d.streams))
-            .flatMap(d => d.streams || [])
-        };
+          We are NOT changing the HTML.
 
-        if (combined.streams.length === 0) {
-          livecards.innerHTML = '<p class="text-muted">No streams available right now.</p>';
-          liveAnimation.classList.add('d-none');
-          return;
-        }
-
+          New JSON filename       Existing section
+          ------------------------------------------------
+          basketball.json       -> #nba
+          americanfootball.json -> #nfl
+          baseball.json        -> #mlb
+          nhl.json             -> #nhl
+        */
         const categories = {
           football: {
             id: 'football',
             element: document.getElementById('footballcards')
           },
+
           nba: {
             id: 'nba',
             element: document.getElementById('nbacards')
           },
+
           fights: {
             id: 'fights',
             element: document.getElementById('fightscards')
           },
+
           wrestling: {
             id: 'wrestling',
             element: document.getElementById('wrestlingcards')
           },
+
           darts: {
             id: 'darts',
             element: document.getElementById('dartscards')
           },
+
           motorsports: {
             id: 'motorsports',
             element: document.getElementById('motorsportscards')
           },
-          nfl: {
+
+          americanfootball: {
             id: 'nfl',
             element: document.getElementById('nflcards')
           },
+
           nhl: {
             id: 'nhl',
             element: document.getElementById('nhlcards')
           },
-          mlb: {
+
+          baseball: {
             id: 'mlb',
             element: document.getElementById('mlbcards')
           },
+
           icehockey: {
             id: 'icehockey',
             element: document.getElementById('icehockeycards')
           },
+
           tennis: {
             id: 'tennis',
             element: document.getElementById('tenniscards')
           },
+
           rugby: {
             id: 'rugby',
             element: document.getElementById('rugbycards')
           },
+
           golf: {
             id: 'golf',
             element: document.getElementById('golfcards')
           },
+
           others: {
             id: 'others',
             element: document.getElementById('otherscards')
           }
         };
 
+        /*
+          New API category name -> existing frontend section.
+        */
+        const categoryMap = {
+          football: 'football',
+          basketball: 'nba',
+          fights: 'fights',
+          wrestling: 'wrestling',
+          darts: 'darts',
+          motorsports: 'motorsports',
+          americanfootball: 'americanfootball',
+          nhl: 'nhl',
+          baseball: 'baseball',
+          icehockey: 'icehockey',
+          tennis: 'tennis',
+          rugby: 'rugby',
+          golf: 'golf',
+          others: 'others'
+        };
+
+        /*
+          Clear existing cards.
+        */
         Object.values(categories).forEach(cat => {
           if (cat.element) {
             cat.element.innerHTML = '';
           }
         });
 
+        /*
+          Hide every category first.
+
+          Categories are only shown if they actually
+          contain events.
+        */
         Object.keys(categories).forEach(key => {
           document
             .getElementById(categories[key].id)
@@ -1255,126 +1341,428 @@
 
         livecards.innerHTML = '';
 
-        let hasLiveEvents = false;
-
-        const now = Math.floor(Date.now() / 1000);
-
         const categoryEvents = {};
 
         Object.keys(categories).forEach(key => {
           categoryEvents[key] = [];
         });
 
-        const categoryMap = {
-          'football': 'football',
-          'basketball': 'nba',
-          'fights': 'fights',
-          'wrestling': 'wrestling',
-          'darts': 'darts',
-          'motorsports': 'motorsports',
-          'nfl': 'nfl',
-          'nhl': 'nhl',
-          'mlb': 'mlb',
-          'icehockey': 'icehockey',
-          'tennis': 'tennis',
-          'rugby': 'rugby',
-          'golf': 'golf'
-        };
+        let hasLiveEvents = false;
 
-        combined.streams.forEach(category => {
-          const normalizedName =
-            category.category?.trim().toLowerCase() || '';
+        const now = Math.floor(Date.now() / 1000);
 
-          let categoryKey =
-            categoryMap[normalizedName] || 'others';
+        /*
+          ==========================================================
+          PROCESS ONE EVENT
+          ==========================================================
+        */
+        function processEvent(stream, categoryKey) {
 
-          category.streams.forEach(stream => {
+          if (!stream || typeof stream !== 'object') {
+            return;
+          }
 
-            const isVercelSite =
-              window.location.hostname === 'www.futbol-x.top' ||
-              window.location.hostname === 'futbol-x.top';
+          /*
+            The old code was producing "undefined" because it was
+            treating the category wrapper itself as an event.
 
-            const tag =
-              (stream.tag || '')
-                .toLowerCase()
-                .replace(/\s+/g, '');
+            Make sure we have an actual event object here.
+          */
+
+          const eventName =
+            stream.name ||
+            stream.title ||
+            stream.event_name ||
+            '';
+
+          const eventTag =
+            stream.tag ||
+            stream.league ||
+            stream.category ||
+            '';
+
+          const uriName =
+            stream.uri_name ||
+            stream.uri ||
+            stream.slug ||
+            stream.id ||
+            '';
+
+          /*
+            If the API object isn't an actual event, don't create
+            an undefined card.
+          */
+          if (!eventName || !uriName || !stream.starts_at) {
+            console.warn(
+              'Skipping invalid stream:',
+              stream
+            );
+            return;
+          }
+
+          const isVercelSite =
+            window.location.hostname === 'www.futbol-x.top' ||
+            window.location.hostname === 'futbol-x.top';
+
+          const tag =
+            String(eventTag)
+              .toLowerCase()
+              .replace(/\s+/g, '');
+
+          if (
+            isVercelSite &&
+            (tag === 'laliga' || tag.includes('laliga'))
+          ) {
+            return;
+          }
+
+          /*
+            Your API times are treated the same way as before:
+            East Africa Time (+03:00).
+          */
+          const startsAtString =
+            String(stream.starts_at);
+
+          const startTime =
+            new Date(
+              startsAtString.endsWith('Z') ||
+              /[+-]\d{2}:\d{2}$/.test(startsAtString)
+                ? startsAtString
+                : startsAtString + '+03:00'
+            ).getTime() / 1000;
+
+          if (!Number.isFinite(startTime)) {
+            console.warn(
+              'Invalid starts_at:',
+              stream.starts_at,
+              stream
+            );
+            return;
+          }
+
+          let endTime;
+
+          if (stream.ends_at) {
+
+            const endsAtString =
+              String(stream.ends_at);
+
+            endTime =
+              new Date(
+                endsAtString.endsWith('Z') ||
+                /[+-]\d{2}:\d{2}$/.test(endsAtString)
+                  ? endsAtString
+                  : endsAtString + '+03:00'
+              ).getTime() / 1000;
+
+          } else {
+
+            endTime = startTime + 10800;
+
+          }
+
+          if (!Number.isFinite(endTime)) {
+            endTime = startTime + 10800;
+          }
+
+          /*
+            Don't show events that have completely ended.
+          */
+          if (now > endTime) {
+            return;
+          }
+
+          /*
+            Support:
+              1
+              "1"
+              true
+
+            for always_live.
+          */
+          const isAlwaysLive =
+            stream.always_live === 1 ||
+            stream.always_live === '1' ||
+            stream.always_live === true;
+
+          const isLive =
+            (startTime <= now && now <= endTime) ||
+            isAlwaysLive;
+
+          /*
+            Poster fallback.
+          */
+          const poster =
+            stream.poster &&
+            String(stream.poster).trim() !== ''
+              ? stream.poster
+              : 'https://via.placeholder.com/285x160?text=FutbolX';
+
+          /*
+            Escape values used inside HTML attributes/text.
+
+            This prevents malformed cards if an event name contains
+            special characters.
+          */
+          const escapeHtml = value => {
+            return String(value)
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#039;');
+          };
+
+          const safeName =
+            escapeHtml(eventName);
+
+          const safeTag =
+            escapeHtml(eventTag || categoryKey);
+
+          const safePoster =
+            escapeHtml(poster);
+
+          const safeUri =
+            encodeURIComponent(String(uriName));
+
+          const liveHtml =
+            isLive
+              ? '<span class="live-badge">LIVE</span>'
+              : '';
+
+          const timerHtml =
+            isLive
+              ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>`
+              : `<span class="countdown" data-start="${startTime}" data-uri="/live/${safeUri}"></span>`;
+
+          const html = `
+            <a href="/live/${safeUri}">
+              <div class="card">
+                ${liveHtml}
+
+                <img
+                  src="${safePoster}"
+                  class="card-img-top"
+                  alt="${safeName}"
+                  loading="lazy"
+                >
+
+                <div class="card-body">
+                  <h5 class="card-title">${safeName}</h5>
+
+                  <div class="card-text">
+                    <span class="event-tag">${safeTag}</span>
+
+                    <span class="event-timer">
+                      ${timerHtml}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>`;
+
+          /*
+            LIVE events go into Live Now.
+
+            Upcoming events go into their category.
+          */
+          if (isLive) {
+
+            livecards.innerHTML += html;
+            hasLiveEvents = true;
+
+          } else if (
+            categoryEvents[categoryKey]
+          ) {
+
+            categoryEvents[categoryKey].push({
+              html,
+              startTime
+            });
+
+          }
+        }
+
+        /*
+          ==========================================================
+          FETCH EVERY CATEGORY FROM stream.json
+          ==========================================================
+        */
+        const categoryResults =
+          await Promise.all(
+            categoryNames.map(async categoryName => {
+
+              const normalizedCategoryName =
+                String(categoryName || '')
+                  .trim()
+                  .toLowerCase();
+
+              try {
+
+                /*
+                  This now fetches the NEW filenames:
+
+                  /football.json
+                  /basketball.json
+                  /americanfootball.json
+                  /baseball.json
+                  /nhl.json
+                  etc.
+                */
+                const categoryUrl =
+                  baseUrl.endsWith('/')
+                    ? `${baseUrl}${categoryName}.json`
+                    : `${baseUrl}/${categoryName}.json`;
+
+                const data =
+                  await fetchWithRetry(categoryUrl);
+
+                return {
+                  categoryName:
+                    normalizedCategoryName,
+                  data
+                };
+
+              } catch (error) {
+
+                console.warn(
+                  `Failed to fetch ${categoryName}:`,
+                  error
+                );
+
+                return {
+                  categoryName:
+                    normalizedCategoryName,
+                  data: null
+                };
+              }
+            })
+          );
+
+        /*
+          ==========================================================
+          NORMALIZE CATEGORY JSON
+          ==========================================================
+
+          Supports BOTH:
+
+          FORMAT A:
+          {
+            "success": true,
+            "streams": [
+              {
+                "name": "...",
+                "starts_at": "...",
+                ...
+              }
+            ]
+          }
+
+          AND FORMAT B:
+          {
+            "success": true,
+            "streams": [
+              {
+                "category": "football",
+                "streams": [
+                  {
+                    "name": "...",
+                    "starts_at": "...",
+                    ...
+                  }
+                ]
+              }
+            ]
+          }
+
+          This is what prevents the old "undefined" problem.
+        */
+        categoryResults.forEach(
+          ({ categoryName, data }) => {
 
             if (
-              isVercelSite &&
-              (tag === 'laliga' || tag.includes('laliga'))
+              !data ||
+              !data.success ||
+              !Array.isArray(data.streams)
             ) {
               return;
             }
 
-            let startTime =
-              new Date(stream.starts_at + '+03:00')
-                .getTime() / 1000;
+            const defaultCategoryKey =
+              categoryMap[categoryName] ||
+              'others';
 
-            let endTime =
-              stream.ends_at
-                ? new Date(stream.ends_at + '+03:00').getTime() / 1000
-                : startTime + 10800;
+            const rawItems =
+              data.streams;
 
-            if (now > endTime) return;
+            rawItems.forEach(item => {
 
-            const isLive =
-              (startTime <= now && now <= endTime) ||
-              stream.always_live === 1;
+              /*
+                If this item is a category wrapper
+                containing another streams array.
+              */
+              if (
+                item &&
+                typeof item === 'object' &&
+                Array.isArray(item.streams)
+              ) {
 
-            let poster =
-              stream.poster && stream.poster !== ''
-                ? stream.poster
-                : 'https://via.placeholder.com/285x160?text=FutbolX';
+                const wrapperCategory =
+                  String(
+                    item.category ||
+                    item.name ||
+                    categoryName
+                  )
+                    .trim()
+                    .toLowerCase();
 
-            let html = `
-                <a href="/live/${stream.uri_name}">
-                  <div class="card">
-                    ${isLive ? '<span class="live-badge">LIVE</span>' : ''}
-                    
-                    <img
-                      src="${poster}"
-                      class="card-img-top"
-                      alt="${stream.name}"
-                      loading="lazy"
-                    >
+                const wrapperCategoryKey =
+                  categoryMap[wrapperCategory] ||
+                  defaultCategoryKey;
 
-                    <div class="card-body">
-                      <h5 class="card-title">${stream.name}</h5>
+                item.streams.forEach(stream => {
+                  processEvent(
+                    stream,
+                    wrapperCategoryKey
+                  );
+                });
 
-                      <div class="card-text">
-                        <span class="event-tag">${stream.tag}</span>
+              } else {
 
-                        <span class="event-timer">
-                          ${
-                            isLive 
-                              ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` 
-                              : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`
-                          }
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>`;
+                /*
+                  Otherwise the item itself is the event.
+                */
+                processEvent(
+                  item,
+                  defaultCategoryKey
+                );
 
-            if (isLive) { 
-              livecards.innerHTML += html; 
-              hasLiveEvents = true; 
-            } 
-            else { 
-              categoryEvents[categoryKey].push({
-                html,
-                startTime
-              }); 
-            }
-          });
-        });
+              }
 
+            });
+
+          }
+        );
+
+        /*
+          ==========================================================
+          RENDER CATEGORY EVENTS
+          ==========================================================
+        */
         Object.keys(categories).forEach(key => {
 
-          if (categoryEvents[key].length > 0) {
+          if (
+            categoryEvents[key] &&
+            categoryEvents[key].length > 0 &&
+            categories[key].element
+          ) {
 
+            /*
+              Earliest event first.
+            */
             categoryEvents[key].sort(
-              (a, b) => a.startTime - b.startTime
+              (a, b) =>
+                a.startTime - b.startTime
             );
 
             categories[key].element.innerHTML =
@@ -1382,44 +1770,81 @@
                 .map(item => item.html)
                 .join('');
 
+            /*
+              Only show categories that actually
+              contain events.
+            */
             document
               .getElementById(categories[key].id)
               ?.classList.remove('d-none');
           }
+
         });
 
+        /*
+          ==========================================================
+          LIVE NOW MESSAGE
+          ==========================================================
+        */
         if (!hasLiveEvents) {
+
           livecards.innerHTML =
             '<p class="text-muted">No live events right now. Check back later!</p>';
 
           liveAnimation.classList.add('d-none');
-        } 
-        else {
+
+        } else {
+
           liveAnimation.classList.remove('d-none');
+
         }
 
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach(e => { 
-              if (e.isIntersecting) { 
-                e.target.classList.add('visible'); 
-                observer.unobserve(e.target); 
-              } 
-            });
-          },
-          {
-            threshold: 0.1
-          }
-        );
+        /*
+          ==========================================================
+          CARD INTERSECTION ANIMATION
+          ==========================================================
+        */
+        const observer =
+          new IntersectionObserver(
+            (entries) => {
+
+              entries.forEach(e => {
+
+                if (e.isIntersecting) {
+
+                  e.target.classList.add('visible');
+
+                  observer.unobserve(
+                    e.target
+                  );
+
+                }
+
+              });
+
+            },
+            {
+              threshold: 0.1
+            }
+          );
 
         document
           .querySelectorAll('.card')
-          .forEach(card => observer.observe(card));
+          .forEach(card =>
+            observer.observe(card)
+          );
 
-      } 
-      catch (error) { 
+      } catch (error) {
+
+        console.error(
+          'Failed to load streams:',
+          error
+        );
+
         livecards.innerHTML =
-          '<p class="text-muted">Failed to load streams.</p>'; 
+          '<p class="text-muted">Failed to load streams.</p>';
+
+        liveAnimation.classList.add('d-none');
       }
     }
 
