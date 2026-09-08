@@ -134,6 +134,22 @@
           ]
         },
         {
+          "name": "Ucl Golazo Show",
+          "uri_name": "u4g1s7",
+          "poster": "https://thumbnails.cbsig.net/CBS_Production_Entertainment_VMS/2023/11/17/2284087363956/UCL_GOLAZO_SHOW_112823_2443846_1920x1080.jpg",
+          "tag": "UCL",
+          "starts_at": "2026-09-08T22:00:00",
+          "ends_at": "2026-09-09T00:00:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
           "name": "Real Madrid vs Inter Milan",
           "uri_name": "r4v1i7",
           "poster": "https://i.postimg.cc/Kz9sPzz2/image-2d00fc5f.jpg",
@@ -153,6 +169,14 @@
             },
             {
               "title": "Alt Feed 2",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 3",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 4",
               "url": ""
             }
           ]
@@ -177,6 +201,14 @@
             },
             {
               "title": "Alt Feed 2",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 3",
+              "url": ""
+            },
+            {
+              "title": "Alt Feed 4",
               "url": ""
             }
           ]
