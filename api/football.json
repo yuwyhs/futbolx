@@ -145,7 +145,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://germany.fut.ryzn.pro/ucl/index.m3u8"
             }
           ]
         },
@@ -160,24 +160,24 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Main Feed En",
+              "url": "https://germany.fut.ryzn.pro/rma1/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
-              "url": ""
+              "title": "Alt Feed 1 Ar",
+              "url": "https://germany.fut.ryzn.pro/rma2/index.m3u8"
             },
             {
-              "title": "Alt Feed 2",
-              "url": ""
+              "title": "Alt Feed 2 Fr",
+              "url": "https://germany.fut.ryzn.pro/int1/index.m3u8"
             },
             {
-              "title": "Alt Feed 3",
-              "url": ""
+              "title": "Alt Feed 3 De",
+              "url": "https://germany.fut.ryzn.pro/int2/index.m3u8"
             },
             {
-              "title": "Alt Feed 4",
-              "url": ""
+              "title": "Alt Feed 4 Esp",
+              "url": "https://germany.fut.ryzn.pro/rma-int/index.m3u8"
             }
           ]
         },
@@ -192,24 +192,24 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Main Feed En",
+              "url": "https://germany.fut.ryzn.pro/port1/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
-              "url": ""
+              "title": "Alt Feed 1 Fr",
+              "url": "https://germany.fut.ryzn.pro/port2/index.m3u8"
             },
             {
-              "title": "Alt Feed 2",
-              "url": ""
+              "title": "Alt Feed 2 Ar",
+              "url": "https://germany.fut.ryzn.pro/mci1/index.m3u8"
             },
             {
-              "title": "Alt Feed 3",
-              "url": ""
+              "title": "Alt Feed 3 De",
+              "url": "https://germany.fut.ryzn.pro/mci2/index.m3u8"
             },
             {
-              "title": "Alt Feed 4",
-              "url": ""
+              "title": "Alt Feed 4 Esp",
+              "url": "https://germany.fut.ryzn.pro/port-mci/index.m3u8"
             }
           ]
         },
@@ -224,12 +224,12 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Main Feed En",
+              "url": "https://germany.fut.ryzn.pro/dort/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
-              "url": ""
+              "title": "Alt Feed 1 Esp",
+              "url": "https://germany.fut.ryzn.pro/villa/index.m3u8"
             }
           ]
         },
@@ -244,12 +244,12 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Main Feed En",
+              "url": "https://germany.fut.ryzn.pro/betis/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
-              "url": ""
+              "title": "Alt Feed 1 Fr",
+              "url": "https://germany.fut.ryzn.pro/lille/index.m3u8"
             }
           ]
         },
@@ -265,7 +265,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://germany.fut.ryzn.pro/mil-new/index.m3u8"
             }
           ]
         },
@@ -281,7 +281,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://germany.fut.ryzn.pro/bol-whu/index.m3u8"
             }
           ]
         }
