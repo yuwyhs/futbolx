@@ -27,7 +27,7 @@
   
   <!-- Libraries -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7cvkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/assets/css/main.css?v=26">
 
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
@@ -258,10 +258,6 @@
       outline: none;
     }
 
-    /* CARD IMAGE
-       Original full-width desktop behavior preserved.
-       No contain.
-    */
     .card-img-top {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -282,7 +278,6 @@
       min-width: 0;
     }
 
-    /* TEXT FIX */
     .card-title {
       font-family: 'Kanit', sans-serif;
       font-weight: 700;
@@ -352,7 +347,6 @@
        RESPONSIVE DESIGN BREAKPOINTS
        ========================================================= */
 
-    /* --- 1. SMART TVS & ULTRA-WIDE MONITORS (> 1920px) --- */
     @media (min-width: 1921px) {
       html { font-size: 18px; }
       .container { max-width: 1800px !important; }
@@ -372,7 +366,6 @@
       .futbolx-brand .ball-o { font-size: 1.6rem; }
     }
 
-    /* --- 2. LARGE DESKTOPS / 1080P MONITORS (1440px - 1920px) --- */
     @media (min-width: 1440px) and (max-width: 1920px) {
       .container { max-width: 1400px !important; }
 
@@ -381,7 +374,6 @@
       }
     }
 
-    /* --- 3. LAPTOPS & SMALL MONITORS (1025px - 1439px) --- */
     @media (min-width: 1025px) and (max-width: 1439px) {
       .container { max-width: 1140px !important; }
 
@@ -391,7 +383,6 @@
       }
     }
 
-    /* --- 4. TABLETS IN LANDSCAPE / IPADS (768px - 1024px) --- */
     @media (min-width: 768px) and (max-width: 1024px) {
       .container { max-width: 100% !important; padding: 0 24px; }
       .hero-background { aspect-ratio: 16 / 7; max-height: 320px; }
@@ -407,7 +398,6 @@
       }
     }
 
-    /* --- 5. MOBILE PHONES (STANDARD & LARGE 481px - 767px) --- */
     @media (max-width: 767px) {
 
       .container {
@@ -441,17 +431,6 @@
         border: 1px solid var(--fx-glass-border) !important;
       }
 
-      /*
-        MOBILE IMAGE FIX
-
-        The image fills the complete left side:
-        - touches top
-        - touches bottom
-        - touches left
-        - touches right of its image area
-        - NO contain
-        - NO cropping
-      */
       .card-img-top {
         width: 38% !important;
         height: 100% !important;
@@ -474,12 +453,6 @@
         min-width: 0;
       }
 
-      /*
-        TEXT FIX ONLY
-
-        The title is allowed to use the available width
-        without the old forced two-line clamp.
-      */
       .card-title {
         font-size: 0.92rem !important;
         font-weight: 600;
@@ -493,10 +466,6 @@
         flex-shrink: 0;
       }
 
-      /*
-        Keep league and timer together on one row
-        so they don't push the title around.
-      */
       .card-text {
         flex-wrap: nowrap !important;
         gap: 6px;
@@ -531,7 +500,6 @@
       }
     }
 
-    /* --- 6. SMALL MOBILE / FOLDABLES (< 480px) --- */
     @media (max-width: 480px) {
 
       .futbolx-brand {
@@ -547,10 +515,6 @@
         height: auto !important;
       }
 
-      /*
-        IMAGE STILL FILLS THE WHOLE LEFT SIDE.
-        No crop and no contain.
-      */
       .card-img-top {
         width: 38% !important;
         min-height: 95px;
@@ -773,7 +737,6 @@
         <i class="fas fa-bars"></i>
       </button>
 
-      <!-- CENTERED BRAND LOGO WITHOUT GLOW -->
       <a href="/" class="futbolx-brand" id="brandLogo">
         FUTB<i class="fas fa-futbol ball-o" id="logoBall"></i>L-X
       </a>
@@ -1123,15 +1086,23 @@
           fetch(url, {
             signal: AbortSignal.timeout(5000)
           })
-            .then(res => res.ok ? res.json() : reject())
+            .then(res => {
+              if (!res.ok) {
+                throw new Error(`HTTP ${res.status}: ${url}`);
+              }
+
+              return res.json();
+            })
             .then(data => {
               clearError();
               resolve(data);
             })
             .catch(error => {
-              attempts < maxRetries
-                ? setTimeout(attempt, delay)
-                : reject(error);
+              if (attempts < maxRetries) {
+                setTimeout(attempt, delay);
+              } else {
+                reject(error);
+              }
             });
         }
 
@@ -1139,6 +1110,35 @@
       });
     }
 
+    /*
+      =========================================================
+      FIXED CATEGORY / EVENT LOADING
+      =========================================================
+
+      stream.json provides:
+
+        football
+        tennis
+        basketball
+        fights
+        motorsports
+        americanfootball
+        nhl
+        baseball
+        rugby
+        golf
+        others
+        wrestling
+        darts
+
+      We fetch those exact JSON filenames.
+
+      americanfootball -> existing #nfl section
+      baseball         -> existing #mlb section
+      basketball       -> existing #nba section
+
+      Nothing in the UI/HTML structure needs to change.
+    */
     async function loadContent(api) {
       const errorContainer = document.getElementById('errorContainer');
       const liveAnimation = document.getElementById('liveAnimation');
@@ -1146,280 +1146,584 @@
 
       if (!livecards) return;
 
-      livecards.innerHTML = '<p class="text-muted">Loading streams...</p>';
+      livecards.innerHTML =
+        '<p class="text-muted">Loading streams...</p>';
 
       try {
-        const baseUrl = api.baseUrl || `${window.location.origin}/api`;
+        const baseUrl =
+          api.baseUrl ||
+          `${window.location.origin}/api`;
 
+        /*
+          Fetch the category list from /api/stream
+
+          This is the stream.json endpoint.
+        */
         const catListUrl = baseUrl.endsWith('/')
           ? `${baseUrl}stream`
           : `${baseUrl}/stream`;
 
-        const catListRes = await fetchWithRetry(catListUrl);
+        const catListRes =
+          await fetchWithRetry(catListUrl);
 
-        const categoryNames = catListRes.categories || [];
+        const categoryNames =
+          Array.isArray(catListRes.categories)
+            ? catListRes.categories
+            : [];
 
-        const fetchPromises = categoryNames.map(cat =>
-          fetchWithRetry(`${baseUrl}/${cat}.json`)
-            .catch(() => ({
-              success: true,
-              streams: []
-            }))
-        );
+        /*
+          Fetch every category returned by stream.json.
 
-        const allCategoryData = await Promise.all(fetchPromises);
+          Example:
 
-        const combined = {
-          success: true,
-          streams: allCategoryData
-            .filter(d => d && d.success && Array.isArray(d.streams))
-            .flatMap(d => d.streams || [])
-        };
+          /api/football.json
+          /api/tennis.json
+          /api/basketball.json
+          /api/americanfootball.json
+          /api/baseball.json
+          /api/nhl.json
+          etc.
+        */
+        const fetchPromises =
+          categoryNames.map(async cat => {
 
-        if (combined.streams.length === 0) {
-          livecards.innerHTML = '<p class="text-muted">No streams available right now.</p>';
+            try {
+              const data =
+                await fetchWithRetry(
+                  `${baseUrl}/${cat}.json`
+                );
+
+              return {
+                category: cat,
+                data: data
+              };
+
+            } catch (error) {
+
+              console.warn(
+                `Failed to fetch ${cat}:`,
+                error
+              );
+
+              return {
+                category: cat,
+                data: {
+                  success: true,
+                  streams: []
+                }
+              };
+            }
+          });
+
+        const allCategoryData =
+          await Promise.all(fetchPromises);
+
+        /*
+          Keep the category name together with
+          its streams.
+
+          IMPORTANT:
+          We do NOT flatten the streams here.
+
+          Each item becomes:
+
+          {
+            category: "baseball",
+            streams: [...]
+          }
+
+          This fixes the previous broken logic.
+        */
+        const combinedCategories =
+          allCategoryData.map(item => ({
+            category: item.category,
+            streams:
+              item.data &&
+              Array.isArray(item.data.streams)
+                ? item.data.streams
+                : []
+          }));
+
+        /*
+          Count all streams.
+        */
+        const totalStreams =
+          combinedCategories.reduce(
+            (total, category) =>
+              total + category.streams.length,
+            0
+          );
+
+        if (totalStreams === 0) {
+
+          livecards.innerHTML =
+            '<p class="text-muted">No streams available right now.</p>';
+
           liveAnimation.classList.add('d-none');
+
           return;
         }
 
+        /*
+          EXISTING PAGE SECTIONS
+
+          We keep the old HTML IDs so NOTHING
+          in the UI has to be changed.
+
+          API category:
+            americanfootball
+                ↓
+            #nfl / #nflcards
+
+          API category:
+            baseball
+                ↓
+            #mlb / #baseballcards
+
+          API category:
+            basketball
+                ↓
+            #nba / #nbacards
+        */
         const categories = {
+
           football: {
             id: 'football',
-            element: document.getElementById('footballcards')
+            element:
+              document.getElementById('footballcards')
           },
-          nba: {
+
+          basketball: {
             id: 'nba',
-            element: document.getElementById('nbacards')
+            element:
+              document.getElementById('nbacards')
           },
+
           fights: {
             id: 'fights',
-            element: document.getElementById('fightscards')
+            element:
+              document.getElementById('fightscards')
           },
+
           wrestling: {
             id: 'wrestling',
-            element: document.getElementById('wrestlingcards')
+            element:
+              document.getElementById('wrestlingcards')
           },
+
           darts: {
             id: 'darts',
-            element: document.getElementById('dartscards')
+            element:
+              document.getElementById('dartscards')
           },
+
           motorsports: {
             id: 'motorsports',
-            element: document.getElementById('motorsportscards')
+            element:
+              document.getElementById('motorsportscards')
           },
-          nfl: {
-            id: 'americanfootball',
-            element: document.getElementById('americanfootballcards')
+
+          /*
+            NEW API NAME:
+            americanfootball
+
+            Existing HTML:
+            #nfl
+            #nflcards
+          */
+          americanfootball: {
+            id: 'nfl',
+            element:
+              document.getElementById('nflcards')
           },
+
           nhl: {
             id: 'nhl',
-            element: document.getElementById('nhlcards')
+            element:
+              document.getElementById('nhlcards')
           },
-          mlb: {
-            id: 'baseball',
-            element: document.getElementById('baseballcards')
+
+          /*
+            NEW API NAME:
+            baseball
+
+            Existing HTML:
+            #mlb
+            #baseballcards
+          */
+          baseball: {
+            id: 'mlb',
+            element:
+              document.getElementById('baseballcards')
           },
-          icehockey: {
-            id: 'icehockey',
-            element: document.getElementById('icehockeycards')
-          },
+
           tennis: {
             id: 'tennis',
-            element: document.getElementById('tenniscards')
+            element:
+              document.getElementById('tenniscards')
           },
+
           rugby: {
             id: 'rugby',
-            element: document.getElementById('rugbycards')
+            element:
+              document.getElementById('rugbycards')
           },
+
           golf: {
             id: 'golf',
-            element: document.getElementById('golfcards')
+            element:
+              document.getElementById('golfcards')
           },
+
           others: {
             id: 'others',
-            element: document.getElementById('otherscards')
+            element:
+              document.getElementById('otherscards')
           }
         };
 
+        /*
+          Clear all existing category cards.
+        */
         Object.values(categories).forEach(cat => {
+
           if (cat.element) {
             cat.element.innerHTML = '';
           }
+
         });
 
-        Object.keys(categories).forEach(key => {
+        /*
+          Hide all category sections.
+        */
+        Object.values(categories).forEach(cat => {
+
           document
-            .getElementById(categories[key].id)
+            .getElementById(cat.id)
             ?.classList.add('d-none');
+
         });
 
         livecards.innerHTML = '';
 
         let hasLiveEvents = false;
 
-        const now = Math.floor(Date.now() / 1000);
+        const now =
+          Math.floor(Date.now() / 1000);
 
+        /*
+          Storage for upcoming events.
+        */
         const categoryEvents = {};
 
         Object.keys(categories).forEach(key => {
           categoryEvents[key] = [];
         });
 
+        /*
+          API CATEGORY → PAGE CATEGORY
+
+          These are the actual names now
+          returned by stream.json.
+        */
         const categoryMap = {
-          'football': 'football',
-          'basketball': 'nba',
-          'fights': 'fights',
-          'wrestling': 'wrestling',
-          'darts': 'darts',
-          'motorsports': 'motorsports',
-          'americanfootball': 'americanfootball',
-          'nhl': 'nhl',
-          'baseball': 'baseball',
-          'icehockey': 'icehockey',
-          'tennis': 'tennis',
-          'rugby': 'rugby',
-          'golf': 'golf'
+
+          football: 'football',
+
+          basketball: 'basketball',
+
+          fights: 'fights',
+
+          wrestling: 'wrestling',
+
+          darts: 'darts',
+
+          motorsports: 'motorsports',
+
+          americanfootball: 'americanfootball',
+
+          nhl: 'nhl',
+
+          baseball: 'baseball',
+
+          tennis: 'tennis',
+
+          rugby: 'rugby',
+
+          golf: 'golf',
+
+          others: 'others'
         };
 
-        combined.streams.forEach(category => {
+        /*
+          Process every category.
+        */
+        combinedCategories.forEach(categoryData => {
+
           const normalizedName =
-            category.category?.trim().toLowerCase() || '';
+            (categoryData.category || '')
+              .trim()
+              .toLowerCase();
 
-          let categoryKey =
-            categoryMap[normalizedName] || 'others';
+          /*
+            Map API category to page category.
+          */
+          const categoryKey =
+            categoryMap[normalizedName] ||
+            'others';
 
-          category.streams.forEach(stream => {
+          /*
+            Safety check.
+          */
+          if (!categoryEvents[categoryKey]) {
+            categoryEvents[categoryKey] = [];
+          }
+
+          /*
+            Process every event in this category.
+          */
+          categoryData.streams.forEach(stream => {
 
             const isVercelSite =
-              window.location.hostname === 'www.futbol-x.top' ||
-              window.location.hostname === 'futbol-x.top';
+              window.location.hostname ===
+                'www.futbol-x.top' ||
+              window.location.hostname ===
+                'futbol-x.top';
 
             const tag =
               (stream.tag || '')
                 .toLowerCase()
                 .replace(/\s+/g, '');
 
+            /*
+              Existing LaLiga Vercel filtering.
+            */
             if (
               isVercelSite &&
-              (tag === 'laliga' || tag.includes('laliga'))
+              (
+                tag === 'laliga' ||
+                tag.includes('laliga')
+              )
             ) {
               return;
             }
 
-            let startTime =
-              new Date(stream.starts_at + '+03:00')
-                .getTime() / 1000;
+            /*
+              Event start time.
+            */
+            const startTime =
+              new Date(
+                stream.starts_at + '+03:00'
+              ).getTime() / 1000;
 
-            let endTime =
+            /*
+              Event end time.
+            */
+            const endTime =
               stream.ends_at
-                ? new Date(stream.ends_at + '+03:00').getTime() / 1000
+                ? new Date(
+                    stream.ends_at + '+03:00'
+                  ).getTime() / 1000
                 : startTime + 10800;
 
-            if (now > endTime) return;
+            /*
+              Don't show finished events.
+            */
+            if (now > endTime) {
+              return;
+            }
 
+            /*
+              Determine whether event is live.
+            */
             const isLive =
-              (startTime <= now && now <= endTime) ||
+              (
+                startTime <= now &&
+                now <= endTime
+              ) ||
               stream.always_live === 1;
 
-            let poster =
-              stream.poster && stream.poster !== ''
+            /*
+              Poster.
+            */
+            const poster =
+              stream.poster &&
+              stream.poster !== ''
                 ? stream.poster
                 : 'https://via.placeholder.com/285x160?text=FutbolX';
 
-            let html = `
-                <a href="/live/${stream.uri_name}">
-                  <div class="card">
-                    ${isLive ? '<span class="live-badge">LIVE</span>' : ''}
-                    
-                    <img
-                      src="${poster}"
-                      class="card-img-top"
-                      alt="${stream.name}"
-                      loading="lazy"
-                    >
+            /*
+              Card HTML.
 
-                    <div class="card-body">
-                      <h5 class="card-title">${stream.name}</h5>
+              This is the same existing card structure.
+            */
+            const html = `
+              <a href="/live/${stream.uri_name}">
+                <div class="card">
+                  ${
+                    isLive
+                      ? '<span class="live-badge">LIVE</span>'
+                      : ''
+                  }
 
-                      <div class="card-text">
-                        <span class="event-tag">${stream.tag}</span>
+                  <img
+                    src="${poster}"
+                    class="card-img-top"
+                    alt="${stream.name}"
+                    loading="lazy"
+                  >
 
-                        <span class="event-timer">
-                          ${
-                            isLive 
-                              ? `<span class="btn btn-danger btn-sm watch-button">Watch</span>` 
-                              : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`
-                          }
-                        </span>
-                      </div>
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      ${stream.name}
+                    </h5>
+
+                    <div class="card-text">
+
+                      <span class="event-tag">
+                        ${stream.tag}
+                      </span>
+
+                      <span class="event-timer">
+                        ${
+                          isLive
+                            ? `
+                              <span class="btn btn-danger btn-sm watch-button">
+                                Watch
+                              </span>
+                            `
+                            : `
+                              <span
+                                class="countdown"
+                                data-start="${startTime}"
+                                data-uri="/live/${stream.uri_name}">
+                              </span>
+                            `
+                        }
+                      </span>
+
                     </div>
                   </div>
-                </a>`;
+                </div>
+              </a>
+            `;
 
-            if (isLive) { 
-              livecards.innerHTML += html; 
-              hasLiveEvents = true; 
-            } 
-            else { 
+            /*
+              Live events go into Live Now.
+
+              Upcoming events go into their
+              corresponding category.
+            */
+            if (isLive) {
+
+              livecards.innerHTML += html;
+
+              hasLiveEvents = true;
+
+            } else {
+
               categoryEvents[categoryKey].push({
-                html,
-                startTime
-              }); 
+                html: html,
+                startTime: startTime
+              });
+
             }
+
           });
         });
 
+        /*
+          Render category sections.
+
+          Empty categories stay hidden.
+        */
         Object.keys(categories).forEach(key => {
 
-          if (categoryEvents[key].length > 0) {
+          if (
+            categoryEvents[key] &&
+            categoryEvents[key].length > 0
+          ) {
 
+            /*
+              Sort earliest event first.
+            */
             categoryEvents[key].sort(
-              (a, b) => a.startTime - b.startTime
+              (a, b) =>
+                a.startTime - b.startTime
             );
 
+            /*
+              Add cards.
+            */
             categories[key].element.innerHTML =
               categoryEvents[key]
                 .map(item => item.html)
                 .join('');
 
+            /*
+              Show category section.
+            */
             document
               .getElementById(categories[key].id)
               ?.classList.remove('d-none');
           }
         });
 
+        /*
+          Live section state.
+        */
         if (!hasLiveEvents) {
+
           livecards.innerHTML =
             '<p class="text-muted">No live events right now. Check back later!</p>';
 
           liveAnimation.classList.add('d-none');
-        } 
-        else {
+
+        } else {
+
           liveAnimation.classList.remove('d-none');
+
         }
 
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach(e => { 
-              if (e.isIntersecting) { 
-                e.target.classList.add('visible'); 
-                observer.unobserve(e.target); 
-              } 
-            });
-          },
-          {
-            threshold: 0.1
-          }
-        );
+        /*
+          Card intersection observer.
+        */
+        const observer =
+          new IntersectionObserver(
+            (entries) => {
+
+              entries.forEach(e => {
+
+                if (e.isIntersecting) {
+
+                  e.target.classList.add('visible');
+
+                  observer.unobserve(e.target);
+                }
+
+              });
+
+            },
+            {
+              threshold: 0.1
+            }
+          );
 
         document
           .querySelectorAll('.card')
-          .forEach(card => observer.observe(card));
+          .forEach(card =>
+            observer.observe(card)
+          );
 
-      } 
-      catch (error) { 
+      } catch (error) {
+
+        console.error(
+          'Failed to load streams:',
+          error
+        );
+
         livecards.innerHTML =
-          '<p class="text-muted">Failed to load streams.</p>'; 
+          '<p class="text-muted">Failed to load streams.</p>';
       }
     }
 
@@ -1442,37 +1746,44 @@
       if (themeToggle) {
 
         themeToggle.innerHTML =
-          currentTheme === 'dark' 
-            ? '<i class="fas fa-moon me-3"></i>Dark Theme' 
+          currentTheme === 'dark'
+            ? '<i class="fas fa-moon me-3"></i>Dark Theme'
             : '<i class="fas fa-sun me-3"></i>Light Theme';
 
-        themeToggle.addEventListener('click', () => {
+        themeToggle.addEventListener(
+          'click',
+          () => {
 
-          const newTheme =
-            htmlElement.getAttribute('data-bs-theme') === 'dark'
-              ? 'light'
-              : 'dark';
+            const newTheme =
+              htmlElement.getAttribute(
+                'data-bs-theme'
+              ) === 'dark'
+                ? 'light'
+                : 'dark';
 
-          htmlElement.setAttribute(
-            'data-bs-theme',
-            newTheme
-          );
+            htmlElement.setAttribute(
+              'data-bs-theme',
+              newTheme
+            );
 
-          localStorage.setItem(
-            'theme',
-            newTheme
-          );
+            localStorage.setItem(
+              'theme',
+              newTheme
+            );
 
-          themeToggle.innerHTML =
-            newTheme === 'dark' 
-              ? '<i class="fas fa-moon me-3"></i>Dark Theme' 
-              : '<i class="fas fa-sun me-3"></i>Light Theme';
-        });
+            themeToggle.innerHTML =
+              newTheme === 'dark'
+                ? '<i class="fas fa-moon me-3"></i>Dark Theme'
+                : '<i class="fas fa-sun me-3"></i>Light Theme';
+          }
+        );
       }
 
       apiInstance =
-        typeof Api !== 'undefined' 
-          ? new Api(`${window.location.origin}/api`) 
+        typeof Api !== 'undefined'
+          ? new Api(
+              `${window.location.origin}/api`
+            )
           : {
               baseUrl:
                 window.location.origin + '/api'
@@ -1483,16 +1794,22 @@
       countdown();
 
       const isApp =
-        window.matchMedia('(display-mode: standalone)').matches ||
+        window.matchMedia(
+          '(display-mode: standalone)'
+        ).matches ||
         window.navigator.standalone === true;
 
       if (isApp) {
 
         const splash =
-          document.getElementById('splash-screen');
+          document.getElementById(
+            'splash-screen'
+          );
 
         const cycle =
-          document.getElementById('cycling-text');
+          document.getElementById(
+            'cycling-text'
+          );
 
         const slogans = [
           "Free PPV",
@@ -1505,38 +1822,42 @@
 
         splash.style.display = 'flex';
 
-        const sloganTimer = setInterval(() => {
+        const sloganTimer =
+          setInterval(() => {
 
-          sloganIdx++;
+            sloganIdx++;
 
-          if(sloganIdx < slogans.length) {
+            if (sloganIdx < slogans.length) {
 
-            cycle.style.animation = 'none';
+              cycle.style.animation = 'none';
 
-            cycle.offsetHeight; 
+              cycle.offsetHeight;
 
-            cycle.style.animation =
-              'textSlide 0.6s ease-out';
+              cycle.style.animation =
+                'textSlide 0.6s ease-out';
 
-            cycle.innerText =
-              slogans[sloganIdx];
+              cycle.innerText =
+                slogans[sloganIdx];
 
-          } 
-          else { 
-            clearInterval(sloganTimer); 
-          }
+            } else {
 
-        }, 1500);
+              clearInterval(sloganTimer);
+
+            }
+
+          }, 1500);
 
         setTimeout(() => {
 
           splash.style.opacity = '0';
 
           setTimeout(() => {
+
             splash.style.display = 'none';
+
           }, 800);
 
-        }, 6500); 
+        }, 6500);
       }
     }
 
@@ -1573,10 +1894,14 @@
 
     document
       .getElementById('menuLogout')
-      ?.addEventListener('click', () => 
-        firebase.auth()
-          .signOut()
-          .then(() => window.location.href = '/')
+      ?.addEventListener(
+        'click',
+        () =>
+          firebase.auth()
+            .signOut()
+            .then(() =>
+              window.location.href = '/'
+            )
       );
   </script>
 
@@ -1595,18 +1920,21 @@
 
     if ('serviceWorker' in navigator) {
 
-      window.addEventListener('load', () => {
+      window.addEventListener(
+        'load',
+        () => {
 
-        navigator.serviceWorker
-          .register('/sw.js')
-          .catch(err =>
-            console.log(
-              'SW Registration failed:',
-              err
-            )
-          );
+          navigator.serviceWorker
+            .register('/sw.js')
+            .catch(err =>
+              console.log(
+                'SW Registration failed:',
+                err
+              )
+            );
 
-      });
+        }
+      );
     }
 
     window.addEventListener(
@@ -1617,8 +1945,14 @@
 
         deferredPrompt = e;
 
-        if (!sessionStorage.getItem('pwaDismissed')) {
-          pwaWrapper.style.display = 'flex';
+        if (
+          !sessionStorage.getItem(
+            'pwaDismissed'
+          )
+        ) {
+
+          pwaWrapper.style.display =
+            'flex';
         }
 
       }
@@ -1630,7 +1964,8 @@
 
         if (deferredPrompt) {
 
-          pwaWrapper.style.display = 'none';
+          pwaWrapper.style.display =
+            'none';
 
           deferredPrompt.prompt();
 
@@ -1647,7 +1982,8 @@
       'click',
       () => {
 
-        pwaWrapper.style.display = 'none';
+        pwaWrapper.style.display =
+          'none';
 
         sessionStorage.setItem(
           'pwaDismissed',
@@ -1661,7 +1997,8 @@
       'appinstalled',
       () => {
 
-        pwaWrapper.style.display = 'none';
+        pwaWrapper.style.display =
+          'none';
 
         deferredPrompt = null;
 
