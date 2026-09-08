@@ -892,7 +892,7 @@
       </div>
 
       <div id="nfl" class="mt-5 d-none">
-        <h2 class="m-0">NFL</h2>
+        <h2 class="m-0">American Football</h2>
         <div id="nflcards" class="event-grid py-3"></div>
       </div>
 
@@ -902,7 +902,7 @@
       </div>
 
       <div id="mlb" class="mt-5 d-none">
-        <h2 class="m-0">MLB</h2>
+        <h2 class="m-0">Baseball</h2>
         <div id="mlbcards" class="event-grid py-3"></div>
       </div>
 
@@ -1165,6 +1165,7 @@
         basketball       -> #nba
         americanfootball -> #nfl
         baseball         -> #mlb
+        nhl               -> #nhl
     */
     async function loadContent(api) {
       const errorContainer = document.getElementById('errorContainer');
@@ -1182,29 +1183,6 @@
           ? `${baseUrl}stream`
           : `${baseUrl}/stream`;
 
-        /*
-          Get the current category list from /stream.
-
-          Example:
-          {
-            "success": true,
-            "categories": [
-              "football",
-              "tennis",
-              "basketball",
-              "fights",
-              "motorsports",
-              "americanfootball",
-              "nhl",
-              "baseball",
-              "rugby",
-              "golf",
-              "others",
-              "wrestling",
-              "darts"
-            ]
-          }
-        */
         const catListRes = await fetchWithRetry(catListUrl);
 
         const categoryNames =
@@ -1212,20 +1190,6 @@
             ? catListRes.categories
             : [];
 
-        /*
-          IMPORTANT:
-
-          These are the ORIGINAL HTML IDs.
-
-          We are NOT changing the HTML.
-
-          New JSON filename       Existing section
-          ------------------------------------------------
-          basketball.json       -> #nba
-          americanfootball.json -> #nfl
-          baseball.json        -> #mlb
-          nhl.json             -> #nhl
-        */
         const categories = {
           football: {
             id: 'football',
@@ -1298,9 +1262,6 @@
           }
         };
 
-        /*
-          New API category name -> existing frontend section.
-        */
         const categoryMap = {
           football: 'football',
           basketball: 'nba',
@@ -1318,21 +1279,12 @@
           others: 'others'
         };
 
-        /*
-          Clear existing cards.
-        */
         Object.values(categories).forEach(cat => {
           if (cat.element) {
             cat.element.innerHTML = '';
           }
         });
 
-        /*
-          Hide every category first.
-
-          Categories are only shown if they actually
-          contain events.
-        */
         Object.keys(categories).forEach(key => {
           document
             .getElementById(categories[key].id)
@@ -1351,23 +1303,11 @@
 
         const now = Math.floor(Date.now() / 1000);
 
-        /*
-          ==========================================================
-          PROCESS ONE EVENT
-          ==========================================================
-        */
         function processEvent(stream, categoryKey) {
 
           if (!stream || typeof stream !== 'object') {
             return;
           }
-
-          /*
-            The old code was producing "undefined" because it was
-            treating the category wrapper itself as an event.
-
-            Make sure we have an actual event object here.
-          */
 
           const eventName =
             stream.name ||
@@ -1388,10 +1328,6 @@
             stream.id ||
             '';
 
-          /*
-            If the API object isn't an actual event, don't create
-            an undefined card.
-          */
           if (!eventName || !uriName || !stream.starts_at) {
             console.warn(
               'Skipping invalid stream:',
@@ -1416,10 +1352,6 @@
             return;
           }
 
-          /*
-            Your API times are treated the same way as before:
-            East Africa Time (+03:00).
-          */
           const startsAtString =
             String(stream.starts_at);
 
@@ -1465,21 +1397,10 @@
             endTime = startTime + 10800;
           }
 
-          /*
-            Don't show events that have completely ended.
-          */
           if (now > endTime) {
             return;
           }
 
-          /*
-            Support:
-              1
-              "1"
-              true
-
-            for always_live.
-          */
           const isAlwaysLive =
             stream.always_live === 1 ||
             stream.always_live === '1' ||
@@ -1489,21 +1410,12 @@
             (startTime <= now && now <= endTime) ||
             isAlwaysLive;
 
-          /*
-            Poster fallback.
-          */
           const poster =
             stream.poster &&
             String(stream.poster).trim() !== ''
               ? stream.poster
               : 'https://via.placeholder.com/285x160?text=FutbolX';
 
-          /*
-            Escape values used inside HTML attributes/text.
-
-            This prevents malformed cards if an event name contains
-            special characters.
-          */
           const escapeHtml = value => {
             return String(value)
               .replace(/&/g, '&amp;')
@@ -1561,11 +1473,6 @@
               </div>
             </a>`;
 
-          /*
-            LIVE events go into Live Now.
-
-            Upcoming events go into their category.
-          */
           if (isLive) {
 
             livecards.innerHTML += html;
@@ -1583,11 +1490,6 @@
           }
         }
 
-        /*
-          ==========================================================
-          FETCH EVERY CATEGORY FROM stream.json
-          ==========================================================
-        */
         const categoryResults =
           await Promise.all(
             categoryNames.map(async categoryName => {
@@ -1599,16 +1501,6 @@
 
               try {
 
-                /*
-                  This now fetches the NEW filenames:
-
-                  /football.json
-                  /basketball.json
-                  /americanfootball.json
-                  /baseball.json
-                  /nhl.json
-                  etc.
-                */
                 const categoryUrl =
                   baseUrl.endsWith('/')
                     ? `${baseUrl}${categoryName}.json`
@@ -1639,44 +1531,6 @@
             })
           );
 
-        /*
-          ==========================================================
-          NORMALIZE CATEGORY JSON
-          ==========================================================
-
-          Supports BOTH:
-
-          FORMAT A:
-          {
-            "success": true,
-            "streams": [
-              {
-                "name": "...",
-                "starts_at": "...",
-                ...
-              }
-            ]
-          }
-
-          AND FORMAT B:
-          {
-            "success": true,
-            "streams": [
-              {
-                "category": "football",
-                "streams": [
-                  {
-                    "name": "...",
-                    "starts_at": "...",
-                    ...
-                  }
-                ]
-              }
-            ]
-          }
-
-          This is what prevents the old "undefined" problem.
-        */
         categoryResults.forEach(
           ({ categoryName, data }) => {
 
@@ -1697,10 +1551,6 @@
 
             rawItems.forEach(item => {
 
-              /*
-                If this item is a category wrapper
-                containing another streams array.
-              */
               if (
                 item &&
                 typeof item === 'object' &&
@@ -1729,9 +1579,6 @@
 
               } else {
 
-                /*
-                  Otherwise the item itself is the event.
-                */
                 processEvent(
                   item,
                   defaultCategoryKey
@@ -1744,11 +1591,6 @@
           }
         );
 
-        /*
-          ==========================================================
-          RENDER CATEGORY EVENTS
-          ==========================================================
-        */
         Object.keys(categories).forEach(key => {
 
           if (
@@ -1757,9 +1599,6 @@
             categories[key].element
           ) {
 
-            /*
-              Earliest event first.
-            */
             categoryEvents[key].sort(
               (a, b) =>
                 a.startTime - b.startTime
@@ -1770,10 +1609,6 @@
                 .map(item => item.html)
                 .join('');
 
-            /*
-              Only show categories that actually
-              contain events.
-            */
             document
               .getElementById(categories[key].id)
               ?.classList.remove('d-none');
@@ -1781,11 +1616,6 @@
 
         });
 
-        /*
-          ==========================================================
-          LIVE NOW MESSAGE
-          ==========================================================
-        */
         if (!hasLiveEvents) {
 
           livecards.innerHTML =
@@ -1799,11 +1629,6 @@
 
         }
 
-        /*
-          ==========================================================
-          CARD INTERSECTION ANIMATION
-          ==========================================================
-        */
         const observer =
           new IntersectionObserver(
             (entries) => {
