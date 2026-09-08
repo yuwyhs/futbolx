@@ -157,7 +157,7 @@
           "starts_at": "2026-09-08T22:00:00",
           "ends_at": "2026-09-09T00:00:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 600,
           "streams": [
             {
               "title": "Main Feed En",
@@ -189,7 +189,7 @@
           "starts_at": "2026-09-08T22:00:00",
           "ends_at": "2026-09-09T00:00:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 300,
           "streams": [
             {
               "title": "Main Feed En",
