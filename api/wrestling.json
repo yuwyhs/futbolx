@@ -38,12 +38,12 @@
           ]
         },
         {
-          "name": "AEW All In: London",
-          "uri_name": "bsinsh8",
-          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7um6cmSbtAPy1ekbSAoA9nzza5XquFdSrnW-3t7JubA&s=10",
+          "name": "AEW Wednesday Night Dynamite",
+          "uri_name": "8bsbvk9",
+          "poster": "https://s.yimg.com/lo/mysterio/api/5fee9a4365f58653649d037752d81c7fdf8bcd121ce03dcc93e6d45097e5b57b/lightyear_networkapi/resizefit_w1024_h576%3Bquality_80%3Bformat_webp/https%3A%2F%2Fmedia.zenfs.com%2Fen%2Fwrestle_zone_910%2F39f9e6fafada027fb3ee2e42c096cb4f.jpg",
           "tag": "WWE",
-          "starts_at": "2026-08-30T20:00:00",
-          "ends_at": "2026-08-31T04:00:00",
+          "starts_at": "2026-09-10T03:00:00",
+          "ends_at": "2026-09-10T06:00:00",
           "always_live": 0,
           "max_simulated_viewers": 0,
           "streams": [
