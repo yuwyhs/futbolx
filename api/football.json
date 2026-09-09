@@ -63,9 +63,9 @@
           "poster": "https://i.ibb.co/Kxw00bJy/file-00000000ed34820ba2cbb18668121afd.png",
           "tag": "Efl Cup",
           "starts_at": "2026-09-09T22:00:00",
-          "ends_at": "2026-09-10T00:35:00",
+          "ends_at": "2026-09-10T00:20:00",
           "always_live": 0,
-          "max_simulated_viewers": 200,
+          "max_simulated_viewers": 0,
           "streams": [
             {
               "title": "Main Feed",
