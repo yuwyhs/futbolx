@@ -65,11 +65,11 @@
           "starts_at": "2026-09-09T22:00:00",
           "ends_at": "2026-09-10T00:05:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 200,
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://sweden.futtv.nx.kg/che/index.m3u8"
             }
           ]
         },
@@ -85,7 +85,7 @@
           "streams": [
             {
               "title": "Main Feed",
-              "url": ""
+              "url": "https://sweden.futtv.nx.kg/ucl/index.m3u8"
             }
           ]
         },
@@ -97,15 +97,15 @@
           "starts_at": "2026-09-09T22:00:00",
           "ends_at": "2026-09-10T00:05:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 700,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Main Feed En",
+              "url": "https://india.futtv.nx.kg/liv/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
-              "url": ""
+              "title": "Alt Feed 1 Esp",
+              "url": "https://sweden.futtv.nx.kg/atle/index.m3u8"
             }
           ]
         },
@@ -117,15 +117,15 @@
           "starts_at": "2026-09-09T22:00:00",
           "ends_at": "2026-09-10T00:05:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 400,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Main Feed En",
+              "url": "https://india.futtv.nx.kg/psg/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
-              "url": ""
+              "title": "Alt Feed 1 Fr",
+              "url": "https://sweden.futtv.nx.kg/bra/index.m3u8"
             }
           ]
         },
@@ -137,15 +137,15 @@
           "starts_at": "2026-09-09T22:00:00",
           "ends_at": "2026-09-10T00:05:00",
           "always_live": 0,
-          "max_simulated_viewers": 0,
+          "max_simulated_viewers": 300,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Main Feed En",
+              "url": "https://india.futtv.nx.kg/ars/index.m3u8"
             },
             {
-              "title": "Alt Feed 1",
-              "url": ""
+              "title": "Alt Feed 1 It",
+              "url": "https://india.futtv.nx.kg/nap/index.m3u8"
             }
           ]
         },
@@ -160,8 +160,8 @@
           "max_simulated_viewers": 0,
           "streams": [
             {
-              "title": "Main Feed",
-              "url": ""
+              "title": "Main Feed En",
+              "url": "https://sweden.futtv.nx.kg/gala/index.m3u8"
             }
           ]
         },
