@@ -180,6 +180,38 @@
               "url": ""
             }
           ]
+        },
+        {
+          "name": "MLS 360",
+          "uri_name": "m4l1s7",
+          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKxXtv5-Y0Uq7MPprcTZZCsZSx_oLkVbP-rLSW-yvL9BUQQN_4e1cVyFQ&s=10",
+          "tag": "MLS",
+          "starts_at": "2026-09-10T02:30:00",
+          "ends_at": "2026-09-10T07:50:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
+        },
+        {
+          "name": "Chicago Fire vs Inter Miami",
+          "uri_name": "c4v1i7",
+          "poster": "https://i.ibb.co/fVthQrqN/file-00000000648c820bb2c135572c84d128.png",
+          "tag": "MLS",
+          "starts_at": "2026-09-10T03:30:00",
+          "ends_at": "2026-09-10T05:40:00",
+          "always_live": 0,
+          "max_simulated_viewers": 0,
+          "streams": [
+            {
+              "title": "Main Feed",
+              "url": ""
+            }
+          ]
         }
       ]
     }
